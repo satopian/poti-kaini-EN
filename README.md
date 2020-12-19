@@ -1,12 +1,12 @@
 # POTI-board Kai Ni-EN
 
-![POTI-board Kai Ni](https://user-images.githubusercontent.com/31465648/83109430-5ebf0080-a0fc-11ea-8acc-87f2fbbd2070.PNG)
+![POTI-board Kai Ni](https://user-images.githubusercontent.com/31465648/102697336-67ce1580-4278-11eb-9226-4c67fd989fe8.png)
 
 This is a project to translate [POTI-board改二](https://github.com/sakots/poti-kaini/) into English.
 
 ## Required php version
 
-php5.5 or upper, php7.x, and php8.0.
+php5.5 or upper, php7.x, or php8.0.
 
 ## I was very grateful for this
 
@@ -29,5 +29,6 @@ If you feel something is wrong, try turning it off.
 ### [2020/12/20]
 
 - translating project started.
-  - theme, config.php, picpost.php, and security_c.html were done.
+  - config.php, picpost.php, and security_c.html were done.
   - readme.txt, potiboard.php, readme_pch.html, Readme_Shichan.html and search.php is not yet.
+  - theme has a problem. I couldn't translate a short word well.
