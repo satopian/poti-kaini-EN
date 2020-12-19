@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log
 
+### [2020/12/20] theme mono_paint.html
+
+- managed to get rid of the untranslated part ( [L] and [R] )
+
 ### [2020/12/20]
 
 - translating project started.
