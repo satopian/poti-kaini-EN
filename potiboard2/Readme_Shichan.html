@@ -1,0 +1,1417 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=shift_jis">
+  <title></title>
+  <meta name="GENERATOR" content="OpenOffice.org 1.0.3  (Win32)">
+  <meta name="AUTHOR" content="shi-cyan">
+  <meta name="CREATED" content="20030628;10444367">
+  <meta name="CHANGED" content="20030628;12160376">
+  <meta name="DESCRIPTION" content="Document of PaintBBS">
+  <style>
+<!--
+TD P { color: #505078; line-height: 150% }
+P { color: #505078; line-height: 150% }
+BLOCKQUOTE { color: #505078; line-height: 150% }
+A:link { color: #25a96c }
+A:visited { color: #5058f6 }
+-->
+  </style>
+</head>
+<body bgcolor="#ccccff" lang="ja-JP" link="#25a96c" text="#505078"
+ vlink="#5058f6">
+<p style="margin-bottom: 0cm;" align="center"><font
+ face="Thorndale
+serif"><span>Shi-Painter help document</span></font> </p>
+<p style="margin-bottom: 0cm;" align="center"><br>
+</p>
+<p style="margin-bottom: 0cm;" align="center">
+<table border="1" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td><font color="#804040"><font face="Thorndale
+serif"><span>Menu</span></font></font>
+      <ol>
+        <li><font face="Thorndale
+serif"><span><a href="#about"
+ target="_self">しぃペインターとは？</a> <strong><font color="#000000">what's
+Shi-Painter?(Japanese)</font></strong> </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#hojyokinou">しぃ
+ペインターの補助機能紹介</a> </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#play"
+ target="_self">使い方</a> <b><font color="#000000">(Japanese)</font></b>
+          </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#setup"
+ target="_self">Webに設置する方法（pooCGI andaotamaCGI）</a> <strong><font
+ color="#000000">setup on thewebpage</font></strong> </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#cutsomize"
+ target="_self">カスタマイズ</a> <strong><font color="#000000">customize</font></strong>
+          </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#qa"
+ target="_self">確認されている問題点とその解決方法</a> <strong><font color="#000000">trouble
+shooting(Japanese)</font></strong> </span></font> </li>
+        <li><font face="Thorndale
+serif"><span><a href="#creater"
+ target="_self">掲示板の作者への様々な情報（フォーマットやJPEG実装、拡張ヘッダ等に付いて）</a> <strong><font
+ color="#000000">to cgi creater</font></strong></span></font> </li>
+      </ol>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p style="margin-bottom: 0cm;" align="center"><br>
+</p>
+<p style="margin-bottom: 0cm;" align="center">
+<table border="1" bordercolor="#000000" cellpadding="6" frame="box">
+  <tbody>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>著作権者名<br>
+      <font color="#000000">Copyright</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>(c)2000-2005 しぃちゃん<br>
+      <font color="#000000">(c)2000-2005 shi-chan</font></span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>ソフトウウェア名<br>
+      <font color="#000000">Softwere name</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>お絵かきしぃペインター<br>
+      <font color="#000000">Oekaki Shi-Painter</font></span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>動作環境<br>
+      <font color="#000000">System requirements</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>Java1.*が使うことの出来るブラウザ（IEやネッ
+トスケープ等）<br>
+Macでも当然使用可能ですが、古いネットスケープをご利用の方は<br>
+上手く動作しない可能性もあります。この場合最新のブラウザとMRJという<br>
+Java仮想マシンをインストールして下さい。<br>
+      <br>
+IEの方が融通が利きますのでNetscapeにあわせて作成されています。<br>
+IE5以降は必ず動きます。NetScape4.7以降も大丈夫です。<br>
+Macの方はプラグインで動くブラウザを使用して下さい(IEやネスケの最新版等)<br>
+      <font color="#000000">run platform of Java(IE or netscapeor and
+more)</font></span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>ファイル内容<br>
+(アップデート版のみ)<br>
+      <font color="#000000">Into archive<br>
+(Update files only)</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>spainter.jar&nbsp;アプレットです。
+バイナリファイルです。<br>
+spainter.html spainter_std.html　表示用HTMLです。<br>
+Readme_Shichan.html　このドキュメントです。<font color="#000000"><br>
+spainter.jar Applet file<br>
+spainter.html spainter_std.html HTML for Applet<br>
+Readme_Shichan.html　document of this self<br>
+      </font></span></font><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>使用許諾について<br>
+      <font color="#000000">Use permission</font></span></font> </td>
+      <td>
+      <p><font face="Thorndale
+serif">このアプレットは個人法人に関わらずフリーです。<br>
+しかしどのような損失も作者は関知しない事にご注意下さい。<br>
+      <br>
+      <font color="#0000ff">しぃペインター自体を商売とする利用（貸し出しや設置代行等）はライセンスを取得していただく
+必要があります</font>。外部へ貸し出し等を行う場合は無料やサブコンテンツであっても必ずライセンスを取得していただく必要があります。ライセン
+スが必要な運営を行う場合は作者から許可を得ない限り運営を開始してはいけません。<br>
+詳しくは<a href="http://shichan.jp/spainter/document/shouyou.html">こ
+ちら</a>をご覧下さい。</font><font face="Thorndale
+serif"><br>
+CGIが同梱されている場合、そちらの仕様許諾に関してはCGI作者のヘルプをご覧下さい。<br>
+      <br>
+テクスチャー画像等のリソースはしぃちゃん製では無いツールでの利用は不許可とします。<br>
+      </font>&nbsp;</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><a name="haifu"></a><font face="Thorndale
+serif"><span>配布、改変条
+件 <br>
+      <font color="#000000">Distribution and<br>
+modification condition</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>改造、作成したCGI
+HTML等を付け加えたアーカイブの配布を許可します。<br>
+ただしReadMe_Shichan.htmlを変更したり、外さないようにして下さい。<br>
+res_**.txtファイルとres_**.zipの変更は許可されています。<br>
+アプレットの一部、若しくは全てのコードの改造、再利用は不許可とします。<br>
+アプレットの外に出ているclassファイルも同様です。<br>
+Javaのclassファイルへのリバースエンジニアリングは禁止されています。<br>
+商用利用時の詳細は<a target="_top"
+ href="http://shichan.jp/spainter/document/shouyou.html">此
+方</a>をご覧下さい。<br>
+      <br>
+      <font color="#000000">The reverse engineering of an applet is
+forbidden.<br>
+The distribution of the archive whichadds CGI and HTML and more.<br>
+which are remodeled and made is permitted. <br>
+However please don't change or remove ReadMe_Shichan.html</font></span></font>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>保証／免責<br>
+      <font color="#000000">Use permission</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>このソフトに対して何らかの保証を求めることは出来ませ
+ん。<br>
+使用する場合はすべて個人の責任において御利用下さい。<br>
+万が一何らかの損失が出たとしても作者に責任は無い物とします。<br>
+      <font color="#000000">Those who manufacture it make it to the
+thing not concerned at all. <br>
+It is not responsible for the author. </font></span></font></td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>その他<br>
+      <font color="#000000">etc</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>フリーソフトではありますが著作権を放棄したわけではあ
+りません。<br>
+この著作物は日本国憲法により保護されています。<br>
+      <font color="#000000">Although it was free software copyright was
+not necessarily abandoned. <br>
+This work is protected by the Constitution of Japan.</font></span></font>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>連絡先<br>
+      <font color="#000000">contact to shi-cyan</font></span></font> </td>
+      <td><font face="Thorndale
+serif"><span>質問は出来る限り質問専用掲示板にてお願いします。<br>
+      <font color="#000000">Please attention,shi-chan have so poor
+English.--;;;</font><br>
+      <br>
+      <br>
+HomePage <a href="http://shichan.jp/" target="_self">http://shichan.jp</a></span></font>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p style="margin-bottom: 0cm;" align="left"><a name="about"></a><font
+ face="Thorndale
+serif"><span>　<br>
+<font size="4"><font color="#804040"><strong>1 しぃペインターとは？</strong> </font></font><br>
+<br>
+しぃペインターとは絵を描く機能を持ち、CGIに画像データ（フォーマットはJpegとPngの自動切換え）を送信する事が出来るアプレットの名前です。
+（CGIは別の名前が付いている場合があります）またサムネイルとして描き手順のアニメーションを送信させ、それを再生させる機能もしぃペインターは持っ
+ています。このアプレットは<font color="#0000ff">単独ではあまり役に立ちません</font>。何らかのサーバーシステム
+(CGI等)が必要になります。<br>
+<br>
+しぃペインターは次の事を基本的に念頭に置き作成されています。</span></font></p>
+<ol>
+  <li><font face="Thorndale
+serif"><span>初心者も何とか使え、上級者はそれなりに程度満足する機能。</span></font>
+  </li>
+  <li><font face="Thorndale
+serif"><span>短時間でそれなりの絵を作成することが出来るインターフェース。</span></font>
+  </li>
+  <li><font face="Thorndale
+serif"><span>高速な処理速度。</span></font> </li>
+  <li><font face="Thorndale
+serif"><span>前世代のツール、PaintBBSのインターフェースに似せたイ
+ンターフェースを用意。(インターフェースは複数搭載可能</span></font> </li>
+  <li><font face="Thorndale
+serif"><span>PaintChatVersion3との互換性。描写機能とイン
+ターフェース部分をPaintChatと共有する事により開発を容易にしています。また利点も数多くあります。</span></font> </li>
+  <li><font face="Thorndale
+serif"><span>Javaは今日全ての環境で動くとはいえなくなっていますが、出
+来る限り多くの環境での動作を可能にする為の工夫がされています。例えばWinとMacでは描写エンジンの部分が違う動きをします。</span></font>
+  </li>
+  <li><font face="Thorndale
+serif"><span>他国言語に完全対応。res_**.txt(**にはISO言語
+識別コード)を用意するだけです。日本語はres_ja.txtで英語はres_en.txt。デフォルトはres.txtです。</span></font>
+  </li>
+</ol>
+<a name="hojyokinou"></a><font face="Thorndale
+serif"><span>しぃペインターはお絵か
+き掲示板だけではなく、簡単な画像であればウェブだけで生成を完結出来る様にする目的の為に生成されました。例えばウェブ日記にこのツールを組み込めば簡
+単にイラストを載せられる様になるでしょう。また市販のツールはインターフェースが固定されておりますが、しぃペインターはインターフェースの選択が可能
+です。その為PaintBBS以上にユーザーの幅が広がるのではないかと期待出来ます。<br>
+<br>
+初心者の為にもしぃちゃんの絵を描いた経験で得たある程度的を得た自動処理がある為、ある程度の絵を描くには最適です。例えばわざわざJPEGとPNGの
+どちらで保存するか等、煩わしい選択も全て自動です。<br>
+<br>
+CGIはしぃちゃんから提供する予定はありません。PaintBBSの経験からこの部分はよりスクリプト処理に強い作者に用意して貰う事により、より強力
+なツールと多様化の利点が得られると言う結論が得られたからです。<br>
+<br>
+<font color="#99284c">2 PaintBBSの優れた（そして現時点ではPaintBBS固有の）補助機能の紹介 </font></span></font>
+<ol>
+  <li><font face="Thorndale
+serif"><span><a href="#shoukai_gazou">しぃペイン
+ターの生成する画像</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#shoukai_hensyuu">ミスに
+よるエディット終了時の編集画像復旧機能</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#shoukai_animation">書
+き手順をアニメーション表示させる機能</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#shoukai_security">セ
+キュリティーに関すること</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#paintbbsijyouni">PaintBBS
+以上に細かいカスタマイズが可能</a></span></font> </li>
+</ol>
+<a name="shoukai_gazou"></a><font face="Thorndale
+serif"><span><br>
+<font color="#800000">しぃペインターの生成する画像</font> </span></font>
+<blockquote><font face="Thorndale
+serif"><span>しぃペインターの生成する画像はPNG JPEG
+PCH(フォトショのPSDに相当するもの)の３つのフォーマットをサポートしています。<br>
+  <br>
+まずPNG付いては多少生成に時間が掛かりますが恐らく現在公開、利用されているどのJava系PNGエンコーダーよりもファイルの容量が小さくなる筈で
+す。（ファイルが大きいと50%程差が出る場合もあります）勿論完全な可逆式の画像です。またimage_interlaceをtrueにする事によりイ
+ンターレース表示対応の形式として送信可能です。<br>
+  <br>
+JPEGに関しては細かい圧縮率の変更が可能であり、最適なJPEGを生成される筈です。こちらも設定を参照し自動的に最適な画像が生成されます。また他
+のツールと違いより綺麗に見えるような工夫がなされている為、極端に圧縮率を上げたとしてもある程度は劣化が気にならない筈です。<br>
+  <br>
+しぃペインターはファイル容量を軽くする為にJPEGをサポートしている為ユーザーがフォーマットを選ぶ事を通常許可していません。（CGIからの設定で
+選択可能にはなります）よって圧縮率の高いPNGと最適な圧縮率を模索するJPEGとを自動的に選択する機能により<br>
+  <font color="#006600">生成されるファイルの大きさは同系等のシステムよりもかなり小さくなるはずです。</font>ただし
+掲示板がJPEGとPNGを分けて処理するようなシステムが必要になる為多少CGI作者にしわ寄せが来ます(;_;)<br>
+  <br>
+生成する時間もCPUのスペックが低い場合で且つ全ての工程を通った画像、つまり一番圧縮率の高いJPEGか減色されたPNG画像に付いては最悪10数秒
+かかります。メモリの消費量はかなり低く押さえていますし、メモリを流用可能な形態をしていますので時間は掛かりますがフリーズしたりする事はほぼありま
+せんのでご安心下さい。</span></font></blockquote>
+<a name="shoukai_hensyuu"></a><font face="Thorndale
+serif"><span><br>
+<font color="#800000">ミスによるエディット終了時の編集画像復旧機能</font></span></font>
+<blockquote><font face="Thorndale
+serif"><span>PaintBBSよりさらに強力な画像復旧機能が搭
+載されています。固有の機能で何らかのミスにより編集中にページを移動してしまったりウインドウを消してしまったりした時、直ぐに編集ページを開きなおす
+事により<font color="#006600">キャンバスに描かれた画像を復旧させる事が出来ます。</font><br>
+WindowのIEや簡易起動をONにしたネスケ6.1以降であればウインドウを閉じても同じ画像の大きさの設定で編集ページに再度訪れれば大抵は残って
+いますのでかなり心強いはずです。(ネスケ4やMacIEの場合はブラウザのウインドウを全て閉じると復旧不能になります。）</span></font></blockquote>
+<a name="shoukai_animation"></a><font color="#800000"
+ face="Thorndale
+serif"><span>書き手順をアニメーションさせる機能</span></font>
+<blockquote><font face="Thorndale
+serif"><span>しぃペインターではPaintBBSと同じく画像編
+集中のデータをそっくりそのままアニメーション表示させる事が可能です。しかも描写速度は前回バージョンより高速な為、多機能だからと言って遅くなると
+言った心配は御座いません。</span></font></blockquote>
+<a name="shoukai_security"></a><font color="#800000"
+ face="Thorndale
+serif"><span>セキュリティーに関する事</span></font>
+<blockquote><font face="Thorndale
+serif"><span>しぃペインターはセキュリティーに関しても細心の注
+意を払っています。<br>
+投稿時のIPアドレスはプロキシーを無効化された生(若しくはそれに近い）IPです。アドレスを隠しての荒らし目的の投稿はほぼ不可能です。設定により変
+更可能ですが、一定時間以内に投稿されたり一定量しか書き込みが無かったりする場合に投稿を事前に拒否する機能があります。</span></font></blockquote>
+<a name="paintbbsijyouni"></a><font face="Thorndale
+serif"><span><br>
+<font color="#800000">PaintBBS以上に細かいカスタマイズが可能</font></span></font>
+<blockquote><font face="Thorndale
+serif"><span>PaintBBSではエンピツ等のツールは固定され
+ていましたが、しぃペインターは外部からペン定義ファイルを読み込む形の為、細かくカスタマイズする事が可能です。さらにペン先やテクスチャ等殆どの部分
+が置き換え可能になっています。インターフェースも複数用意されており、より多くのユーザーからの利用が期待できます。</span></font></blockquote>
+<a name="play"></a><font face="Thorndale
+serif"><span><br>
+<font color="#804040"><font size="4">2 </font>使い方 </font></span></font>
+<table border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td valign="top"><font color="#006600"><font
+ face="Thorndale
+serif">非常に多機能で且つ複数のインターフェースが用意されている都合上、しぃちゃん自身が使い方を書く事
+が困難になっています。それ程複雑な機能は搭載されておりませんので色々触ってみてください。ヒントとして色々な場所を右クリックすると様々な特殊機能が
+活用可能になります。使い方はしぃツールの使い方を紹介するサイトを利用する事を強くお勧めいたします。<br>
+      <br>
+      </font></font></td>
+    </tr>
+  </tbody>
+</table>
+<a name="setup"></a><font face="Thorndale
+serif"><span><br>
+<br>
+<font size="4"><font color="#804040">3 配布方法</font></font> </span></font>
+<ol>
+  <li><font face="Thorndale
+serif"><span><a href="#new" target="_self">新
+規に設置する場合(New construction(aotamaCGIand more))</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#up" target="_self">バー
+ジョンアップについて(about versionup)</a> </span></font></li>
+</ol>
+<ul type="circle">
+  <li><a name="new"></a><font face="Thorndale
+serif"><span><font
+ size="4"><font color="#008000">新規に設置する場合</font></font><font
+ color="#000000"> (New construction)</font> <font color="#008000"><br>
+    <br>
+    <font color="#000000">Please download any CGI files.(other
+creaters) </font></font><font color="#000000">and see help document of
+CGI Creaters</font> .<br>
+CGIは別途ダウンロードする形になっています。新規に設置する場合はCGI同梱アーカイブをダウンロードする必要があります。<br>
+また設置方法はCGI作者の配布するヘルプをご覧下さい。&nbsp;また<a
+ href="http://www.pink.ne.jp/%7Eocosama/">しぃちゃんのホームページ</a>
+のダウンロードページに一部紹介させて頂いております。</span></font> </li>
+  <li><a name="up"></a><font face="Thorndale
+serif"><span><font
+ size="4"><font color="#008000">バージョンアップについて</font><font color="#000000">
+(about version up)</font></font> <br>
+    <br>
+    <font color="#000000">please replace spainter.jar res folder and
+htmlfile.</font><br>
+spainter.jar resフォルダ htmlファイルを置き換えてください。<br>
+    <br>
+CGI別にバージョンアップ方法が異なる可能性がありますのでCGI作者のヘルプも併せてご覧下さい。</span></font> </li>
+</ul>
+<a name="cutsomize"></a><font face="Thorndale
+serif"><span><font
+ color="#804040"><font size="4">4 </font>カスタマイズ</font> <font size="4"><font
+ color="#000000">customize</font></font><br>
+<font color="#000000">if you wantcustomize prease write tagofparam to
+oekaki.html.<br>
+&lt;param name="name of option" value="value of option"&gt;</font><br>
+<br>
+<b>このアプレットは多くの箇所をカスタマイズする事が可能。</b><br>
+しかしすべて省略可能です。 <br>
+oekaki.htmlアプレットタグ内のparamタグに以下のような情報を記載してください。<br>
+例：&lt;param name="image_bkcolor" value="#ffffff"&gt;<br>
+<br>
+適用か非適用の選択は適用の場合true yes 1のどれかを記述して下さい。非適用はそれ以外の値、<br>
+例えばfalse no 0を記述して下さい。未記述の場合はデフォルト値が適用されます。<br>
+nameに変更する場所、valueに変更する値を記載。設定は現在以下の通り。</span></font>
+<ol>
+  <li><font face="Thorndale
+serif"><span><a href="#customize_a">カラーの変更等
+のデフォルトで十分だが変更が可能な設定。</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#customize_b">キャンバスのサ
+イズ変更やセキュリティーに関する設定等、重要ではあるがシンプルな設定。</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#customize_c">JPEG
+PNGの指定やCGIの指定等の非常に重要だが掲示板がサポートしていなかったり難しかったりする設定。</a> </span></font></li>
+</ol>
+<a name="customize_a"></a><font face="Thorndale
+serif"><span><br>
+カラーの変更等のデフォルトで十分だが変更が可能な設定。</span></font>
+<dl>
+  <dd>
+    <table border="1" bordercolor="#333366" cellpadding="6"
+ cellspacing="0">
+      <tbody>
+        <tr>
+          <td valign="top"><font face="Thorndale
+serif"><span><font
+ color="#804040">image_bkcolor</font> <font color="#000000">painting
+color on the backgroundofcanvas</font><br>
+キャンバスの背景色</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">image_bk</font>　<font color="#000000">painting tile
+image(jpeg or gif).on theapplet backgroung</font><br>
+アプレットの背景のイメージ（タイル張り表示）</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#800000">layer_count</font> <font color="#000000">default
+count of layers</font><br>
+&nbsp;レイヤー数の初期値 デフォルトは2</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">undo</font><font color="#000000">size of undo(default
+size is 90)</font><br>
+アンドゥの回数。（デフォルトは90回。）<br>
+          <font color="#008000">アンドゥの回数指定ですが、この値にきっちり収まるものではなく、値は多少前後しま
+す。</font><br>
+          <font color="#008000">回数はundo_in_mgの倍数に収まる形となります。</font></span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">undo_in_mg</font>　<br>
+アンドゥを幾つにまとめて保存しておくか。(デフォルトで15)<br>
+          <font color="#008000">この値を増やすとメモリの節約が出来るかわりにレスポンスが多少鈍くなります。<br>
+減らすとその逆です。メモリはundo/undo_in_mg分消費します。<br>
+アンドゥの回数以上を指した場合、メモリの消費はキャンバス1枚分になります。</font></span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_text</font><font color="#000000"> word colors</font><br>
+アイコン等アプレットのテキストカラー </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_bk</font>　<font color="#000000">painting color
+to applet ofbackground</font><br>
+アプレットの背景カラー</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_bk2</font><font color="#000000"> draws lines on
+the background of applet<br>
+          </font>アプレットの網状の線のカラー</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_icon</font>　<font color="#000000">painting color
+of icons</font><br>
+アイコンのカラー</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_frame</font><font color="#000000"> frame of icons</font><br>
+アイコンの枠のカラー</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_iconselect</font><font color="#000000"> painting
+color of icons selection</font><br>
+アイコンを選択時出る枠のカラー </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_bar</font><font color="#000000"> color of
+scrollbars</font><br>
+スクロールバーのバーのカラー</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_bar_hl</font><br>
+スクロールバーのハイライトカラー </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_bar_frame_hl</font><br>
+スクロールバーのフレームのハイライト</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">bar_size <font color="#000000">size of scrollbars</font><br>
+          </font>スクロールバーの太さ</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">tool_color_button</font><font color="#000000"> colors
+for buttons(tool bar)</font><br>
+ボタンの色(ツールバー）</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">tool_color_button2 </font><font color="#000000">colors
+for buttons(toolbar)</font><br>
+ボタンの色(ツールバー)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">tool_color_text </font><font color="#000000">color
+for
+text(toolbar)<br>
+          </font>テキストの色(ツールバー)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">tool_color_bar </font><font color="#000000">color for
+the value change bar(toolbar)<br>
+          </font>変更バーの色(ツールバー)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">tool_color_frame</font><font color="#000000"> color
+for
+buttons frame(toolbar)</font><br>
+枠の色(ツールバー)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">color_1～12</font><font color="#000000"> color_1~12 for
+palette colors</font><br>
+パレットのカラー<br>
+          </span></font><font face="Thorndale
+serif"><span></span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">cursor_1～12</font><font color="#000000"> customize
+cursors</font><br>
+カーソルカスタマイズ。ファイル名は x16xy16y.gifと言った感じに記述する事により基点の設定が出来る。<br>
+          </span></font><font face="Thorndale
+serif"><span><br>
+          </span></font><font face="Thorndale
+serif"><span></span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span></span></font>以
+下追加されたカラー。<br>
+          <font face="Thorndale
+serif"><span><br>
+          <font color="#993300">&lt;!--カラーバーのハイライトとシャドー--&gt;<br>
+&lt;param name="color_bar_hl" value="#665544"&gt;<br>
+&lt;param name="color_bar_shadow" value="#778899"&gt; <br>
+          </font><br>
+          <font color="#993300">&lt;!--ツールバー--&gt;<br>
+          </font></span></font><font face="Thorndale
+serif"><span><font
+ color="#993300">&lt;param name="tool_color_bk" value="#aabbcc"&gt;</font><br>
+          </span></font><br>
+          <font face="Thorndale
+serif"><span> <font color="#993300">&lt;!
+--プロの起動時に出現するメニューに関する設定--&gt;<br>
+&lt;param name=pro_menu_color_text value="#FFFFFF"&gt;<br>
+&lt;param name=pro_menu_color_off value="#222233"&gt;<br>
+&lt;param name=pro_menu_color_off_hl value="#333344"&gt;<br>
+&lt;param name=pro_menu_color_off_dk value="0"&gt;<br>
+&lt;param name=pro_menu_color_on value="#ff0000"&gt;<br>
+&lt;param name=pro_menu_color_on_hl value="#ff8888"&gt;<br>
+&lt;param name=pro_menu_color_on_dk value="#660000"&gt;<br>
+          <br>
+&lt;!--初期に通常上部に着いている(設定により下にも動く)の設定--&gt;<br>
+&lt;param name=bar_color_bk value="#00ffff"&gt;<br>
+&lt;param name=bar_color_frame value="#ff0000"&gt;<br>
+&lt;param name=bar_color_off value="#ffffff"&gt;<br>
+&lt;param name=bar_color_off_hl value="#ffffff"&gt;<br>
+&lt;param name=bar_color_off_dk value="#888888"&gt;<br>
+&lt;param name=bar_color_on value="#aaaaaa"&gt;<br>
+&lt;param name=bar_color_on_hl value="#aaaaaa"&gt;<br>
+&lt;param name=bar_color_on_dk value="#aaaaaa"&gt;<br>
+&lt;param name=bar_color_text value="0xff"&gt;<br>
+          <br>
+&lt;!--ウインドウ関係の設定--&gt;<br>
+&lt;param name="window_color_text" value="#ff0000"&gt;<br>
+&lt;param name="window_color_frame" value="#ffff00"&gt;<br>
+&lt;param name="window_color_bk" value="#000000"&gt;<br>
+&lt;param name="window_color_bar" value="#777777"&gt;<br>
+&lt;param name="window_color_bar_hl" value="#888888"&gt;<br>
+&lt;param name="window_color_bar_text" value="#000000"&gt;<br>
+          <br>
+&lt;!--確認ウインドウの設定--&gt;<br>
+&lt;param name="dlg_color_bk" value="#ccccff"&gt;<br>
+&lt;param name="dlg_color_text" value="0"&gt;<br>
+          <br>
+&lt;!--アプレットの背景の設定--&gt;<br>
+&lt;param name=color_bk value="#ccccff"&gt;<br>
+&lt;param name=color_bk2 value="#f0f0f0"&gt;<br>
+          <br>
+&lt;!--レイヤーのメーターカラーの設定--&gt;<br>
+&lt;param name=l_m_color value="#ffffff"&gt;<br>
+&lt;param name=l_m_color_text value="#0000ff"&gt;</font> <br>
+          </span></font> </td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<a name="customize_b"></a><font face="Thorndale
+serif"><span><br>
+キャンバスのサイズ変更等、重要ではあるがシンプルな設定。（掲示板によっては間接的に変更する必要がある） </span></font>
+<dl>
+  <dd>
+    <table border="1" bordercolor="#666699" cellpadding="6"
+ cellspacing="0">
+      <tbody>
+        <tr>
+          <td valign="top"><font face="Thorndale
+serif"><span><font
+ color="#804040">image_width</font><font color="#000000"> width of
+canvas</font><br>
+キャンバスの幅。 </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">image_height </font><font color="#000000">height of
+canvas</font><br>
+キャンバスの高さ。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">image_canvas <font color="#000000">load from
+image_canvas and write to canvas</font></font><font color="#000000">.</font><br>
+指定されたイメージを読み込み、キャンバスに書き込みます。<br>
+確実に読み込めるのはjpeg gifとPaintBBSのネイティブなデータであるpchファイルです。<br>
+拡張子を必ずフォーマットのものと同じにする必要があります。<br>
+          <font color="#009900">PCHファイルはレイヤーやアンドゥアニメデータ等の情報を全て復元します。</font><br>
+          <br>
+PCHファイルの拡張子をどうしても変更したい場合はパラメータpch_fileに設定して読み込ませる事を<br>
+お奨めいたします。<br>
+読み込める画像はJavaに依存します。例えばPNGはSunJVMがサポートしておりMSJVMはサポートされていません。BMPはこの逆となります。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">animation_max</font> <font color="#000000">length of
+data for animaion(KByte. default value is 0)</font><br>
+アニメーションデーターの最大値をKByte単位で指定します。<br>
+大体の目安でこの値に制限する為、多少前後します。<br>
+0で制限無し。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">pch_file</font><br>
+通常モードのときに指定した場合、指定されたPaintChatAnimationファイルを<br>
+キャンバスに書き込みます。（バッファ上で書き込まれる為アニメーションは見る事が出来ません。）<br>
+pchファイルである事を前提にして読み込みますのでJPEG等のイメージを読み込む場合は<br>
+image_canvasの方に指定して下さい。<br>
+          <font color="#009900">PCHファイルはレイヤーやアンドゥアニメデータ等の情報を全て復元します。</font></span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">popup </font><br>
+ポップアップ表示とビュー表示を両方使えますがそれをポップアップに固定します。<br>
+安定性はありますので選択出るに越した事はありませんが、通常は選択する必要はありません。</span></font>
+          <hr size="1"> <font face="Thorndale
+serif"><span><font
+ color="#800000">popup_parent<br>
+          </font>ポップアップ表示を親ウインドウにするかサブウインドウにするかを決めます。<br>
+親ウインドウはアイコン化等が出来ますが、ブラウザの後ろに隠れます。<br>
+サブウインドウはブラウザの後ろに隠れませんがアイコン化ボタン等は付いていません。<br>
+Javaの仕様によりこの二つしか選択肢は無い為、都合の良い方をユーザーに選んでもらう形になります。<br>
+この設定が記述されている場合は窓ボタンを押した時の確認が省略されます。 </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">security_click</font><br>
+          <font color="#000000">When transmitting at the time of
+belowthe writingof the number of times of fixed <br>
+a certain action is started to URL specified to be security_url.</font><br>
+一定回数の書き込み以下の時に送信を行った場合 security_urlに指定された<br>
+URLへ何らかのアクションを起こします。アンドゥしたデータもカウントされていますので多めに<br>
+設定して下さい。健全な運用の為にもテスト運用を終え、公開する時に<br>
+是非60回以上の設定変更を行って下さい。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">security_timer <font color="#000000">When timein as
+action to security_url.(Unit is section)</font><br>
+          </font>一定時間以内に送信した場合、セキュリティー違反を排出します。<br>
+秒単位です。これは確認ウインドウが出ている時もカウントされますので大きめに設定しても<br>
+良いかと思います。健全な運用の為にもテスト後、40秒以上の設定変更を行って下さい。<br>
+          <br>
+経験上3分以内に送られるデータの殆どは荒らし目的かテスト投稿の為に送信するデータだと判明しています。<br>
+またクリックカウントより高い効果があるようです。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">security_url </font><font color="#000000">URLusedwhenany
+conflicts with security</font><br>
+セキュリティー違反が排出されると、ここに指定されたURLにジャンプ、もしくはurl_saveの替わりに使用されます。<br>
+security_post="false"の時はここに指定されたURLへジャンプします。逆はurl_saveの替わりです。<br>
+何処を指定していいか良く解らない場合は警視庁等の公的機関を指定して下さい。<br>
+自分のページや掲示板のトップ等には間違っても指定しないほうがいいです。<br>
+クッキー等を併用する事により、より堅固な物になると思います。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">security_post</font><font color="#000000">Animageissent
+when security istouched. true or false</font><br>
+security_urlが指定されたURLへ画像データを送信するのか、それとも指定された<br>
+URLへジャンプするかを選択出来ます。trueでurl_saveの替わりに使用され、<br>
+falseで何も送信せずsecurity_urlに指定されたURLへジャンプします。この機能に対応していない<br>
+CGIの場合はfalseを記述する事をお勧めします。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">send_advance</font><font color="#000000">
+UseadvancedURLConnection. trueor false</font><br>
+Javaの標準URLConnectionを使用せず環境に依存しない独自の方法でデータを投稿します。<br>
+この機能を使用時は送信状況を細かく表示する事が出来ます。また環境に依存しません。<br>
+          <br>
+投稿に失敗した場合標準のURLConnectionで投稿しますので通常falseを選択する必要はありません。<br>
+標準URLConnectionは環境に依存しさらに送信状況は細かく表示されません（JavaURLで送信中と出るだけです）<br>
+この設定が無い場合標準でtrueが選択されます。</span></font>
+          <hr> <font face="Thorndale
+serif"><span><font
+ color="#800000">dir_resource</font><br>
+res.txt等のリソースがどこにあるのかを指定。最後に&amp;、?、=がついた場合はファイル名と直接連結されます。</span></font>
+          <hr> <font face="Thorndale
+serif"><span><font
+ color="#800000">tools</font><br>
+インターフェースの選択を指定します。<br>
+smp(simpleでも可能)を指定すると通常仕様が選択され、stdを選択するとプロ仕様が選択されます。<br>
+プロ仕様は操作が難しい為、片方に固定したい場合はsmp(通常仕様)を奨励します。</span></font>
+          <hr> <font face="Thorndale
+serif"><span><font
+ color="#800000">圧縮ファイル名の設定</font><br>
+tt.zipやres.zipと言う設定を変更する事により必要なリソースの位置をデフォルト位置から変更する事が可能になります。この設定は
+dir_resourceを無視します。</span></font> </td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<a name="customize_c"></a><font face="Thorndale
+serif"><span><br>
+JPEG PNGのフォーマット指定等、非常に重要だが掲示板がサポートしていなかったり難しかったりする設定。</span></font>
+<dl>
+  <dd>
+    <table border="1" bordercolor="#666699" cellpadding="6"
+ cellspacing="0">
+      <tbody>
+        <tr>
+          <td valign="top"><font face="Thorndale
+serif"><span><font
+ color="#804040">image_jpeg</font> <font color="#000000">Need JPEG
+Jpeg format(true or false)</font><br>
+image_sizeが指定されたデータより大きくなる場合、PNGではなく<br>
+JPEGにしてデータ量の減少を試みます。必ずJPEGにすると言う設定ではありません。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">image_interlace</font><font color="#000000">Need
+interlace format(PNG only. True or false)</font><br>
+PNG画像をインターレース形式で送信します。PNGであればサムネイルも同様のフォーマットになります。<br>
+(画像が徐々に現れるフォーマットです。)デフォルトはfalse。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">image_size</font><br>
+          <font color="#000000">when this size is exceeded the coloris
+decreased.(unit is KByte)</font><br>
+          <br>
+画像のデータがこの画像より大きくなる場合、減色処理、若しくは<br>
+image_jpegがtrueの場合JPEGに変換します。1を指定した場合必ず<br>
+摘要され、0や記述無しの場合は必ず適用されません。<br>
+あまり小さくした場合、PNGで最適な圧縮がされるデータもJPEG化されます。<br>
+逆に大きくなりかねませんので、キャンバスの大きさにもよりますが、最低40は<br>
+指定する様にして下さい。60KByte奨励。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">compress_level</font><font color="#000000">
+compresslevel(JPEG and PNG)</font><br>
+PNGの減色率とJPEGの圧縮率。この値が高ければ高い程<br>
+圧縮率が高まります。デフォルト、奨励値は15です。<br>
+この値を下げた時にはimage_sizeを高くして下さい。<br>
+そうしないとデータ量が大きなイメージが出来上がる可能性があります。<br>
+また逆に圧縮率を上げた時はimage_sizeを下げる事によりデータ量の減少が<br>
+期待出来ます。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">url_save</font>　<font color="#000000">place send data
+of image(CGI or etc.)</font><br>
+保存を担当するCGI(若しくはそれに相当するもの)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">url_exit</font><font color="#000000"> after fineshed
+jump to URL.</font><br>
+保存成功時にジャンプするURL </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">url_target </font><font color="#000000">target of
+frame.</font><br>
+保存成功時にジャンプするURLを指定するターゲット<br>
+(複数投稿は出来ない仕様になっていますのでご注意下さい)</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">poo</font><font color="#000000">poo CGI format and to
+synchronize withtrue. </font><br>
+保存フォーマットを既に存在する絵掲示板のデータと互換にする <br>
+これを適用した場合PaintBBSの拡張機能は適用されません。<br>
+（アプレットとoekaki.htmlを差し替えるだけでも動作すると言う意味です。）<br>
+例外としてサムネイルを設定した場合は送信するようにしておきました。<br>
+ただしpoo互換CGIでサムネイルを送信した場合、画像が壊れますので御注意下さい。 </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">send_header</font><font color="#000000"> Valueis
+transmitted at the beginning of first transmitting data.</font><br>
+          <font color="#804040">send_language </font><font
+ color="#000000">encode of header and error responce</font><br>
+データを送信する時、POSTデータの一番初めに指定されたフラグを初めに送信します。<br>
+データのエンコードの種類<br>
+          <br>
+データは指定された言語へエンコードを施し送られます。languageになにも指定していない場合は<br>
+utf8が選択されます。日本語を使いたい場合はsjis jis utf8のいずれかを記述して下さい。<br>
+          <font color="#3333ff">send_languageはエラーレスポンスの時にも使われます。</font><br>
+拡張ヘッダは個々のCGI作者に開放している物でＪＰＥＧフラグが追加される可能性がある以外に<br>
+デフォルト値等は存在しません。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">send_header_image_type</font><font color="#000000">
+true or false</font><br>
+JPEGかPNGかを調べる為、自動的に拡張ヘッダ内の先頭にイメージの種類を注入します。<br>
+PNGの時はimage_type=png&amp;でJPEGの時はimage_type=jpeg&amp;と言う文字列が追加されます。<br>
+拡張ヘッダを使用しない場合は無効です。</span></font><font face="Thorndale
+serif"><span><br>
+          </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span></span></font><font
+ face="Thorndale
+serif"><span><font color="#804040">send_header_timer</font><font
+ color="#000000"> true or false</font><br>
+          </span></font>描写開始から終了までのミリ秒単位のカウントを拡張ヘッダの先頭に追加します。<br>
+セキュリティー系はこれを参照しています。<font face="Thorndale
+serif"><span><br>
+          </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span></span></font><font
+ face="Thorndale
+serif"><span><font color="#804040">send_header_count</font></span></font><font
+ face="Thorndale
+serif"><span><font color="#000000"> true or false</font><br>
+描写工程を</span></font><font face="Thorndale
+serif"><span></span></font><font
+ face="Thorndale
+serif"><span>カウントした</span></font><font
+ face="Thorndale
+serif"><span></span></font><font face="Thorndale
+serif"><span>数
+値(正確な数値ではない)を拡張ヘッダの先頭に追加します。<br>
+セキュリティー系はこれを参照しています。</span></font><br>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">send_uencode</font><font color="#000000"> true or false</font><br>
+拡張ヘッダをURLEncodeして送信するかどうか。デフォルトではfalse。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">thumbnail_type</font><br>
+サムネイルのタイプ。png jpeg animationが選択可能です。デフォルトはpng。<br>
+animationを選択した場合PaintChatAnimationファイルと全く同様の物が<br>
+サムネイルの部分に送信されます。 PaintBBSには再生機能がありますので<br>
+掲示板が対応さえしていれば完成までの手順を表示させる事も可能です。</span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">thumbnail_type2</font><br>
+二つ目のサムネイルを送信したい場合はこのパラメータにthumbnail_typeと<br>
+同じ様に種類を書き込む必要があります。<br>
+          </span></font>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span><font
+ color="#804040">thumbnail_compress_level</font><br>
+サムネイルの圧縮Levelを指定。JPEGサムネイルのみ影響を受けます。</span></font><br>
+          <hr noshade="noshade" size="1"> <font face="Thorndale
+serif"><span></span></font><font
+ face="Thorndale
+serif"><span><font color="#804040">thumbnail_width<br>
+thumbnail_height</font><font color="#000000"> width and height of
+thumbnail</font><br>
+送信するサムネイル画像の横幅と縦幅です。%でも指定可能。<br>
+二つサムネイルが指定されている場合は両方がこの大きさになります。<br>
+両方画像と同じ大きさだったり(両方100%等)両方設定が無い場合はサムネイルを送信しません。<br>
+例外としてサムネイルのタイプを明記している場合は必ず送信されます。 </span></font>
+          <hr> <font face="Thorndale
+serif"><span><font
+ color="#800000">header_magic</font><br>
+送信時一番初めに送られてくる文字の設定。PaintBBSは'P'でしぃペインターは'S'です。<br>
+複数文字を指定する事も可能です。</span></font> </td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<a name="qa"></a><font face="Thorndale
+serif"><span><br>
+　<br>
+<font size="4"><font color="#804040">5 確認されている問題とその解決方法</font></font> </span></font>
+<ol>
+  <li><font face="Thorndale
+serif"><span><a href="#o1" target="_self">ア
+プレットをバージョンアップしてもブラウザが認識せずバージョンが変わらない場合</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#o2" target="_self">アー
+カイブにアプレットファイルspainter.jarが存在しない</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#o3" target="_self">投
+稿が出来ない場合</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#o4" target="_self">ア
+プレットが表示されない時(ステータスバーにpbbs.PaintBBSnotfoundとでている時</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#o5" target="_self">色
+数が増え、ファイルが大きくなりBBSの設置が難しい場合</a></span></font> </li>
+</ol>
+<ol>
+  <li><a name="o1"></a><font face="Thorndale
+serif"><span><font
+ color="#400080">アプレットをバージョンアップしてもブラウザが認識せずバージョンが変わらない場合</font> <br>
+    <br>
+ブラウザが新しいアプレットを認識せずキャッシュから<br>
+アプレットを取得する為このような状態が起こります。<br>
+とくにローカルで試しに開いて見た時等は良く前のバージョンのままになっています。<br>
+解決方法としてはアプレットのファイル名を変更し、<br>
+アプレットタグのarchive属性に書き込まれているファイル名を変更して下さい。<br>
+    </span></font><br>
+    <br>
+  </li>
+  <li><a name="o2"></a><font face="Thorndale
+serif"><span><font
+ color="#400080">アーカイブにアプレットファイルspainter.jarが存在しない時</font> <br>
+    <br>
+eoと言う解凍ソフトを使用している場合、「徹底解凍しますか？」と聞かれますが、<br>
+これを許可してしまいますとアプレットファイルまで解凍されてしまいます。<br>
+ですので徹底解凍の選択は「いいえ」を選択するようにしてください。<br>
+基本的に徹底解凍をすると正常に動作しないソフトがある可能性がある事を<br>
+覚えておくと良いかもしれません。<br>
+    </span></font><br>
+    <br>
+  </li>
+  <li><a name="o3"></a><font face="Thorndale
+serif"><span><font
+ color="#400080">投稿が出来ない場合</font> <br>
+    <br>
+サーバーが重い時、もしくは指定されたCGIが存在しない場合や<br>
+ＣＧＩの設定を間違えている場合の時に発生します。<br>
+投稿に失敗したとしても描いた絵は残っていますので、<br>
+しばらく待った後再度投稿する事をお勧めします。<br>
+パラメータのurl_saveの設定先にＣＧＩがなかったりアクセス出来ない場合は成功しません。<br>
+またCGIと違う場所のWeb領域にspainter.jarが置かれている場合は送信が出来なくなる可能性があります。<br>
+値をhttp://から始まる絶対URLで指定すると良い場合もあります。<br>
+細かい設定は個々のCGI作者にお尋ね下さい。<br>
+    </span></font><br>
+    <br>
+  </li>
+  <li><a name="o4"></a><font face="Thorndale
+serif"><span><font
+ color="#400080">アプレットが表示されない時(ステータスバーにc.ShiPainter not foundとでている時)</font>
+    <br>
+    <br>
+これはspainter.jarが見つからなかった時に起こります。<br>
+解決方法としてhtmlファイルをテキストエディッタ等で開き、&lt;applet&gt;タグ内のarchive内に書かれている、<br>
+spainter.jarをhttp://から始まるURLに修正して下さい。<br>
+    <br>
+    <font color="#804040">例:spainterが<a
+ href="http://foo.com/spainter.jar">http://foo.com/spainter.jar</a>にある場合<br>
+    </font>&lt;applet archive="http://foo.com/spainter.jar"&gt;<br>
+    <br>
+これで駄目な場合はそもそもhtmlに書かれたｕｒｌにspainter.jarが存在しない場合や<br>
+その場所に置く事を許可されていない場合等です。<br>
+    <br>
+ネットスケープ4.*環境の時日本語が入ったローカルディレクトリで試した場合<br>
+アプレットは読み込まれませんので御注意下さい。<br>
+    </span></font><br>
+    <br>
+  </li>
+  <li><a name="o5"></a><font face="Thorndale
+serif"><span><font
+ color="#0000a0">色数が増え、ファイルが大きくなりBBSの設置が難しい場合</font> <br>
+    <br>
+色数や画像のサイズが増えますと画像データの大きさが大幅に増加します。<br>
+その場合そのまま使用すると使い勝手が悪くなりますので次のどれかを<br>
+採用するようにして下さい。<br>
+    <br>
+JPEGに対応した掲示板を利用して下さい。さらに圧縮率を変更する事により効果が高まります。<br>
+    <br>
+    <br>
+しぃペインターは画像のサムネイルを生成し、送信する機能があります。<br>
+サムネイルに対応したCGIを使用すれば画像が重くても大丈夫な筈です。</span></font> </li>
+</ol>
+<a name="creater"></a><font face="Thorndale
+serif"><span><font
+ color="#660000"><font size="4">6</font>
+掲示板の作者への様々な情報（フォーマットやJPEG実装、拡張ヘッダ等に付いて）</font> <br>
+<font color="#000000">this is the format of POST Data<br>
+<br>
+S(1Byte Character. Change is possible to another character with a
+header_magic parameter.)<br>
+Length of The header for CGI author(8byte Characters)<br>
+The header for CGI author<br>
+Length of Image(8byte Characters)<br>
+\r\n(CR LF)<br>
+Image data(format is PNG or JPEG)<br>
+Length of thumbnail(8byte Characters)<br>
+thumbnail(format is PING or JPEG or AnimationData)<br>
+Length of thumbnail2(8byte Characters)<br>
+thumbnail(format is PING or JPEG or AnimationData )<br>
+<br>
+Length is not transmitted either when there is not thumbnail.<br>
+<br>
+format of poo=true<br>
+0x00000000<br>
+\r\n(CR LF)<br>
+Image data(format is PNG or JPEG)<br>
+Lnegth of thumbnaill(8byte characters)<br>
+thumbnail(format is PING or JPEG or AnimationData)</font><br>
+<br>
+<font color="#660000">Content menu （Japanese）</font></span></font>
+<ol>
+  <li><font face="Thorndale
+serif"><span><a href="#POST">POSTで送信されるイメージ
+データと拡張ヘッダ</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#JPEG">JPEGを実装させる為のヒン
+ト</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#hint_animation">書き手順
+(アニメーション)の表示を実装させる為のヒント</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#error_message">投稿時のエ
+ラー処理に付いて</a> </span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#page_move">投稿後の返り値を利
+用したページ移動の動的変更</a></span></font> </li>
+  <li><font face="Thorndale
+serif"><span><a href="#JS">JavaScript(LiveConnect)
+の紹介 </a></span></font></li>
+</ol>
+<a name="POST"></a><a name="JPEG"></a><font face="Thorndale
+serif"><span><br>
+<br>
+<b><font color="#009900">POSTで送信されるイメージデータと拡張ヘッダ</font></b><br>
+<br>
+CGIに送信するデータの説明をします。<br>
+send_headerはアプレットのparamタグで記述した場合送信されます。<br>
+send_headerは付け足しても\rを使用しない限りpooCGIと互換性がなくなることはありません。<br>
+<br>
+S(1Byteの識別文字 header_magicパラメーターを変更することにより変更が可能)<br>
+拡張ヘッダ長(必ず8文字8Byte)<br>
+拡張ヘッダ<br>
+画像の大きさ(必ず8文字8Byte)<br>
+\r\n(CR LF。互換性の為入れています。ここから下はバイナリ含むの意味)<br>
+画像(PNGかJPEG)<br>
+サムネイル長(必ず8文字8Byte)<br>
+サムネイル(PNGかJPEGかPaintChatAnimationデータ)<br>
+サムネイル長(必ず8文字8Byte)<br>
+サムネイル(PNGかJPEGかPaintChatAnimationデータ)<br>
+<br>
+<br>
+長さは8文字のアスキー文字で送信されます。<br>
+足りない分は0で埋められます。(1は00000001)<br>
+サムネイルを送信しない場合はサムネイル長とサムネイルは送信されません。<br>
+<br>
+poo=trueの時は従来の<br>
+0x00000000<br>
+\r\n(CR LF)<br>
+画像データ（PNGかJPEG）<br>
+サムネイル長(必ず8文字8Byte)<br>
+サムネイル(PNGかJPEGかPaintChatAnimationデータ)<br>
+サムネイル長(必ず8文字8Byte)<br>
+サムネイル(PNGかJPEGかPaintChatAnimationデータ)<br>
+を送信します。<br>
+<br>
+サムネイルを送信しない場合はpoo=falseであってもpooCGI互換です。<br>
+pooCGIとは互換ですが旧バージョンの藍珠CGIとは非互換ですので、<br>
+旧バージョンの藍珠CGIを利用する場合はpoo=trueをfalseに変えないで下さい。<br>
+<br>
+拡張ヘッダはアプレットのパラメータ<br>
+&lt;param name="send_header" value="この部分の文字列"&gt;<br>
+を送信します。この部分はCGI製作者が容易に開発を<br>
+可能にする為に入れた物ですので制限は特に定めてありません。<br>
+デフォルトはUTF-8ですのでShift-JIS等を利用したい場合は<br>
+&lt;param name="send_language" value="sjis"&gt;と言う感じのパラメータを追加して<br>
+下さい。Microsoft製のJava つまりWindouwsのIEはEUCに対応していませんので<br>
+御注意下さい。<br>
+send_header_image_typeがtrueの時はこの中の先頭にイメージの種類を示す追加データが記述されます。<br>
+<br>
+<br>
+サムネイルは<br>
+thumbnail_width thumbnail_heightのどちらかに画像の大きさより<br>
+小さな値が入った場合作成、送信されます。<br>
+%での指定も可能。(どのパラメータにも指定可能であったりします)<br>
+アニメーションデータはこの値に関係なく送信されます。<br>
+<br>
+compress_levelで圧縮レベルも変更可能。<br>
+<br>
+返ってきた値がURL:と言う文字列が初めに来た場合、それに続く文字列をURLと解釈しそこへ飛ばす機能が追加されました。<br>
+<br>
+<br>
+<b><font color="#009900">JPEGを実装させる為のヒント</font></b><br>
+<br>
+<b>動作の説明</b></span></font>
+<blockquote><font face="Thorndale
+serif"><span>しぃペインターはサーバーの負担を減らすために
+JPEGを実装している為、<br>
+ユーザーがフォーマットを決める事を許可しておらず、イメージサイズにより自動的にフォーマットを決めます。<br>
+PNGとJPEGの振り分は、まず完全にイメージを再生させるPNGフォーマットを<br>
+仮に作成し、image_sizeよりサイズが上回る場合は不可逆なJPEGでのデータを作成します。<br>
+（この時JPEGが許可されていない場合は減色処理が施されます）<br>
+その後出来上がったJPEGがimage_sizeの1.5倍以上のデータであった場合指定された圧縮率の1.5倍の<br>
+圧縮率で再度JPEG化します。そうして出来上がったデータを今迄PNGが入っていた位置につけて送信されます。<br>
+  <br>
+  <br>
+注意点は例え圧縮率を上げたとしても必ずしもPNGよりJPEGの方が<br>
+データ量の減少が望めるわけではありません。一般に使用された色が少ない場合は<br>
+PNGの方が明らかに小さくなります。強引にJPEGを生成した場合サイズが大きくなり、且つ絵の再現率は悪いです。<br>
+その為自動的に切り替える方式を片方に固定させる事は可能ですが極力避けて下さい。</span></font></blockquote>
+<font face="Thorndale
+serif"><span><br>
+<b>実装のヒント</b></span></font>
+<blockquote style="margin-bottom: 0cm;"><font face="Thorndale
+serif"><span>Jpeg
+に関係するオプションは</span></font></blockquote>
+<dl>
+  <dd>
+    <table border="1" cellpadding="7" cellspacing="0">
+      <tbody>
+        <tr valign="top">
+          <td><font face="Thorndale
+serif"><span>image_jpeg</span></font>
+          </td>
+          <td><font face="Thorndale
+serif"><span>JPEGを使用するかどうか（デフォルトで
+false</span></font> </td>
+        </tr>
+        <tr valign="top">
+          <td><font face="Thorndale
+serif"><span>image_size</span></font>
+          </td>
+          <td><font face="Thorndale
+serif"><span>どのサイズまで来たらJPEGとして送信するか</span></font>
+          </td>
+        </tr>
+        <tr valign="top">
+          <td><font face="Thorndale
+serif"><span>send_header_image_type</span></font>
+          </td>
+          <td><font face="Thorndale
+serif"><span>拡張ヘッダの先頭部分にイメージの種類を書き込
+むかどうか</span></font> </td>
+        </tr>
+        <tr valign="top">
+          <td><font face="Thorndale
+serif"><span>compress_level</span></font>
+          </td>
+          <td><font face="Thorndale
+serif"><span>圧縮率</span></font> </td>
+        </tr>
+        <tr valign="top">
+          <td><font face="Thorndale
+serif"><span>thumbnail_type<br>
+thumbnail_type2</span></font> </td>
+          <td><font face="Thorndale
+serif"><span>値が"jpeg"である場合はサムネイルは
+JPEGフォーマットになります。</span></font> </td>
+        </tr>
+        <tr>
+          <td valign="top">thumbnail_compress_level<br>
+          </td>
+          <td valign="top">サムネイルの圧縮率<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<blockquote><font face="Thorndale
+serif"><span>の４つです。<br>
+  <br>
+  <br>
+簡易的な実装方法の説明とそれぞれの奨励している値の紹介<br>
+取りあえず良く解らない場合は次のようにオプションを設定して下さい。<br>
+  <i>&lt;param name="image_jpeg" value="true"&gt;<br>
+&lt;param name="image_size" value="60"&gt;<br>
+&lt;param name="compress_level" value="15"&gt;<br>
+&lt;param name="send_header_image_type" value="true"&gt;</i><br>
+  <br>
+そして拡張ヘッダの頭にあるimage_type=png&amp;かimage_type=jpeg&amp;を調べて<br>
+JPEGかどうかを調べればOKです。</span></font></blockquote>
+<blockquote><br>
+  <br>
+</blockquote>
+<font face="Thorndale
+serif"><span><b>細かい実装の説明</b></span></font>
+<blockquote><font face="Thorndale
+serif"><span>Jpegを作成するにはimage_jpegを
+trueに設定する必要があります。<br>
+それとimage_sizeに1以上を入れて下さい。丁度1の時は必ずJpegが生成されます。<br>
+  <br>
+JPEGデータは送信されるPNGの代わりにJPEGを入れて送信されます。<br>
+判別する方法は画像のバイナリデータを直接調べるか<br>
+  <i>&lt;param name="send_header_image_type" value="true"&gt;</i><br>
+とする事により拡張ヘッダの先頭にimage_type=png&amp;かimage_type=jpeg&amp;と言う識別文字列が注入されます。<br>
+これを調べてください。<br>
+  <br>
+バイナリを直接調べる場合はPNGかどうかを調べるのが簡単です。<br>
+1ByteめからPNG\r\n(CRLF)と言う文字列が入っていますので<br>
+それを調べて下さい。このデータは固定であり不変ですので確実です。<br>
+PNGかJPEGしか無いのでPNGではない場合はJPEGと確定します。<br>
+  <br>
+  <br>
+あと実装にはあまり関係無いですがcompress_levelを変更する場合、<br>
+image_sizeも変更させる事によりデータ量の減少が望めます。<br>
+これは例えば65を設定している場合、圧縮率を上げても65KByte以内であれば<br>
+PNGとして送信される為劇的にデータ量の減少が望めない為です。<br>
+  <br>
+だったら1を設定して必ずJPEGを生成した方が小さくなると思うかもしれませんが、<br>
+前文に説明した通りPNGの方が小さく綺麗に出来る可能性がありますので<br>
+この容量まではOKだと思う値をimage_sizeに入れ、それを実現出来そうな圧縮率を<br>
+入れる、と言う風な設定方法を行って下さい。<br>
+  <br>
+簡単に言えばcompress_levelを上げた時はimage_sizeを下げ、逆の場合は上げて下さい。<br>
+  <br>
+compress_level=15とimage_size=60の設定を奨励します。<br>
+しかし圧縮率を上げてもそれなりに見れたりしますので圧縮率を上げるのは<br>
+一向に構いません。（PNGがあるので下げるのはあまり意味がないかも）</span></font></blockquote>
+<a name="hint_animation"></a><font face="Thorndale
+serif"><span><br>
+<br>
+<b><font color="#009900">書き手順(アニメーション)の表示を実装させる為のヒント</font></b><br>
+<br>
+<b>動作の説明</b></span></font>
+<blockquote><font face="Thorndale
+serif"><span>このアニメーションデータはアンドゥされたデータを
+保存する事はありません。<br>
+画像ファイルのように急にデータ量が大きくなるような事は無く、時間に比例して緩やかに<br>
+データが大きくなっていきます。数時間掛けても100KByte程ですので余裕がないサーバー以外は<br>
+簡単に実装できる事でしょう。アニメーションファイルを直接Javaアプレットが読み込む為、CGIとは無関係に<br>
+表示が可能です。このシステムの導入によりサーバーの負担を増加させるような類の物ではありません。<br>
+サムネイルと同様の扱いになっていますのであまりに大きなデータが送られてきた場合は<br>
+カットする事も苦痛では無い選択肢になる筈です。設定により送られてくるファイルの大きさを制限する事も可能です。</span></font></blockquote>
+<font face="Thorndale
+serif"><span><b>実装のヒント</b></span></font>
+<blockquote style="margin-bottom: 0cm;"><font face="Thorndale
+serif"><span><font
+ color="#993300">アニメーションを保存したい人としたくないははっきりと分かれていますので選択可能な形にする事を奨励します。</font><br>
+  <br>
+アニメーション表示の実装をさせるためのヒント</span></font></blockquote>
+<dl>
+  <dd>
+    <table border="1" cellpadding="7" cellspacing="0" width="783">
+      <colgroup><col width="109"><col width="644"></colgroup><tbody>
+        <tr valign="top">
+          <td width="109"><font face="Thorndale
+serif"><span>thumbnail_type<br>
+thumbnail_type2</span></font> </td>
+          <td width="644"><font face="Thorndale
+serif"><span>"animation"
+である場合はサムネイル部分がアニメーションデータになります。<br>
+この時サムネイルの幅と高さは無視され、確実に送信されます。</span></font> </td>
+        </tr>
+        <tr valign="top">
+          <td width="109"><font face="Thorndale
+serif"><span>pch_file</span></font>
+          </td>
+          <td width="644"><font face="Thorndale
+serif"><span>アニメーションファイ
+ルを示すURL。ビュワー時は再生されるアニメファイルの位置で<br>
+お絵かきモードの時はキャンバスに読み込まれます。image_canvasに近いですが<br>
+アニメファイルが対象であると言う以外にアニメデータとアンドゥデータも読み込まれ、<br>
+ほぼ完全に再現される点が違います。</span></font> </td>
+        </tr>
+        <tr valign="top">
+          <td width="109"><font face="Thorndale
+serif"><span>animation_max</span></font>
+          </td>
+          <td width="644"><font face="Thorndale
+serif"><span>アニメーションデー
+ターの最大値をKByte単位で指定します。<br>
+大体の目安でこの値に制限する為、多少前後します。<br>
+0で制限無し</span></font> </td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<blockquote><font face="Thorndale
+serif"><span><br>
+オプションに<br>
+  <i>&lt;param name="thumbnail_type" value="animation"&gt;</i><br>
+と入れる事によりサムネイル部分にアニメーションファイルが送信されます。<br>
+通常のサムネイルと併用して使いたい場合はthumbnail_type2もつかって下さい。<br>
+  <br>
+ビュワーは改造（解体、改良や付け加え等）さえしなければ<br>
+再配布可能ですので必要であれば配布用ファイル郡にビュワーを足してもＯＫです。<br>
+  <br>
+  </span></font><br>
+  <br>
+</blockquote>
+<a name="error_message"></a><font color="#009900"><font
+ face="Thorndale
+serif"><font size="3"><span><b>投稿時のエラー処理に付いて</b></span></font></font></font>
+<blockquote><font face="Thorndale
+serif"><span>画像を投稿時、ロックに失敗したり画像が大きすぎた
+場合、<br>
+時間を置いて投稿、また大きすぎる画像を編集しなおすチャンスを獲得させるため<br>
+例外的な処理を行う機能があります。そして<font color="#800000">しぃペインターはエラーの詳細を文章で表示させる事が出来ます。</font><br>
+安定したエラー処理を行っておりますので少しでも失敗しそうであれば構わず返してしまっても<br>
+大丈夫だと思います。<br>
+  <br>
+スクリプトがエラー表示を返したい場合、die関数でも良いですが<br>
+サーバーによっては表示されないらしいので次のように返してください。<br>
+  <br>
+  <i><font color="#333333">Content-type: text/plain \n\n<br>
+error\n<br>
+(ここから下の文章を全て表示させます。日本語可能)</font></i><br>
+  <br>
+text/plainではなくても良いですがこれが適当だと思いますのでこれを使って下さい。<br>
+改行は\nでも\r\nでも可能です。PaintBBSは一行目がerrorと小文字でぴったり一致する時のみ<br>
+HTTP的には正常であってもエラーと認識します。<br>
+Ｗｅｂサーバーからのエラー（設置ミス等）やdie関数から取得できるメッセージは<br>
+返されるメッセージを全て表示します。<br>
+  <br>
+エラーメッセージの文字コードはsend_languageに記述されている物が利用されます。<br>
+文字コードがサポートされないものであったり設定が無い場合はUTF-8として解読します。<br>
+日本語のエラーメッセージを行いたい場合はUTF-8の文章をあらかじめ定義しておいて返すか<br>
+明示的にsend_languageに文字コードを指定するようにして下さい。ただしこの場合は<br>
+JVMがコードをサポートしていない場合、文字化けします。<br>
+#Microsoft製JVM つまりWinIEはUNIXが使うEUCが嫌いなのか、何故かそれをサポートしていません。<br>
+#そしてWinIEは最も多く使われています。<br>
+英文のみでエラーメッセージを表示する場合は文字コードを考える必要はありません。</span></font></blockquote>
+<br>
+<br>
+<a name="page_move"></a><font color="#355e00"><font
+ face="Thorndale
+serif"><span><b>投稿後の返り値を利用したページ移動の動的変更</b></span></font></font>
+<p style="margin-left: 2cm;"><font face="Thorndale
+serif"><span>画像などを投稿
+した後の返り値にURL:と言う文字が初めにある場合、続く文字列をURLとして読み取ってその指定されたURLへジャンプする機能がつきました。これに
+より細かい動作をサーバー側が管理する事が容易になります。</span></font> <br>
+<br>
+<a name="JS"></a><font face="Thorndale
+serif"><span><br>
+<b><font color="#009900">JavaScript(LiveConnect)の紹介</font></b> <br>
+<br>
+JavaScriptが使用可能な場合幾つかのライブコネクトが可能です。</span></font> </p>
+<p style="margin-left: 2cm;">
+<table border="1" cellpadding="5" cellspacing="0">
+  <tbody>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>document.paintbbs.getColors()<br>
+document.paintbbs.setColors(String)</span></font> </td>
+      <td><font face="Thorndale
+serif"><span>パレットの取得とパレットのセット。<br>
+カラーは改行で区切られた#RRGGBBの16進です。<br>
+#を0xに変更しても大丈夫です。</span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>document.paintbbs.pExit()</span></font>
+      </td>
+      <td><font face="Thorndale
+serif"><span>投稿ボタンをJavaScriptから自動的に実行しま
+す。<br>
+主に送信ボタンを自作する時に使われます。</span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>document.paintbbs.str_header</span></font>
+      </td>
+      <td><font face="Thorndale
+serif"><span>この値にString値を入れることにより投稿時に拡張
+ヘッダとして<br>
+送信されます。param値より優先されます。</span></font> </td>
+    </tr>
+    <tr valign="top">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><font face="Thorndale
+serif"><span>function
+paintBBSCallback(value)</span></font> </td>
+      <td><font face="Thorndale
+serif"><span>PaintBBSは特定のタイミングでこの関数をコール
+します。<br>
+どの様なタイミングかはString値であるvalueを調べる事により判別が可能です。<br>
+      <br>
+アプレットを開始した時。valueは"start"。<br>
+      <br>
+送信ボタンを押した時。valueは"check"。<br>
+"false" 0 をreturnで返すとボタンを押した事が無効化されます。<br>
+"true" 1 をreturnで返すとPaintBBSの標準確認ウインドウを出さずに送信を<br>
+開始します。<br>
+      <br>
+送信直前。valueは"header"。<br>
+returnで有効なString値を返した時場合拡張ヘッダとして送信されます。<br>
+この値はstr_headerに直接入れた値やsend_headerパラメータより優先されます。<br>
+      <br>
+ライブコネクトを使用時返す値は必ずStringオブジェクトを宣言してから<br>
+返すようにして下さい。(Netscape4.*対策)<br>
+例<br>
+res=new String("this is test");<br>
+return res;<br>
+      <br>
+拡張ヘッダの優先度は高い純から <br>
+コールバック"header"のレス <br>
+str_headerに直接代入した値 <br>
+paramタグのsend_headerで指定された値<br>
+です。</span></font> </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><font face="Thorndale
+serif"><span></span></font>&nbsp;</p>
+<font face="Thorndale
+serif"><span>
+<p align="right"><br>
+<a href="http://shichan.jp/" target="javaoco">しぃ堂 Shi-dow</a> <br>
+(shi-chan webpage)</p>
+</span></font>
+<p></p>
+</body>
+</html>

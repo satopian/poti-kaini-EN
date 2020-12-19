@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="<% echo(charset) %>">
+		<meta name="viewport" content="width=device-width">
+		<script>
+			var css = GetCookie("CSS");
+			if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
+			document.write('<link rel="stylesheet" href="' + css + '" type="text/css">');
+			function SetCss(file){
+				SetCookie("CSS", file);
+				window.location.reload();
+			}
+			function GetCookie(key){
+				var tmp = document.cookie + ";";
+				var tmp1 = tmp.indexOf(key, 0);
+				if(tmp1 != -1){
+					tmp = tmp.substring(tmp1, tmp.length);
+					var start = tmp.indexOf("=", 0) + 1;
+					var end = tmp.indexOf(";", start);
+					return(unescape(tmp.substring(start,end)));
+					}
+				return("");
+			}
+			function SetCookie(key, val){
+				document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
+			}
+		</script>
+		<noscript>
+			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
+		</noscript>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css"> -->
+		<title><% echo(title) %></title>
+	</head>
+	<body>
+		<header>
+			<h1><a href="<% echo(self2) %>"><% echo(title) %></a></h1>
+			<div>
+				<a href="<% echo(home) %>" target="_top">[home]</a>
+				<a href="<% echo(self) %>?mode=admin">[Admin mode]</a>
+			</div>
+			<hr>
+			<article>
+				<nav class="menu">
+					<a href="<% echo(self2) %>">[top]</a>
+					<% def(for_new_post) %>
+					<a href="<% echo(self) %>?mode=newpost">[post]</a>
+					<% /def %>
+					[catalog]
+					<a href="<% echo(self) %>">[normal mode]</a>
+					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Picture in the middle of posting]</a>
+					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+				</nav>
+				<hr>
+				<h2>Catalog mode</h2>
+				<hr>
+				<% def(paint) %>
+				<section class="epost">
+					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+						<p>
+							<% def(applet) %>
+							<input type="hidden" name="shi" value="1">
+							<% /def %>
+							<label>
+								width: <select name="picw" title="width" class="form">
+									<?php
+									//width 300 to PMAX_W
+										for($i = 300; $i <=PMAX_W ; $i+=50){ // Increase by 50
+										if(PDEF_W==$i){ // default
+										echo'<option value="'.$i.'" selected>'.$i.'</option>';
+										}
+										else{
+										echo'<option value="'.$i.'">'.$i.'</option>';
+										}
+										}
+									?>
+								</select>
+							</label>
+							<label>
+								height: <select name="pich" title="height" class="form">
+									<?php
+									//height 300 to PMAX_H
+										for($i = 300; $i <=PMAX_H ; $i+=50){ // Increase by 50
+										if(PDEF_H==$i){ // default
+										echo'<option value="'.$i.'" selected>'.$i.'</option>';
+										}
+										else{
+										echo'<option value="'.$i.'">'.$i.'</option>';
+										}
+										}
+									?>
+								</select>
+							</label>
+							<% def(resno) %>
+							<input type="hidden" name="resto" value="<% echo(resno) %>">
+							<% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record the animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record the animation</label><% /def %>
+							<input type="hidden" name="mode" value="paint">
+							<input class="button" type="submit" value="Paint">
+							<!-- NEOを使う -->
+							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
+						</p>
+					</form>
+					<% def(paint2) %>
+					<ul>
+						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
+						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
+						<li>If checked USE NEO, PaintBBS NEO runs.</li>
+						<% def(addinfo) %><% echo (addinfo) %><% /def %>
+					</ul>
+					<% /def %>
+				</section>
+				<% /def %>
+			</article>
+		</header>
+		<main>
+			<article id="catalog">
+				<hr>
+				<div>
+					<% each(y) %><% each(y/x) %><% def(y/x/no) %>
+					<div>
+						<% def(y/x/imgsrc) %>
+						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> (by <% echo(y/x/name) %><% echo(y/x/trip) %>)"><img src="<% echo(y/x/imgsrc) %>" alt="<% echo(y/x/sub) %> (by <% echo(y/x/name) %><% echo(y/x/trip) %>)"></a></p>
+						<% /def %>
+						<% def(y/x/txt) %>
+						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> (by <% echo(y/x/name) %><% echo(y/x/trip) %>)"><% echo(y/x/sub) %> (by <% echo(y/x/name) %><% echo(y/x/trip) %>)</a></p>
+						<% /def %>
+						<p>[<% echo(y/x/no) %>] <% echo(y/x/now) %><% def(y/x/updatemark) %><% echo(y/x/updatemark) %><% /def %><% def(y/x/id) %> ID:<% echo(y/x/id) %><% /def %></p>
+					</div>
+				<% /def %><% /each %><% /each %>
+				</div>
+				<hr>
+			</article>
+		</main>
+		<footer id="footer">
+			<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+			<article>
+				<% def(notres) %>
+				<p class="page">
+					<% def(prev) %><a href="<% echo(prev) %>">&lt;&lt;[BACK]</a><% elsedef %>[START]<% /def %>
+					<% echo(paging) %>
+					<% def(next) %><a href="<% echo(next) %>">[NEXT]&gt;&gt;</a><% elsedef %>[END]<% /def %>
+				</p>
+				<% /def %>
+				<form class="delf" action="<% echo(self) %>" method="post">
+					<p>
+						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
+						Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
+						<select class="form" name="mode">
+							<option value="edit" selected>edit</option>
+							<% def(userdel) %>
+							<option value="usrdel">delete</option>
+							<% /def %>
+						</select>
+						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
+						<input class="button" type="submit" value=" OK ">
+					</p>
+					<p>
+						collar
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_main.css');">[MONO]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_dark.css');">[dark]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_deep.css');">[deep]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_mayo.css');">[MAYO]</a>
+					</p>
+				</form>
+				<script src="loadcookie.js"></script>
+				<script>
+					l(); //LoadCookie
+				</script>
+			</article>
+			<article class="copy">
+				<!-- Copyright notice, do not delete -->
+				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
+				<p>
+					<a href="https://poti-k.info/" target="_top" title="POTI-board Kai Ni <% echo(verlot) %>">POTI-board Kai Ni <% echo(ver) %></a>
+					Web Style by <a href="https://poti-k.info/" target="_top" title="MONO <% echo(tver) %>">MONO</a>
+				</p>
+				<p>
+					OriginalScript -
+					<a href="http://www.punyu.net/" target="_top" title="POTI-board (by PunyuNet)">POTI-board</a>
+					<a href="http://www.2chan.net/" target="_top" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
+					(<a href="http://php.loglog.jp/" target="_top" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+				</p>
+				<% def(paint) %>
+				<p>
+					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+				</p>
+				<% /def %>
+				<p>
+					UseFunction -
+					<a href="http://skinny.sx68.net/" target="_top" title="Skinny.php (by Kuasuki)">Skinny.php</a>
+					DynamicPalette <!-- http://wondercatstudio.com/ -->
+					<a href="https://github.com/funige/neo/" target="_top" title="by ImageCanvas">PaintBBS NEO</a>
+				</p>
+			</article>			
+		</footer>
+	</body>
+</html>

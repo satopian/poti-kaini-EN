@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="<% echo(charset) %>">
+		<meta name="viewport" content="width=device-width">
+		<script>
+			var css = GetCookie("CSS");
+			if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
+			document.write('<link rel="stylesheet" href="' + css + '" type="text/css">');
+			function SetCss(file){
+				SetCookie("CSS", file);
+				window.location.reload();
+			}
+			function GetCookie(key){
+				var tmp = document.cookie + ";";
+				var tmp1 = tmp.indexOf(key, 0);
+				if(tmp1 != -1){
+					tmp = tmp.substring(tmp1, tmp.length);
+					var start = tmp.indexOf("=", 0) + 1;
+					var end = tmp.indexOf(";", start);
+					return(unescape(tmp.substring(start,end)));
+					}
+				return("");
+			}
+			function SetCookie(key, val){
+				document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
+			}
+		</script>
+		<noscript>
+			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
+		</noscript>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+		<title><% echo(title) %></title>
+		<% def(notres) %>
+		<% def(n) %>
+		I would be happy if you could change this area.
+		Please ask google for the detailed meaning.
+		<% /def %>
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="">
+		<meta property="og:site_name" content="">
+		<meta property="og:title" content="<% echo(title) %>">
+		<meta property="og:type" content="article">
+		<meta property="og:description" content="">
+		<meta property="og:image" content="<% echo(rooturl) %><% echo(skindir) %>img/og.png">
+		<meta property="og:image:width" content="1028"> 
+		<meta property="og:image:height" content="1028">
+		<meta property="og:url" content="<% echo(rooturl) %>">
+		<% /def %>
+		<% def(resno) %><% each(oya) %>
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="">
+		<meta property="og:site_name" content="">
+		<meta property="og:title" content="[<% echo(oya/no) %>] <% echo(oya/sub) %> by <% echo(oya/name) %> - <% echo(title) %>">
+		<meta property="og:type" content="article">
+		<meta property="og:description" content="">
+		<meta property="og:url" content="<% echo(rooturl) %><% echo(self) %>?res=<% echo(oya/no) %>">
+		<% def(oya/src) %><meta property="og:image" content="<% echo(rooturl) %><% echo(oya/imgsrc) %>"><% /def %>
+		<% /each %><% /def %>
+	</head>
+	<body>
+		<header id="header">
+			<h1><a href="<% echo(self2) %>"><% echo(title) %></a></h1>
+			<div>
+				<a href="<% echo(home) %>" target="_top">[home]</a>
+				<a href="<% echo(self) %>?mode=admin">[admin mode]</a>
+			</div>
+			<hr>
+			<article>
+				<nav class="menu">
+					<a href="<% echo(self2) %>">[top]</a>
+					<% def(for_new_post) %>
+					<a href="<% echo(self) %>?mode=newpost">[post]</a>
+					<% /def %>
+					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
+					[normal mode]
+					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Picture in the middle of posting]</a>
+					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+				</nav>
+				<hr>
+				<% def(resno) %>
+				<p class="resm">
+					response mode
+					<% each(oya) %>
+					<% def(resname) %>
+					<script>function add_to_com(){
+						document.getElementById("p_input_com").value += "<% echo(resname) %>";
+						}</script>
+					
+					<% copy_button %><button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
+					<% /def %>
+					<% /each %>
+				</p>
+				<hr>
+				<% /def %>
+				<% def(paintform) %>
+				<% def(paint) %>
+				<% def(resno) %>
+				<p class="resm">response at oekaki</p>
+				<hr>
+				<% /def %>
+				<article class="epost">
+					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+						<p>
+							<% def(applet) %>
+							<input type="hidden" name="shi" value="1">
+							<% /def %>
+								width: <select name="picw" title="width" class="form">
+									<?php
+									//width 300 to PMAX_W.
+										for($i = 300; $i <=PMAX_W ; $i+=50){ // Increase by 50
+										if(PDEF_W==$i){ // default
+										echo'<option value="'.$i.'" selected>'.$i.'</option>';
+										}
+										else{
+										echo'<option value="'.$i.'">'.$i.'</option>';
+										}
+										}
+									?>
+								</select>
+								height: <select name="pich" title="height" class="form">
+									<?php
+									//height 300 to PMAX_H.
+										for($i = 300; $i <=PMAX_H ; $i+=50){ // Increase by 50
+										if(PDEF_H==$i){ // default
+										echo'<option value="'.$i.'" selected>'.$i.'</option>';
+										}
+										else{
+										echo'<option value="'.$i.'">'.$i.'</option>';
+										}
+										}
+									?>
+								</select>
+							<% def(use_select_palettes) %>
+							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
+							<% /def %>
+							<% def(resno) %>
+							<input type="hidden" name="resto" value="<% echo(resno) %>">
+							<% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record animation</label><% /def %>
+							<input type="hidden" name="mode" value="paint">
+							<input class="button" type="submit" value="Paint">
+							<% def(n) %>
+							If you include <label> - </label> of [USE NEO] by def(usepbbs), 
+							The check box will not appear if you use only Shi-Painter, but we do not recommend it.
+							<% /def %>
+							<!-- USE NEO -->
+							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
+						</p>
+					</form>
+					<% def(paint2) %>
+					<ul>
+						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
+						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
+						<li>If checked USE NEO, PaintBBS NEO runs.</li>
+						<% def(addinfo) %><% echo (addinfo) %><% /def %>
+					</ul>
+					<% /def %>
+				</article>
+				<% /def %>
+				<% /def %>
+				<% def(form) %>
+				<article>
+					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="mode" value="regist">
+						<% def(resno) %><input type="hidden" name="resto" value="<% echo(resno) %>"><% /def %>
+						<input type="hidden" name="MAX_FILE_SIZE" value="<% echo(maxbyte) %>">
+						<table summary="post form">
+							<tr>
+								<td>name<% def(usename) %><% echo(usename) %><% /def %></td>
+								<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username"></td>
+							</tr>
+							<tr>
+								<td>mail</td>
+								<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email"></td>
+							</tr>
+							<tr>
+								<td>URL</td>
+								<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
+							</tr>
+							<tr>
+								<td>sub<% def(usesub) %><% echo(usesub) %><% /def %></td>
+								<td>
+									<input class="form" type="text" name="sub" size="20" value="<% def(resub) %><% echo(resub) %><% /def %>" autocomplete="section-sub">
+									<input class="button" type="submit" value="WRITE">
+								</td>
+							</tr>
+							<tr>
+								<td>com<% def(usecom) %><% echo(usecom) %><% /def %></td>
+								<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft" id="p_input_com"></textarea></td>
+							</tr>
+							<% def(upfile) %>
+							<tr>
+								<td>UpFile</td>
+								<td>
+									<input class="form" type="file" name="upfile" size="20" accept="image/*">
+									<% def(hide_the_checkbox_for_nofile) %>
+									<% elsedef %>
+									[<label><input type="checkbox" name="textonly" value="on"<% def(resno) %> checked<% /def %>>No File</label>]
+									<% /def %>
+								</td>
+							</tr>
+							<% /def %>
+							<tr>
+								<td>Pass</td>
+								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"><small>Required to delete article</small></td>
+							</tr>
+						</table>
+						<ul>
+							<% def(upfile) %>
+							<% def(resno) %>
+							<% def(hide_the_checkbox_for_nofile) %>
+							<% elsedef %>
+							<li>If you want to attach an image, uncheck'No File'.</li>
+							<% /def %>
+							<% /def %>
+							<li>Attachable files type: GIF, JPG, and PNG. Depending on the browser, it may not be possible to attach normally.</li>
+							<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
+							<% /def %>
+							<li>The maximum amount of posted data is <% echo(maxkb) %>KB. With sage function.</li>
+							<% def(addinfo) %><% echo (addinfo) %><% /def %>
+						</ul>
+					</form>
+				</article>
+				<% /def %>
+			</article>
+		</header>
+		<main>
+			<section>
+				<% each(oya) %>
+				<div class="thread">
+					<h2><span class="oyano">[<% echo(oya/no) %>]</span> <% echo(oya/sub) %></h2>
+					<h3>
+						<span class="name"><a href="search.php?page=1&imgsearch=on&query=<% echo (oya/encoded_name) %>&radio=2" target="_blank" rel="noopener"><% echo (oya/name) %></a></span><span class="trip"><% echo(oya/trip) %></span> :
+						<% echo(oya/now) %><% def(oya/id) %> ID : <% echo(oya/id) %><% /def %><% def(oya/url) %> <span class="url">[<a href="<% echo(oya/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span> <% /def %><% def(oya/email) %><a href="mailto:<% echo(oya/email) %>">[mail]</a><% /def %> <% def(oya/updatemark) %><% echo(oya/updatemark) %><% /def %>
+					</h3>
+					<hr>
+					<article>
+						<% def(oya/src) %>
+						<figcaption>
+							<a href="<% echo(oya/src) %>" title="<% echo(oya/sub) %>" target="_blank"><% echo(oya/srcname) %></a> (<% echo(oya/size) %> B)<% def(oya/thumb) %> - thumbnail is shown -<% /def %><% def(oya/painttime) %> PaintTime : <% echo(oya/painttime) %><% /def %>
+							<br>
+							<% def(oya/continue) %> <a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/continue) %>">*Draw more</a><% /def %><% def(oya/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/pch) %>" target="_blank">*Animation</a><% /def %>
+						</figcaption>
+						<figure>
+							<% def(oya/thumb) %>
+							<a href="<% echo(oya/src) %>" target="_blank" title="<% echo(oya/sub) %>"><img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>"></a>
+							<% elsedef %>
+							<img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" title="<% echo(oya/sub) %>">
+							<% /def %>
+						</figure>
+						<% /def %>
+						<div class="res">
+							<article>
+								<p><% echo(oya/com) %></p>
+								<% def(oya/limit) %><p class="limit">This thread is old and will disappear soon.</p><% /def %>
+								<% def(resform) %><% def(oya/skipres) %><p class="ryaku"><% echo(oya/skipres) %> response(s) Omitted.[<a href="<% echo(self) %>?res=<% echo(oya/no) %>">See all</a>]</p><% /def %><% /def %>
+							</article>
+							<% def(oya/res) %>
+							<% each(oya/res) %>
+							<hr>
+							<article>
+								<h4>
+									<span class="oyaresno">[<% echo(oya/res/no) %>]</span>
+									<span class="rsub"><% echo(oya/res/sub) %></span> :
+									<span class="name"><a href="search.php?page=1&imgsearch=on&query=<% echo (oya/res/encoded_name) %>&radio=2" target="_blank" rel="noopener"><% echo (oya/res/name) %></a></span><span class="trip"><% echo(oya/res/trip) %></span> : <% echo(oya/res/now) %><% def(oya/res/id) %> ID : <% echo(oya/res/id) %><% /def %><% def(oya/res/url) %> <span class="url">[<a href="<% echo(oya/res/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span><% /def %><% def(oya/res/email) %><a href="mailto:<% echo(oya/res/email) %>">[mail]</a><% /def %> 
+									<% def(oya/res/updatemark) %> <% echo(oya/res/updatemark) %><% /def %>
+								</h4>
+								<% def(oya/res/src) %>
+								<figure>
+									<figcaption>
+										<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><% echo(oya/res/srcname) %></a> (<% echo(oya/res/size) %> B)<% def(oya/res/thumb) %> - thumbnail is shown -<% /def %><% def(oya/res/painttime) %>  PaintTime :<% echo(oya/res/painttime) %>
+										<% /def %>
+										<br>
+										<% def(oya/res/continue) %>
+										<a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/res/continue) %>">*Draw more</a><% /def %><% def(oya/res/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/res/pch) %>" target="_blank">*Animation</a><% /def %>
+									</figcaption>
+									<% def(oya/res/thumb) %>
+									<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>"></a>
+									<% elsedef %>
+									<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" title="<% echo(oya/res/sub) %>">
+									<% /def %>
+								</figure>
+								<% /def %>
+								<article>
+									<p><% echo(oya/res/com) %></p>
+								</article>
+							</article>
+							<% /each %>
+							<% /def %>
+						</div>
+						<div class="thfoot">
+							<hr>
+							<% if(resform,==,false) %>
+							<% def(oya/skipres) %>
+							<% echo(oya/skipres) %>response(s) Omitted. Click the reply button to see all.
+							<% /def %>
+							<% def(sharebutton) %>
+							<span class="share_button">
+								<script>
+									(function(){
+										var url = encodeURIComponent('<% echo(rooturl) %><% echo(self) %>?res=<% echo(oya/no) %>'); //page URL。
+										var title = encodeURIComponent('[<% echo(oya/no) %>] <% echo(oya/sub) %> by <% echo(oya/name) %> - <% echo(title) %>'); //page title
+									document.write( '<a target="_blank" href="https://twitter.com/intent/tweet?&text=' + title + '&url=' + url + '"><span class="icon-twitter button"><i class="fab fa-twitter"></i> tweet</span></a> <a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=' + url + '"><span class="icon-facebook2 button"><i class="fab fa-facebook-square"></i> share</span></a>' );})();
+								</script>
+							</span>
+							<% /def %>
+							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><i class="fas fa-reply-all"></i> reply</a></span> <a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a><% /def %>
+							<% /if %>
+							<% def(resform) %>
+							<% def(oya/disp_resform) %>
+							<form class="resform" action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="mode" value="regist">
+								<input type="hidden" name="resto" value="<% echo(oya/no) %>">
+								<input type="hidden" name="textonly" value="on">
+								<label>name<% def(usename) %><% echo(usename) %><% /def %> <input class="form" type="text" name="name" size="20" value="" autocomplete="username"></label>
+								<label>sub<% def(usesub) %><% echo(usesub) %><% /def %> <input class="form" type="text" name="sub" size="18" value="<% def(oya/resub) %><% echo(oya/resub) %><% /def %>" autocomplete="section-sub"></label><br>
+								<label>URL <input class="form" type="text" name="url" size="20" autocomplete="url"></label>
+								<label>mail <input class="form" type="text" name="email" size="8" autocomplete="email"></label><br>
+								<textarea class="form" name="com" cols="56" rows="3" wrap="soft"></textarea><br>
+								<label>Pass <input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"></label>
+								<input class="button" type="submit" value="返信">
+								<a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a>
+							</form>
+							<% elsedef %>
+							<p class="resform">
+								<a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a>
+							</p>
+							<% /def %>
+							<% /def %>
+						</div>
+					</article>
+				</div>
+				<% /each %>
+			</section>
+		</main>
+		<footer id="footer">
+			<article>
+				<% def(notres) %>
+				<p class="page">
+					<% def(prev) %><a href="<% echo(prev) %>">&lt;&lt;[BACK]</a><% elsedef %>[START]<% /def %>
+					<% echo(paging) %>
+					<% def(next) %><a href="<% echo(next) %>">[NEXT]&gt;&gt;</a><% elsedef %>[END]<% /def %>
+				</p>
+				<% /def %>
+				<form class="delf" action="<% echo(self) %>" method="post">
+					<p>
+						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
+						Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
+						<select class="form" name="mode" tabindex="1">
+							<option value="edit" selected>edit</option>
+							<% def(userdel) %>
+							<option value="usrdel">delete</option>
+							<% /def %>
+						</select>
+						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
+						<input class="button" type="submit" value=" OK ">
+					</p>
+					<p>
+						collar
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_main.css');">[MONO]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_dark.css');">[dark]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_deep.css');">[deep]</a>
+						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_mayo.css');">[MAYO]</a>
+					</p>
+				</form>
+				<script src="loadcookie.js"></script>
+				<script>
+					l(); //LoadCookie
+				</script>
+			</article>
+			<article class="copy">
+				<!-- Copyright notice, do not delete -->
+				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
+				<p>
+					<a href="https://poti-k.info/" target="_top" title="POTI-board Kai Ni <% echo(verlot) %>">POTI-board Kai Ni <% echo(ver) %></a>
+					Web Style by <a href="https://poti-k.info/" target="_top" title="MONO <% echo(tver) %>">MONO</a>
+				</p>
+				<p>
+					OriginalScript -
+					<a href="http://www.punyu.net/" target="_top" title="POTI-board (by PunyuNet)">POTI-board</a>
+					<a href="http://www.2chan.net/" target="_top" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
+					(<a href="http://php.loglog.jp/" target="_top" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+				</p>
+				<% def(paint) %>
+				<p>
+					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+				</p>
+				<% /def %>
+				<p>
+					UseFunction -
+					<a href="http://skinny.sx68.net/" target="_top" title="Skinny.php (by Kuasuki)">Skinny.php</a>
+					DynamicPalette <!-- http://wondercatstudio.com/ -->
+					<a href="https://github.com/funige/neo/" target="_top" title="by ImageCanvas">PaintBBS NEO</a>
+				</p>
+			</article>			
+		</footer>
+	</body>
+</html>

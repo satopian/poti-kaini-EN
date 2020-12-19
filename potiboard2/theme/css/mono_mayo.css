@@ -1,0 +1,642 @@
+@charset "UTF-8";
+/*! ===== This css is generateed by sass file ===== */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+body {
+  background-color: #d1ce9e;
+  color: #000;
+  font-family: sans-serif;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+a:link {
+  color: #00F;
+}
+
+a:visited {
+  color: #666;
+}
+
+a:active {
+  color: #F33;
+}
+
+a:hover {
+  color: #F33;
+}
+
+hr {
+  border: dashed 1px #000;
+  margin: 1ex auto;
+}
+
+hr.hr {
+  clear: both;
+}
+
+header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy, main > section > .thread, footer > article {
+  background-color: #FEFEFE;
+  padding: 8px;
+}
+
+header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy {
+  margin: 12px auto;
+  display: block;
+  width: 70%;
+  border: solid 1px #000;
+}
+
+footer > article form {
+  text-align: right;
+}
+
+footer > article.copy {
+  text-align: right;
+}
+
+input, textarea, select, .se {
+  border-style: solid;
+  border-color: #300 #F66 #F66 #300;
+  border-width: 1px;
+  color: #000;
+  background-color: #EEEEEE;
+  padding: 3px;
+}
+
+textarea {
+  width: 25em;
+  height: 5em;
+}
+
+button, button.copy_button, .button {
+  border-style: solid;
+  border-color: #F66 #300 #300 #F66;
+  border-width: 1px;
+  color: #000;
+  background-color: #EEEEEE;
+}
+
+select {
+  padding: 2px;
+  vertical-align: middle;
+}
+
+select[name="picw"], select[name="pich"] {
+  width: 4em;
+}
+
+select[name="shi"] {
+  width: 11em;
+}
+
+input[name="del[]"], textarea[name="del[]"], select[name="del[]"], .se[name="del[]"] {
+  width: 4em;
+}
+
+input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
+  width: 6em;
+}
+
+input[value="Paint"], textarea[value="Paint"], select[value="Paint"], button.copy_button, .se[value="Paint"], input[value="paint"], textarea[value="paint"], select[value="paint"], button.copy_button, .se[value="paint"], .button {
+  background-color: #F96;
+  color: #FFF;
+}
+
+input[name="upfile"], textarea[name="upfile"], select[name="upfile"], .se[name="upfile"] {
+  width: 25em;
+}
+
+input.copy_txt, textarea.copy_txt, select.copy_txt, .copy_txt.se {
+  width: 1px;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  left: 2em;
+  z-index: -1;
+}
+
+button.copy_button, .copy_button.button {
+  padding: 3px 1ex 3px 1ex;
+  display: inline-block;
+}
+
+em.thispage {
+  font-weight: bold;
+  font-style: normal;
+}
+
+.se {
+  background-color: #d1ce9e;
+  color: #000;
+  font-style: normal;
+}
+
+.name {
+  line-height: 1em;
+  border: solid 1px #F96;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.name a {
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  color: inherit;
+}
+
+.name:hover {
+  background-color: #d1ce9e;
+}
+
+h1 + div {
+  text-align: right;
+}
+
+h1 a {
+  text-decoration: none;
+}
+
+h2 {
+  border-left: solid 1ex #000;
+  background-color: #F66;
+  padding-left: 5px;
+}
+
+h3 {
+  margin-top: 1ex;
+}
+
+figure {
+  float: left;
+  margin-right: 8px;
+  margin-bottom: 1ex;
+}
+
+figure img {
+  max-width: 100%;
+}
+
+figcaption {
+  font-size: smaller;
+  margin: 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  font-size: smaller;
+}
+
+ul.menu {
+  font-size: medium;
+  line-height: 2em;
+}
+
+.res section {
+  display: table;
+}
+
+.res h3, .res h4 {
+  font-size: 100%;
+  margin-bottom: 1ex;
+}
+
+.res figure {
+  float: none;
+}
+
+.res article {
+  display: table;
+  min-width: 250px;
+}
+
+.resma {
+  color: #505544;
+}
+
+.thfoot {
+  clear: left;
+  text-align: right;
+}
+
+.button {
+  padding: 3px 1ex 3px 1ex;
+  display: inline-block;
+}
+
+.button a {
+  text-decoration: none;
+  color: #FFF;
+}
+
+.button a i {
+  color: #FFF;
+}
+
+.oyano, .oyaresno {
+  font-weight: bold;
+}
+
+.oekaki {
+  font-size: smaller;
+}
+
+#appstage {
+  display: block;
+  text-align: center;
+}
+
+#appstage > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.NEO .color_bk {
+  color: #F96;
+}
+
+.NEO .color_bk2 {
+  color: #963;
+}
+
+.NEO .color_tool_icon {
+  color: #693;
+}
+
+.NEO .color_icon {
+  color: #360;
+}
+
+.NEO .color_iconselect {
+  color: #360;
+}
+
+.NEO .color_text {
+  color: #FFF;
+}
+
+.NEO .color_bar {
+  color: #963;
+}
+
+.NEO .tool_color_button {
+  color: #966;
+}
+
+.NEO .tool_color_button2 {
+  color: #633;
+}
+
+.NEO .tool_color_text {
+  color: #FFF;
+}
+
+.NEO .tool_color_bar {
+  color: #F96;
+}
+
+.NEO .tool_color_frame {
+  color: #963;
+}
+
+.palette {
+  width: 180px;
+}
+
+.palette fieldset {
+  text-align: center;
+}
+
+.palette fieldset textarea {
+  width: 120px;
+  height: 1.2em;
+}
+
+.c {
+  text-align: center;
+}
+
+#catalog > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#catalog > div div {
+  width: 166px;
+  text-align: center;
+  overflow: hidden;
+}
+
+#catalog > div p {
+  display: table;
+  margin: 0.5ex auto;
+}
+
+#catalog > div p a {
+  display: table-cell;
+  width: 150px;
+  height: 150px;
+  vertical-align: middle;
+}
+
+#catalog > div img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+.delfo {
+  font-size: smaller;
+}
+
+.delfo th, .delfo td {
+  border: 1px solid #d1ce9e;
+}
+
+.delfo tr:nth-child(odd) {
+  background-color: #F66;
+}
+
+@media screen and (max-width: 1024px) {
+  header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy, main > section > .thread, main > article#catalog, footer > article {
+    width: 90%;
+  }
+  .res {
+    clear: left;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  textarea, input[name="upfile"], textarea[name="upfile"], select[name="upfile"], .se[name="upfile"] {
+    width: 15em;
+  }
+  #appstage {
+    display: block;
+  }
+}
+
+#search body {
+  margin: 8px 10px;
+  font-family: "Hiragino Sans", meiryo, ヒラギノ角ゴシック, メイリオ, sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  color: #000;
+  background-color: #d1ce9e;
+  letter-spacing: .08em;
+}
+
+#search h1 {
+  font-size: 16px;
+  display: inline-block;
+  margin: 0;
+}
+
+#search h2 {
+  font-weight: 400;
+  font-size: 16px;
+  display: inline-block;
+  margin: 0 0 8px;
+  background-color: inherit;
+}
+
+#search h3 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+
+#search .title {
+  color: #000;
+  background-color: #FC9;
+  border-left: 8px solid #F33;
+  padding: 6px 5px 2px;
+  margin: 0 0 10px;
+}
+
+#search a {
+  color: #300;
+  text-decoration: underline;
+}
+
+#search a:hover {
+  text-decoration: none;
+}
+
+#search #main {
+  margin: 0 auto;
+  width: 928px;
+}
+
+#search .newimg {
+  margin: 19px 0 10px 0;
+  line-height: 1;
+}
+
+#search .newimg ul {
+  margin: 0;
+  padding: 0;
+}
+
+#search .newimg li {
+  display: inline-block;
+}
+
+#search .newimg li:nth-of-type(5n) {
+  margin-right: 0;
+}
+
+#search .catalog {
+  width: 180px;
+  margin: 0 5px 5px 0;
+}
+
+#search .catalog img {
+  width: 100%;
+  vertical-align: text-top;
+  border: none;
+}
+
+#search .clear {
+  clear: both;
+}
+
+#search .leftbox {
+  float: left;
+}
+
+#search .rightbox {
+  float: right;
+}
+
+#search .leftbox,
+#search .rightbox {
+  width: auto;
+  margin: 1px 0 16px;
+}
+
+#search p {
+  margin: 1em 0;
+}
+
+#search .title_wrap {
+  display: inline-block;
+}
+
+#search input[type=text], #search textarea[type=text], #search select[type=text], #search .se[type=text] {
+  height: 20px;
+  width: 180px;
+  border: 1px solid;
+  color: auto;
+  border-color: #003 #F66 #F66 #300;
+  background-color: #FFF;
+  vertical-align: middle;
+}
+
+#search input[type=text]:hover, #search textarea[type=text]:hover, #search select[type=text]:hover, #search .se[type=text]:hover {
+  background-color: #FEE;
+}
+
+#search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
+  color: #000;
+  border: 1px solid;
+  border-color: #F66 #300 #300 #F66;
+  background-color: #FDD;
+  vertical-align: middle;
+}
+
+#search .menu {
+  margin: 16px 0 14px;
+}
+
+#search .name {
+  font-weight: 700;
+  color: #000;
+  display: inline-block;
+  border: 1px solid #633;
+  border-radius: 6px;
+  line-height: 1em;
+}
+
+#search .name:hover {
+  background-color: #FDD;
+}
+
+#search .name a {
+  color: #300;
+  display: block;
+  padding: 5px;
+}
+
+#search .comments_title_wrap a {
+  text-decoration: none;
+}
+
+#search .res_button_wrap {
+  text-align: right;
+  margin: 8px 0 -8px;
+}
+
+#search .res_button_wrap form {
+  display: inline-block;
+  width: 200px;
+  vertical-align: inherit;
+}
+
+#search .page_top {
+  display: inline-block;
+  margin: 0 0 0 6px;
+  vertical-align: -webkit-baseline-middle;
+}
+
+#search .res_button {
+  width: 5em;
+}
+
+#search .res_button:hover {
+  background-color: #FEE;
+}
+
+#search .res_button form {
+  display: inherit;
+}
+
+#search .comments_title_wrap {
+  display: block;
+  line-height: 2em;
+  margin: 8px 0 5px;
+}
+
+#search input[type=radio], #search textarea[type=radio], #search select[type=radio], #search .se[type=radio] {
+  display: none;
+}
+
+#search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
+  color: #000;
+  background: #FDD;
+}
+
+#search .label {
+  color: #333;
+  display: inline-block;
+  padding: 0 10px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid #C66;
+  border-radius: 15px;
+}
+
+#search .label:hover {
+  background-color: #FEE;
+}
+
+#search .radio {
+  display: inline-block;
+  margin: 0 0 16px 0;
+}
+
+@media screen and (max-width: 967px) {
+  #search #main {
+    width: 736px;
+  }
+  #search .newimg li:nth-of-type(5n) {
+    margin-right: 5px;
+  }
+  #search .newimg li:nth-of-type(4n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #search #main {
+    width: 100%;
+  }
+  #search .newimg {
+    padding: 5px 0 0 0;
+  }
+  #search .catalog {
+    width: 24.2%;
+    margin: 0 1.0666% 3px 0;
+  }
+  #search .newimg li:nth-of-type(5n) {
+    margin-right: 1.0666%;
+  }
+  #search .newimg li:nth-of-type(4n) {
+    margin-right: 0;
+  }
+}
+/*# sourceMappingURL=mono_mayo.css.map */

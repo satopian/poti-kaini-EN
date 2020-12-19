@@ -1,0 +1,4 @@
+<Files ~ "\.html?$">
+	deny from all
+</Files>
+

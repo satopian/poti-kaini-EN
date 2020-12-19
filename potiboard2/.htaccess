@@ -1,0 +1,11 @@
+<Files ~ "\.html?$">
+	<IfModule mod_headers.c>
+		Header set Pragma no-cache
+		Header set Cache-Control no-cache
+		Header set Expires "Thu, 01 Dec 1994 16:00:00 GMT"
+	</IfModule>
+</Files>
+<files ~ "(^config\.php$|\.(ini|log|dat|json)$)">
+	order allow,deny
+	deny from all
+</files>

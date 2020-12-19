@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=Shift-JIS">
+
+<meta name="author" content="しぃちゃん">
+<title>PCHViewer ReadmeDocument</title>
+</head>
+<BODY style="LINE-HEIGHT: 125%" text=#505078 vLink=#5058f6 aLink=#25a96c 
+link=#25a96c bgColor=#ccccff>PCHViewer (C)しぃちゃん 
+2001-2003<BR><BR>このアプレットはPaintChatApp関連(PaintChat 
+PaintBBS,しぃペインター,PaintChatV3)のツールが生成したアニメーションファイルを再生するためのものです。このアプレットはＣＧＩ作者若しくはアニメーションを再生させる目的から二次配布される可能性があります。悪意のある改造をした物が無いとも限りませんので、二次配布する場合は必ずしぃちゃんのサイトからダウンロードした物を利用して下さい。<BR>
+<OL>
+  <LI><A href="#chosakuken">著作権などの情報</A> 
+  <LI><A href="#setti">設置に付いての説明</A> 
+  <LI><A href="#paramater">アプレットのパラメーターに付いて</A> 
+  <LI><A href="#LiveConnect">Javascriptによる操作に付いて</A>? 
+  <LI><A href="#pch">pchファイルのフォーマットに付いて</A><BR></LI></OL>
+<HR noShade SIZE=1>
+<BR><FONT color=#993399><BIG><BIG><B><A 
+name=chosakuken></A>著作権情報</B></BIG></BIG></FONT><BR>
+<TABLE style="WIDTH: 90%" cellSpacing=0 cellPadding=5 border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>アーカイブ名:<BR></TD>
+    <TD vAlign=top>pchview.zip<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>ファイル説明<BR></TD>
+    <TD vAlign=top>readme_pch.html このドキュメントです。<BR><BR>PCHViewer.jar 
+      ビュワーアプレット。<BR>res/ 
+      リソースファイル郡。お絵かき板やお絵かきチャットと同じですが、このアーカイブに入っている物は必要最小限の物だけです。基本的にはお絵かきツールと同じリソースを利用した方が良いです。<BR><BR>sample_applet.html<BR>sample_window.html<BR>sample_script.html<BR>利用方法のサンプルです。<BR><BR>sample.spch<BR>サンプルアニメーションファイルです。<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>ソフト名:<BR></TD>
+    <TD vAlign=top>PCHViewer<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>著作権者名<BR></TD>
+    <TD vAlign=top>PCHViewer (C)しぃちゃん 2001-2003<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>対応機種<BR></TD>
+    <TD 
+    vAlign=top>Java1.1以上のアプレットが動作するブラウザ(例えばMacの場合はIE5等のMRJ対応しているブラウザ)<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>使用条件／配布条件／改変条件：<BR></TD>
+    <TD 
+      vAlign=top>個人商用に関わらずフリーです。<BR><BR>しぃちゃんの著作物から生成されるアニメーションを表示させる為にアプレットファイルとres/にあるファイルの再配布を許可します。アプレットアーカイブと画像ファイルの改変は不許可です。再配布の際、説明書やサンプルHTML等をつける必要はありませんがアプレットの一部、もしくは全てを改良、付け加え、取り外したものを利用、再配布する事は不許可です。ファイルの二次的利用は禁止されています。リバースエンジニアリングは禁止されています。この著作物は日本国憲法により保護されています。<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>使用に対する対価<BR></TD>
+    <TD vAlign=top>特に何かを要求する事はありません。しかし出来る限り感想やバグの報告等をお願いします。 </TD></TR>
+  <TR>
+    <TD vAlign=top>保証／免責<BR></TD>
+    <TD 
+      vAlign=top>何らかの保証を付加するような事を作者は受け入れる事が出来かねます。個人の責任においてご利用下さい。サポートは事実上出来ないと思って下さい。<BR></TD></TR>
+  <TR>
+    <TD vAlign=top>連絡先</TD>
+    <TD vAlign=top>E-MAIL(サポートはサイト上の掲示板でお願いします。) 
+      <BR>syicyan@yahoo.co.jp<BR>ウェブサイト<BR><A 
+      href="http://www.gt.sakura.ne.jp/~ocosama/">http://www.gt.sakura.ne.jp/~ocosama/</A></TD></TR></TBODY></TABLE><BR><BR><BIG><FONT 
+color=#993399><BIG><B><A name=setti></A>設置に付いての説明</B></BIG></FONT></BIG><BR>
+<BLOCKQUOTE>サンプルやお絵かき板の説明書が参考になると思います。<BR>resフォルダに入っている物はお絵かきツールと同じ物ですのでそれを指定する事も可能です。<BR></BLOCKQUOTE><BR><FONT 
+color=#993399><BIG><BIG><B><A 
+name=paramater></A>アプレットのパラメーターに付いて</B></BIG></BIG></FONT><BR>
+<BLOCKQUOTE>アプレットのパラメーターは&lt;applet&gt;&lt;/applet&gt;に囲まれた部分に<BR><I>&lt;param 
+  name="オプションネーム" 
+  value="値"&gt;</I><BR>と言う感じにしてください。<BR>適用、非適用を設定するパラメーターを設定するには<BR>適用はtrue 
+  非適用はfalseを設定するようにして下さい。<BR><BR>
+  <TABLE cellSpacing=0 cellPadding=5 border=1>
+    <TBODY>
+    <TR>
+      <TD vAlign=top>
+        <P><FONT color=#400040>speed 
+        <BR></FONT>速度の初期値-1が最速で値が上がると段々遅くなっていきます。<BR><BR><FONT 
+        color=#400040>image_width 
+        image_height</FONT><BR>イメージの初期サイズ。<STRONG>spchに関しては通常記述する必要はありません。</STRONG></P>
+        <P><FONT color=#400040>pch_file 
+        <BR></FONT>ロードするファイル。スクリプトを使用せずに再生する場合はここに<BR>アニメーションファイルを指定すれば。再生が可能です。<BR><BR><FONT 
+        color=#400040>pch_name<BR></FONT>この設定に何か名前を入れるとウインドウ表示されます。<BR>簡単にアニメ表示を実装したい場合はここに何か名前を入れることをおすすめします。<BR><BR><FONT 
+        color=#400040>run <BR></FONT>ロードすると同時に再生するかどうか<BR><BR><FONT 
+        color=#400040>progress</FONT>　<BR>プログレスバーの表示非表示の指定<BR><BR><FONT 
+        color=#400040>buffer_canvas</FONT><BR>イメージを動的に再生する事によりメモリの消費を押さえます。falseで動的再生。<BR><FONT 
+        color=#006600>PaintChatのような幅が大きなログを再生させる場合はfalseにする事をお勧めいたします。</FONT><BR><FONT 
+        color=#006600></FONT>再生速度はfalseの方がオフスクリーンに描写しない分高速ですが、再描写はtrueの方が高速です。<BR>falseの場合再描写時多少ちらつきます。</P><FONT 
+        color=#400040>buffer_progress</FONT><BR>プログレスバーの再生を動的に再生させる事によりメモリの消費を<BR>押さえます。falseで動的再生。<BR>falseの場合文字等が少しちらつきます。<BR><BR><FONT 
+        color=#400040>color_back</FONT> バー等の背景色<BR><FONT 
+        color=#400040>color_text</FONT> バー等のテキストや記号の色<BR><FONT 
+        color=#400040>color_icon</FONT> バー等のアイコンの色<BR><FONT 
+        color=#400040>color_bar</FONT> バーのゲージのカラー<BR><FONT 
+        color=#400040>color_frame</FONT> 枠のカラー<BR><FONT 
+        color=#400040>color_bar_select</FONT> 
+        バーの選択された時のカラー<BR><BR><BR>以下お絵かきツール等と同じパラメーター<BR><BR><FONT 
+        color=#400040>dir_resource</FONT> 
+        リソース資源が入っているフォルダ。アーカイブ内に必要な物が無い場合に使用。<BR><FONT 
+        color=#400040>res.zip</FONT> リソース資源が入っているアーカイブの位置。<BR><FONT 
+        color=#400040>tt.zip</FONT> 
+  テクスチャ資源が入っているアーカイブの位置。<BR></TD></TR></TBODY></TABLE></BLOCKQUOTE><BR><BIG><FONT 
+color=#993399><BIG><B><A 
+name=LiveConnect></A>JavaScriptでの操作に付いて</B></BIG></FONT></BIG> 
+<BLOCKQUOTE>関数はdocument.pch.loadPCH()という風にdocument.pch.が必要になりますが省略しています。<BR><BR>名前を指定しない場合アプレットかデフォルト名のウインドウを指します。<BR>存在しない名前を使った場合自動的にオブジェクトが生成されます。<BR><BR>get 
+  setで指定する値は一つの線毎単位ですので%単位で指定したい場合例えば<BR>真ん中50%を指定したい場合 
+  <I>Math.round(getLineCount()/100.0*50)</I> 
+  と言う感じにして下さい。<BR><BR>例えばアプレットを再生させたい場合 を呼び出せばＯＫです。<BR><BR>
+  <TABLE cellSpacing=0 cellPadding=2 border=1>
+    <TBODY>
+    <TR>
+      <TD vAlign=top><I>loadPCH(url_pch)</I><I><BR></I><I>loadPCH(object_name 
+        url_pch) </I><BR>
+        <BLOCKQUOTE>指定されたファイルを読み込み（自動再生が機能している時は序に再生も開始）<BR>URLが以前再生した物と同じであった場合は内臓キャッシュを再利用します。<BR></BLOCKQUOTE><I>playPCH()</I><I><BR></I><I>playPCH(object_name)</I><BR>
+        <BLOCKQUOTE>再生を開始します。<BR></BLOCKQUOTE><I>setSize(str_width 
+        str_height);</I><I><BR></I><I>setSize(object_name str_width 
+        str_height);</I><BR>
+        <BLOCKQUOTE>指定されたウインドウ内にある描写キャンバスの幅を変更します。<BR></BLOCKQUOTE><I>setSpeed(str_value);</I><I><BR></I><I>setSpeed(object_name 
+        str_value);</I><BR>
+        <BLOCKQUOTE>速度の変更<BR></BLOCKQUOTE><I>setVisit(layer_number 
+        is_visit);<BR>setVisit(</I><I>object_name layer_number 
+        is_visit</I><I>);<BR></I>
+        <BLOCKQUOTE>指定されたレイヤーの表示非表示を設定します。<BR>layer_numberにレイヤーのナンバー（0か1）で<BR>is_visitに0か0xffを設定する事で変更が可能です。<BR>アプレットのパラメーター<I>buffer_canvas</I>をfalseにしないと<BR>この関数は何もアクションを起こしません。<BR></BLOCKQUOTE><I><BR>setMark(str_value);</I><I><BR></I><I>setMark(object_name 
+        str_value);</I><BR>
+        <BLOCKQUOTE>どの位置まで描写するかを指定します。単位は一つの線.<BR></BLOCKQUOTE><BR><BR><I>suspendDraw();</I><I><BR></I><I>suspendDraw(object_name);</I><BR>
+        <BLOCKQUOTE>描写を安全なタイミングで停止させる。<BR>再開はplayPCH()。<BR></BLOCKQUOTE><I>removeAllPCH()</I><BR>
+        <BLOCKQUOTE>アプレットを含む全てのウインドウを破棄します。<BR></BLOCKQUOTE><I>removePCH(object_name)</I><BR>
+        <BLOCKQUOTE>指定されたウインドウを破棄します。<BR></BLOCKQUOTE><I>getLineCount()</I><I><BR></I><I>getLineCount(object_name)</I><BR>
+        <BLOCKQUOTE>読み込まれたデータの数を取得<BR></BLOCKQUOTE><BR><I>getSeek()</I><I><BR></I><I>getSeek(object_name)</I><BR>
+        <BLOCKQUOTE>現在再生中の位置</BLOCKQUOTE><BR></TD></TR></TBODY></TABLE></BLOCKQUOTE><BR><BIG><FONT 
+color=#993399><BIG><B><BR><A 
+name=pch></A>PCHファイルのフォーマットに付いて</B></BIG></FONT></BIG><BR><BR>param=value LR 
+LF(改行の事)<BR>param=value LR LFと続く<BR>LR LF<BR>(この後 
+2byteのサイズ指定とそれに続く生データーが複数入っています。上手くすればファイル同士をくっつける事も可能。)<BR><BR>大体お絵かき板はこう言う感じの情報を送信する事になっています。<BR>count_lines=数字 
+(ラインデーターが幾つ入っているか。描写メーターの参考に。あくまで参考にするだけで間違ってても無くても構わない)<BR>image_width=イメージの長さ(設定が存在する場合はアプレット設定を無視してこの値を使用)<BR>image_height=イメージの高さ(設定が存在する場合はアプレット設定を無視してこの値を使用)<BR>LR 
+LF
+</BODY>
+</html>

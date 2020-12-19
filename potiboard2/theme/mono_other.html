@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="<% echo(charset) %>">
+		<meta name="viewport" content="width=device-width">
+		<script>
+			var css = GetCookie("CSS");
+			if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
+			document.write('<link rel="stylesheet" href="' + css + '" type="text/css">');
+			function SetCss(file){
+				SetCookie("CSS", file);
+				window.location.reload();
+			}
+			function GetCookie(key){
+				var tmp = document.cookie + ";";
+				var tmp1 = tmp.indexOf(key, 0);
+				if(tmp1 != -1){
+					tmp = tmp.substring(tmp1, tmp.length);
+					var start = tmp.indexOf("=", 0) + 1;
+					var end = tmp.indexOf(";", start);
+					return(unescape(tmp.substring(start,end)));
+					}
+				return("");
+			}
+			function SetCookie(key, val){
+				document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
+			}
+		</script>
+		<noscript>
+			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
+		</noscript>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+		<title><% echo(title) %></title>
+	</head>
+	<body>
+		<header>
+			<h1><a href="<% echo(self2) %>"><% echo(title) %></a></h1>
+			<div>
+				<a href="<% echo(home) %>" target="_top">[home]</a>
+				<a href="<% echo(self) %>?mode=admin">[admin mode]</a>
+			</div>
+			<hr>
+			<article>
+				<nav class="menu">
+					<a href="<% echo(self2) %>">[top]</a>
+					<% def(for_new_post) %>
+					<a href="<% echo(self) %>?mode=newpost">[post]</a>
+					<% /def %>
+					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
+					<a href="<% echo(self) %>">[normal nmode]</a>
+					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Picture in the middle of posting]</a>
+					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+				</nav>
+			</article>
+			<hr>
+		</header>
+		<main>
+			<% def(post_mode) %>
+			<!-- (========== POST MODE start ==========
+			// NEW, OEKAKI, UPDATE
+			) -->
+			<% def(regist) %>
+			<script type="text/javascript" src="loadcookie.js"></script>
+			<% /def %>
+			<section>
+				<div class="thread">
+					<h1 class="oekaki">post form<% def(admin) %> - ADMIN MODE-<% /def %></h1>
+					<% def(admin) %>
+					<p>tag can be used</p>
+					<% /def %>
+					<% def(pictmp) %>
+					<div class="tmpimg">
+						<% def(notmp) %>
+						<p>Not OEKAKI image</p>
+						<% /def %>
+						<% def(tmp) %>
+						<div>
+							<% each(tmp) %>
+							<figure>
+								<img src="<% echo(tmp/src) %>">
+								<figcaption><% echo(tmp/srcname) %>[<% echo(tmp/date) %>]</figcaption>
+							</figure>
+							<% /each %>
+						</div>
+						<% /def %>
+					</div>
+					<% /def %>
+					<hr class="hr">
+					<% def(ptime) %><p class="ptime">PaintTime : <% echo(ptime) %></p><% /def %>
+					<form class="" action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+						<table>
+							<tr>
+								<td>name<% def(usename) %><% echo(usename) %><% /def %></td>
+								<td><input class="form" type="text" name="name" size="28" autocomplete="username"<% def(name) %> value="<% echo(name) %>"<% /def %>></td>
+							</tr>
+							<tr>
+								<td>mail</td>
+								<td><input class="form" type="text" name="email" size="28" autocomplete="email" <% def(email) %> value="<% echo(email) %>"<% /def %>></td>
+							</tr>
+							<tr>
+								<td>URL</td><td>
+									<input class="form" type="text" name="url" size="28" autocomplete="url"<% def(url) %> value="<% echo(url) %>"<% /def %>></td>
+							</tr>
+							<tr>
+								<td>sub<% def(usesub) %><% echo(usesub) %><% /def %></td>
+								<td>
+									<input class="form" type="text" name="sub" size="35" autocomplete="section-sub"<% def(sub) %> value="<% echo(sub) %>"<% /def %>>
+									<input class="button" type="submit" value="write">
+									<% def(regist) %>
+									<input type="hidden" name="mode" value="regist">
+									<% /def %>
+									<% def(rewrite) %>
+									<input type="hidden" name="mode" value="rewrite">
+									<input type="hidden" name="no" value="<% echo(rewrite) %>">
+									<input type="hidden" name="pwd" value="<% echo(pwd) %>">
+									<% /def %>
+									<% def(admin) %>
+									<input type="hidden" name="admin" value="<% echo(admin) %>">
+									<% /def %>
+									<% def(pictmp) %>
+									<input type="hidden" name="pictmp" value="<% echo(pictmp) %>">
+									<% /def %>
+									<% def(ptime) %>
+									<input type="hidden" name="ptime" value="<% echo(ptime) %>">
+									<% /def %>
+									<% def(resno) %>
+									<input type="hidden" name="resto" value="<% echo(resno) %>">
+									<% /def %>
+									<input type="hidden" name="MAX_FILE_SIZE" value="<% echo(maxbyte) %>">
+									<% def(ipcheck) %>IP address check ... ON<% /def %>
+								</td>
+							</tr>
+							<tr>
+								<td>com<% def(usecom) %><% echo(usecom) %><% /def %></td>
+								<td><textarea class="form" name="com" cols="48" rows="4" wrap="soft"><% def(com) %><% echo(com) %><% /def %></textarea></td>
+							</tr>
+							<% def(upfile) %>
+							<tr>
+								<td>UpFile</td>
+								<td><input class="form" type="file" name="upfile" size="35" accept="image/*">
+									<% def(hide_the_checkbox_for_nofile) %>
+									<% elsedef %>
+									[<label><input type="checkbox" name="textonly" value="on">No File</label>]
+									<% /def %>
+							</td>
+							</tr>
+							<% /def %>
+							<% def(tmp) %>
+							<tr>
+								<td>imgs</td>
+								<td><select name="picfile">
+								<% each(tmp) %><option value="<% echo(tmp/srcname) %>"><% echo(tmp/srcname) %></option><% /each %>
+								</select></td>
+							</tr>
+							<% /def %>
+							<% def(regist) %>
+							<tr>
+								<td>Pass</td>
+								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"><small>(Use to delete posts)</small></td>
+							</tr>
+							<% /def %>
+						</table>
+						<% def(regist) %>
+						<ul>
+							<% def(upfile) %>
+							<li>Attachable files type: GIF, JPG, and PNG. Depending on the browser, it may not be possible to attach normally.</li>
+							<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
+							<li>The maximum amount of posted data is <% echo(maxkb) %>KB. With sage function.</li>
+							<% /def %>
+							<% def(rewrite) %>
+							<li>Cookies are not saved in edit mode. The position does not change even if sage is added.</li>
+							<!-- <li>The trip will be regenerated, so leave it blank if you do not want to rename it.</li> -->
+							<li>The maximum amount of posted data is <% echo(maxkb) %>KB. With sage function.</li>
+							<% /def %>
+						</ul>
+						<% /def %>
+					</form>
+					<% def(regist) %>
+					<script type="text/javascript">
+						l(); //LoadCookie
+					</script>
+					<% /def %>
+				</div>
+			</section>
+			<!-- (========== POST MODE end ==========) -->
+			<% /def %>
+			<% def(admin_in) %>
+			<!-- (========== ADMIN MODE -LOGIN- start ==========) -->
+			<section>
+				<div class="thread">
+					<h1 class="oekaki">Admin mode</h1>
+					<form action="<% echo(self) %>" method="post">
+						<label><input type="radio" name="admin" value="update" checked>UPDATE</label>
+						<label><input type="radio" name="admin" value="del">DELETE</label>
+						<label><input type="radio" name="admin" value="post">ADMIN POST</label>
+						<input type="hidden" name="mode" value="admin">
+						<input class="form" type="password" name="pass" size="8">
+						<input class="button" type="submit" value="SUBMIT">
+					</form>
+				</div>
+			</section>
+			<!-- (========== ADMIN MODE -LOGIN- end ==========) -->
+			<% /def %>
+			<% def(admin_del) %>
+			<!-- (========== ADMIN MODE -DELETE- start ==========) -->
+			<section>
+				<div class="thread">
+					<h1 class="oekaki">Admin mode</h1>
+					<form action="<% echo(self) %>" method="post">
+						<input type="hidden" name="admin" value="update">
+						<input type="hidden" name="mode" value="admin">
+						<input type="hidden" name="pass" value="<% echo(pass) %>">
+						<input type="submit" value="UPDATE" class="button">
+						Update the html file
+					</form>
+					<form action="<% echo(self) %>" method="post">
+						<input type="hidden" name="mode" value="admin">
+						<input type="hidden" name="admin" value="del">
+						<input type="hidden" name="pass" value="<% echo(pass) %>">
+						<p>Check the checkbox of the article you want to delete and press the delete button.</p>
+						<input class="button" type="submit" value="DELETE">
+						<input class="button" type="reset" value="RESET">
+						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
+						<table class="delfo">
+							<tr>
+								<th>Check</th>
+								<th>No</th>
+								<th>Time</th>
+								<th>subject</th>
+								<th>name</th>
+								<th>comment</th>
+								<th>Host</th>
+								<th>Image (Bytes) md5</th>
+							</tr>
+							<% def(del) %><% each(del) %>
+							<tr>
+								<td><input type="checkbox" name="del[]" value="<% echo(del/no) %>"></td>
+								<td><% echo(del/no) %></td>
+								<td><% echo(del/now) %></td>
+								<td><% echo(del/sub) %></td>
+								<td><% echo(del/name) %></td>
+								<td><% echo(del/com) %></td>
+								<td><% echo(del/host) %></td>
+								<td><% def(del/clip) %><% echo(del/clip) %>(<% echo(del/size) %>)<br><% echo(del/chk) %><% /def %></td>
+							</tr>
+							<% /each %><% /def %>
+						</table>
+						<input class="button" type="submit" value="DELETE">
+						<input class="button" type="reset" value="RESET">
+					</form>
+					<p>&lt;&lt;Image all size : <% echo(all) %> KB &gt;&gt;</p>
+				</div>
+			</section>
+			<!-- (========== ADMIN MODE -DELETE- end ==========) -->
+			<% /def %>
+			<% def(err_mode) %>
+			<!-- (========== ERROR MODE start ==========) -->
+			<section>
+				<div class="thread">
+					<h1 class="oekaki">ERROR</h1>
+					<p class="err"><% echo(mes) %></p>
+					<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[back]</a></p>
+					<!-- <p><a href="<% echo(self2) %>">[reload]</a></p> -->
+				</div>
+			</section>
+			<!-- (========== ERROR MODE end ==========) -->
+			<% /def %>
+		</main>
+		<footer>
+			<article class="copy">
+				<!-- Copyright notice, do not delete -->
+				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
+				<p>
+					<a href="https://poti-k.info/" target="_top" title="POTI-board Kai Ni <% echo(verlot) %>">POTI-board Kai Ni <% echo(ver) %></a>
+					Web Style by <a href="https://poti-k.info/" target="_top" title="MONO <% echo(tver) %>">MONO</a>
+				</p>
+				<p>
+					OriginalScript -
+					<a href="http://www.punyu.net/" target="_top" title="POTI-board (by PunyuNet)">POTI-board</a>
+					<a href="http://www.2chan.net/" target="_top" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
+					(<a href="http://php.loglog.jp/" target="_top" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+				</p>
+				<% def(paint) %>
+				<p>
+					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+				</p>
+				<% /def %>
+				<p>
+					UseFunction -
+					<a href="http://skinny.sx68.net/" target="_top" title="Skinny.php (by Kuasuki)">Skinny.php</a>
+					DynamicPalette <!-- http://wondercatstudio.com/ -->
+					<a href="https://github.com/funige/neo/" target="_top" title="by ImageCanvas">PaintBBS NEO</a>
+				</p>
+			</article>			
+		</footer>
+	</body>
+</html>
