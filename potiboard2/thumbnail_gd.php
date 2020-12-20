@@ -1,6 +1,9 @@
 <?php
 //サムネイル作成
 //201218 webp形式対応
+if(!defined('PERMISSION_FOR_DEST')){//config.phpで未定義なら0606
+	define('PERMISSION_FOR_DEST', 0606);
+}
 function thumb($path,$tim,$ext,$max_w,$max_h){
 	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG"))return;
 	$fname=$path.$tim.$ext;
@@ -68,7 +71,7 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 	// 作成したイメージを破棄
 	ImageDestroy($im_in);
 	ImageDestroy($im_out);
-	if(!chmod(THUMB_DIR.$tim.'s.jpg',0606)){
+	if(!chmod(THUMB_DIR.$tim.'s.jpg',PERMISSION_FOR_DEST)){
 		return;
 	}
 

@@ -1,7 +1,6 @@
 <?php
 define('USE_DUMP_FOR_DEBUG','0');
 // I haven't translated it yet
-
 //HTML出力の前に$datをdump しない:0 する:1 dumpしてexit：2 
 // ini_set('error_reporting', E_ALL);
 /*
@@ -30,11 +29,22 @@ define('USE_DUMP_FOR_DEBUG','0');
   *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
   *----------------------------------------------------------------------------------
 
+このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
+「ふたば★ちゃんねる」<http://www.2chan.net/>のfutaba.phpを
+さらにお絵かきもできるようにして、HTMLテンプレートでデザイン変更できるように改造した
+「ぷにゅねっと」<http://www.punyu.net/php/>のPOTI-boardを、
+さらにphp7で動くように改造したものです。
+
+配布条件はレッツPHP!に準じます。改造、再配布は自由にどうぞ。
+
+このスクリプトの改造部分に関する質問は「レッツPHP!」
+「ふたば★ちゃんねる」「ぷにゅねっと」に問い合わせないでください。
+ご質問は、<https://poti-k.info/>までどうぞ。
 */
 
-//version
-define('POTI_VER' , 'v2.21.0-en');
-define('POTI_VERLOT' , 'v2.21.0-en lot.201218');
+//バージョン
+define('POTI_VER' , 'v2.21.10-en');
+define('POTI_VERLOT' , 'v2.21.1 lot.201220');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("本プログラムの動作には PHPバージョン 5.5.0 以上が必要です。<br>\n（現在のPHPバージョン：{$phpver}）");
@@ -155,6 +165,16 @@ if(!defined('USE_CHECK_NO_FILE')){//config.phpで未定義なら1
 //描画時間を合計表示に する:1 しない:0 
 if(!defined('TOTAL_PAINTTIME')){//config.phpで未定義なら1
 	define('TOTAL_PAINTTIME', '1');
+}
+
+if(!defined('PERMISSION_FOR_DEST')){//config.phpで未定義なら0606
+	define('PERMISSION_FOR_DEST', 0606);
+}
+if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
+	define('PERMISSION_FOR_LOG', 0600);
+}
+if(!defined('PERMISSION_FOR_DIR')){//config.phpで未定義なら0707
+	define('PERMISSION_FOR_DIR', 0707);
 }
 
 /*-----------Main-------------*/
@@ -541,7 +561,7 @@ function updatelog(){
 		fwrite($fp, $buf);
 		closeFile($fp);
 		//拡張子を.phpにした場合、↑で500エラーでるなら↓に変更
-		if(PHP_EXT!='.php'){chmod($logfilename,0606);}
+		if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 	}
 
 	safe_unlink(($page/PAGE_DEF+1).PHP_EXT);
@@ -736,7 +756,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 			if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
 			}
-			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子190606
+			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
 				error(MSG004,$upfile);
 			}
 			if(!move_uploaded_file($upfile, $dest)){
@@ -921,7 +941,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		$chk = md5_file($dest);
 		check_badfile($chk, $dest); // 拒絶画像チェック
 
-		chmod($dest,0606);
+		chmod($dest,PERMISSION_FOR_DEST);
 
 		list($W, $H) = getimagesize($dest);
 
@@ -962,7 +982,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 			$src = $temppath.$picfile.$pchext;
 			$dst = PCH_DIR.$tim.$pchext;
 			if(copy($src, $dst)){
-				chmod($dst,0606);
+				chmod($dst,PERMISSION_FOR_DEST);
 				unlink($src);
 			}
 		}
@@ -1283,13 +1303,13 @@ function init(){
 		$tim = time() . substr(microtime(),2,3);
 		$testmes="1,".$now.",".DEF_NAME.",,".DEF_SUB.",".DEF_COM.",,,,,,,".$tim.",,,\n";
 		file_put_contents(LOGFILE, $testmes);
-		chmod(LOGFILE, 0600);
+		chmod(LOGFILE, PERMISSION_FOR_LOG);
 	}
 	$err .= check_file(LOGFILE,true);
 
 	if (!is_file(realpath(TREEFILE))) {
 		file_put_contents(TREEFILE, "1\n");
-		chmod(TREEFILE, 0600);
+		chmod(TREEFILE, PERMISSION_FOR_LOG);
 	}
 	$err .= check_file(TREEFILE,true);
 
@@ -1313,8 +1333,8 @@ function check_file ($path,$check_writable='') {
 function check_dir ($path) {
 
 	if (!is_dir($path)) {
-			mkdir($path, 0707);
-			chmod($path, 0707);
+			mkdir($path, PERMISSION_FOR_DIR);
+			chmod($path, PERMISSION_FOR_DIR);
 	}
 	if (!is_dir($path)) return $path . "がありません<br>";
 	if (!is_readable($path)) return $path . "を読めません<br>";
@@ -1971,7 +1991,7 @@ function replace(){
 
 			$imgext = getImgType($img_type, $dest);
 	
-			chmod($dest,0606);
+			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$tim.$imgext);
 			$mes = "画像のアップロードが成功しました<br><br>";
 
@@ -1991,7 +2011,7 @@ function replace(){
 				$src = $temppath . $file_name . $pchext;
 				$dst = PCH_DIR . $tim . $pchext;
 				if(copy($src, $dst)){
-					chmod($dst, 0606);
+					chmod($dst, PERMISSION_FOR_DEST);
 					unlink($src);
 				}
 			}
@@ -2318,7 +2338,7 @@ function png2jpg ($src) {
 			$dst = pathinfo($src, PATHINFO_FILENAME ) . 'jpg.tmp';
 			ImageJPEG($im_in,$dst,98);
 			ImageDestroy($im_in);// 作成したイメージを破棄
-			chmod($dst,0606);
+			chmod($dst,PERMISSION_FOR_DEST);
 			return $dst;
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.20.6 lot.201212
+  * POTI-board Kai Ni v2.21.1 lot.201220
   * by sakots >> https://poti-k.info/
   *
   * setting file of POTI-board Kai Ni
@@ -616,10 +616,27 @@ define('USE_CONTINUE', '1');
 
 // 新規投稿でコンティニューする時にも削除キーが必要 必要:1 不要:0
 // 不要:0 で新規投稿なら誰でも続きを描く事ができるようになります。
-// Need the delete passwoed to continue with newly posted pictures,
+// Need the passwoed to continue with newly posted pictures,
 // need:'1', do not need:'0'
 // Anyone will be able to draw the continuation when the mode is '0'.
 define('CONTINUE_PASS', '0');
+
+/* ------------- パーミッション設定 ------------- */
+//PHPが自動的に変更するパーミッションの値。
+//問題なく動作している時は変更しない。
+/* ------------- Permission setting ------------- */
+// Permission values that PHP automatically changes.
+// Do not change if it is working without problems.
+
+//Image and HTML file permissions.
+define('PERMISSION_FOR_DEST', 0606);//初期値 0606
+//Log file permissions not called directly from the browser
+define('PERMISSION_FOR_LOG', 0600);//初期値 0600
+//Directory permissions to save image and other files
+define('PERMISSION_FOR_DIR', 0707);//初期値 0707
+
+// Skinny.php cache and directory permissions
+// Set in Skinny.php.
 
 /* ---------- picpost.php用設定(settings for picpost.php) ---------- */
 // システムログファイル名

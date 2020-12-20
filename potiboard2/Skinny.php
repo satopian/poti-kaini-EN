@@ -1,5 +1,6 @@
 <?php
-// オリジナルのSkinnyの以下の箇所を変更しています。パーミッション 0777→0707 0666→0606 変更者 https://poti-k.info/
+//パーミッションの値を設定できるようにした。初期値を 0777→0707 0666→0606 に。
+//変更者 https://poti-k.info/
 /**
  *  Skinny  - One File Simple Template Engine over PHP -
  *  
@@ -47,9 +48,13 @@
 
 $skConf = array();   // Skinny設定情報格納配列
 
-
-
 /**************************************  Skinny config  **************************************/
+
+//パーミッション設定(項目追加者 https://poti-k.info/)
+
+define('SKINNY_PERMISSION_FOR_DIR', 0707);//初期値 0707
+define('SKINNY_PERMISSION_FOR_CACHE', 0707);//初期値 0707
+define('SKINNY_PERMISSION_FOR_ERRORLOG', 0606);//初期値 0606
 
 // 文字エンコード関連
 $skConf['ENCODE']['FLG']      = false;      // 自動文字エンコード変換の利用      [true]:する  false:しない
@@ -154,14 +159,14 @@ ini_set('default_charset', $skConf['ENCODE']['INTERNAL']);
 
 // キャッシュ利用時にキャッシュフォルダを自動生成する
 if($skConf['CACHE']['FLG'] && (!file_exists($skConf['CACHE']['DIR']) || (file_exists($skConf['CACHE']['DIR']) && !is_dir($skConf['CACHE']['DIR'])))) {
-	@mkdir( $skConf['CACHE']['DIR'] , 0707 );
-	@chmod( $skConf['CACHE']['DIR'] , 0707 );
+	@mkdir( $skConf['CACHE']['DIR'] , SKINNY_PERMISSION_FOR_DIR );
+	@chmod( $skConf['CACHE']['DIR'] , SKINNY_PERMISSION_FOR_DIR );
 }
 
 // エラーログ利用時にログフォルダを自動生成する
 if($skConf['ERRORLOG']['FLG'] && (!file_exists($skConf['ERRORLOG']['DIR']) || (file_exists($skConf['ERRORLOG']['DIR']) && !is_dir($skConf['ERRORLOG']['DIR'])))) {
-	@mkdir( $skConf['ERRORLOG']['DIR'] , 0707 );
-	@chmod( $skConf['ERRORLOG']['DIR'] , 0707 );
+	@mkdir( $skConf['ERRORLOG']['DIR'] , SKINNY_PERMISSION_FOR_DIR );
+	@chmod( $skConf['ERRORLOG']['DIR'] , SKINNY_PERMISSION_FOR_DIR );
 }
 
 
@@ -240,7 +245,7 @@ class Skinny {
 				$error_message = date('Y-m-d H:i:s') . "\t" . $str . "\n";
 				$error_logfile = $this->skConf['ERRORLOG']['DIR'] . "/errorlog_" . date('Ymd') . ".log";
 				error_log( $error_message, 3, $error_logfile );
-				chmod( $error_logfile, 0606 );
+				chmod( $error_logfile, SKINNY_PERMISSION_FOR_ERRORLOG );
 				return true;
 			}
 		}
@@ -1230,7 +1235,7 @@ class Skinny {
 			if ( file_put_contents( $cache_name, $code ) === false ) {
 				$this->_skErrorLog( "The cache was not able to write in file. [{$cache_name}]" );
 			} else {
-				chmod( $cache_name, 0707 );
+				chmod( $cache_name, SKINNY_PERMISSION_FOR_CACHE );
 			}
 		}
 		return $code;

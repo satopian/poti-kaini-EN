@@ -14,6 +14,10 @@
 include(__DIR__.'/config.php');
 // timezone
 // List of Supported Timezones are here https://www.php.net/manual/en/timezones.php
+if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
+	define('PERMISSION_FOR_LOG', 0600);
+}
+
 date_default_timezone_set('Asia/Tokyo');
 //Check for capacity violations, do:'1', do not:'0'.
 define('SIZE_CHECK', '1');
@@ -209,7 +213,7 @@ if(!$fp){
 	fflush($fp);
 	flock($fp, LOCK_UN);
 	fclose($fp);
-	chmod(TEMP_DIR.$imgfile.'.dat',0600);
+	chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 }
 
 die("ok");
