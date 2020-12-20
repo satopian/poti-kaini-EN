@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.21.1 lot.201220
+  * POTI-board Kai Ni v2.20.6 lot.201212
   * by sakots >> https://poti-k.info/
   *
   * setting file of POTI-board Kai Ni
@@ -10,19 +10,19 @@
 /* ---------- 最初に設定する項目 (set first) ---------- */
 // 管理者パスワード
 // 必ず変更してください。
-// Password of Administrator. Be sure to change. 
+// Administrator password, make sure to change it.
 $ADMIN_PASS = 'Adminpass';
 
 // 最大ログ数
 // 古いログから順番に消えます
-// Maximum number of articles(log). Disappears in chronological order.
+// Maximum number of posts. Disappears in chronological order.
 define('LOG_MAX', '2000');
 
 // テーマ(テンプレート)のディレクトリ。'/'まで
 // themeディレクトリに使いたいtemplateをいれて使ってください。(推奨)
 // 別のディレクトリにしたい場合は設定してください。
 // 例えばおまけのnee2を使いたい場合は theme_nee2/ とすることができます。初期値は theme/ です。
-// Directory of theme. Needed last '/'.
+// Theme directory, requires '/' at the end.
 define('SKIN_DIR', 'theme/');
 
 // 設置場所のURL。phpのあるディレクトリの'/'まで
@@ -32,7 +32,7 @@ define('SKIN_DIR', 'theme/');
 define('ROOT_URL', 'http://www.hoge.ne.jp/oekaki/');
 
 //掲示板のタイトル（<title>とTOP）
-//Board title; <title> and page top.
+//Board title (appears in <title> and site header)
 define('TITLE', 'Paint BBS');
 
 //「ホーム」へのリンク
@@ -45,9 +45,9 @@ define('HOME', '../');
 // 画像アップロード機能を 使う:1 使わない:0
 // 使わない:0 でも お絵かき機能は使えますし、
 // 管理画面で画像アップロードできます。
-// Use image upload function, do:'1', do not:'0'
-// They can drawing even if setting is '0', 
-// and Administrator can upload image in management mode.
+// Whether to enable image uploads, '1' to enable.
+// Drawing is still enabled even with this disabled.
+// Administrators can still upload images in management mode.
 define('USE_IMG_UPLOAD','1');
 
 // 画像のないコメントのみの新規投稿を拒否する する:1 しない:0
@@ -74,7 +74,7 @@ define('USE_CHECK_NO_FILE', '0');
 // シェアボタンを表示する する:1 しない:0
 // 対応テンプレートが必要
 // 設置場所のURL ROOT_URL で設定したurlをもとにリンクを作成
-// Show share button, do:'1', do not:'0'
+// Whether to show the share button, '1' to enable.
 define('SHARE_BUTTON', '0');
 
 /* ---------- スパム対策 (Anti-spam posting) ---------- */
@@ -83,15 +83,13 @@ define('SHARE_BUTTON', '0');
 // 正規表現を使うことができます
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
-// Character string that cannot be posted,
-// You can use Regular Expression.
-// And you do not have to think about spaces and line breaks.
+// Blacklist of strings, regular expressions are supported.
+// You do not have to think about spaces and line breaks.
 $badstring = array("irc.s16.xrea.com","Unsolicited ad");
 
 
 // 使用できない名前
-// Unusable name. You do not have to think about spaces and line breaks.
-// And you can use Regular Expression too.
+// Prohibited names (supports regular expressions)
 $badname = array("branded goods","mail order","sale");
 
 // 正規表現を使うことができます
@@ -99,8 +97,7 @@ $badname = array("branded goods","mail order","sale");
 // スペースと改行を除去した文字列をチェックします
 
 // 設定しないなら ""で。
-// To do not use this, set "".
-// $badname = array("");
+// To disable, type array("");
 
 // 初期設定では「"通販"を含む名前」の投稿を拒絶します
 // ここで設定したNGワードが有効になるのは「名前」だけです
@@ -115,7 +112,7 @@ $badname = array("branded goods","mail order","sale");
 // Anti-spam posting -> Character string that cannot be posted
 
 // AとBが両方あったら拒絶。
-// Reject if there are both A and B.
+// Reject post if both conditions A and B are met (supports regular expressions, use array(""); to disable).
 $badstr_A = array("cheep","low price","copy","focus on quality","mass arrival");
 $badstr_B = array("Chanel","Supreme","Balenciaga","brand");
 
@@ -141,33 +138,28 @@ $badstr_B = array("Chanel","Supreme","Balenciaga","brand");
 // 拒絶する文字列で
 
 // 本文に日本語がなければ拒絶
-// To post if there are no Japanese characters in the text,
-// set '0'. or not, set '1'.
-// Original script is made by Japanese people to avoid spam from foreign countries, 
-// there is such a setting. excuse me.
+// Reject non-Japanese posts (used for spam).
 define('USE_JAPANESEFILTER', '0');
 
 // 本文へのURLの書き込みを禁止する する:1 しない:0
 // 管理者は設定にかかわらず許可
-// To give permission writing URL in the text, set '0', if not, set '1'.
+// Reject posts with links.
 define('DENY_COMMENTS_URL', '0');
 
-// To close the form for threads that have passed the specified number of days.
 // define('ELAPSED_DAYS','0');
 // 設定しないなら '0'で。フォームを閉じません。
-// if set '0', the forms never close.
 // define('ELAPSED_DAYS','365');
 //	↑ 365日
 // で1年以上経過したスレッドに返信できなくなります。
-// if set '365', they can't reply the thread past 1 year.
+// Close threads after X days. Set to 0 to disable.
 define('ELAPSED_DAYS','365');
 
 // 拒絶するファイルのmd5
-// md5 of Reject file.
+// Reject files with following MD5 hashes.
 $badfile = array("dummy","dummy2");
 
 // 拒絶するホスト
-// Host to reject.
+// Block following IPs
 $badip = array("addr.dummy.com","addr2.dummy.com");
 
 
@@ -175,16 +167,15 @@ $badip = array("addr.dummy.com","addr2.dummy.com");
 
 // ペイント画面のパスワードの暗号鍵
 // あまり頻繁に変えないように
-// Encryption key of paint mode. Don't change too often.
+// Encryption key of paint mode. (don't change it too often)
 define('CRYPT_PASS','fbgtK4pj9t8Auek');
 
 // ↑ 暗号化と解読のためのパスワード。
 // phpの内部で処理するので覚えておく必要はありません。
 // 管理パスとは別なものです。
 // 適当な英数字を入れてください。
-// This is password for encryption and decryption.
-// You don't need to remember it as it is processed inside php.
-// It is not Password of Administrator.
+// This is the internal encryption password.
+// This is not the administrator password.
 
 /* ---------- ADD:2018/11/22 ---------- */
 // urlパラメータを追加する する:1 しない:0
@@ -205,16 +196,15 @@ define('URL_PARAMETER', '0');
 // 4:最高　…　無条件でチェック。最新ログ20件と連続・二重投稿チェックする事になる
 // ※中・高レベルのとき、未入力項目は無視
 // Consecutive post security check level
-// '0':no check
-// '1':the host is the same
-// '2':the host is the same, and Same name, mail address, URL, or title
-// '3':the host is the same, and Similar name, mail address, URL, or title
-// setting of similarity rate is next.
-// '4':unconditionally check from the latest 20 logs
+// '0': Disabled
+// '1': Reject if, the host is the same.
+// '2': Reject if, the host, the name, the email address and the title are the same.
+// '3': Reject if, the host, the name, the email address and the title are the same, depending on the similarity percentage.
+// '4': Unconditionally check from the last 20 posts.
 define('POST_CHECKLEVEL', '2');
 
 // 連続・二重投稿対象セキュリティレベルが 高 のときの類似率(単位％)
-// Similarity rate when consecutive post security check level 3 (%)
+// Similarity percentage for post check level 3.
 define('VALUE_LIMIT', '80');
 
 // 二重投稿セキュリティレベル
@@ -223,24 +213,24 @@ define('VALUE_LIMIT', '80');
 // 1:低　　…　本文が一致する場合
 // 2:中　　…　本文が類似率(中)を上回る場合
 // 3:高　　…　本文が類似率(高)を上回る場合
-// Double post security check level
-// '0':No image and same letter body
-// '1':same letter body
-// '2':similar letter body, middle
-// '3':similar letter body, high
+// Duplicate post check
+// '0': No image and same post content
+// '1': Duplicate post content
+// '2': Similar post content (middle)
+// '3': Similar post content (high)
 define('D_POST_CHECKLEVEL', '1');
 
 // 二重投稿セキュリティレベルが 中 のときの類似率(単位％)
-// Similarity rate when double post security check level 2 (%)
+// Similirarity percentage for duplicate post check on level 2
 define('COMMENT_LIMIT_MIDDLE', '90');
 
 // 二重投稿セキュリティレベルが 高 のときの類似率(単位％)
-// Similarity rate when double post security check level 3 (%)
+// Similirarity percentage for duplicate post check on level 3
 define('COMMENT_LIMIT_HIGH', '80');
 
 /* ---------- ADD:2005/01/14 ---------- */
 // 言語設定
-// Setting of Language.
+// Language
 define('LANG', 'English');
 
 /* ---------- ADD:2004/03/16 ---------- */
@@ -252,11 +242,11 @@ define('USE_FONTCOLOR', '0');
 
 // レスで画像貼りを許可する する:1 しない:0
 // ※お絵かきも連動
-// Allow image pasting in response, ok:'1', deny:'0'.
+// Allow image comments, '1' to enable.
 define('RES_UPLOAD', '1');
 
 // レス用投稿サイズ（これ以上はサイズを縮小
-// Post size at response. If over this, it will be reduced.
+// Maximum post image resolution, until scaled down.
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
@@ -283,9 +273,7 @@ define('UNDO_IN_MG', '45');
 // アップロードしたPNG画像もJPEGに変換します
 // JPEGに変換した画像ともとのPNG画像を比較してファイルサイズが小さなほうを投稿します。
 // 単位kb
-// Value of convert to JPEG when the PNG image file size is larger than.
-// Converts uploaded PNG images to JPEG.
-// kB.
+// Threshold until PNG files get converted into JPEG files. (value unit is KB)
 define('IMAGE_SIZE', '512');	
 
 // PNGの減色率とJPEGの圧縮率
@@ -296,7 +284,7 @@ define('COMPRESS_LEVEL', '15');
 
 // 初期レイヤー数［しぃペインターのみ］
 // ※お絵かき中にレイヤー増やせるのであまり意味無い
-// default number of layers (only Shi-Painter)
+// Default amount of layers (only Shi-Painter)
 define('LAYER_COUNT', '3');
 
 // キャンバスクオリティの選択肢［しぃペインターのみ］
@@ -364,15 +352,15 @@ define('LOGFILE', 'img.log');
 define('TREEFILE', 'tree.log');
 
 // 画像保存ディレクトリ。potiboard.phpから見て
-// Directory of saving images. path from potiboard.php.
+// Image directory (directory root is where potiboard.php is loacted within)
 define('IMG_DIR', 'src/');
 
 // サムネイル保存ディレクトリ
-// Directory of saving thumbnail.
+// Thumbnail directory (directory root is where potiboard.php is loacted within)
 define('THUMB_DIR', 'thumb/');
 
 // このスクリプト名。変更することをおすすめしません。
-// The name of this script. Not recommended to change.
+// The name of this script. Recommended to stay unchanged.
 define('PHP_SELF', 'potiboard.php');
 
 // 入り口ファイル名
@@ -380,7 +368,7 @@ define('PHP_SELF', 'potiboard.php');
 define('PHP_SELF2', 'index.html');
 
 // 1ページ以降の拡張子
-// File extensions of html file.
+// File extensions of html files.
 define('PHP_EXT', '.html');
 
 // [新規投稿は管理者のみ]にする する:1 しない:0
@@ -616,27 +604,10 @@ define('USE_CONTINUE', '1');
 
 // 新規投稿でコンティニューする時にも削除キーが必要 必要:1 不要:0
 // 不要:0 で新規投稿なら誰でも続きを描く事ができるようになります。
-// Need the passwoed to continue with newly posted pictures,
+// Need the delete passwoed to continue with newly posted pictures,
 // need:'1', do not need:'0'
 // Anyone will be able to draw the continuation when the mode is '0'.
 define('CONTINUE_PASS', '0');
-
-/* ------------- パーミッション設定 ------------- */
-//PHPが自動的に変更するパーミッションの値。
-//問題なく動作している時は変更しない。
-/* ------------- Permission setting ------------- */
-// Permission values that PHP automatically changes.
-// Do not change if it is working without problems.
-
-//Image and HTML file permissions.
-define('PERMISSION_FOR_DEST', 0606);//初期値 0606
-//Log file permissions not called directly from the browser
-define('PERMISSION_FOR_LOG', 0600);//初期値 0600
-//Directory permissions to save image and other files
-define('PERMISSION_FOR_DIR', 0707);//初期値 0707
-
-// Skinny.php cache and directory permissions
-// Set in Skinny.php.
 
 /* ---------- picpost.php用設定(settings for picpost.php) ---------- */
 // システムログファイル名
