@@ -24,7 +24,11 @@ Please turn off the digital ink (Window Ink) when using PaintBBS NEO / Painter.
 It can also conflict with mouse gesture extensions.
 If you feel something is wrong, try turning it off.
   
-## Change log
+## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+### [2020/12/21] config.php
+
+- Update translation of config.php (by aaroncdc)
 
 ### [2020/12/20] v2.21.2-en
 
