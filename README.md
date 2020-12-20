@@ -33,7 +33,7 @@ If you feel something is wrong, try turning it off.
 - Readme_Shichan.html, readme_pch.html
   - Those files are Not allowed to change when bundling the Shi-Painter applet.
   - So I made Readme_Shichan_utf-8.html and readme_pch_utf-8.html.
-  - Just changed the character code to URF-8. (Information for developers are written in.)
+  - Just changed the character code to UTF-8. (Information for developers are written in.)
 
 ### [2020/12/20] theme -> mono_paint.html
 
