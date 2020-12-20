@@ -167,7 +167,7 @@ $badip = array("addr.dummy.com","addr2.dummy.com");
 
 // ペイント画面のパスワードの暗号鍵
 // あまり頻繁に変えないように
-// Encryption key of paint mode. (don't change it too often)
+// Encryption key for paint mode. (don't change it too often)
 define('CRYPT_PASS','fbgtK4pj9t8Auek');
 
 // ↑ 暗号化と解読のためのパスワード。
@@ -262,7 +262,7 @@ define('DSP_RESIMG', '2');
 /* ---------- お絵かきアプレット設定(paint applet settings) ---------- */
 /* ※詳しい内容はアプレットのreadme参照 */
 // アンドゥの回数(デフォルト)
-// Number of undos
+// Maximum number of undos
 define('UNDO', '90');
 
 // アンドゥを幾つにまとめて保存しておくか(デフォルト)
@@ -273,7 +273,8 @@ define('UNDO_IN_MG', '45');
 // アップロードしたPNG画像もJPEGに変換します
 // JPEGに変換した画像ともとのPNG画像を比較してファイルサイズが小さなほうを投稿します。
 // 単位kb
-// Threshold until PNG files get converted into JPEG files. (value unit is KB)
+// Maximum size, in KB, for PNG files.
+// Files that exceed this value will be compressed as JPEG files.
 define('IMAGE_SIZE', '512');	
 
 // PNGの減色率とJPEGの圧縮率
@@ -292,7 +293,7 @@ define('LAYER_COUNT', '3');
 // 派手にメモリを消費する為、メモリ不足に陥る可能性があります
 // ※最初の値がデフォルトになります
 // Canvas quality choices (only Shi-Painter)
-// Do not touch if you are not sure as it may run out of memory
+// Do not touch if you are not sure, as it may run out of memory
 $qualitys = array('1','2','3','4');
 
 // セキュリティ関連－URLとクリック数かタイマーのどちらかが設定されていれば有効
@@ -328,26 +329,27 @@ define('LOG_LIMIT', '92');
 // メール通知機能を使う使わないを設定する項目はここにはありません。
 // noticemail.inc を potiboard.php と同じディレクトリにアップロードすると
 // メール通知機能が自動的にオンになります。
-// There is no item here to set to use the email notification function.
-// If you upload noticemail.inc to the same directory as potiboard.php,
-// The email notification feature will be turned on automatically.
+// The mail server configuration is performed in the 'noticemail.inc' file.
+// To enable this feature, upload 'noticemail.inc' to the same directory
+// where 'potiboard.php' is, and modify it's parameters accordingly.
+// When you do that, email notifications will be rurned on automatically.
 
 // 管理者が投稿したものもメールで通知 しない:1 する:0
-// Notify by email what the administrator posted, OFF:'1', ON'0'.
+// Notify by email what the administrator posted (OFF:'1', ON'0').
 define('NOTICE_NOADMIN', '0');
 
 // メール通知先
-// Where to receive the email
+// Mail address where the mail notifications will be sent.
 define('TO_MAIL', 'root@xxx.xxx');
 
 // メール通知に本文を付ける 付ける:1 付けない:0
-// Add letter body to notification, do:'1', do not:'0'.
+// Add a body to the mail notifications (Yes: 1, No: 0)
 define('SEND_COM', '1');
 
 /* ---------- メイン設定(main settings) ---------- */
 
 // ログファイル名
-// The names of log fils.
+// The name of the log files.
 define('LOGFILE', 'img.log');
 define('TREEFILE', 'tree.log');
 
@@ -360,65 +362,69 @@ define('IMG_DIR', 'src/');
 define('THUMB_DIR', 'thumb/');
 
 // このスクリプト名。変更することをおすすめしません。
-// The name of this script. Recommended to stay unchanged.
+// The name of the main script. Do not modify this value unless you have a good
+// reason to do so.
 define('PHP_SELF', 'potiboard.php');
 
 // 入り口ファイル名
-// The name of entrance file.
+// Name of the index file.
 define('PHP_SELF2', 'index.html');
 
 // 1ページ以降の拡張子
-// File extensions of html files.
+// File extensions for the static pages.
 define('PHP_EXT', '.html');
 
 // [新規投稿は管理者のみ]にする する:1 しない:0
 // する(1)にした場合、管理者パス以外での新規投稿はできません
-// To only admins can post new article, set '1'. if not, set '0'
-// If mode '1', They may post When the password match that of the Administrator.
+// Only admins can post new articles (Yes: 1, No: 0)
+// If set to '1', the administrator will require to enter their password when creating new articles.
 define('ADMIN_NEWPOST', '0');
 
 // 投稿容量制限 KB phpの設定により2M(2048)まで
-// Post capacity limit(KB). By php limit, it is allowed up to 2048.
+// Maximum size allowed for the images in the posts (in KB).
+// By php limit, it is allowed up to 2048.
 define('MAX_KB', '1000');
 
 // 投稿サイズ（これ以上はサイズを縮小
-// The size of the image that can be posted. If over this, it will be reduced.
+// The maximum size allowed for the images in the posts.
+// If any size is bigger than these values, the image will be shrinken
+// to the maximum value.
 define('MAX_W', '600');	//幅(width)
 define('MAX_H', '600');	//高さ(height)
 
 // 名前の制限文字数。半角で
-// Maximum number of characters that can be used as name
+// Maximum number of characters that can be used in the 'name' field.
 define('MAX_NAME', '100');
 
 // メールアドレスの制限文字数。半角で
-// Maximum number of characters that can be used as mail address
+// Maximum number of characters that can be used in the 'mail address' field.
 define('MAX_EMAIL', '100');
 
 // 題名の制限文字数。半角で
-// Maximum number of characters that can be used as subject
+// Maximum number of characters that can be used in the 'subject' field.
 define('MAX_SUB', '100');
 
 // 本文の制限文字数。半角で
-// Maximum number of characters that can be used as letter body
+// Maximum number of characters that can be used in the 'body' field.
 define('MAX_COM', '1000');
 
 // 1ページに表示する記事
-// Number of articles to display on one page
+// Number of articles to display per page
 define('PAGE_DEF', '10');
 
 // 1スレ内のレス表示件数(0で全件表示)
 // レスがこの値より多いと古いレスから省略されます
 // 返信画面で全件表示されます
 // [新規投稿は管理者のみ]にした場合の 0 はレスを表示しません
-// Number of reply displays in one thread (If '0' display all)
-// If the reply is more than this value, 
-// the oldest reply will be omitted. 
+// How many replies will be displayed per thread (If '0' display all)
+// If the number of replies is bigger than this value, 
+// the oldest will be omitted. 
 // All items will be displayed on the reply mode.
-// If [only admins can post new article] mode is, no reply display as '0'.
+// If [only admins can post new articles] mode is enabled, no reply display as '0'.
 define('DSP_RES', '7');
 
 // クッキー保存日数
-// Cookie storage days  
+// Cookie expiration time (in days)  
 define('SAVE_COOKIE', '30');
 
 // 連続投稿秒数
@@ -442,82 +448,87 @@ define('DISP_ID', '0');
 define('ID_SEED', 'ID_SEED');
 
 // URLを自動リンクする する:1 しない:0
-// To use automatically link URL, set '1', if not, set '0'.
+// Automatically transform URLs to links (Yes: 1, No: 0)
 define('AUTOLINK', '1');
 
 // 名前を必須にする する:1 しない:0
-// To force They have name, set '1', if not, set '0'.
+// Force new posts to have a NAME (Yes: 1, No: 0)
 define('USE_NAME', '0');
 define('DEF_NAME', 'anonymous');	//未入力時の名前(default name)
 
 // 本文を必須にする する:1 しない:0
-// To force They have any letter body, set '1', if not, set '0'.
+// Force new posts to have a BODY message (Yes: 1, No: 0)
 define('USE_COM', '0');
 define('DEF_COM', 'no body');	//未入力時の本文(default letter body)
 
 // 題名を必須にする する:1 しない:0
-// To force They have title, set '1', if not, set '0'.
+// Force new posts to have a title (Must have a title: 1, Must not have a title: 0)
 define('USE_SUB', '0');
 define('DEF_SUB', 'no title');	//未入力時の題名(default title)
 
 // レス時にスレ題名を引用する する:1 しない:0
-// to quote the thread title in response, set '1', if not, set '0'.
+// Quote the thread title in new responses (Yes: 1, No: 0)
 define('USE_RESUB', '1');
 
 // 各スレにレスフォームを表示する する:1 しない:0
-// To show post form in each thread, set '1', if not, set '0'.
+// Display the post form in each thread (Yes: 1, No: 0)
 define('RES_FORM', '0');
 
 // 編集しても投稿日時を変更しないようにする する:1 しない:0 
 // To keep the posting date and time even if they edit articles,
 // set '1', if not, set '0'.
-define('DO_NOT_CHANGE_POSTS_TIME', '0');
-
 // する:1 にすると投稿を編集しても投稿日時は変更されず最初の投稿日時のままになります。
 // 編集マークも付きません。
-// if set'1', you edit the post, the posting date and time will not be changed
-// and will remain the same as the first posting date and time, and not marked "Edited".
+// if set to '1', the posting date and time will not be changed when editing a post.
+// and will remain the same as the first posting date and time.
+// The post will not be marked as "Edited" either.
+define('DO_NOT_CHANGE_POSTS_TIME', '0');
 
 // フォーム下の追加お知らせ
 // (例)'<li>お知らせデース</li>
 //     <li>サーバの規約でアダルト禁止</li>'
 // 要対応テーマ
-// Additional notice (needed a corresponding theme)
+// Additional notice (needs a corresponding theme)
 $addinfo='';
 
 /* ---------- サムネイル設定(thumbnail settings) ---------- */
 
 // サムネイルを作成する する:1 しない:0
-// Create thumbnail, do:'1', do not:'0'.
+// Create thumbnail (1: Enabled, 0: Disabled).
 define('USE_THUMB', '1');
 
 // サムネイルの品質  0(品質は最低、サイズは小)～100(品質は最高、サイズは大)の範囲内
-// Thumbnail quality 0~100
+// Thumbnail quality.
+// You can set this value to any numeric value from 0 to 100.
 // The higher the number, the higher the quality, but the larger the size.
 define('THUMB_Q', '92');
 
 // GD2のImageCopyResampledでサムネイルの画質向上 させる:1 させない:0
 // 自動判別なので通常は 1 でOK.不具合がある場合のみ 0 にして下さい
-// Improved thumbnail image quality by ImageCopyResampled of GD.
-// Usually'1', it is automatically determined.
-// Only if there is a problem set '0'. 
+// Improve thumbnail image quality by using the ImageCopyResampled function 
+// of PHP's GD library.
+// This option should be enabled ('1') in most cases.
+// But if it causes problems, set this to '0' (disabled) 
 define('RE_SAMPLED', '1');
 
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 
 // お絵かき機能を使用する お絵かきのみ:2 する:1 しない:0
-// To use only paint mode, set '2'. 
-// paint mode and text mode, set '1'
-// only text mode, set '0'
+// USE PAINT
+// To only allow paint mode, set it to '2'. 
+// To allow both paint mode and text mode, set it to '1'
+// To allow text mode only, set it to '0'
 define('USE_PAINT', '2');
 
 // 利用するアプレット PaintBBS:0 しぃペインター:1 両方:2
-// Applet allowed to use, PaintBBS:'0' Shi-Painter:'1' both:'2'
+// Which Applet to use.
+// Possible values are: PaintBBS:'0' Shi-Painter:'1' both:'2'
 define('APPLET', '2');
 
 // お絵かき画像ファイル名の頭文字
 // お絵かき投稿した画像のファイル名には、必ずこれが先頭に付きます
-// Initial of drawing image file name
+// Prefix for the drawing file names. This will be appended at the
+// beginning of the file name for the drawings.
 define('KASIRA', 'OB');
 
 // テンポラリディレクトリ
@@ -525,12 +536,13 @@ define('KASIRA', 'OB');
 define('TEMP_DIR', 'tmp/');
 
 // テンポラリ内のファイル有効期限(日数)
-// File expiration date in temporary directory
+// How many days until the files in the temporary folder expire.
 define('TEMP_LIMIT', '3');
 
 // お絵描き最大サイズ（これ以上は強制でこの値
 // 最小値は幅、高さともに 300 固定です
-// Maximum drawing size; higher than this forced this value
+// Maximum drawing dimensions. Drawings can't be bigger
+// than the vaules specified here for each dimension.
 define('PMAX_W', '700');	//幅 (width)
 define('PMAX_H', '700');	//高さ (height)
 
@@ -540,11 +552,13 @@ define('PDEF_W', '300');	//幅 (width)
 define('PDEF_H', '300');	//高さ (height)
 
 // 描画時間の表示 する:1 しない:0
-// Display of drawing time, do:'1', do not:'0'
+// Display the drawing time (1: Enabled, 0: Disabled)
+// Displays for how long you have been drawing
 define('DSP_PAINTTIME', '1');
 
 // 描画時間を合計表示に する:1 しない:0 
-// Display drawing time to total, do:'1' do not:'0'. 
+// Display the total drawing time (1: Enabled, 0: Disabled).
+// Displays how much time you have spent in a drawing
 define('TOTAL_PAINTTIME', '1');
 // 描画時間:8分12秒+18分36秒
 // のように+でつなぎたい時は 
@@ -552,8 +566,8 @@ define('TOTAL_PAINTTIME', '1');
 // 描画時間:26分48秒のように描画時間の合計を表示する時は
 // する:1
 // If this setting is '0',
-// that will display as "Painttime:8m22s+18m36s"
-// If '1', Show total as "Painttime:26m48s"
+// it will be displayes as "Painttime:8m22s+18m36s"
+// If it's set to 1', it will show the total time as "Painttime:26m48s"
 
 // パレットデータファイル名
 // File name of palette data
@@ -562,8 +576,8 @@ define('PALETTEFILE', 'palette.txt');
 // パレットデータファイル切り替え機能を使用する する:1 しない:0 
 // 切り替えるパレットデータファイルが用意できない場合は しない:0
 // 要対応テーマ
-// Use the palette data file switching function, do:'1', do not :'0'
-// If the palette data file to be switched cannot be prepared, set '0'.
+// Use the palette data file switching function (1: Enabled, 0: Disabled)
+// If the palette data file to be switched cannot be prepared, set this to '0'.
 // Needed a corresponding theme.
 define('USE_SELECT_PALETTES', '0');
 
@@ -582,11 +596,11 @@ $pallets_dat=array(['normal','palette.txt'],['pro','palette.dat']);
 // $pallets_dat=array(['palette1','1.txt'],['palette2','2.txt'],['palette3','3.txt']);
 
 // 動画機能を使用する する:1 しない:0
-// Use animation, do:'1', do not:'0'
+// Enable animations (1: Enabled, 0: Disabled)
 define('USE_ANIME', '1');
 
 // 動画記録デフォルトスイッチ ON:1 OFF:0
-// Use the animation function as standard, do:'1', do not:'0'
+// Use the animation function by default (1: Enabled, 0: Disabled)
 define('DEF_ANIME', '1');
 
 // 動画(PCH)保存ディレクトリ
@@ -594,31 +608,33 @@ define('DEF_ANIME', '1');
 define('PCH_DIR', 'src/');
 
 // 動画再生スピード 超高速:-1 高速:0 中速:10 低速:100 超低速:1000
-// Speed of animation playback,
+// Speed of animation playback. Possible values are:
 // super fast:'-1', fast:'0', normal:'10', slow:'100', super slow:'1000'
 define('PCH_SPEED', '0');
 
 // コンティニューを使用する する:1 しない:0
-// Use continue mode, do:'1', do not:'0'
+// Allow to continue drawings after leaving: (1: Enabled, 0: Disabled)
 define('USE_CONTINUE', '1');
 
 // 新規投稿でコンティニューする時にも削除キーが必要 必要:1 不要:0
 // 不要:0 で新規投稿なら誰でも続きを描く事ができるようになります。
-// Need the delete passwoed to continue with newly posted pictures,
-// need:'1', do not need:'0'
-// Anyone will be able to draw the continuation when the mode is '0'.
+// CONTINUE PASSWORD
+// If set to 1, you  will need the delete password to continue with newly posted pictures.
+// (1: The deletion password will be required, 0: No password required)
+// However, anyone will be able to continue with a drawing when the mode is set to '0'.
 define('CONTINUE_PASS', '0');
 
 /* ------------- パーミッション設定 ------------- */
 //PHPが自動的に変更するパーミッションの値。
 //問題なく動作している時は変更しない。
 /* ------------- Permission setting ------------- */
-// Permission values that PHP automatically changes.
-// Do not change if it is working without problems.
+// Permission values for the files and directories created and modified by the script.
+// You should only change these lines if you get permission errors in your server when
+// using the board.
 
 //Image and HTML file permissions.
 define('PERMISSION_FOR_DEST', 0606);//初期値 0606
-//Log file permissions not called directly from the browser
+//Log file permissions (Those are used internally by the script)
 define('PERMISSION_FOR_LOG', 0600);//初期値 0600
 //Directory permissions to save image and other files
 define('PERMISSION_FOR_DIR', 0707);//初期値 0707
@@ -628,7 +644,7 @@ define('PERMISSION_FOR_DIR', 0707);//初期値 0707
 
 /* ---------- picpost.php用設定(settings for picpost.php) ---------- */
 // システムログファイル名
-// File name of system log
+// File name of the system log
 $syslog = "picpost.systemlog";
 // システムログ保存件数
 // Number of system logs to be saved
