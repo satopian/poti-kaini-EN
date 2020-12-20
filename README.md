@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log
 
+### [2020/12/20] v2.21.1-en
+
+- Files and Directories php outputs permissions can be set in config.php
+
 ### [2020/12/20] theme, Readme_Shichan.html, readme_pch.html
 
 - theme
