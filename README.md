@@ -26,6 +26,11 @@ If you feel something is wrong, try turning it off.
   
 ## Change log
 
+### [2020/12/20] v2.21.2-en
+
+- Fixed fatal error when the posting time (UNIX timestamp) was not recorded in the log file. (by satopia)
+- Improve English config descriptions (by Craftplacer)
+
 ### [2020/12/20] v2.21.1-en
 
 - Files and Directories php outputs permissions can be set in config.php

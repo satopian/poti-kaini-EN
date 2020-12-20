@@ -1,11 +1,10 @@
 <?php
 define('USE_DUMP_FOR_DEBUG','0');
-// I haven't translated it yet
 //HTML出力の前に$datをdump しない:0 する:1 dumpしてexit：2 
 // ini_set('error_reporting', E_ALL);
 /*
   *
-  * POTI-board Kai Ni バージョン情報はちょっと下参照
+  * POTI-board改二 バージョン情報はちょっと下参照
   *   (C)sakots >> https://poti-k.info/
   *
   *----------------------------------------------------------------------------------
@@ -26,7 +25,7 @@ define('USE_DUMP_FOR_DEBUG','0');
   *
   * USE FUNCTION :
   *   Skinny.php            (C)Kuasuki   >> http://skinny.sx68.net/
-  *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
+  *   DynamicPalette        (C)NoraNeko  >> (http://wondercatstudio.com/)
   *----------------------------------------------------------------------------------
 
 このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
@@ -43,8 +42,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 */
 
 //バージョン
-define('POTI_VER' , 'v2.21.1-en');
-define('POTI_VERLOT' , 'v2.21.1-en lot.201220');
+define('POTI_VER' , 'v2.21.2');
+define('POTI_VERLOT' , 'v2.21.2 lot.201220a');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("本プログラムの動作には PHPバージョン 5.5.0 以上が必要です。<br>\n（現在のPHPバージョン：{$phpver}）");
@@ -2474,6 +2473,9 @@ function getId ($userip, $time) {
 
 // 古いスレッドへの投稿を許可するかどうか
 function check_elapsed_days ($res) {
+	if(ELAPSED_DAYS && !$res['time']){
+			return;
+	}
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
 		? ((time() - (substr($res['time'], -13, -3))) <= ( ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
