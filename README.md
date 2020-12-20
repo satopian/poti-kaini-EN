@@ -26,6 +26,15 @@ If you feel something is wrong, try turning it off.
   
 ## Change log
 
+### [2020/12/20] theme, Readme_Shichan.html, readme_pch.html
+
+- theme
+  - [Picture in the middle of posting] to [temporary pictures]
+- Readme_Shichan.html, readme_pch.html
+  - Thsoe files are Not allowed to change when bundling the Shi-Painter applet.
+  - So I made Readme_Shichan_utf-8.html and readme_pch_utf-8.html.
+  - Just changed the character code to URF-8. (Information for developers is written.)
+
 ### [2020/12/20] theme mono_paint.html
 
 - managed to get rid of the untranslated part ( [L] and [R] )
@@ -34,5 +43,5 @@ If you feel something is wrong, try turning it off.
 
 - translating project started.
   - config.php, picpost.php, and security_c.html were done.
-  - readme.txt, potiboard.php, readme_pch.html, Readme_Shichan.html and search.php is not yet.
+  - readme.txt, potiboard.php, and search.php is not yet.
   - theme has a problem. I couldn't translate a short word well.
