@@ -26,6 +26,11 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2020/12/21] search
+
+- Translated. (by satopian)
+  - search.php and theme/search.html
+
 ### [2020/12/21] theme -> mono_main.html
 
 - "-san" (by satopian)
