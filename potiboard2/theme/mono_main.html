@@ -84,7 +84,7 @@
 					<% each(oya) %>
 					<% def(resname) %>
 					<script>function add_to_com(){
-						document.getElementById("p_input_com").value += "<% echo(resname) %>";
+						document.getElementById("p_input_com").value += "<% echo(resname) %><% def(_san)%><% echo(_san) %><% /def %>";
 						}</script>
 					
 					<% copy_button %><button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
