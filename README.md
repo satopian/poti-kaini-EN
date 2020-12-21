@@ -33,7 +33,7 @@ If you feel something is wrong, try turning it off.
 - Fixed a bug where constants are defined twice (by satopian)
 - Enabled to set the timezone in config.php (by satopian)
 - Removed wondercatstudio 'http' from copyright notice for safety. (by sakots)
-  - Someone else has taken the domain.
+  - Because someone else has taken the domain.
 
 Replace `potiboard.php` `picpsot.php`. Add settings to `config.php` `theme/template_ini.php`.
 
