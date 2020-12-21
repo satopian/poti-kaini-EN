@@ -26,10 +26,21 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2020/12/22] v2.21.6 lot.201222.0
+
+- Multilingual support
+  - All messages output by potiboard.php can now be set in template_ini.php. (by satopian)
+- Fixed a bug where constants are defined twice (by satopian)
+- Enabled to set the timezone in config.php (by satopian)
+- Removed wondercatstudio 'http' from copyright notice for safety. (by sakots)
+  - Someone else has taken the domain.
+
+Replace `potiboard.php` `picpsot.php`. Add settings to `config.php` `theme/template_ini.php`.
+
 ### [2020/12/21] search
 
 - Translated. (by satopian)
-  - search.php and theme/search.html
+  - `search.php` and `theme/search.html`
 
 ### [2020/12/21] theme -> mono_main.html
 

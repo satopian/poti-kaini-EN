@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.21.2 lot.201220a
+  * POTI-board Kai Ni v2.21.6 lot.201222.0
   * by sakots >> https://poti-k.info/
   *
   * setting file of POTI-board Kai Ni
@@ -68,6 +68,12 @@ define('USE_CHECK_NO_FILE', '0');
 
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/
 /* That's all the necessary settings. From here on as needed. */
+
+/* ------------- タイムゾーン (timezone) ------------- */
+
+// List of Supported Timezones is here. 
+// https://www.php.net/manual/en/timezones.php
+define('DEFAULT_TIMEZONE','Asia/Tokyo');
 
 /* ---------- SNS連携 (Link with SNS) ---------- */
 

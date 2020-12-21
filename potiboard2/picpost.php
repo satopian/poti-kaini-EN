@@ -1,59 +1,84 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.201218  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.201220  by SakaQ >> http://www.punyu.net/php/
 // & sakots >> https://poti-k.info/
 //
-// Save the drawing image posted from Shi to TEMP
+// しぃからPOSTされたお絵かき画像をTEMPに保存
 //
-// This script was created for PHP
-// with reference to the PNG save routine of PaintBBS (Aotama CGI).
+// このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
+// PHP用に作成したものです。
 //----------------------------------------------------------------------
-// 2020/12/20 Translated into English
+// 2020/12/20 config.phpでパーミッションを設定できるようにした。
+// 2020/12/18 php8対応。画像から続きを描くと投稿できなくなる問題を修正。
+// 2020/11/16 lot.201110の投稿完了時間が記録されないバグを修正。
+// 2020/11/10 レス先の記録に対応。拡張ヘッダの値の取得を可変変数から連想配列に変更。
+// 2020/08/28 描画時間の記録に対応
+// 2020/05/25 投稿容量制限の設定項目を追加 従来はconfigのMAX_KB
+// 2020/02/25 flock()修正タイムゾーンを'Asia/Tokyo'に
+// 2020/01/25 REMOTE_ADDRが取得できないサーバに対応
+// 2019/12/03 軽微なエラー修正。datファイルのパーミッションを600に
+// 2018/07/13 動画が記録できなくなっていたのを修正
+// 2018/06/14 軽微なエラー修正
+// 2018/01/12 php7対応
+// 2005/06/04 容量違反・画像サイズ違反・拒絶画像のチェックを追加
+// 2005/02/14 差し換え時の認識コードrepcodeを投稿者情報に追加
+// 2004/06/22 ユーザーを識別するusercodeを投稿者情報に追加
+// 2003/12/22 JPEG対応
+// 2003/10/03 しぃペインターに対応
+// 2003/09/10 IPアドレス取得方法変更
+// 2003/09/09 PCHファイルに対応.投稿者情報の記録機能追加
+// 2003/09/01 PHP風(?)に整理
+// 2003/08/28 perl -> php 移植  by TakeponG >> https://chomstudio.com/
+// 2003/07/11 perl版初公開
 
-// settings
+//設定
 include(__DIR__.'/config.php');
-// timezone
-// List of Supported Timezones are here https://www.php.net/manual/en/timezones.php
+
 if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
 	define('PERMISSION_FOR_LOG', 0600);
 }
 
-date_default_timezone_set('Asia/Tokyo');
-//Check for capacity violations, do:'1', do not:'0'.
+//タイムゾーン
+if(!defined('DEFAULT_TIMEZONE')){//config.phpで未定義ならAsia/Tokyo
+	define('DEFAULT_TIMEZONE','Asia/Tokyo');
+}
+date_default_timezone_set(DEFAULT_TIMEZONE);
+
+//容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
-//Post capacity limit (kB)
-define('PICPOST_MAX_KB', '3072'); // Up to 3MB
+//投稿容量制限 KB
+define('PICPOST_MAX_KB', '3072');//3MBまで
 
 $time = time();
-$imgfile = $time.substr(microtime(),2,3);	//Image file name
+$imgfile = $time.substr(microtime(),2,3);	//画像ファイル名
 
-/* Record an error in SystemLOG when an error occurs */
+/* エラー発生時にSystemLOGにエラーを記録 */
 function error($error){
 	global $imgfile,$syslog,$syslogmax;
 	$time = time();
-	$youbi = array('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+	$youbi = array('日','月','火','水','木','金','土');
 	$yd = $youbi[date("w", $time)] ;
 	$now = date("y/m/d",$time)."(".(string)$yd.")".date("H:i",$time);
-	if(!is_file($syslog)){// criate $syslog if it is not here
+	if(!is_file($syslog)){//$syslogがなければ作成
 		file_put_contents($syslog,"\n", LOCK_EX);
 		chmod($syslog,0606);
 	}
-	$ep = fopen($syslog , "r+") or die($syslog." cannot be opend");
+	$ep = fopen($syslog , "r+") or die($syslog."が開けません");
 	flock($ep, LOCK_EX);
 	rewind($ep);
 	$key=0;
-	while($line=fgets($ep,4096)){// log to array 
+	while($line=fgets($ep,4096)){//ログを配列に
 		if($line!==''){
 		$lines[$key]=$line;
 	}
 	++$key;
-	if($key>($syslogmax-2)){// Record limit
+	if($key>($syslogmax-2)){//記録上限
 	break;
 	}
 	}
-	$line=implode('',$lines);// Error information so far
-	$newline=$imgfile."  ".$error." [".$now."]\n";// Latest error information
-	$newline.=$line;// Summarize
+	$line=implode('',$lines);//これまでのエラー情報
+	$newline=$imgfile."  ".$error." [".$now."]\n";//最新のエラー情報
+	$newline.=$line;//最新とこれまでをまとめる
 	rewind($ep);
 	fwrite($ep,$newline);
 	fflush($ep);
@@ -61,7 +86,7 @@ function error($error){
 	fclose($ep);
 }
 
-/* main */
+/* ■■■■■ メイン処理 ■■■■■ */
 
 $u_ip = getenv("HTTP_CLIENT_IP");
 if(!$u_ip) $u_ip = getenv("HTTP_X_FORWARDED_FOR");
@@ -70,7 +95,7 @@ $u_host = gethostbyaddr($u_ip);
 $u_agent = getenv("HTTP_USER_AGENT");
 $u_agent = str_replace("\t", "", $u_agent);
 
-// get raw POST data
+//raw POST データ取得
 $buffer = file_get_contents('php://input');
 if(!$buffer){
 	$stdin = @fopen("php://input", "rb");
@@ -78,38 +103,38 @@ if(!$buffer){
 	@fclose($stdin);
 }
 if(!$buffer){
-	error(" Oops! Failed to get the data. The drawing image is not saved.");
+	error("データの取得に失敗しました。お絵かき画像は保存されません。");
 	exit;
 }
 
-// Get extended header length
+// 拡張ヘッダー長さを獲得
 $headerLength = substr($buffer, 1, 8);
-// Extract the length of the image file
+// 画像ファイルの長さを取り出す
 $imgLength = substr($buffer, 1 + 8 + $headerLength, 8);
-// Do not save if the posting capacity limit is exceeded
+// 投稿容量制限を超えていたら保存しない
 if(SIZE_CHECK && ($imgLength > PICPOST_MAX_KB * 1024)){
-	error("Capacity over. The drawing image is not saved.");
+	error("規定容量オーバー。お絵かき画像は保存されません。");
 	exit;
 }
-// Extract image
+// 画像イメージを取り出す
 $imgdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2, $imgLength);
-// get image hedder
+// 画像ヘッダーを獲得
 $imgh = substr($imgdata, 1, 5);
-// Extension setting
+// 拡張子設定
 if($imgh=="PNG\r\n"){
 	$imgext = '.png';	// PNG
 }else{
 	$imgext = '.jpg';	// JPEG
 }
 $full_imgfile = TEMP_DIR.$imgfile.$imgext;
-// Check the file with the same name exists
+// 同名のファイルが存在しないかチェック
 if(is_file($full_imgfile)){
-	error("An image file with the same name exists. Overwrite.");
+	error("同名の画像ファイルが存在します。上書きします。");
 }
-// Write image data to a file
+// 画像データをファイルに書き込む
 $fp = fopen($full_imgfile,"wb");
 if(!$fp){
-	error("Failed to open the image file. The drawing image is not saved.");
+	error("画像ファイルのオープンに失敗しました。お絵かき画像は保存されません。");
 	exit;
 }else{
 	flock($fp, LOCK_EX);
@@ -118,57 +143,57 @@ if(!$fp){
 	flock($fp, LOCK_UN);
 	fclose($fp);
 }
-// Illegal image check (delete when detected)
+// 不正画像チェック(検出したら削除)
 // if(is_file($full_imgfile)){
 	$size = getimagesize($full_imgfile);
 	if($size[0] > PMAX_W || $size[1] > PMAX_H){
 		unlink($full_imgfile);
-		error("A specified size violation has been detected. The image is not saved.");
+		error("規定サイズ違反を検出しました。画像は保存されません。");
 		exit;
 	}
 	$chk = md5_file($full_imgfile);
 	foreach($badfile as $value){
 		if(preg_match("/^$value/",$chk)){
 			unlink($full_imgfile);
-			error("A rejected image was detected. The image is not saved.");
+			error("拒絶画像を検出しました。画像は保存されません。");
 			exit;
 		}
 	}
 // }
 
-// Extract the length of the PCH file
+// PCHファイルの長さを取り出す
 $pchLength = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength, 8);
-// get hedder
+// ヘッダーを獲得
 $h = substr($buffer, 0, 1);
-// Extension setting
+// 拡張子設定
 
 if($h=='S'){
 //	if(!strstr($u_agent,'Shi-Painter/')){
 //		unlink($full_imgfile);
-//		error("UA error. The image is not saved.");
+//		error("UA error。画像は保存されません。");
 //		exit;
 //	}
 	$ext = '.spch';
 }else{
 //	if(!strstr($u_agent,'PaintBBS/')){
 //		unlink($full_imgfile);
-//		error("UA error. The image is not saved.");
+//		error("UA error。画像は保存されません。");
 //		exit;
 //	}
 	$ext = '.pch';
 }
 
 if($pchLength){
-	// get PCH file
+	// PCHイメージを取り出す
 	$PCHdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength + 8, $pchLength);
-	// Check the file with the same name exists
+	// 同名のファイルが存在しないかチェック
 	if(is_file(TEMP_DIR.$imgfile.$ext)){
-		error("A PCH file with the same name exists. Overwrite.");
+		error("同名のPCHファイルが存在します。上書きします。");
 	}
-	// Write PCH data to a file
+	// PCHデータをファイルに書き込む
 	$fp = fopen(TEMP_DIR.$imgfile.$ext,"wb");
 	if(!$fp){
-		error("Failed to open the PCH file. PCH is not saved.");
+		error("PCHファイルのオープンに失敗しました。PCHは保存されません。");
 		exit;
 	}else{
 		flock($fp, LOCK_EX);
@@ -179,9 +204,9 @@ if($pchLength){
 	}
 }
 
-/* ---------- Poster information record ---------- */
+/* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-// Extract extension header
+// 拡張ヘッダーを取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
@@ -194,17 +219,17 @@ if($sendheader){
 	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 	$stime = isset($u['stime']) ? $u['stime'] : '';
 	$resto = isset($u['resto']) ? $u['resto'] : '';
-	// Add usercode, Replacement recognition code, drawing start time, completion time, and response destination 
+	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
 	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
 }
 $userdata .= "\n";
 if(is_file(TEMP_DIR.$imgfile.".dat")){
-	error("An information file with the same name exists. Overwrite.");
+	error("同名の情報ファイルが存在します。上書きします。");
 }
-// Write information data to file
+// 情報データをファイルに書き込む
 $fp = fopen(TEMP_DIR.$imgfile.".dat","w");
 if(!$fp){
-	error("Failed to open the information file. Poster information is not recorded.");
+	error("情報ファイルのオープンに失敗しました。投稿者情報は記録されません。");
 	exit;
 }else{
 	flock($fp, LOCK_EX);

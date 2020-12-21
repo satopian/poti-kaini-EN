@@ -25,7 +25,7 @@ define('USE_DUMP_FOR_DEBUG','0');
   *
   * USE FUNCTION :
   *   Skinny.php            (C)Kuasuki   >> http://skinny.sx68.net/
-  *   DynamicPalette        (C)NoraNeko  >> (http://wondercatstudio.com/)
+  *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
   *----------------------------------------------------------------------------------
 
 このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
@@ -42,11 +42,11 @@ define('USE_DUMP_FOR_DEBUG','0');
 */
 
 //バージョン
-define('POTI_VER' , 'v2.21.2');
-define('POTI_VERLOT' , 'v2.21.2 lot.201220a');
+define('POTI_VER' , 'v2.21.6');
+define('POTI_VERLOT' , 'v2.21.6 lot.201222.0');
 
 if (($phpver = phpversion()) < "5.5.0") {
-	die("本プログラムの動作には PHPバージョン 5.5.0 以上が必要です。<br>\n（現在のPHPバージョン：{$phpver}）");
+	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
 }
 
 //INPUT_POSTから変数を取得
@@ -79,6 +79,9 @@ $res = filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 
 $pwdc = filter_input(INPUT_COOKIE, 'pwdc');
 $usercode = filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
+
+//エラーメッセージ
+//template_ini.phpで未定義の時入る
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
@@ -115,7 +118,10 @@ define('USER_DELETES', '3');
 define('NOTICEMAIL_FILE' , 'noticemail.inc');
 
 //タイムゾーン
-date_default_timezone_set('Asia/Tokyo');
+if(!defined('DEFAULT_TIMEZONE')){//config.phpで未定義ならAsia/Tokyo
+	define('DEFAULT_TIMEZONE','Asia/Tokyo');
+}
+date_default_timezone_set(DEFAULT_TIMEZONE);
 
 //ペイント画面の$pwdの暗号化
 if(!defined('CRYPT_PASS')){//config.phpで未定義なら初期値が入る
@@ -133,8 +139,10 @@ if(!defined('DEF_FONTCOLOR')){//文字色選択初期値
 	define('DEF_FONTCOLOR',null);
 }
 
-if(!defined('ADMIN_DELGUSU')||!defined('ADMIN_DELKISU')){//管理画面の色設定
+if(!defined('ADMIN_DELGUSU')){//管理画面の色設定
 	define('ADMIN_DELGUSU',null);
+}
+if(!defined('ADMIN_DELKISU')){//管理画面の色設定
 	define('ADMIN_DELKISU',null);
 }
 
@@ -174,6 +182,21 @@ if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
 }
 if(!defined('PERMISSION_FOR_DIR')){//config.phpで未定義なら0707
 	define('PERMISSION_FOR_DIR', 0707);
+}
+//メッセージ
+//template_ini.phpで未定義の時入る
+//このままでよければ定義不要
+if(!defined('HONORIFIC_SUFFIX')){
+	define('HONORIFIC_SUFFIX', 'さん');
+}
+if(!defined('UPLOADED_OBJECT_NAME')){
+	define('UPLOADED_OBJECT_NAME', '画像');
+}
+if(!defined('UPLOAD_SUCCESSFUL')){
+	define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
+}
+if(!defined('THE_SCREEN_CHANGES')){
+	define('THE_SCREEN_CHANGES', '画面を切り替えます');
 }
 
 /*-----------Main-------------*/
@@ -344,6 +367,7 @@ function basicpart(){
 	if(USE_CHECK_NO_FILE){
 		$dat['hide_the_checkbox_for_nofile']=false;
 	}
+	$dat['_san']=HONORIFIC_SUFFIX;
 
 	return $dat;
 }
@@ -631,7 +655,7 @@ function res($resno = 0){
 
 	// レス記事一括格納
 	if($rres){//レスがある時
-		$dat['resname'] = $rresname ? implode('さん ',$rresname) : ''; // レス投稿者一覧
+		$dat['resname'] = $rresname ? implode(HONORIFIC_SUFFIX.' ',$rresname) : ''; // レス投稿者一覧
 		$dat['oya'][0]['res'] = $rres[0];
 	}
 
@@ -720,6 +744,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 	$time = time();
 	$tim = $time.substr(microtime(),2,3);
 
+	$ptime='';
 	// お絵かき絵アップロード処理
 	if($pictmp==2){
 		if(!$picfile) error(MSG002);
@@ -736,7 +761,6 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		fclose($fp);
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata));
 		if(($ucode != $usercode) && ($uip != $userip)){error(MSG007);}
-		$ptime='';
 		//描画時間を$userdataをもとに計算
 		if($starttime && DSP_PAINTTIME){
 			$psec=$postedtime-$starttime;
@@ -957,7 +981,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 			$H = ceil($H * $key);
 		}
 		$upfile_name=newstring($upfile_name);
-		$mes = "画像 $upfile_name のアップロードが成功しました<br><br>";
+		$mes = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL."<br><br>";
 
 		//重複チェック
 		$chkline=200;//チェックする最大行数
@@ -1104,7 +1128,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?{$time}" : ''),
 		1,
-		$mes . '画面を切り替えます'
+		$mes . THE_SCREEN_CHANGES
 	);
 }
 
@@ -1321,23 +1345,31 @@ function init(){
 
 // ファイル存在チェック
 function check_file ($path,$check_writable='') {
-	
-	if (!is_file($path)) return $path . "がありません<br>";
-	if (!is_readable($path)) return $path . "を読めません<br>";
+
+	$msg041=defined('MSG041') ? MSG041 : "がありません"; 
+	$msg042=defined('MSG042') ? MSG042 : "を読めません"; 
+	$msg043=defined('MSG043') ? MSG043 : "を書けません"; 
+
+	if (!is_file($path)) return $path . $msg041."<br>";
+	if (!is_readable($path)) return $path . $msg042."<br>";
 	if($check_writable){//書き込みが必要なファイルのチェック
-		if (!is_writable($path)) return $path . "を書けません<br>";
+		if (!is_writable($path)) return $path . $msg043."<br>";
 	}
 }
 // ディレクトリ存在チェック　なければ作る
 function check_dir ($path) {
 
+	$msg041=defined('MSG041') ? MSG041 : "がありません"; 
+	$msg042=defined('MSG042') ? MSG042 : "を読めません"; 
+	$msg043=defined('MSG043') ? MSG043 : "を書けません"; 
+
 	if (!is_dir($path)) {
 			mkdir($path, PERMISSION_FOR_DIR);
 			chmod($path, PERMISSION_FOR_DIR);
 	}
-	if (!is_dir($path)) return $path . "がありません<br>";
-	if (!is_readable($path)) return $path . "を読めません<br>";
-	if (!is_writable($path)) return $path . "を書けません<br>";
+	if (!is_dir($path)) return $path . $msg041."<br>";
+	if (!is_readable($path)) return $path . $msg042."<br>";
+	if (!is_writable($path)) return $path . $msg043."<br>";
 }
 
 /* お絵描き画面 */
@@ -1927,12 +1959,7 @@ function replace(){
 	}
 	closedir($handle);
 	if(!$find){
-	header("Content-type: text/html; charset=UTF-8");
-		$str = '<!DOCTYPE html>'."\n".'<html lang="ja"><head><meta name="robots" content="noindex,nofollow"><title>画像が見当たりません</title>'."\n";
-		$str.= '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">'."\n".'<meta charset="UTF-8"></head>'."\n";
-		$str.= '<body>画像が見当たりません。数秒待ってリロードしてください。<BR><BR>リロードしてもこの画面がでるなら投稿に失敗している可能性があります。<BR>※諦める前に「<A href="'.PHP_SELF.'?mode=piccom">アップロード途中の画像</A>」を見ましょう。もしかしたら画像が見つかるかもしれません。</body></html>';
-		echo $str;
-		exit;
+	error(MSG007);
 	}
 
 	// 時間
@@ -1992,7 +2019,7 @@ function replace(){
 	
 			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$tim.$imgext);
-			$mes = "画像のアップロードが成功しました<br><br>";
+			$mes = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
 			//元のサイズを基準にサムネイルを作成
 			if(USE_THUMB){
@@ -2028,7 +2055,7 @@ function replace(){
 			}
 			//カンマを変換
 			$now = str_replace(",", "&#44;", $now);
-			$ptime = str_replace(",", "&#44;", $ptime);
+			$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
 			$now=DO_NOT_CHANGE_POSTS_TIME ? $enow : $now;
 			$line[$i] = "$no,$now,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$W,$H,$tim,$chk,$ptime,$fcolor";
 			$flag = true;
@@ -2049,7 +2076,7 @@ function replace(){
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?{$time}" : ''),
 		1,
-		$mes . '画面を切り替えます'
+		$mes . THE_SCREEN_CHANGES
 	);
 }
 
