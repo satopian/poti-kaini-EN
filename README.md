@@ -8,7 +8,7 @@ This is a project to translate [POTI-board改二](https://github.com/sakots/poti
 
 php5.5 or upper, php7.x, or php8.0.
 
-## I was very grateful for this;
+## I was very grateful for this
 
 [PaintBBS NEO](https://github.com/funige/neo/)
 
