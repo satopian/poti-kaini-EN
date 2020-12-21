@@ -2,12 +2,23 @@
 /*
   * Template - MONO by sakots  >> https://poti-k.info/
   *
-  * Template setting file of potiboard.php(v2.5.0～)
+  * Template setting file of potiboard.php(v2.21.0～)
   *
 */
 
 //theme version
-define('TEMPLATE_VER', "v1.12.0 lot.201219");
+define('TEMPLATE_VER', "v1.16.0 lot.201221.0");
+
+//General message
+
+//Honorific title when quoting the poster name
+define('HONORIFIC_SUFFIX', '-san');
+//Name of uploaded image
+define('UPLOADED_OBJECT_NAME', 'The image');
+//Message when upload is successful
+define('UPLOAD_SUCCESSFUL', 'uploaded successfully');
+//Message when the screen is changeed after posting is completed
+define('THE_SCREEN_CHANGES', 'The screen changes');
 
 //error message
 define('MSG001', "[Log is not found.]");
@@ -49,7 +60,10 @@ define('MSG036', "[This URL can not be used in text.]");
 define('MSG037', "[This name cannot be used.]");
 define('MSG038', "[This tag cannot be used.]");
 define('MSG039', "[New posts with only comments are not accepted.]");
-define('MSG040', "Reserveed");
+define('MSG040', "Reserveed"); //Remain in reserve for a while
+define('MSG041', "is none");
+define('MSG042', "failed to read");
+define('MSG043', "failed to write");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
