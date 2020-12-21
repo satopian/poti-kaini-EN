@@ -1,6 +1,6 @@
 <?php
-//POTI-board plugin search(c)2020 さとぴあ
-//v1.6.5 lot.201218
+//POTI-board plugin search en(c)2020 さとぴあ(@satopian)
+//v1.6.5 lot.201220
 //
 //https://pbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -8,10 +8,12 @@
 //使用条件。
 
 //著作表記のリンクを削除したり見えなくしないでください。
+// Do not delete or obscure the copyrighted link.
 
 //免責
 
 //このプログラムを利用した事によって発生したいかなる損害も作者は一切の責任を負いません。
+// The author does not take any responsibility for any damage caused by using this program.
 
 //サポート
 
@@ -22,8 +24,8 @@
 //https://github.com/satopian/potiboard_plugin/
 
 //設定
-//何件までしらべるか？
-//初期値120 あまり大きくしないでください。
+// How many cases can you search?
+// Initial value 120 Do not make it too large.
 $max_search=120;
 //設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
@@ -178,12 +180,12 @@ $search_type='';
 if($imgsearch){
 	$search_type='&imgsearch=on';
 	$dat['imgsearch']=true;
-	$img_or_com='イラスト';
-	$mai_or_ken='枚';
+	$img_or_com='images';
+	$mai_or_ken=' ';
 }
 else{
-	$img_or_com='コメント';
-	$mai_or_ken='件';
+	$img_or_com='comments';
+	$mai_or_ken=' ';
 }
 
 //クエリを検索窓に入ったままにする
@@ -223,16 +225,16 @@ elseif($j){
 		$dat['pageno'] = $j.$mai_or_ken;
 }
 if($query!==''&&$radio===3){
-	$dat['title']=$query.'の'.$img_or_com;//titleタグに入る
-	$dat['h1']=$query.'の';//h1タグに入る
+	$dat['title']=$query.'\'s'.$img_or_com;//titleタグに入る
+	$dat['h1']=$query.'\'s '.$img_or_com;//h1タグに入る
 }
 elseif($query!==''){
-	$dat['title']=$query.'さんの'.$img_or_com;
-	$dat['h1']=$query.	'さんの';
+	$dat['title']='postes by '.$query;
+	$dat['h1']='postes by '.$query;
 }
 else{
-	$dat['title']='掲示板に投稿された最新の'.$img_or_com;
-	$dat['h1']='掲示板に投稿された最新の';
+	$dat['title']='new postes';
+	$dat['h1']='new postes';
 }
 
 //ページング
@@ -244,19 +246,19 @@ $dat['prev']=false;
 $dat['nxet']=false;
 
 if($page<=$disp_count_of_page){
-	$dat['prev']='<a href="./">掲示板にもどる</a>';//前のページ
+	$dat['prev']='<a href="./">Return to bulletin board</a>';//前のページ
 if($countarr>=$nxetpage){
-	$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">次の'.$disp_count_of_page.$mai_or_ken.'≫</a>';//次のページ
+	$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">next '.$disp_count_of_page.$mai_or_ken.'≫</a>';//次のページ
 }
 }
 
 elseif($page>=$disp_count_of_page+1){
-	$dat['prev']= '<a href="?page='.$prevpage.$search_type.$query_l.'">≪前の'.$disp_count_of_page.$mai_or_ken.'</a>'; 
+	$dat['prev']= '<a href="?page='.$prevpage.$search_type.$query_l.'">≪prev '.$disp_count_of_page.$mai_or_ken.'</a>'; 
 	if($countarr>=$nxetpage){
-		$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">次の'.$disp_count_of_page.$mai_or_ken.'≫</a>';
+		$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">next '.$disp_count_of_page.$mai_or_ken.'≫</a>';
 	}
 	else{
-		$dat['nxet']='<a href="./">掲示板にもどる</a>';
+		$dat['nxet']='<a href="./">Return to bulletin board</a>';
 	}
 }
 //最終更新日時を取得

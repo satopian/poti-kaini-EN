@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="search">
+<html lang="ja" id="search">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -46,20 +46,20 @@
 		}
 		</style>
 	<% /def %>
-<title><% echo(title) %><% echo(pageno) %></title>
+<title><% echo(pageno) %> <% echo(title) %></title>
 </head>
 <body>
 <div id="main">
 	<div class="title">
-	<h1><% echo(h1) %><span class="title_wrap"><% echo(img_or_com) %><% echo(pageno) %></span></h1>
+	<h1><% echo(pageno) %> <% echo(h1) %><span class="title_wrap"></span></h1>
 	</div>
 <nav>
 	<div class="menu">
-	[<a href="./">back to board</a>]
+	[<a href="./">Return to bulletin board</a>]
 	<% def(imgsearch) %>
-	 [<a href="?page=1&imgsearch=off<% echo(query_l) %>">comments</a>]
+	 [<a href="?page=1&imgsearch=off<% echo(query_l) %>">Comments</a>]
 	 <% else %>
-	 [<a href="?page=1&imgsearch=on<% echo(query_l) %>">illustrations</a>]
+	 [<a href="?page=1&imgsearch=on<% echo(query_l) %>">Images</a>]
 	 <% /def %>
 	 
 
@@ -68,9 +68,9 @@
 <p></p>
 <form method="get" action="./search.php">
 <span class="radio">
-<input type="radio" name="radio" id="author" value="1" <% echo(radio_chk1) %>><label for="author" class="label">name</label>
-<input type="radio" name="radio" id="exact" value="2" <% echo(radio_chk2) %>><label for="exact" class="label">Perfect matching</label>
-<input type="radio" name="radio" id="fulltext" value="3" <% echo(radio_chk3) %>><label for="fulltext" class="label">Body, title</label>
+<input type="radio" name="radio" id="author" value="1" <% echo(radio_chk1) %>><label for="author" class="label">Name</label>
+<input type="radio" name="radio" id="exact" value="2" <% echo(radio_chk2) %>><label for="exact" class="label">Exact</label>
+<input type="radio" name="radio" id="fulltext" value="3" <% echo(radio_chk3) %>><label for="fulltext" class="label">Body</label>
 </span>
 <br>
 <% def(imgsearch) %>
@@ -78,14 +78,15 @@
 <% else %>
 <input type="hidden" name="imgsearch" value="off">
 <% /def %>
-<input type="text" name="query" placeholder="search" value="<% echo(query) %>">
-<input type="submit" value="search">
+<input type="text" name="query" placeholder="Search Word" value="<% echo(query) %>">
+<input type="submit" value="Search" />
 </form>
 <p></p>
+<!-- 反復 -->
 	<% def(comments) %>
 	<% def(imgsearch) %>
 	<div class="newimg">
-		<ul><% each(comments) %><li class="catalog"><a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="[<% echo(comments/sub) %>] illustration/<% echo(comments/name) %><% echo(comments/postedtime) %>" title="[<% echo(comments/sub) %>] by <% echo(comments/name) %> <% echo(comments/postedtime) %>"/></a></li><% /each %></ul>
+		<ul><% each(comments) %><li class="catalog"><a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="「<% echo(comments/sub) %>」イラスト/<% echo(comments/name) %><% echo(comments/postedtime) %>" title="「<% echo(comments/sub) %>」by <% echo(comments/name) %> <% echo(comments/postedtime) %>"/></a></li><% /each %></ul>
 	</div>
 	<% else %>
 	<% each(comments) %>
@@ -99,7 +100,7 @@
 			 <% /def %>
 			 <% echo(comments/com) %>
 			 <div class="res_button_wrap">
-				 <form action="<% echo(comments/link) %>" method="post" target="_blank"><input type="submit" value="reply" class="res_button"></form><span class="page_top"><a href="#top">[to top]</a></span>
+				 <form action="<% echo(comments/link) %>" method="post" target="_blank"><input type="submit" value="Reply" class="res_button"></form><span class="page_top"><a href="#top">△</a></span>
 		</div>
 		</div>
 	</article>
@@ -109,19 +110,19 @@
 	<p></p>
 	
 
-<!-- last modified -->
+<!-- 最終更新日時 -->
 <% def(lastmodified) %>
 <p>last modified: <% echo(lastmodified) %></p>
 <% /def %>
-<p><% echo (img_or_com)%> is called from the bulletin board in the order of new posts.</p>
+<p>new post <% echo(img_or_com) %>.</p>
 
 <footer>
 	<nav>
 	<div class="leftbox">
-	<!-- paging -->
+	<!-- ページング -->
 	<% echo(prev) %><% def(nxet) %> | <% echo(nxet) %><% /def %>	
 	</div>
-	<!-- do not erase, the copyright notice -->
+	<!-- 著作表示 消さないでください -->
 	<div class="rightbox">- <a href="https://github.com/satopian/potiboard_plugin" target="_blank">search</a> -</div>
 	<div class="clear"></div>
 	</nav>
