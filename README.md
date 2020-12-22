@@ -37,6 +37,10 @@ If you feel something is wrong, try turning it off.
 
 Replace `potiboard.php` `picpsot.php`. Add settings to `config.php` `theme/template_ini.php`.
 
+### [2020/12/22] theme/template_ini.php
+
+- Improved translation (by satopian)
+
 ### [2020/12/21] search
 
 - Translated. (by satopian)
