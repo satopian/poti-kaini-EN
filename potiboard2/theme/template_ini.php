@@ -61,9 +61,9 @@ define('MSG037', "[This name cannot be used.]");
 define('MSG038', "[This tag cannot be used.]");
 define('MSG039', "[New posts with only comments are not accepted.]");
 define('MSG040', "Reserveed"); //Remain in reserve for a while
-define('MSG041', "is none");
-define('MSG042', "failed to read");
-define('MSG043', "failed to write");
+define('MSG041', "does not exist.");
+define('MSG042', "is not readable");
+define('MSG043', "is not writable");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
