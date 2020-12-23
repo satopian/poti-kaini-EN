@@ -89,18 +89,21 @@ define('SHARE_BUTTON', '0');
 // 正規表現を使うことができます
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
-// Blacklist of strings, regular expressions are supported.
-// You do not have to think about spaces and line breaks.
-$badstring = array("irc.s16.xrea.com","Unsolicited ad");
+// String blacklists and regular expressions are supported.
+// Do not specify spaces or line breaks.
+// This is because the character string without spaces and line breaks is checked.
+$badstring = array("irc.s16.xrea.com","Unsolicitedad");
 
 
 // 使用できない名前
 // Prohibited names (supports regular expressions)
-$badname = array("branded goods","mail order","sale");
+$badname = array("brandedgoods","mailorder","sale");
 
 // 正規表現を使うことができます
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
+// Do not specify spaces or line breaks.
+// This is because the character string without spaces and line breaks is checked.
 
 // 設定しないなら ""で。
 // To disable, type array("");
@@ -119,14 +122,14 @@ $badname = array("branded goods","mail order","sale");
 
 // AとBが両方あったら拒絶。
 // Reject post if both conditions A and B are met (supports regular expressions, use array(""); to disable).
-$badstr_A = array("cheep","low price","copy","focus on quality","mass arrival");
+$badstr_A = array("cheep","lowprice","copy","focusonquality","massarrival");
 $badstr_B = array("Chanel","Supreme","Balenciaga","brand");
 
 // 正規表現を使うことができます。
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
-// You can use Regular Expression.
-// And you do not have to think about spaces and line breaks.
+// Do not specify spaces or line breaks.
+// This is because the character string without spaces and line breaks is checked.
 
 // 設定しないなら ""で。
 // To do not use this, set "".
