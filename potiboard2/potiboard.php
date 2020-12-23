@@ -25,7 +25,7 @@ define('USE_DUMP_FOR_DEBUG','0');
   *
   * USE FUNCTION :
   *   Skinny.php            (C)Kuasuki   >> http://skinny.sx68.net/
-  *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
+  *   DynamicPalette        (C)NoraNeko  >> (http://wondercatstudio.com/)
   *----------------------------------------------------------------------------------
 
 このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
@@ -43,7 +43,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 //バージョン
 define('POTI_VER' , 'v2.21.6');
-define('POTI_VERLOT' , 'v2.21.6 lot.201222.0');
+define('POTI_VERLOT' , 'v2.21.6 lot.201224');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
@@ -109,6 +109,13 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
 	error($err);
 }
 require(__DIR__.'/thumbnail_gd.php');
+
+/* ---------- picpost.php用設定 ---------- */
+//システムログファイル名
+$syslog = $syslog ? $syslog : "picpost.systemlog";
+//システムログ保存件数
+$syslogmax = $syslogmax ? $syslogmax :'100';
+
 
 //ユーザー削除権限 (0:不可 1:treeのみ許可 2:treeと画像のみ許可 3:tree,log,画像全て許可)
 //※treeのみを消して後に残ったlogは管理者のみ削除可能
@@ -198,6 +205,7 @@ if(!defined('UPLOAD_SUCCESSFUL')){
 if(!defined('THE_SCREEN_CHANGES')){
 	define('THE_SCREEN_CHANGES', '画面を切り替えます');
 }
+
 
 /*-----------Main-------------*/
 init();		//←■■初期設定後は不要なので削除可■■
