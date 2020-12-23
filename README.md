@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2020/12/23] config.php
+
+- About rejected character. [Click here for details](https://github.com/sakots/poti-kaini-EN/pull/10)
+
 ### [2020/12/22] v2.21.6 lot.201222.0
 
 - Multilingual support
