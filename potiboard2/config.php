@@ -203,24 +203,11 @@ define('DSP_RES', '7');
 // Needed a theme for this feature
 define('USE_FONTCOLOR', '0');
 
-// [新規投稿は管理者のみ]にする する:1 しない:0
-// する(1)にした場合、管理者パス以外での新規投稿はできません
-// Only admins can post new articles (Yes: 1, No: 0)
-// If set to '1', the administrator will require to enter their password when creating new articles.
-define('ADMIN_NEWPOST', '0');
 
 // 投稿容量制限 KB phpの設定により2M(2048)まで
 // Maximum size allowed for the images in the posts (in KB).
 // By php limit, it is allowed up to 2048.
 define('MAX_KB', '1000');
-
-// PNG画像のファイルサイズが設定値より大きな時はJPEGに変換
-// アップロードしたPNG画像もJPEGに変換します
-// JPEGに変換した画像ともとのPNG画像を比較してファイルサイズが小さなほうを投稿します。
-// 単位kb
-// Maximum size, in KB, for PNG files.
-// Files that exceed this value will be compressed as JPEG files.
-define('IMAGE_SIZE', '512');	
 
 // 投稿サイズ（これ以上はサイズを縮小
 // The maximum size allowed for the images in the posts.
@@ -428,6 +415,20 @@ define('ID_SEED', 'ID_SEED');
 // そろそろ消える表示のボーダー。最大ログ数からみたパーセンテージ
 // Threshold that disappears soon. Percentage from maximum log count.
 define('LOG_LIMIT', '92');
+
+// [新規投稿は管理者のみ]にする する:1 しない:0
+// する(1)にした場合、管理者パス以外での新規投稿はできません
+// Only admins can post new articles (Yes: 1, No: 0)
+// If set to '1', the administrator will require to enter their password when creating new articles.
+define('ADMIN_NEWPOST', '0');
+
+// PNG画像のファイルサイズが設定値より大きな時はJPEGに変換
+// アップロードしたPNG画像もJPEGに変換します
+// JPEGに変換した画像ともとのPNG画像を比較してファイルサイズが小さなほうを投稿します。
+// 単位kb
+// Maximum size, in KB, for PNG files.
+// Files that exceed this value will be compressed as JPEG files.
+define('IMAGE_SIZE', '512');	
 
 // フォーム下の追加お知らせ
 // (例)'<li>お知らせデース</li>

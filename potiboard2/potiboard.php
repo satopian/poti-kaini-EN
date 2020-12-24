@@ -112,10 +112,9 @@ require(__DIR__.'/thumbnail_gd.php');
 
 /* ---------- picpost.php用設定 ---------- */
 //システムログファイル名
-$syslog = $syslog ? $syslog : "picpost.systemlog";
+$syslog = isset($syslog) ? $syslog : "picpost.systemlog";
 //システムログ保存件数
-$syslogmax = $syslogmax ? $syslogmax :'100';
-
+$syslogmax = isset($syslogmax) ? $syslogmax :'100';
 
 //ユーザー削除権限 (0:不可 1:treeのみ許可 2:treeと画像のみ許可 3:tree,log,画像全て許可)
 //※treeのみを消して後に残ったlogは管理者のみ削除可能
