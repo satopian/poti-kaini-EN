@@ -372,37 +372,6 @@ define('USE_CONTINUE', '1');
 // However, anyone will be able to continue with a drawing when the mode is set to '0'.
 define('CONTINUE_PASS', '0');
 
-/* ------------- トラブルシューティング(trouble shooting) ------------- */
-
-//問題なく動作している時は変更しない。
-
-// urlパラメータを追加する する:1 しない:0
-// ブラウザのキャッシュが表示されて投稿しても反映されない時は1。
-// If the cache of the browser is displayed and not reflected even after posting, set '1'.
-define('URL_PARAMETER', '0');
-
-// Permission values for the files and directories created and modified by the script.
-// You should only change these lines if you get permission errors in your server when
-// using the board.
-
-//Image and HTML file permissions.
-define('PERMISSION_FOR_DEST', 0606);//初期値 0606
-//Log file permissions (Those are used internally by the script)
-define('PERMISSION_FOR_LOG', 0600);//初期値 0600
-//Directory permissions to save image and other files
-define('PERMISSION_FOR_DIR', 0707);//初期値 0707
-
-// Skinny.php cache and directory permissions
-// Set in Skinny.php.
-
-// GD2のImageCopyResampledでサムネイルの画質向上 させる:1 させない:0
-// 不具合がある場合のみ 0
-// Improve thumbnail image quality by using the ImageCopyResampled function 
-// of PHP's GD library.
-// This option should be enabled ('1') in most cases.
-// But if it causes problems, set this to '0' (disabled) 
-define('RE_SAMPLED', '1');
-
 /* ---------- 詳細設定(Advanced Setting) ---------- */
 // このスクリプト名。変更することをおすすめしません。
 // The name of the main script. Do not modify this value unless you have a good
@@ -602,11 +571,41 @@ define('TOTAL_PAINTTIME', '1');
 // If it's set to 1', it will show the total time as "Painttime:26m48s"
 
 // 画像なしのチェックボックスを使用する する:1 しない:0 
-// 互換性確保のための設定項目です。
 // テンプレートが対応していない時は する:1。
 // テンプレートが対応していれば しない:0 で「画像なし」のチェックボックスを表示しません。
 // Use to the checkbox of [no_imane], do:'1', do not:'0'
-// This item is remained for compatibility.
 // Templates that do not support this setting, set '1'.
 // If supported, set '0' to hide the checkbox of [no_imane].
 define('USE_CHECK_NO_FILE', '0');
+
+/* ------------- トラブルシューティング(trouble shooting) ------------- */
+
+//問題なく動作している時は変更しない。
+
+// urlパラメータを追加する する:1 しない:0
+// ブラウザのキャッシュが表示されて投稿しても反映されない時は1。
+// If the cache of the browser is displayed and not reflected even after posting, set '1'.
+define('URL_PARAMETER', '0');
+
+// Permission values for the files and directories created and modified by the script.
+// You should only change these lines if you get permission errors in your server when
+// using the board.
+
+//Image and HTML file permissions.
+define('PERMISSION_FOR_DEST', 0606);//初期値 0606
+//Log file permissions (Those are used internally by the script)
+define('PERMISSION_FOR_LOG', 0600);//初期値 0600
+//Directory permissions to save image and other files
+define('PERMISSION_FOR_DIR', 0707);//初期値 0707
+
+// Skinny.php cache and directory permissions
+// Set in Skinny.php.
+
+// GD2のImageCopyResampledでサムネイルの画質向上 させる:1 させない:0
+// 不具合がある場合のみ 0
+// Improve thumbnail image quality by using the ImageCopyResampled function 
+// of PHP's GD library.
+// This option should be enabled ('1') in most cases.
+// But if it causes problems, set this to '0' (disabled) 
+define('RE_SAMPLED', '1');
+
