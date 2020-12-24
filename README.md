@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2020/12/24] v2.22.0 lot.201224.0
+
+- Sort config items according to importance (by satopian)
+  - The error log settings in picpost.php have been moved to potiboard.php. It is a setting item for developers.
+  - You don't have to update config.php. When adding a new setting item, only the person who wants to change it needs to change it. If you have config.php already set, it will work as it is.
+
 ### [2020/12/23] config.php
 
 - About rejected character. [Click here for details](https://github.com/sakots/poti-kaini-EN/pull/10)
