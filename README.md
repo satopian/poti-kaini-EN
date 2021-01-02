@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/01/02] v2.22.0 lot.210102.0
+
+- Avoid fatal errors in php8 when the timestamp doesn't exist in the log. (by satopian)
+
 ### [2021/01/01] picpost.php
 
 - The permissions of picpost.systemlog can be set in config.php. (Leakage of previous work)

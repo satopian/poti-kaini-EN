@@ -25,7 +25,7 @@ define('USE_DUMP_FOR_DEBUG','0');
   *
   * USE FUNCTION :
   *   Skinny.php            (C)Kuasuki   >> http://skinny.sx68.net/
-  *   DynamicPalette        (C)NoraNeko  >> (http://wondercatstudio.com/)
+  *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
   *----------------------------------------------------------------------------------
 
 このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
@@ -42,8 +42,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 */
 
 //バージョン
-define('POTI_VER' , 'v2.22.0');
-define('POTI_VERLOT' , 'v2.22.0 lot.201224.0');
+define('POTI_VER' , 'v2.22.1');
+define('POTI_VERLOT' , 'v2.22.1 lot.210102.0');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
@@ -918,8 +918,8 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 			if($pchk){
 			//KASIRAが入らない10桁のUNIX timeを取り出す
 			if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
-			if(RENZOKU && ($time - $ltime) < RENZOKU){error(MSG020,$dest);}
-			if(RENZOKU2 && ($time - $ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
+			if(RENZOKU && ($time - (int)$ltime) < RENZOKU){error(MSG020,$dest);}
+			if(RENZOKU2 && ($time - (int)$ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
 			if($com){
 					switch(D_POST_CHECKLEVEL){//190622
 						case 1:	//low
@@ -2507,11 +2507,8 @@ function getId ($userip, $time) {
 
 // 古いスレッドへの投稿を許可するかどうか
 function check_elapsed_days ($res) {
-	if(ELAPSED_DAYS && !$res['time']){
-			return;
-	}
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
-		? ((time() - (substr($res['time'], -13, -3))) <= ( ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
+		? ((time() - (int)(substr($res['time'], -13, -3))) <= ( ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 
