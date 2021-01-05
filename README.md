@@ -26,13 +26,18 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-### [2021/01/02] v2.22.0 lot.210102.0
+### [2021/01/05] v2.22.2 lot.210105.0
+
+- Multilingual support of NOTICEMAIL (by satopian)
+  - The settings exist in `theme/template_ini.php`.
+
+### [2021/01/02] v2.22.1 lot.210102.0
 
 - Avoid fatal errors in php8 when the timestamp doesn't exist in the log. (by satopian)
 
 ### [2021/01/01] picpost.php
 
-- The permissions of picpost.systemlog can be set in config.php. (Leakage of previous work)
+- The permissions of `picpost.systemlog` can be set in `config.php`. (Leakage of previous work)
 
 ### [2020/12/25] LICENSE
 
