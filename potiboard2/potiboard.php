@@ -42,8 +42,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 */
 
 //バージョン
-define('POTI_VER' , 'v2.22.1');
-define('POTI_VERLOT' , 'v2.22.1 lot.210102.0');
+define('POTI_VER' , 'v2.22.2');
+define('POTI_VERLOT' , 'v2.22.2 lot.210105');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
@@ -124,87 +124,53 @@ define('USER_DELETES', '3');
 define('NOTICEMAIL_FILE' , 'noticemail.inc');
 
 //タイムゾーン
-if(!defined('DEFAULT_TIMEZONE')){//config.phpで未定義ならAsia/Tokyo
-	define('DEFAULT_TIMEZONE','Asia/Tokyo');
-}
+defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');//暗号鍵初期値;
 date_default_timezone_set(DEFAULT_TIMEZONE);
 
 //ペイント画面の$pwdの暗号化
-if(!defined('CRYPT_PASS')){//config.phpで未定義なら初期値が入る
-	define('CRYPT_PASS','qRyFfhV6nyUggSb');//暗号鍵初期値
-}
+defined('CRYPT_PASS') or define('CRYPT_PASS','qRyFfhV6nyUggSb');//暗号鍵初期値;
 define('CRYPT_METHOD','aes-128-cbc');
 define('CRYPT_IV','T3pkYxNyjN7Wz3pu');//半角英数16文字
 
 //指定した日数を過ぎたスレッドのフォームを閉じる
-if(!defined('ELAPSED_DAYS')){//config.phpで未定義なら0
-	define('ELAPSED_DAYS','0');
-}
-//テーマに設定が無ければ代入
-if(!defined('DEF_FONTCOLOR')){//文字色選択初期値
-	define('DEF_FONTCOLOR',null);
-}
+defined('ELAPSED_DAYS') or define('ELAPSED_DAYS','0');
 
-if(!defined('ADMIN_DELGUSU')){//管理画面の色設定
-	define('ADMIN_DELGUSU',null);
-}
-if(!defined('ADMIN_DELKISU')){//管理画面の色設定
-	define('ADMIN_DELKISU',null);
-}
+//テーマに設定が無ければ代入
+defined('DEF_FONTCOLOR') or define('DEF_FONTCOLOR',null);//色選択
+defined('ADMIN_DELGUSU') or define('ADMIN_DELGUSU',null);//管理画面の色設定
+defined('ADMIN_DELKISU') or define('ADMIN_DELKISU',null);//管理画面の色設定
 
 //画像アップロード機能を 1.使う 0.使わない  
-if(!defined('USE_IMG_UPLOAD')){//config.phpで未定義なら1
-	define('USE_IMG_UPLOAD','1');
-}
+defined('USE_IMG_UPLOAD') or define('USE_IMG_UPLOAD','1');
 
 //画像のないコメントのみの新規投稿を拒否する する:1 しない:0
-if(!defined('DENY_COMMENTS_ONLY')){//config.phpで未定義なら0
-	define('DENY_COMMENTS_ONLY', '0');
-}
+defined('DENY_COMMENTS_ONLY') or define('DENY_COMMENTS_ONLY', '0');
 
 //パレット切り替え機能を使用する する:1 しない:0
-if(!defined('USE_SELECT_PALETTES')){//config.phpで未定義なら0
-	define('USE_SELECT_PALETTES', '0');
-}
+defined('USE_SELECT_PALETTES') or define('USE_SELECT_PALETTES', '0');
 
 //編集しても投稿日時を変更しないようにする する:1 しない:0 
-if(!defined('DO_NOT_CHANGE_POSTS_TIME')){//config.phpで未定義なら0
-	define('DO_NOT_CHANGE_POSTS_TIME', '0');
-}
+defined('DO_NOT_CHANGE_POSTS_TIME') or define('DO_NOT_CHANGE_POSTS_TIME', '0');
+
 //画像なしのチェックボックスを使用する する:1 しない:0 
-if(!defined('USE_CHECK_NO_FILE')){//config.phpで未定義なら1
-	define('USE_CHECK_NO_FILE', '1');
-}
+defined('USE_CHECK_NO_FILE') or define('USE_CHECK_NO_FILE', '1');
+
 //描画時間を合計表示に する:1 しない:0 
-if(!defined('TOTAL_PAINTTIME')){//config.phpで未定義なら1
-	define('TOTAL_PAINTTIME', '1');
-}
+defined('TOTAL_PAINTTIME') or define('TOTAL_PAINTTIME', '1');
 
-if(!defined('PERMISSION_FOR_DEST')){//config.phpで未定義なら0606
-	define('PERMISSION_FOR_DEST', 0606);
-}
-if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
-	define('PERMISSION_FOR_LOG', 0600);
-}
-if(!defined('PERMISSION_FOR_DIR')){//config.phpで未定義なら0707
-	define('PERMISSION_FOR_DIR', 0707);
-}
+//パーミッション
+
+defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606);
+defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600);
+defined('PERMISSION_FOR_DIR') or define('PERMISSION_FOR_DIR', 0707);
+
 //メッセージ
-//template_ini.phpで未定義の時入る
+//template_ini.phpで未定義の時の初期値
 //このままでよければ定義不要
-if(!defined('HONORIFIC_SUFFIX')){
-	define('HONORIFIC_SUFFIX', 'さん');
-}
-if(!defined('UPLOADED_OBJECT_NAME')){
-	define('UPLOADED_OBJECT_NAME', '画像');
-}
-if(!defined('UPLOAD_SUCCESSFUL')){
-	define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
-}
-if(!defined('THE_SCREEN_CHANGES')){
-	define('THE_SCREEN_CHANGES', '画面を切り替えます');
-}
-
+defined('HONORIFIC_SUFFIX') or define('HONORIFIC_SUFFIX', 'さん');
+defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
+defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
+defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
 
 /*-----------Main-------------*/
 init();		//←■■初期設定後は不要なので削除可■■
@@ -1105,6 +1071,17 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 	updatelog();
 
 	//メール通知
+
+	//template_ini.phpで未定義の時の初期値
+	//このままでよければ定義不要
+	defined('NOTICE_MAIL_TITLE') or define('NOTICE_MAIL_TITLE', '記事題名');
+	defined('NOTICE_MAIL_IMG') or define('NOTICE_MAIL_IMG', '投稿画像');
+	defined('NOTICE_MAIL_THUMBNAIL') or define('NOTICE_MAIL_THUMBNAIL', 'サムネイル画像');
+	defined('NOTICE_MAIL_ANIME') or define('NOTICE_MAIL_ANIME', 'アニメファイル');
+	defined('NOTICE_MAIL_URL') or define('NOTICE_MAIL_URL', '記事URL');
+	defined('NOTICE_MAIL_REPLY') or define('NOTICE_MAIL_REPLY', 'へのレスがありました');
+	defined('NOTICE_MAIL_NEWPOST') or define('NOTICE_MAIL_NEWPOST', '新規投稿がありました');
+
 	if(is_file(NOTICEMAIL_FILE)	//メール通知クラスがある場合
 	&& !(NOTICE_NOADMIN && $pwd === $ADMIN_PASS)){//管理者の投稿の場合メール出さない
 		require(__DIR__.'/'.NOTICEMAIL_FILE);
@@ -1113,18 +1090,18 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		$data['name'] = $name;
 		$data['email'] = $email;
 		$data['option'][] = 'URL,'.$url;
-		$data['option'][] = '記事題名,'.$sub;
-		if($ext) $data['option'][] = '投稿画像,'.ROOT_URL.IMG_DIR.$tim.$ext;//拡張子があったら
-		if(is_file(THUMB_DIR.$tim.'s.jpg')) $data['option'][] = 'サムネイル画像,'.ROOT_URL.THUMB_DIR.$tim.'s.jpg';
+		$data['option'][] = NOTICE_MAIL_TITLE.','.$sub;
+		if($ext) $data['option'][] = NOTICE_MAIL_IMG.','.ROOT_URL.IMG_DIR.$tim.$ext;//拡張子があったら
+		if(is_file(THUMB_DIR.$tim.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$tim.'s.jpg';
 		if ($_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$tim)) {
-			$data['option'][] = 'アニメファイル,'.ROOT_URL.PCH_DIR.$tim.$_pch_ext;
+			$data['option'][] = NOTICE_MAIL_ANIME.','.ROOT_URL.PCH_DIR.$tim.$_pch_ext;
 		}
 		if($resto){
-			$data['subject'] = '['.TITLE.'] No.'.$resto.'へのレスがありました';
-			$data['option'][] = "\n".'記事URL,'.ROOT_URL.PHP_SELF.'?res='.$resto;
+			$data['subject'] = '['.TITLE.'] No.'.$resto.NOTICE_MAIL_REPLY;
+			$data['option'][] = "\n".NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
 		}else{
-			$data['subject'] = '['.TITLE.'] 新規投稿がありました';
-			$data['option'][] = "\n".'記事URL,'.ROOT_URL.PHP_SELF.'?res='.$no;
+			$data['subject'] = '['.TITLE.'] '.NOTICE_MAIL_NEWPOST;
+			$data['option'][] = "\n".NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$no;
 		}
 
 		$data['comment'] = SEND_COM ? preg_replace("#<br(( *)|( *)/)>#i","\n", $com) : '';
