@@ -20,6 +20,15 @@ define('UPLOAD_SUCCESSFUL', 'uploaded successfully');
 //Message when the screen is changeed after posting is completed
 define('THE_SCREEN_CHANGES', 'The screen changes');
 
+//Message for notification mail
+define('NOTICE_MAIL_TITLE', 'Title');
+define('NOTICE_MAIL_IMG', 'Picture');
+define('NOTICE_MAIL_THUMBNAIL', 'Thumbnail');
+define('NOTICE_MAIL_ANIME', 'Timelapse');
+define('NOTICE_MAIL_URL', 'Fixed link');
+define('NOTICE_MAIL_REPLY', ' Notification there was a reply post.');
+define('NOTICE_MAIL_NEWPOST', ' Notification there was a new post.');
+
 //error message
 define('MSG001', "[Log is not found.]");
 define('MSG002', "[You haven't selected a picture. You must upload a picture!.]");
