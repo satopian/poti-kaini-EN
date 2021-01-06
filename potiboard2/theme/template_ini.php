@@ -26,8 +26,8 @@ define('NOTICE_MAIL_IMG', 'Picture');
 define('NOTICE_MAIL_THUMBNAIL', 'Thumbnail');
 define('NOTICE_MAIL_ANIME', 'Timelapse');
 define('NOTICE_MAIL_URL', 'Fixed link');
-define('NOTICE_MAIL_REPLY', ' Notification there was a reply post.');
-define('NOTICE_MAIL_NEWPOST', ' Notification there was a new post.');
+define('NOTICE_MAIL_REPLY', ' Notification: There is a new reply to a post.');
+define('NOTICE_MAIL_NEWPOST', ' Notification: There is a new post');
 
 //error message
 define('MSG001', "[Log is not found.]");
