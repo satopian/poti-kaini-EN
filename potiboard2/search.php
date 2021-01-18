@@ -1,6 +1,6 @@
 <?php
-//POTI-board plugin search en(c)2020 さとぴあ(@satopian)
-//v1.6.5 lot.201220
+//POTI-board plugin search(c)2020-2021 さとぴあ(@satopian)
+//v1.6.6 lot.210117
 //
 //https://pbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -31,6 +31,7 @@ $max_search=120;
 
 //更新履歴
 
+//v1.6.6 2021.01.17 PHP8環境で致命的エラーが出るバグを修正。1発言分のログが4096バイト以上の時に処理できなくなるバグを修正。
 //v1.6.5 2020.10.02 波ダッシュと全角チルダを区別しない。
 //v1.6.3 2020.09.11 1ページ目の画像の表示枚数が19枚になっていたのを修正。
 //v1.6.2 2020.08.26 画像検索でis_file()のチェックが２重になっていたのを修正。
@@ -88,7 +89,7 @@ $arr=array();
 // $files=array();
 $tree=file(TREEFILE);
 $fp = fopen(LOGFILE, "r");
-while ($line = fgets($fp ,4096)) {
+while ($line = fgets($fp)) {
 	list($no,,$name,,$sub,$com,,,,$ext,,,$time,,,) = explode(",", $line);
 	$continue_to_search=true;
 	if($imgsearch){//画像検索の場合
@@ -157,8 +158,8 @@ if($arr){
 					}
 				}
 
-			$time=substr($time,-13,10);
-			$postedtime = date ("Y/m/d G:i", $time);
+			$time=(int)substr($time,-13,10);
+			$postedtime = $time ? date ("Y/m/d G:i", $time) : '';
 			$sub=strip_tags($sub);
 			$com=str_replace('<br />',' ',$com);
 			$com=strip_tags($com);
@@ -264,8 +265,8 @@ elseif($page>=$disp_count_of_page+1){
 //最終更新日時を取得
 if($arr){
 	$postedtime=$arr[0]['time'];
-	$postedtime=substr($postedtime,-13,10);
-	$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
+	$postedtime=(int)substr($postedtime,-13,10);
+	$dat['lastmodified']=$postedtime ? date("Y/m/d G:i", $postedtime) :'';
 }
 
 unset($arr);
