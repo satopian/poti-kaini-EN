@@ -26,6 +26,11 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/01/18] search.php
+
+- Fixed a bug that caused a fatal error in PHP8 environment (by satopian)
+- Fixed a bug that it cannot be processed when the log for one statement is 4096 bytes or more (by satopian)
+
 ### [2021/01/07] theme/template_ini.php
 
 - Improved English translation
