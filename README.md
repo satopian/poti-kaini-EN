@@ -26,6 +26,11 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/01/26] v2.22.3 lot.210126.0
+
+- Fixed a bug that sometimes displayed as "0 response(s) Omitted." (by satopian)
+- Fixed minor error in php8 environment (by sakots)
+
 ### [2021/01/18] search.php
 
 - Fixed a bug that caused a fatal error in PHP8 environment (by satopian)

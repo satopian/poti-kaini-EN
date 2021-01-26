@@ -42,8 +42,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 */
 
 //バージョン
-define('POTI_VER' , 'v2.22.2');
-define('POTI_VERLOT' , 'v2.22.2 lot.210105.0');
+define('POTI_VER' , 'v2.22.3');
+define('POTI_VERLOT' , 'v2.22.3 lot.210126.0');
 
 if (($phpver = phpversion()) < "5.5.0") {
 	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
@@ -334,7 +334,7 @@ function basicpart(){
 			}
 			$arr_palette_select_tags[$i]='<option value="'.$i.'">'.$p_name.'</option>';
 		}
-		$dat['palette_select_tags']=implode($arr_palette_select_tags);
+		$dat['palette_select_tags']=implode("",$arr_palette_select_tags);
 	}
 	$dat['hide_the_checkbox_for_nofile']=true;//poti本体が古い時はfalse→画像なしのチェックが出る
 	if(USE_CHECK_NO_FILE){
@@ -493,7 +493,7 @@ function updatelog(){
 			// 親レス用の値
 			$res['tab'] = $oya + 1; //TAB
 			$res['limit'] = ($lineindex[$res['no']] >= LOG_MAX * LOG_LIMIT / 100) ? true : ''; // そろそろ消える。
-			$res['skipres'] = $skipres;
+			$res['skipres'] = $skipres ? $skipres : '';
 			$res['resub'] = $resub;
 			$dat['oya'][$oya] = $res;
 
