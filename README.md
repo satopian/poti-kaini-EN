@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/01/27] v2.22.5 lot.210127.0
+
+- Fine-tuning the source code (by satopian)
+
 ### [2021/01/26] v2.22.3 lot.210126.0
 
 - Fixed a bug that sometimes displayed as "0 response(s) Omitted." (by satopian)
