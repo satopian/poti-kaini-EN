@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/01/30] v2.22.6 lot.210130.0
+
+- Move `picpost.systemlog` settings to `picpost.php` (by satopian)
+  - Please overwiter `picpost.php`. Fixed a mistake in moving the settings.
+- Fine-tuning the source code (by sakots)
+
 ### [2021/01/27] v2.22.5 lot.210127.0
 
 - Fine-tuning the source code (by satopian)

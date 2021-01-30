@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.210101  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.210130  by SakaQ >> http://www.punyu.net/php/
 // & sakots >> https://poti-k.info/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2021/01/30 picpost.systemlogの設定をpicpost.phpに移動。raw POST データ取得処理を整理。
 // 2021/01/01 エラーログのパーミッションもconfig.phpで設定できるようにした。
 // 2020/12/20 config.phpでパーミッションを設定できるようにした。
 // 2020/12/18 php8対応。画像から続きを描くと投稿できなくなる問題を修正。
@@ -34,6 +35,12 @@
 
 //設定
 include(__DIR__.'/config.php');
+
+/* ---------- picpost.php用設定 ---------- */
+// システムログファイル名
+$syslog = isset($syslog) ? $syslog : "picpost.systemlog";
+//システムログ保存件数
+$syslogmax = isset($syslogmax) ? $syslogmax :'100';
 
 if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
 	define('PERMISSION_FOR_LOG', 0600);
@@ -101,11 +108,6 @@ $u_agent = str_replace("\t", "", $u_agent);
 
 //raw POST データ取得
 $buffer = file_get_contents('php://input');
-if(!$buffer){
-	$stdin = @fopen("php://input", "rb");
-	$buffer = @fread($stdin, $_ENV['CONTENT_LENGTH']);
-	@fclose($stdin);
-}
 if(!$buffer){
 	error("データの取得に失敗しました。お絵かき画像は保存されません。");
 	exit;
