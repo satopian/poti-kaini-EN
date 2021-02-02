@@ -2,11 +2,14 @@
 define('USE_DUMP_FOR_DEBUG','0');
 //HTML出力の前に$datをdump しない:0 する:1 dumpしてexit：2 
 // ini_set('error_reporting', E_ALL);
+
+// POTI-board改二 
+// バージョン :
+define('POTI_VER','v2.23.0');
+define('POTI_LOT','lot.210202.0'); 
 /*
-  *
-  * POTI-board改二 バージョン情報はちょっと下参照
-  *   (C)sakots >> https://poti-k.info/
-  *
+  (C)sakots >> https://poti-k.info/
+
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
   *   POTI-board v1.32
@@ -41,10 +44,6 @@ define('USE_DUMP_FOR_DEBUG','0');
 ご質問は、<https://poti-k.info/>までどうぞ。
 */
 
-//バージョン
-define('POTI_VER' , 'v2.22.6');
-define('POTI_VERLOT' , 'v2.22.6 lot.210130.1');
-
 if (($phpver = phpversion()) < "5.5.0") {
 	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n（Current PHP version:{$phpver}）");
 }
@@ -54,22 +53,11 @@ if (($phpver = phpversion()) < "5.5.0") {
 $mode = filter_input(INPUT_POST, 'mode');
 $mode = $mode ? $mode : filter_input(INPUT_GET, 'mode');
 $resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-$name = filter_input(INPUT_POST, 'name');
-$email = filter_input(INPUT_POST, 'email');
-$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
-$sub = filter_input(INPUT_POST, 'sub');
-$com = filter_input(INPUT_POST, 'com');
 $pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 $type = newstring(filter_input(INPUT_POST, 'type'));
-$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 $admin = newstring(filter_input(INPUT_POST, 'admin'));
 $pass = newstring(filter_input(INPUT_POST, 'pass'));
 $onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
-
-//v1.32 MONO WHITE
-$fcolor = newstring(filter_input(INPUT_POST, 'fcolor'));
-$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 
 //INPUT_GETから変数を取得
 
@@ -77,7 +65,6 @@ $res = filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 
 //INPUT_COOKIEから変数を取得
 
-$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
 $usercode = filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
 
 //エラーメッセージ
@@ -109,6 +96,9 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
 	error($err);
 }
 require(__DIR__.'/thumbnail_gd.php');
+
+//POTI_VERLOT定義
+define('POTI_VERLOT', POTI_VER.' '.POTI_LOT);
 
 //ユーザー削除権限 (0:不可 1:treeのみ許可 2:treeと画像のみ許可 3:tree,log,画像全て許可)
 //※treeのみを消して後に残ったlogは管理者のみ削除可能
@@ -166,8 +156,9 @@ defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
 defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
 
-/*-----------Main-------------*/
+//初期化
 init();		//←■■初期設定後は不要なので削除可■■
+//テンポラリ
 deltemp();
 
 //user-codeの発行
@@ -183,33 +174,32 @@ switch($mode){
 	case 'regist':
 		if(ADMIN_NEWPOST && !$resto){
 			if($pwd !== $ADMIN_PASS){
-				error(MSG029);
+				return error(MSG029);
 			}
 			$admin=$pwd;
 		}
-		return regist($name,$email,$sub,$com,$url,$pwd,$resto);
+		return regist();
 	case 'admin':
 		admin_in($pass);
-		if($admin==="del") admindel($pass);
+		if($admin==="del") return admindel($pass);
 		if($admin==="post"){
 			$dat['post_mode'] = true;
 			$dat['regist'] = true;
 			$dat = array_merge($dat,form($res,'valid'));
-			htmloutput(SKIN_DIR.OTHERFILE,$dat);
+			return htmloutput(SKIN_DIR.OTHERFILE,$dat);
 		}
 		if($admin==="update"){
 			updatelog();
-			redirect(PHP_SELF2, 0);
+			return redirect(PHP_SELF2, 0);
 		}
 		return;
 	case 'usrdel':
 		if (!USER_DELETES) {
-			error(MSG033);
+			return error(MSG033);
 		}
-		usrdel($del,$pwd);
+		userdel();
 		updatelog();
-		redirect(PHP_SELF2, 0);
-		return;
+		return redirect(PHP_SELF2, 0);
 	case 'paint':
 		return paintform();
 	case 'piccom':
@@ -220,7 +210,7 @@ switch($mode){
 		return incontinue();
 	case 'contpaint':
 		//パスワードが必要なのは差し換えの時だけ
-		if(CONTINUE_PASS||$type==='rep') check_cont_pass($no,$pwd);
+		if(CONTINUE_PASS||$type==='rep') check_cont_pass();
 		return paintform();
 	case 'newpost':
 		$dat['post_mode'] = true;
@@ -228,20 +218,18 @@ switch($mode){
 		$dat = array_merge($dat,form());
 		return htmloutput(SKIN_DIR.OTHERFILE,$dat);
 	case 'edit':
-		return editform($del,$pwd);
+		return editform();
 	case 'rewrite':
-		return rewrite($no,$name,$email,$sub,$com,$url,$pwd,$admin);
+		return rewrite();
 	case 'picrep':
 		return replace();
 	case 'catalog':
 		return catalog();
 	default:
 		if($res){
-			res($res);
-		}else{
-			redirect(PHP_SELF2, 0);
+			return res($res);
 		}
-		return;
+		return redirect(PHP_SELF2, 0);
 }
 
 exit;
@@ -288,7 +276,7 @@ function get_uip(){
 	return getenv("REMOTE_ADDR");
 }
 
-/* ベース */
+// ベース
 function basicpart(){
 	global $pallets_dat;
 	$dat['title'] = TITLE;
@@ -329,13 +317,14 @@ function basicpart(){
 	return $dat;
 }
 
-/* 投稿フォーム */
+// 投稿フォーム 
 function form($resno="",$adminin="",$tmp=""){
 	global $addinfo;
-	global $fontcolors,$quality,$qualitys;
+	global $fontcolors,$qualitys;
 	global $ADMIN_PASS;
 
 	$admin = ($adminin === 'valid');
+	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 
 	$dat['form'] = true;
 	if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY && !$resno && !$admin){//コメントのみも画像アップロードも禁止
@@ -405,7 +394,7 @@ function form($resno="",$adminin="",$tmp=""){
 	return $dat;
 }
 
-/* 記事部分 */
+// 記事表示 
 function updatelog(){
 	global $path;
 
@@ -481,7 +470,6 @@ function updatelog(){
 			$res['resub'] = $resub;
 			$dat['oya'][$oya] = $res;
 
-
 			//レス作成
 			$rres=array();
 			foreach($treeline as $k => $disptree){
@@ -499,7 +487,7 @@ function updatelog(){
 				$dat['oya'][$oya]['res'] = $rres[$oya];
 			}
 
-			clearstatcache(); //ファイルのstatをクリア
+			clearstatcache(); //キャッシュをクリア
 			$oya++;
 		}
 
@@ -540,14 +528,13 @@ function updatelog(){
 		flock($fp, LOCK_EX); //*
 		fwrite($fp, $buf);
 		closeFile($fp);
-		//拡張子を.phpにした場合、↑で500エラーでるなら↓に変更
 		if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 	}
 
 	safe_unlink(($page/PAGE_DEF+1).PHP_EXT);
 }
 
-/* 記事部分 */
+//レス画面を表示
 function res($resno = 0){
 
 	$tree = file(TREEFILE);
@@ -619,7 +606,7 @@ function res($resno = 0){
 	htmloutput(SKIN_DIR.RESFILE,$dat);
 }
 
-/* オートリンク */
+// 自動リンク
 function auto_link($proto){
 	if(!(stripos($proto,"script")!==false||stripos($proto,"<a")!==false)){//scriptがなければ続行
 		return preg_replace("{(https?|ftp)(://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)}","<a href=\"\\1\\2\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\\1\\2</a>",$proto);
@@ -627,7 +614,7 @@ function auto_link($proto){
 	return $proto;
 }
 
-/* 日付 */
+// 日付
 function now_date($time){
 	$youbi = array('日','月','火','水','木','金','土');
 	$yd = $youbi[date("w", $time)] ;
@@ -637,7 +624,7 @@ function now_date($time){
 	return $now;
 }
 
-/* エラー画面 */
+// エラー画面
 function error($mes,$dest=''){
 	safe_unlink($dest);
 	$dat['err_mode'] = true;
@@ -650,21 +637,30 @@ function error($mes,$dest=''){
 	exit;
 }
 
-/* 文字列の類似性を見積もる */
+// 文字列の類似性
 function similar_str($str1,$str2){
 	similar_text($str1, $str2, $p);
 	return $p;
 }
 
-/* 記事書き込み */
-function regist($name,$email,$sub,$com,$url,$pwd,$resto){
-	global $path,$pwdc;
+// 記事書き込み
+function regist(){
+	global $path;
 	global $temppath;
-	global $fcolor,$usercode;
+	global $usercode;
 	global $admin,$ADMIN_PASS;
 	
-	$REQUEST_METHOD = isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : "";
-	if($REQUEST_METHOD !== "POST") error(MSG006);
+	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
+
+	$resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
+	$name = filter_input(INPUT_POST, 'name');
+	$email = filter_input(INPUT_POST, 'email');
+	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = filter_input(INPUT_POST, 'sub');
+	$com = filter_input(INPUT_POST, 'com');
+	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$fcolor = newstring(filter_input(INPUT_POST, 'fcolor'));
+	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
 	
 	$userip = get_uip();
 	//ホスト取得
@@ -695,7 +691,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		}
 	}
 
-	$mes="";
+	$message="";
 
 	// 時間
 	$time = time();
@@ -750,12 +746,18 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		}
 	}
 
-	// フォーム内容をチェック
-	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
-	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
-	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
-	if(!$email||preg_match("/\A\s*\z|&lt;|</ui",$email)) $email="";
-	if(!$url||!preg_match("/\A *https?:\/\//",$url)||preg_match("/&lt;|</i",$url)) $url="";
+	//入力チェック
+	$checkd_post = check_post($com,$name,$email,$url,$sub,$dest);
+	$com = $checkd_post['com'];
+	$name = $checkd_post['name'];
+	$email = $checkd_post['email'];
+	$url = $checkd_post['url'];
+	$sub = $checkd_post['sub'];
+	if(strlen($resto) > 10) error(MSG015,$dest);
+	if(USE_NAME&&!$name) error(MSG009,$dest);
+	if(USE_COM&&!$com) error(MSG008,$dest);
+	if(USE_SUB&&!$sub) error(MSG010,$dest);
+
 	if(USE_CHECK_NO_FILE){
 		if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){
 			$textonly=true;//画像なし
@@ -767,17 +769,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 
 	if(!$com&&!$is_file_dest) error(MSG008,$dest);
 
-	if(USE_NAME&&!$name) error(MSG009,$dest);
-	if(USE_COM&&!$com) error(MSG008,$dest);
-	if(USE_SUB&&!$sub) error(MSG010,$dest);
-
-	if(strlen($com) > MAX_COM) error(MSG011,$dest);
-	if(strlen($name) > MAX_NAME) error(MSG012,$dest);
-	if(strlen($email) > MAX_EMAIL) error(MSG013,$dest);
-	if(strlen($sub) > MAX_SUB) error(MSG014,$dest);
-	if(strlen($resto) > 10) error(MSG015,$dest);
-
-	// No.とパスと時間とURLフォーマット
+	// パスワード未入力の時はパスワードを生成してクッキーにセット
 	$c_pass=filter_input(INPUT_POST, 'pwd');//エスケープ前の値をCookieにセット
 	if($pwd===''){
 		if($pwdc){//Cookieはnullの可能性があるので厳密な型でチェックしない
@@ -795,11 +787,11 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		$now .= " ID:" . getId($userip, $time);
 	}
 
-	//カンマを変換
+	//カンマをエスケープ
 	$now = str_replace(",", "&#44;", $now);
 	$ptime = str_replace(",", "&#44;", $ptime);
 
-	//テキスト整形
+	//エスケープと改行コード
 	$formatted_text = create_formatted_text_from_post($com,$name,$email,$url,$sub);
 	$com=$formatted_text['com'];
 	$name=$formatted_text['name'];
@@ -835,7 +827,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		}
 	}
 
-	// 連続・二重投稿チェック (v1.32:仕様変更)
+	// 連続・二重投稿チェック
 	$chkline=20;//チェックする最大行数
 	foreach($line as $i => $value){
 		if($value!==""){
@@ -895,6 +887,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 	if(!$com) $com=DEF_COM;
 	if(!$sub) $sub=DEF_SUB;
 
+	$ext=$W=$H=$chk="";
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 	//画像フォーマット
@@ -938,7 +931,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 			$H = ceil($H * $key);
 		}
 		$upfile_name=newstring($upfile_name);
-		$mes = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL."<br><br>";
+		$message = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL."<br><br>";
 
 		//重複チェック
 		$chkline=200;//チェックする最大行数
@@ -973,11 +966,9 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 		safe_unlink($upfile);
 		safe_unlink($temppath.$picfile.".dat");
 
-	} else{//画像が無い時
-		$ext=$W=$H=$chk="";
 	}
 	// ログ行数オーバー
-	$countline = count($line);//必要
+	$countline = count($line);
 	if($countline >= LOG_MAX){
 		for($d = $countline-1; $d >= LOG_MAX-1; $d--){
 			if($line[$d]!==""){
@@ -1096,7 +1087,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$resto){
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?{$time}" : ''),
 		1,
-		$mes . THE_SCREEN_CHANGES
+		$message . THE_SCREEN_CHANGES
 	);
 }
 
@@ -1140,25 +1131,29 @@ function treedel($delno){
 	closeFile($fp);
 }
 
-/* HTMLの特殊文字をエスケープ */
+// HTMLの特殊文字をエスケープ
 function newstring($str){
 	$str = trim($str);//先頭と末尾の空白除去
 	$str = htmlspecialchars($str,ENT_QUOTES,'utf-8');
-	return str_replace(",", "&#44;", $str);//カンマを変換
+	return str_replace(",", "&#44;", $str);//カンマをエスケープ
 }
 function newcomment($str){
 	global $admin,$ADMIN_PASS;
 	$str = trim($str);//先頭と末尾の空白除去
-		if($admin!==$ADMIN_PASS){//管理者以外タグ禁止
+		if($admin!==$ADMIN_PASS){//管理者以外タグ無効
 			$str = htmlspecialchars($str,ENT_QUOTES,'utf-8');
 		}
-	return str_replace(",", "&#44;", $str);//カンマを変換
+	return str_replace(",", "&#44;", $str);//カンマをエスケープ
 }
 
-/* ユーザー削除 */
-function usrdel($del,$pwd){
-	global $path,$pwdc,$onlyimgdel;
+// ユーザー削除
+function userdel(){
+	global $path,$onlyimgdel;
 
+	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
+	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
+	
 	if(!is_array($del)){
 		return;
 	}
@@ -1200,7 +1195,7 @@ function usrdel($del,$pwd){
 	closeFile($fp);
 }
 
-/* 管理パス認証 */
+// 管理パス認証
 function admin_in($pass){
 	global $ADMIN_PASS;
 	if($pass && $pass !== $ADMIN_PASS) error(MSG029);
@@ -1212,9 +1207,11 @@ function admin_in($pass){
 	}
 }
 
-/* 管理者削除 */
+// 管理者削除
 function admindel($pass){
-	global $path,$onlyimgdel,$del;
+	global $path,$onlyimgdel;
+
+	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 
 	if(is_array($del)){
 		sort($del);
@@ -1260,8 +1257,8 @@ function admindel($pass){
 		if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
 		if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
 		if($email) $name="<a href=\"mailto:$email\">$name</a>";
-		$com = preg_replace("{<br(( *)|( *)/)>}i"," ",$com);
-		$com = htmlspecialchars($com,ENT_QUOTES,'utf-8');
+		$com = preg_replace("#<br */?>#i"," ",$com);
+		$com = newstring($com);
 		if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
 		// 画像があるときはリンク
 		if($ext && is_file($path.$time.$ext)){
@@ -1324,7 +1321,7 @@ function check_file ($path,$check_writable='') {
 		if (!is_writable($path)) return $path . $msg043."<br>";
 	}
 }
-// ディレクトリ存在チェック　なければ作る
+// ディレクトリ存在チェック なければ作る
 function check_dir ($path) {
 
 	$msg041=defined('MSG041') ? MSG041 : "がありません"; 
@@ -1340,10 +1337,10 @@ function check_dir ($path) {
 	if (!is_writable($path)) return $path . $msg043."<br>";
 }
 
-/* お絵描き画面 */
+// お絵描き画面
 function paintform(){
-	global $admin,$type,$no,$pwd;
-	global $resto,$quality,$qualitys,$usercode;
+	global $admin,$type,$pwd;
+	global $resto,$qualitys,$usercode;
 	global $ADMIN_PASS,$pallets_dat;
 
 	$mode = filter_input(INPUT_POST, 'mode');
@@ -1355,6 +1352,8 @@ function paintform(){
 	$pch = newstring(filter_input(INPUT_POST, 'pch'));
 	$ext = newstring(filter_input(INPUT_POST, 'ext'));
 	$ctype = newstring(filter_input(INPUT_POST, 'ctype'));
+	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
+	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 
 	//Cookie保存
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
@@ -1564,7 +1563,7 @@ function paintform(){
 	htmloutput(SKIN_DIR.PAINTFILE,$dat);
 }
 
-/* お絵かきコメント */
+// お絵かきコメント 
 function paintcom(){
 	global $usercode;
 	$userip = get_uip();
@@ -1635,7 +1634,7 @@ function paintcom(){
 	htmloutput(SKIN_DIR.OTHERFILE,$dat);
 }
 
-/* 動画表示 */
+// 動画表示
 function openpch(){
 
 	$pch = newstring(filter_input(INPUT_GET, 'pch'));
@@ -1668,7 +1667,7 @@ function openpch(){
 	htmloutput(SKIN_DIR.PAINTFILE,$dat);
 }
 
-/* テンポラリ内のゴミ除去 */
+// テンポラリ内のゴミ除去 
 function deltemp(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
@@ -1690,7 +1689,7 @@ function deltemp(){
 	closedir($handle);
 }
 
-/* コンティニュー前画面 */
+// コンティニュー前画面
 function incontinue(){
 	global $addinfo;
 
@@ -1738,8 +1737,11 @@ function incontinue(){
 	htmloutput(SKIN_DIR.PAINTFILE,$dat);
 }
 
-/* コンティニュー認証 */
-function check_cont_pass($no,$pwd){
+// コンティニュー認証
+function check_cont_pass(){
+
+	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
 	$lines = file(LOGFILE);
 	foreach($lines as $line){
 		list($cno,,,,,,,,$cpwd,) = explode(",", $line);
@@ -1750,11 +1752,15 @@ function check_cont_pass($no,$pwd){
 	error(MSG028);
 }
 
-/* 編集画面 */
-function editform($del,$pwd){
-	global $pwdc,$addinfo;
+// 編集画面
+function editform(){
+	global $addinfo;
 	global $fontcolors;
 	global $ADMIN_PASS;
+
+	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
+	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
 
 	if (!is_array($del)) {
 		error(MSG031);
@@ -1793,7 +1799,7 @@ function editform($del,$pwd){
 	$dat['name'] = strip_tags($name);
 	$dat['email'] = $email;
 	$dat['sub'] = $sub;
-	$com = preg_replace("{<br(( *)|( *)/)>}i","\n",$com); // <br>または<br />を改行へ戻す
+	$com = preg_replace("#<br */?>#i","\n",$com); // <br>または<br />を改行へ戻す
 	$dat['com'] = $com;
 	$dat['url'] = $url;
 	$dat['pwd'] = $pwd;
@@ -1811,17 +1817,24 @@ function editform($del,$pwd){
 	htmloutput(SKIN_DIR.OTHERFILE,$dat);
 }
 
-/* 記事上書き */
-function rewrite($no,$name,$email,$sub,$com,$url,$pwd,$admin){
-	global $fcolor;
+// 記事上書き
+function rewrite(){
+
+	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 	
+	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$name = filter_input(INPUT_POST, 'name');
+	$email = filter_input(INPUT_POST, 'email');
+	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = filter_input(INPUT_POST, 'sub');
+	$com = filter_input(INPUT_POST, 'com');
+	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$admin = newstring(filter_input(INPUT_POST, 'admin'));
+	$fcolor = newstring(filter_input(INPUT_POST, 'fcolor'));
+
 	// 時間
 	$time = time();
 
-	$dest="";
-
-	$REQUEST_METHOD = isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : "";
-	if($REQUEST_METHOD !== "POST") error(MSG006);
 
 	$userip = get_uip();
 	//ホスト取得
@@ -1830,27 +1843,23 @@ function rewrite($no,$name,$email,$sub,$com,$url,$pwd,$admin){
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub);
 
-	// フォーム内容をチェック
-	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
-	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
-	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
-	if(!$email||preg_match("/\A\s*\z|&lt;|</ui",$email)) $email="";
-	if(!$url||!preg_match("/\A *https?:\/\//",$url)||preg_match("/&lt;|</i",$url)) $url="";
+	//入力チェック
+	$checkd_post = check_post($com,$name,$email,$url,$sub,$dest='');
+	$com = $checkd_post['com'];
+	$name = $checkd_post['name'];
+	$email = $checkd_post['email'];
+	$url = $checkd_post['url'];
+	$sub = $checkd_post['sub'];
 
-	if(strlen($com) > MAX_COM) error(MSG011);
-	if(strlen($name) > MAX_NAME) error(MSG012);
-	if(strlen($email) > MAX_EMAIL) error(MSG013);
-	if(strlen($sub) > MAX_SUB) error(MSG014);
-
-	// 時間とURLフォーマット
+	// 時間
 	$now = now_date($time);//日付取得
 	$now .= UPDATE_MARK;
 	if(DISP_ID){
 		$now .= " ID:" . getId($userip, $time);
 	}
-	$now = str_replace(",", "&#44;", $now);//カンマを変換
+	$now = str_replace(",", "&#44;", $now);//カンマをエスケープ
 	
-	//テキスト整形
+	//エスケープと改行コード
 	$formatted_text = create_formatted_text_from_post($com,$name,$email,$url,$sub);
 	$com = $formatted_text['com'];
 	$name = $formatted_text['name'];
@@ -1898,14 +1907,13 @@ function rewrite($no,$name,$email,$sub,$com,$url,$pwd,$admin){
 		'画面を切り替えます'
 	);
 }
-
-/* 画像差し換え */
+// 画像差し換え
 function replace(){
 	global $path,$temppath;
 	$no = filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
 	$pwd = newstring(filter_input(INPUT_GET, 'pwd'));
 	$repcode = newstring(filter_input(INPUT_GET, 'repcode'));
-	$mes="";
+	$message="";
 	$userip = get_uip();
 	//ホスト取得
 	$host = gethostbyaddr($userip);
@@ -1987,7 +1995,7 @@ function replace(){
 	
 			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$tim.$imgext);
-			$mes = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
+			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
 			//元のサイズを基準にサムネイルを作成
 			if(USE_THUMB){
@@ -2021,7 +2029,7 @@ function replace(){
 			if($ptime && $_ptime){
 				$ptime = is_numeric($ptime) ? ($ptime+$psec) : $ptime.'+'.$_ptime;
 			}
-			//カンマを変換
+			//カンマをエスケープ
 			$now = str_replace(",", "&#44;", $now);
 			$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
 			$now=DO_NOT_CHANGE_POSTS_TIME ? $enow : $now;
@@ -2044,11 +2052,11 @@ function replace(){
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?{$time}" : ''),
 		1,
-		$mes . THE_SCREEN_CHANGES
+		$message . THE_SCREEN_CHANGES
 	);
 }
 
-/* カタログ */
+// カタログ
 function catalog(){
 
 	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
@@ -2125,13 +2133,13 @@ function catalog(){
 	htmloutput(SKIN_DIR.CATALOGFILE,$dat);
 }
 
-/* 文字コード変換 */
+// 文字コード変換 
 function charconvert($str){
 	mb_language(LANG);
 		return mb_convert_encoding($str, "UTF-8", "auto");
 }
 
-/* NGワードがあれば拒絶 */
+// NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	global $badstring,$badname,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
 	//チェックする項目から改行・スペース・タブを消す
@@ -2174,27 +2182,47 @@ function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 
 }
 
-//テキスト整形
+//入力チェック
+function check_post($com,$name,$email,$url,$sub,$dest=''){
+
+	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
+	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
+	if(!$email||preg_match("/\A\s*\z|&lt;|</ui",$email)) $email="";
+	if(!$url||!preg_match("/\A *https?:\/\//",$url)||preg_match("/&lt;|</i",$url)) $url="";
+	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
+	if(strlen($com) > MAX_COM) error(MSG011,$dest);
+	if(strlen($name) > MAX_NAME) error(MSG012,$dest);
+	if(strlen($email) > MAX_EMAIL) error(MSG013,$dest);
+	if(strlen($sub) > MAX_SUB) error(MSG014,$dest);
+
+	$checkd_post = [
+		'com' => $com,
+		'name' => $name,
+		'email' => $email,
+		'url' => $url,
+		'sub' => $sub,
+	];
+	return $checkd_post;
+}
+
+//エスケープと改行コード 
 function create_formatted_text_from_post ($com,$name,$email,$url,$sub){
 
-	$email = strip_tags($email);
+	$com = newcomment($com);//エスケープ
+	$name = newstring($name);//エスケープ
 	$email = newstring($email); 
-	$email = str_replace(["\r\n","\n","\r"],"",$email);
-	$sub = newstring($sub);
-	$sub = str_replace(["\r\n","\n","\r"],"",$sub);
 	$url = newstring($url);
+	$sub = newstring($sub);
+	$name = str_replace(["\r\n","\n","\r"],"",$name);//改行コード除去
+	$email = str_replace(["\r\n","\n","\r"],"",$email);
+	$sub = str_replace(["\r\n","\n","\r"],"",$sub);
 	$url = preg_replace("/\s/u","",$url);//空白と改行を消す
-	$com = newcomment($com);
-
-	// 改行文字の統一
-	$com = str_replace(["\r\n","\r"], "\n", $com);
-	// 連続する空行を一行
-	$com = preg_replace("/(\s*\n){4,}/u","\n",$com);
-	$com = nl2br($com);		//改行文字の前に<br>を代入する
-	$com = str_replace("\n", "", $com);	//\nを文字列から消す
 	$name = str_replace("◆", "◇", $name);
-	$name = str_replace(["\r\n","\n","\r"],"",$name);
-	$name = newstring($name);
+	$email = strip_tags($email);
+	$com = str_replace(["\r\n","\r"], "\n", $com);//改行コードの統一
+	$com = preg_replace("/(\s*\n){4,}/u","\n",$com); //不要改行カット
+	$com = nl2br($com);	//改行文字の前に HTMLの改行タグ
+	$com = str_replace("\n", "", $com);	//改行文字を消す
 	$formatted_text = [
 		'com' => $com,
 		'name' => $name,
@@ -2205,7 +2233,7 @@ function create_formatted_text_from_post ($com,$name,$email,$url,$sub){
 	return $formatted_text;
 }
 
-/* HTML出力 */
+// HTML出力
 function htmloutput($template,$dat,$buf_flag=''){
 	global $Skinny;
 	$dat += basicpart();//basicpart()で上書きしない
@@ -2236,13 +2264,15 @@ function redirect ($url, $wait = 0, $message = '') {
 }
 
 function getImgType ($img_type, $dest) {
+
 	switch ($img_type) {
 		case "image/gif" : return ".gif";
 		case "image/jpeg" : return ".jpg";
 		case "image/png" : return ".png";
 		case "image/webp" : return ".webp";
+		default : return error(MSG004, $dest);
 	}
-	error(MSG004, $dest);
+	
 }
 
 /**

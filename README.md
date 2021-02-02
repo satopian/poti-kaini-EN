@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/02] v2.23.0 lot.210202.0
+
+- Not to do use variables that can be obtained with filter_input() as function arguments (by satopian)
+- To be a function of input check (by satopian)
+- Tuning the source code (by satopian)
+
 ### [2021/01/30] v2.22.6 lot.210130.0
 
 - Move `picpost.systemlog` settings to `picpost.php` (by satopian)
