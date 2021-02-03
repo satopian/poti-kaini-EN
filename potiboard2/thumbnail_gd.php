@@ -1,9 +1,9 @@
 <?php
 //サムネイル作成
+//210203 コード整理
 //201218 webp形式対応
-if(!defined('PERMISSION_FOR_DEST')){//config.phpで未定義なら0606
-	define('PERMISSION_FOR_DEST', 0606);
-}
+defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
+
 function thumb($path,$tim,$ext,$max_w,$max_h){
 	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG"))return;
 	$fname=$path.$tim.$ext;

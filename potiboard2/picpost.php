@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.210130  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.210203  by SakaQ >> http://www.punyu.net/php/
 // & sakots >> https://poti-k.info/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2021/02/03 コード整理。
 // 2021/01/30 picpost.systemlogの設定をpicpost.phpに移動。raw POST データ取得処理を整理。
 // 2021/01/01 エラーログのパーミッションもconfig.phpで設定できるようにした。
 // 2020/12/20 config.phpでパーミッションを設定できるようにした。
@@ -42,17 +43,11 @@ $syslog = isset($syslog) ? $syslog : "picpost.systemlog";
 //システムログ保存件数
 $syslogmax = isset($syslogmax) ? $syslogmax :'100';
 
-if(!defined('PERMISSION_FOR_LOG')){//config.phpで未定義なら0600
-	define('PERMISSION_FOR_LOG', 0600);
-}
-if(!defined('PERMISSION_FOR_DEST')){//config.phpで未定義なら0606
-	define('PERMISSION_FOR_DEST', 0606);
-}
+defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
+defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
-//タイムゾーン
-if(!defined('DEFAULT_TIMEZONE')){//config.phpで未定義ならAsia/Tokyo
-	define('DEFAULT_TIMEZONE','Asia/Tokyo');
-}
+//タイムゾーン config.phpで未定義ならAsia/Tokyo
+defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');
 date_default_timezone_set(DEFAULT_TIMEZONE);
 
 //容量違反チェックをする する:1 しない:0

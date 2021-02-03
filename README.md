@@ -26,6 +26,15 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/03] v2.23.1 lot.210203.0
+
+- Fixed not to create a link unless the correct character string is entered as an email address in the email field (by satopian)
+- Fixed remained Japanese message that should have been replaced with a constant (by satopian)
+- Fixed a large number of blank lines in the log file when the number of log holdings is exceeded (by satopian)
+- Fixed double cookie encoding (by satopian)
+- Fine-tuning the source code of `picpsot.php` and `thumbnail.php` (by sakots)
+  - The function itself has not changed.
+
 ### [2021/02/02] v2.23.0 lot.210202.0
 
 - Not to do use variables that can be obtained with filter_input() as function arguments (by satopian)
