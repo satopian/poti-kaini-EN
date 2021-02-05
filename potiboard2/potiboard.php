@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.1');
-define('POTI_LOT','lot.210203.0'); 
+define('POTI_VER','v2.25.0');
+define('POTI_LOT','lot.210205.0'); 
 /*
   (C)sakots >> https://poti-k.info/
 
@@ -176,7 +176,6 @@ switch($mode){
 			if($pwd !== $ADMIN_PASS){
 				return error(MSG029);
 			}
-			$admin=$pwd;
 		}
 		return regist();
 	case 'admin':
@@ -331,13 +330,13 @@ function form($resno="",$adminin="",$tmp=""){
 	global $fontcolors,$qualitys;
 	global $ADMIN_PASS;
 
-	$admin = ($adminin === 'valid');
+	$admin_valid = ($adminin === 'valid');
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 
 	$dat['form'] = true;
-	if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY && !$resno && !$admin){//コメントのみも画像アップロードも禁止
+	if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY && !$resno && !$admin_valid){//コメントのみも画像アップロードも禁止
 		$dat['form'] = false;//トップページのフォームを閉じる
-		if(USE_PAINT==1 && !$resno && !$admin){
+		if(USE_PAINT==1 && !$resno && !$admin_valid){
 			$dat['paint2'] = true;
 		}
 	}
@@ -348,7 +347,7 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 		$dat['pmaxw'] = PMAX_W;
 		$dat['pmaxh'] = PMAX_H;
-		if(USE_PAINT==2 && !$resno && !$admin){
+		if(USE_PAINT==2 && !$resno && !$admin_valid){
 			$dat['paint2'] = true;
 			$dat['form'] = false;
 		}
@@ -362,14 +361,16 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['notres'] = true;
 	}
 
-	if($admin) $dat['admin'] = $ADMIN_PASS;
+	if($admin_valid) {
+		$dat = array_merge($dat,admin_valid());//セッションによる管理者認証
+	}
 
 	$dat['maxbyte'] = 2048 * 1024;//フォームのHTMLによるファイルサイズの制限 2Mまで
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	if(USE_COM||($resno&&!RES_UPLOAD)) $dat['usecom'] = ' *';
 	//本文必須の設定では無い時はレスでも画像かコメントがあれば通る
-	if(!USE_IMG_UPLOAD && !$admin){//画像アップロード機能を使わない時
+	if(!USE_IMG_UPLOAD && !$admin_valid){//画像アップロード機能を使わない時
 		$dat['upfile'] = false;
 	} else{
 		if((!$resno && !$tmp) || (RES_UPLOAD && !$tmp)) $dat['upfile'] = true;
@@ -399,6 +400,16 @@ function form($resno="",$adminin="",$tmp=""){
 	}
 	$dat['qualitys'] = $qline;
 
+	return $dat;
+}
+
+//セッションによる管理者認証
+function admin_valid(){//この関数を呼ぶのは管理パスが一致したときだけ
+	session_start();
+	$token = openssl_random_pseudo_bytes(16);
+	$token = bin2hex($token);
+	$_SESSION['admin_in'] = $token;//ワンタイムトークンの発行
+	$dat['admin'] = $token;//hiddenにトークン、管理モード(admin)をtrueに。
 	return $dat;
 }
 
@@ -659,16 +670,18 @@ function regist(){
 	
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
+	session_start();
+
 	$resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-	$name = newstring(filter_input(INPUT_POST, 'name'));
-	$email = newstring(filter_input(INPUT_POST, 'email'));
-	$url = newstring(filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL));
-	$sub = newstring(filter_input(INPUT_POST, 'sub'));
-	$com = newcomment(filter_input(INPUT_POST, 'com'));
-	$fcolor = newstring(filter_input(INPUT_POST, 'fcolor'));
+	$com = filter_input(INPUT_POST, 'com');
+	$name = filter_input(INPUT_POST, 'name');
+	$email = filter_input(INPUT_POST, 'email');
+	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = filter_input(INPUT_POST, 'sub');
+	$fcolor = filter_input(INPUT_POST, 'fcolor');
 	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
 	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
-	
+
 	$userip = get_uip();
 	//ホスト取得
 	$host = gethostbyaddr($userip);
@@ -735,7 +748,7 @@ function regist(){
 		if($pictmp==2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
-			if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){//アップロード禁止で管理画面からの投稿ではない時
+			if(!USE_IMG_UPLOAD && $_SESSION['admin_in']!==$admin){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
 			}
 			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
@@ -751,29 +764,6 @@ function regist(){
 			error(MSG003,$dest);
 		}
 	}
-
-	//入力チェック
-	$checkd_post = check_post($com,$name,$email,$sub,$dest);
-	$com = $checkd_post['com'];
-	$name = $checkd_post['name'];
-	$email = $checkd_post['email'];
-	$sage = $checkd_post['sage'];
-	$sub = $checkd_post['sub'];
-	if(strlen($resto) > 10) error(MSG015,$dest);
-	if(USE_NAME&&!$name) error(MSG009,$dest);
-	if(USE_COM&&!$com) error(MSG008,$dest);
-	if(USE_SUB&&!$sub) error(MSG010,$dest);
-
-	if(USE_CHECK_NO_FILE){
-		if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){
-			$textonly=true;//画像なし
-		}
-		if(!$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
-		if(RES_UPLOAD&&$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
-	}
-	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&&$admin!==$ADMIN_PASS) error(MSG039,$dest);
-
-	if(!$com&&!$is_file_dest) error(MSG008,$dest);
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
 	$c_pass=filter_input(INPUT_POST, 'pwd');//エスケープ前の値をCookieにセット
@@ -797,13 +787,27 @@ function regist(){
 	$date = str_replace(",", "&#44;", $date);
 	$ptime = str_replace(",", "&#44;", $ptime);
 
-	//改行コード
-	$formatted_text = create_formatted_text_from_post($com,$name,$email,$url,$sub);
-	$com=$formatted_text['com'];
-	$name=$formatted_text['name'];
-	$email=$formatted_text['email'];
-	$url=$formatted_text['url'];
-	$sub=$formatted_text['sub'];
+	if(USE_CHECK_NO_FILE){
+		if(!USE_IMG_UPLOAD && $_SESSION['admin_in']!==$admin){
+			$textonly=true;//画像なし
+		}
+		if(!$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
+		if(RES_UPLOAD&&$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
+	}
+	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&&$_SESSION['admin_in']!==$admin) error(MSG039,$dest);
+	if(strlen($resto) > 10) error(MSG015,$dest);
+
+	//フォーマット
+	$formatted_post = create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest);
+	$com = $formatted_post['com'];
+	$name = $formatted_post['name'];
+	$email = $formatted_post['email'];
+	$url = $formatted_post['url'];
+	$sub = $formatted_post['sub'];
+	$fcolor = $formatted_post['fcolor'];
+	$sage = $formatted_post['sage'];
+
+	if(!$com&&!$is_file_dest) error(MSG008,$dest);
 
 	//ログ読み込み
 	$fp=fopen(LOGFILE,"r+");
@@ -1143,22 +1147,14 @@ function treedel($delno){
 
 // HTMLの特殊文字をエスケープ
 function newstring($str){
-	$str = trim($str);//先頭と末尾の空白除去
+	$str = trim($str);
 	$str = htmlspecialchars($str,ENT_QUOTES,'utf-8');
-	return str_replace(",", "&#44;", $str);//カンマをエスケープ
-}
-function newcomment($str){
-	global $admin,$ADMIN_PASS;
-	$str = trim($str);//先頭と末尾の空白除去
-	if($admin!==$ADMIN_PASS){//管理者以外タグ無効
-		$str = htmlspecialchars($str,ENT_QUOTES,'utf-8');
-	}
 	return str_replace(",", "&#44;", $str);//カンマをエスケープ
 }
 
 // ユーザー削除
 function userdel(){
-	global $path,$onlyimgdel;
+	global $path,$onlyimgdel,$ADMIN_PASS;
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
@@ -1183,7 +1179,7 @@ function userdel(){
 	foreach($line as $i => $value){//190701
 		if($value!==""){
 			list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",$value);
-			if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
+			if(in_array($no,$del) && (check_password($pwd, $pass)||$pwd===$ADMIN_PASS)){
 				if(!$onlyimgdel){	//記事削除
 					treedel($no);
 					if(USER_DELETES > 2){
@@ -1339,6 +1335,8 @@ function paintform(){
 	global $resto,$qualitys,$usercode;
 	global $ADMIN_PASS,$pallets_dat;
 
+	session_start();
+
 	$mode = filter_input(INPUT_POST, 'mode');
 	$picw = filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
@@ -1357,7 +1355,7 @@ function paintform(){
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	//pchファイルアップロードペイント
-	if($admin===$ADMIN_PASS){
+	if($_SESSION['admin_in']===$admin){
 		
 		$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
 		
@@ -1776,7 +1774,7 @@ function editform(){
 	foreach($line as $value){
 		if($value){
 			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,,,,$fcolor) = explode(",", rtrim($value));
-			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
+			if ($no == $del[0] && (check_password($pwd, $pass)||$pwd===$ADMIN_PASS)){
 				$flag = TRUE;
 				break;
 			}
@@ -1788,7 +1786,11 @@ function editform(){
 
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
-	if($ADMIN_PASS === $pwd) $dat['admin'] = $ADMIN_PASS;
+	if($ADMIN_PASS === $pwd) {
+		$dat = array_merge($dat,admin_valid());//セッションによる管理者認証
+	}else{
+		$dat['pwd'] = $pwd;//編集画面に管理パスをださない
+	}
 	$dat['maxbyte'] = MAX_KB * 1024;
 	$dat['maxkb']   = MAX_KB;
 	$dat['addinfo'] = $addinfo;
@@ -1798,7 +1800,6 @@ function editform(){
 	$com = preg_replace("#<br */?>#i","\n",$com); // <br>または<br />を改行へ戻す
 	$dat['com'] = $com;
 	$dat['url'] = $url;
-	$dat['pwd'] = $pwd;
 
 	//文字色
 	if(USE_FONTCOLOR){
@@ -1818,15 +1819,15 @@ function rewrite(){
 
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 	
-	$name = newstring(filter_input(INPUT_POST, 'name'));
-	$email = newstring(filter_input(INPUT_POST, 'email'));
-	$url = newstring(filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL));
-	$sub = newstring(filter_input(INPUT_POST, 'sub'));
-	$com = newcomment(filter_input(INPUT_POST, 'com'));
+	$com = filter_input(INPUT_POST, 'com');
+	$name = filter_input(INPUT_POST, 'name');
+	$email = filter_input(INPUT_POST, 'email');
+	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = filter_input(INPUT_POST, 'sub');
+	$fcolor = filter_input(INPUT_POST, 'fcolor');
 	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
 	$admin = newstring(filter_input(INPUT_POST, 'admin'));
-	$fcolor = newstring(filter_input(INPUT_POST, 'fcolor'));
 
 	$userip = get_uip();
 	//ホスト取得
@@ -1835,13 +1836,6 @@ function rewrite(){
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub);
 
-	//入力チェック
-	$checkd_post = check_post($com,$name,$email,$sub,$dest='');
-	$com = $checkd_post['com'];
-	$name = $checkd_post['name'];
-	$email = $checkd_post['email'];
-	$sub = $checkd_post['sub'];
-
 	// 時間
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
@@ -1849,14 +1843,15 @@ function rewrite(){
 		$date .= " ID:" . getId($userip, time());
 	}
 	$date = str_replace(",", "&#44;", $date);//カンマをエスケープ
-	
-	//改行コード
-	$formatted_text = create_formatted_text_from_post($com,$name,$email,$url,$sub);
-	$com=$formatted_text['com'];
-	$name=$formatted_text['name'];
-	$email=$formatted_text['email'];
-	$url=$formatted_text['url'];
-	$sub=$formatted_text['sub'];
+
+	//フォーマット
+	$formatted_post = create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest='');
+	$com = $formatted_post['com'];
+	$name = $formatted_post['name'];
+	$email = $formatted_post['email'];
+	$url = $formatted_post['url'];
+	$sub = $formatted_post['sub'];
+	$fcolor = $formatted_post['fcolor'];
 	
 	//ログ読み込み
 	$fp=fopen(LOGFILE,"r+");
@@ -2130,6 +2125,8 @@ function charconvert($str){
 // NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	global $badstring,$badname,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
+	session_start();
+
 	//チェックする項目から改行・スペース・タブを消す
 	$chk_com  = preg_replace("/\s/u", "", $com );
 	$chk_name = preg_replace("/\s/u", "", $name );
@@ -2143,7 +2140,7 @@ function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	}
 
 	//本文へのURLの書き込みを禁止
-	if(!($pwd===$ADMIN_PASS||$admin===$ADMIN_PASS)){//どちらも一致しなければ
+	if(!($pwd===$ADMIN_PASS||$_SESSION['admin_in']===$admin)){//どちらも一致しなければ
 		if(DENY_COMMENTS_URL && preg_match('/:\/\/|\.co|\.ly|\.gl|\.net|\.org|\.cc|\.ru|\.su|\.ua|\.gd/i', $com)) error(MSG036);
 	}
 
@@ -2165,53 +2162,57 @@ function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	}
 	
 	//管理モードで使用できるタグを制限
-	$chk_com  = newcomment($chk_com);//管理者はタグ有効
 	if(preg_match('/<script|<\?php|<img|<a onmouseover|<iframe|<frame|<div|<table|<meta|<base|<object|<embed|<input|<body|<style/i', $chk_com)) error(MSG038);
 
 }
 
-//入力チェック
-function check_post($com,$name,$email,$sub,$dest=''){
-	
+//POSTされた入力をチェックしてログファイルに格納する書式にフォーマット
+function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest=''){
+
+	//入力チェック
 	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
-	$sage=(stripos($email,'sage')!==false);
-	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
+	$name = str_replace("◆", "◇", $name);
+	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
+	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 	if(strlen($com) > MAX_COM) error(MSG011,$dest);
 	if(strlen($name) > MAX_NAME) error(MSG012,$dest);
 	if(strlen($email) > MAX_EMAIL) error(MSG013,$dest);
 	if(strlen($sub) > MAX_SUB) error(MSG014,$dest);
-	$name = str_replace("◆", "◇", $name);
-
-	$checkd_post = [
-		'com' => $com,
-		'name' => $name,
-		'email' => $email,
-		'sage' => $sage,
-		'sub' => $sub,
-	];
-	return $checkd_post;
-}
-
-//改行コード
-function create_formatted_text_from_post($com,$name,$email,$url,$sub){
-
+	if(USE_NAME&&!$name) error(MSG009,$dest);
+	if(USE_COM&&!$com) error(MSG008,$dest);
+	if(USE_SUB&&!$sub) error(MSG010,$dest);
 	
+	//コメントのエスケープ
+	session_start();
+
+	$admin=filter_input(INPUT_POST,'admin');
+	if($com && $_SESSION['admin_in']!==$admin){//管理者以外タグ無効
+		$com = htmlspecialchars($com,ENT_QUOTES,'utf-8');
+	}
+	$com = trim($com);
+	$com = str_replace(",", "&#44;", $com);
+	
+	// 改行コード
 	$com = str_replace(["\r\n","\r"], "\n", $com);
 	$com = preg_replace("/(\s*\n){4,}/u","\n",$com); //不要改行カット
 	$com = nl2br($com);	//改行文字の前に HTMLの改行タグ
-	$formatted_text = [
+	
+	$formatted_post = [//コメント以外のエスケープと配列への格納
 		'com' => $com,
-		'name' => $name,
-		'email' => $email,
-		'url' => $url,
-		'sub' => $sub,
+		'name' => newstring($name),
+		'email' => newstring($email),
+		'sage' => newstring($sage),
+		'url' => newstring($url),
+		'sub' => newstring($sub),
+		'fcolor' => newstring($fcolor),
 	];
-	foreach($formatted_text as $key => $val){//改行コード除去
-		$formatted_text[$key]=str_replace(["\r\n","\n","\r"],"",$val);
+	foreach($formatted_post as $key => $val){
+		$formatted_post[$key]=str_replace(["\r\n","\n","\r"],"",$val);//改行コード一括除去
 	}
-	return $formatted_text;
+	
+	return $formatted_post;
 }
 
 // HTML出力
@@ -2496,11 +2497,12 @@ function get_lineindex ($line){
 	return $lineindex;
 }
 
-function check_password ($pwd, $epwd, $adminPass = false) {
-	global $ADMIN_PASS;
+function check_password ($pwd, $epwd, $admin = false) {
+
+	session_start();
 	return
 		password_verify($pwd, $epwd)
 		|| $epwd === substr(md5($pwd), 2, 8)
-		|| ($adminPass ? ($adminPass === $ADMIN_PASS) : false); // 管理パスを許可する場合
+		|| ($admin ? ($_SESSION['admin_in']===$admin) : false); // 管理者モード
 }
 

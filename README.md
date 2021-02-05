@@ -26,6 +26,15 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/05] v2.25.0 lot.210205.0
+
+- Changed to use session and one-time token when posting and editing by administrators (by satopian)
+  - The old method of authenticating by putting the admin password in the hidden field has been abandoned, and the security has been improved because the admin password is not shown in the HTML file source.
+- Update the theme MONO (by sakots)
+  - Discontinue use of Font Awesome and use svg files for icons.
+  - Changed the image size input method from a pull-down menu to a numerical input method.
+  - Support for pch upload painting in admin posts.
+
 ### [2021/02/03] v2.23.1 lot.210203.0
 
 - Fixed not to create a link unless the correct character string is entered as an email address in the email field (by satopian)
