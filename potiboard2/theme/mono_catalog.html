@@ -29,8 +29,6 @@
 		<noscript>
 			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
 		</noscript>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css"> -->
 		<title><% echo(title) %></title>
 	</head>
 	<body>
@@ -50,7 +48,7 @@
 					[catalog]
 					<a href="<% echo(self) %>">[normal mode]</a>
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[temporary pictures]</a>
-					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+					<a href="#footer" title="to bottom">[&darr;]</i></a>
 				</nav>
 				<hr>
 				<h2>Catalog mode</h2>
@@ -62,43 +60,17 @@
 							<% def(applet) %>
 							<input type="hidden" name="shi" value="1">
 							<% /def %>
-							<label>
-								width: <select name="picw" title="width" class="form">
-									<?php
-									//width 300 to PMAX_W
-										for($i = 300; $i <=PMAX_W ; $i+=50){ // Increase by 50
-										if(PDEF_W==$i){ // default
-										echo'<option value="'.$i.'" selected>'.$i.'</option>';
-										}
-										else{
-										echo'<option value="'.$i.'">'.$i.'</option>';
-										}
-										}
-									?>
-								</select>
-							</label>
-							<label>
-								height: <select name="pich" title="height" class="form">
-									<?php
-									//height 300 to PMAX_H
-										for($i = 300; $i <=PMAX_H ; $i+=50){ // Increase by 50
-										if(PDEF_H==$i){ // default
-										echo'<option value="'.$i.'" selected>'.$i.'</option>';
-										}
-										else{
-										echo'<option value="'.$i.'">'.$i.'</option>';
-										}
-										}
-									?>
-								</select>
-							</label>
+							<label>width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>"></label>
+							<label>height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>"></label>
+							<% def(use_select_palettes) %>
+							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
+							<% /def %>
 							<% def(resno) %>
 							<input type="hidden" name="resto" value="<% echo(resno) %>">
 							<% /def %>
-							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record the animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record the animation</label><% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record the animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record the animation (TimePlus)</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
 							<input class="button" type="submit" value="Paint">
-							<!-- NEOを使う -->
 							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
 						</p>
 					</form>
@@ -106,7 +78,7 @@
 					<ul>
 						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
 						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
-						<li>If checked USE NEO, PaintBBS NEO runs.</li>
+						<li>If checked USE NEO, PaintBBS NEO runs. Or not, Shi-Painter runs.</li>
 						<% def(addinfo) %><% echo (addinfo) %><% /def %>
 					</ul>
 					<% /def %>
@@ -135,7 +107,6 @@
 		</main>
 		<footer id="footer">
 			<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
 			<article>
 				<% def(notres) %>
 				<p class="page">

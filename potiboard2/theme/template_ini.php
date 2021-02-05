@@ -7,7 +7,7 @@
 */
 
 //theme version
-define('TEMPLATE_VER', "v1.17.0 lot.210105.0");
+define('TEMPLATE_VER', "v1.18.4 lot.210206.0");
 
 //General message
 

@@ -29,7 +29,6 @@
 		<noscript>
 			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
 		</noscript>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 		<title><% echo(title) %></title>
 		<% def(notres) %>
 		<% def(n) %>
@@ -75,7 +74,7 @@
 					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
 					[normal mode]
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[temporary pictures]</a>
-					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
 				<hr>
 				<% def(resno) %>
@@ -86,7 +85,6 @@
 					<script>function add_to_com(){
 						document.getElementById("p_input_com").value += "<% echo(resname) %><% def(_san)%><% echo(_san) %><% /def %>";
 						}</script>
-					
 					<% copy_button %><button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
 					<% /def %>
 					<% /each %>
@@ -105,46 +103,17 @@
 							<% def(applet) %>
 							<input type="hidden" name="shi" value="1">
 							<% /def %>
-								width: <select name="picw" title="width" class="form">
-									<?php
-									//width 300 to PMAX_W.
-										for($i = 300; $i <=PMAX_W ; $i+=50){ // Increase by 50
-										if(PDEF_W==$i){ // default
-										echo'<option value="'.$i.'" selected>'.$i.'</option>';
-										}
-										else{
-										echo'<option value="'.$i.'">'.$i.'</option>';
-										}
-										}
-									?>
-								</select>
-								height: <select name="pich" title="height" class="form">
-									<?php
-									//height 300 to PMAX_H.
-										for($i = 300; $i <=PMAX_H ; $i+=50){ // Increase by 50
-										if(PDEF_H==$i){ // default
-										echo'<option value="'.$i.'" selected>'.$i.'</option>';
-										}
-										else{
-										echo'<option value="'.$i.'">'.$i.'</option>';
-										}
-										}
-									?>
-								</select>
+							<label>width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>"></label>
+							<label>height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>"></label>
 							<% def(use_select_palettes) %>
 							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
 							<% /def %>
 							<% def(resno) %>
 							<input type="hidden" name="resto" value="<% echo(resno) %>">
 							<% /def %>
-							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record animation</label><% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record animation (TimePlus)</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
 							<input class="button" type="submit" value="Paint">
-							<% def(n) %>
-							If you include <label> - </label> of [USE NEO] by def(usepbbs), 
-							The check box will not appear if you use only Shi-Painter, but we do not recommend it.
-							<% /def %>
-							<!-- USE NEO -->
 							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
 						</p>
 					</form>
@@ -152,7 +121,7 @@
 					<ul>
 						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
 						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
-						<li>If checked USE NEO, PaintBBS NEO runs.</li>
+						<li>If checked USE NEO, PaintBBS NEO runs. Or not, Shi-Painter runs.</li>
 						<% def(addinfo) %><% echo (addinfo) %><% /def %>
 					</ul>
 					<% /def %>
@@ -203,7 +172,7 @@
 							<% /def %>
 							<tr>
 								<td>Pass</td>
-								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"><small>Required to delete article</small></td>
+								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"> <small>Required to delete article</small></td>
 							</tr>
 						</table>
 						<ul>
@@ -214,7 +183,7 @@
 							<li>If you want to attach an image, uncheck'No File'.</li>
 							<% /def %>
 							<% /def %>
-							<li>Attachable files type: GIF, JPG, and PNG. Depending on the browser, it may not be possible to attach normally.</li>
+							<li>Attachable files type: GIF, JPG, PNG and WEBP. Depending on the browser, it may not be possible to attach normally.</li>
 							<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
 							<% /def %>
 							<li>The maximum amount of posted data is <% echo(maxkb) %>KB. With sage function.</li>
@@ -231,7 +200,7 @@
 				<div class="thread">
 					<h2><span class="oyano">[<% echo(oya/no) %>]</span> <% echo(oya/sub) %></h2>
 					<h3>
-						<span class="name"><a href="search.php?page=1&imgsearch=on&query=<% echo (oya/encoded_name) %>&radio=2" target="_blank" rel="noopener"><% echo (oya/name) %></a></span><span class="trip"><% echo(oya/trip) %></span> :
+						<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/name) %></a></span><span class="trip"><% echo(oya/trip) %></span> :
 						<% echo(oya/now) %><% def(oya/id) %> ID : <% echo(oya/id) %><% /def %><% def(oya/url) %> <span class="url">[<a href="<% echo(oya/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span> <% /def %><% def(oya/email) %><a href="mailto:<% echo(oya/email) %>">[mail]</a><% /def %> <% def(oya/updatemark) %><% echo(oya/updatemark) %><% /def %>
 					</h3>
 					<hr>
@@ -263,7 +232,7 @@
 								<h4>
 									<span class="oyaresno">[<% echo(oya/res/no) %>]</span>
 									<span class="rsub"><% echo(oya/res/sub) %></span> :
-									<span class="name"><a href="search.php?page=1&imgsearch=on&query=<% echo (oya/res/encoded_name) %>&radio=2" target="_blank" rel="noopener"><% echo (oya/res/name) %></a></span><span class="trip"><% echo(oya/res/trip) %></span> : <% echo(oya/res/now) %><% def(oya/res/id) %> ID : <% echo(oya/res/id) %><% /def %><% def(oya/res/url) %> <span class="url">[<a href="<% echo(oya/res/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span><% /def %><% def(oya/res/email) %><a href="mailto:<% echo(oya/res/email) %>">[mail]</a><% /def %> 
+									<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/res/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/res/name) %></a></span><span class="trip"><% echo(oya/res/trip) %></span> : <% echo(oya/res/now) %><% def(oya/res/id) %> ID : <% echo(oya/res/id) %><% /def %><% def(oya/res/url) %> <span class="url">[<a href="<% echo(oya/res/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span><% /def %><% def(oya/res/email) %><a href="mailto:<% echo(oya/res/email) %>">[mail]</a><% /def %> 
 									<% def(oya/res/updatemark) %> <% echo(oya/res/updatemark) %><% /def %>
 								</h4>
 								<% def(oya/res/src) %>
@@ -301,11 +270,11 @@
 									(function(){
 										var url = encodeURIComponent('<% echo(rooturl) %><% echo(self) %>?res=<% echo(oya/no) %>'); //page URL。
 										var title = encodeURIComponent('[<% echo(oya/no) %>] <% echo(oya/sub) %> by <% echo(oya/name) %> - <% echo(title) %>'); //page title
-									document.write( '<a target="_blank" href="https://twitter.com/intent/tweet?&text=' + title + '&url=' + url + '"><span class="icon-twitter button"><i class="fab fa-twitter"></i> tweet</span></a> <a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=' + url + '"><span class="icon-facebook2 button"><i class="fab fa-facebook-square"></i> share</span></a>' );})();
+									document.write( '<a target="_blank" href="https://twitter.com/intent/tweet?&text=' + title + '&url=' + url + '"><span class="icon-twitter button"><img src="<% echo(skindir) %>img/twitter.svg" alt=""> tweet</span></a> <a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=' + url + '"><span class="icon-facebook2 button"><img src="<% echo(skindir) %>img/facebook.svg" alt=""> share</span></a>' );})();
 								</script>
 							</span>
 							<% /def %>
-							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><i class="fas fa-reply-all"></i> reply</a></span> <a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a><% /def %>
+							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><img src="<% echo(skindir) %>img/rep.svg" alt=""> reply</a></span> <a href="#header" title="to top">[&uarr;]</a><% /def %>
 							<% /if %>
 							<% def(resform) %>
 							<% def(oya/disp_resform) %>
@@ -320,11 +289,11 @@
 								<textarea class="form" name="com" cols="56" rows="3" wrap="soft"></textarea><br>
 								<label>Pass <input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"></label>
 								<input class="button" type="submit" value="返信">
-								<a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a>
+								<a href="#header" title="to top">[&uarr;]</a>
 							</form>
 							<% elsedef %>
 							<p class="resform">
-								<a href="#header"><i class="fas fa-angle-double-up fa-fw fa-lg" title="to top"></i></a>
+								<a href="#header" title="to top">[&uarr;]</a>
 							</p>
 							<% /def %>
 							<% /def %>

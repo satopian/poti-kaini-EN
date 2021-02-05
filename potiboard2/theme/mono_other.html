@@ -29,7 +29,6 @@
 		<noscript>
 			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
 		</noscript>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 		<title><% echo(title) %></title>
 	</head>
 	<body>
@@ -49,10 +48,43 @@
 					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
 					<a href="<% echo(self) %>">[normal nmode]</a>
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[temporary pictures]</a>
-					<a href="#footer"><i class="fas fa-angle-double-down fa-fw fa-lg" title="to bottom"></i></a>
+					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
 			</article>
 			<hr>
+			<% def(n) %>
+			<!-- Admin oekaki mode -->
+			<% /def %>
+			<% def(post_mode) %>
+			<% def(regist) %>
+			<script type="text/javascript" src="loadcookie.js"></script>
+			<% /def %>
+			<% def(admin) %><% def(rewrite) %><% elsedef %>
+			<article class="epost">
+				<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+					<p>
+						<% def(applet) %>
+						<input type="hidden" name="shi" value="1">
+						<% /def %>
+						<label>width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>"></label>
+						<label>height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>"></label>
+						<% def(use_select_palettes) %>
+						Palette :<select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
+						<% /def %>
+						<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record animation (TimePlus)" <% def(animechk) %><% echo(animechk) %><% /def %>>Record animation</label><% /def %>
+						<label><input type="checkbox" name="useneo" checked>USE NEO</label>
+						<input name="pch_upload" type="file" accept=".pch, .spch" title="pch upload">
+						<input type="hidden" name="mode" value="paint">
+						<input type="hidden" name="admin" value="<% echo(admin) %>">
+						<input class="button" type="submit" value="paint">
+					</p>
+				</form>
+			</article>
+			<% /def %><% /def %>
+			<% /def %>
+			<% def(n) %>
+			<!-- /Admin oekaki mode -->
+			<% /def %>
 		</header>
 		<main>
 			<% def(post_mode) %>
@@ -127,7 +159,7 @@
 									<input type="hidden" name="resto" value="<% echo(resno) %>">
 									<% /def %>
 									<input type="hidden" name="MAX_FILE_SIZE" value="<% echo(maxbyte) %>">
-									<% def(ipcheck) %>IP address check ... ON<% /def %>
+									<% def(ipcheck) %>Checking IP address ...<% /def %>
 								</td>
 							</tr>
 							<tr>
@@ -163,7 +195,7 @@
 						<% def(regist) %>
 						<ul>
 							<% def(upfile) %>
-							<li>Attachable files type: GIF, JPG, and PNG. Depending on the browser, it may not be possible to attach normally.</li>
+							<li>Attachable files type: GIF, JPG, PNG and WEBP. Depending on the browser, it may not be possible to attach normally.</li>
 							<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
 							<li>The maximum amount of posted data is <% echo(maxkb) %>KB. With sage function.</li>
 							<% /def %>
@@ -175,6 +207,15 @@
 						</ul>
 						<% /def %>
 					</form>
+					<script src="<% echo(skindir) %>jquery-3.5.1.min.js"></script>
+					<script>
+						$(function(){ //against double-pressing
+							$('[type="submit"]').click(function(){
+								$(this).prop('disabled',true);
+								$(this).closest('form').submit();
+							});
+						});
+					</script>
 					<% def(regist) %>
 					<script type="text/javascript">
 						l(); //LoadCookie
@@ -195,7 +236,7 @@
 						<label><input type="radio" name="admin" value="post">ADMIN POST</label>
 						<input type="hidden" name="mode" value="admin">
 						<input class="form" type="password" name="pass" size="8">
-						<input class="button" type="submit" value="SUBMIT">
+						<input class="button" type="submit" value="ADMIN IN">
 					</form>
 				</div>
 			</section>
