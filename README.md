@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/06] v2.23.2 lot.210204.0
+
+- Rewind to v2.23.2 due to operability issues found due to multiple sending of sessions.
+  - You can use the theme as is.
+  - v2.25.0 will be developed while looking for a way to solve the problem.
+
 ### [2021/02/05] v2.25.0 lot.210205.0
 
 - Changed to use session and one-time token when posting and editing by administrators (by satopian)
