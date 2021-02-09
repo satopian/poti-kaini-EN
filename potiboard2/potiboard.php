@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.2');
-define('POTI_LOT','lot.210204.0'); 
+define('POTI_VER','v2.23.6');
+define('POTI_LOT','lot.210209.1'); 
 /*
   (C)sakots >> https://poti-k.info/
 
@@ -173,7 +173,7 @@ setcookie("usercode", $usercode, time()+(86400*365));//1年間
 switch($mode){
 	case 'regist':
 		if(ADMIN_NEWPOST && !$resto){
-			if($pwd !== $ADMIN_PASS){
+			if($pwd && ($pwd !== $ADMIN_PASS)){
 				return error(MSG029);
 			}
 			$admin=$pwd;
@@ -185,7 +185,7 @@ switch($mode){
 			$dat['admin_in'] = true;
 			return htmloutput(SKIN_DIR.OTHERFILE,$dat);
 		}
-		if($pass && $pass !== $ADMIN_PASS) 
+		if($pass && ($pass !== $ADMIN_PASS)) 
 		return error(MSG029);
 	
 		if($admin==="del") return admindel($pass);
@@ -331,13 +331,13 @@ function form($resno="",$adminin="",$tmp=""){
 	global $fontcolors,$qualitys;
 	global $ADMIN_PASS;
 
-	$admin = ($adminin === 'valid');
+	$admin_valid = ($adminin === 'valid');
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 
 	$dat['form'] = true;
-	if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY && !$resno && !$admin){//コメントのみも画像アップロードも禁止
+	if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY && !$resno && !$admin_valid){//コメントのみも画像アップロードも禁止
 		$dat['form'] = false;//トップページのフォームを閉じる
-		if(USE_PAINT==1 && !$resno && !$admin){
+		if(USE_PAINT==1 && !$resno && !$admin_valid){
 			$dat['paint2'] = true;
 		}
 	}
@@ -348,7 +348,7 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 		$dat['pmaxw'] = PMAX_W;
 		$dat['pmaxh'] = PMAX_H;
-		if(USE_PAINT==2 && !$resno && !$admin){
+		if(USE_PAINT==2 && !$resno && !$admin_valid){
 			$dat['paint2'] = true;
 			$dat['form'] = false;
 		}
@@ -362,14 +362,14 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['notres'] = true;
 	}
 
-	if($admin) $dat['admin'] = $ADMIN_PASS;
+	if($admin_valid) $dat['admin'] = $ADMIN_PASS;
 
 	$dat['maxbyte'] = 2048 * 1024;//フォームのHTMLによるファイルサイズの制限 2Mまで
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	if(USE_COM||($resno&&!RES_UPLOAD)) $dat['usecom'] = ' *';
 	//本文必須の設定では無い時はレスでも画像かコメントがあれば通る
-	if(!USE_IMG_UPLOAD && !$admin){//画像アップロード機能を使わない時
+	if(!USE_IMG_UPLOAD && !$admin_valid){//画像アップロード機能を使わない時
 		$dat['upfile'] = false;
 	} else{
 		if((!$resno && !$tmp) || (RES_UPLOAD && !$tmp)) $dat['upfile'] = true;
@@ -406,17 +406,16 @@ function form($resno="",$adminin="",$tmp=""){
 function updatelog(){
 	global $path;
 
+	$dat = form();
 	$tree = file(TREEFILE);
 	$line = file(LOGFILE);
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	if(!$lineindex){
 		error(MSG019);
 	}
-
 	$counttree = count($tree);//190619
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 		$oya = 0;	//親記事のメイン添字
-		$dat = form();
 		for($i = $page; $i < $page+PAGE_DEF; ++$i){//PAGE_DEF分のスレッドを表示
 			if(!isset($tree[$i])){
 				continue;
@@ -528,7 +527,7 @@ function updatelog(){
 
 		$buf = htmloutput(SKIN_DIR.MAINFILE,$dat,true);
 
-		$logfilename = $page == 0 ? PHP_SELF2 : ($page / PAGE_DEF) . PHP_EXT;
+		$logfilename = ($page === 0) ? PHP_SELF2 : ($page / PAGE_DEF) . PHP_EXT;
 
 		$fp = fopen($logfilename, "w");
 		set_file_buffer($fp, 0);
@@ -735,7 +734,7 @@ function regist(){
 		if($pictmp==2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
-			if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){//アップロード禁止で管理画面からの投稿ではない時
+			if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
 			}
 			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
@@ -775,13 +774,13 @@ function regist(){
 	$ptime = str_replace(",", "&#44;", $ptime);
 
 	if(USE_CHECK_NO_FILE){
-		if(!USE_IMG_UPLOAD && $admin!==$ADMIN_PASS){
+		if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){
 			$textonly=true;//画像なし
 		}
 		if(!$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
 		if(RES_UPLOAD&&$resto&&!$textonly&&!$is_file_dest) error(MSG007,$dest);
 	}
-	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&&$admin!==$ADMIN_PASS) error(MSG039,$dest);
+	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&&(!$admin||$admin!==$ADMIN_PASS)) error(MSG039,$dest);
 	if(strlen($resto) > 10) error(MSG015,$dest);
 
 	//フォーマット
@@ -1034,9 +1033,9 @@ function regist(){
 
 	//-- クッキー保存 --
 	//パスワード
-	setcookie ("pwdc", $c_pass,time()+(SAVE_COOKIE*24*3600));
+	setcookie ("pwdc", $c_pass,time()+(SAVE_COOKIE*24*3600));//<>で分割できない
 	$email = $email ? $email : ($sage ? 'sage' : '') ;
-	$name=filter_input(INPUT_POST, 'name');
+	$name=filter_input(INPUT_POST, 'name');//エスケープ前の値をセット
 		//クッキー項目："クッキー名 クッキー値"
 	$cooks = ["namec<>".$name,"emailc<>".$email,"urlc<>".$url,"fcolorc<>".$fcolor];
 
@@ -1060,7 +1059,7 @@ function regist(){
 	defined('NOTICE_MAIL_NEWPOST') or define('NOTICE_MAIL_NEWPOST', '新規投稿がありました');
 
 	if(is_file(NOTICEMAIL_FILE)	//メール通知クラスがある場合
-	&& !(NOTICE_NOADMIN && $pwd === $ADMIN_PASS)){//管理者の投稿の場合メール出さない
+	&& !(NOTICE_NOADMIN && $pwd && ($pwd === $ADMIN_PASS))){//管理者の投稿の場合メール出さない
 		require(__DIR__.'/'.NOTICEMAIL_FILE);
 
 		$data['to'] = TO_MAIL;
@@ -1105,7 +1104,7 @@ function treedel($delno){
 		$treeline = explode(",", rtrim($value));
 		foreach($treeline as $j => $value){
 			if($value == $delno){
-				if($j==0){//スレ削除
+				if($j===0){//スレ削除
 					if(count($line) <= 1){//スレが1つしかない場合、エラー防止の為に削除不可
 						closeFile($fp);
 						error(MSG026);
@@ -1340,7 +1339,7 @@ function paintform(){
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	//pchファイルアップロードペイント
-	if($admin===$ADMIN_PASS){
+	if($admin&&($admin===$ADMIN_PASS)){
 		
 		$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
 		
@@ -1771,7 +1770,7 @@ function editform(){
 
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
-	if($ADMIN_PASS === $pwd) $dat['admin'] = $ADMIN_PASS;
+	if($pwd && ($pwd===$ADMIN_PASS)) $dat['admin'] = $ADMIN_PASS;
 	$dat['maxbyte'] = MAX_KB * 1024;
 	$dat['maxkb']   = MAX_KB;
 	$dat['addinfo'] = $addinfo;
@@ -2120,7 +2119,7 @@ function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	}
 
 	//本文へのURLの書き込みを禁止
-	if(!($pwd===$ADMIN_PASS||$admin===$ADMIN_PASS)){//どちらも一致しなければ
+	if(!(($pwd&&$pwd===$ADMIN_PASS)||($admin&&($admin===$ADMIN_PASS)))){//どちらも一致しなければ
 		if(DENY_COMMENTS_URL && preg_match('/:\/\/|\.co|\.ly|\.gl|\.net|\.org|\.cc|\.ru|\.su|\.ua|\.gd/i', $com)) error(MSG036);
 	}
 
@@ -2166,8 +2165,8 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	
 	//コメントのエスケープ
 	global $ADMIN_PASS;
-	$admin=filter_input(INPUT_POST,'admin');
-	if($com && $admin!==$ADMIN_PASS){//管理者以外タグ無効
+	$admin=newstring(filter_input(INPUT_POST,'admin'));
+	if(!$admin || $admin!==$ADMIN_PASS){//管理者以外タグ無効
 		$com = htmlspecialchars($com,ENT_QUOTES,'utf-8');
 	}
 	$com = str_replace(",", "&#44;", $com);

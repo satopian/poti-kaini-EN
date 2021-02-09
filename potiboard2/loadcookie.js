@@ -21,7 +21,6 @@ function l(){
 
 			}
 			if(document.forms[i].shi){
-				if(AP == "") AP = document.forms[i].shi[0].value;
 
 				checkd_if_formval_equal_cookieval(document.forms[i].shi,AP);
 
@@ -51,13 +50,13 @@ function l(){
 		}
 };
 
-// Checkd if it matches the cookie
+//Cookieと一致したらcheckd
 function checkd_if_formval_equal_cookieval(docformsname,cookieval) {
 var j;
 	for(j = 0; docformsname.length > j; j ++) {
 	if(docformsname[j].value == cookieval){
-		docformsname[j].checked = true;// checkbox
-		docformsname.selectedIndex = j;// pull-down menu
+		docformsname[j].checked = true;//チェックボックス
+		docformsname.selectedIndex = j;//プルダウンメニュー
 	}
 }
 }

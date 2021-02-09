@@ -26,6 +26,15 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/09] v2.23.6 lot.210209.1
+
+- Fixed vulnerability in admin rights when config is under certain conditions (by satopian)
+
+### [2021/02/07] v2.23.3 lot.210207.0
+
+- Fixed cookie errors (by satopian)
+  - Please overwrite and update `loadcookie.js`.
+
 ### [2021/02/06] v2.23.2 lot.210204.0
 
 - Rewind to v2.23.2 due to operability issues found due to multiple sending of sessions.
