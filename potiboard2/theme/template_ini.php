@@ -1,13 +1,13 @@
 <?php
 /*
-  * Template - MONO by sakots  >> https://poti-k.info/
+  * Template - MONO-en by sakots  >> https://poti-k.info/
   *
-  * Template setting file of potiboard.php(v2.21.0～)
+  * Template setting file of potiboard.php(v2.21.4～)
   *
 */
 
 //theme version
-define('TEMPLATE_VER', "v1.18.4 lot.210206.0");
+define('TEMPLATE_VER', "v1.18.6 lot.210206.2");
 
 //General message
 
