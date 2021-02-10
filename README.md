@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/10] v2.23.7 lot.210210.0
+
+- Fixed error message displayed when administrator password is undefined (by satopian)
+  - There is an additional message in `template_ini.php` of theme; Reserveed MSG040.
+- Fixed the problem that the string to restrict only in admin mode is rejected even when writing normally (by satopian)
+
 ### [2021/02/09] v2.23.6 lot.210209.1
 
 - Fixed vulnerability in admin rights when config is under certain conditions (by satopian)

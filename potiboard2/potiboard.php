@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.6');
-define('POTI_LOT','lot.210209.1'); 
+define('POTI_VER','v2.23.7');
+define('POTI_LOT','lot.210210.0'); 
 /*
   (C)sakots >> https://poti-k.info/
 
@@ -66,9 +66,6 @@ $res = filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 //INPUT_COOKIEから変数を取得
 
 $usercode = filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
-
-//エラーメッセージ
-//template_ini.phpで未定義の時入る
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
@@ -155,6 +152,10 @@ defined('HONORIFIC_SUFFIX') or define('HONORIFIC_SUFFIX', 'さん');
 defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
 defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
+
+if(!$ADMIN_PASS){
+	error(MSG040);
+}
 
 //初期化
 init();		//←■■初期設定後は不要なので削除可■■
@@ -2139,7 +2140,9 @@ function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
 	if($bstr_A_find && $bstr_B_find){
 		error(MSG032);
 	}
-	
+	if(!$admin || $admin!==$ADMIN_PASS){//管理者以外タグ無効
+		$chk_com = htmlspecialchars($chk_com,ENT_QUOTES,'utf-8');
+	}
 	//管理モードで使用できるタグを制限
 	if(preg_match('/<script|<\?php|<img|<a onmouseover|<iframe|<frame|<div|<table|<meta|<base|<object|<embed|<input|<body|<style/i', $chk_com)) error(MSG038);
 
@@ -2170,7 +2173,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 		$com = htmlspecialchars($com,ENT_QUOTES,'utf-8');
 	}
 	$com = str_replace(",", "&#44;", $com);
-	
+
 	// 改行コード
 	$com = str_replace(["\r\n","\r"], "\n", $com);
 	$com = preg_replace("/(\s*\n){4,}/u","\n",$com); //不要改行カット

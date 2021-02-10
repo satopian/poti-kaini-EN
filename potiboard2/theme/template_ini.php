@@ -69,7 +69,7 @@ define('MSG036', "[This URL can not be used in text.]");
 define('MSG037', "[This name cannot be used.]");
 define('MSG038', "[This tag cannot be used.]");
 define('MSG039', "[New posts with only comments are not accepted.]");
-define('MSG040', "Reserveed"); //Remain in reserve for a while
+define('MSG040', "[The administrator password is not set.]"); //Remain in reserve for a while
 define('MSG041', "does not exist.");
 define('MSG042', "is not readable");
 define('MSG043', "is not writable");
