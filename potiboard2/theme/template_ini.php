@@ -73,6 +73,7 @@ define('MSG040', "[The administrator password is not set.]"); //Remain in reserv
 define('MSG041', "does not exist.");
 define('MSG042', "is not readable");
 define('MSG043', "is not writable");
+define('MSG044', "[Either the MAX LOG is not set, or it contains a non-numeric string.]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
