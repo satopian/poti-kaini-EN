@@ -5,8 +5,9 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.7');
-define('POTI_LOT','lot.210210.0'); 
+define('POTI_VER','v2.23.8');
+define('POTI_LOT','lot.210212.0'); 
+
 /*
   (C)sakots >> https://poti-k.info/
 
@@ -152,9 +153,15 @@ defined('HONORIFIC_SUFFIX') or define('HONORIFIC_SUFFIX', 'さん');
 defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
 defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
+defined('MSG044') or define('MSG044', '最大ログ数の設定が間違っています。');
 
+$ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
 	error(MSG040);
+}
+
+if(!defined('LOG_MAX')|| !LOG_MAX || !is_numeric(LOG_MAX)){
+	error(MSG044);
 }
 
 //初期化
@@ -407,7 +414,6 @@ function form($resno="",$adminin="",$tmp=""){
 function updatelog(){
 	global $path;
 
-	$dat = form();
 	$tree = file(TREEFILE);
 	$line = file(LOGFILE);
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
@@ -417,6 +423,7 @@ function updatelog(){
 	$counttree = count($tree);//190619
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 		$oya = 0;	//親記事のメイン添字
+		$dat = form();
 		for($i = $page; $i < $page+PAGE_DEF; ++$i){//PAGE_DEF分のスレッドを表示
 			if(!isset($tree[$i])){
 				continue;
@@ -472,7 +479,8 @@ function updatelog(){
 
 			// 親レス用の値
 			$res['tab'] = $oya + 1; //TAB
-			$res['limit'] = ($lineindex[$res['no']] >= LOG_MAX * LOG_LIMIT / 100) ? true : false; // そろそろ消える。
+			$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
+			$res['limit'] = ($lineindex[$res['no']] >= $logmax * LOG_LIMIT / 100) ? true : false; // そろそろ消える。
 			$res['skipres'] = $skipres ? $skipres : false;
 			$res['resub'] = $resub;
 			$dat['oya'][$oya] = $res;
@@ -579,7 +587,8 @@ function res($resno = 0){
 
 	// 親レス用の値
 	$res['tab'] = 1; //TAB
-	$res['limit'] = ($lineindex[$res['no']] >= LOG_MAX * LOG_LIMIT / 100) ? true : false; // そろそろ消える。
+	$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
+	$res['limit'] = ($lineindex[$res['no']] >= $logmax * LOG_LIMIT / 100) ? true : false; // そろそろ消える。
 	$res['resub'] = $resub;
 	$res['descriptioncom'] = strip_tags($res['com']); //メタタグに使うコメントからタグを除去
 
@@ -966,9 +975,10 @@ function regist(){
 
 	}
 	// 最大ログ数を超過した行と画像を削除
+	$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
 	$countline = count($line);
-	if($countline >= LOG_MAX){
-		for($i = $countline-1; $i >= LOG_MAX-1; $i--){
+	if($countline >= $logmax){
+		for($i=$logmax-1; $i<$countline;++$i){
 			if($line[$i]===""){continue;}
 			list($dno,,,,,,,,,$dext,,,$dtime,) = explode(",", $line[$i]);
 			delete_files($path, $dtime, $dext);

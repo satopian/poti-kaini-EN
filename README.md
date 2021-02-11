@@ -26,6 +26,17 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/12] v2.23.8 lot.210212.0
+
+- Fixed an error when the administrator password is undefined (by satopian)
+- Fixed a bug that a string to restrict only in admin mode was rejected in normal writing (by satopian)
+  - There is an additional message in `template_ini.php` of theme.
+
+### [2021/02/12] theme MONO-en
+
+- Changed the English translation of the palette buttons a little bit (by sakots)
+  - overwrite `mono_paint.html` , `template_ini.php` .
+
 ### [2021/02/10] v2.23.7 lot.210210.0
 
 - Fixed error message displayed when administrator password is undefined (by satopian)
