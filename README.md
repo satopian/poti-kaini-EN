@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/13] v2.23.9 lot.210212.1
+
+- Added support for setting error messages when uploading pch files in template_ini.php (by satopian)
+
 ### [2021/02/12] v2.23.8 lot.210212.0
 
 - Fixed an error when the administrator password is undefined (by satopian)
