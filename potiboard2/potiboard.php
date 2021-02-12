@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.8');
-define('POTI_LOT','lot.210212.0'); 
+define('POTI_VER','v2.23.9');
+define('POTI_LOT','lot.210212.1'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -153,7 +153,8 @@ defined('HONORIFIC_SUFFIX') or define('HONORIFIC_SUFFIX', 'さん');
 defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
 defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
-defined('MSG044') or define('MSG044', '最大ログ数の設定が間違っています。');
+defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
+defined('MSG045') or define('MSG045', 'アニメファイルをアップロードしてください。<br>対応フォーマットはpch、spchです。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -693,8 +694,7 @@ function regist(){
 	$upfile = isset($_FILES["upfile"]["tmp_name"]) ? $_FILES["upfile"]["tmp_name"] : "";
 
 	if($upfile_name && isset($_FILES["upfile"]["error"])){//エラーチェック
-		$upfile_error = $_FILES["upfile"]["error"];
-		if($upfile_error==1||$upfile_error==2){
+		if(in_array($_FILES["upfile"]["error"],[1,2])){
 			error(MSG034);//容量オーバー
 		} 
 	}
@@ -1363,8 +1363,8 @@ function paintform(){
 			$ext=pathinfo($pchfilename, PATHINFO_EXTENSION);
 			$ext=strtolower($ext);//すべて小文字に
 			//拡張子チェック
-			if ($ext !== 'pch' && $ext !== 'spch') {
-				error("アニメファイルをアップしてください。",$pchtmp);
+			if (!in_array($ext, ['pch', 'spch'])) {
+				error(MSG045,$pchtmp);
 			}
 			$pchup = TEMP_DIR.'pchup-'.$time.'-tmp.'.$ext;//アップロードされるファイル名
 
@@ -1372,7 +1372,7 @@ function paintform(){
 
 				$pchup=TEMP_DIR.basename($pchup);//ファイルを開くディレクトリを固定
 				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip"])){
-					error("アニメファイルをアップしてください",$pchup);
+					error(MSG045,$pchup);
 				}
 				if($ext==="pch"){
 					$shi=0;
