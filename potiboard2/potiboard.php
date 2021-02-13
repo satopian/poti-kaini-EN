@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.23.9');
-define('POTI_LOT','lot.210212.1'); 
+define('POTI_VER','v2.26.0');
+define('POTI_LOT','lot.210213.0'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -762,7 +762,7 @@ function regist(){
 	}
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
-	$c_pass=filter_input(INPUT_POST, 'pwd');//エスケープ前の値をCookieにセット
+	$c_pass=str_replace("\t",'',filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
 	if($pwd===''){
 		if($pwdc){//Cookieはnullの可能性があるので厳密な型でチェックしない
 			$pwd=newstring($pwdc);
@@ -1044,14 +1044,13 @@ function regist(){
 
 	//-- クッキー保存 --
 	//パスワード
-	setcookie ("pwdc", $c_pass,time()+(SAVE_COOKIE*24*3600));//<>で分割できない
 	$email = $email ? $email : ($sage ? 'sage' : '') ;
-	$name=filter_input(INPUT_POST, 'name');//エスケープ前の値をセット
-		//クッキー項目："クッキー名 クッキー値"
-	$cooks = ["namec<>".$name,"emailc<>".$email,"urlc<>".$url,"fcolorc<>".$fcolor];
+	$name=str_replace("\t",'',filter_input(INPUT_POST, 'name'));//エスケープ前の値をセット
+	//クッキー項目："クッキー名 クッキー値"
+	$cooks = ["namec\t".$name,"emailc\t".$email,"urlc\t".$url,"fcolorc\t".$fcolor,"pwdc\t".$c_pass];
 
 	foreach ( $cooks as $cook ) {
-		list($c_name,$c_cookie) = explode('<>',$cook);
+		list($c_name,$c_cookie) = explode("\t",$cook);
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
 
@@ -2165,6 +2164,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
+	if(!$url||preg_match("/<|&lt;|%3C/i",$url)) $url="";
 	$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -2199,7 +2199,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 		'fcolor' => newstring($fcolor),
 	];
 	foreach($formatted_post as $key => $val){
-		$formatted_post[$key]=str_replace(["\r\n","\n","\r"],"",$val);//改行コード一括除去
+		$formatted_post[$key]=str_replace(["\r\n","\n","\r","\t"],"",$val);//改行コード一括除去
 	}
 	
 	return $formatted_post;

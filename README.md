@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/13] v2.26.0 lot.210213.0
+
+- Fixed XSS vulnerability in v2.23.1 lot.210203 (by satopian)
+  - This is quite dangerous, so please make sure to update.
+- Fixed a character string that could not be set in cookies (by Satopia)
+
 ### [2021/02/13] v2.23.9 lot.210212.1
 
 - Added support for setting error messages when uploading pch files in template_ini.php (by satopian)
