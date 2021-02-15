@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.26.0');
-define('POTI_LOT','lot.210213.0'); 
+define('POTI_VER','v2.26.1');
+define('POTI_LOT','lot.210215.0'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -56,7 +56,7 @@ $mode = $mode ? $mode : filter_input(INPUT_GET, 'mode');
 $resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 $pwd = newstring(filter_input(INPUT_POST, 'pwd'));
 $type = newstring(filter_input(INPUT_POST, 'type'));
-$admin = newstring(filter_input(INPUT_POST, 'admin'));
+$admin = (string)filter_input(INPUT_POST, 'admin');
 $pass = newstring(filter_input(INPUT_POST, 'pass'));
 $onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 
@@ -371,7 +371,7 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['notres'] = true;
 	}
 
-	if($admin_valid) $dat['admin'] = $ADMIN_PASS;
+	if($admin_valid) $dat['admin'] = newstring($ADMIN_PASS);
 
 	$dat['maxbyte'] = 2048 * 1024;//フォームのHTMLによるファイルサイズの制限 2Mまで
 	$dat['usename'] = USE_NAME ? ' *' : '';
@@ -421,10 +421,11 @@ function updatelog(){
 	if(!$lineindex){
 		error(MSG019);
 	}
+	$fdat=form();
 	$counttree = count($tree);//190619
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 		$oya = 0;	//親記事のメイン添字
-		$dat = form();
+		$dat=$fdat;//form()を何度もコールしない
 		for($i = $page; $i < $page+PAGE_DEF; ++$i){//PAGE_DEF分のスレッドを表示
 			if(!isset($tree[$i])){
 				continue;
@@ -1780,7 +1781,7 @@ function editform(){
 
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
-	if($pwd && ($pwd===$ADMIN_PASS)) $dat['admin'] = $ADMIN_PASS;
+	if($pwd && ($pwd===$ADMIN_PASS)) $dat['admin'] = newstring($ADMIN_PASS);
 	$dat['maxbyte'] = MAX_KB * 1024;
 	$dat['maxkb']   = MAX_KB;
 	$dat['addinfo'] = $addinfo;
@@ -1818,7 +1819,7 @@ function rewrite(){
 	$fcolor = filter_input(INPUT_POST, 'fcolor');
 	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-	$admin = newstring(filter_input(INPUT_POST, 'admin'));
+	$admin = (string)filter_input(INPUT_POST, 'admin');
 
 	$userip = get_uip();
 	//ホスト取得
@@ -2164,7 +2165,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
-	if(!$url||preg_match("/<|&lt;|%3C/i",$url)) $url="";
+	if(!$url||!preg_match("#\Ahttps?://#i",$url)||preg_match("/<|(/i",$url)) $url="";
 	$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -2178,7 +2179,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	
 	//コメントのエスケープ
 	global $ADMIN_PASS;
-	$admin=newstring(filter_input(INPUT_POST,'admin'));
+	$admin=(string)filter_input(INPUT_POST,'admin');
 	if(!$admin || $admin!==$ADMIN_PASS){//管理者以外タグ無効
 		$com = htmlspecialchars($com,ENT_QUOTES,'utf-8');
 	}
@@ -2364,14 +2365,13 @@ function create_res ($line, $options = []) {
 
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
 		= explode(",", rtrim($line));
-
 	$res = [
 		'w' => $w,
 		'h' => $h,
 		'no' => $no,
 		'sub' => $sub,
-		'url' => $url,
-		'email' => $email,
+		'url' => filter_var($url,FILTER_VALIDATE_URL),
+		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
 		'ext' => $ext,
 		'time' => $time,
 		'fontcolor' => ($fcolor ? $fcolor : DEF_FONTCOLOR), //文字色

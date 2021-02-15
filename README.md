@@ -26,6 +26,12 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/15] v2.26.1 lot.210215.0
+
+- Fixed a bug that when a mail or URL in the log is not in the correct format, it is checked when outputting and not sent out as a link (by satopian)
+- The form() function used to be called for the number of HTML pages when updating the HTML of an article, but now it is assigned to a variable so that it can be called only once (by satopian)
+  - The difference is so slight that you can't tell.
+
 ### [2021/02/13] v2.26.0 lot.210213.0
 
 - Fixed XSS vulnerability in v2.23.1 lot.210203 (by satopian)
