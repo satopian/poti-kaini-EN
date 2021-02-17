@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.26.1');
-define('POTI_LOT','lot.210215.0'); 
+define('POTI_VER','v2.26.2');
+define('POTI_LOT','lot.210217.0'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -728,7 +728,7 @@ function regist(){
 		$fp = fopen($temppath.$picfile.".dat", "r");
 		$userdata = fread($fp, 1024);
 		fclose($fp);
-		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata));
+		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
 		if(($ucode != $usercode) && ($uip != $userip)){error(MSG007);}
 		//描画時間を$userdataをもとに計算
 		if($starttime && DSP_PAINTTIME){
@@ -2165,7 +2165,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
-	if(!$url||!preg_match("#\Ahttps?://#i",$url)||preg_match("/<|(/i",$url)) $url="";
+	if(!$url||!preg_match("#\Ahttps?://#i",$url)||preg_match("/</i",$url)) $url="";
 	$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);

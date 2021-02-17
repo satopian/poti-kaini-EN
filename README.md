@@ -26,6 +26,13 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/02/17] v2.26.2 lot.210217.0
+
+- Fixed an E_WARNING level error (by satopian)
+  - Fixed an error where the rightmost tab of the tab separator was trimmed and the tab character was also lost.
+  - In `config.php`, when `$badfile` is not set, E_WARNING level error occurs, so I made sure it is defined and is an array before processing. If config.php is set up correctly, there is no problem.
+- There are changes in `potiboard.php` and `picpost.php`.
+
 ### [2021/02/15] v2.26.1 lot.210215.0
 
 - Fixed a bug that when a mail or URL in the log is not in the correct format, it is checked when outputting and not sent out as a link (by satopian)

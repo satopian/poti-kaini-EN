@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.210203  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.210217  by SakaQ >> http://www.punyu.net/php/
 // & sakots >> https://poti-k.info/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,7 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
-// 2021/02/03 コード整理。
+// 2021/02/17 $badfileが未定義の時は拒絶画像の処理をしない。
 // 2021/01/30 picpost.systemlogの設定をpicpost.phpに移動。raw POST データ取得処理を整理。
 // 2021/01/01 エラーログのパーミッションもconfig.phpで設定できるようにした。
 // 2020/12/20 config.phpでパーミッションを設定できるようにした。
@@ -153,11 +153,13 @@ if(!$fp){
 		exit;
 	}
 	$chk = md5_file($full_imgfile);
-	foreach($badfile as $value){
-		if(preg_match("/^$value/",$chk)){
-			unlink($full_imgfile);
-			error("拒絶画像を検出しました。画像は保存されません。");
-			exit;
+	if(isset($badfile)&&is_array($badfile)){
+		foreach($badfile as $value){
+			if(preg_match("/^$value/",$chk)){
+				unlink($full_imgfile);
+				error("拒絶画像を検出しました。画像は保存されません。");
+				exit;
+			}
 		}
 	}
 // }
