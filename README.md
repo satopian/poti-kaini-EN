@@ -26,6 +26,15 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/03/07] v2.26.3 lot.210306.0
+
+- Fix E_WARNING level error when posting a response with no destination (by satopian)
+  - Fixes writing process to `img.log` not to occur in a different way from POTIv1.33b1.
+- Fixed that fopen() of user deletion was not closed.
+- Fixed a bug in the administrator's delete screen (by satopian)
+  - Email addresses are now passed through a validation filter, and those with invalid email formats are not sent to links.
+  - Fixed a bug where MD5 was not displayed.
+
 ### [2021/02/17] v2.26.2 lot.210217.0
 
 - Fixed an E_WARNING level error (by satopian)

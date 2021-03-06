@@ -160,9 +160,6 @@
 						<param name="thumbnail_width" value="100%">
 						<param name="thumbnail_height" value="100%">
 						<param name="tool_advance" value="true">
-						<% def(cpal) %><% each(cpal) %>
-						<param name="color_<% echo(cpal/no) %>" value="#<% echo(cpal/pal) %>">
-						<% /each %><% /def %>
 						<% def(security) %>
 						<% def(security_click) %><param name="security_click" value="<% echo(security_click) %>"><% /def %>
 						<% def(security_timer) %><param name="security_timer" value="<% echo(security_timer) %>"><% /def %>
