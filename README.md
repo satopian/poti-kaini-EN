@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/03/09] v2.26.5 lot.210308.0
+
+- Fixed a mistake in v2.26.5 regarding email addresses (by satopian)
+
 ### [2021/03/07] v2.26.3 lot.210306.0
 
 - Fix E_WARNING level error when posting a response with no destination (by satopian)

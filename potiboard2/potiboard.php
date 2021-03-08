@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.26.3');
-define('POTI_LOT','lot.210306.0'); 
+define('POTI_VER','v2.26.5');
+define('POTI_LOT','lot.210308.0'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -1220,8 +1220,8 @@ function admindel($pass){
 		$name = strip_tags($name);//タグ除去
 		if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
 		if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
+		$email=filter_var($email, FILTER_VALIDATE_EMAIL);
 		if($email){
-			$email=filter_var($email, FILTER_VALIDATE_EMAIL);
 			$name='<a href="mailto:'.$email.'">'.$name.'</a>';
 		}
 		$com = preg_replace("#<br */?>#i"," ",$com);
