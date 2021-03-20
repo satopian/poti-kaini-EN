@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.22.0 lot.201224.0
+  * POTI-board Kai Ni v2.26.6 lot.210318
   * by sakots >> https://poti-k.info/
   *
   * setting file of POTI-board Kai Ni
@@ -29,7 +29,7 @@ define('SKIN_DIR', 'theme/');
 // メール通知のほか、シェアボタンなどで使用
 // Installation URL. Directory of php-files, and need last '/'.
 // Be used notification by email, and share button, etc.
-define('ROOT_URL', 'http://www.hoge.ne.jp/oekaki/');
+define('ROOT_URL', 'https://example.com/oekaki/');
 
 //掲示板のタイトル（<title>とTOP）
 //Board title (appears in <title> and site header)
@@ -159,7 +159,7 @@ define('NOTICE_NOADMIN', '0');
 
 // メール通知先
 // Mail address where the mail notifications will be sent.
-define('TO_MAIL', 'root@xxx.xxx');
+define('TO_MAIL', 'root@example.com');
 
 // メール通知に本文を付ける 付ける:1 付けない:0
 // Add a body to the mail notifications (Yes: 1, No: 0)
@@ -209,8 +209,8 @@ define('USE_FONTCOLOR', '0');
 // By php limit, it is allowed up to 2048.
 define('MAX_KB', '1000');
 
-// 投稿サイズ（これ以上はサイズを縮小
-// The maximum size allowed for the images in the posts.
+// 表示サイズ（これ以上はサイズを縮小
+// Maximum display size of posted images.
 // If any size is bigger than these values, the image will be shrinken
 // to the maximum value.
 define('MAX_W', '600');	//幅(width)
@@ -221,8 +221,9 @@ define('MAX_H', '600');	//高さ(height)
 // Allow image comments, '1' to enable.
 define('RES_UPLOAD', '1');
 
-// レス用投稿サイズ（これ以上はサイズを縮小
-// Maximum post image resolution, until scaled down.
+// レス用表示サイズ（これ以上はサイズを縮小
+// Maximum display size of posted images, until scaled down.
+//When posting a response.
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
