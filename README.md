@@ -26,6 +26,11 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/03/02] v2.26.6 lot.210320.0
+
+- Corrected English translation of `config.php`.
+- Fixed an issue where images were not displaying as intended in the theme.
+
 ### [2021/03/09] v2.26.5 lot.210308.0
 
 - Fixed a mistake in v2.26.5 regarding email addresses (by satopian)
