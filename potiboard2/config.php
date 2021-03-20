@@ -223,7 +223,7 @@ define('RES_UPLOAD', '1');
 
 // レス用表示サイズ（これ以上はサイズを縮小
 // Maximum display size of posted images, until scaled down.
-//When posting a response.
+// When posting a response.
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
