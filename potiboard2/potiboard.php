@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.26.5');
-define('POTI_LOT','lot.210308.0'); 
+define('POTI_VER','v2.26.6');
+define('POTI_LOT','lot.210320'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -717,7 +717,7 @@ function regist(){
 	if($pictmp==2){
 		if(!$picfile) error(MSG002);
 		$upfile = $temppath.$picfile;
-		$upfile_name = $picfile;
+		$upfile_name = basename($picfile);
 		$picfile=pathinfo($picfile, PATHINFO_FILENAME );//拡張子除去
 		$time = KASIRA.$time;
 		//選択された絵が投稿者の絵か再チェック
@@ -757,9 +757,11 @@ function regist(){
 
 		$is_file_dest = is_file($dest);
 		if(!$is_file_dest){
-			error(MSG003,$dest);
+			error(MSG003);
 		}
+		chmod($dest,PERMISSION_FOR_DEST);
 	}
+
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
 	$c_pass=str_replace("\t",'',filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
@@ -902,6 +904,7 @@ function regist(){
 			if ($im_jpg = png2jpg($dest)) {
 				if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
 					rename($im_jpg,$dest);//JPEGで保存
+					chmod($dest,PERMISSION_FOR_DEST);
 				} else{//PNGよりファイルサイズが大きくなる時は
 					unlink($im_jpg);//作成したJPEG画像を削除
 				}
@@ -920,23 +923,6 @@ function regist(){
 		$chk = md5_file($dest);
 		check_badfile($chk, $dest); // 拒絶画像チェック
 
-		chmod($dest,PERMISSION_FOR_DEST);
-
-		list($w, $h) = getimagesize($dest);
-
-		$ext = getImgType($img_type, $dest);
-
-		// 画像表示縮小
-		$max_w = $resto ? MAX_RESW : MAX_W;
-		$max_h = $resto ? MAX_RESH : MAX_H;
-
-		if($w > $max_w || $h > $max_h){
-			$key_w = $max_w / $w;
-			$key_h = $max_h / $h;
-			($key_w < $key_h) ? $keys = $key_w : $keys = $key_h;
-			$w = ceil($w * $keys);
-			$h = ceil($h * $keys);
-			}
 		$upfile_name=newstring($upfile_name);
 		$message = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL."<br><br>";
 
@@ -966,7 +952,18 @@ function regist(){
 				unlink($src);
 			}
 		}
+		list($w, $h) = getimagesize($dest);
+		$ext = getImgType($img_type, $dest);
+
 		rename($dest,$path.$time.$ext);
+		chmod($path.$time.$ext,PERMISSION_FOR_DEST);
+		// 縮小表示
+		$max_w = $resto ? MAX_RESW : MAX_W;
+		$max_h = $resto ? MAX_RESH : MAX_H;
+		$reduced_size=image_reduction_display($w,$h,$max_w,$max_h);
+			$w=$reduced_size['w'];
+			$h=$reduced_size['h'];
+
 		if(USE_THUMB){thumb($path,$time,$ext,$max_w,$max_h);}
 
 		//ワークファイル削除
@@ -999,7 +996,7 @@ function regist(){
 	set_file_buffer($tp, 0);
 	flock($tp, LOCK_EX); //*
 	$buf=fread($tp,5242880);
-	if(!$buf){error(MSG023,$dest);}
+	if(!$buf){error(MSG023);}
 	$line = explode("\n", trim($buf));
 	foreach($line as $i => $value){
 		if($value!==""){
@@ -1032,13 +1029,14 @@ function regist(){
 		$new_treeline="$no\n";
 	}
 	if($resto && !$find){
-		error(MSG025,$dest);
+		safe_unlink($path.$time.$ext);
+		safe_unlink(THUMB_DIR.$time.'s.jpg');
+		error(MSG025);
 	}
 	$new_treeline.=implode("\n", $line);
 
 	writeFile($tp, $new_treeline);
 	writeFile($fp, $newline);
-
 
 	closeFile($tp);
 	closeFile($fp);
@@ -1904,11 +1902,11 @@ function replace(){
 	$find=false;
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
-		if(!is_dir($file) && preg_match("/\.(dat)$/i",$file)) {
+		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
 			$fp = fopen(TEMP_DIR.$file, "r");
 			$userdata = fread($fp, 1024);
 			fclose($fp);
-			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime) = explode("\t", rtrim($userdata)."\t");//区切りの"\t"を行末に190610
+			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime) = explode("\t", rtrim($userdata)."\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			//画像があり、認識コードがhitすれば抜ける
 			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $urepcode === $repcode){$find=true;break;}
@@ -1944,19 +1942,22 @@ function replace(){
 	$pwd=openssl_decrypt($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//復号化
 
 	foreach($line as $i => $value){
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$w,$h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
+		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$max_w,$max_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
 			$upfile = $temppath.$file_name.$imgext;
 			$dest = $path.$time.'.tmp';
 			copy($upfile, $dest);
 			
-			if(!is_file($dest)) error(MSG003,$dest);
+			if(!is_file($dest)) error(MSG003);
+			chmod($dest,PERMISSION_FOR_DEST);
+
 			$fsize_dest=filesize($dest);
 			if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
 				if ($im_jpg = png2jpg($dest)) {
 					if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
 						rename($im_jpg,$dest);//JPEGで保存
+						chmod($dest,PERMISSION_FOR_DEST);
 					} else{//PNGよりファイルサイズが大きくなる時は
 						unlink($im_jpg);//作成したJPEG画像を削除
 					}
@@ -1971,19 +1972,22 @@ function replace(){
 			$chk = md5_file($dest);
 			check_badfile($chk, $dest); // 拒絶画像チェック
 
+			list($w, $h) = getimagesize($dest);
 			$imgext = getImgType($img_type, $dest);
 	
-			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$time.$imgext);
+			chmod($path.$time.$imgext,PERMISSION_FOR_DEST);
+
 			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
-			//元のサイズを基準にサムネイルを作成
-			if(USE_THUMB){
-				if($thumbnail_size=thumb($path,$time,$imgext,$w,$h)){//作成されたサムネイルのサイズ
-					$w=$thumbnail_size['w'];
-					$h=$thumbnail_size['h'];
-				}
-			} 
+			//縮小表示 元のサイズを最大値にセット
+			$reduced_size=image_reduction_display($w,$h,$max_w,$max_h);
+				$w=$reduced_size['w'];
+				$h=$reduced_size['h'];
+	
+			//サムネイル作成
+			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
+
 			//ワークファイル削除
 			safe_unlink($upfile);
 			safe_unlink($temppath.$file_name.".dat");
@@ -2251,6 +2255,24 @@ function getImgType ($img_type, $dest) {
 	}
 	
 }
+//縮小表示
+function image_reduction_display($w,$h,$max_w,$max_h){
+	$reduced_size=[];
+	if($w > $max_w || $h > $max_h){
+		$key_w = $max_w / $w;
+		$key_h = $max_h / $h;
+		($key_w < $key_h) ? ($keys = $key_w) : ($keys = $key_h);
+		$w=ceil($w * $keys);
+		$h=ceil($h * $keys);
+	}
+	$reduced_size=
+	[
+		'w' => $w,
+		'h' => $h,
+	];
+	return $reduced_size;
+}
+
 
 /**
  * 描画時間を計算
@@ -2336,7 +2358,7 @@ function is_ngword ($ngwords, $strs) {
 function png2jpg ($src) {
 	if(mime_content_type($src)==="image/png" && gd_check() && function_exists("ImageCreateFromPNG")){//pngならJPEGに変換
 		if($im_in=ImageCreateFromPNG($src)){
-			$dst = pathinfo($src, PATHINFO_FILENAME ) . 'jpg.tmp';
+			$dst = TEMP_DIR.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
 			ImageJPEG($im_in,$dst,98);
 			ImageDestroy($im_in);// 作成したイメージを破棄
 			chmod($dst,PERMISSION_FOR_DEST);
@@ -2349,7 +2371,7 @@ function png2jpg ($src) {
 function check_badip ($host, $dest = '') {
 	global $badip;
 	foreach($badip as $value){ //拒絶host
-		if (preg_match("/$value$/i",$host)) {
+		if (preg_match("/$value\z/i",$host)) {
 			error(MSG016, $dest);
 		}
 	}
