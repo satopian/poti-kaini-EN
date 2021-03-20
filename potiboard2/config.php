@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.26.6 lot.210318
+  * POTI-board Kai Ni v2.26.6 lot.210320
   * by sakots >> https://poti-k.info/
   *
   * setting file of POTI-board Kai Ni
