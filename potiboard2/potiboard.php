@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board改二 
 // バージョン :
-define('POTI_VER','v2.26.6');
-define('POTI_LOT','lot.210320.0'); 
+define('POTI_VER','v2.26.7');
+define('POTI_LOT','lot.210403'); 
 
 /*
   (C)sakots >> https://poti-k.info/
@@ -106,11 +106,11 @@ define('USER_DELETES', '3');
 define('NOTICEMAIL_FILE' , 'noticemail.inc');
 
 //タイムゾーン
-defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');//暗号鍵初期値;
+defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');
 date_default_timezone_set(DEFAULT_TIMEZONE);
 
 //ペイント画面の$pwdの暗号化
-defined('CRYPT_PASS') or define('CRYPT_PASS','qRyFfhV6nyUggSb');//暗号鍵初期値;
+defined('CRYPT_PASS') or define('CRYPT_PASS','qRyFfhV6nyUggSb');//暗号鍵初期値
 define('CRYPT_METHOD','aes-128-cbc');
 define('CRYPT_IV','T3pkYxNyjN7Wz3pu');//半角英数16文字
 
@@ -616,7 +616,7 @@ function res($resno = 0){
 
 	// レス記事一括格納
 	if($rres){//レスがある時
-		$dat['resname'] = $rresname ? implode(HONORIFIC_SUFFIX.' ',$rresname) : ''; // レス投稿者一覧
+		$dat['resname'] = $rresname ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 		$dat['oya'][0]['res'] = $rres[0];
 	}
 
@@ -1365,13 +1365,13 @@ function paintform(){
 				error(MSG034);
 			} 
 			$time = time().substr(microtime(),2,3);
-			$ext=pathinfo($pchfilename, PATHINFO_EXTENSION);
-			$ext=strtolower($ext);//すべて小文字に
+			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
+			$pchext=strtolower($pchext);//すべて小文字に
 			//拡張子チェック
-			if (!in_array($ext, ['pch', 'spch'])) {
+			if (!in_array($pchext, ['pch', 'spch'])) {
 				error(MSG045,$pchtmp);
 			}
-			$pchup = TEMP_DIR.'pchup-'.$time.'-tmp.'.$ext;//アップロードされるファイル名
+			$pchup = TEMP_DIR.'pchup-'.$time.'-tmp.'.$pchext;//アップロードされるファイル名
 
 			if(move_uploaded_file($pchtmp, $pchup)){//アップロード成功なら続行
 
@@ -1379,12 +1379,12 @@ function paintform(){
 				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip"])){
 					error(MSG045,$pchup);
 				}
-				if($ext==="pch"){
+				if($pchext==="pch"){
 					$shi=0;
 					$fp = fopen("$pchup", "rb");
 					$useneo=(fread($fp,3)==="NEO");
 					fclose($fp);
-				} elseif($ext==="spch"){
+				} elseif($pchext==="spch"){
 					$shi=$shi ? $shi : 1;
 					$useneo=false;
 				}
@@ -1580,12 +1580,12 @@ function paintcom(){
 	$tmplist = array();
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
-		if(!is_dir($file) && preg_match("/\.(dat)$/i",$file)) {
+		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
 			$fp = fopen(TEMP_DIR.$file, "r");
 			$userdata = fread($fp, 1024);
 			fclose($fp);
 			list($uip,$uhost,$uagent,$imgext,$ucode,) = explode("\t", rtrim($userdata));
-			$file_name = preg_replace("/\.(dat)$/i","",$file);
+			$file_name = preg_replace("/\.(dat)\z/i","",$file);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
 				$tmplist[] = $ucode."\t".$uip."\t".$file_name.$imgext;
 		}
@@ -2356,9 +2356,10 @@ function is_ngword ($ngwords, $strs) {
 }
 
 function png2jpg ($src) {
+	global $path;
 	if(mime_content_type($src)==="image/png" && gd_check() && function_exists("ImageCreateFromPNG")){//pngならJPEGに変換
 		if($im_in=ImageCreateFromPNG($src)){
-			$dst = TEMP_DIR.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
+			$dst = $path.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
 			ImageJPEG($im_in,$dst,98);
 			ImageDestroy($im_in);// 作成したイメージを破棄
 			chmod($dst,PERMISSION_FOR_DEST);
@@ -2380,7 +2381,7 @@ function check_badip ($host, $dest = '') {
 function check_badfile ($chk, $dest = '') {
 	global $badfile;
 	foreach($badfile as $value){
-		if(preg_match("/^$value/",$chk)){
+		if(preg_match("/\A$value/",$chk)){
 			error(MSG005,$dest); //拒絶画像
 		}
 	}
