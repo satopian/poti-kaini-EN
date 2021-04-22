@@ -26,6 +26,10 @@ If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/04/22] v2.26.6 lot.210403
+
+Change the working directory of png2jpg to the real path of src. The behavior is the same as before it was made into a function.
+
 ### [2021/03/02] v2.26.6 lot.210320.0
 
 - Corrected English translation of `config.php`.
