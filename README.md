@@ -2,7 +2,7 @@
 
 ![POTI-board Kai Ni](https://raw.githubusercontent.com/wiki/sakots/poti-kaini-EN/img/paintmode.png)
 
-This is a project to translate [POTI-board改二](https://github.com/sakots/poti-kaini/) into English.
+This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
 
 ## Required php version
 
