@@ -4,6 +4,8 @@
 
 This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
 
+[The official website of POTI Kai](https://pbbs.sakura.ne.jp/poti/)
+
 ## Required php version
 
 php5.5 or upper, php7.x, or php8.0.
