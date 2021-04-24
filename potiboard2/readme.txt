@@ -1,13 +1,13 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   POTI-board改二
-  by sakots >> https://poti-k.info/
+  by POTI改 >> https://pbbs.sakura.ne.jp/poti/
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 このスクリプトは「ぷにゅねっと」 http://www.punyu.net/php/ の
-POTI-board v1.32 をさらにphp7に対応させて改造した
-POTI-board改 https://poti-k.info/ を発展させたものです。
+POTI-board v1.32 をphp7に対応させて改造した
+POTI-board改 をさらに発展させたものです。
 
 「Skinny.php」 http://skinny.sx68.net/ 
 のおかげで、自由にデザインできるようになってます。
@@ -92,6 +92,9 @@ config.php に設定したい追加項目があれば $ADMIN_PASS = 'kanripass';
 【ぷにゅねっと https://www.punyu.net/ SakaQさん】
 POTI改二の親です。
 
+【sakotsさん】
+POTI-boardの再開発の企画立案者であり各種テーマの作者。
+この人がいなかったら、POTI-boardは消えていたかもしれません。
 【さとぴあさん】
 バグ修正、セキュリティ向上、スピードアップ等していただいています。大感謝。
 
@@ -122,7 +125,7 @@ POTI改二の親です。
 
 ■著作権
 
-POTI-boaed改二                     (c)sakots
+POTI-boaed改二                     (c)POTI改
 
 search.php                         (c)satopian
 

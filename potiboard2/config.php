@@ -1,7 +1,7 @@
 <?php
 /*
   * POTI-board Kai Ni v2.26.6 lot.210320
-  * by sakots >> https://poti-k.info/
+  * by POTI-kai >> https://pbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board Kai Ni
   * Japanese is left in the comments for the convenience of translation.

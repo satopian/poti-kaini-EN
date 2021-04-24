@@ -1,6 +1,6 @@
 <?php
 //パーミッションの値を設定できるようにした。初期値を 0777→0707 0666→0606 に。
-//変更者 https://poti-k.info/
+//変更者 https://pbbs.sakura.ne.jp/poti/
 /**
  *  Skinny  - One File Simple Template Engine over PHP -
  *  
@@ -50,7 +50,7 @@ $skConf = array();   // Skinny設定情報格納配列
 
 /**************************************  Skinny config  **************************************/
 
-//パーミッション設定(項目追加者 https://poti-k.info/)
+//パーミッション設定(項目追加者 https://pbbs.sakura.ne.jp/poti/)
 
 define('SKINNY_PERMISSION_FOR_DIR', 0707);//初期値 0707
 define('SKINNY_PERMISSION_FOR_CACHE', 0707);//初期値 0707
