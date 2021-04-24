@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! ===== This css file is generated from sass. ===== */
+/*! =====このcssファイルはsassから生成されています。===== */
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +15,7 @@ body {
   font-family: sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  margin: 10.5px;
 }
 
 a:link {
@@ -48,9 +49,9 @@ header, main > section > .thread, main > article#catalog, footer > article, foot
 }
 
 header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy {
-  margin: 12px auto;
+  margin: 0px auto;
   display: block;
-  width: 70%;
+  max-width: 1350px;
   border: solid 1px #396;
 }
 
@@ -105,7 +106,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
   width: 6em;
 }
 
-input[value="Paint"], textarea[value="Paint"], select[value="Paint"], button.copy_button, .se[value="Paint"], .button {
+input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
   background-color: #396;
   color: #FFF;
 }
@@ -374,11 +375,14 @@ ul.menu {
 }
 
 @media screen and (max-width: 1024px) {
-  header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy, main > section > .thread, main > article#catalog, footer > article {
-    width: 90%;
-  }
   .res {
     clear: left;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    margin: 6px;
   }
 }
 
@@ -640,3 +644,4 @@ ul.menu {
     margin-right: 0;
   }
 }
+/*# sourceMappingURL=mono_deep.css.map */
