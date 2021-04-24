@@ -2,7 +2,7 @@
 
 ![POTI-board Kai Ni](https://raw.githubusercontent.com/wiki/sakots/poti-kaini-EN/img/paintmode.png)
 
-This is a project to translate [POTI-board改二](https://github.com/sakots/poti-kaini/) into English.
+This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
 
 ## Required php version
 
@@ -25,6 +25,10 @@ It can also conflict with mouse gesture extensions.
 If you feel something is wrong, try turning it off.
   
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+### [2021/04/22] v2.26.7lot.210403
+
+Change the working directory of png2jpg to the real path of src. The behavior is the same as before it was made into a function.
 
 ### [2021/03/02] v2.26.6 lot.210320.0
 
