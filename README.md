@@ -1,6 +1,8 @@
 # POTI-board Kai Ni-EN
 
 ![POTI-board Kai Ni](https://raw.githubusercontent.com/wiki/sakots/poti-kaini-EN/img/paintmode.png)
+![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
+
 
 This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
 
