@@ -111,7 +111,7 @@
 							<% def(resno) %>
 							<input type="hidden" name="resto" value="<% echo(resno) %>">
 							<% /def %>
-							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Record animation" <% def(animechk) %><% echo(animechk) %><% /def %>>Record animation (TimePlus)</label><% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback (Time lapse)</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
 							<input class="button" type="submit" value="Paint">
 							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
@@ -209,7 +209,7 @@
 						<figcaption>
 							<a href="<% echo(oya/src) %>" title="<% echo(oya/sub) %>" target="_blank"><% echo(oya/srcname) %></a> (<% echo(oya/size) %> B)<% def(oya/thumb) %> - thumbnail is shown -<% /def %><% def(oya/painttime) %> PaintTime : <% echo(oya/painttime) %><% /def %>
 							<br>
-							<% def(oya/continue) %> <a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/continue) %>">*Draw more</a><% /def %><% def(oya/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/pch) %>" target="_blank">*Animation</a><% /def %>
+							<% def(oya/continue) %> <a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/continue) %>">*Continue</a><% /def %><% def(oya/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/pch) %>" target="_blank">*Replay</a><% /def %>
 						</figcaption>
 						<figure>
 							<% def(oya/thumb) %>
@@ -242,7 +242,7 @@
 										<% /def %>
 										<br>
 										<% def(oya/res/continue) %>
-										<a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/res/continue) %>">*Draw more</a><% /def %><% def(oya/res/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/res/pch) %>" target="_blank">*Animation</a><% /def %>
+										<a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/res/continue) %>">*Continue</a><% /def %><% def(oya/res/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/res/pch) %>" target="_blank">*Replay</a><% /def %>
 									</figcaption>
 									<% def(oya/res/thumb) %>
 									<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>"></a>
