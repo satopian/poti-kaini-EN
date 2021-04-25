@@ -4,7 +4,7 @@
 
 This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
 
-[The official website of POTI Kai](https://pbbs.sakura.ne.jp/poti/)
+[The official website of POTI Kai](https://pbbs.sakura.ne.jp/poti/index.php?en=on)
 
 ## Required php version
 
