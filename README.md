@@ -17,7 +17,7 @@ php5.5 or upper, php7.x, or php8.0.
 
 ## About the function of digital ink (windows Ink)
 
-If you run Paint BBS NEO / Shi-Painter with Digital Ink (windows Ink) on,
+If you run PaintBBS NEO / Shi-Painter with Digital Ink (windows Ink) on,
 It cause unintended movement; For example, if you slide the pen from left to right,
 the browser will return to the previous screen.
 Please turn off the digital ink (Window Ink) when using PaintBBS NEO / Painter.
