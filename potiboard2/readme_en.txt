@@ -1,7 +1,7 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   POTI-board Kai-Ni
-  by sakots >> https://poti-k.info/
+  by POTI-Board redevelopment team. >> https://pbbs.sakura.ne.jp/poti/?en=on
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -99,7 +99,7 @@ SakaQ-san's thanks, please read the Japanese version of readme.txt.
 
 ** copyrights **
 
-POTI-boaed Kai-Ni                  (c)sakots
+POTI-boaed Kai-Ni                  (c)POTI-Board redevelopment team.
 
 search.php                         (c)satopian
 
