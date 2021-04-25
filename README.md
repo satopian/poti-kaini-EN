@@ -21,7 +21,8 @@ It cause unintended movement; For example, if you slide the pen from left to rig
 the browser will return to the previous screen.
 Please turn off the digital ink (Window Ink) when using PaintBBS NEO / Painter.
 
-![digital ink](https://user-images.githubusercontent.com/31465648/83109254-0c7ddf80-a0fc-11ea-9627-7b4afe5ae193.PNG)
+![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
+
 
 It can also conflict with mouse gesture extensions.
 If you feel something is wrong, try turning it off.
