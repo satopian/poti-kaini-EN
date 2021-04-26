@@ -103,8 +103,8 @@
 							<% def(applet) %>
 							<input type="hidden" name="shi" value="1">
 							<% /def %>
-							<label>width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>"></label>
-							<label>height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>"></label>
+							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
+							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
 							<% def(use_select_palettes) %>
 							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
 							<% /def %>
@@ -201,7 +201,7 @@
 					<h2><span class="oyano">[<% echo(oya/no) %>]</span> <% echo(oya/sub) %></h2>
 					<h3>
 						<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/name) %></a></span><span class="trip"><% echo(oya/trip) %></span> :
-						<% echo(oya/now) %><% def(oya/id) %> ID : <% echo(oya/id) %><% /def %><% def(oya/url) %> <span class="url">[<a href="<% echo(oya/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span> <% /def %><% def(oya/email) %><a href="mailto:<% echo(oya/email) %>">[mail]</a><% /def %> <% def(oya/updatemark) %><% echo(oya/updatemark) %><% /def %>
+						<% echo(oya/now) %><% def(oya/id) %> ID : <% echo(oya/id) %><% /def %><% def(oya/url) %> <span class="url">[<a href="<% echo(oya/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span> <% /def %> <% def(oya/updatemark) %><% echo(oya/updatemark) %><% /def %>
 					</h3>
 					<hr>
 					<article>
@@ -232,7 +232,7 @@
 								<h4>
 									<span class="oyaresno">[<% echo(oya/res/no) %>]</span>
 									<span class="rsub"><% echo(oya/res/sub) %></span> :
-									<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/res/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/res/name) %></a></span><span class="trip"><% echo(oya/res/trip) %></span> : <% echo(oya/res/now) %><% def(oya/res/id) %> ID : <% echo(oya/res/id) %><% /def %><% def(oya/res/url) %> <span class="url">[<a href="<% echo(oya/res/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span><% /def %><% def(oya/res/email) %><a href="mailto:<% echo(oya/res/email) %>">[mail]</a><% /def %> 
+									<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/res/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/res/name) %></a></span><span class="trip"><% echo(oya/res/trip) %></span> : <% echo(oya/res/now) %><% def(oya/res/id) %> ID : <% echo(oya/res/id) %><% /def %><% def(oya/res/url) %> <span class="url">[<a href="<% echo(oya/res/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span><% /def %> 
 									<% def(oya/res/updatemark) %> <% echo(oya/res/updatemark) %><% /def %>
 								</h4>
 								<% def(oya/res/src) %>
