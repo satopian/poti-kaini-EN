@@ -5,7 +5,7 @@
 ** http://www.punyu.net/php/
 ** by SakaQ
 ** https://pbbs.sakura.ne.jp/poti/?en=on
-** by POTI-Board redevelopment team.
+** by POTI-board redevelopment team.
 **
 ** 2020/12/19 Translated into English.
 
