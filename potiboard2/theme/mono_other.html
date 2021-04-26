@@ -73,7 +73,7 @@
 						<% /def %>
 						<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback (Time lapse)" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback</label><% /def %>
 						<label><input type="checkbox" name="useneo" checked>USE NEO</label>
-						<input name="pch_upload" type="file" accept=".pch, .spch" title="pch upload">
+						<input name="pch_upload" type="file" accept="image/*,.pch,.spch" title="pch upload">
 						<input type="hidden" name="mode" value="paint">
 						<input type="hidden" name="admin" value="<% echo(admin) %>">
 						<input class="button" type="submit" value="paint">
