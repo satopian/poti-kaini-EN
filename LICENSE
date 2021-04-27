@@ -1,6 +1,6 @@
 License
 
-main program - Copyright (c) 2018-2021 POTI-kai POTI-board redevelopment team.
+main program - Copyright (C) 2018-2021 POTI-kai POTI-board redevelopment team.
 
 Distribution conditions are based on "Let's PHP!". 
 http://php.loglog.jp/waar.php
@@ -8,10 +8,10 @@ Feel free to modify or redistribute it.
 
 Each module is subject to its own license
 
-search.php - Copyright (c) 2020 satopian
-PaintBBS NEO - Copyright (c) 2020 funige
-Skinny - Copyright (c) 2019 Kuasuki
-DynamicPalette - Copyright (c) 2005 noraneko
-PaintBBS, Shi-Painter, PCH Viewer - Copyright (c) 2004 shi-chan
+search.php - Copyright (C) 2020 satopian
+PaintBBS NEO - Copyright (C) 2020 funige
+Skinny - Copyright (C) 2019 Kuasuki
+DynamicPalette - Copyright (C) 2005 noraneko
+PaintBBS, Shi-Painter, PCH Viewer - Copyright (C) 2004 shi-chan
 
 Revised 2020/12/25

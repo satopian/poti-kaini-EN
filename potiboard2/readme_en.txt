@@ -99,9 +99,9 @@ SakaQ-san's thanks, please read the Japanese version of readme.txt.
 
 ** copyrights **
 
-POTI-boaed Kai-Ni                  (c)POTI-board redevelopment team.
+POTI-boaed Kai-Ni                  (C)POTI-board redevelopment team.
 
-search.php                         (c)satopian
+search.php                         (C)satopian
 
 POTI-board v1.32                   (C)SakaQ "punyu-net"
 
@@ -118,6 +118,6 @@ Shi-Painter (tested by v1.071all)
 PCH Viewer (tested by v1.12)       (C)Shi-chan "Shi-Doh"
 WCS Dynamic Palette Control Set    (C)noraneko "WonderCatStudio"
 
-PaintBBS NEO                       (c)funige
+PaintBBS NEO                       (C)funige
 
 ** See README.md or github for change history **
