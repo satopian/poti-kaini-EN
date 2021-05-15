@@ -11,26 +11,13 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 php5.5 or upper, php7.x, or php8.0.
 
-## I was very grateful for this
-
-[PaintBBS NEO](https://github.com/funige/neo/)
-
-## About the function of digital ink (windows Ink)
-
-If you run PaintBBS NEO / Shi-Painter with Digital Ink (windows Ink) on,
-It cause unintended movement; For example, if you slide the pen from left to right,
-the browser will return to the previous screen.
-Please turn off the digital ink (Windows Ink) when using PaintBBS NEO / Painter.
-
-![Windows Ink](https://user-images.githubusercontent.com/31465648/83109254-0c7ddf80-a0fc-11ea-9627-7b4afe5ae193.PNG)
-
-
-It can also conflict with mouse gesture extensions.
-If you feel something is wrong, try turning it off.
-  
+### [2021/05/15] v3.00.1 lot.210514
+- Chicken Paint is now available.
+- The name of the script has changed to POTI-board EVO.
+ 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-### [2021/04/22] v2.26.7lot.210403
+### [2021/04/22] v2.26.7 lot.210403
 
 Change the working directory of png2jpg to the real path of src. The behavior is the same as before it was made into a function.
 
