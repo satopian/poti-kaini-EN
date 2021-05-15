@@ -6,6 +6,9 @@
 
 ![ChickenPaint](https://user-images.githubusercontent.com/44894014/118308857-6ce17900-b527-11eb-83fb-9443f38347be.png)
 
+In v3.0, the HTML5 version of the high-performance paint application [ChickenPaint](https://github.com/thenickdude/chickenpaint) is available.  
+The HTML5 version of [PaintBBS NEO](https://github.com/funige/neo/) is still available.
+
 
 This is a project to translate [POTI-board EVO](https://github.com/satopian/poti-kaini/) into English.
 
