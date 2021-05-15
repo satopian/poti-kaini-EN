@@ -1,9 +1,9 @@
-# POTI-board Kai Ni-EN
+# POTI-board EVO-EN
 
 ![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
 
 
-This is a project to translate [POTI-board改二](https://github.com/satopian/poti-kaini/) into English.
+This is a project to translate [POTI-board EVO](https://github.com/satopian/poti-kaini/) into English.
 
 [POTI-board Kai official website](https://pbbs.sakura.ne.jp/poti/?en=on) English.
 
