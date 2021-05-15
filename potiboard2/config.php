@@ -1,9 +1,9 @@
 <?php
 /*
-  * POTI-board Kai Ni v2.26.6 lot.210320
+  * POTI-board EVO v3.00.1 lot.210514
   * by POTI-kai >> https://pbbs.sakura.ne.jp/poti/
   *
-  * setting file of POTI-board Kai Ni
+  * setting file of POTI-board EVO
   * Japanese is left in the comments for the convenience of translation.
   *
 */
