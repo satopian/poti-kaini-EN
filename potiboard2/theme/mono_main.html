@@ -100,11 +100,20 @@
 				<article class="epost">
 					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
 						<p>
-							<% def(applet) %>
-							<input type="hidden" name="shi" value="1">
-							<% /def %>
 							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
 							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
+							<% def(select_app) %>
+							<span class="for_pc">tool:</span>
+							<select name="shi" class="for_pc">
+							<option value="neo">PaintBBS NEO</option>
+							<% def(use_shi_painter) %><option value="1">Shi-Painter</option><% /def %>
+							<% def(use_chickenpaint) %><option value="chicken">ChickenPaint</option><% /def %>
+						</select>
+						<% elsedef %>
+						<!-- 選択メニューを出さない時に起動するアプリ -->
+						<input type="hidden" name="shi" value="neo">
+						<% /def %>
+
 							<% def(use_select_palettes) %>
 							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
 							<% /def %>
@@ -113,8 +122,18 @@
 							<% /def %>
 							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback (Time lapse)</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
-							<input class="button" type="submit" value="Paint">
-							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
+							<input class="button" type="submit" value="Paint">							<input type="hidden" name="is_mobile" id="is_mobile" value>
+							<style id="for_mobile"></style>
+							<script>
+							function is_mobile() {
+							if (navigator.maxTouchPoints && ( window.matchMedia && window.matchMedia('(max-width: 533px)').matches))  return true;
+							return false;
+							}
+							if(is_mobile()){
+								document.getElementById("is_mobile").value = "true";
+								document.getElementById("for_mobile").textContent=".for_pc{display: none;}";
+							}
+							</script>
 						</p>
 					</form>
 					<% def(paint2) %>
@@ -342,25 +361,27 @@
 				<!-- Copyright notice, do not delete -->
 				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
-					<a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_top" title="POTI-board Kai-Ni <% echo(verlot) %>">POTI-board Kai-Ni <% echo(ver) %></a>
-					Web Style by <a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_top" title="MONO-en <% echo(tver) %>">MONO-en</a>
+					<a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_blank" rel="nofollow noopener noreferrer" title="POTI-board EVO <% echo(verlot) %>">POTI-board EVO <% echo(ver) %></a>
+					Web Style by <a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_blank" rel="nofollow noopener noreferrer" title="MONO-en <% echo(tver) %>">MONO-en</a>
 				</p>
 				<p>
 					OriginalScript -
-					<a href="http://www.punyu.net/" target="_top" title="POTI-board (by PunyuNet)">POTI-board</a>
-					<a href="http://www.2chan.net/" target="_top" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
-					(<a href="http://php.loglog.jp/" target="_top" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+					<a href="http://www.punyu.net/" target="_blank" rel="nofollow noopener noreferrer" title="POTI-board (by PunyuNet)">POTI-board</a>
+					<a href="http://www.2chan.net/" target="_blank" rel="nofollow noopener noreferrer" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
+					(<a href="http://php.loglog.jp/" target="_blank" rel="nofollow noopener noreferrer" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
 				</p>
 				<% def(paint) %>
 				<p>
-					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="nofollow noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+					<a href="https://github.com/funige/neo/" target="_blank" rel="nofollow noopener noreferrer" title="by funige">PaintBBS NEO</a>
+					<a href="https://github.com/thenickdude/chickenpaint" target="_blank" rel="nofollow noopener noreferrer" title="by Nicholas Sherlock">ChickenPaint</a>
+
 				</p>
 				<% /def %>
 				<p>
 					UseFunction -
-					<a href="http://skinny.sx68.net/" target="_top" title="Skinny.php (by Kuasuki)">Skinny.php</a>
+					<a href="http://skinny.sx68.net/" target="_blank" rel="nofollow noopener noreferrer" title="Skinny.php (by Kuasuki)">Skinny.php</a>
 					DynamicPalette <!-- http://wondercatstudio.com/ -->
-					<a href="https://github.com/funige/neo/" target="_top" title="by ImageCanvas">PaintBBS NEO</a>
 				</p>
 			</article>			
 		</footer>

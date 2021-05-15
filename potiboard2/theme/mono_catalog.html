@@ -52,38 +52,6 @@
 				</nav>
 				<hr>
 				<h2>Catalog mode</h2>
-				<hr>
-				<% def(paint) %>
-				<section class="epost">
-					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
-						<p>
-							<% def(applet) %>
-							<input type="hidden" name="shi" value="1">
-							<% /def %>
-							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
-							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
-							<% def(use_select_palettes) %>
-							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
-							<% /def %>
-							<% def(resno) %>
-							<input type="hidden" name="resto" value="<% echo(resno) %>">
-							<% /def %>
-							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback (Time lapse)</label><% /def %>
-							<input type="hidden" name="mode" value="paint">
-							<input class="button" type="submit" value="Paint">
-							<label><input type="checkbox" name="useneo" checked>USE NEO</label>
-						</p>
-					</form>
-					<% def(paint2) %>
-					<ul>
-						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
-						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
-						<li>If checked USE NEO, PaintBBS NEO runs. Or not, Shi-Painter runs.</li>
-						<% def(addinfo) %><% echo (addinfo) %><% /def %>
-					</ul>
-					<% /def %>
-				</section>
-				<% /def %>
 			</article>
 		</header>
 		<main>
@@ -145,25 +113,27 @@
 				<!-- Copyright notice, do not delete -->
 				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
-					<a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_top" title="POTI-board Kai-Ni <% echo(verlot) %>">POTI-board Kai-Ni <% echo(ver) %></a>
-					Web Style by <a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_top" title="MONO-en <% echo(tver) %>">MONO-en</a>
+					<a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_blank" rel="nofollow noopener noreferrer" title="POTI-board EVO <% echo(verlot) %>">POTI-board EVO <% echo(ver) %></a>
+					Web Style by <a href="https://pbbs.sakura.ne.jp/poti/?en=on" target="_blank" rel="nofollow noopener noreferrer" title="MONO-en <% echo(tver) %>">MONO-en</a>
 				</p>
 				<p>
 					OriginalScript -
-					<a href="http://www.punyu.net/" target="_top" title="POTI-board (by PunyuNet)">POTI-board</a>
-					<a href="http://www.2chan.net/" target="_top" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
-					(<a href="http://php.loglog.jp/" target="_top" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+					<a href="http://www.punyu.net/" target="_blank" rel="nofollow noopener noreferrer" title="POTI-board (by PunyuNet)">POTI-board</a>
+					<a href="http://www.2chan.net/" target="_blank" rel="nofollow noopener noreferrer" title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</a>
+					(<a href="http://php.loglog.jp/" target="_blank" rel="nofollow noopener noreferrer" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
 				</p>
 				<% def(paint) %>
 				<p>
-					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+					OekakiApplet - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="nofollow noopener noreferrer" title="by Shi-chan">Shi-Painter</a>
+					<a href="https://github.com/funige/neo/" target="_blank" rel="nofollow noopener noreferrer" title="by funige">PaintBBS NEO</a>
+					<a href="https://github.com/thenickdude/chickenpaint" target="_blank" rel="nofollow noopener noreferrer" title="by Nicholas Sherlock">ChickenPaint</a>
+
 				</p>
 				<% /def %>
 				<p>
 					UseFunction -
-					<a href="http://skinny.sx68.net/" target="_top" title="Skinny.php (by Kuasuki)">Skinny.php</a>
+					<a href="http://skinny.sx68.net/" target="_blank" rel="nofollow noopener noreferrer" title="Skinny.php (by Kuasuki)">Skinny.php</a>
 					DynamicPalette <!-- http://wondercatstudio.com/ -->
-					<a href="https://github.com/funige/neo/" target="_top" title="by ImageCanvas">PaintBBS NEO</a>
 				</p>
 			</article>			
 		</footer>
