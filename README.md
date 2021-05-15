@@ -1,6 +1,10 @@
 # POTI-board EVO-EN
 
+## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
+
 ![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
+
+![ChickenPaint](https://user-images.githubusercontent.com/44894014/118308857-6ce17900-b527-11eb-83fb-9443f38347be.png)
 
 
 This is a project to translate [POTI-board EVO](https://github.com/satopian/poti-kaini/) into English.
