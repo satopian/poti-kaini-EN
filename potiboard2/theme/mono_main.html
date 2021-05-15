@@ -103,7 +103,7 @@
 							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
 							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
 							<% def(select_app) %>
-							<span class="for_pc">tool:</span>
+							<span class="for_pc">Tool:</span>
 							<select name="shi" class="for_pc">
 							<option value="neo">PaintBBS NEO</option>
 							<% def(use_shi_painter) %><option value="1">Shi-Painter</option><% /def %>
@@ -140,7 +140,6 @@
 					<ul>
 						<li>Canvas size is width 300 to <% echo (pmaxw) %>, height 300 to <% echo (pmaxh) %>.</li>
 						<li>The image is reduced if it exceeds this size; width <% echo (maxw) %>px, height <% echo (maxh) %>px.</li>
-						<li>If checked USE NEO, PaintBBS NEO runs. Or not, Shi-Painter runs.</li>
 						<% def(addinfo) %><% echo (addinfo) %><% /def %>
 					</ul>
 					<% /def %>
