@@ -95,7 +95,7 @@ select[name="picw"], select[name="pich"] {
 }
 
 select[name="shi"] {
-  width: 11em;
+  width: initial;
 }
 
 input[name="del[]"], textarea[name="del[]"], select[name="del[]"], .se[name="del[]"] {
