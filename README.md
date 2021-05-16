@@ -1,4 +1,4 @@
-# POTI-board EVO-EN
+# POTI-board EVO EN
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
