@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.5.10";
+Neo.version = "1.5.11";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1098,11 +1098,17 @@ Neo.openURL = function (url) {
   }
 };
 
-Neo.submit = function (board, blob, thumbnail, thumbnail2) {
-  var url = board + Neo.config.url_save;
-  var headerString = Neo.str_header || "";
+Neo.getAbsoluteURL = function (board, url) {
+  if (url.indexOf('://') > 0 || url.indexOf('//') === 0) {
+    return url;
+  } else {
+    return board + url;
+  }
+}
 
-  // console.log("submit url=" + url + " header=" + headerString);
+Neo.submit = function (board, blob, thumbnail, thumbnail2) {
+  var url = Neo.getAbsoluteURL(board, Neo.config.url_save);
+  var headerString = Neo.str_header || "";
 
   if (document.paintBBSCallback) {
     var result = document.paintBBSCallback("check");
@@ -1112,7 +1118,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 
     result = document.paintBBSCallback("header");
     if (result && typeof result == "string") {
-      headerString == result;
+      headerString = result;
     }
   }
   if (!headerString) headerString = Neo.config.send_header || "";
@@ -1153,6 +1159,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
       }
     }
   }
+  // console.log("submit url=" + url + " header=" + headerString);
 
   var header = new Blob([headerString]);
   var headerLength = this.getSizeString(header.size);
@@ -1176,43 +1183,43 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     array.push(thumbnail2Length, thumbnail2);
   }
 
-  var body = new Blob(array, { type: "application/octet-binary" }); //これが必要！！
+  var futaba = location.hostname.match(/2chan.net/i);
+  var subtype = futaba ? "octet-binary" : "octet-stream"; // 念のため
+  var body = new Blob(array, { type: "application/" + subtype });
 
   var request = new XMLHttpRequest();
   request.open("POST", url, true);
 
   request.onload = function (e) {
     console.log(request.response, "status=", request.status);
-    //Neo.submitButton.enable();
-    if (request.status / 100 == 2) {
+
+    var errorMessage = null;
+    if (request.status / 100 != 2) {
+      errorMessage = request.response.replace(/<[^>]*>?/gm, '');
+    } else if (request.response.match(/^error\n/m)) {
+      errorMessage = request.response.replace(/^error\n/m, '');
+    } else {
       Neo.uploaded = true;
     }
 
-    var url = Neo.config.url_exit;
-    if (url[0] == "/") {
-      url = url.replace(/^.*\//, ""); //よくわかんないけどとりあえず
-    }
-
-    // ふたばのpaintpost.phpは、画像投稿に成功するとresponseに
-    // "./futaba.php?mode=paintcom&amp;painttmp=.png"
-    // という文字列を返します。
-    //
-    // NEOでは、responseに文字列"painttmp="が含まれる場合は
-    // <PARAM>で指定されたurl_exitを無視して、このURLにジャンプします。
+    var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
     var responseURL = request.response.replace(/&amp;/g, "&");
-    if (responseURL.match(/painttmp=/)) {
-      url = responseURL;
-    }
-    var exitURL = board + url;
 
-    // しぃちゃんのドキュメントをよく見たら
-    // responseが "URL:〜" の形だった場合はそこへ飛ばすって書いてありました。
-    // こっちを使うべきでした……
+    // ふたばではresponseの文字列をそのままURLとして解釈する
+    if (responseURL.match(/painttmp=/)) {
+      exitURL = responseURL;
+    }
+    // responseが "URL:〜" の形だった場合はそのURLへ
     if (responseURL.match(/^URL:/)) {
       exitURL = responseURL.replace(/^URL:/, "");
     }
 
-    location.href = exitURL;
+    if (Neo.uploaded) {
+      location.href = exitURL;
+    } else {
+      alert(errorMessage);
+      Neo.submitButton.enable();
+    }
   };
   request.onerror = function (e) {
     console.log("error");
