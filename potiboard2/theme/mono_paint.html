@@ -12,12 +12,12 @@
 		<% def(pch_mode) %><meta name="viewport" content="width=device-width"><% /def %>
 		<% def(continue_mode) %><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"><% /def %>
 		<% def(useneo) %>
-		<link rel="stylesheet" href="neo.css?<% echo(stime) %>" type="text/css">
-		<script src="neo.js?<% echo(stime) %>" charset="UTF-8"></script>
+		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
+		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
 		<% /def %>
 		<% def(pch_mode) %>
-		<link rel="stylesheet" href="neo.css?<% echo(stime) %>" type="text/css">
-		<script src="neo.js?<% echo(stime) %>" charset="UTF-8"></script>
+		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
+		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
 		<% /def %>
 		<!-- Determine if Java can be used Load cheerpJ if not -->
 		<% def(chickenpaint)%>
@@ -29,8 +29,8 @@
 
 </script>
 
-<script src="chickenpaint/js/chickenpaint.min.js?210512"></script>
-<link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css?210512">
+<script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
+<link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
 
 
 		<% elsedef %>
@@ -559,9 +559,6 @@
 							<% def(use_shi_painter) %><option value="1">Shi-Painter</option><% /def %>
 							<% def(use_chickenpaint) %><option value="chicken">ChickenPaint</option><% /def %>
 						</select>
-						<% elsedef %>
-						<!-- 選択メニューを出さない時に起動するアプリ -->
-						<input type="hidden" name="shi" value="neo">
 						<% /def %>
 						<% def(app_to_use) %>
 						<input type="hidden" name="shi" value="<% echo(app_to_use) %>">

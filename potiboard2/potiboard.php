@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.00.1');
-define('POTI_LOT','lot.210514'); 
+define('POTI_VER','v3.00.2');
+define('POTI_LOT','lot.210523'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -1358,7 +1358,6 @@ function paintform(){
 	global $ADMIN_PASS,$pallets_dat;
 
 	// $dat['chickenpaint']=true;
-
 	$mode = filter_input(INPUT_POST, 'mode');
 	$picw = filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
@@ -1375,6 +1374,9 @@ function paintform(){
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
 	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
+
+	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
+	
 
 	$useneo=($shi==='neo');//プルダウンメニューによるNEO判定
 	if(!$useneo){//NEOを使うのチェックボックスがonなら、NEO
@@ -1411,9 +1413,7 @@ function paintform(){
 				}
 				if($pchext==="pch"){
 					$shi=0;
-					$fp = fopen("$pchup", "rb");
-					$useneo=(fread($fp,3)==="NEO");
-					fclose($fp);
+					$useneo = is_neo($pchup);
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="spch"){
 					$shi=$shi ? $shi : 1;
@@ -1455,9 +1455,7 @@ function paintform(){
 		}
 		$dat['applet'] = true;
 		if(($ctype=='pch') && is_file(PCH_DIR.$pch.'.pch')){//動画から続き
-			$fp = fopen(PCH_DIR.$pch.'.pch', "rb");
-			$useneo = (fread($fp,3)==="NEO"); //先頭3byteを見る
-			fclose($fp);
+			$useneo = is_neo(PCH_DIR.$pch.'.pch');
 			$anime=true;
 			$dat['applet'] = false;
 		}elseif(($ctype=='pch') && is_file(PCH_DIR.$pch.'.spch')){
@@ -1672,6 +1670,8 @@ function paintcom(){
 // 動画表示
 function openpch(){
 
+	$dat['parameter_day']=date("Ymd");
+
 	$pch = newstring(filter_input(INPUT_GET, 'pch'));
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 
@@ -1684,11 +1684,8 @@ function openpch(){
 			$dat['normal'] = true;
 		} elseif ($ext == '.pch') {
 			$dat['paintbbs'] = true;
-
 			//neoのpchかどうか調べる
-			$fp = fopen($dat['pchfile'], "rb");
-			$dat['type_neo'] = (fread($fp,3)==="NEO"); //先頭3byteを見る
-			fclose($fp);
+			$dat['type_neo'] = is_neo($dat['pchfile']);
 		}
 
 	$dat['datasize'] = filesize($dat['pchfile']);
@@ -1763,7 +1760,11 @@ function incontinue(){
 		$dat['applet'] = false;
 		$dat['select_app'] = false;
 		$dat['usepbbs'] = true;
-		$dat['app_to_use'] = "0";//NEOとJavaのPaintBBSどちらも"0"バイナリをチェックしてNEOならNEOが起動する
+		if(is_neo(PCH_DIR.$ctim.'.pch')){
+			$dat['app_to_use'] = "neo";
+		}else{
+			$dat['app_to_use'] = "0";
+		}
 		
 	}elseif(is_file(PCH_DIR.$ctim.'.spch')){
 		$dat['ctype_pch'] = true;
@@ -2586,5 +2587,11 @@ function check_password ($pwd, $epwd, $adminPass = false) {
 		password_verify($pwd, $epwd)
 		|| $epwd === substr(md5($pwd), 2, 8)
 		|| ($adminPass ? ($adminPass === $ADMIN_PASS) : false); // 管理パスを許可する場合
+}
+function is_neo($src) {//neoのPCHかどうか調べる
+	$fp = fopen("$src", "rb");
+	$is_neo=(fread($fp,3)==="NEO");
+	fclose($fp);
+	return $is_neo;
 }
 
