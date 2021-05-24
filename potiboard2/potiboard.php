@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.00.2');
+define('POTI_VER','v3.00.3');
 define('POTI_LOT','lot.210523'); 
 
 /*
@@ -311,6 +311,7 @@ function basicpart(){
 	$dat['usepbbs'] = APPLET!=1 ? true : false;
 	
 	$dat['select_app'] =(USE_SHI_PAINTER||USE_CHICKENPAINT) ? true : false;//しぃペインターとChickenPaintを使うかどうか?
+	$dat['app_to_use'] = $dat['select_app'] ? false : "neo";
 	// $dat['useneo_on'] =  (!USE_SHI_PAINTER && !USE_CHICKENPAINT) ? true : false;//アプリ切替を表示しないときはhiddenでNEOを選択
 	$dat['use_shi_painter'] = USE_SHI_PAINTER ? true : false;
 	$dat['use_chickenpaint'] = USE_CHICKENPAINT ? true : false;
