@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2021 さとぴあ(@satopian)
-//v1.6.6 lot.210117
+//v1.6.9 lot.210527
 //
 //https://pbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -31,6 +31,8 @@ $max_search=120;
 
 //更新履歴
 
+//v1.6.9 2021.03.10 ２重エンコードにならないようにした。
+//v1.6.8 2021.03.10 未定義エラーを修正。
 //v1.6.6 2021.01.17 PHP8環境で致命的エラーが出るバグを修正。1発言分のログが4096バイト以上の時に処理できなくなるバグを修正。
 //v1.6.5 2020.10.02 波ダッシュと全角チルダを区別しない。
 //v1.6.3 2020.09.11 1ページ目の画像の表示枚数が19枚になっていたのを修正。
@@ -55,9 +57,7 @@ require(__DIR__.'/config.php');
 //HTMLテンプレート Skinny
 require_once(__DIR__.'/Skinny.php');
 
-if(!defined('SKIN_DIR')){//config.php で未定義なら /theme
-	define('SKIN_DIR','theme/');
-}
+defined('SKIN_DIR') or define('SKIN_DIR','theme/');//config.php で未定義なら /theme
 
 $dat['skindir']=SKIN_DIR;
 
@@ -70,7 +70,7 @@ $page=filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
 $page= $page ? $page : 1;
 $query=filter_input(INPUT_GET,'query');
 $query=urldecode($query);
-$query=htmlspecialchars($query,ENT_QUOTES,'utf-8');
+$query=htmlspecialchars($query,ENT_QUOTES,'utf-8',false);
 $query=mb_convert_kana($query, 'rn', 'UTF-8');
 $query=str_replace(array(" ", "　"), "", $query);
 $query=str_replace("〜","～",$query);//波ダッシュを全角チルダに
@@ -159,7 +159,7 @@ if($arr){
 				}
 
 			$time=(int)substr($time,-13,10);
-			$postedtime = $time ? date ("Y/m/d G:i", $time) : '';
+			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
 			$sub=strip_tags($sub);
 			$com=str_replace('<br />',' ',$com);
 			$com=strip_tags($com);
@@ -215,7 +215,6 @@ else{//作者名
 $dat['query_l']=$query_l;
 
 $dat['page']=$page;
-$dat['artist_l']=$artist_l;	
 
 $dat['img_or_com']=$img_or_com;
 $dat['pageno']='';
