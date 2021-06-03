@@ -29,6 +29,8 @@
 		<noscript>
 			<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
 		</noscript>
+		<style>.del_page form {display: inline-block;}
+		.del_page {margin:6px 0;display: inline-block;}</style>
 		<title><% echo(title) %></title>
 	</head>
 	<body>
@@ -286,6 +288,27 @@
 						<input class="button" type="submit" value="DELETE">
 						<input class="button" type="reset" value="RESET">
 					</form>
+					<% def(del_page)%>
+					<% each(del_page)%>
+					<span class="del_page">[
+					<form action="<% echo(self) %>" method="post" id="form_page<% echo(del_page/no) %>">
+						<input type="hidden" name="mode" value="admin">
+						<input type="hidden" name="admin" value="del">
+						<input type="hidden" name="pass" value="<% echo(pass) %>">
+						<input type="hidden" name="del_pageno" value="<% echo(del_page/no) %>">
+						<% def(del_page/notlink)%>
+						<% echo(del_page/pageno) %>
+						</form>
+					]</span>
+						<% elsedef %>
+						<a href="javascript:form_page<% echo(del_page/no) %>.submit()"><% echo(del_page/pageno) %></a></form>
+					]</span>
+					<% /def %>
+						 
+					<% /each %>
+					<% /def % %>
+
+
 					<p>&lt;&lt;Image all size : <% echo(all) %> KB &gt;&gt;</p>
 				</div>
 			</section>
