@@ -1,13 +1,12 @@
 <?php
-//POTI-board ChickenPaint 対応版
 define('USE_DUMP_FOR_DEBUG','0');
 //HTML出力の前に$datをdump しない:0 する:1 dumpしてexit：2 
 // ini_set('error_reporting', E_ALL);
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.00.3');
-define('POTI_LOT','lot.210523'); 
+define('POTI_VER','v3.01.3');
+define('POTI_LOT','lot.210603'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -527,18 +526,27 @@ function updatelog(){
 			$dat['prev'] = $prev == 0 ? PHP_SELF2 : ($prev / PAGE_DEF) . PHP_EXT;
 		}
 		$paging = "";
+		for($l = 0; $l < $counttree; $l += (PAGE_DEF*35)){
+			if($l===0){//ページ数が0の時にエラーになるので対策
+				$start_page=0;
+				$end_page=PAGE_DEF*36;
+			}
+			if($page<=$l){break;}//$pagedef*17単位
+			$start_page=$l;
+			$end_page=$l+PAGE_DEF*36;
+		}
 
-		//表示しているページが20ページ以上または投稿数が少ない時はページ番号のリンクを制限しない
-		$showAll = ($counttree <= PAGE_DEF * 21 || $page >= PAGE_DEF*21);
-
-		for($i = 0; $i < ($showAll ? $counttree : PAGE_DEF * 22); $i += PAGE_DEF){
+		for($i = 0; $i < $counttree; $i += PAGE_DEF){
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
+			if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
+
 			$paging .= ($page === $i)
 				? str_replace("<PAGE>", $pn, NOW_PAGE) // 現在ページにはリンクを付けない
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : PHP_SELF2),
-					str_replace("<PAGE>", $i ? ($showAll || $i !== PAGE_DEF * 21 ? $pn : "≫") : $pn, OTHER_PAGE));
-		}
+				str_replace("<PAGE>", $i === $end_page ? "≫" : $pn , OTHER_PAGE));
 
+		}
+}
 		//改ページ分岐ここまで
 
 		$dat['paging'] = $paging;
@@ -1225,6 +1233,7 @@ function admindel($pass){
 	global $path,$onlyimgdel;
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
+	$del_pageno=(int)filter_input(INPUT_POST,'del_pageno',FILTER_VALIDATE_INT);
 
 	// 削除画面
 	$dat['admin_del'] = true;
@@ -1232,68 +1241,82 @@ function admindel($pass){
 
 	$all = 0;
 	$line = file(LOGFILE);
-	foreach($line as $j => $value){
-		list($no,$date,$name,$email,$sub,$com,$url,
-			 $host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
-		$now  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
-		$name = strip_tags($name);//タグ除去
-		if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
-		if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
-		$email=filter_var($email, FILTER_VALIDATE_EMAIL);
-		if($email){
-			$name='<a href="mailto:'.$email.'">'.$name.'</a>';
-		}
-		$com = preg_replace("#<br */?>#i"," ",$com);
-		$com = newstring($com);
-		if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
-		$clip = "";
-		$size = 0;
-		if($ext && is_file($path.$time.$ext)){
-		$clip = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
-		$size = filesize($path.$time.$ext);
-		$all += $size;	//ファイルサイズ加算
-		$chk= substr($chk,0,10);//md5
-		}else{
-			$chk= "";
-		}
-		$bg = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
+	$countlog=count($line);
+	$l = 0;
 
-		$dat['del'][$j] = compact('bg','no','now','sub','name','com','host','clip','size','chk');
+	for($k = 0; $k < $countlog  ; $k += 2000){
+
+		$dat['del_page'][$l]['no']=$k;
+		$dat['del_page'][$l]['pageno']=$l;
+		if($del_pageno===$l*2000){
+			$dat['del_page'][$l]['notlink']=true;
+			}
+		++$l;
 	}
-	$dat['all'] = ($all - ($all % 1024)) / 1024;
-	if(is_array($del)){
-		sort($del);
-		reset($del);
-		$fp=fopen(LOGFILE,"r+");
-		set_file_buffer($fp, 0);
-		flock($fp, LOCK_EX);
-		$buf=fread($fp,5242880);
-		if(!$buf){error(MSG030);}
-		$buf = charconvert($buf);
-		$line = explode("\n", trim($buf));
-		$find = false;
-		foreach($line as $i => $value){
-			if($value!==""){
-				list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
-				if(in_array($no,$del)){
-					if(!$onlyimgdel){	//記事削除
-						treedel($no);
-						unset($line[$i]);
-						$find = true;
+		foreach($line as $j => $value){
+			if(($j>=(0+$del_pageno))&&($j<(2000+$del_pageno))){
+
+			list($no,$date,$name,$email,$sub,$com,$url,
+				$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
+			$now  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
+			$name = strip_tags($name);//タグ除去
+			if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
+			if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
+			$email=filter_var($email, FILTER_VALIDATE_EMAIL);
+			if($email){
+				$name='<a href="mailto:'.$email.'">'.$name.'</a>';
+			}
+			$com = preg_replace("#<br */?>#i"," ",$com);
+			$com = newstring($com);
+			if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
+			$clip = "";
+			$size = 0;
+			$chk= "";
+			if($ext && is_file($path.$time.$ext)){
+			$clip = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
+			$size = filesize($path.$time.$ext);
+			$all += $size;	//ファイルサイズ加算
+			$chk= substr($chk,0,10);//md5
+			}
+			$bg = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
+
+			$dat['del'][] = compact('bg','no','now','sub','name','com','host','clip','size','chk');
+		}
+		}
+		$dat['all'] = ($all - ($all % 1024)) / 1024;
+		if(is_array($del)){
+			sort($del);
+			reset($del);
+			$fp=fopen(LOGFILE,"r+");
+			set_file_buffer($fp, 0);
+			flock($fp, LOCK_EX);
+			$buf=fread($fp,5242880);
+			if(!$buf){error(MSG030);}
+			$buf = charconvert($buf);
+			$line = explode("\n", trim($buf));
+			$find = false;
+			foreach($line as $i => $value){
+				if($value!==""){
+					list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
+					if(in_array($no,$del)){
+						if(!$onlyimgdel){	//記事削除
+							treedel($no);
+							unset($line[$i]);
+							$find = true;
+						}
+						delete_files($path, $time, $ext);
 					}
-					delete_files($path, $time, $ext);
 				}
 			}
+			if($find){//ログ更新
+				writeFile($fp, implode("\n", $line));
+			}
+			closeFile($fp);
 		}
-		if($find){//ログ更新
-			writeFile($fp, implode("\n", $line));
-		}
-		closeFile($fp);
-	}
 
-	htmloutput(SKIN_DIR.OTHERFILE,$dat);
-	exit;
-}
+		htmloutput(SKIN_DIR.OTHERFILE,$dat);
+		exit;
+	}
 
 function init(){
 	$err='';
@@ -2161,20 +2184,26 @@ function catalog(){
 	// 改ページ処理
 	if($prev >= 0) $dat['prev'] = PHP_SELF.'?mode=catalog&amp;page='.$prev;
 	$paging = "";
-
-	//表示しているページが20ページ以上または投稿数が少ない時はページ番号のリンクを制限しない
-	$showAll = ($counttree <= $pagedef * 21 || $page >= $pagedef * 21);
-
-	for($i = 0; $i < ($showAll ? $counttree : $pagedef * 22) ; $i += $pagedef){
+	for($l = 0; $l < $counttree; $l += ($pagedef*35)){
+		if($l===0){//ページ数が0の時にエラーになるので対策
+			$start_page=0;
+			$end_page=$pagedef*36;
+		}
+		if($page<=$l){break;}//$pagedef*17単位
+		$start_page=$l;
+		$end_page=$l+$pagedef*36;
+	}
+	for($i = 0; $i < $counttree; $i += $pagedef){
 		$pn = $i / $pagedef;
-		$paging .= ($page === $i)
+		if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
+			$paging .= ($page === $i)
 			? str_replace("<PAGE>", $pn, NOW_PAGE)
 			: str_replace("<PURL>", PHP_SELF."?mode=catalog&amp;page=".$i,
-				str_replace("<PAGE>", $showAll || $i !== $pagedef * 21 ? $pn : "≫", OTHER_PAGE));
+			str_replace("<PAGE>", $i === $end_page ? "≫" : $pn , OTHER_PAGE));
+		}
 	}
-
 	//改ページ分岐ここまで
-	
+	// exit;
 	$dat['paging'] = $paging;
 	if($counttree > $next){
 		$dat['next'] = PHP_SELF.'?mode=catalog&amp;page='.$next;
