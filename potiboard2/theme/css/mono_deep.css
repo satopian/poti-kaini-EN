@@ -374,6 +374,10 @@ ul.menu {
   background-color: #111111;
 }
 
+p.page {
+  margin: 8px 0;
+}
+
 @media screen and (max-width: 1024px) {
   .res {
     clear: left;

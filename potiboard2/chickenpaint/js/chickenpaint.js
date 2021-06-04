@@ -28568,7 +28568,14 @@ module.exports={
     "Merge group": "グループ結合",
     "Merge all layers":  "全レイヤー結合",
     "Add layer mask": "レイヤーマスク追加",
-    "Clip to the layer below": "下のレイヤーにクリッピング",
+    "Delete mask": "レイヤーマスク削除",
+    "Delete layer mask": "レイヤーマスク削除",
+    "Apply mask": "レイヤーマスク適用",
+    "Apply layer mask": "レイヤーマスク適用",
+    "Disable mask": "レイヤーマスク無効化",
+    "Enable mask": "レイヤーマスク有効化",
+    "Clip to the layer below": "下のレイヤーでクリッピング",
+    "Unclip from the layer below" : "クリッピング解除",    
 
   "Effects": "効果",
     "Clear": "消去",
@@ -28662,6 +28669,7 @@ module.exports={
     "Vivid Light": "ビビッドライト",
     "Linear Light": "リニアライト",
     "Pin Light": "ピンライト",
+    "Passthrough": "通過",
     
   "Stroke": "ストローク",
     "Free-hand": "フリーハンド",
@@ -28691,9 +28699,10 @@ module.exports={
     "Grid size": "グリッドサイズ",
   
   "Rename...": "名前を変更",
-  "Add layer": "レイヤーを追加",
-  "Add group": "グループ追加",
-  "Delete layer": "レイヤーを削除",
+  "Add layer": "新規レイヤー",
+  "Delete layer": "レイヤー削除",
+  "Add group": "新規グループ",
+  "Delete group": "グループ削除",
   "Add mask": "レイヤーマスク追加",
   
   "Gradient": "グラデーション作成",
@@ -28705,7 +28714,7 @@ module.exports={
   "Okay": "OK",
   "OK": "OK",
 
-  "Are you sure you want to send your drawing to the server and finish drawing now?": "お絵かきをサーバーへ送信し、終了してもよろしいですか？",
+  "Are you sure you want to send your drawing to the server and finish drawing now?": "お絵かきをサーバーに送信します。終了してもよろしいですか？",
   "Your drawing has unsaved changes! Are you sure to want to navigate away?": "お絵かきに未保存の変更があります。終了してもよろしいですか？",
           
   "Save Oekaki": "保存",
@@ -28722,7 +28731,7 @@ module.exports={
   "Your drawing has been saved, would you like to view it on the forum now?": "お絵かきが保存されました。フォーラムへ投稿しますか？",
   "Yes, view the post": "はい、投稿します。",
 
-  "Your drawing has been saved, redirecting you to view your new post now...": "お絵かきが保存されました。投稿先にリダイレクトします。",
+  "Your drawing has been saved, redirecting you to view your new post now...": "お絵かきが保存されました。投稿先に移動します。",
 
   "Sorry, your drawing could not be saved, please try again later.": "お絵かきが保存できませんでした。再度投稿してみてください。"
 }

@@ -5,8 +5,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.01.3');
-define('POTI_LOT','lot.210603'); 
+define('POTI_VER','v3.01.6');
+define('POTI_LOT','lot.210605'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -429,9 +429,6 @@ function updatelog(){
 	$tree = file(TREEFILE);
 	$line = file(LOGFILE);
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
-	if(!$lineindex){
-		error(MSG019);
-	}
 	$fdat=form();
 	$counttree = count($tree);//190619
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
@@ -539,14 +536,22 @@ function updatelog(){
 		for($i = 0; $i < $counttree; $i += PAGE_DEF){
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
 			if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
+				if($i === $end_page){//特定のページに代入される記号 エンド
+					$rep_page_no="≫";
+				}elseif($i!==0&&$i == $start_page){//スタート
+					$rep_page_no="≪";
+				}else{//ページ番号
+					$rep_page_no=$pn;
+				}
 
 			$paging .= ($page === $i)
 				? str_replace("<PAGE>", $pn, NOW_PAGE) // 現在ページにはリンクを付けない
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : PHP_SELF2),
-				str_replace("<PAGE>", $i === $end_page ? "≫" : $pn , OTHER_PAGE));
+				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
 		}
 }
+
 		//改ページ分岐ここまで
 
 		$dat['paging'] = $paging;
@@ -1058,8 +1063,7 @@ function regist(){
 		$new_treeline="$no\n";
 	}
 	if($resto && !$find){
-		safe_unlink($path.$time.$ext);
-		safe_unlink(THUMB_DIR.$time.'s.jpg');
+		delete_files ($path, $time, $ext);
 		error(MSG025);
 	}
 	$new_treeline.=implode("\n", $line);
@@ -2195,15 +2199,22 @@ function catalog(){
 	}
 	for($i = 0; $i < $counttree; $i += $pagedef){
 		$pn = $i / $pagedef;
+		
 		if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
+			if($i === $end_page){//特定のページに代入される記号 エンド
+				$rep_page_no="≫";
+			}elseif($i!==0&&$i == $start_page){//スタート
+				$rep_page_no="≪";
+			}else{//ページ番号
+				$rep_page_no=$pn;
+			}
 			$paging .= ($page === $i)
 			? str_replace("<PAGE>", $pn, NOW_PAGE)
 			: str_replace("<PURL>", PHP_SELF."?mode=catalog&amp;page=".$i,
-			str_replace("<PAGE>", $i === $end_page ? "≫" : $pn , OTHER_PAGE));
+			str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 		}
 	}
 	//改ページ分岐ここまで
-	// exit;
 	$dat['paging'] = $paging;
 	if($counttree > $next){
 		$dat['next'] = PHP_SELF.'?mode=catalog&amp;page='.$next;
@@ -2605,6 +2616,9 @@ function get_lineindex ($line){
 	foreach($line as $i =>$value){
 		if($value !==''){
 			list($no,) = explode(",", $value);
+			if(!is_numeric($no)){//記事Noが正しく読み込まれたかどうかチェック
+				error(MSG019);
+			};
 			$lineindex[$no] = $i; // 値にkey keyに記事no
 		}
 	}
