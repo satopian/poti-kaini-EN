@@ -39,7 +39,7 @@
 		var jEnabled = navigator.javaEnabled();
 		if(!jEnabled){
 			var sN = document.createElement("script");
-			sN.src = "https://cjrtnc.leaningtech.com/2.2/loader.js";
+            sN.src = "<% def(cheerpj_url)%><% echo(cheerpj_url)%><% elsedef %>https://cjrtnc.leaningtech.com/2.2/loader.js<% /def %>";
 			var s0 = document.getElementsByTagName("script")[0];
 			s0.parentNode.insertBefore(sN, s0);
 			sN.addEventListener("load", function(){ cheerpjInit(); }, false);

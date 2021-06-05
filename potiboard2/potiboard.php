@@ -5,7 +5,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.01.8');
+define('POTI_VER','v3.01.9');
 define('POTI_LOT','lot.210605'); 
 
 /*
@@ -97,6 +97,9 @@ require(__DIR__.'/thumbnail_gd.php');
 
 //POTI_VERLOT定義
 define('POTI_VERLOT', POTI_VER.' '.POTI_LOT);
+
+
+define('CHEERPJ_URL', 'https://cjrtnc.leaningtech.com/2.2/loader.js');
 
 //ユーザー削除権限 (0:不可 1:treeのみ許可 2:treeと画像のみ許可 3:tree,log,画像全て許可)
 //※treeのみを消して後に残ったlogは管理者のみ削除可能
@@ -341,6 +344,7 @@ function basicpart(){
 		$dat['hide_the_checkbox_for_nofile']=false;
 	}
 	$dat['_san']=HONORIFIC_SUFFIX;
+	$dat['cheerpj_url']=CHEERPJ_URL;
 
 	return $dat;
 }
