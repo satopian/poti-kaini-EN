@@ -18,6 +18,16 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 php5.5 or upper, php7.x, or php8.0.
 
+### [2021/06/05] v3.01.9 lot.210605
+- Updated to the latest version of "ChickenPaint".  
+If the browser language is other than Japanese, it will be displayed in English. If the browser language is Japanese, it will be displayed in Japanese.
+- Management screen paging Page breaks in units of 2000.  
+Improved paging on the main page and catalog page.  
+Shifted to a method of paging in 35-page units.  
+
+- Addressed the version of CheerpJ where the "shi-painter" does not start.  
+The JavaScript url required to start CheerpJ is managed in potiboard.php.  
+
 ### [2021/05/15] v3.00.1 lot.210514
 - Chicken Paint is now available.
 - The name of the script has changed to POTI-board EVO.
