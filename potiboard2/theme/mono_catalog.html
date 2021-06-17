@@ -6,9 +6,15 @@
 		<script>
 			var css = GetCookie("CSS");
 			if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
-			document.write('<link rel="stylesheet" href="' + css + '" type="text/css">');
-			function SetCss(file){
+			var link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.href =  css ;
+			document.getElementsByTagName("head")[0].appendChild(link);
+			function SetCss(obj){
+				var idx = obj.selectedIndex;
+				file = obj.options[idx].value;
 				SetCookie("CSS", file);
+				SetCookie("colorIdx",idx);
 				window.location.reload();
 			}
 			function GetCookie(key){
@@ -18,7 +24,7 @@
 					tmp = tmp.substring(tmp1, tmp.length);
 					var start = tmp.indexOf("=", 0) + 1;
 					var end = tmp.indexOf(";", start);
-					return(unescape(tmp.substring(start,end)));
+					return(decodeURIComponent(tmp.substring(start,end)));
 					}
 				return("");
 			}
@@ -94,14 +100,15 @@
 						</select>
 						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
 						<input class="button" type="submit" value=" OK ">
-					</p>
-					<p>
-						collar
-						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_main.css');">[MONO]</a>
-						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_dark.css');">[dark]</a>
-						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_deep.css');">[deep]</a>
-						<a href="javascript:SetCss('<% echo(skindir) %>css/mono_mayo.css');">[MAYO]</a>
-					</p>
+					<span class="stylechanger">Color: 
+						<select class="form" id="mystyle" onchange="SetCss(this);">
+							<option value="<% echo(skindir) %>css/mono_main.css">MONO</option>
+							<option value="<% echo(skindir) %>css/mono_dark.css">Dark</option>
+							<option value="<% echo(skindir) %>css/mono_deep.css">Deep</option>
+							<option value="<% echo(skindir) %>css/mono_mayo.css">MAYO</option>
+						</select>
+					</span>
+				</p>
 				</form>
 				<script src="loadcookie.js"></script>
 				<script>
@@ -136,5 +143,9 @@
 				</p>
 			</article>			
 		</footer>
+		<script>
+		let colorIdx=GetCookie('colorIdx');
+		document.getElementById("mystyle").selectedIndex=colorIdx;
+		</script>
 	</body>
 </html>

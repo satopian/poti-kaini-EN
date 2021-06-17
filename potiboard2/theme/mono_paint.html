@@ -21,7 +21,7 @@
 		<% /def %>
 		<!-- Determine if Java can be used Load cheerpJ if not -->
 		<% def(chickenpaint)%>
-<script type="text/javascript">
+<script>
 	/* Check for native pointer event support before PEP adds its polyfill */
 	if (window.PointerEvent) {
 		window.hasNativePointerEvents = true;
@@ -50,12 +50,18 @@
 		window.addEventListener("load", function() { cheerpJLoad(); }, false);
 		</script>
 		<% /def %>
-		<script type="text/javascript">
+		<script>
 			var css = GetCookie("CSS");
 			if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
-			document.write('<link rel="stylesheet" href="' + css + '" type="text/css">');
-			function SetCss(file){
+			var link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.href =  css ;
+			document.getElementsByTagName("head")[0].appendChild(link);
+			function SetCss(obj){
+				var idx = obj.selectedIndex;
+				file = obj.options[idx].value;
 				SetCookie("CSS", file);
+				SetCookie("colorIdx",idx);
 				window.location.reload();
 			}
 			function GetCookie(key){
@@ -65,7 +71,7 @@
 					tmp = tmp.substring(tmp1, tmp.length);
 					var start = tmp.indexOf("=", 0) + 1;
 					var end = tmp.indexOf(";", start);
-					return(unescape(tmp.substring(start,end)));
+					return(decodeURIComponent(tmp.substring(start,end)));
 					}
 				return("");
 			}
