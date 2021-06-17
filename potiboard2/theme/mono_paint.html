@@ -19,15 +19,24 @@
 		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
 		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
 		<% /def %>
-		<!-- Determine if Java can be used Load cheerpJ if not -->
 		<% def(chickenpaint)%>
-<script>
-	/* Check for native pointer event support before PEP adds its polyfill */
-	if (window.PointerEvent) {
-		window.hasNativePointerEvents = true;
-	}
-
-</script>
+		<style>
+		div#chickenpaint-parent :not(input){
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		::selection {
+			background: transparent;
+		}
+		</style>
+		<script>
+		/* Check for native pointer event support before PEP adds its polyfill */
+		if (window.PointerEvent) {
+			window.hasNativePointerEvents = true;
+		}
+		</script>
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
@@ -35,7 +44,7 @@
 
 		<% elsedef %>
 		<style>body{overscroll-behavior-x: none !important; }</style>
-
+	<!-- Determine if Java can be used Load cheerpJ if not -->
 		<script>
 		function cheerpJLoad() {
 		var jEnabled = navigator.javaEnabled();
