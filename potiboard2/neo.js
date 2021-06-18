@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.5.11";
+Neo.version = "1.5.12";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1195,7 +1195,8 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 
     var errorMessage = null;
     if (request.status / 100 != 2) {
-      errorMessage = request.response.replace(/<[^>]*>?/gm, '');
+      errorMessage = request.responseURL + "\n"
+                   + Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
     } else if (request.response.match(/^error\n/m)) {
       errorMessage = request.response.replace(/^error\n/m, '');
     } else {
@@ -1469,6 +1470,8 @@ Neo.dictionary = {
     早: "H",
     既: "M",
     鈍: "L",
+    "投稿に失敗。時間を置いて再度投稿してみてください。":
+      "Please push send button again.",
   },
   enx: {
     やり直し: "Redo",
@@ -1476,7 +1479,7 @@ Neo.dictionary = {
     塗り潰し: "Fill",
     窓: "Float",
     投稿: "Send",
-    "(C)しぃちゃん PaintBBS NEO": "&copy;shi-cyan PaintBBS NEO",
+    "(C)しぃちゃん PaintBBS NEO": "&copy;shi-chan PaintBBS NEO",
     鉛筆: "Solid",
     水彩: "WaterCo",
     ﾃｷｽﾄ: "Text",
@@ -1525,6 +1528,8 @@ Neo.dictionary = {
     早: "H",
     既: "M",
     鈍: "L",
+    "投稿に失敗。時間を置いて再度投稿してみてください。":
+      "Failed to upload image. please try again.",
   },
   es: {
     やり直し: "Rehacer",
@@ -1532,7 +1537,7 @@ Neo.dictionary = {
     塗り潰し: "Llenar",
     窓: "Ventana",
     投稿: "Enviar",
-    "(C)しぃちゃん PaintBBS NEO": "&copy;shi-cyan PaintBBS NEO",
+    "(C)しぃちゃん PaintBBS NEO": "&copy;shi-chan PaintBBS NEO",
     鉛筆: "Lápiz",
     水彩: "Acuarela",
     ﾃｷｽﾄ: "Texto",
@@ -1581,6 +1586,8 @@ Neo.dictionary = {
     早: "H",
     既: "M",
     鈍: "L",
+    "投稿に失敗。時間を置いて再度投稿してみてください。":
+      "No se pudo cargar la imagen. por favor, inténtalo de nuevo.",
   },
 };
 
@@ -4435,7 +4442,7 @@ Neo.Painter.prototype.getEmulationMode = function () {
    -------------------------------------------------------------------------
  */
 
-Neo.Painter.prototype.play = function (wait) {
+Neo.Painter.prototype.play = function () {
   if (this._actionMgr) {
     this._actionMgr.clearCanvas();
     this.prevLine = null;
@@ -4446,7 +4453,7 @@ Neo.Painter.prototype.play = function (wait) {
     this._actionMgr._index = 0;
     this._actionMgr._mark = this._actionMgr._items.length;
     this._actionMgr._pause = false;
-    this._actionMgr.play(wait);
+    this._actionMgr.play();
   }
 };
 
@@ -4490,10 +4497,8 @@ Neo.Painter.prototype.onstop = function () {
 
 Neo.Painter.prototype.onspeed = function () {
   var mgr = Neo.painter._actionMgr;
-  var mode = (mgr._speedMode + 1) % 4;
-  mgr._speedMode = mode;
-  mgr._speed = mgr._speedTable[mode];
-  //  console.log('speed=', mgr._speed);
+  var mode = mgr.speedMode();
+  Neo.speed = mgr._speedTable[(mode + 1) % 4];
 };
 
 Neo.Painter.prototype.setCurrent = function (item) {
@@ -6027,28 +6032,22 @@ Neo.ActionManager = function () {
   this._pause = false;
   this._mark = 0;
 
-  this._speedTable = [-1, 0, 1, 11];
-  this._speed = parseInt(Neo.config.speed || 0);
-  this._speedMode = this.generateSpeedTable();
+  this._speedTable = [-1, 0, 1, 11]; // [最, 早, 既, 鈍]
 
-  this._prevSpeed = this._speed; // freeHandの途中で速度が変わると困るので
+  Neo.speed = parseInt(Neo.config.speed || 0);
+  this._prevSpeed = Neo.speed;
 };
 
-Neo.ActionManager.prototype.generateSpeedTable = function () {
-  var speed = this._speed;
-  var mode = 0;
-
-  if (speed < 0) {
-    mode = 0;
-  } else if (speed == 0) {
-    mode = 1;
-  } else if (speed <= 10) {
-    mode = 2;
+Neo.ActionManager.prototype.speedMode = function () {
+  if (Neo.speed < 0) {
+    return 0;
+  } else if (Neo.speed == 0) {
+    return 1;
+  } else if (Neo.speed <= 10) {
+    return 2;
   } else {
-    mode = 3;
+    return 3;
   }
-  this._speedTable[mode] = speed;
-  return mode;
 };
 
 Neo.ActionManager.prototype.step = function () {
@@ -6113,7 +6112,7 @@ Neo.ActionManager.prototype.getCurrent = function (item) {
   oe._currentMaskType = item[10];
 };
 
-Neo.ActionManager.prototype.skip = function (wait) {
+Neo.ActionManager.prototype.skip = function () {
   for (var i = 0; i < this._items.length; i++) {
     if (this._items[i][0] == "restore") {
       this._head = i;
@@ -6121,11 +6120,7 @@ Neo.ActionManager.prototype.skip = function (wait) {
   }
 };
 
-Neo.ActionManager.prototype.play = function (wait) {
-  if (!wait) {
-    wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
-    wait *= 1; //2
-  }
+Neo.ActionManager.prototype.play = function () {
   if (Neo.viewerBar) Neo.viewerBar.update();
 
   if (this._pause) {
@@ -6146,12 +6141,14 @@ Neo.ActionManager.prototype.play = function (wait) {
       );
     }
 
-    if (Neo.viewer && Neo.viewerBar) {
-      console.log("play", item[0], this._head + 1, this._items.length);
+    if (Neo.viewer && Neo.viewerSpeed && this._index == 0) {
+      Neo.viewerSpeed.update();
+      //console.log("play", item[0], this._head + 1, this._items.length);
     }
 
-    var that = this;
     var func = item[0] && this[item[0]] ? item[0] : "dummy";
+    var that = this;
+    var wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
 
     this[func](item, function (result) {
       if (result) {
@@ -6166,22 +6163,19 @@ Neo.ActionManager.prototype.play = function (wait) {
           that._head++;
         }
         that._index = 0;
-        that._prevSpeed = that._speed;
+        that._prevSpeed = Neo.speed;
       }
 
-      if (that._prevSpeed < 0 && that._head % 10 != 0) {
+      setTimeout(function () {
         Neo.painter._actionMgr.play();
-      } else {
-        setTimeout(function () {
-          Neo.painter._actionMgr.play();
-        }, wait);
-      }
+      }, wait);
     });
+
   } else {
     Neo.painter.dirty = false;
     Neo.painter.busy = false;
 
-    if (Neo.painter.bushSkipped) {
+    if (Neo.painter.busySkipped) {
       Neo.painter.busySkipped = false;
       console.log("animation skipped");
     } else {
@@ -6972,13 +6966,14 @@ Neo.startViewer = function () {
     Neo.viewerStop.onmouseup = function () {
       Neo.painter.onstop();
     };
+    Neo.viewerSpeed = new Neo.ViewerButton().init("viewerSpeed");
+    Neo.viewerSpeed.onmouseup = function () {
+      Neo.painter.onspeed();
+      this.update();
+    };
 
     new Neo.ViewerButton().init("viewerRewind").onmouseup = function () {
       Neo.painter.onrewind();
-    };
-    new Neo.ViewerButton().init("viewerSpeed").onmouseup = function () {
-      Neo.painter.onspeed();
-      this.update();
     };
     new Neo.ViewerButton().init("viewerPlus").onmouseup = function () {
       new Neo.ZoomPlusCommand(Neo.painter).execute();
@@ -7068,7 +7063,16 @@ Neo.suspendDraw = function () {
 };
 
 Neo.setSpeed = function (value) {
-  Neo.painter._actionMgr._speed = value;
+  Neo.speed = value;
+};
+
+Neo.setVisit = function (layer, value) {
+  Neo.painter.visible[layer] = (value == 0) ? false : true;
+  Neo.painter.updateDestCanvas(
+    0,
+    0,
+    Neo.painter.canvasWidth,
+    Neo.painter.canvasHeight);
 };
 
 Neo.setMark = function (value) {
@@ -8499,7 +8503,7 @@ Neo.ViewerButton.prototype.init = function (name, params) {
 
 Neo.ViewerButton.prototype.update = function () {
   if (this.name == "viewerSpeed") {
-    var mode = Neo.painter._actionMgr._speedMode;
+    var mode = Neo.painter._actionMgr.speedMode();
     var speedString = Neo.translate(Neo.ViewerButton.speedStrings[mode]);
     this.element.children[0].innerHTML = "<div>" + speedString + "</div>";
   }
