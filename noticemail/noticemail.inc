@@ -1,75 +1,88 @@
 <?php
 /*
-** Email notification class(UTF-8) lot.200712
+** メール通知クラス(UTF-8) lot.210620
 **
 ** http://www.punyu.net/php/
 ** by SakaQ
-** https://pbbs.sakura.ne.jp/poti/?en=on
-** by POTI-board redevelopment team.
+** https://pbbs.sakura.ne.jp/poti/
+** by POTI改
 **
-** 2020/12/19 Translated into English.
+** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。
+** 2020/07/12 軽微なエラーを修正。
+** 2020/05/11 説明追加、POTI改のURL変更。
+** 2020/01/25 "REMOTE_ADDR"が使えないサーバに対応。
+** 2019/07/24 変換元のエンコードをutf-8に。コード整理。
+** 2019/07/21 コード整理。
+** 2019/06/25 コード整理。
+** 2018/12/02 php7の静的コール警告エラーを修正。
+** 2018/06/05 エラー対処。
+** 2018/01/15 php7対応改造。
+** 2007/03/01 件名(Subject)を日本語が含まれる場合にMIMEヘッダ変換するように変更。
+** 2005/01/14 jcode.php(v1.35～) 対応。
+** 2004/01/19 公開。
 
-This script is a class that adds an email notification function to PHP bulletin boards, etc.
-Attachments are not supported as they are for notification purposes only.
+このスクリプトは、PHPの掲示板等にメール通知機能を追加するクラスです。
+※通知を目的にしているので添付ファイルに対応していません。
 
-Uploading this file to the same directory as potiboard.php will turn on the email sending feature.
-Please edit config.php for detailed settings such as email address.
+※このファイルをpotiboard.phpと同じディレクトリにアップロードするとメール送信機能がオンになります。
+※メールアドレスなど細かな設定はconfig.phpで。
 
-YOU DO NOT NEED TO EDIT THIS FILE!
+【使用方法】
+ このクラスを使いたいスクリプトの先頭で noticemail.inc を require() か include() して下さい。
+ これで使えるようになります。
+ ☆例: include("noticemail.inc");
+ あとは、受け渡すデータをセットして、noticemail::send() で送信します。
 
--- How to use deeply --
+【関数説明】
+    noticemail::send(メールデータ[, MB関数使用フラグ])
+・メールデータは、配列に各種設定を入れてセットします。
+・MB関数使用フラグは、MB関数を使用したくない場合に'0'をセットします。ただし、その場合はjcode.phps(～v1.34)またはjcode.php(v1.35～)が必要になります。
+  MB関数を使う場合は省略して下さい。
+・漢字変換ができない場合は送信できません(falseを返します)
 
-Please require () or include () noticemail.inc at the beginning of the script you want to use this class. 
-ex) include("noticemail.inc");
-After that, set the data to be passed and send it with noticemail::send().
+【設定データ項目】※例として $data で説明します
+  ・$data['to']
+ - 通知先のメールアドレス。
 
--- Description of functions --
-noticemail::send(mail data[, flag of MB function use])
-mail data; Put various settings in the array and set.
-flag of MB function; Set to '0' if you do not want to use the MB function.
+  ・$data['subject']
+ - 通知メールの題名。
 
--- Setting data item -- I use $data as an example.
-$data['to']
-- Notification email address
+  ・$data['name']
+ - 投稿者の名前。
 
-$data['subject']
-- The title of the notification email
+  ・$data['email']
+ - 投稿者のメールアドレス。
+   通常、Fromに使われますが日本語、'sage'、'http://:'のどれかが含まれているか未設定の場合
+   代替わりがFromにセットされます。
 
-$data['name']
-- Name of poster
+ ★ここまでが必須です。以下は必要に応じてセットして下さい。
 
-$data['email']
-- The email address of the poster. Usually used for From. 
+  ・$data['option']
+ - 追加投稿データ。複数セットできます。
+   セットするときは、['option'][]="題名,内容" として下さい。
 
--- This is essential. Set the following as necessary --
+  ・$data['comment']
+ - 投稿データの本文。
+   本文は、<br>または<br />を \n に戻してからセットして下さい。
+ ☆例: $data['comment'] = preg_replace("/<br(( *)|( *)/)>/i","\n", $comment);
 
-
-$data['option']
-- Additional post data. You can set multiple. If you do, ['option'][]="subject,content".
-
-$data['comment']
-- Body of posted data
-  Set the text after returning <br> or <br /> to \n.
-  ex) $data['comment'] = preg_replace("/<br(( *)|( *)/)>/i","\n", $comment);
-
--- Example of use --
+【使用例】※実際には変数を使うが、判り易くする為に直接内容をセットしています
 
 $data['to'] = 'me@hoge.net';
-$data['subject'] = 'posted something!';
-$data['name'] = 'anonymous';
+$data['subject'] = 'なんか投稿されてますよー';
+$data['name'] = '名無しさん';
 $data['email'] = 'hoge@hoge.com';
 $data['option'][] = 'URL,http://hogehoge.com/';
-$data['option'][] = 'illustration,http://hoge.net/poti/src/OB11111111.png';
-$data['comment'] = 'I drew a picture!';
+$data['option'][] = 'お絵かき絵,http://hoge.net/poti/src/OB11111111.png';
+$data['comment'] = 'お絵かきしたにゃ';
 noticemail::send($data);
 
--- caution --
-
-This cannot be used unless an MTA such as sendmail is installed and configured.
-checking the data, but getting any error messages.
-In the unlikely event that this script causes any damage, I will not bear full responsibility for that. Please use at your own risk.
-I do not abandon the copyright, but feel free to modify or redistribute this.
-
+【ご注意】
+・sendmail などの MTA がインストール・設定されていないと使えません。
+・データチェックはしていますが、エラーメッセージは出してません。
+・万が一、このスクリプトにより何らかの損害が発生しても、その責任を私は負いません。
+  自己の責任で利用して下さい。
+・著作権は放棄しませんが、改造・再配布は自由にどうぞ。
 */
 
 class noticemail{
@@ -77,17 +90,20 @@ class noticemail{
 	public static function send($data=''){
 	$name = $data['name'];
 	$from = $data['email'];
+	// 明らかにメールアドレスじゃない物は除外
+	$from =filter_var($from, FILTER_VALIDATE_EMAIL);
 	$line = "---------------------------------------------------------------------\n";
 
-	// define header
+	// ヘッダを指定
+	
 	$MailHeaders = 'Mime-Version: 1.0'."\n";
-	$MailHeaders .= 'Content-Type: text/plain; charset=ISO-2022-JP'."\n";
-	$MailHeaders .= 'Content-Transfer-Encoding: 7bit'."\n";
+	$MailHeaders .= 'Content-Type: text/plain; charset=utf-8'."\n";
+	$MailHeaders .= 'Content-Transfer-Encoding: 8bit'."\n";
 
-	// Create email body
+	// メール本文作成
 	$Message = '■'.$data['subject']."\n";
 	$Message .= 'Date: '.date("Y/m/d H:i:s",time())."\n";
-	// user ip
+	//ユーザーip
 	$userip = getenv("HTTP_CLIENT_IP");
 	if(!$userip){
 		$userip = getenv("HTTP_X_FORWARDED_FOR");
@@ -99,41 +115,34 @@ class noticemail{
 	$Message .= 'UserAgent: '.getenv("HTTP_USER_AGENT")."\n";
 	$Message .= $line;
 	$Message .= 'Name: '.$name."\n";
-	$Message .= 'e-Mail: '.$data['email']."\n";
+	$Message .= 'e-Mail:'.$from."\n";
 	$option = $data['option'];
 	if(is_array($option)){
 	foreach($option as $value){ list($optitle,$opvalue)=explode(",", rtrim($value)); $Message .=$optitle.': '.$opvalue." \n"; }
 	}
-	unset($value);
 		$Message .= $line;
 		if($data['comment']){
-			$com = str_replace("\r\n", "\n", $data['comment']);	// 改行文字の統一
-			$com = str_replace("\r", "\n", $com);
+			$com = str_replace(["\r\n","\r"], "\n", $data['comment']);// 改行文字の統一
 			$com = preg_replace("/^(\n)+|(\n)+$/i", "", $com);	// 連続改行を消す
 			$Message .= $com;
 		}
 		mb_internal_encoding("UTF-8");
-		// for Half-width kana
+		// 半角対応
 		$Message = mb_convert_kana($Message);
 		$name = mb_convert_kana($name);
 		$from = mb_convert_kana($from);
-		// Excludes things that are clearly not email addresses
-		if(preg_match("/[\x80-\xA0]/",$from)||stristr($from,'sage')||stristr($from,'http://')) $from = '';
-		// Alternative if no email address
+	
+		// メールアドレスがなければ代替え
 		if(!$from) $from = 'nomail@'.getenv("HTTP_HOST");
-		// Attach a MIME head in Japanese
-		if(preg_match("/[\x80-\xA0]/",$name)){
-		$name = "=?iso-2022-jp?B?".base64_encode(mb_convert_encoding($name,"JIS","utf-8"))."?=";
-		}
-		// Add From to header
+		mb_language( 'Japanese' );
+		$name = mb_encode_mimeheader(($name));
+		// ヘッダにFrom追加
 		$MailHeaders .= 'From: '.$name.' <'.$from.'>'."\n";
-			// Attach a MIME head in Japanese at Subject
-			if(preg_match("/[\x80-\xA0]/",$data['subject'])){
-			$data['subject'] = "=?iso-2022-jp?B?".base64_encode(mb_convert_encoding($data['subject'],"JIS","utf-8"))."?=";
-			} // send mail!
-			mail($data['to'],
-			$data['subject'],
-			mb_convert_encoding($Message,"JIS","utf-8"), $MailHeaders);
+			// メール送信
+		mb_internal_encoding( 'UTF-8' );
+		mb_send_mail($data['to'],
+		$data['subject'],
+			$Message,$MailHeaders);
 
 			return true;
 	}
