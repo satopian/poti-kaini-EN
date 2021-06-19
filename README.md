@@ -17,6 +17,10 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 ## Required php version
 
 php5.5 or upper, php7.x, or php8.0.
+### [2021/06/17] v3.02.0 lot.210617
+- Addressed an issue where the Chicken Paint screen would be selected.
+- Prevents returning to the previous screen with Windows ink and two-finger gestures when drawing with PaintBBS NEO and shi-Painter.
+- Changed CSS switching to pull-down menu method.
 
 ### [2021/06/05] v3.01.9 lot.210605
 - Updated to the latest version of "ChickenPaint".  
