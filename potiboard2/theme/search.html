@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<style>body{display: none;} </style>
+	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
 	<script>
 		var css = GetCookie("CSS");
 		if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
@@ -33,10 +33,6 @@
 			document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
 		}
 	</script>
-	<noscript>
-		<style>body{display: initial;} </style>
-		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
-	</noscript>
 	<% def(imgsearch) %>
 	<% else %>
 	<style>
@@ -137,10 +133,5 @@
 </footer>
 
 </div>
-<script>
-	window.onload = function() {
-	document.getElementsByTagName("body")[0].style.display = "initial";
-}
-</script>
 </body>
 </html>
