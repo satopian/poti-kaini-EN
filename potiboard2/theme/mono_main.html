@@ -289,12 +289,8 @@
 							<% /def %>
 							<% def(sharebutton) %>
 							<span class="share_button">
-								<script>
-									(function(){
-										var url = encodeURIComponent('<% echo(rooturl) %><% echo(self) %>?res=<% echo(oya/no) %>'); //page URL。
-										var title = encodeURIComponent('[<% echo(oya/no) %>] <% echo(oya/sub) %> by <% echo(oya/name) %> - <% echo(title) %>'); //page title
-									document.write( '<a target="_blank" href="https://twitter.com/intent/tweet?&text=' + title + '&url=' + url + '"><span class="icon-twitter button"><img src="<% echo(skindir) %>img/twitter.svg" alt=""> tweet</span></a> <a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=' + url + '"><span class="icon-facebook2 button"><img src="<% echo(skindir) %>img/facebook.svg" alt=""> share</span></a>' );})();
-								</script>
+							<a target="_blank" href="https://twitter.com/intent/tweet?&text=%5B<% echo(oya/no|urlencode) %>%5D <% echo(oya/sub|urlencode) %> by <% echo(oya/name|urlencode) %> - <% echo(title|urlencode) %>&url=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-twitter button"><img src="<% echo(skindir) %>img/twitter.svg" alt=""> tweet</span></a>
+							<a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-facebook2 button"><img src="<% echo(skindir) %>img/facebook.svg" alt=""> share</span></a>
 							</span>
 							<% /def %>
 							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><img src="<% echo(skindir) %>img/rep.svg" alt=""> reply</a></span> <a href="#header" title="to top">[&uarr;]</a><% /def %>
