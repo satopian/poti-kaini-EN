@@ -88,6 +88,9 @@ noticemail::send($data);
 class noticemail{
 
 	public static function send($data=''){
+	mb_language( 'Japanese' );
+	mb_internal_encoding("UTF-8");
+
 	$name = $data['name'];
 	$from = $data['email'];
 	// 明らかにメールアドレスじゃない物は除外
@@ -126,7 +129,7 @@ class noticemail{
 			$com = preg_replace("/^(\n)+|(\n)+$/i", "", $com);	// 連続改行を消す
 			$Message .= $com;
 		}
-		mb_internal_encoding("UTF-8");
+
 		// 半角対応
 		$Message = mb_convert_kana($Message);
 		$name = mb_convert_kana($name);
@@ -134,12 +137,10 @@ class noticemail{
 	
 		// メールアドレスがなければ代替え
 		if(!$from) $from = 'nomail@'.getenv("HTTP_HOST");
-		mb_language( 'Japanese' );
 		$name = mb_encode_mimeheader(($name));
 		// ヘッダにFrom追加
 		$MailHeaders .= 'From: '.$name.' <'.$from.'>'."\n";
 			// メール送信
-		mb_internal_encoding( 'UTF-8' );
 		mb_send_mail($data['to'],
 		$data['subject'],
 			$Message,$MailHeaders);
