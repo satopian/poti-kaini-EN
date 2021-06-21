@@ -3,37 +3,46 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css" type="text/css">
-	<script>
-		var css = GetCookie("CSS");
-		if(css == ""){css = "<% echo(skindir) %>css/mono_main.css";}
-		var link = document.createElement("link");
-		link.rel = "stylesheet";
-		link.href =  css ;
-		document.getElementsByTagName("head")[0].appendChild(link);
-		function SetCss(obj){
-			var idx = obj.selectedIndex;
-			file = obj.options[idx].value;
-			SetCookie("CSS", file);
-			SetCookie("colorIdx",idx);
-			window.location.reload();
-		}
-		function GetCookie(key){
-			var tmp = document.cookie + ";";
-			var tmp1 = tmp.indexOf(key, 0);
-			if(tmp1 != -1){
-				tmp = tmp.substring(tmp1, tmp.length);
-				var start = tmp.indexOf("=", 0) + 1;
-				var end = tmp.indexOf(";", start);
-				return(decodeURIComponent(tmp.substring(start,end)));
-				}
-			return("");
-		}
-		function SetCookie(key, val){
-			document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
-		}
-	</script>
-	<% def(imgsearch) %>
+	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css">
+	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
+	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
+	<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css" id="css3" disabled>
+
+<script>
+	var colorIdx = GetCookie("colorIdx");
+		switch (Number(colorIdx)) {
+		case 1:
+			document.getElementById("css1").removeAttribute("disabled");
+			break;
+		case 2:
+			document.getElementById("css2").removeAttribute("disabled");
+			break;
+		case 3:
+			document.getElementById("css3").removeAttribute("disabled");
+		break;
+	} 
+	function SetCss(obj){
+		var idx = obj.selectedIndex;
+		file = obj.options[idx].value;
+		SetCookie("colorIdx",idx);
+		window.location.reload();
+	}
+	function GetCookie(key){
+		var tmp = document.cookie + ";";
+		var tmp1 = tmp.indexOf(key, 0);
+		if(tmp1 != -1){
+			tmp = tmp.substring(tmp1, tmp.length);
+			var start = tmp.indexOf("=", 0) + 1;
+			var end = tmp.indexOf(";", start);
+			return(decodeURIComponent(tmp.substring(start,end)));
+			}
+		return("");
+	}
+	function SetCookie(key, val){
+		document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
+	}
+</script>
+<% def(imgsearch) %>
 	<% else %>
 	<style>
 		.article{
