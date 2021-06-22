@@ -23,7 +23,6 @@
 	} 
 	function SetCss(obj){
 		var idx = obj.selectedIndex;
-		file = obj.options[idx].value;
 		SetCookie("colorIdx",idx);
 		window.location.reload();
 	}
@@ -39,7 +38,7 @@
 		return("");
 	}
 	function SetCookie(key, val){
-		document.cookie = key + "=" + escape(val) + ";max-age=31536000;";
+		document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 	}
 </script>
 <% def(imgsearch) %>
