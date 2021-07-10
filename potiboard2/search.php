@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2021 さとぴあ(@satopian)
-//v1.6.9 lot.210527
+//v1.7.0 lot.210706
 //
 //https://pbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -31,6 +31,7 @@ $max_search=120;
 
 //更新履歴
 
+//v1.7.0 2021.07.07 v3.03.1 対応。マークダウン記法による自動リンクの文字部分だけを表示。出力時のエスケープ処理追加。
 //v1.6.9 2021.03.10 ２重エンコードにならないようにした。
 //v1.6.8 2021.03.10 未定義エラーを修正。
 //v1.6.6 2021.01.17 PHP8環境で致命的エラーが出るバグを修正。1発言分のログが4096バイト以上の時に処理できなくなるバグを修正。
@@ -63,6 +64,8 @@ $dat['skindir']=SKIN_DIR;
 
 //タイムゾーン
 date_default_timezone_set('Asia/Tokyo');
+//マークダウン記法のリンクをHTMLに する:1 しない:0
+defined('MD_LINK') or define('MD_LINK', '0');
 //filter_input
 
 $imgsearch=filter_input(INPUT_GET,'imgsearch',FILTER_VALIDATE_BOOLEAN);
@@ -70,10 +73,10 @@ $page=filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
 $page= $page ? $page : 1;
 $query=filter_input(INPUT_GET,'query');
 $query=urldecode($query);
-$query=htmlspecialchars($query,ENT_QUOTES,'utf-8',false);
 $query=mb_convert_kana($query, 'rn', 'UTF-8');
 $query=str_replace(array(" ", "　"), "", $query);
 $query=str_replace("〜","～",$query);//波ダッシュを全角チルダに
+$query=h($query);
 $radio =filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
 
 if($imgsearch){
@@ -160,11 +163,14 @@ if($arr){
 
 			$time=(int)substr($time,-13,10);
 			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
-			$sub=strip_tags($sub);
+			$sub=h(strip_tags($sub));
 			$com=str_replace('<br />',' ',$com);
-			$com=strip_tags($com);
+			if(MD_LINK){
+				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
+			}
+			$com=h(strip_tags($com));
 			$com=mb_strcut($com,0,180);
-			$name=strip_tags($name);
+			$name=h(strip_tags($name));
 			$encoded_name=urlencode($name);
 			//変数格納
 			$dat['comments'][]= compact('no','name','encoded_name','sub','img','com','link','postedtime');
@@ -190,7 +196,7 @@ else{
 }
 
 //クエリを検索窓に入ったままにする
-$dat['query']=$query;
+$dat['query']=h($query);
 //ラジオボタンのチェック
 $dat['radio_chk1']='';//作者名
 $dat['radio_chk2']='';//完全一致
@@ -214,7 +220,7 @@ else{//作者名
 }
 $dat['query_l']=$query_l;
 
-$dat['page']=$page;
+$dat['page']=(int)$page;
 
 $dat['img_or_com']=$img_or_com;
 $dat['pageno']='';
@@ -265,10 +271,15 @@ elseif($page>=$disp_count_of_page+1){
 if($arr){
 	$postedtime=$arr[0]['time'];
 	$postedtime=(int)substr($postedtime,-13,10);
-	$dat['lastmodified']=$postedtime ? date("Y/m/d G:i", $postedtime) :'';
+	$dat['lastmodified']=$postedtime ? (date("Y/m/d G:i", $postedtime)) : '';
 }
 
 unset($arr);
+
+function h($str){
+	return htmlspecialchars($str,ENT_QUOTES,'utf-8',false);
+}
+
 //HTML出力
 $Skinny->SkinnyDisplay(SKIN_DIR.'search.html', $dat );
 

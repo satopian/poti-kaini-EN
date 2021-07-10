@@ -252,6 +252,11 @@ define('DISP_ID', '0');
 // Automatically transform URLs to links (Yes: 1, No: 0)
 define('AUTOLINK', '1');
 
+//マークダウン構文のリンクを使う (する: 1, No: しない)
+//Use Markdown syntax links (Yes: 1, No: 0)
+defined('MD_LINK') or define('MD_LINK', '0');
+
+
 // 名前を必須にする する:1 しない:0
 // Force new posts to have a NAME (Yes: 1, No: 0)
 define('USE_NAME', '0');
