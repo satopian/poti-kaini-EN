@@ -129,6 +129,7 @@
 					<hr class="hr">
 					<% def(ptime) %><p class="ptime">PaintTime : <% echo(ptime) %></p><% /def %>
 					<form class="" action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="token" value="<% def(token) %><% echo(token) %><% /def %>">
 						<table>
 							<tr>
 								<td>name<% def(usename) %><% echo(usename) %><% /def %></td>

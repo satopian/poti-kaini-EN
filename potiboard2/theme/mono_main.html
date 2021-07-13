@@ -162,6 +162,7 @@
 				<% def(form) %>
 				<article>
 					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="token" value="<% def(token) %><% echo(token) %><% /def %>">
 						<input type="hidden" name="mode" value="regist">
 						<% def(resno) %><input type="hidden" name="resto" value="<% echo(resno) %>"><% /def %>
 						<input type="hidden" name="MAX_FILE_SIZE" value="<% echo(maxbyte) %>">
