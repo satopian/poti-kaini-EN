@@ -35,7 +35,7 @@ define('MSG002', "[You haven't selected a picture. You must upload a picture!.]"
 define('MSG003', "[Failed to upload picture.]<br>[There is a possibility that the server doesn't support it.]");
 define('MSG004', "[Failed to upload picture.]<br>[The image is not valid and it was excluded.]");
 define('MSG005', "[Failed to upload picture.]<br>[Image already exists.]");
-define('MSG006', "[Please do not do an illegal contribution.]<br>[The contribution excluding 'POST' is not accepted.]");
+define('MSG006', "[Please do not do an illegal contribution.]");
 define('MSG007', "[Image does not exist.]");
 define('MSG008', "[Please write something.]");
 define('MSG009', "[Please enter your name.]");

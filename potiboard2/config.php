@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board EVO v3.00.1 lot.210514
+  * POTI-board EVO v3.03.6 lot.210712
   * by POTI-kai >> https://pbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board EVO
@@ -11,7 +11,7 @@
 // 管理者パスワード
 // 必ず変更してください。
 // Administrator password, make sure to change it.
-$ADMIN_PASS = 'Adminpass';
+$ADMIN_PASS = 'adminpass';
 
 // 最大ログ数
 // 古いログから順番に消えます
@@ -133,7 +133,8 @@ define('USE_JAPANESEFILTER', '0');
 
 // 本文へのURLの書き込みを禁止する する:1 しない:0
 // 管理者は設定にかかわらず許可
-// Reject posts with links.
+// Reject if there is a url in the comment field.
+// Administrator writes are not rejected.
 define('DENY_COMMENTS_URL', '0');
 
 // define('ELAPSED_DAYS','0');
@@ -251,11 +252,9 @@ define('DISP_ID', '0');
 // URLを自動リンクする する:1 しない:0
 // Automatically transform URLs to links (Yes: 1, No: 0)
 define('AUTOLINK', '1');
-
-//マークダウン構文のリンクを使う (する: 1, No: しない)
-//Use Markdown syntax links (Yes: 1, No: 0)
-defined('MD_LINK') or define('MD_LINK', '0');
-
+//マークダウン記法でリンクする する:1 しない:0
+// Create a link using markdown syntax (Yes: 1, No: 0)
+define('MD_LINK', '0');
 
 // 名前を必須にする する:1 しない:0
 // Force new posts to have a NAME (Yes: 1, No: 0)
@@ -276,10 +275,6 @@ define('DEF_SUB', 'no title');	//未入力時の題名(default title)
 // Quote the thread title in new responses (Yes: 1, No: 0)
 define('USE_RESUB', '1');
 
-// 各スレにレスフォームを表示する する:1 しない:0
-// Display the post form in each thread (Yes: 1, No: 0)
-define('RES_FORM', '0');
-
 // 編集しても投稿日時を変更しないようにする する:1 しない:0 
 // To keep the posting date and time even if they edit articles,
 // set '1', if not, set '0'.
@@ -293,16 +288,8 @@ define('DO_NOT_CHANGE_POSTS_TIME', '0');
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 
 // お絵かき機能を使用する お絵かきのみ:2 する:1 しない:0
-// USE PAINT
-// To only allow paint mode, set it to '2'. 
-// To allow both paint mode and text mode, set it to '1'
-// To allow text mode only, set it to '0'
-define('USE_PAINT', '2');
-
-// 利用するアプレット PaintBBS:0 しぃペインター:1 両方:2
-// Which Applet to use.
-// Possible values are: PaintBBS:'0' Shi-Painter:'1' both:'2'
-define('APPLET', '2');
+// Use the Paint function  (Yes: 1, No: 0)
+define('USE_PAINT', '1'); 
 
 // お絵描き最大サイズ（これ以上は強制でこの値
 // 最小値は幅、高さともに 300 固定です
@@ -591,7 +578,12 @@ define('TOTAL_PAINTTIME', '1');
 // Use to the checkbox of [no_imane], do:'1', do not:'0'
 // Templates that do not support this setting, set '1'.
 // If supported, set '0' to hide the checkbox of [no_imane].
+
 define('USE_CHECK_NO_FILE', '0');
+// 利用するアプレット PaintBBS:0 しぃペインター:1 両方:2
+// Which Applet to use.
+// Possible values are: PaintBBS:'0' Shi-Painter:'1' both:'2'
+define('APPLET', '2');
 
 /* ------------- トラブルシューティング(trouble shooting) ------------- */
 
@@ -623,4 +615,8 @@ define('PERMISSION_FOR_DIR', 0707);//初期値 0707
 // This option should be enabled ('1') in most cases.
 // But if it causes problems, set this to '0' (disabled) 
 define('RE_SAMPLED', '1');
+//crsfトークンを使って不正な投稿を拒絶する する:1 しない:0
+// Reject fraudulent posts using crsf tokens
+// (1: Enabled, 0: Disabled)
+define('CHECK_CSRF_TOKEN', '1');
 

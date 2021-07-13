@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.03.8');
+define('POTI_VER','v3.03.9');
 define('POTI_LOT','lot.210713'); 
 
 /*
@@ -390,7 +390,7 @@ function form($resno="",$adminin="",$tmp=""){
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 
 	$dat['form'] = true; 
-	if(!$resno && !$admin_valid){
+	if(!$resno){
 		$dat['form'] = false;
 	}
 
@@ -401,9 +401,8 @@ function form($resno="",$adminin="",$tmp=""){
 		$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 		$dat['pmaxw'] = PMAX_W;
 		$dat['pmaxh'] = PMAX_H;
-		if(!$resno && !$admin_valid){
+		if(!$resno){
 			$dat['paint2'] = true;
-			$dat['form'] = false;
 		}
 	}
 
