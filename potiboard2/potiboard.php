@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.03.9');
-define('POTI_LOT','lot.210713'); 
+define('POTI_VER','v3.03.10');
+define('POTI_LOT','lot.210714'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -632,7 +632,7 @@ function res($resno = 0){
 	$res = create_res($_line, ['pch' => 1]);
 
 	if(!check_elapsed_days($res)){//レスフォームの表示有無
-		// $dat['form'] = false;//フォームを閉じる
+		$dat['form'] = false;//フォームを閉じる
 		$dat['paintform'] = false;
 	}
 
@@ -740,8 +740,6 @@ function regist(){
 	$fcolor = filter_input(INPUT_POST, 'fcolor');
 	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
 	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
-
-
 
 	$userip = get_uip();
 	//ホスト取得
