@@ -17,6 +17,9 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 ## Required php version
 
 php5.5 or upper, php7.x, or php8.0.
+
+## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
 ### [2021/06/17] v3.02.0 lot.210617
 - Addressed an issue where the Chicken Paint screen would be selected.
 - Prevents returning to the previous screen with Windows ink and two-finger gestures when drawing with PaintBBS NEO and shi-Painter.
@@ -36,8 +39,6 @@ The JavaScript url required to start CheerpJ is managed in potiboard.php.
 - Chicken Paint is now available.
 - The name of the script has changed to POTI-board EVO.
  
-## Change log (timezone: Asia/Tokyo, UTC+09:00)
-
 ### [2021/04/22] v2.26.7 lot.210403
 
 Change the working directory of png2jpg to the real path of src. The behavior is the same as before it was made into a function.
