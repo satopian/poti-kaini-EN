@@ -12230,6 +12230,8 @@ a.chickenpaint .badge-dark:focus, a.chickenpaint .badge-dark.focus {
 
 .chickenpaint-scrollbar-handle {
   position: relative;
+  touch-action: none;
+  pen-action: none;
 }
 
 .chickenpaint-scrollbar-handle-inner {
@@ -12348,6 +12350,15 @@ a.chickenpaint .badge-dark:focus, a.chickenpaint .badge-dark.focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
+.chickenpaint-palette.collapsed {
+  min-height: 27px;
+  max-height: 27px;
+}
+
+.chickenpaint-palette.collapsed > .chickenpaint-palette-body {
+  display: none;
+}
+
 .chickenpaint-palette-head {
   background-color: #e8e8e8;
   color: #444;
@@ -12371,18 +12382,21 @@ a.chickenpaint .badge-dark:focus, a.chickenpaint .badge-dark.focus {
 .chickenpaint .modal-header .close {
   padding: 0.25rem;
   margin: -0.25rem -0.25rem -0.25rem auto;
+  font-size: 150%;
 }
 
 .chickenpaint-palette-head {
   font-size: 14px;
 }
 
-.chickenpaint-palette-head .close {
-  font-size: 150%;
+.chickenpaint-palette-head .collapse-icon {
+  margin-left: 0.5em;
+  display: none;
 }
 
 .chickenpaint-palette-head h5 {
   font-size: 100%;
+  white-space: nowrap;
 }
 
 .chickenpaint-resize-handle-vert {
@@ -12406,21 +12420,6 @@ a.chickenpaint .badge-dark:focus, a.chickenpaint .badge-dark.focus {
 .chickenpaint {
   /* Prevent drag operations from beginning text selection */
   user-select: none;
-}
-
-.chickenpaint.chickenpaint-full-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  background-color: white;
-  z-index: 1000;
-}
-
-body.chickenpaint-full-screen {
-  overflow: hidden;
 }
 
 .chickenpaint-tools {
@@ -12516,6 +12515,10 @@ body.chickenpaint-full-screen {
 
 .chickenpaint-tool-rotate-canvas .chickenpaint-toolbar-button-icon {
   background-position: 0 -928px;
+}
+
+.chickenpaint-tool-pan-canvas .chickenpaint-toolbar-button-icon {
+  background-position: 0 -672px;
 }
 
 .chickenpaint-tool-pencil .chickenpaint-toolbar-button-icon {
@@ -12643,6 +12646,7 @@ body.chickenpaint-full-screen {
 }
 
 .chickenpaint-palette-brush {
+  min-width: 200px;
   min-height: 250px;
 }
 
@@ -12710,7 +12714,7 @@ body.chickenpaint-full-screen {
 
 .chickenpaint-palette-layers {
   min-height: 250px;
-  min-width: 150px;
+  min-width: 160px;
 }
 
 .chickenpaint-palette-layers .chickenpaint-palette-body {
@@ -12928,6 +12932,10 @@ body.chickenpaint-full-screen {
   left: 6px;
   top: 9px;
   font-size: 14px;
+}
+
+.chickenpaint-palette-textures {
+  min-width: 190px;
 }
 
 .chickenpaint-palette-textures .chickenpaint-palette-body {
@@ -13174,21 +13182,69 @@ body.chickenpaint-full-screen {
   content: "";
 }
 
+.chickenpaint .widget-nav {
+  display: none;
+}
+
+.chickenpaint .widget-nav .widget-toggler {
+  padding: 0.1rem 0.5rem;
+  margin: 0.15rem;
+  font-size: 0.75rem;
+  background-color: transparent;
+  border: 1px solid #00000036;
+  border-radius: 0.25rem;
+}
+
+.chickenpaint .widget-nav .widget-toggler.selected {
+  background-color: #ffffc4;
+}
+
+/* Full screen mode */
+.chickenpaint.chickenpaint-full-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: white;
+  z-index: 1000;
+}
+
+body.chickenpaint-full-screen {
+  overflow: hidden;
+}
+
+.chickenpaint.chickenpaint-full-screen .chickenpaint-send-dialog .modal-dialog {
+  min-width: auto;
+}
+
+/* Small screen mode (UI behaviour changes for mobiles) */
+.chickenpaint-small-screen .chickenpaint-palette-head .close {
+  display: none;
+}
+.chickenpaint-small-screen .chickenpaint-palette-head .collapse-icon {
+  display: inline-block;
+}
+
 /* More compact styles for small screens */
-@media (max-height: 768px) {
+@media (max-height: 768px), (max-width: 400px) {
   .chickenpaint .navbar {
-    min-height: 40px;
+    min-height: 20px;
+    padding: 0.1rem;
+  }
+
+  .chickenpaint .navbar-toggler {
+    padding: 0;
   }
 
   .chickenpaint .navbar-nav > li > a {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
 
   .chickenpaint .navbar-brand {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    height: 40px;
+    display: none;
   }
 
   .chickenpaint-palette-head {
@@ -13202,6 +13258,7 @@ body.chickenpaint-full-screen {
 
   .chickenpaint-palette-head .close {
     font-size: 18px;
+    display: none;
   }
 
   .chickenpaint select.form-control {
@@ -13218,6 +13275,22 @@ body.chickenpaint-full-screen {
   .chickenpaint .checkbox label {
     padding: 0;
     padding-left: 12px;
+  }
+
+  .chickenpaint .widget-nav {
+    display: block;
+  }
+
+  .chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button {
+    margin-right: 4px;
+  }
+
+  .chickenpaint-palette-brush {
+    min-width: 160px;
+  }
+
+  .chickenpaint-texture-swatches {
+    max-height: 200px;
   }
 }
 /* Language overrides */

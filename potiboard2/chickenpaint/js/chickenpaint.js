@@ -96,6 +96,10 @@ function checkBrowserSupport() {
   return true;
 }
 
+function isSmallScreen() {
+  return (0, _jquery.default)(window).width() < 400 || (0, _jquery.default)(window).height() < 768;
+}
+
 function createDrawingTools() {
   var tools = new Array(ChickenPaint.T_MAX);
   tools[ChickenPaint.T_PENCIL] = new _CPBrushInfo.default({
@@ -261,40 +265,45 @@ function createDrawingTools() {
 /**
  * @typedef {Object} ChickenPaintOptions
  *
- * @property {Element} uiElem   - DOM element to insert ChickenPaint into (required)
+ * @property {Element} uiElem   - DOM element to insert ChickenPaint into
  *
- * @property {Function} onLoaded - Callback to call when artwork loading completes
+ * @property {Function} [onLoaded] - Callback to call when artwork loading completes
  *
- * @property {int} canvasWidth  - Width in pixels to use when creating blank canvases (defaults to 800)
- * @property {int} canvasHeight - Height in pixels to use when creating blank canvases (defaults to 600)
- * @property {int} rotation     - Integer from [0..3], number of 90 degree right rotations that should be applied to
+ * @property {int} [canvasWidth]  - Width in pixels to use when creating blank canvases (defaults to 800)
+ * @property {int} [canvasHeight] - Height in pixels to use when creating blank canvases (defaults to 600)
+ * @property {int} [rotation]     - Integer from [0..3], number of 90 degree right rotations that should be applied to
  *                                the canvas after loading
  *
- * @property {string} saveUrl   - URL to POST the drawing to to save it
- * @property {string} postUrl   - URL to navigate to after saving is successful and the user chooses to see/publish
+ * @property {string} [saveUrl]   - URL to POST the drawing to to save it
+ * @property {string} [postUrl]   - URL to navigate to after saving is successful and the user chooses to see/publish
  *                                their finished product
- * @property {string} exitUrl   - URL to navigate to after saving is successful and the user chooses to exit (optional)
- * @property {string} testUrl   - URL that ChickenPaint can simulate a drawing upload to to test the user's
+ * @property {string} [exitUrl]   - URL to navigate to after saving is successful and the user chooses to exit (optional)
+ * @property {string} [testUrl]   - URL that ChickenPaint can simulate a drawing upload to to test the user's
  *                                permissions/connection (optional)
  *
- * @property {string} loadImageUrl     - URL of PNG/JPEG image to load for editing (optional)
- * @property {string} loadChibiFileUrl - URL of .chi file to load for editing (optional). Used in preference to loadImage.
- * @property {string} loadSwatchesUrl  - URL of an .aco palette to load (optional)
- * @property {CPArtwork} artwork       - Artwork to load into ChickenPaint (if you've already created one)
+ * @property {string} [loadImageUrl]     - URL of PNG/JPEG image to load for editing (optional)
+ * @property {string} [loadChibiFileUrl] - URL of .chi file to load for editing (optional). Used in preference to loadImage.
+ * @property {string} [loadSwatchesUrl]  - URL of an .aco palette to load (optional)
+ * @property {CPArtwork} [artwork]       - Artwork to load into ChickenPaint (if you've already created one)
  *
- * @property {boolean} allowMultipleSends - Allow the drawing to be sent to the server multiple times (saving does not
+ * @property {boolean} [allowMultipleSends] - Allow the drawing to be sent to the server multiple times (saving does not
  *                                          immediately end drawing session).
- * @property {boolean} allowDownload      - Allow the drawing to be saved to the user's computer
- * @property {boolean} allowFullScreen    - Allow the drawing tool to enter "full screen" mode, where the rest of the page
- *                                          contents will be hidden
+ * @property {boolean} [allowDownload]      - Allow the drawing to be saved to the user's computer
  *
- * @property {boolean} disableBootstrapAPI - Disable Bootstrap's data API on the root of the document. This speeds up
+ * @property {"allow"|"auto"|"force"|"disable"} [fullScreenMode] - Control the behaviour of the full screen option:
+ *                                              allow - Don't automatically enter full screen mode, but allow it to be
+ *                                                      chosen manually (default)
+ *                                              auto - Automatically enter full screen mode on startup on small screens
+ *                                              force - Enter full screen mode at startup and do not provide option to leave
+ *                                              disable - Don't allow full screen mode at all
+ *
+ * @property {boolean} [disableBootstrapAPI] - Disable Bootstrap's data API on the root of the document. This speeds up
  *                                           things considerably.
  *
  * @property {string} resourcesRoot - URL to the directory that contains the gfx/css etc directories (relative to the
  *                                    page that ChickenPaint is loaded on)
  *                                    
- * @property {string} language - Provide an explicit ISO language code here (e.g. "ja_JP") to override the guessed browser language
+ * @property {string} [language] - Provide an explicit ISO language code here (e.g. "ja_JP") to override the guessed browser language
  *                               Unsupported languages will fall back to English.
  *                               Currently only "en" and "ja" are available.
  */
@@ -339,7 +348,8 @@ function ChickenPaint(options) {
       curMode = ChickenPaint.M_DRAW,
       preTransformMode = curMode,
       curGradient = [0xFF000000, 0xFFFFFFFF],
-      fullScreenMode = false,
+      smallScreenMode = false,
+      isFullScreen = false,
       tools = createDrawingTools(),
       boxBlurDialog,
       gridDialog,
@@ -347,15 +357,12 @@ function ChickenPaint(options) {
     // GUI actions
     CPFullScreen: {
       action: function action() {
-        fullScreenMode = !fullScreenMode;
-        (0, _jquery.default)("body").toggleClass("chickenpaint-full-screen", fullScreenMode);
-        (0, _jquery.default)(uiElem).toggleClass("chickenpaint-full-screen", fullScreenMode);
-        setTimeout(function () {
-          mainGUI.setFullScreenMode(fullScreenMode);
-        }, 200);
+        that.setFullScreen(!isFullScreen);
       },
       isSupported: function isSupported() {
-        return options.allowFullScreen !== false;
+        return !(options.fullScreenMode === "disable" || options.fullScreenMode === "force" || options.allowFullScreen === false
+        /* For backwards compat */
+        );
       },
       modifies: {
         gui: true
@@ -432,6 +439,7 @@ function ChickenPaint(options) {
     CPRectSelection: new ModeChangeAction(ChickenPaint.M_RECT_SELECTION),
     CPMoveTool: new ModeChangeAction(ChickenPaint.M_MOVE_TOOL),
     CPRotateCanvas: new ModeChangeAction(ChickenPaint.M_ROTATE_CANVAS),
+    CPPanCanvas: new ModeChangeAction(ChickenPaint.M_PAN_CANVAS),
     CPColorPicker: new ModeChangeAction(ChickenPaint.M_COLOR_PICKER),
     // Layer transform
     CPTransform: {
@@ -1303,6 +1311,27 @@ function ChickenPaint(options) {
 
   };
 
+  this.setSmallScreenMode = function (small) {
+    if (smallScreenMode !== small) {
+      smallScreenMode = small;
+      (0, _jquery.default)(uiElem).toggleClass("chickenpaint-small-screen", smallScreenMode);
+      that.emitEvent("smallScreen", [smallScreenMode]);
+    }
+  };
+
+  this.getSmallScreenMode = function () {
+    return smallScreenMode;
+  };
+
+  this.setFullScreen = function (newVal) {
+    if (isFullScreen !== newVal) {
+      isFullScreen = newVal;
+      (0, _jquery.default)("body").toggleClass("chickenpaint-full-screen", isFullScreen);
+      (0, _jquery.default)(uiElem).toggleClass("chickenpaint-full-screen", isFullScreen);
+      that.emitEvent("fullScreen", [isFullScreen]);
+    }
+  };
+
   function installUnsavedWarning() {
     if ((0, _CPPolyfill.isEventSupported)("onbeforeunload")) {
       window.addEventListener("beforeunload", function (e) {
@@ -1329,6 +1358,8 @@ function ChickenPaint(options) {
 
     that.artwork.on("editModeChanged", onEditModeChanged);
     mainGUI = new _CPMainGUI.default(that, uiElem);
+    that.emitEvent("fullScreen", [isFullScreen]);
+    that.emitEvent("smallScreen", [smallScreenMode]);
     setTool(ChickenPaint.T_PEN);
     mainGUI.arrangePalettes();
 
@@ -1363,6 +1394,18 @@ function ChickenPaint(options) {
 
   if (options.disableBootstrapAPI) {
     (0, _jquery.default)(document).off('.data-api');
+  }
+
+  this.setSmallScreenMode(isSmallScreen());
+
+  switch (options.fullScreenMode) {
+    case "force":
+      this.setFullScreen(true);
+      break;
+
+    case "auto":
+      this.setFullScreen(smallScreenMode);
+      break;
   }
 
   if (options.loadImageUrl || options.loadChibiFileUrl) {
@@ -1422,7 +1465,8 @@ ChickenPaint.M_MOVE_TOOL = 3;
 ChickenPaint.M_ROTATE_CANVAS = 4;
 ChickenPaint.M_COLOR_PICKER = 5;
 ChickenPaint.M_GRADIENTFILL = 6;
-ChickenPaint.M_TRANSFORM = 7; //
+ChickenPaint.M_TRANSFORM = 7;
+ChickenPaint.M_PAN_CANVAS = 8; //
 // Definition of all the standard tools available
 //
 
@@ -21387,7 +21431,7 @@ function CPCanvas(controller) {
   CPColorPickerMode.prototype = Object.create(CPMode.prototype);
   CPColorPickerMode.prototype.constructor = CPColorPickerMode;
 
-  function CPPanMode() {
+  function CPPanCanvasMode() {
     var panningX, panningY, panningOffset, panningButton;
 
     this.keyDown = function (e) {
@@ -21417,7 +21461,7 @@ function CPCanvas(controller) {
     this.mouseDown = function (e, button, pressure) {
       if (this.capture) {
         return true;
-      } else if (button == BUTTON_WHEEL || _keymaster.default.isPressed("space") && button == BUTTON_PRIMARY) {
+      } else if (button == BUTTON_WHEEL || _keymaster.default.isPressed("space") && button == BUTTON_PRIMARY || !this.transient && button == BUTTON_PRIMARY) {
         this.capture = true;
         panningButton = button;
         panningX = e.pageX;
@@ -21457,8 +21501,8 @@ function CPCanvas(controller) {
     };
   }
 
-  CPPanMode.prototype = Object.create(CPMode.prototype);
-  CPPanMode.prototype.constructor = CPFloodFillMode;
+  CPPanCanvasMode.prototype = Object.create(CPMode.prototype);
+  CPPanCanvasMode.prototype.constructor = CPPanCanvasMode;
 
   function CPFloodFillMode() {}
 
@@ -22911,6 +22955,10 @@ function CPCanvas(controller) {
         newMode = rotateCanvasMode;
         break;
 
+      case _ChickenPaint.default.M_PAN_CANVAS:
+        newMode = panMode;
+        break;
+
       case _ChickenPaint.default.M_COLOR_PICKER:
         newMode = colorPickerMode;
         break;
@@ -22943,7 +22991,7 @@ function CPCanvas(controller) {
 
   defaultMode = new CPDefaultMode();
   colorPickerMode = new CPColorPickerMode();
-  panMode = new CPPanMode();
+  panMode = new CPPanCanvasMode();
   rotateCanvasMode = new CPRotateCanvasMode();
   floodFillMode = new CPFloodFillMode();
   gradientFillMode = new CPGradientFillMode();
@@ -24039,7 +24087,10 @@ function computeLayerPredicates(layer) {
 function CPLayersPalette(controller) {
   var _this = this;
 
-  _CPPalette.default.call(this, controller, "layers", "Layers", true, true);
+  _CPPalette.default.call(this, controller, "layers", "Layers", {
+    resizeHorz: true,
+    resizeVert: true
+  });
 
   var NOTIFICATION_HIDE_DELAY_MS_PER_CHAR = 70,
       NOTIFICATION_HIDE_DELAY_MIN = 3000,
@@ -25486,6 +25537,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
 */
 function CPMainGUI(controller, uiElem) {
+  var _this = this;
+
   var lowerArea = document.createElement("div"),
       canvas = new _CPCanvas.default(controller),
       paletteManager = new _CPPaletteManager.default(controller),
@@ -25533,9 +25586,11 @@ function CPMainGUI(controller, uiElem) {
   };
 
   this.setFullScreenMode = function (value) {
-    fullScreenMode = value;
-    that.resize();
-    that.arrangePalettes();
+    if (fullScreenMode !== value) {
+      fullScreenMode = value;
+      that.resize();
+      that.arrangePalettes();
+    }
   };
 
   this.resize = function () {
@@ -25563,6 +25618,9 @@ function CPMainGUI(controller, uiElem) {
     paletteManager.palettes.layers.setRotation90(newAngle);
   });
   window.addEventListener("resize", this.resize.bind(this));
+  controller.on("fullScreen", function (fullscreen) {
+    return _this.setFullScreenMode(fullscreen);
+  });
   setTimeout(this.resize.bind(this), 0);
 }
 
@@ -25855,9 +25913,9 @@ var MENU_ENTRIES = [{
   }, {
     name: "-"
   }, {
-    name: "Show tool options",
-    action: "CPPalBrush",
-    mnemonic: "B",
+    name: "Show tools",
+    action: "CPPalTool",
+    mnemonic: "T",
     checkbox: true,
     checked: true
   }, {
@@ -25867,21 +25925,15 @@ var MENU_ENTRIES = [{
     checkbox: true,
     checked: true
   }, {
-    name: "Show layers",
-    action: "CPPalLayers",
-    mnemonic: "Y",
+    name: "Show stroke",
+    action: "CPPalStroke",
+    mnemonic: "S",
     checkbox: true,
     checked: true
   }, {
     name: "Show misc",
     action: "CPPalMisc",
     mnemonic: "M",
-    checkbox: true,
-    checked: true
-  }, {
-    name: "Show stroke",
-    action: "CPPalStroke",
-    mnemonic: "S",
     checkbox: true,
     checked: true
   }, {
@@ -25897,9 +25949,15 @@ var MENU_ENTRIES = [{
     checkbox: true,
     checked: true
   }, {
-    name: "Show tools",
-    action: "CPPalTool",
-    mnemonic: "T",
+    name: "Show tool options",
+    action: "CPPalBrush",
+    mnemonic: "B",
+    checkbox: true,
+    checked: true
+  }, {
+    name: "Show layers",
+    action: "CPPalLayers",
+    mnemonic: "L",
     checkbox: true,
     checked: true
   }]
@@ -25927,7 +25985,7 @@ var MENU_ENTRIES = [{
 }];
 
 function CPMainMenu(controller, mainGUI) {
-  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<a class="navbar-brand" href="#">ChickenPaint</a>' + '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<ul class="navbar-nav mr-auto">' + '</ul>' + '</div>' + '</nav>'),
+  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<a class="navbar-brand" href="#">ChickenPaint</a>' + '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<ul class="navbar-nav mr-auto">' + '</ul>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"/>' + '</nav>'),
       macPlatform = /^Mac/i.test(navigator.platform);
 
   function menuItemClicked(target) {
@@ -26074,11 +26132,25 @@ function CPMainMenu(controller, mainGUI) {
     }));
   }
 
+  function fillWidgetTray(menuElem, entries) {
+    menuElem.append(entries.filter(function (item) {
+      return !!item.mnemonic && controller.isActionSupported(item.action);
+    }).map(function (entry) {
+      var widgetMenuElem = (0, _jquery.default)("<button class=\"widget-toggler selected\" type=\"button\" data-action=\"".concat(entry.action, "\" data-checkbox=\"true\" data-selected=\"").concat(!entry.checked, "\">") + '<span>' + entry.mnemonic + '</span>' + '</button>');
+      widgetMenuElem.click(function (e) {
+        menuItemClicked(widgetMenuElem);
+        e.preventDefault();
+      });
+      return widgetMenuElem;
+    }));
+  }
+
   this.getElement = function () {
     return bar[0];
   };
 
   fillMenu((0, _jquery.default)(".navbar-nav", bar), MENU_ENTRIES);
+  fillWidgetTray((0, _jquery.default)(".widget-nav", bar), MENU_ENTRIES[5].children);
   (0, _jquery.default)(bar).on('click', 'a:not(.dropdown-toggle)', function (e) {
     menuItemClicked((0, _jquery.default)(this));
     e.preventDefault();
@@ -26247,17 +26319,46 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     You should have received a copy of the GNU General Public License
     along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
 */
-function CPPalette(cpController, className, title, resizeVert, resizeHorz) {
-  this.title = (0, _lang._)(title);
+var DRAG_START_THRESHOLD = 5;
+
+function distanceGreaterThan(a, b, threshold) {
+  var dist = (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+  return dist > threshold * threshold;
+}
+/**
+ * 
+ * @param {ChickenPaint} cpController
+ * @param {String} className
+ * @param {String} title
+ * @param {Object} [options]
+ * @param {boolean} options.resizeVert
+ * @param {boolean} options.resizeHorz
+ * @param {boolean} options.collapseDownwards
+ * 
+ * @constructor
+ */
+
+
+function CPPalette(cpController, className, title, options) {
+  // Use a shorter version of the title if needed and one is available
+  if (cpController.getSmallScreenMode() && (0, _lang._)(title + " (shorter)") !== title + " (shorter)") {
+    this.title = (0, _lang._)(title + " (shorter)");
+  } else {
+    this.title = (0, _lang._)(title);
+  }
+
+  options = options || {};
   this.name = className;
-  this.resizeVert = resizeVert || false;
-  this.resizeHorz = resizeHorz || false;
+  this.resizeVert = options.resizeVert || false;
+  this.resizeHorz = options.resizeHorz || false;
   var containerElement = document.createElement("div"),
       headElement = document.createElement("div"),
+      collapseIcon = document.createElement("i"),
       closeButton = document.createElement("button"),
       bodyElement = document.createElement("div"),
       vertHandle = null,
       horzHandle = null,
+      dragStartPos,
       dragAction,
       dragOffset,
       that = this;
@@ -26304,33 +26405,128 @@ function CPPalette(cpController, className, title, resizeVert, resizeHorz) {
     this.setHeight(height);
   };
 
+  this.setCollapseDownwards = function (collapseDownwards) {
+    options.collapseDownwards = collapseDownwards;
+  };
+  /**
+   * @param {boolean} [collapse] True to collapse, false to uncollapse, omit to toggle state
+   */
+
+
+  this.toggleCollapse = function (collapse) {
+    var $containerElement = (0, _jquery.default)(containerElement);
+
+    if (collapse === undefined) {
+      collapse = !$containerElement.hasClass("collapsed");
+    } else {
+      if ($containerElement.hasClass("collapsed") == collapse) {
+        return;
+      }
+    }
+
+    var windowHeight = $containerElement.parents(".chickenpaint").find(".chickenpaint-canvas").height(),
+        oldHeight = this.getHeight(),
+        oldBottom = this.getY() + oldHeight;
+    $containerElement.toggleClass("collapsed", collapse);
+    (0, _jquery.default)(collapseIcon).toggleClass("fa-angle-down", !collapse).toggleClass("fa-angle-up", collapse);
+
+    if (collapse) {
+      // Move the header down to the old base position
+      if (options.collapseDownwards) {
+        this.setLocation(this.getX(), Math.min(oldBottom, windowHeight) - this.getHeight());
+      }
+    } else {
+      var thisHeight = this.getHeight();
+
+      if (options.collapseDownwards) {
+        this.setLocation(this.getX(), Math.max(oldBottom - thisHeight, 0));
+      } else {
+        // Keep palettes inside the window when uncollapsing
+        if (this.getY() + thisHeight > windowHeight) {
+          this.setLocation(this.getX(), Math.max(windowHeight - thisHeight, 0));
+        }
+      }
+    }
+  };
+
+  this.userIsDoneWithUs = function () {
+    if (cpController.getSmallScreenMode()) {
+      this.toggleCollapse(true);
+    }
+  };
+
   function paletteHeaderPointerMove(e) {
-    if (e.buttons != 0 && dragAction == "move") {
-      that.setLocation(e.pageX - dragOffset.x, e.pageY - dragOffset.y);
+    if (e.buttons != 0) {
+      var newX = e.pageX - dragOffset.x,
+          newY = e.pageY - dragOffset.y;
+
+      if (dragAction == "dragStart") {
+        if (distanceGreaterThan({
+          x: newX,
+          y: newY
+        }, dragStartPos, DRAG_START_THRESHOLD)) {
+          // Recognise this as a drag rather than a clink
+          dragAction = "dragging";
+        }
+      }
+
+      if (dragAction == "dragging") {
+        that.setLocation(newX, newY);
+      }
     }
   }
 
   function paletteHeaderPointerDown(e) {
     if (e.button == 0) {
       /* Left */
+      e.stopPropagation();
+      e.preventDefault(); // Avoid generating further legacy mouse events
+
       if (e.target.nodeName == "BUTTON") {
         // Close button was clicked
         that.emitEvent("paletteVisChange", [that, false]);
       } else {
         headElement.setPointerCapture(e.pointerId);
+        dragStartPos = {
+          x: parseInt(containerElement.style.left, 10) || 0,
+          y: parseInt(containerElement.style.top, 10) || 0
+        };
         dragOffset = {
           x: e.pageX - (0, _jquery.default)(containerElement).position().left,
           y: e.pageY - (0, _jquery.default)(containerElement).position().top
         };
-        dragAction = "move";
+
+        if (cpController.getSmallScreenMode()) {
+          // Wait for the cursor to move a certain amount before we classify this as a drag
+          dragAction = "dragStart";
+        } else {
+          dragAction = "dragging";
+        }
       }
     }
   }
 
   function paletteHeaderPointerUp(e) {
-    if (dragAction == "move") {
-      headElement.releasePointerCapture(e.pointerId);
+    if (dragAction === "dragging" || dragAction === "dragStart") {
+      if (dragAction === "dragStart") {
+        // We clicked the header. Cancel the drag and toggle the palette instead
+        e.stopPropagation();
+        e.preventDefault();
+        /* Don't move the dialog immediately, because otherwise a click event will be
+         * dispatched on the element which ends up under the cursor afterwards.
+         */
+
+        setTimeout(function () {
+          that.setLocation(dragStartPos.x, dragStartPos.y);
+          that.toggleCollapse();
+        }, 100);
+      }
+
       dragAction = false;
+
+      try {
+        headElement.releasePointerCapture(e.pointerId);
+      } catch (e) {}
     }
   }
 
@@ -26384,6 +26580,7 @@ function CPPalette(cpController, className, title, resizeVert, resizeHorz) {
     containerElement.appendChild(horzHandle);
   }
 
+  collapseIcon.className = "collapse-icon fas fa-angle-down";
   closeButton.type = "button";
   closeButton.className = "close";
   closeButton.innerHTML = "&times;";
@@ -26394,7 +26591,8 @@ function CPPalette(cpController, className, title, resizeVert, resizeHorz) {
       titleElem = document.createElement("h5");
   titleContainer.className = 'modal-header';
   titleElem.className = 'modal-title';
-  titleElem.appendChild(document.createTextNode((0, _lang._)(this.title)));
+  titleElem.appendChild(document.createTextNode(this.title));
+  titleElem.appendChild(collapseIcon);
   titleContainer.appendChild(titleElem);
   titleContainer.appendChild(closeButton);
   headElement.appendChild(titleContainer);
@@ -26481,11 +26679,30 @@ function CPPaletteManager(cpController) {
     textures: new _CPTexturePalette.default(cpController),
     swatches: new _CPSwatchesPalette.default(cpController)
   },
-      paletteFrames = [],
-      hiddenFrames = [],
+      defaultCollapse = {
+    tool: false,
+    color: false,
+    misc: false
+  },
+      collapseDownwards = {
+    color: true,
+    textures: true,
+    layers: true
+  },
       parentElem = document.createElement("div"),
       that = this;
+  var paletteFrames = [],
+      hiddenFrames = [];
   this.palettes = palettes;
+
+  function getPaletteDisplayArea() {
+    // Use the canvas as a positioning guide to avoid overlapping scrollbars
+    var canvas = (0, _jquery.default)(parentElem).parents(".chickenpaint").find(".chickenpaint-canvas");
+    return {
+      width: canvas.width(),
+      height: canvas.height()
+    };
+  }
 
   function showPalette(palette, show) {
     var palElement = palette.getElement();
@@ -26529,34 +26746,33 @@ function CPPaletteManager(cpController) {
 
 
   this.constrainPalettes = function () {
-    var windowWidth = (0, _jquery.default)(parentElem).parents(".chickenpaint-main-section").width(),
-        windowHeight = (0, _jquery.default)(parentElem).parents(".chickenpaint-main-section").height();
+    var windowDim = getPaletteDisplayArea();
 
     for (var i in palettes) {
       var palette = palettes[i];
       /* Move palettes that are more than half out of the frame back into it */
 
-      if (palette.getX() + palette.getWidth() / 2 > windowWidth) {
-        palette.setLocation(windowWidth - palette.getWidth(), palette.getY());
+      if (palette.getX() + palette.getWidth() / 2 > windowDim.width) {
+        palette.setLocation(windowDim.width - palette.getWidth(), palette.getY());
       }
 
-      if (palette.getY() + palette.getHeight() / 2 > windowHeight) {
-        palette.setLocation(palette.getX(), windowHeight - palette.getHeight());
+      if (palette.getY() + palette.getHeight() / 2 > windowDim.height) {
+        palette.setLocation(palette.getX(), windowDim.height - palette.getHeight());
       }
     } //Move small palettes to the front so that they aren't completely hidden
     //palettes.swatches.moveToFront();
     //Special handling for the swatches palette being under the brush palette:
 
 
-    var widthToSpare = windowWidth - palettes.tool.getWidth() - palettes.misc.getWidth() - palettes.stroke.getWidth() - palettes.color.getWidth() - palettes.brush.getWidth() - 15 > 0;
+    var widthToSpare = windowDim.width - palettes.tool.getWidth() - palettes.misc.getWidth() - palettes.stroke.getWidth() - palettes.color.getWidth() - palettes.brush.getWidth() - 15 > 0;
 
     if (palettes.swatches.getX() + palettes.swatches.getWidth() == palettes.brush.getX() + palettes.brush.getWidth() && Math.abs(palettes.swatches.getY() - palettes.brush.getY()) < 20) {
       palettes.swatches.setLocation(palettes.brush.getX() - palettes.swatches.getWidth() - (widthToSpare ? 5 : 1), 0);
     } //Special handling for layers palette being too damn tall:
 
 
-    if (palettes.layers.getY() + palettes.layers.getHeight() > windowHeight) {
-      palettes.layers.setHeight(Math.max(windowHeight - palettes.layers.getY(), 200));
+    if (palettes.layers.getY() + palettes.layers.getHeight() > windowDim.height) {
+      palettes.layers.setHeight(Math.max(windowDim.height - palettes.layers.getY(), 200));
     }
   };
   /**
@@ -26565,28 +26781,53 @@ function CPPaletteManager(cpController) {
 
 
   this.arrangePalettes = function () {
-    var windowWidth = (0, _jquery.default)(parentElem).parents(".chickenpaint-main-section").width(),
-        windowHeight = (0, _jquery.default)(parentElem).parents(".chickenpaint-main-section").height(),
-        haveWidthToSpare = windowWidth - palettes.tool.getWidth() - palettes.misc.getWidth() - palettes.stroke.getWidth() - palettes.color.getWidth() - palettes.brush.getWidth() - 15 > 0;
-    palettes.brush.setLocation(windowWidth - palettes.brush.getWidth() - 15, 0);
-    var bottomOfBrush = palettes.brush.getY() + palettes.brush.getHeight(),
-        layersY = windowHeight - bottomOfBrush > 300 ? bottomOfBrush + 2 : bottomOfBrush;
-    palettes.layers.setSize(palettes.brush.getWidth() + (haveWidthToSpare ? 30 : 0), windowHeight - layersY);
-    palettes.layers.setLocation(palettes.brush.getX() + palettes.brush.getWidth() - palettes.layers.getWidth(), layersY);
-    palettes.tool.setLocation(0, 0);
-    palettes.misc.setLocation(palettes.tool.getX() + palettes.tool.getWidth() + (haveWidthToSpare ? 5 : 1), 0);
+    var windowDim = getPaletteDisplayArea(),
+        haveWidthToSpare;
 
-    if (haveWidthToSpare) {
-      palettes.stroke.setLocation(palettes.misc.getX() + palettes.misc.getWidth() + (haveWidthToSpare ? 5 : 1), 0);
-    } else {
+    if (cpController.getSmallScreenMode()) {
+      palettes.tool.setLocation(0, 0);
+      palettes.misc.setLocation(palettes.tool.getX() + palettes.tool.getWidth() + 1, 0);
+      palettes.brush.setLocation(windowDim.width - palettes.brush.getWidth() - 15, palettes.misc.getY() + palettes.misc.getHeight() + 1);
+      var layersY = 330;
+      palettes.textures.setWidth(windowDim.width - palettes.textures.getX());
+      palettes.layers.setLocation(palettes.brush.getX() + palettes.brush.getWidth() - palettes.layers.getWidth(), palettes.textures.getY() - palettes.layers.getHeight());
+      palettes.layers.setHeight(palettes.textures.getY() - layersY - 1);
       palettes.stroke.setLocation(palettes.misc.getX(), palettes.misc.getY() + palettes.misc.getHeight() + 1);
+      palettes.swatches.setLocation(palettes.stroke.getX(), palettes.stroke.getY() + palettes.stroke.getHeight() + 1);
+    } else {
+      haveWidthToSpare = windowDim.width - palettes.tool.getWidth() - palettes.misc.getWidth() - palettes.stroke.getWidth() - palettes.color.getWidth() - palettes.brush.getWidth() - 15 > 0;
+      palettes.brush.setLocation(windowDim.width - palettes.brush.getWidth() - 15, 0);
+
+      var bottomOfBrush = palettes.brush.getY() + palettes.brush.getHeight(),
+          _layersY = windowDim.height - bottomOfBrush > 300 ? bottomOfBrush + 2 : bottomOfBrush;
+
+      palettes.layers.setSize(palettes.brush.getWidth() + (haveWidthToSpare ? 30 : 0), windowDim.height - _layersY);
+      palettes.layers.setLocation(palettes.brush.getX() + palettes.brush.getWidth() - palettes.layers.getWidth(), _layersY);
+      palettes.tool.setLocation(0, 0);
+      palettes.misc.setLocation(palettes.tool.getX() + palettes.tool.getWidth() + (haveWidthToSpare ? 5 : 1), 0);
+
+      if (haveWidthToSpare) {
+        palettes.stroke.setLocation(palettes.misc.getX() + palettes.misc.getWidth() + (haveWidthToSpare ? 5 : 1), 0);
+      } else {
+        palettes.stroke.setLocation(palettes.misc.getX(), palettes.misc.getY() + palettes.misc.getHeight() + 1);
+      }
+
+      palettes.swatches.setLocation(Math.max(palettes.brush.getX() - palettes.swatches.getWidth() - (haveWidthToSpare ? 5 : 1), palettes.tool.getX() + palettes.tool.getWidth()), 0);
+      palettes.textures.setWidth(Math.min(palettes.layers.getX() - palettes.textures.getX(), 490));
     }
 
-    palettes.swatches.setLocation(palettes.brush.getX() - palettes.swatches.getWidth() - (haveWidthToSpare ? 5 : 1), 0);
-    palettes.textures.setWidth(Math.min(palettes.layers.getX() - palettes.textures.getX(), 490));
-    palettes.textures.setLocation(palettes.color.getX() + palettes.color.getWidth() + 4, windowHeight - palettes.textures.getHeight());
-    palettes.color.setLocation(0, Math.max(palettes.tool.getY() + palettes.tool.getHeight(), windowHeight - palettes.color.getHeight()));
+    palettes.textures.setLocation(palettes.color.getX() + palettes.color.getWidth() + 4, windowDim.height - palettes.textures.getHeight());
+    palettes.color.setLocation(0, Math.max(palettes.tool.getY() + palettes.tool.getHeight(), windowDim.height - palettes.color.getHeight()));
   };
+
+  cpController.on("smallScreen", function (smallScreenMode) {
+    if (smallScreenMode) {
+      for (var paletteName in palettes) {
+        var palette = palettes[paletteName];
+        palette.toggleCollapse(smallScreenMode && (!(paletteName in defaultCollapse) || defaultCollapse[paletteName]));
+      }
+    }
+  });
 
   this.getElement = function () {
     return parentElem;
@@ -26600,6 +26841,11 @@ function CPPaletteManager(cpController) {
     palette.on("paletteVisChange", function () {
       showPalette(this, false);
     });
+
+    if (paletteName in collapseDownwards) {
+      palette.setCollapseDownwards(true);
+    }
+
     palElement.setAttribute("data-paletteName", paletteName);
     paletteFrames.push(palElement);
   }
@@ -26666,6 +26912,7 @@ function CPScrollbar(vertical) {
       unitIncrement = 1,
       valueIsAdjusting = false,
       handleSize = 1,
+      dragging = false,
       dragLastOffset,
       that = this;
 
@@ -26725,9 +26972,9 @@ function CPScrollbar(vertical) {
   function onHandlePress(e) {
     e.stopPropagation();
     dragLastOffset = vertical ? e.pageY - (0, _jquery.default)(bar).offset().top : e.pageX - (0, _jquery.default)(bar).offset().left;
+    handle.setPointerCapture(e.pointerId);
     (0, _jquery.default)(handle).addClass("dragging");
-    window.addEventListener("mouseup", onHandleRelease);
-    window.addEventListener("mousemove", onHandleDrag);
+    dragging = true;
   }
 
   function onHandleClick(e) {
@@ -26735,30 +26982,41 @@ function CPScrollbar(vertical) {
   }
 
   function onHandleDrag(e) {
-    valueIsAdjusting = true;
-    var longDimension = vertical ? (0, _jquery.default)(bar).height() : (0, _jquery.default)(bar).width(),
-        mouseOffset = vertical ? e.pageY - (0, _jquery.default)(bar).offset().top : e.pageX - (0, _jquery.default)(bar).offset().left;
-    offset = offset + (mouseOffset - dragLastOffset) * (max - min) / (longDimension - handleSize);
-    offset = Math.min(Math.max(offset, min), max);
-    dragLastOffset = mouseOffset;
-    that.emitEvent("valueChanged", [offset]);
-    updateBar();
-    valueIsAdjusting = false;
+    if (dragging) {
+      valueIsAdjusting = true;
+      var longDimension = vertical ? (0, _jquery.default)(bar).height() : (0, _jquery.default)(bar).width(),
+          mouseOffset = vertical ? e.pageY - (0, _jquery.default)(bar).offset().top : e.pageX - (0, _jquery.default)(bar).offset().left;
+      offset = offset + (mouseOffset - dragLastOffset) * (max - min) / (longDimension - handleSize);
+      offset = Math.min(Math.max(offset, min), max);
+      dragLastOffset = mouseOffset;
+      that.emitEvent("valueChanged", [offset]);
+      updateBar();
+      valueIsAdjusting = false;
+    }
   }
 
   function onHandleRelease(e) {
     e.stopPropagation();
-    (0, _jquery.default)(handle).removeClass("dragging");
-    window.removeEventListener("mouseup", onHandleRelease);
-    window.removeEventListener("mousemove", onHandleDrag);
+
+    if (dragging) {
+      try {
+        handle.releasePointerCapture(e.pointerId);
+      } catch (e) {}
+
+      (0, _jquery.default)(handle).removeClass("dragging");
+      dragging = false;
+    }
   }
 
   bar.className = "chickenpaint-scrollbar " + (vertical ? "chickenpaint-scrollbar-vertical" : "chickenpaint-scrollbar-horizontal");
   handle.className = "chickenpaint-scrollbar-handle";
+  handle.setAttribute("touch-action", "none");
   handleInner.className = "chickenpaint-scrollbar-handle-inner";
   handle.appendChild(handleInner);
   bar.appendChild(handle);
-  handle.addEventListener("mousedown", onHandlePress);
+  handle.addEventListener("pointerdown", onHandlePress);
+  handle.addEventListener("pointermove", onHandleDrag);
+  handle.addEventListener("pointerup", onHandleRelease);
   handle.addEventListener("click", onHandleClick);
   bar.addEventListener("click", onBarClick);
 }
@@ -27438,6 +27696,7 @@ function CPStrokePalette(cpController) {
       cpController.actionPerformed({
         action: button.command
       });
+      that.userIsDoneWithUs();
     });
     body.appendChild(listElem);
   }
@@ -27664,6 +27923,7 @@ function CPSwatchesPalette(controller) {
         controller.setCurColor(new _CPColor.default(parseInt(swatch.getAttribute("data-color"), 10)));
         e.stopPropagation();
         e.preventDefault();
+        that.userIsDoneWithUs();
       }
     });
     swatchPanel.addEventListener("contextmenu", function (e) {
@@ -28376,11 +28636,11 @@ function CPToolPalette(cpController) {
     shortcut: "i",
     mode: _ChickenPaint.default.M_COLOR_PICKER
   }, {
-    className: "chickenpaint-tool-rotate-canvas",
-    command: "CPRotateCanvas",
-    commandDoubleClick: "CPResetCanvasRotation",
-    toolTip: "Rotate canvas",
-    mode: _ChickenPaint.default.M_ROTATE_CANVAS
+    className: "chickenpaint-tool-blur",
+    command: "CPBlur",
+    toolTip: "Blur",
+    mode: _ChickenPaint.default.M_DRAW,
+    tool: _ChickenPaint.default.T_BLUR
   }, {
     className: "chickenpaint-tool-pencil",
     command: "CPPencil",
@@ -28447,11 +28707,16 @@ function CPToolPalette(cpController) {
     mode: _ChickenPaint.default.M_DRAW,
     tool: _ChickenPaint.default.T_BURN
   }, {
-    className: "chickenpaint-tool-blur",
-    command: "CPBlur",
-    toolTip: "Blur",
-    mode: _ChickenPaint.default.M_DRAW,
-    tool: _ChickenPaint.default.T_BLUR
+    className: "chickenpaint-tool-rotate-canvas",
+    command: "CPRotateCanvas",
+    commandDoubleClick: "CPResetCanvasRotation",
+    toolTip: "Rotate canvas",
+    mode: _ChickenPaint.default.M_ROTATE_CANVAS
+  }, {
+    className: "chickenpaint-tool-pan-canvas",
+    command: "CPPanCanvas",
+    toolTip: "Grab canvas",
+    mode: _ChickenPaint.default.M_PAN_CANVAS
   }],
       listElem = document.createElement("ul");
 
@@ -28461,6 +28726,7 @@ function CPToolPalette(cpController) {
       cpController.actionPerformed({
         action: button.command
       });
+      that.userIsDoneWithUs();
     }
   }
 
@@ -28542,7 +28808,9 @@ module.exports = exports.default;
 module.exports={
   "Dodge (tool)": "Dodge",
   "Burn (tool)": "Burn",
-  "Color (picker)": "Color"
+  "Color (picker)": "Color",
+  
+  "Color swatches (shorter)": "Swatches"
 }
 },{}],52:[function(require,module,exports){
 module.exports={
@@ -28636,6 +28904,7 @@ module.exports={
     "Smoothing": "手ぶれ補正",
   
   "Color swatches": "カラーセット",
+  "Color swatches (shorter)": "カラーセット",
     "Remove": "削除",
     "Replace with current color": "選択中の色に置き換え",
     "Save swatches to your computer...": "カラーセットをPCに保存",
@@ -28683,6 +28952,7 @@ module.exports={
     "Gradient fill": "グラデーション",
     "Color picker": "スポイト",
     "Rotate canvas":  "キャンバスの回転",
+    "Grab canvas": "キャンバスの位置",
     "Pencil": "鉛筆",
     "Pen": "ペン",
     "Airbrush": "エアブラシ",
