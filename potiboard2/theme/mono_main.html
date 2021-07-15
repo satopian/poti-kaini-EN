@@ -127,7 +127,7 @@
 							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
 							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
 							<% def(select_app) %>
-							<span>Tool:</span>
+							Tool:
 							<select name="shi">
 							<option value="neo">PaintBBS NEO</option>
 							<% def(use_shi_painter) %><option value="1" class="for_pc">Shi-Painter</option><% /def %>
@@ -144,7 +144,7 @@
 							<% def(resno) %>
 							<input type="hidden" name="resto" value="<% echo(resno) %>">
 							<% /def %>
-							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback (Time lapse)</label><% /def %>
+							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
 							<input class="button" type="submit" value="Paint">		
 						</p>
