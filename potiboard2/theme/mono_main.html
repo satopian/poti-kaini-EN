@@ -106,6 +106,17 @@
 				<% /def %>
 				<% def(paintform) %>
 				<% def(paint) %>
+				<style id="for_mobile"></style>
+				<script>
+					function is_mobile() {
+					if (navigator.maxTouchPoints && ( window.matchMedia && window.matchMedia('(max-width: 769px)').matches))  return true;
+					return false;
+					}
+					if(is_mobile()){
+						document.getElementById("for_mobile").textContent=".for_pc{display: none;}";
+					}
+					</script>
+
 				<% def(resno) %>
 				<p class="resm">response at oekaki</p>
 				<hr>
@@ -116,10 +127,10 @@
 							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
 							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
 							<% def(select_app) %>
-							<span class="for_pc">Tool:</span>
-							<select name="shi" class="for_pc">
+							<span>Tool:</span>
+							<select name="shi">
 							<option value="neo">PaintBBS NEO</option>
-							<% def(use_shi_painter) %><option value="1">Shi-Painter</option><% /def %>
+							<% def(use_shi_painter) %><option value="1" class="for_pc">Shi-Painter</option><% /def %>
 							<% def(use_chickenpaint) %><option value="chicken">ChickenPaint</option><% /def %>
 						</select>
 						<% elsedef %>
@@ -135,18 +146,7 @@
 							<% /def %>
 							<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback (Time lapse)</label><% /def %>
 							<input type="hidden" name="mode" value="paint">
-							<input class="button" type="submit" value="Paint">							<input type="hidden" name="is_mobile" id="is_mobile" value>
-							<style id="for_mobile"></style>
-							<script>
-							function is_mobile() {
-							if (navigator.maxTouchPoints && ( window.matchMedia && window.matchMedia('(max-width: 533px)').matches))  return true;
-							return false;
-							}
-							if(is_mobile()){
-								document.getElementById("is_mobile").value = "true";
-								document.getElementById("for_mobile").textContent=".for_pc{display: none;}";
-							}
-							</script>
+							<input class="button" type="submit" value="Paint">		
 						</p>
 					</form>
 					<% def(paint2) %>
