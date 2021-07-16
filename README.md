@@ -37,7 +37,7 @@ HTML tags that have already been entered will be deleted.
 The output is the HTML tags removed and escaped.  
 - The form on the top page and the mini-less form displayed in each thread have been abolished.  
 This is because you cannot set the CSRF token in a static HTML file.  
-- Chicken Paint is now available on your smartphone.  
+- ChickenPaint is now available on your smartphone.  
 
 ### [2021/06/17] v3.02.0 lot.210617
 - Addressed an issue where the Chicken Paint screen would be selected.
