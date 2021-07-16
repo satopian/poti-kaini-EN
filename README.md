@@ -20,6 +20,25 @@ php5.5 or upper, php7.x, or php8.0.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/07/16] v3.03.10 lot.210614
+- CSRF measures using fixed tokens have been introduced. You can reject unauthorized posts from outside the site.  
+If the theme HTML does not support tokens  
+`define('CHECK_CSRF_TOKEN', '1');`  
+To
+Change to   
+`define('CHECK_CSRF_TOKEN', '0');`.
+If you enable this setting when the theme is not supported, you will not be able to post.
+If this setting is not present in `config.php`  
+`define('CHECK_CSRF_TOKEN', '0');`  
+Is treated the same as.
+- Moved to the method of checking HTML at the time of output.  
+Administrators can no longer use HTML tags.  
+HTML tags that have already been entered will be deleted.  
+The output is the HTML tags removed and escaped.  
+- The form on the top page and the mini-less form displayed in each thread have been abolished.  
+This is because you cannot set the CSRF token in a static HTML file.  
+- Chicken Paint is now available on your smartphone.  
+
 ### [2021/06/17] v3.02.0 lot.210617
 - Addressed an issue where the Chicken Paint screen would be selected.
 - Prevents returning to the previous screen with Windows ink and two-finger gestures when drawing with PaintBBS NEO and shi-Painter.
