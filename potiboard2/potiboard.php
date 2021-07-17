@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.03.10');
-define('POTI_LOT','lot.210714'); 
+define('POTI_VER','v3.05.0');
+define('POTI_LOT','lot.210716'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -2540,15 +2540,15 @@ function create_res ($line, $options = []) {
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
 		= explode(",", rtrim($line));
 	$res = [
-		'w' => h($w),
-		'h' => h($h),
+		'w' => $w,
+		'h' => $h,
 		'no' => (int)$no,
-		'sub' => h(strip_tags($sub)),
+		'sub' => strip_tags($sub),
 		'url' => filter_var($url,FILTER_VALIDATE_URL),
 		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
-		'ext' => h($ext),
-		'time' => h($time),
-		'fontcolor' => h($fcolor ? $fcolor : DEF_FONTCOLOR), //文字色
+		'ext' => $ext,
+		'time' => $time,
+		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
 	];
 
 	// 画像系変数セット
@@ -2569,29 +2569,31 @@ function create_res ($line, $options = []) {
 	}
 
 	//日付とIDを分離
+	
 	list($res['id'], $res['now']) = separateDatetimeAndId($date);
 	//日付と編集マークを分離
 	list($res['now'], $res['updatemark']) = separateDatetimeAndUpdatemark($res['now']);
 	//名前とトリップを分離
 	list($res['name'], $res['trip']) = separateNameAndTrip($name);
-	$res['name']=h(strip_tags($res['name']));
+	$res['name']=strip_tags($res['name']);
 	$res['encoded_name'] = urlencode($res['name']);
 
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); //<br />を改行に戻す
-	if(!DISPLAY_HTML_TAGS_IN_THE_COMMENT_AS_HTML){
-		$com=h(strip_tags($com));//タグの除去とエスケープ
+	$res['com']=strip_tags($com);//タグ除去
+	foreach($res as $key => $val){
+		$res[$key]=h($val);//エスケープ
 	}
 	//マークダウン記法のリンクをHTMLに変換
 	if(MD_LINK){
-		$com = md_link($com);
+		$res['com'] = md_link($res['com']);
 	}
 	// オートリンク
 	if(AUTOLINK) {
-		$com = auto_link($com);
+		$res['com'] = auto_link($res['com']);
 	}
-	$com=nl2br($com,false);//改行を<br>へ
-	$res['com'] =  preg_replace("/(^|>)((&gt;|＞)[^<]*)/i", "\\1".RE_START."\\2".RE_END, $com); // '>'色設定
-
+	$com=nl2br($res['com'],false);//改行を<br>へ
+	$res['com'] =  preg_replace("/(^|>)((&gt;|＞)[^<]*)/i", "\\1".RE_START."\\2".RE_END, $res['com']); // '>'色設定
+	
 	return $res;
 }
 
