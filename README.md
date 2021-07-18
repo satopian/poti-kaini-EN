@@ -20,7 +20,7 @@ php5.5 or upper, php7.x, or php8.0.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-### [2021/07/17] v3.05.0 lot.210616
+### [2021/07/18] v3.05.1 lot.210616
 - CSRF measures using fixed tokens have been introduced. You can reject unauthorized posts from outside the site.  
 If the theme HTML does not support tokens  
 `define('CHECK_CSRF_TOKEN', '1');`  
