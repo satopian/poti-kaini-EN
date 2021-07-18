@@ -40,7 +40,7 @@ This is because you cannot set the CSRF token in a static HTML file.
 - ChickenPaint is now available on your smartphone.  
 
 More information can be found in the release.  
-[Release POTI-board EVO EN v3.05.0](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.0)
+[Release POTI-board EVO EN v3.05.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.1)
 
 ### [2021/06/17] v3.02.0 lot.210617
 - Addressed an issue where the Chicken Paint screen would be selected.
