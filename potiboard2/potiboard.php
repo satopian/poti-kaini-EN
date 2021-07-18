@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.0');
-define('POTI_LOT','lot.210716'); 
+define('POTI_VER','v3.05.1');
+define('POTI_LOT','lot.210718'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -2591,7 +2591,7 @@ function create_res ($line, $options = []) {
 	if(AUTOLINK) {
 		$res['com'] = auto_link($res['com']);
 	}
-	$com=nl2br($res['com'],false);//改行を<br>へ
+	$res['com']=nl2br($res['com'],false);//改行を<br>へ
 	$res['com'] =  preg_replace("/(^|>)((&gt;|＞)[^<]*)/i", "\\1".RE_START."\\2".RE_END, $res['com']); // '>'色設定
 	
 	return $res;
