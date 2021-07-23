@@ -1,61 +1,7 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 	<head>
 		<meta charset="<% echo(charset) %>">
-		<% def(paint_mode) %>
-		<% def(pinchin) %>
-		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		<% elsedef %>
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-		<% /def %>
-		<% /def %>
-		<% def(pch_mode) %><meta name="viewport" content="width=device-width"><% /def %>
-		<% def(continue_mode) %><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"><% /def %>
-		<% def(useneo) %>
-		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
-		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
-		<% /def %>
-		<% def(pch_mode) %>
-		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
-		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
-		<% /def %>
-		<% def(chickenpaint)%>
-		<style>
-		div#chickenpaint-parent :not(input){
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		</style>
-		<!-- <script>
-		/* Check for native pointer event support before PEP adds its polyfill */
-		if (window.PointerEvent) {
-			window.hasNativePointerEvents = true;
-		}
-		</script> -->
-
-<script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
-<link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
-
-
-		<% elsedef %>
-		<style>body{overscroll-behavior-x: none !important; }</style>
-	<!-- Determine if Java can be used Load cheerpJ if not -->
-		<script>
-		function cheerpJLoad() {
-		var jEnabled = navigator.javaEnabled();
-		if(!jEnabled){
-			var sN = document.createElement("script");
-            sN.src = "<% def(cheerpj_url)%><% echo(cheerpj_url)%><% elsedef %>https://cjrtnc.leaningtech.com/2.2/loader.js<% /def %>";
-			var s0 = document.getElementsByTagName("script")[0];
-			s0.parentNode.insertBefore(sN, s0);
-			sN.addEventListener("load", function(){ cheerpjInit(); }, false);
-			}
-		}
-		window.addEventListener("load", function() { cheerpJLoad(); }, false);
-		</script>
-		<% /def %>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css">
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
@@ -94,6 +40,66 @@
 			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 		}
 	</script>
+
+		<% def(paint_mode) %>
+		<% def(chickenpaint) %>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<% elsedef %>
+		<% def(pinchin) %>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<% elsedef %>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+		<% /def %>
+		<% /def %>
+		<% /def %>
+		<% def(pch_mode) %><meta name="viewport" content="width=device-width"><% /def %>
+		<% def(continue_mode) %><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"><% /def %>
+		<% def(useneo) %>
+		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
+		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
+		<% /def %>
+		<% def(pch_mode) %>
+		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
+		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
+		<% /def %>
+		<% def(chickenpaint)%>
+		<style>
+		div#chickenpaint-parent :not(input){
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			touch-action: none;
+		}
+		</style>
+		<!-- <script>
+		/* Check for native pointer event support before PEP adds its polyfill */
+		if (window.PointerEvent) {
+			window.hasNativePointerEvents = true;
+		}
+		</script> -->
+
+<script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
+<link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
+
+
+		<% elsedef %>
+		<style>body{overscroll-behavior-x: none !important; }</style>
+	<!-- Determine if Java can be used Load cheerpJ if not -->
+		<script>
+		function cheerpJLoad() {
+		var jEnabled = navigator.javaEnabled();
+		if(!jEnabled){
+			var sN = document.createElement("script");
+            sN.src = "<% def(cheerpj_url)%><% echo(cheerpj_url)%><% elsedef %>https://cjrtnc.leaningtech.com/2.2/loader.js<% /def %>";
+			var s0 = document.getElementsByTagName("script")[0];
+			s0.parentNode.insertBefore(sN, s0);
+			sN.addEventListener("load", function(){ cheerpjInit(); }, false);
+			}
+		}
+		window.addEventListener("load", function() { cheerpJLoad(); }, false);
+		</script>
+		<% /def %>
 
 		<title><% echo(title) %></title>
 		<style id="for_mobile"></style>
