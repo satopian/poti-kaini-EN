@@ -67,16 +67,6 @@
 			user-select: none;
 		}
 		</style>
-		<script>
-			var lastTouchEnd = 0;
-			document.addEventListener('touchend', function (event) {
-			var now = (new Date()).getTime();
-			if (now - lastTouchEnd <= 300) {
-			event.preventDefault();
-			}
-			lastTouchEnd = now;
-			}, false);
-		</script>
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
