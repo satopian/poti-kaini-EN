@@ -19,6 +19,10 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 php5.5 or upper, php7.x, or php8.0.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+### [2021/08/03] v3.05.2 lot.210803
+- Resolved an issue where using ChickenPaint on an iPad would cause unintended double-tap zoom issues that would make drawing difficult.  
+Please update the HTML for Paint screen.
+- `<img loading = "lazy"> `. Added `loading =" lazy "` to the `img` tag of theme.
 
 ### [2021/07/18] v3.05.1 lot.210616
 - CSRF measures using fixed tokens have been introduced. You can reject unauthorized posts from outside the site.  
