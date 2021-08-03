@@ -42,6 +42,11 @@ This is because you cannot set the CSRF token in a static HTML file.
 More information can be found in the release.  
 [Release POTI-board EVO EN v3.05.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.1)
 
+### [2021/08/03] v3.05.2 lot.210803
+- Temporarily addressed the problem that unintentional double-tap zoom occurs when using ChickenPaint on iPad, making drawing difficult.  
+Please update the HTML for Paint screen.
+- `<img loading = "lazy"> `. Added `loading =" lazy "` to the `img` tag of theme.
+
 ### [2021/06/17] v3.02.0 lot.210617
 - Addressed an issue where the Chicken Paint screen would be selected.
 - Prevents returning to the previous screen with Windows ink and two-finger gestures when drawing with PaintBBS NEO and shi-Painter.
