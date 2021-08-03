@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.1');
-define('POTI_LOT','lot.210718'); 
+define('POTI_VER','v3.05.2');
+define('POTI_LOT','lot.210803'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team

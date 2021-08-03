@@ -98,7 +98,7 @@
 	<% def(comments) %>
 	<% def(imgsearch) %>
 	<div class="newimg">
-		<ul><% each(comments) %><li class="catalog"><a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="「<% echo(comments/sub) %>」イラスト/<% echo(comments/name) %><% echo(comments/postedtime) %>" title="「<% echo(comments/sub) %>」by <% echo(comments/name) %> <% echo(comments/postedtime) %>"/></a></li><% /each %></ul>
+		<ul><% each(comments) %><li class="catalog"><a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="「<% echo(comments/sub) %>」イラスト/<% echo(comments/name) %><% echo(comments/postedtime) %>" title="「<% echo(comments/sub) %>」by <% echo(comments/name) %> <% echo(comments/postedtime) %>" loading="lazy"></a></li><% /each %></ul>
 	</div>
 	<% else %>
 	<% each(comments) %>
@@ -108,7 +108,7 @@
 			<h2><a href="<% echo(comments/link) %>" target="_blank"><% echo(comments/sub) %></a></h2>
 			 <% echo(comments/postedtime) %><br><span class="name"><a href="?page=1&query=<% echo(comments/encoded_name) %>&radio=2" target="_blank"><% echo(comments/name) %></a></span></div>
 			 <% def(comments/img) %>
-			 <a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="<% echo(comments/sub) %> by <% echo(comments/name) %>"></a><br>
+			 <a href="<% echo(comments/link) %>" target="_blank"><img src="<% echo(comments/img) %>" alt="<% echo(comments/sub) %> by <% echo(comments/name) %>" loading="lazy"></a><br>
 			 <% /def %>
 			 <% echo(comments/com) %>
 			 <div class="res_button_wrap">

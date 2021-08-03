@@ -60,13 +60,20 @@
 		<% /def %>
 		<% def(chickenpaint)%>
 		<style>
-		div#chickenpaint-parent :not(input){
+		:not(input),div#chickenpaint-parent :not(input){
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
 		}
 		</style>
+		<script>
+			function load() {
+			document.addEventListener("dblclick", function(e){ e.preventDefault();}, { passive: false });
+			}
+			window.onload = load;
+		</script>
+		
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">

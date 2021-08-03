@@ -247,7 +247,7 @@
 							<% def(oya/thumb) %>
 							<a href="<% echo(oya/src) %>" target="_blank" title="<% echo(oya/sub) %>"  rel="noopener"><img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>" loading="lazy"></a>
 							<% elsedef %>
-							<img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" title="<% echo(oya/sub) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>">
+							<img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" title="<% echo(oya/sub) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>" loading="lazy">
 							<% /def %>
 						</figure>
 						<% /def %>
@@ -277,9 +277,9 @@
 										<a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/res/continue) %>">*Continue</a><% /def %><% def(oya/res/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/res/pch) %>" target="_blank">*Replay</a><% /def %>
 									</figcaption>
 									<% def(oya/res/thumb) %>
-									<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>"></a>
+									<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy"></a>
 									<% elsedef %>
-									<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" title="<% echo(oya/res/sub) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>">
+									<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" title="<% echo(oya/res/sub) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy">
 									<% /def %>
 								</figure>
 								<% /def %>
@@ -353,10 +353,10 @@
 						<input class="button" type="submit" value=" OK ">
 						<span class="stylechanger">Color: 
 							<select class="form" id="mystyle" onchange="SetCss(this);">
-								<option value="<% echo(skindir) %>css/mono_main.css">MONO</option>
-								<option value="<% echo(skindir) %>css/mono_dark.css">Dark</option>
-								<option value="<% echo(skindir) %>css/mono_deep.css">Deep</option>
-								<option value="<% echo(skindir) %>css/mono_mayo.css">MAYO</option>
+								<option>MONO</option>
+								<option>Dark</option>
+								<option>Deep</option>
+								<option>MAYO</option>
 							</select>
 						</span>
 					</p>
