@@ -43,7 +43,7 @@ More information can be found in the release.
 [Release POTI-board EVO EN v3.05.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.1)
 
 ### [2021/08/03] v3.05.2 lot.210803
-- Temporarily addressed the problem that unintentional double-tap zoom occurs when using ChickenPaint on iPad, making drawing difficult.  
+- Resolved an issue where using ChickenPaint on an iPad would cause unintended double-tap zoom issues that would make drawing difficult.  
 Please update the HTML for Paint screen.
 - `<img loading = "lazy"> `. Added `loading =" lazy "` to the `img` tag of theme.
 
