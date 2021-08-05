@@ -97,7 +97,7 @@ function checkBrowserSupport() {
 }
 
 function isSmallScreen() {
-  return (0, _jquery.default)(window).width() < 400 || (0, _jquery.default)(window).height() < 768;
+  return (0, _jquery.default)(window).width() < 430 || (0, _jquery.default)(window).height() < 430;
 }
 
 function createDrawingTools() {
@@ -1328,8 +1328,22 @@ function ChickenPaint(options) {
       isFullScreen = newVal;
       (0, _jquery.default)("body").toggleClass("chickenpaint-full-screen", isFullScreen);
       (0, _jquery.default)(uiElem).toggleClass("chickenpaint-full-screen", isFullScreen);
-      that.emitEvent("fullScreen", [isFullScreen]);
+
+      if (isFullScreen && (0, _jquery.default)("head meta[name=viewport]").length === 0) {
+        // Reset page zoom to zero if the host page didn't already set a viewport
+        (0, _jquery.default)("head").append('<meta name="viewport" content="width=device-width,user-scalable=no">'); // Give the browser time to adjust the viewport before we adapt to the new size
+
+        setTimeout(function () {
+          return that.emitEvent("fullScreen", [isFullScreen]);
+        }, 200);
+      } else {
+        that.emitEvent("fullScreen", [isFullScreen]);
+      }
     }
+  };
+
+  this.isFullScreen = function () {
+    return isFullScreen;
   };
 
   function installUnsavedWarning() {
@@ -1354,8 +1368,13 @@ function ChickenPaint(options) {
   function startMainGUI(swatches, initialRotation90) {
     if (!uiElem) {
       return;
-    }
+    } // Prevent double-click iOS page zoom events
 
+
+    uiElem.addEventListener("dblclick", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
     that.artwork.on("editModeChanged", onEditModeChanged);
     mainGUI = new _CPMainGUI.default(that, uiElem);
     that.emitEvent("fullScreen", [isFullScreen]);
@@ -20966,17 +20985,17 @@ function CPCanvas(controller) {
     if (e.keyCode == 32
     /* Space */
     ) {
-        if (e.altKey) {
-          modeStack.push(rotateCanvasMode, true);
-          modeStack.peek().keyDown(e);
-        } else {
-          // We can start the pan mode before the mouse button is even pressed, so that the "grabbable" cursor appears
-          modeStack.push(panMode, true);
-          modeStack.peek().keyDown(e);
-        }
-
-        return true;
+      if (e.altKey) {
+        modeStack.push(rotateCanvasMode, true);
+        modeStack.peek().keyDown(e);
+      } else {
+        // We can start the pan mode before the mouse button is even pressed, so that the "grabbable" cursor appears
+        modeStack.push(panMode, true);
+        modeStack.peek().keyDown(e);
       }
+
+      return true;
+    }
   };
   /**
       * A base for the three drawing modes, so they can all share the same brush-preview-circle drawing behaviour.
@@ -21438,24 +21457,24 @@ function CPCanvas(controller) {
       if (e.keyCode == 32
       /* Space */
       ) {
-          // If we're not already panning, then advertise that a left-click would pan
-          if (!this.capture) {
-            setCursor(CURSOR_PANNABLE);
-          }
-
-          return true;
+        // If we're not already panning, then advertise that a left-click would pan
+        if (!this.capture) {
+          setCursor(CURSOR_PANNABLE);
         }
+
+        return true;
+      }
     };
 
     this.keyUp = function (e) {
       if (this.transient && panningButton != BUTTON_WHEEL && e.keyCode == 32
       /* Space */
       ) {
-          setCursor(CURSOR_DEFAULT);
-          modeStack.pop(); // yield control to the default mode
+        setCursor(CURSOR_DEFAULT);
+        modeStack.pop(); // yield control to the default mode
 
-          return true;
-        }
+        return true;
+      }
     };
 
     this.mouseDown = function (e, button, pressure) {
@@ -22075,18 +22094,18 @@ function CPCanvas(controller) {
       if (e.keyCode == 13
       /* Enter */
       ) {
-          controller.actionPerformed({
-            action: "CPTransformAccept"
-          });
-          return true;
-        } else if (e.keyCode == 27
+        controller.actionPerformed({
+          action: "CPTransformAccept"
+        });
+        return true;
+      } else if (e.keyCode == 27
       /* Escape */
       ) {
-          controller.actionPerformed({
-            action: "CPTransformReject"
-          });
-          return true;
-        }
+        controller.actionPerformed({
+          action: "CPTransformReject"
+        });
+        return true;
+      }
     };
 
     this.enter = function () {
@@ -22218,11 +22237,11 @@ function CPCanvas(controller) {
       if (this.transient && rotateButton != BUTTON_WHEEL && e.keyCode == 32
       /* Space */
       ) {
-          setCursor(CURSOR_DEFAULT);
-          modeStack.pop(); // yield control to the default mode
+        setCursor(CURSOR_DEFAULT);
+        modeStack.pop(); // yield control to the default mode
 
-          return true;
-        }
+        return true;
+      }
     };
 
     this.keyDown = function (e) {
@@ -25983,6 +26002,12 @@ var MENU_ENTRIES = [{
     title: "Displays some information about ChickenPaint"
   }]
 }];
+/**
+ * 
+ * @param {ChickenPaint} controller
+ * @param {CPMainGui} mainGUI
+ * @constructor
+ */
 
 function CPMainMenu(controller, mainGUI) {
   var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<a class="navbar-brand" href="#">ChickenPaint</a>' + '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<ul class="navbar-nav mr-auto">' + '</ul>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"/>' + '</nav>'),
@@ -26168,6 +26193,11 @@ function CPMainMenu(controller, mainGUI) {
   }
 
   mainGUI.getPaletteManager().on("paletteVisChange", onPaletteVisChange);
+  var fullScreenToggle = (0, _jquery.default)(".dropdown-item[data-action=CPFullScreen]", bar);
+  controller.on("fullScreen", function (isFullscreen) {
+    return fullScreenToggle.toggleClass("selected", isFullscreen);
+  });
+  fullScreenToggle.toggleClass("selected", controller.isFullScreen());
 }
 
 module.exports = exports.default;
@@ -26456,7 +26486,7 @@ function CPPalette(cpController, className, title, options) {
   };
 
   function paletteHeaderPointerMove(e) {
-    if (e.buttons != 0) {
+    if ((dragAction === "dragStart" || dragAction === "dragging") && e.buttons !== 0) {
       var newX = e.pageX - dragOffset.x,
           newY = e.pageY - dragOffset.y;
 
@@ -26486,7 +26516,6 @@ function CPPalette(cpController, className, title, options) {
         // Close button was clicked
         that.emitEvent("paletteVisChange", [that, false]);
       } else {
-        headElement.setPointerCapture(e.pointerId);
         dragStartPos = {
           x: parseInt(containerElement.style.left, 10) || 0,
           y: parseInt(containerElement.style.top, 10) || 0
@@ -26502,6 +26531,8 @@ function CPPalette(cpController, className, title, options) {
         } else {
           dragAction = "dragging";
         }
+
+        e.target.setPointerCapture(e.pointerId);
       }
     }
   }
@@ -26525,8 +26556,11 @@ function CPPalette(cpController, className, title, options) {
       dragAction = false;
 
       try {
-        headElement.releasePointerCapture(e.pointerId);
-      } catch (e) {}
+        e.target.releasePointerCapture(e.pointerId);
+      } catch (e) {
+        // This can fail for a variety of reasons we don't care about and won't affect us
+        console.error(e);
+      }
     }
   }
 
