@@ -19,12 +19,12 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 php5.5 or upper, php7.x, or php8.0.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
-### [2021/08/03] v3.05.2.1
+### [2021/08/06] v3.05.2.2
 - ChickenPaint has been updated to fix many iOS related bugs. Bugs related to palm rejection have been resolved.  
 You can now recognize your palm and Apple Pencil. Until now, unintended straight lines have occurred.  
 
 More information can be found in the release.  
-[Release POTI-board EVO EN v3.05.2.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.2.1)
+[Release POTI-board EVO EN v3.05.2.2](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.2.2)
 
 ### [2021/08/03] v3.05.2 lot.210803
 - Resolved an issue where using ChickenPaint on an iPad would cause unintended double-tap zoom issues that would make drawing difficult.  
