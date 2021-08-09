@@ -18,6 +18,11 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 php5.5 or upper, php7.x, or php8.0.
 
+## theme
+This oekaki board can be used by switching themes.  
+Please also use the English version of the theme created by @boxfries.  
+[boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
+
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 ### [2021/08/06] v3.05.2.2
 - ChickenPaint has been updated to fix many iOS related bugs. Bugs related to palm rejection have been resolved.  
