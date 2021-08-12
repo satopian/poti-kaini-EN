@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.3');
-define('POTI_LOT','lot.210811'); 
+define('POTI_VER','v3.05.5');
+define('POTI_LOT','lot.210812'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -502,19 +502,13 @@ function updatelog(){
 					list(,,,,,,,,,$rext,,,$rtime,,,) = explode(",", rtrim($line[$j]));
 					$resimg = $path.$rtime.$rext;
 
-					$imgline[] = ($rext && is_file($resimg)) ? 'img' : '0';
+					$imgline[] = ($rext && is_file($resimg)) ? 'img_exists' : 'noimage';
 				}
 				$resimgs = array_count_values($imgline);
-				if(isset($resimgs['img'])){//未定義エラー対策
-				while($resimgs['img'] > DSP_RESIMG){
-					while($imgline[0]='0'){ //画像付きレスが出るまでシフト
-						array_shift($imgline);
-						$s++;
-					}
+				while(isset($resimgs['img_exists']) && ($resimgs['img_exists'] > DSP_RESIMG)){
 					array_shift($imgline); //画像付きレス1つシフト
 					$s++;
 					$resimgs = array_count_values($imgline);
-				}
 				}
 				if($s>1) {$skipres = $s - 1;}//再計算
 			}
@@ -2584,10 +2578,9 @@ function create_res ($line, $options = []) {
 	list($res['name'], $res['trip']) = separateNameAndTrip($name);
 	$res['name']=strip_tags($res['name']);
 	$res['encoded_name'] = urlencode($res['name']);
-	//SNS
 	$res['share_name'] = encode_for_share($res['name']);
 	$res['share_sub'] = encode_for_share($res['sub']);
-	//コメント
+
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); //<br />を改行に戻す
 	$res['com']=strip_tags($com);//タグ除去
 	foreach($res as $key => $val){
