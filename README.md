@@ -24,6 +24,16 @@ Please also use the English version of the theme created by @boxfries.
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+### [2021/08/11] v3.05.3 lot.210811
+- Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
+- Added output variables corresponding to the title and name used for Tweet.
+#### Information for theme authors
+`<% def(oya/share_sub)><% echo(oya/share_sub) %><% else %><% echo(oya/sub|urlencode) %><% /def %>`    
+`<% def(oya/share_name)><% echo(oya/share_name) %><% else %><% echo(oya/name|urlencode) %><% /def %>`  
+When the version of POTI-board itself is low, the newly added variables are undefined.
+To avoid that, in the theme HTML, if the variable exists, This php program is used the newly set variable for Tweet, otherwise I output it in the old format.
+
 ### [2021/08/06] v3.05.2.2
 - ChickenPaint has been updated to fix many iOS related bugs. Bugs related to palm rejection have been resolved.  
 You can now recognize your palm and Apple Pencil. Until now, unintended straight lines have occurred.  
