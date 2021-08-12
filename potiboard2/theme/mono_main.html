@@ -298,7 +298,7 @@
 							<% /def %>
 							<% def(sharebutton) %>
 							<span class="share_button">
-							<a target="_blank" href="https://twitter.com/intent/tweet?&text=%5B<% echo(oya/no|urlencode) %>%5D%20<% echo(oya/sub|urlencode) %>%20by%20<% echo(oya/name|urlencode) %>%20-%20<% echo(title|urlencode) %>&url=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-twitter button"><img src="<% echo(skindir) %>img/twitter.svg" alt=""> tweet</span></a>
+							<a target="_blank" href="https://twitter.com/intent/tweet?&text=%5B<% echo(oya/no|urlencode) %>%5D%20<% def(oya/share_sub)%><% echo(oya/share_sub) %><% else %><% echo(oya/sub|urlencode) %><% /def %>%20by%20<% def(oya/share_name)%><% echo(oya/share_name) %><% else %><% echo(oya/name|urlencode) %><% /def %>%20-%20<% echo(title|urlencode) %>&url=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-twitter button"><img src="<% echo(skindir) %>img/twitter.svg" alt=""> tweet</span></a>
 							<a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-facebook2 button"><img src="<% echo(skindir) %>img/facebook.svg" alt=""> share</span></a>
 							</span>
 							<% /def %>

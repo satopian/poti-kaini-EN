@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.2');
-define('POTI_LOT','lot.210803'); 
+define('POTI_VER','v3.05.3');
+define('POTI_LOT','lot.210811'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -1142,7 +1142,9 @@ function regist(){
 	if(is_file(NOTICEMAIL_FILE)	//メール通知クラスがある場合
 	&& !(NOTICE_NOADMIN && $pwd && ($pwd === $ADMIN_PASS))){//管理者の投稿の場合メール出さない
 		require(__DIR__.'/'.NOTICEMAIL_FILE);
-
+		$name = h_decode($name);
+		$sub = h_decode($sub);
+		$com = h_decode($com); 
 		$data['to'] = TO_MAIL;
 		$data['name'] = $name;
 		$data['email'] = $email;
@@ -1170,6 +1172,11 @@ function regist(){
 		1,
 		$message . THE_SCREEN_CHANGES
 	);
+}
+
+function h_decode($str){
+	$str = str_replace("&#44;", ",", $str);
+	return htmlspecialchars_decode($str, ENT_QUOTES);
 }
 
 //ツリー削除
@@ -2577,7 +2584,10 @@ function create_res ($line, $options = []) {
 	list($res['name'], $res['trip']) = separateNameAndTrip($name);
 	$res['name']=strip_tags($res['name']);
 	$res['encoded_name'] = urlencode($res['name']);
-
+	//SNS
+	$res['share_name'] = encode_for_share($res['name']);
+	$res['share_sub'] = encode_for_share($res['sub']);
+	//コメント
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); //<br />を改行に戻す
 	$res['com']=strip_tags($com);//タグ除去
 	foreach($res as $key => $val){
@@ -2592,10 +2602,19 @@ function create_res ($line, $options = []) {
 		$res['com'] = auto_link($res['com']);
 	}
 	$res['com']=nl2br($res['com'],false);//改行を<br>へ
-	$res['com'] =  preg_replace("/(^|>)((&gt;|＞)[^<]*)/i", "\\1".RE_START."\\2".RE_END, $res['com']); // '>'色設定
+	$res['com'] = preg_replace("/(^|>)((&gt;|＞)[^<]*)/i", "\\1".RE_START."\\2".RE_END, $res['com']); // '>'色設定
 	
 	return $res;
 }
+//Tweet
+function encode_for_share($str){
+	//大なり小なりなど一部の情報は失われる
+	$str = str_replace(["&lt;","&gt;"], "", $str);
+	$str = str_replace("&#44;",",", $str);
+	$str = htmlspecialchars_decode($str, ENT_QUOTES);
+	return urlencode(strip_tags($str));
+}
+
 
 /**
  * 日付とIDを分離
