@@ -31,8 +31,9 @@ Please also use the English version of the theme created by @boxfries.
 #### Information for theme authors
 `<% def(oya/share_sub)><% echo(oya/share_sub) %><% else %><% echo(oya/sub|urlencode) %><% /def %>`    
 `<% def(oya/share_name)><% echo(oya/share_name) %><% else %><% echo(oya/name|urlencode) %><% /def %>`  
-When the version of POTI-board itself is low, the newly added variables are undefined.
-To avoid that, in the theme HTML, if the variable exists, This php program is used the newly set variable for Tweet, otherwise I output it in the old format.
+If the version of the POTI board itself is low and the newly added variables are undefined, use the variables for the old Tweet.  
+When a newly added variable is defined.  
+Use a new variable.  
 
 ### [2021/08/06] v3.05.2.2
 - ChickenPaint has been updated to fix many iOS related bugs. Bugs related to palm rejection have been resolved.  
