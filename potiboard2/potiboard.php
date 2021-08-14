@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.5');
-define('POTI_LOT','lot.210812'); 
+define('POTI_VER','v3.05.6');
+define('POTI_LOT','lot.210814'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -2667,7 +2667,7 @@ function getId ($userip, $time) {
 // 古いスレッドへの投稿を許可するかどうか
 function check_elapsed_days ($res) {
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
-		? ((time() - (int)(substr($res['time'], -13, -3))) <= ( ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
+		? ((time() - (int)(substr($res['time'], -13, -3))) <= ((int)ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 
