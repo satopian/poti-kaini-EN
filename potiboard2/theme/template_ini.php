@@ -74,7 +74,7 @@ define('MSG041', "does not exist.");
 define('MSG042', "is not readable");
 define('MSG043', "is not writable");
 define('MSG044', "[Either the MAX LOG is not set, or it contains a non-numeric string.]");
-define('MSG045', "[Please upload the drawing animation file.]<br>[Supported formats are pch and spch.]");
+define('MSG045', "[Please upload the file of the paint app.]<br>[Supported formats are pch, spch and chi.]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
