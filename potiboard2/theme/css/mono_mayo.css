@@ -11,7 +11,7 @@ label {
 
 body {
   background-color: #d1ce9e;
-  color: #000;
+  color: #222;
   font-family: sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -19,7 +19,7 @@ body {
 }
 
 a:link {
-  color: #00F;
+  color: #666;
 }
 
 a:visited {
@@ -35,7 +35,7 @@ a:hover {
 }
 
 hr {
-  border: dashed 1px #000;
+  border: dashed 1px #333;
   margin: 1ex auto;
 }
 
@@ -52,7 +52,7 @@ header, main > section > .thread, main > article#catalog, footer > article, foot
   margin: 0px auto;
   display: block;
   max-width: 1350px;
-  border: solid 1px #000;
+  border: solid 1px #333;
 }
 
 footer > article form {
@@ -65,9 +65,9 @@ footer > article.copy {
 
 input, textarea, select, .se {
   border-style: solid;
-  border-color: #300 #F66 #F66 #300;
+  border-color: #3d3431 #ff8c8c #ff8c8c #3d3431;
   border-width: 1px;
-  color: #000;
+  color: #222;
   background-color: #EEEEEE;
   padding: 3px;
 }
@@ -79,9 +79,9 @@ textarea {
 
 button, button.copy_button, .button {
   border-style: solid;
-  border-color: #F66 #300 #300 #F66;
+  border-color: #ff8c8c #3d3431 #3d3431 #ff8c8c;
   border-width: 1px;
-  color: #000;
+  color: #222;
   background-color: #EEEEEE;
 }
 
@@ -107,7 +107,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
 }
 
 input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
-  background-color: #F96;
+  background-color: #f7a67e;
   color: #FFF;
 }
 
@@ -136,13 +136,13 @@ em.thispage {
 
 .se {
   background-color: #d1ce9e;
-  color: #000;
+  color: #222;
   font-style: normal;
 }
 
 .name {
   line-height: 1em;
-  border: solid 1px #F96;
+  border: solid 1px #f7a67e;
   border-radius: 5px;
   display: inline-block;
 }
@@ -167,8 +167,8 @@ h1 a {
 }
 
 h2 {
-  border-left: solid 1ex #000;
-  background-color: #F66;
+  border-left: solid 1ex #333;
+  background-color: #ff8c8c;
   padding-left: 5px;
 }
 
@@ -262,23 +262,23 @@ ul.menu {
 }
 
 .NEO .color_bk {
-  color: #F96;
+  color: #de9b84;
 }
 
 .NEO .color_bk2 {
-  color: #963;
+  color: #a38a71;
 }
 
 .NEO .color_tool_icon {
-  color: #693;
+  color: #966;
 }
 
 .NEO .color_icon {
-  color: #360;
+  color: #966;
 }
 
 .NEO .color_iconselect {
-  color: #360;
+  color: #966;
 }
 
 .NEO .color_text {
@@ -286,7 +286,7 @@ ul.menu {
 }
 
 .NEO .color_bar {
-  color: #963;
+  color: #a38a71;
 }
 
 .NEO .tool_color_button {
@@ -294,7 +294,7 @@ ul.menu {
 }
 
 .NEO .tool_color_button2 {
-  color: #633;
+  color: #635142;
 }
 
 .NEO .tool_color_text {
@@ -302,11 +302,11 @@ ul.menu {
 }
 
 .NEO .tool_color_bar {
-  color: #F96;
+  color: #C9AB8B;
 }
 
 .NEO .tool_color_frame {
-  color: #963;
+  color: #a38a71;
 }
 
 .palette {
@@ -371,7 +371,7 @@ ul.menu {
 }
 
 .delfo tr:nth-child(odd) {
-  background-color: #F66;
+  background-color: #ff8c8c;
 }
 
 p.page {
@@ -404,7 +404,7 @@ p.page {
   font-family: "Hiragino Sans", meiryo, ヒラギノ角ゴシック, メイリオ, sans-serif;
   font-size: 16px;
   line-height: 150%;
-  color: #000;
+  color: #222;
   background-color: #d1ce9e;
   letter-spacing: .08em;
 }
@@ -430,15 +430,15 @@ p.page {
 }
 
 #search .title {
-  color: #000;
+  color: #222;
   background-color: #FC9;
-  border-left: 8px solid #F33;
+  border-left: 8px solid #C66;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
 
 #search a {
-  color: #300;
+  color: #555;
   text-decoration: underline;
 }
 
@@ -511,20 +511,20 @@ p.page {
   width: 180px;
   border: 1px solid;
   color: auto;
-  border-color: #003 #F66 #F66 #300;
+  border-color: #003 #ff8c8c #ff8c8c #3d3431;
   background-color: #FFF;
   vertical-align: middle;
 }
 
 #search input[type=text]:hover, #search textarea[type=text]:hover, #search select[type=text]:hover, #search .se[type=text]:hover {
-  background-color: #FEE;
+  background-color: #ffbbbb;
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #000;
+  color: #222;
   border: 1px solid;
-  border-color: #F66 #300 #300 #F66;
-  background-color: #FDD;
+  border-color: #ff8c8c #3d3431 #3d3431 #ff8c8c;
+  background-color: #f7c29c;
   vertical-align: middle;
 }
 
@@ -534,19 +534,19 @@ p.page {
 
 #search .name {
   font-weight: 700;
-  color: #000;
+  color: #222;
   display: inline-block;
-  border: 1px solid #633;
+  border: 1px solid #635142;
   border-radius: 6px;
   line-height: 1em;
 }
 
 #search .name:hover {
-  background-color: #FDD;
+  background-color: #ffbbbb;
 }
 
 #search .name a {
-  color: #300;
+  color: #3d3431;
   display: block;
   padding: 5px;
 }
@@ -577,7 +577,7 @@ p.page {
 }
 
 #search .res_button:hover {
-  background-color: #FEE;
+  background-color: #f7b48d;
 }
 
 #search .res_button form {
@@ -596,7 +596,7 @@ p.page {
 
 #search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
   color: #000;
-  background: #FDD;
+  background: #ffbbbb;
 }
 
 #search .label {
@@ -610,7 +610,7 @@ p.page {
 }
 
 #search .label:hover {
-  background-color: #FEE;
+  background-color: #ffbbbb;
 }
 
 #search .radio {

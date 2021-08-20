@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.05.6');
-define('POTI_LOT','lot.210814'); 
+define('POTI_VER','v3.06.6');
+define('POTI_LOT','lot.210820'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -169,7 +169,7 @@ defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
 defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
 defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
-defined('MSG045') or define('MSG045', 'アニメファイルをアップロードしてください。<br>対応フォーマットはpch、spchです。');
+defined('MSG045') or define('MSG045', 'お絵かきアプリのファイルをアップアップロードしてください。<br>対応フォーマットはpch、spch、chiです。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -540,8 +540,7 @@ function updatelog(){
 
 			clearstatcache(); //キャッシュをクリア
 			$oya++;
-		}
-
+	}
 		$prev = $page - PAGE_DEF;
 		$next = $page + PAGE_DEF;
 		// 改ページ処理
@@ -555,7 +554,7 @@ function updatelog(){
 			$end_page=$l+(PAGE_DEF*36);//現在のページよりひとつ後ろのページ
 			if($page-(PAGE_DEF*35)<=$l){break;}//現在ページより1つ前のページ
 		}
-	
+
 		for($i = 0; $i < $counttree; $i += PAGE_DEF){
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
 			if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
@@ -1280,90 +1279,91 @@ function admindel($pass){
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$del_pageno=(int)filter_input(INPUT_POST,'del_pageno',FILTER_VALIDATE_INT);
-
 	// 削除画面
 	$dat['admin_del'] = true;
 	$dat['pass'] = $pass;
-
 	$all = 0;
 	$line = file(LOGFILE);
 	$countlog=count($line);
 	$l = 0;
 
-	for($k = 0; $k < $countlog  ; $k += 2000){
+	for($k = 0; $k < $countlog  ; $k += 1000){
 
-		$dat['del_page'][$l]['no']=$k;
-		$dat['del_page'][$l]['pageno']=$l;
-		if($del_pageno===$l*2000){
-			$dat['del_page'][$l]['notlink']=true;
+			$dat['del_page'][$l]['no']=$k;
+			$dat['del_page'][$l]['pageno']=$l;
+			if($del_pageno===$l*1000){
+				$dat['del_page'][$l]['notlink']=true;
 			}
 		++$l;
 	}
-		foreach($line as $j => $value){
-			if(($j>=(0+$del_pageno))&&($j<(2000+$del_pageno))){
 
-			list($no,$date,$name,$email,$sub,$com,$url,
-				$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
-			$now  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
-			$name = h(strip_tags($name));//タグ除去
-			$sub = h(strip_tags($sub));
-			if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
-			if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
-			$email=filter_var($email, FILTER_VALIDATE_EMAIL);
-			if($email){
-				$name='<a href="mailto:'.$email.'">'.$name.'</a>';
-			}
-			$com = preg_replace("#<br( *)/?>#i"," ",$com);
-			$com = h(strip_tags($com));
-			if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
+	foreach($line as $j => $value){
+		if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
+		list($no,$now,$name,$email,$sub,$com,$url,
+			 $host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
+		// フォーマット
+		$now  = preg_replace("/( ID:.*)/","",$now);//ID以降除去
+		$name = h(strip_tags($name));//タグ除去
+		$sub = h(strip_tags($sub));
+		if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
+		if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
+		$email = filter_var($email, FILTER_VALIDATE_EMAIL);
+		if($email){
+			$name='<a href="mailto:'.$email.'">'.$name.'</a>';
+		} 
+		$com = preg_replace("#<br( *)/?>#i"," ",$com);
+		$com = h(strip_tags($com));
+		if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
+		// 画像があるときはリンク
 			$clip = "";
 			$size = 0;
 			$chk= "";
 			if($ext && is_file($path.$time.$ext)){
-			$clip = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
-			$size = filesize($path.$time.$ext);
-			$all += $size;	//ファイルサイズ加算
+				$clip = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
+				$size = filesize($path.$time.$ext);
+			$all += $size;	//合計計算
 			$chk= substr($chk,0,10);//md5
 			}
-			$bg = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
+		$bg = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
 
-			$dat['del'][] = compact('bg','no','now','sub','name','com','host','clip','size','chk');
-		}
-		}
-		$dat['all'] = ($all - ($all % 1024)) / 1024;
-		if(is_array($del)){
-			sort($del);
-			reset($del);
-			$fp=fopen(LOGFILE,"r+");
-			set_file_buffer($fp, 0);
-			flock($fp, LOCK_EX);
-			$buf=fread($fp,5242880);
-			if(!$buf){error(MSG030);}
-			$buf = charconvert($buf);
-			$line = explode("\n", trim($buf));
-			$find = false;
-			foreach($line as $i => $value){
-				if($value!==""){
-					list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
-					if(in_array($no,$del)){
-						if(!$onlyimgdel){	//記事削除
-							treedel($no);
-							unset($line[$i]);
-							$find = true;
-						}
-						delete_files($path, $time, $ext);
-					}
-				}
-			}
-			if($find){//ログ更新
-				writeFile($fp, implode("\n", $line));
-			}
-			closeFile($fp);
-		}
-
-		htmloutput(SKIN_DIR.OTHERFILE,$dat);
-		exit;
+		$dat['del'][] = compact('bg','no','now','sub','name','com','host','clip','size','chk');
 	}
+	}
+	$dat['all'] = ($all - ($all % 1024)) / 1024;
+
+	if(is_array($del)){
+		sort($del);
+		reset($del);
+		$fp=fopen(LOGFILE,"r+");
+		set_file_buffer($fp, 0);
+		flock($fp, LOCK_EX);
+		$buf=fread($fp,5242880);
+		if(!$buf){error(MSG030);}
+		$buf = charconvert($buf);
+		$line = explode("\n", trim($buf));
+		$find = false;
+		foreach($line as $i => $value){
+			if($value!==""){
+				list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
+			if(in_array($no,$del)){
+				if(!$onlyimgdel){	//記事削除
+					treedel($no);
+					unset($line[$i]);
+					$find = true;
+				}
+				delete_files($path, $time, $ext);
+			}
+			}
+		}
+		if($find){//ログ更新
+			writeFile($fp, implode("\n", $line));
+		}
+		closeFile($fp);
+	}
+
+	htmloutput(SKIN_DIR.OTHERFILE,$dat);
+	exit;
+}
 
 function init(){
 	$err='';
@@ -2197,37 +2197,34 @@ function catalog(){
 	$pagedef = CATALOG_X * CATALOG_Y;//1ページに表示する件数
 	$dat = form();
 	for($i = $page; $i < $page+$pagedef; ++$i){
-		//空文字ではなく未定義になっている
 		if(!isset($tree[$i])){
-			$dat['y'][$y]['x'][$x]['noimg'] = true;
-		}else{
-			$treeline = explode(",", rtrim($tree[$i]));
-			$disptree = $treeline[0];
-			if(!isset($lineindex[$disptree])) continue; //範囲外なら次の行
-			$j=$lineindex[$disptree]; //該当記事を探して$jにセット
-
-			$res = create_res($line[$j]);
-
-			// カタログ専用ロジック
-			if ($res['img_file_exists']) {
-				if($res['w'] && $res['h']){
-					if($res['w'] > CATALOG_W){
-						$res['h'] = ceil($res['h'] * (CATALOG_W / $res['w']));//端数の切り上げ
-						$res['w'] = CATALOG_W; //画像幅を揃える
-					}
-				}else{//ログに幅と高さが記録されていない時
-					$res['w'] = CATALOG_W;
-					$res['h'] = null;
-				}
-			}
-			
-			$res['txt'] = !$res['img_file_exists']; // 画像が無い時
-			$res['rescount'] = count($treeline) - 1;
-
-			// 記事格納
-			$dat['y'][$y]['x'][$x] = $res;
+			continue;
 		}
+		$treeline = explode(",", rtrim($tree[$i]));
+		$disptree = $treeline[0];
+		if(!isset($lineindex[$disptree])) continue; //範囲外なら次の行
+		$j=$lineindex[$disptree]; //該当記事を探して$jにセット
 
+		$res = create_res($line[$j]);
+
+		// カタログ専用ロジック
+		if ($res['img_file_exists']) {
+			if($res['w'] && $res['h']){
+				if($res['w'] > CATALOG_W){
+					$res['h'] = ceil($res['h'] * (CATALOG_W / $res['w']));//端数の切り上げ
+					$res['w'] = CATALOG_W; //画像幅を揃える
+				}
+			}else{//ログに幅と高さが記録されていない時
+				$res['w'] = CATALOG_W;
+				$res['h'] = null;
+			}
+		}
+		
+		$res['txt'] = !$res['img_file_exists']; // 画像が無い時
+		$res['rescount'] = count($treeline) - 1;
+
+		// 記事格納
+		$dat['y'][$y]['x'][$x] = $res;
 		$x++;
 		if($x == CATALOG_X){$y++; $x=0;}
 	}
@@ -2250,7 +2247,7 @@ function catalog(){
 		if(($i>=$start_page)&&($i<=$end_page)){//ページ数を表示する範囲
 			if($i === $end_page){//特定のページに代入される記号 エンド
 				$rep_page_no="≫";
-			}elseif($i!==0&&$i == $start_page){//スタート
+			}elseif($i!==0 && $i == $start_page){//スタート
 				$rep_page_no="≪";
 			}else{//ページ番号
 				$rep_page_no=$pn;

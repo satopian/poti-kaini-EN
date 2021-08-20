@@ -19,11 +19,11 @@ body {
 }
 
 a:link {
-  color: #FEFEFE;
+  color: #CCC;
 }
 
 a:visited {
-  color: #999;
+  color: #CCC;
 }
 
 a:active {
@@ -35,7 +35,7 @@ a:hover {
 }
 
 hr {
-  border: dashed 1px #396;
+  border: dashed 1px #4ba781;
   margin: 1ex auto;
 }
 
@@ -52,7 +52,7 @@ header, main > section > .thread, main > article#catalog, footer > article, foot
   margin: 0px auto;
   display: block;
   max-width: 1350px;
-  border: solid 1px #396;
+  border: solid 1px #4ba781;
 }
 
 footer > article form {
@@ -65,7 +65,7 @@ footer > article.copy {
 
 input, textarea, select, .se {
   border-style: solid;
-  border-color: #063 #6C9 #6C9 #063;
+  border-color: #063 #50a57a #50a57a #063;
   border-width: 1px;
   color: #000;
   background-color: #EEEEEE;
@@ -79,7 +79,7 @@ textarea {
 
 button, button.copy_button, .button {
   border-style: solid;
-  border-color: #6C9 #063 #063 #6C9;
+  border-color: #50a57a #063 #063 #50a57a;
   border-width: 1px;
   color: #000;
   background-color: #EEEEEE;
@@ -107,7 +107,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
 }
 
 input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
-  background-color: #396;
+  background-color: #4ba781;
   color: #FFF;
 }
 
@@ -142,7 +142,7 @@ em.thispage {
 
 .name {
   line-height: 1em;
-  border: solid 1px #396;
+  border: solid 1px #4ba781;
   border-radius: 5px;
   display: inline-block;
 }
@@ -167,7 +167,7 @@ h1 a {
 }
 
 h2 {
-  border-left: solid 1ex #396;
+  border-left: solid 1ex #4ba781;
   background-color: #111111;
   padding-left: 5px;
 }
@@ -270,15 +270,15 @@ ul.menu {
 }
 
 .NEO .color_tool_icon {
-  color: #396;
+  color: #333;
 }
 
 .NEO .color_icon {
-  color: #063;
+  color: #333;
 }
 
 .NEO .color_iconselect {
-  color: #063;
+  color: #333;
 }
 
 .NEO .color_text {
@@ -286,7 +286,7 @@ ul.menu {
 }
 
 .NEO .color_bar {
-  color: #333;
+  color: #646464;
 }
 
 .NEO .tool_color_button {
@@ -302,7 +302,7 @@ ul.menu {
 }
 
 .NEO .tool_color_bar {
-  color: #333;
+  color: #444a53;
 }
 
 .NEO .tool_color_frame {
@@ -432,13 +432,13 @@ p.page {
 #search .title {
   color: #FFF;
   background-color: #222;
-  border-left: 8px solid #396;
+  border-left: 8px solid #4ba781;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
 
 #search a {
-  color: #363;
+  color: #CCC;
   text-decoration: underline;
 }
 
@@ -511,8 +511,8 @@ p.page {
   width: 180px;
   border: 1px solid;
   color: #FFF;
-  border-color: #6C9;
-  background-color: #030;
+  border-color: #50a57a;
+  background-color: #243124;
   vertical-align: middle;
 }
 
@@ -523,8 +523,8 @@ p.page {
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
   color: #000;
   border: 1px solid;
-  border-color: #6C9;
-  background-color: #396;
+  border-color: #50a57a;
+  background-color: #4ba781;
   vertical-align: middle;
 }
 
@@ -542,11 +542,11 @@ p.page {
 }
 
 #search .name:hover {
-  background-color: #396;
+  background-color: #4ba781;
 }
 
 #search .name a {
-  color: #FFF;
+  color: #FEFEFE;
   display: block;
   padding: 5px;
 }
@@ -577,7 +577,7 @@ p.page {
 }
 
 #search .res_button:hover {
-  background-color: #6C9;
+  background-color: #72ad8f;
 }
 
 #search .res_button form {
@@ -610,7 +610,7 @@ p.page {
 }
 
 #search .label:hover {
-  background-color: #EEF;
+  background-color: #DFD;
 }
 
 #search .radio {

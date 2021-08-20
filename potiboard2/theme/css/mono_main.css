@@ -10,8 +10,8 @@ label {
 }
 
 body {
-  background-color: #EEEEEE;
-  color: #000;
+  background-color: #f7f8fb;
+  color: #222;
   font-family: sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -19,7 +19,7 @@ body {
 }
 
 a:link {
-  color: #33F;
+  color: #666;
 }
 
 a:visited {
@@ -35,7 +35,7 @@ a:hover {
 }
 
 hr {
-  border: dashed 1px #33F;
+  border: dashed 1px #80afff;
   margin: 1ex auto;
 }
 
@@ -52,7 +52,7 @@ header, main > section > .thread, main > article#catalog, footer > article, foot
   margin: 0px auto;
   display: block;
   max-width: 1350px;
-  border: solid 1px #33F;
+  border: solid 1px #80afff;
 }
 
 footer > article form {
@@ -65,9 +65,9 @@ footer > article.copy {
 
 input, textarea, select, .se {
   border-style: solid;
-  border-color: #003 #66F #66F #003;
+  border-color: #4a4c56 #66F #66F #4a4c56;
   border-width: 1px;
-  color: #000;
+  color: #222;
   background-color: #EEEEEE;
   padding: 3px;
 }
@@ -79,9 +79,9 @@ textarea {
 
 button, button.copy_button, .button {
   border-style: solid;
-  border-color: #66F #003 #003 #66F;
+  border-color: #66F #4a4c56 #4a4c56 #66F;
   border-width: 1px;
-  color: #000;
+  color: #222;
   background-color: #EEEEEE;
 }
 
@@ -107,7 +107,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
 }
 
 input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
-  background-color: #69F;
+  background-color: #7aa3f5;
   color: #FFF;
 }
 
@@ -135,14 +135,14 @@ em.thispage {
 }
 
 .se {
-  background-color: #EEEEEE;
-  color: #000;
+  background-color: #f7f8fb;
+  color: #222;
   font-style: normal;
 }
 
 .name {
   line-height: 1em;
-  border: solid 1px #69F;
+  border: solid 1px #7aa3f5;
   border-radius: 5px;
   display: inline-block;
 }
@@ -155,7 +155,7 @@ em.thispage {
 }
 
 .name:hover {
-  background-color: #EEEEEE;
+  background-color: #f7f8fb;
 }
 
 h1 + div {
@@ -167,7 +167,7 @@ h1 a {
 }
 
 h2 {
-  border-left: solid 1ex #33F;
+  border-left: solid 1ex #80afff;
   background-color: #9CF;
   padding-left: 5px;
 }
@@ -262,23 +262,23 @@ ul.menu {
 }
 
 .NEO .color_bk {
-  color: #69F;
+  color: #99b6e5;
 }
 
 .NEO .color_bk2 {
-  color: #369;
+  color: #8a95b9;
 }
 
 .NEO .color_tool_icon {
-  color: #396;
+  color: #6c758a;
 }
 
 .NEO .color_icon {
-  color: #063;
+  color: #6c758a;
 }
 
 .NEO .color_iconselect {
-  color: #063;
+  color: #6c758a;
 }
 
 .NEO .color_text {
@@ -286,7 +286,7 @@ ul.menu {
 }
 
 .NEO .color_bar {
-  color: #369;
+  color: #7c8cbe;
 }
 
 .NEO .tool_color_button {
@@ -302,11 +302,11 @@ ul.menu {
 }
 
 .NEO .tool_color_bar {
-  color: #69F;
+  color: #7aa3f5;
 }
 
 .NEO .tool_color_frame {
-  color: #369;
+  color: #446393;
 }
 
 .palette {
@@ -367,7 +367,7 @@ ul.menu {
 }
 
 .delfo th, .delfo td {
-  border: 1px solid #EEEEEE;
+  border: 1px solid #f7f8fb;
 }
 
 .delfo tr:nth-child(odd) {
@@ -404,7 +404,7 @@ p.page {
   font-family: "Hiragino Sans", meiryo, ヒラギノ角ゴシック, メイリオ, sans-serif;
   font-size: 16px;
   line-height: 150%;
-  color: #000;
+  color: #222;
   background-color: #EEEEEE;
   letter-spacing: .08em;
 }
@@ -430,15 +430,15 @@ p.page {
 }
 
 #search .title {
-  color: #000;
+  color: #222;
   background-color: #9CF;
-  border-left: 8px solid #33F;
+  border-left: 8px solid #80afff;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
 
 #search a {
-  color: #003;
+  color: #4a4c56;
   text-decoration: underline;
 }
 
@@ -511,20 +511,20 @@ p.page {
   width: 180px;
   border: 1px solid;
   color: auto;
-  border-color: #003 #66F #66F #003;
+  border-color: #4a4c56 #686c79 #686c79 #4a4c56;
   background-color: #FFF;
   vertical-align: middle;
 }
 
 #search input[type=text]:hover, #search textarea[type=text]:hover, #search select[type=text]:hover, #search .se[type=text]:hover {
-  background-color: #EEF;
+  background-color: #cae5ff;
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #000;
+  color: #222;
   border: 1px solid;
-  border-color: #66F #003 #003 #66F;
-  background-color: #DDF;
+  border-color: #686c79 #4a4c56 #4a4c56 #686c79;
+  background-color: #fefefe;
   vertical-align: middle;
 }
 
@@ -534,7 +534,7 @@ p.page {
 
 #search .name {
   font-weight: 700;
-  color: #000;
+  color: #222;
   display: inline-block;
   border: 1px solid #336;
   border-radius: 6px;
@@ -542,11 +542,11 @@ p.page {
 }
 
 #search .name:hover {
-  background-color: #DDF;
+  background-color: #cae5ff;
 }
 
 #search .name a {
-  color: #003;
+  color: #4a4c56;
   display: block;
   padding: 5px;
 }
@@ -577,7 +577,7 @@ p.page {
 }
 
 #search .res_button:hover {
-  background-color: #EEF;
+  background-color: #cae5ff;
 }
 
 #search .res_button form {
@@ -596,7 +596,7 @@ p.page {
 
 #search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
   color: #000;
-  background: #DDF;
+  background: #cae5ff;
 }
 
 #search .label {
@@ -610,7 +610,7 @@ p.page {
 }
 
 #search .label:hover {
-  background-color: #EEF;
+  background-color: #cae5ff;
 }
 
 #search .radio {

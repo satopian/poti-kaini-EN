@@ -19,11 +19,11 @@ body {
 }
 
 a:link {
-  color: #66F;
+  color: #CCC;
 }
 
 a:visited {
-  color: #999;
+  color: #CCC;
 }
 
 a:active {
@@ -35,7 +35,7 @@ a:hover {
 }
 
 hr {
-  border: dashed 1px #99F;
+  border: dashed 1px #605f7c;
   margin: 1ex auto;
 }
 
@@ -52,7 +52,7 @@ header, main > section > .thread, main > article#catalog, footer > article, foot
   margin: 0px auto;
   display: block;
   max-width: 1350px;
-  border: solid 1px #99F;
+  border: solid 1px #605f7c;
 }
 
 footer > article form {
@@ -107,7 +107,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
 }
 
 input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
-  background-color: #69F;
+  background-color: #7aa3f5;
   color: #FFF;
 }
 
@@ -142,7 +142,7 @@ em.thispage {
 
 .name {
   line-height: 1em;
-  border: solid 1px #69F;
+  border: solid 1px #7aa3f5;
   border-radius: 5px;
   display: inline-block;
 }
@@ -167,8 +167,8 @@ h1 a {
 }
 
 h2 {
-  border-left: solid 1ex #99F;
-  background-color: #036;
+  border-left: solid 1ex #605f7c;
+  background-color: #3b4856;
   padding-left: 5px;
 }
 
@@ -262,23 +262,23 @@ ul.menu {
 }
 
 .NEO .color_bk {
-  color: #69F;
+  color: #333;
 }
 
 .NEO .color_bk2 {
-  color: #369;
+  color: #222;
 }
 
 .NEO .color_tool_icon {
-  color: #396;
+  color: #333;
 }
 
 .NEO .color_icon {
-  color: #063;
+  color: #333;
 }
 
 .NEO .color_iconselect {
-  color: #063;
+  color: #333;
 }
 
 .NEO .color_text {
@@ -286,7 +286,7 @@ ul.menu {
 }
 
 .NEO .color_bar {
-  color: #369;
+  color: #646464;
 }
 
 .NEO .tool_color_button {
@@ -302,11 +302,11 @@ ul.menu {
 }
 
 .NEO .tool_color_bar {
-  color: #69F;
+  color: #444a53;
 }
 
 .NEO .tool_color_frame {
-  color: #369;
+  color: #222;
 }
 
 .palette {
@@ -371,7 +371,7 @@ ul.menu {
 }
 
 .delfo tr:nth-child(odd) {
-  background-color: #036;
+  background-color: #3b4856;
 }
 
 p.page {
@@ -432,13 +432,13 @@ p.page {
 #search .title {
   color: #FFF;
   background-color: #333;
-  border-left: 8px solid #369;
+  border-left: 8px solid #605f7c;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
 
 #search a {
-  color: #669;
+  color: #CCC;
   text-decoration: underline;
 }
 
@@ -512,19 +512,19 @@ p.page {
   border: 1px solid;
   color: #FFF;
   border-color: #69C;
-  background-color: #003;
+  background-color: #333;
   vertical-align: middle;
 }
 
 #search input[type=text]:hover, #search textarea[type=text]:hover, #search select[type=text]:hover, #search .se[type=text]:hover {
-  background-color: #001;
+  background-color: #222229;
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #000;
+  color: #222;
   border: 1px solid;
-  border-color: #69C;
-  background-color: #369;
+  border-color: #6f859a;
+  background-color: #868596;
   vertical-align: middle;
 }
 
@@ -577,7 +577,7 @@ p.page {
 }
 
 #search .res_button:hover {
-  background-color: #69C;
+  background-color: #778daf;
 }
 
 #search .res_button form {
@@ -610,7 +610,7 @@ p.page {
 }
 
 #search .label:hover {
-  background-color: #EEF;
+  background-color: #DDF;
 }
 
 #search .radio {
