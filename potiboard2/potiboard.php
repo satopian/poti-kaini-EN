@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.06.6');
+define('POTI_VER','v3.06.8');
 define('POTI_LOT','lot.210820'); 
 
 /*
@@ -1299,35 +1299,41 @@ function admindel($pass){
 
 	foreach($line as $j => $value){
 		if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
-		list($no,$now,$name,$email,$sub,$com,$url,
-			 $host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
-		// フォーマット
-		$now  = preg_replace("/( ID:.*)/","",$now);//ID以降除去
-		$name = h(strip_tags($name));//タグ除去
-		$sub = h(strip_tags($sub));
-		if(strlen($name) > 10) $name = mb_strcut($name,0,9).".";
-		if(strlen($sub) > 10) $sub = mb_strcut($sub,0,9).".";
-		$email = filter_var($email, FILTER_VALIDATE_EMAIL);
-		if($email){
-			$name='<a href="mailto:'.$email.'">'.$name.'</a>';
-		} 
-		$com = preg_replace("#<br( *)/?>#i"," ",$com);
-		$com = h(strip_tags($com));
-		if(strlen($com) > 20) $com = mb_strcut($com,0,18) . ".";
-		// 画像があるときはリンク
-			$clip = "";
-			$size = 0;
-			$chk= "";
-			if($ext && is_file($path.$time.$ext)){
-				$clip = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
-				$size = filesize($path.$time.$ext);
-			$all += $size;	//合計計算
-			$chk= substr($chk,0,10);//md5
-			}
-		$bg = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
+			list($no,$date,$name,$email,$sub,$com,$url,
+			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
+		$res= [
+			'size' => 0,
+			'no' => $no,
+			'host' => $host,
+			'chk' => $chk,
+			'clip' => "",
+		] ;
+		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
+		$res['name'] = strip_tags($name);//タグ除去
+		$res['sub'] = strip_tags($sub);
+		if(strlen($res['name']) > 10) $res['name'] = mb_strcut($res['name'],0,9).".";
+		if(strlen($res['sub']) > 10) $res['sub'] = mb_strcut($res['sub'],0,9).".";
+		$res['email']=filter_var($email, FILTER_VALIDATE_EMAIL);
+		$res['com'] = preg_replace("#<br( *)/?>#i"," ",$com);
+		$res['com'] = strip_tags($res['com']);
+		if(strlen($res['com']) > 20) $res['com'] = mb_strcut($res['com'],0,18) . ".";
 
-		$dat['del'][] = compact('bg','no','now','sub','name','com','host','clip','size','chk');
-	}
+		$res['bg'] = ($j % 2) ? ADMIN_DELGUSU : ADMIN_DELKISU;//背景色
+		
+		foreach($res as $key => $val){
+			$res[$key]=h($val);
+		}
+		if($ext && is_file($path.$time.$ext)){
+			$res['size'] = filesize($path.$time.$ext);
+			$all += $res['size'];	//ファイルサイズ加算
+			$res['chk']= substr($res['chk'],0,10);//md5
+			$res['clip'] = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
+		}
+		if($res['email']){
+			$res['name']='<a href="mailto:'.$res['email'].'">'.$res['name'].'</a>';
+		}
+		$dat['del'][] = $res;
+		}
 	}
 	$dat['all'] = ($all - ($all % 1024)) / 1024;
 
