@@ -2,9 +2,10 @@
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
-![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
+![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
 
-![ChickenPaint](https://user-images.githubusercontent.com/44894014/118308857-6ce17900-b527-11eb-83fb-9443f38347be.png)
+![ChickenPaint](https://user-images.githubusercontent.com/44894014/130363514-1ac820bf-0c6b-4cfa-ba47-62e0b40c3e74.png)
+
 
 In v3.0, the HTML5 version of the high-performance paint application [ChickenPaint](https://github.com/thenickdude/chickenpaint) is available.  
 The HTML5 version of [PaintBBS NEO](https://github.com/funige/neo/) is still available.
