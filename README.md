@@ -24,6 +24,24 @@ Please also use the English version of the theme created by @boxfries.
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+### [2021/08/11] v3.06.8 lot.210822
+
+- The chickenpaint icon has been updated
+
+- Changed the color scheme of the theme MONO  
+Change vivid color to pastel color.
+
+- Fix garbled characters  
+Fixed the problem that the character string posted on the Twitter screen when the Tweet button was pressed was garbled.  
+Fixed garbled characters in post notification emails.  
+- Administrator deletion screen  
+Improved security. Strengthened XSS measures.  
+Changed the number of items displayed on one page from 2000 to 1000.
+- Fixed error message  
+"chi" has been added to the description of supported formats because you can use "chi" files for the ability to upload files and load them onto the canvas.
+
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.06.8](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8)
 
 ### [2021/08/11] v3.05.3 lot.210811
 - Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
