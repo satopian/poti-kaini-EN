@@ -295,8 +295,8 @@ define('USE_PAINT', '1');
 // 最小値は幅、高さともに 300 固定です
 // Maximum drawing dimensions. Drawings can't be bigger
 // than the vaules specified here for each dimension.
-define('PMAX_W', '700');	//幅 (width)
-define('PMAX_H', '700');	//高さ (height)
+define('PMAX_W', '800');	//幅 (width)
+define('PMAX_H', '800');	//高さ (height)
 
 // お絵描きデフォルトサイズ
 // paint mode default size

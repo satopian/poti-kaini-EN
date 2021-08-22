@@ -7,7 +7,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 // POTI-board EVO
 // バージョン :
 define('POTI_VER','v3.06.8');
-define('POTI_LOT','lot.210820'); 
+define('POTI_LOT','lot.210822'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -1305,7 +1305,6 @@ function admindel($pass){
 			'size' => 0,
 			'no' => $no,
 			'host' => $host,
-			'chk' => $chk,
 			'clip' => "",
 		] ;
 		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
@@ -1326,7 +1325,7 @@ function admindel($pass){
 		if($ext && is_file($path.$time.$ext)){
 			$res['size'] = filesize($path.$time.$ext);
 			$all += $res['size'];	//ファイルサイズ加算
-			$res['chk']= substr($res['chk'],0,10);//md5
+			$res['chk']= h(substr($chk,0,10));//md5
 			$res['clip'] = '<a href="'.IMG_DIR.$time.$ext.'" target="_blank" rel="noopener">'.$time.$ext.'</a><br>';
 		}
 		if($res['email']){
