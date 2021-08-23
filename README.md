@@ -2,9 +2,10 @@
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
-![paintmode](https://user-images.githubusercontent.com/44894014/115989856-5a94af00-a5fb-11eb-9cf9-79f31a387c46.png)
+![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
 
-![ChickenPaint](https://user-images.githubusercontent.com/44894014/118308857-6ce17900-b527-11eb-83fb-9443f38347be.png)
+![ChickenPaint](https://user-images.githubusercontent.com/44894014/130363514-1ac820bf-0c6b-4cfa-ba47-62e0b40c3e74.png)
+
 
 In v3.0, the HTML5 version of the high-performance paint application [ChickenPaint](https://github.com/thenickdude/chickenpaint) is available.  
 The HTML5 version of [PaintBBS NEO](https://github.com/funige/neo/) is still available.
@@ -24,6 +25,24 @@ Please also use the English version of the theme created by @boxfries.
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+### [2021/08/22] v3.06.8 lot.210822
+
+- The chickenpaint icon has been updated
+
+- Changed the color scheme of the theme MONO  
+Change vivid color to pastel color.
+
+- Fix garbled characters  
+Fixed the problem that the character string posted on the Twitter screen when the Tweet button was pressed was garbled.  
+Fixed garbled characters in post notification emails.  
+- Administrator deletion screen  
+Improved security. Strengthened XSS measures.  
+Changed the number of items displayed on one page from 2000 to 1000.
+- Fixed error message  
+"chi" has been added to the description of supported formats because you can use "chi" files for the ability to upload files and load them onto the canvas.
+
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.06.8](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8)
 
 ### [2021/08/11] v3.05.3 lot.210811
 - Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
