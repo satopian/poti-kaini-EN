@@ -41,8 +41,12 @@ Changed the number of items displayed on one page from 2000 to 1000.
 - Fixed error message  
 "chi" has been added to the description of supported formats because you can use "chi" files for the ability to upload files and load them onto the canvas.
 
+2021/08/23 Due to my mistake, there was no new icon for chicken paint.  
+I apologize for any inconvenience, but please overwrite and update the ChickenPaint directory.  
+It has been fixed in (v3.06.8.1).  
+
 More information can be found in the release.  
-[Release POTI-board EVO EN v3.06.8](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8)
+[Release POTI-board EVO EN v3.06.8.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8.1)
 
 ### [2021/08/11] v3.05.3 lot.210811
 - Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
