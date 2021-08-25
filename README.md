@@ -46,7 +46,7 @@ I apologize for any inconvenience, but please overwrite and update the ChickenPa
 It has been fixed in (v3.06.8.1).  
 
 More information can be found in the release.  
-[Release POTI-board EVO EN v3.06.8.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8.1)
+[Release POTI-board EVO EN v3.06.8.2](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8.2)
 
 ### [2021/08/11] v3.05.3 lot.210811
 - Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
