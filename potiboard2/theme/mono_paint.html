@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css" id="css3" disabled>
+		<style>.input_disp_none{display: none;}</style>	
 	
 	<script>
 		var colorIdx = GetCookie("colorIdx");
@@ -603,8 +604,8 @@
 						<% def(use_select_palettes) %>
 							Palette: <select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
 							<% /def %>
-
-						<% def(passflag) %>Pass<input class="form" type="password" name="pwd" size="8" value=""> <% /def %>
+						<span class="input_disp_none"><input type="txt" value="" autocomplete="username"></span>
+						Pass<input class="form" type="password" name="pwd" size="8" value="">
 						<input class="button" type="submit" value="Draw more">
 					</form>
 

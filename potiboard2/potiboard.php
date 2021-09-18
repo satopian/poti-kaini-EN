@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.06.8');
-define('POTI_LOT','lot.210822'); 
+define('POTI_VER','v3.06.10');
+define('POTI_LOT','lot.210915'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -313,7 +313,9 @@ function get_csrf_token(){
 	header('Expires:');
 	header('Cache-Control:');
 	header('Pragma:');
-	return hash('sha256', session_id(), false);
+	$token = hash('sha256', session_id(), false);
+	$_SESSION['token']=$token;
+	return $token;
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
@@ -382,9 +384,7 @@ function form($resno="",$adminin="",$tmp=""){
 	//csrfトークンをセット
 	$dat['token']='';
 	if(CHECK_CSRF_TOKEN){
-		$token=get_csrf_token();
-		$_SESSION['token']=$token;
-		$dat['token']=$token;
+		$dat['token']=get_csrf_token();
 	}
 
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
@@ -785,8 +785,8 @@ function regist(){
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
 		if(($ucode != $usercode) && ($uip != $userip)){error(MSG007);}
 		//描画時間を$userdataをもとに計算
-		if($starttime && DSP_PAINTTIME){
-			$psec=$postedtime-$starttime;
+		if(DSP_PAINTTIME && $starttime && is_numeric($starttime)){
+			$psec=(int)$postedtime-(int)$starttime;
 			$ptime = TOTAL_PAINTTIME ? $psec : calcPtime($psec);
 		}
 		$uresto=filter_var($uresto,FILTER_VALIDATE_INT);
@@ -1026,9 +1026,7 @@ function regist(){
 		// 縮小表示
 		$max_w = $resto ? MAX_RESW : MAX_W;
 		$max_h = $resto ? MAX_RESH : MAX_H;
-		$reduced_size=image_reduction_display($w,$h,$max_w,$max_h);
-			$w=$reduced_size['w'];
-			$h=$reduced_size['h'];
+		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 
 		if(USE_THUMB){thumb($path,$time,$ext,$max_w,$max_h);}
 
@@ -1696,19 +1694,20 @@ function paintcom(){
 	$tmplist = array();
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
-		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
+		if(!is_dir($file) && pathinfo($file, PATHINFO_EXTENSION)==='dat') {
+
 			$fp = fopen(TEMP_DIR.$file, "r");
 			$userdata = fread($fp, 1024);
 			fclose($fp);
 			list($uip,$uhost,$uagent,$imgext,$ucode,) = explode("\t", rtrim($userdata));
-			$file_name = preg_replace("/\.(dat)\z/i","",$file);
+			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
-				$tmplist[] = $ucode."\t".$uip."\t".$file_name.$imgext;
+			$tmplist[] = $ucode."\t".$uip."\t".$file_name.$imgext;
 		}
 	}
 	closedir($handle);
 	$tmp = array();
-	if(count($tmplist)!=0){
+	if(count($tmplist)!==0){
 		foreach($tmplist as $tmpimg){
 			list($ucode,$uip,$ufilename) = explode("\t", $tmpimg);
 			if($ucode == $usercode||$uip == $userip){
@@ -1728,10 +1727,10 @@ function paintcom(){
 		sort($tmp);
 		reset($tmp);
 		foreach($tmp as $tmpfile){
-			$src = TEMP_DIR.$tmpfile;
-			$srcname = $tmpfile;
-			$date = date("Y/m/d H:i", filemtime($src));
-			$dat['tmp'][] = compact('src','srcname','date');
+			$tmp_img['src'] = TEMP_DIR.$tmpfile;
+			$tmp_img['srcname'] = $tmpfile;
+			$tmp_img['date'] = date("Y/m/d H:i", filemtime($tmp_img['src']));
+			$dat['tmp'][] = $tmp_img;
 		}
 	}
 
@@ -1877,9 +1876,7 @@ function editform(){
 	//csrfトークンをセット
 	$dat['token']='';
 	if(CHECK_CSRF_TOKEN){
-		$token=get_csrf_token();
-		$_SESSION['token']=$token;
-		$dat['token']=$token;
+		$dat['token']=get_csrf_token();
 	}
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
@@ -2062,7 +2059,8 @@ function replace(){
 	//描画時間を$userdataをもとに計算
 	$psec='';
 	$_ptime = '';
-	if($psec=$postedtime-$starttime){
+	if($starttime && is_numeric($starttime)){
+		$psec=(int)$postedtime-(int)$starttime;
 		$_ptime = calcPtime($psec);
 	}
 
@@ -2119,9 +2117,7 @@ function replace(){
 			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
 			//縮小表示 元のサイズを最大値にセット
-			$reduced_size=image_reduction_display($w,$h,$max_w,$max_h);
-				$w=$reduced_size['w'];
-				$h=$reduced_size['h'];
+			list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 	
 			//サムネイル作成
 			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
@@ -2411,11 +2407,7 @@ function image_reduction_display($w,$h,$max_w,$max_h){
 		$w=ceil($w * $keys);
 		$h=ceil($h * $keys);
 	}
-	$reduced_size=
-	[
-		'w' => $w,
-		'h' => $h,
-	];
+	$reduced_size = [$w,$h];
 	return $reduced_size;
 }
 

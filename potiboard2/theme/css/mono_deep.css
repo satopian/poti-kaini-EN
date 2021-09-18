@@ -34,6 +34,27 @@ a:hover {
   color: #FEFEFE;
 }
 
+h2 a:link {
+  color: #FEFEFE;
+}
+
+h2 a:visited {
+  color: #FEFEFE;
+}
+
+h2 a:active {
+  color: #FEFEFE;
+}
+
+h2 a:hover {
+  color: #FEFEFE;
+}
+
+h2 a {
+  display: block;
+  text-decoration: none;
+}
+
 hr {
   border: dashed 1px #4ba781;
   margin: 1ex auto;

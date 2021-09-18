@@ -27,11 +27,32 @@ a:visited {
 }
 
 a:active {
-  color: #F33;
+  color: #FEFEFE;
 }
 
 a:hover {
-  color: #F33;
+  color: #FEFEFE;
+}
+
+h2 a:link {
+  color: #FEFEFE;
+}
+
+h2 a:visited {
+  color: #FEFEFE;
+}
+
+h2 a:active {
+  color: #FEFEFE;
+}
+
+h2 a:hover {
+  color: #FEFEFE;
+}
+
+h2 a {
+  display: block;
+  text-decoration: none;
 }
 
 hr {
@@ -221,7 +242,7 @@ ul.menu {
 }
 
 .resma {
-  color: #9eafbf;
+  color: #c5ced6;
 }
 
 .thfoot {

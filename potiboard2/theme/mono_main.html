@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css" id="css3" disabled>
+		<style>.input_disp_none{display: none;}</style>	
 	
 	<script>
 		var colorIdx = GetCookie("colorIdx");
@@ -87,7 +88,7 @@
 					<% /def %>
 					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
 					[normal mode]
-					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[temporary pictures]</a>
+					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Recover Images]</a>
 					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
 				<hr>
@@ -230,7 +231,11 @@
 			<section>
 				<% each(oya) %>
 				<div class="thread">
+					<% def(resno) %>
 					<h2><span class="oyano">[<% echo(oya/no) %>]</span> <% echo(oya/sub) %></h2>
+					<% elsedef %>
+					<h2><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><span class="oyano">[<% echo(oya/no) %>]</span> <% echo(oya/sub) %></a></h2>
+					<% /def %>
 					<h3>
 						<span class="name"><a href="search.php?page=1&amp;imgsearch=on&amp;query=<% echo (oya/encoded_name) %>&amp;radio=2" target="_blank" rel="noopener"><% echo (oya/name) %></a></span><span class="trip"><% echo(oya/trip) %></span> :
 						<% echo(oya/now) %><% def(oya/id) %> ID : <% echo(oya/id) %><% /def %><% def(oya/url) %> <span class="url">[<a href="<% echo(oya/url) %>" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span> <% /def %> <% def(oya/updatemark) %><% echo(oya/updatemark) %><% /def %>
@@ -342,6 +347,7 @@
 				<form class="delf" action="<% echo(self) %>" method="post">
 					<p>
 						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
+						<span class="input_disp_none"><input type="txt" value="" autocomplete="username"></span>
 						Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
 						<select class="form" name="mode" tabindex="1">
 							<option value="edit" selected>edit</option>

@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css" id="css3" disabled>
+		<style>.input_disp_none{display: none;}</style>	
 	
 	<script>
 		var colorIdx = GetCookie("colorIdx");
@@ -60,7 +61,7 @@
 					<% /def %>
 					[catalog]
 					<a href="<% echo(self) %>">[normal mode]</a>
-					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[temporary pictures]</a>
+					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Recover Images]</a>
 					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
 				<hr>
@@ -98,6 +99,7 @@
 				<form class="delf" action="<% echo(self) %>" method="post">
 					<p>
 						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
+						<span class="input_disp_none"><input type="txt" value="" autocomplete="username"></span>
 						Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
 						<select class="form" name="mode">
 							<option value="edit" selected>edit</option>
