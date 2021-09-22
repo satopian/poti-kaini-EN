@@ -48,6 +48,7 @@ h2 a:active {
 
 h2 a:hover {
   color: #FEFEFE;
+  background-color: #252525;
 }
 
 h2 a {
@@ -176,7 +177,7 @@ em.thispage {
 }
 
 .name:hover {
-  background-color: #111111;
+  background-color: #222;
 }
 
 h1 + div {
@@ -190,7 +191,6 @@ h1 a {
 h2 {
   border-left: solid 1ex #4ba781;
   background-color: #111111;
-  padding-left: 5px;
 }
 
 h3 {
@@ -262,6 +262,10 @@ ul.menu {
 
 .button a i {
   color: #FFF;
+}
+
+.oyano {
+  padding-left: 5px;
 }
 
 .oyano, .oyaresno {
@@ -425,8 +429,8 @@ p.page {
   font-family: "Hiragino Sans", meiryo, ヒラギノ角ゴシック, メイリオ, sans-serif;
   font-size: 16px;
   line-height: 150%;
-  color: #FFF;
-  background-color: #333;
+  color: #FEFEFE;
+  background-color: #333333;
   letter-spacing: .08em;
 }
 
@@ -442,6 +446,16 @@ p.page {
   display: inline-block;
   margin: 0 0 8px;
   background-color: inherit;
+  padding-left: 5px;
+}
+
+#search h2 a {
+  color: #FEFEFE;
+}
+
+#search h2 a:hover {
+  color: #FEFEFE;
+  background-color: #333333;
 }
 
 #search h3 {
@@ -452,8 +466,8 @@ p.page {
 
 #search .title {
   color: #FFF;
-  background-color: #222;
-  border-left: 8px solid #4ba781;
+  border-left: solid 1ex #4ba781;
+  background-color: #111111;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
@@ -542,10 +556,10 @@ p.page {
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #000;
+  background-color: #4ba781;
+  color: #FFF;
   border: 1px solid;
   border-color: #50a57a;
-  background-color: #4ba781;
   vertical-align: middle;
 }
 
@@ -555,15 +569,15 @@ p.page {
 
 #search .name {
   font-weight: 700;
-  color: #FFF;
+  color: inherit;
   display: inline-block;
-  border: 1px solid #363;
+  border: solid 1px #4ba781;
   border-radius: 6px;
   line-height: 1em;
 }
 
 #search .name:hover {
-  background-color: #4ba781;
+  background-color: #222;
 }
 
 #search .name a {
@@ -597,10 +611,6 @@ p.page {
   width: 5em;
 }
 
-#search .res_button:hover {
-  background-color: #72ad8f;
-}
-
 #search .res_button form {
   display: inherit;
 }
@@ -616,22 +626,23 @@ p.page {
 }
 
 #search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
-  color: #000;
-  background: #DFD;
+  color: #333;
+  background: #c5e4c5;
 }
 
 #search .label {
-  color: #666;
+  color: #bbb;
   display: inline-block;
   padding: 0 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #6C6;
+  border: 2px solid #4ba781;
   border-radius: 15px;
 }
 
 #search .label:hover {
-  background-color: #DFD;
+  color: #333;
+  background-color: #c5e4c5;
 }
 
 #search .radio {

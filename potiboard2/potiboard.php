@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.06.10');
-define('POTI_LOT','lot.210915'); 
+define('POTI_VER','v3.07.2');
+define('POTI_LOT','lot.210923'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -953,6 +953,7 @@ function regist(){
 	$ext=$w=$h=$chk="";
 	$thumbnail='';
 	$pchext='';
+	$src='';
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 	//画像フォーマット
@@ -1005,7 +1006,6 @@ function regist(){
 			$dst = PCH_DIR.$time.'.chi';
 			if(copy($src, $dst)){
 				chmod($dst,PERMISSION_FOR_DEST);
-				unlink($src);
 			}
 		}
 
@@ -1015,7 +1015,6 @@ function regist(){
 			$dst = PCH_DIR.$time.$pchext;
 			if(copy($src, $dst)){
 				chmod($dst,PERMISSION_FOR_DEST);
-				unlink($src);
 			}
 		}
 		list($w, $h) = getimagesize($dest);
@@ -1029,10 +1028,6 @@ function regist(){
 		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 
 		if(USE_THUMB){thumb($path,$time,$ext,$max_w,$max_h);}
-
-		//ワークファイル削除
-		safe_unlink($upfile);
-		safe_unlink($temppath.$picfile.".dat");
 
 	}
 	// 最大ログ数を超過した行と画像を削除
@@ -1104,6 +1099,11 @@ function regist(){
 	closeFile($tp);
 	closeFile($fp);
 
+	//ワークファイル削除
+	safe_unlink($src);
+	safe_unlink($upfile);
+	safe_unlink($temppath.$picfile.".dat");
+	
 	//-- クッキー保存 --
 	//パスワード
 	$email = $email ? $email : ($sage ? 'sage' : '') ;
@@ -2122,16 +2122,13 @@ function replace(){
 			//サムネイル作成
 			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
 
-			//ワークファイル削除
-			safe_unlink($upfile);
-			safe_unlink($temppath.$file_name.".dat");
+			$src='';
 			//chiファイルアップロード
 			if(is_file($temppath.$file_name.'.chi')){
 				$src = $temppath.$file_name.'.chi';
 				$dst = PCH_DIR.$time.'.chi';
 				if(copy($src, $dst)){
 					chmod($dst,PERMISSION_FOR_DEST);
-					unlink($src);
 				}
 			}
 
@@ -2142,12 +2139,8 @@ function replace(){
 				$dst = PCH_DIR . $time . $pchext;
 				if(copy($src, $dst)){
 					chmod($dst, PERMISSION_FOR_DEST);
-					unlink($src);
 				}
 			}
-
-			//旧ファイル削除
-			delete_files($path, $etim, $ext);
 			
 			//ID付加
 			if(DISP_ID){
@@ -2175,6 +2168,14 @@ function replace(){
 
 	closeFile($fp);
 
+	//ワークファイル削除
+	safe_unlink($src);
+	safe_unlink($upfile);
+	safe_unlink($temppath.$file_name.".dat");
+
+	//旧ファイル削除
+	delete_files($path, $etim, $ext);
+	
 	updatelog();
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?".time() : ''),

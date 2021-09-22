@@ -48,6 +48,7 @@ h2 a:active {
 
 h2 a:hover {
   color: #222;
+  background-color: #ffa0a0;
 }
 
 h2 a {
@@ -176,7 +177,7 @@ em.thispage {
 }
 
 .name:hover {
-  background-color: #d1ce9e;
+  background-color: #ffe9e9;
 }
 
 h1 + div {
@@ -190,7 +191,6 @@ h1 a {
 h2 {
   border-left: solid 1ex #333;
   background-color: #ff8c8c;
-  padding-left: 5px;
 }
 
 h3 {
@@ -262,6 +262,10 @@ ul.menu {
 
 .button a i {
   color: #FFF;
+}
+
+.oyano {
+  padding-left: 5px;
 }
 
 .oyano, .oyaresno {
@@ -426,7 +430,7 @@ p.page {
   font-size: 16px;
   line-height: 150%;
   color: #222;
-  background-color: #d1ce9e;
+  background-color: #FEFEFE;
   letter-spacing: .08em;
 }
 
@@ -442,6 +446,16 @@ p.page {
   display: inline-block;
   margin: 0 0 8px;
   background-color: inherit;
+  padding-left: 5px;
+}
+
+#search h2 a {
+  color: #222;
+}
+
+#search h2 a:hover {
+  color: #222;
+  background-color: #FEFEFE;
 }
 
 #search h3 {
@@ -452,8 +466,8 @@ p.page {
 
 #search .title {
   color: #222;
-  background-color: #FC9;
-  border-left: 8px solid #C66;
+  border-left: solid 1ex #333;
+  background-color: #ff8c8c;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
@@ -542,10 +556,10 @@ p.page {
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #222;
+  background-color: #f7a67e;
+  color: #FFF;
   border: 1px solid;
   border-color: #ff8c8c #3d3431 #3d3431 #ff8c8c;
-  background-color: #f7c29c;
   vertical-align: middle;
 }
 
@@ -555,15 +569,15 @@ p.page {
 
 #search .name {
   font-weight: 700;
-  color: #222;
+  color: inherit;
   display: inline-block;
-  border: 1px solid #635142;
+  border: solid 1px #f7a67e;
   border-radius: 6px;
   line-height: 1em;
 }
 
 #search .name:hover {
-  background-color: #ffbbbb;
+  background-color: #ffe9e9;
 }
 
 #search .name a {
@@ -597,10 +611,6 @@ p.page {
   width: 5em;
 }
 
-#search .res_button:hover {
-  background-color: #f7b48d;
-}
-
 #search .res_button form {
   display: inherit;
 }
@@ -616,7 +626,7 @@ p.page {
 }
 
 #search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
-  color: #000;
+  color: #222;
   background: #ffbbbb;
 }
 
@@ -626,11 +636,12 @@ p.page {
   padding: 0 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #C66;
+  border: 2px solid #f7a67e;
   border-radius: 15px;
 }
 
 #search .label:hover {
+  color: #222;
   background-color: #ffbbbb;
 }
 

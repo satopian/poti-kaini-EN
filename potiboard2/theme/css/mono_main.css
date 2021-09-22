@@ -48,6 +48,7 @@ h2 a:active {
 
 h2 a:hover {
   color: #222;
+  background-color: #b3daff;
 }
 
 h2 a {
@@ -176,7 +177,7 @@ em.thispage {
 }
 
 .name:hover {
-  background-color: #f7f8fb;
+  background-color: #f0f8ff;
 }
 
 h1 + div {
@@ -190,7 +191,6 @@ h1 a {
 h2 {
   border-left: solid 1ex #80afff;
   background-color: #9CF;
-  padding-left: 5px;
 }
 
 h3 {
@@ -262,6 +262,10 @@ ul.menu {
 
 .button a i {
   color: #FFF;
+}
+
+.oyano {
+  padding-left: 5px;
 }
 
 .oyano, .oyaresno {
@@ -426,7 +430,7 @@ p.page {
   font-size: 16px;
   line-height: 150%;
   color: #222;
-  background-color: #f7f8fb;
+  background-color: #FEFEFE;
   letter-spacing: .08em;
 }
 
@@ -442,6 +446,16 @@ p.page {
   display: inline-block;
   margin: 0 0 8px;
   background-color: inherit;
+  padding-left: 5px;
+}
+
+#search h2 a {
+  color: #222;
+}
+
+#search h2 a:hover {
+  color: #222;
+  background-color: #FEFEFE;
 }
 
 #search h3 {
@@ -452,8 +466,8 @@ p.page {
 
 #search .title {
   color: #222;
+  border-left: solid 1ex #80afff;
   background-color: #9CF;
-  border-left: 8px solid #80afff;
   padding: 6px 5px 2px;
   margin: 0 0 10px;
 }
@@ -542,10 +556,10 @@ p.page {
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  color: #222;
+  background-color: #7aa3f5;
+  color: #FFF;
   border: 1px solid;
   border-color: #686c79 #4a4c56 #4a4c56 #686c79;
-  background-color: #fefefe;
   vertical-align: middle;
 }
 
@@ -555,15 +569,15 @@ p.page {
 
 #search .name {
   font-weight: 700;
-  color: #222;
+  color: inherit;
   display: inline-block;
-  border: 1px solid #336;
+  border: solid 1px #7aa3f5;
   border-radius: 6px;
   line-height: 1em;
 }
 
 #search .name:hover {
-  background-color: #cae5ff;
+  background-color: #f0f8ff;
 }
 
 #search .name a {
@@ -597,10 +611,6 @@ p.page {
   width: 5em;
 }
 
-#search .res_button:hover {
-  background-color: #cae5ff;
-}
-
 #search .res_button form {
   display: inherit;
 }
@@ -616,7 +626,7 @@ p.page {
 }
 
 #search input[type=radio]:checked + label, #search textarea[type=radio]:checked + label, #search select[type=radio]:checked + label, #search .se[type=radio]:checked + label {
-  color: #000;
+  color: #222;
   background: #cae5ff;
 }
 
@@ -626,11 +636,12 @@ p.page {
   padding: 0 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #66C;
+  border: 2px solid #7aa3f5;
   border-radius: 15px;
 }
 
 #search .label:hover {
+  color: #222;
   background-color: #cae5ff;
 }
 

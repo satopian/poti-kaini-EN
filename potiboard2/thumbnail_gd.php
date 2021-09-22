@@ -1,6 +1,6 @@
 <?php
 //サムネイル作成
-//210203 コード整理
+//210922 コード整理
 //201218 webp形式対応
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
@@ -17,40 +17,33 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 		$out_h = ceil($size[1] * $keys);
 	}
 	else{return;}
-
-
 	
 	switch (mime_content_type($fname)) {
 		case "image/gif";
-		if(function_exists("ImageCreateFromGIF")){//gif
+			if(!function_exists("ImageCreateFromGIF")){//gif
+				return;
+			}
 				$im_in = @ImageCreateFromGIF($fname);
 				if(!$im_in)return;
-			}
-			else{
-				return;
-			}
+		
 		break;
 		case "image/jpeg";
-		$im_in = @ImageCreateFromJPEG($fname);//jpg
-			if(!$im_in)return;
-		break;
-		case "image/png";
-		if(function_exists("ImageCreateFromPNG")){//png
-				$im_in = @ImageCreateFromPNG($fname);
+			$im_in = @ImageCreateFromJPEG($fname);//jpg
 				if(!$im_in)return;
-			}
-			else{
+			break;
+		case "image/png";
+			if(!function_exists("ImageCreateFromPNG")){//png
 				return;
 			}
+				$im_in = @ImageCreateFromPNG($fname);
+				if(!$im_in)return;
 			break;
 		case "image/webp";
-		if(function_exists("ImageCreateFromWEBP")){//webp
+			if(!function_exists("ImageCreateFromWEBP")){//webp
+				return;
+			}
 			$im_in = @ImageCreateFromWEBP($fname);
 			if(!$im_in)return;
-		}
-		else{
-			return;
-		}
 		break;
 
 		default : return;
