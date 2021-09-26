@@ -54,7 +54,7 @@
 				<a href="<% echo(self) %>?mode=admin">[admin mode]</a>
 			</div>
 			<hr>
-			<article>
+			<div>
 				<nav class="menu">
 					<a href="<% echo(self2) %>">[top]</a>
 					<% def(for_new_post) %>
@@ -65,17 +65,17 @@
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Recover Images]</a>
 					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
-			</article>
+			</div>
 			<hr>
 			<% def(n) %>
 			<!-- Admin oekaki mode -->
 			<% /def %>
 			<% def(post_mode) %>
 			<% def(regist) %>
-			<script type="text/javascript" src="loadcookie.js"></script>
+			<script src="loadcookie.js"></script>
 			<% /def %>
 			<% def(admin) %><% def(rewrite) %><% elsedef %>
-			<article class="epost">
+			<div class="epost">
 				<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
 					<p>
 						<input type="hidden" name="useneo" value="true">
@@ -91,7 +91,7 @@
 						<input class="button" type="submit" value="paint">
 					</p>
 				</form>
-			</article>
+			</div>
 			<% /def %><% /def %>
 			<% /def %>
 			<% def(n) %>
@@ -104,11 +104,11 @@
 			// NEW, OEKAKI, UPDATE
 			) -->
 			<% def(regist) %>
-			<script type="text/javascript" src="loadcookie.js"></script>
+			<script src="loadcookie.js"></script>
 			<% /def %>
 			<section>
 				<div class="thread">
-					<h1 class="oekaki">post form<% def(admin) %> - ADMIN MODE-<% /def %></h1>
+					<h3 class="oekaki">post form<% def(admin) %> - ADMIN MODE-<% /def %></h3>
 					<% def(pictmp) %>
 					<div class="tmpimg">
 						<% def(notmp) %>
@@ -227,7 +227,7 @@
 						});
 					</script>
 					<% def(regist) %>
-					<script type="text/javascript">
+					<script>
 						l(); //LoadCookie
 					</script>
 					<% /def %>
@@ -239,7 +239,7 @@
 			<!-- (========== ADMIN MODE -LOGIN- start ==========) -->
 			<section>
 				<div class="thread">
-					<h1 class="oekaki">Admin mode</h1>
+					<h3 class="oekaki">Admin mode</h3>
 					<form action="<% echo(self) %>" method="post">
 						<label><input type="radio" name="admin" value="update" checked>UPDATE</label>
 						<label><input type="radio" name="admin" value="del">DELETE</label>
@@ -256,7 +256,7 @@
 			<!-- (========== ADMIN MODE -DELETE- start ==========) -->
 			<section>
 				<div class="thread">
-					<h1 class="oekaki">Admin mode</h1>
+					<h3 class="oekaki">Admin mode</h3>
 					<form action="<% echo(self) %>" method="post">
 						<input type="hidden" name="admin" value="update">
 						<input type="hidden" name="mode" value="admin">
@@ -329,7 +329,7 @@
 			<!-- (========== ERROR MODE start ==========) -->
 			<section>
 				<div class="thread">
-					<h1 class="oekaki">ERROR</h1>
+					<h3 class="oekaki">ERROR</h3>
 					<p class="err"><% echo(mes) %></p>
 					<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[back]</a></p>
 					<!-- <p><a href="<% echo(self2) %>">[reload]</a></p> -->
@@ -339,7 +339,7 @@
 			<% /def %>
 		</main>
 		<footer>
-			<article class="copy">
+			<div class="copy">
 				<!-- Copyright notice, do not delete -->
 				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
@@ -365,7 +365,7 @@
 					<a href="http://skinny.sx68.net/" target="_blank" rel="nofollow noopener noreferrer" title="Skinny.php (by Kuasuki)">Skinny.php</a>
 					DynamicPalette <!-- http://wondercatstudio.com/ -->
 				</p>
-			</article>			
+			</div>			
 		</footer>
 	</body>
 </html>

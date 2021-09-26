@@ -53,7 +53,7 @@
 				<a href="<% echo(self) %>?mode=admin">[Admin mode]</a>
 			</div>
 			<hr>
-			<article>
+			<div>
 				<nav class="menu">
 					<a href="<% echo(self2) %>">[top]</a>
 					<% def(for_new_post) %>
@@ -66,10 +66,10 @@
 				</nav>
 				<hr>
 				<h2><span class="oyano"></span>Catalog mode</h2>
-			</article>
+			</div>
 		</header>
 		<main>
-			<article id="catalog">
+			<div id="catalog">
 				<hr>
 				<div>
 					<% each(y) %><% each(y/x) %><% def(y/x/no) %>
@@ -85,11 +85,11 @@
 				<% /def %><% /each %><% /each %>
 				</div>
 				<hr>
-			</article>
+			</div>
 		</main>
 		<footer id="footer">
-			<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
-			<article>
+			<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+			<div>
 				<% def(notres) %>
 				<p class="page">
 					<% def(prev) %><a href="<% echo(prev) %>">≪BACK</a> |<% /def %> <% def(next) %><a href="<% echo(next) %>">NEXT≫</a> <% /def %>
@@ -123,8 +123,8 @@
 				<script>
 					l(); //LoadCookie
 				</script>
-			</article>
-			<article class="copy">
+			</div>
+			<div class="copy">
 				<!-- Copyright notice, do not delete -->
 				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
@@ -150,7 +150,7 @@
 					<a href="http://skinny.sx68.net/" target="_blank" rel="nofollow noopener noreferrer" title="Skinny.php (by Kuasuki)">Skinny.php</a>
 					DynamicPalette <!-- http://wondercatstudio.com/ -->
 				</p>
-			</article>			
+			</div>			
 		</footer>
 		<script>
 		colorIdx=GetCookie('colorIdx');

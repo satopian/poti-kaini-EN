@@ -65,23 +65,23 @@ hr.hr {
   clear: both;
 }
 
-header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy, main > section > .thread, footer > article {
+header, main > section > .thread, main > div#catalog, footer > div, footer > div.copy, main > section > .thread, footer > div {
   background-color: #333333;
   padding: 8px;
 }
 
-header, main > section > .thread, main > article#catalog, footer > article, footer > article.copy {
+header, main > section > .thread, main > div#catalog, footer > div, footer > div.copy {
   margin: 0px auto;
   display: block;
   max-width: 1350px;
   border: solid 1px #4ba781;
 }
 
-footer > article form {
+footer > div form {
   text-align: right;
 }
 
-footer > article.copy {
+footer > div.copy {
   text-align: right;
 }
 
@@ -180,10 +180,6 @@ em.thispage {
   background-color: #222;
 }
 
-h1 + div {
-  text-align: right;
-}
-
 h1 a {
   text-decoration: none;
 }
@@ -195,6 +191,10 @@ h2 {
 
 h3 {
   margin-top: 1ex;
+}
+
+h1 + div {
+  text-align: right;
 }
 
 figure {
@@ -209,6 +209,11 @@ figure img {
 }
 
 figcaption {
+  font-size: smaller;
+  margin: 10px 0;
+}
+
+.img_info_wrap {
   font-size: smaller;
   margin: 10px 0;
 }
@@ -236,9 +241,9 @@ ul.menu {
   float: none;
 }
 
-.res article {
+.res .comment_wrap {
+  min-width: 300px;
   display: table;
-  min-width: 250px;
 }
 
 .resma {
@@ -274,6 +279,10 @@ ul.menu {
 
 .oekaki {
   font-size: smaller;
+}
+
+div.tmpimg {
+  text-align: right;
 }
 
 #appstage {

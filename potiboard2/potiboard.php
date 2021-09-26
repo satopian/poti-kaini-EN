@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.07.2');
-define('POTI_LOT','lot.210923'); 
+define('POTI_VER','v3.07.5');
+define('POTI_LOT','lot.210925'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -833,7 +833,7 @@ function regist(){
 	$pass = $pwd ? password_hash($pwd,PASSWORD_BCRYPT,['cost' => 5]) : "*";
 	$date = now_date(time());//日付取得
 	if(DISP_ID){
-		$date .= " ID:" . getId($userip, time());
+		$date .= " ID:" . getId($userip);
 	}
 
 	//カンマをエスケープ
@@ -1969,7 +1969,7 @@ function rewrite(){
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	if(DISP_ID){
-		$date .= " ID:" . getId($userip, time());
+		$date .= " ID:" . getId($userip);
 	}
 	$date = str_replace(",", "&#44;", $date);//カンマをエスケープ
 
@@ -2144,7 +2144,7 @@ function replace(){
 			
 			//ID付加
 			if(DISP_ID){
-				$date .= " ID:" . getId($userip, time());
+				$date .= " ID:" . getId($userip);
 			}
 			//描画時間追加
 			if($ptime && $_ptime){
@@ -2156,12 +2156,15 @@ function replace(){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor";
 			$flag = true;
+			//旧ファイル削除
+			delete_files($path, $etim, $ext);
+
 			break;
 		}
 	}
 	if(!$flag){
 		closeFile($fp);
-		error(MSG028);
+		return error(MSG028);
 	}
 
 	writeFile($fp, implode("\n", $line));
@@ -2173,9 +2176,7 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-	//旧ファイル削除
-	delete_files($path, $etim, $ext);
-	
+
 	updatelog();
 	redirect(
 		PHP_SELF2 . (URL_PARAMETER ? "?".time() : ''),
@@ -2655,8 +2656,8 @@ function closeFile ($fp) {
 	fclose($fp);
 }
 
-function getId ($userip, $time) {
-	return substr(crypt(md5($userip.ID_SEED.date("Ymd", $time)),'id'),-8);
+function getId ($userip) {
+	return substr(hash('sha256', $userip.ID_SEED, false),-8);
 }
 
 // 古いスレッドへの投稿を許可するかどうか

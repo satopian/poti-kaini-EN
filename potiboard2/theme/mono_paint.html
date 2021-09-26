@@ -114,11 +114,11 @@
 				<a href="<% echo(self) %>?mode=admin">[admin mode]</a>
 			</div>
 			<hr>
-			<article>
+			<div>
 				<p class="menu">
 					<a href="./">[back]</a>
 				</p>
-			</article>
+			</div>
 			<hr>
 			<% def(paint_mode) %>
 			<h2 class="oekaki">PAINT MODE</h2>
@@ -188,7 +188,7 @@
 					</noscript>
 		
 		
-						<article id="appstage">
+						<div id="appstage">
 							<div class="app">
 			
 
@@ -333,14 +333,14 @@
 								<option>14</option>
 							</select>
 							<input class="form" type="text" name="ped" size="8" onkeypress="Chenge_()" onchange="Chenge_()"><div id="psft" style="position:absolute;width:100px;height:30px;z-index:1;left:5px;top:10px;"></div>
-							<script type="text/javascript">
+							<script>
 								if(DynamicColor) PaletteListSetColor();
 							</script>
 						</fieldset>
 						<p class="c">DynamicPalette &copy;NoraNeko</p>
 					</form>
 				</div>
-			</article>
+			</div>
 			<% def(paint_mode) %>
 			<section>
 				<div class="thread">
@@ -351,7 +351,7 @@
 								PaintTime :
 								<input type="text" size="24" name="count">
 							</p>
-							<script type="text/javascript">
+							<script>
 								timerID = 10;
 								stime = new Date();
 								function SetTimeCount() {
@@ -512,7 +512,7 @@
 			<% /def %>
 			<% def(pch_mode) %>
 			<!-- (========== animation view mode ==========) -->
-			<article id="appstage">
+			<div id="appstage">
 				<div class="app">
 					<div style="width:<% echo(w) %>px; height:<% echo(h) %>px">
 					<% def(paintbbs) %>
@@ -549,12 +549,12 @@
 						<a href="javascript:close()">close</a>
 					</p>
 				</div>
-			</article>
+			</div>
 			<!-- (========== animation view mode end ==========) -->
 			<% /def %>
 			<% def(continue_mode) %>
 			<!-- (========== CONTINUE MODE start ==========) -->
-			<script type="text/javascript" src="loadcookie.js"></script>
+			<script src="loadcookie.js"></script>
 			<section>
 
 				<script>
@@ -617,7 +617,7 @@
 						<% /def %>
 						</ul>
 				</div>
-				<script type="text/javascript">
+				<script>
 				l(); //LoadCookie
 				</script>
 			</section>
@@ -625,7 +625,7 @@
 			<% /def %>
 		</main>
 		<footer>
-			<article class="copy">
+			<div class="copy">
 				<!-- Copyright notice, do not delete -->
 				<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
@@ -651,7 +651,7 @@
 					<a href="http://skinny.sx68.net/" target="_blank" rel="nofollow noopener noreferrer" title="Skinny.php (by Kuasuki)">Skinny.php</a>
 					DynamicPalette <!-- http://wondercatstudio.com/ -->
 				</p>
-			</article>			
+			</div>			
 		</footer>
 	</body>
 </html>

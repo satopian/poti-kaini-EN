@@ -102,7 +102,7 @@
 	</div>
 	<% else %>
 	<% each(comments) %>
-	<article>
+	<div>
 		<div class="article">
 		<div class="comments_title_wrap">
 			<h2><a href="<% echo(comments/link) %>" target="_blank"><% echo(comments/sub) %></a></h2>
@@ -115,7 +115,7 @@
 				 <form action="<% echo(comments/link) %>" method="post" target="_blank"><input type="submit" value="Reply" class="res_button"></form><span class="page_top"><a href="#top">△</a></span>
 		</div>
 		</div>
-	</article>
+	</div>
 		<% /def %>
 	<% /each %>
 	<% /def %>
