@@ -108,7 +108,7 @@
 			<% /def %>
 			<section>
 				<div class="thread">
-					<h3 class="oekaki">post form<% def(admin) %> - ADMIN MODE-<% /def %></h3>
+					<h2 class="oekaki">post form<% def(admin) %> - ADMIN MODE-<% /def %></h2>
 					<% def(pictmp) %>
 					<div class="tmpimg">
 						<% def(notmp) %>
@@ -239,8 +239,8 @@
 			<!-- (========== ADMIN MODE -LOGIN- start ==========) -->
 			<section>
 				<div class="thread">
-					<h3 class="oekaki">Admin mode</h3>
-					<form action="<% echo(self) %>" method="post">
+					<h2 class="oekaki">Admin mode</h2>
+					<form action="<% echo(self) %>" method="post" class="adminin">
 						<label><input type="radio" name="admin" value="update" checked>UPDATE</label>
 						<label><input type="radio" name="admin" value="del">DELETE</label>
 						<label><input type="radio" name="admin" value="post">ADMIN POST</label>
@@ -256,7 +256,7 @@
 			<!-- (========== ADMIN MODE -DELETE- start ==========) -->
 			<section>
 				<div class="thread">
-					<h3 class="oekaki">Admin mode</h3>
+					<h2 class="oekaki">Admin mode</h2>
 					<form action="<% echo(self) %>" method="post">
 						<input type="hidden" name="admin" value="update">
 						<input type="hidden" name="mode" value="admin">
@@ -329,7 +329,7 @@
 			<!-- (========== ERROR MODE start ==========) -->
 			<section>
 				<div class="thread">
-					<h3 class="oekaki">ERROR</h3>
+					<h2 class="oekaki">ERROR</h2>
 					<p class="err"><% echo(mes) %></p>
 					<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[back]</a></p>
 					<!-- <p><a href="<% echo(self2) %>">[reload]</a></p> -->

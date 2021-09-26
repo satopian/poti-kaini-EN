@@ -87,7 +87,7 @@ footer > div.copy {
 
 input, textarea, select, .se {
   border-style: solid;
-  border-color: #3d3431 #ff8c8c #ff8c8c #3d3431;
+  border-color: #3d3431 #ffaa95 #ffaa95 #3d3431;
   border-width: 1px;
   color: #222;
   background-color: #EEEEEE;
@@ -101,7 +101,7 @@ textarea {
 
 button, button.copy_button, .button {
   border-style: solid;
-  border-color: #ff8c8c #3d3431 #3d3431 #ff8c8c;
+  border-color: #ffaa95 #3d3431 #3d3431 #ffaa95;
   border-width: 1px;
   color: #222;
   background-color: #EEEEEE;
@@ -279,10 +279,20 @@ ul.menu {
 
 .oekaki {
   font-size: smaller;
+  padding-left: 5px;
 }
 
 div.tmpimg {
   text-align: right;
+  margin: 15px 0 0;
+}
+
+p.err {
+  margin: 15px 0;
+}
+
+form.adminin {
+  margin: 15px 0;
 }
 
 #appstage {

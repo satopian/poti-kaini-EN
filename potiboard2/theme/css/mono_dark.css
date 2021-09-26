@@ -129,7 +129,7 @@ input[name="pwd"], textarea[name="pwd"], select[name="pwd"], .se[name="pwd"] {
 }
 
 input[value="お絵かき"], textarea[value="お絵かき"], select[value="お絵かき"], button.copy_button, .se[value="お絵かき"], .button {
-  background-color: #7aa3f5;
+  background-color: #6f90d1;
   color: #FFF;
 }
 
@@ -164,7 +164,7 @@ em.thispage {
 
 .name {
   line-height: 1em;
-  border: solid 1px #7aa3f5;
+  border: solid 1px #6f90d1;
   border-radius: 5px;
   display: inline-block;
 }
@@ -279,10 +279,20 @@ ul.menu {
 
 .oekaki {
   font-size: smaller;
+  padding-left: 5px;
 }
 
 div.tmpimg {
   text-align: right;
+  margin: 15px 0 0;
+}
+
+p.err {
+  margin: 15px 0;
+}
+
+form.adminin {
+  margin: 15px 0;
 }
 
 #appstage {
@@ -565,7 +575,7 @@ p.page {
 }
 
 #search input[type=submit], #search textarea[type=submit], #search select[type=submit], #search .se[type=submit] {
-  background-color: #7aa3f5;
+  background-color: #6f90d1;
   color: #FFF;
   border: 1px solid;
   border-color: #6f859a;
@@ -580,7 +590,7 @@ p.page {
   font-weight: 700;
   color: inherit;
   display: inline-block;
-  border: solid 1px #7aa3f5;
+  border: solid 1px #6f90d1;
   border-radius: 6px;
   line-height: 1em;
 }
@@ -645,7 +655,7 @@ p.page {
   padding: 0 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #7aa3f5;
+  border: 2px solid #6f90d1;
   border-radius: 15px;
 }
 

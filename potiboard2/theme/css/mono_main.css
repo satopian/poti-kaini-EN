@@ -279,10 +279,20 @@ ul.menu {
 
 .oekaki {
   font-size: smaller;
+  padding-left: 5px;
 }
 
 div.tmpimg {
   text-align: right;
+  margin: 15px 0 0;
+}
+
+p.err {
+  margin: 15px 0;
+}
+
+form.adminin {
+  margin: 15px 0;
 }
 
 #appstage {
