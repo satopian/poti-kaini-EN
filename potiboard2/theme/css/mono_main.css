@@ -287,6 +287,15 @@ div.tmpimg {
   margin: 15px 0 0;
 }
 
+.siihelp h2 {
+  padding-left: 5px;
+  margin: 15px 0;
+}
+
+.siihelp ul {
+  font-size: inherit;
+}
+
 p.err {
   margin: 15px 0;
 }
@@ -303,6 +312,18 @@ form.adminin {
 #appstage > * {
   display: inline-block;
   vertical-align: middle;
+}
+
+.siihelp dd {
+  margin: 0 0 12px;
+}
+
+.siihelp dt {
+  display: list-item;
+  margin: 3px 0;
+  list-style: circle;
+  list-style-position: inside;
+  padding-left: 5px;
 }
 
 .NEO .color_bk {
