@@ -26,11 +26,10 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-### [2021/08/11] v3.07.5
+### [2021/09/28] v3.07.5
 #### Minor bug fixes
 
- - Fixed the problem that the calculation method of the part that decides not to calculate the drawing time was wrong. The calculation started even when there was no drawing start time.
-
+ - Fixed the processing specification that determines whether to start the drawing time calculation.
  - Even if an error occurs during the posting process, you can repost the drawing image from the unposted image. Moved work file deletion to almost the end of the post process. Previously, if an error occurred in the second half of the posting process, the posted illustration would remain on the server but could not be displayed on the bulletin board.
 
 #### Improved UI UX
