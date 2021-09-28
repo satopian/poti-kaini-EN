@@ -28,7 +28,6 @@ Please also use the English version of the theme created by @boxfries.
 
 ### [2021/08/11] v3.07.5
 #### Minor bug fixes
- - Fixed the problem that the Paint BBS menu was displayed strangely when the browser language was other than Japanese.
 
  - Fixed the problem that the calculation method of the part that decides not to calculate the drawing time was wrong. The calculation started even when there was no drawing start time.
 
