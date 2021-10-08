@@ -25,6 +25,29 @@ Please also use the English version of the theme created by @boxfries.
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+### [2021/09/28] v3.07.5
+#### Minor bug fixes
+
+ - Fixed the processing specification that determines whether to start the drawing time calculation.
+ - Even if an error occurs during the posting process, you can repost the drawing image from the unposted image. Moved work file deletion to almost the end of the post process. Previously, if an error occurred in the second half of the posting process, the posted illustration would remain on the server but could not be displayed on the bulletin board.
+
+#### Improved UI UX
+
+ - Linkd from thread title to reply screen.
+
+Click the thread title to open the reply screen .
+
+ - The color scheme of the search screen is closer to that of the bulletin board.
+
+
+#### Improved auto-complete for Chrome and Firefox
+
+When editing or deleting an article, if you enter the article number and press the edit button, the password may be saved as a set with the user name as the article number.
+
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.07.5](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.07.5)
+
 ### [2021/08/22] v3.06.8 lot.210822
 
 - The chickenpaint icon has been updated
