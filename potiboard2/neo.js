@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.5.12";
+Neo.version = "1.5.14";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1099,7 +1099,7 @@ Neo.openURL = function (url) {
 };
 
 Neo.getAbsoluteURL = function (board, url) {
-  if (url.indexOf('://') > 0 || url.indexOf('//') === 0) {
+  if (url && (url.indexOf('://') > 0 || url.indexOf('//') === 0)) {
     return url;
   } else {
     return board + url;

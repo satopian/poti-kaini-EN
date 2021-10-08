@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.07.5');
-define('POTI_LOT','lot.210925'); 
+define('POTI_VER','v3.08.1');
+define('POTI_LOT','lot.211008'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -305,21 +305,29 @@ function get_uip(){
 	}
 	return getenv("REMOTE_ADDR");
 }
+//session開始
+function session_sta(){
+	if(!isset($_SESSION)){
+		session_set_cookie_params(
+			0,"","",null,true
+		);
+		session_start();
+		header('Expires:');
+		header('Cache-Control:');
+		header('Pragma:');
+	}
+}
+
 //csrfトークンを作成
 function get_csrf_token(){
-	if(!isset($_SESSION)){
-		session_start();
-	}
-	header('Expires:');
-	header('Cache-Control:');
-	header('Pragma:');
+	session_sta();
 	$token = hash('sha256', session_id(), false);
 	$_SESSION['token']=$token;
 	return $token;
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
-	session_start();
+	session_sta();
 	$token=filter_input(INPUT_POST,'token');
 	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
 	if(!$session_token||$token!==$session_token){
@@ -1461,13 +1469,13 @@ function paintform(){
 	//pchファイルアップロードペイント
 	if($admin&&($admin===$ADMIN_PASS)){
 		
+		$pchtmp= isset($_FILES['pch_upload']['tmp_name']) ? $_FILES['pch_upload']['tmp_name'] :'';
+		if($pchtmp && in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
+			error(MSG034);
+		} 
+		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
 		$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
-		
-		if($pchfilename!==""){//空文字でなければ続行
-			$pchtmp=$_FILES['pch_upload']['tmp_name'];
-			if(in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
-				error(MSG034);
-			} 
+
 			$time = time().substr(microtime(),2,3);
 			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
 			$pchext=strtolower($pchext);//すべて小文字に

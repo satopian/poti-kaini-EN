@@ -217,15 +217,6 @@
 						</ul>
 						<% /def %>
 					</form>
-					<script src="<% echo(skindir) %>jquery-3.5.1.min.js"></script>
-					<script>
-						$(function(){ //against double-pressing
-							$('[type="submit"]').click(function(){
-								$(this).prop('disabled',true);
-								$(this).closest('form').submit();
-							});
-						});
-					</script>
 					<% def(regist) %>
 					<script>
 						l(); //LoadCookie
@@ -367,5 +358,17 @@
 				</p>
 			</div>			
 		</footer>
+		<script src="<% echo(skindir) %>jquery-3.5.1.min.js"></script>
+		<script>
+			window.onpageshow = function(){
+				var $btn = $('[type="submit"]');
+				//disbledを解除
+				$btn.prop('disabled', false);
+				$btn.click(function(){//送信ボタン2度押し対策
+					$(this).prop('disabled',true);
+					$(this).closest('form').submit();
+				});
+			}
+		</script>
 	</body>
 </html>
