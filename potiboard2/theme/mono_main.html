@@ -400,6 +400,8 @@
 		</footer>
 		<script src="<% echo(skindir) %>jquery-3.5.1.min.js"></script>
 		<script>
+			colorIdx=GetCookie('colorIdx');
+			document.getElementById("mystyle").selectedIndex=colorIdx;
 			window.onpageshow = function(){
 				var $btn = $('[type="submit"]');
 				//disbledを解除
