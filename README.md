@@ -26,11 +26,16 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/09/28] v3.08.1.1
+
+- Fixed a bug in POTI-board EVO v3.08.1.  
+There was a problem switching the color scheme of the theme MONO because the necessary JavaScript was accidentally deleted.
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.08.1.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.08.1.1)
+
 ### [2021/09/28] v3.08.1
 #### bug fixes
 - Fixed an issue where the submit button was not enabled when using the browser's "History Back" or error screen "Back" links.  
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.08.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.08.1)
 
 
 ### [2021/09/28] v3.07.5
