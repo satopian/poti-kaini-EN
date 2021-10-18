@@ -5,18 +5,21 @@
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
 function thumb($path,$tim,$ext,$max_w,$max_h){
-	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG"))return;
+	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
+		return;
+	}
 	$fname=$path.$tim.$ext;
 	$size = GetImageSize($fname); // 画像の幅と高さとタイプを取得
 	// リサイズ
-	if($size[0] > $max_w || $size[1] > $max_h){
+	$w_h_size_over=($size[0] > $max_w || $size[1] > $max_h);
+	if(!$w_h_size_over){//サイズが範囲内なら終了
+		return;
+	}
 		$key_w = $max_w / $size[0];
 		$key_h = $max_h / $size[1];
 		($key_w < $key_h) ? $keys = $key_w : $keys = $key_h;
 		$out_w = ceil($size[0] * $keys);//端数の切り上げ
 		$out_h = ceil($size[1] * $keys);
-	}
-	else{return;}
 	
 	switch (mime_content_type($fname)) {
 		case "image/gif";

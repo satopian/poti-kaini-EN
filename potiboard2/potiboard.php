@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.08.1');
-define('POTI_LOT','lot.211008'); 
+define('POTI_VER','v3.09.1');
+define('POTI_LOT','lot.211017'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -170,6 +170,7 @@ defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロー�
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
 defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
 defined('MSG045') or define('MSG045', 'アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。');
+defined('MSG046') or define('MSG046', 'パスワードが短ずぎます。最低6文字。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -486,7 +487,7 @@ function updatelog(){
 
 			$res = create_res($line[$j], ['pch' => 1]);
 
-			$res['disp_resform'] = check_elapsed_days($res); // ミニレスフォームの表示有無
+			$res['disp_resform'] = check_elapsed_days($res['time']); // ミニレスフォームの表示有無
 
 			// ミニフォーム用
 			// $resub = USE_RESUB ? 'Re: ' . $res['sub'] : '';
@@ -632,7 +633,7 @@ function res($resno = 0){
 
 	$res = create_res($_line, ['pch' => 1]);
 
-	if(!check_elapsed_days($res)){//レスフォームの表示有無
+	if(!check_elapsed_days($res['time'])){//レスフォームの表示有無
 		$dat['form'] = false;//フォームを閉じる
 		$dat['paintform'] = false;
 	}
@@ -752,6 +753,21 @@ function regist(){
 	$pictmp = filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
 	$picfile = newstring(filter_input(INPUT_POST, 'picfile'));
 
+	// パスワード未入力の時はパスワードを生成してクッキーにセット
+	$c_pass=str_replace("\t",'',filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
+	if($pwd===''){
+		if($pwdc){//Cookieはnullの可能性があるので厳密な型でチェックしない
+			$pwd=newstring($pwdc);
+			$c_pass=$pwdc;//エスケープ前の値
+		}else{
+			srand((double)microtime()*1000000);
+			$pwd = substr(rand(), 0, 8);
+			$c_pass=$pwd;
+		}
+	}
+
+	if(strlen($pwd) < 6) error(MSG046);
+
 	//画像アップロード
 	$upfile_name = isset($_FILES["upfile"]["name"]) ? basename($_FILES["upfile"]["name"]) : "";
 	$upfile = isset($_FILES["upfile"]["tmp_name"]) ? $_FILES["upfile"]["tmp_name"] : "";
@@ -824,21 +840,9 @@ function regist(){
 		}
 		chmod($dest,PERMISSION_FOR_DEST);
 	}
-
-
-	// パスワード未入力の時はパスワードを生成してクッキーにセット
-	$c_pass=str_replace("\t",'',filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
-	if($pwd===''){
-		if($pwdc){//Cookieはnullの可能性があるので厳密な型でチェックしない
-			$pwd=newstring($pwdc);
-			$c_pass=$pwdc;//エスケープ前の値
-		}else{
-			srand((double)microtime()*1000000);
-			$pwd = substr(rand(), 0, 8);
-			$c_pass=$pwd;
-		}
-	}
+	//パスワードハッシュ
 	$pass = $pwd ? password_hash($pwd,PASSWORD_BCRYPT,['cost' => 5]) : "*";
+
 	$date = now_date(time());//日付取得
 	if(DISP_ID){
 		$date .= " ID:" . getId($userip);
@@ -888,8 +892,8 @@ function regist(){
 		}
 	}
 	if($resto && isset($lineindex[$resto])){
-		list(,,,,,,,,,,,,$res['time'],) = explode(",", $line[$lineindex[$resto]]);
-		if(!check_elapsed_days($res)){//フォームが閉じられていたら
+		list(,,,,,,,,,,,,$_time,) = explode(",", $line[$lineindex[$resto]]);
+		if(!check_elapsed_days($_time)){//フォームが閉じられていたら
 			if($pictmp==2){//お絵かきは
 				$resto = '';//新規投稿
 			}else{
@@ -1901,22 +1905,25 @@ function editform(){
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
-	closeFile($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
 	$flag = FALSE;
 	foreach($line as $value){
 		if($value){
-			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,,,,$fcolor) = explode(",", rtrim($value));
+			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value));
 			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
 				$flag = TRUE;
 				break;
 			}
 		}
 	}
+	closeFile($fp);
 	if(!$flag) {
 		error(MSG028);
+	}
+	if((!$pwd || $pwd!==$ADMIN_PASS) && !check_elapsed_days($time)){//指定日数より古い記事の編集はエラーにする
+			error(MSG028);
 	}
 
 	$dat['post_mode'] = true;
@@ -1948,6 +1955,7 @@ function editform(){
 
 // 記事上書き
 function rewrite(){
+global $ADMIN_PASS;
 
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
@@ -2014,6 +2022,10 @@ function rewrite(){
 		}
 	}
 	if(!$flag){
+		closeFile($fp);
+		error(MSG028);
+	}
+	if((!$admin || $admin!==$ADMIN_PASS) && !check_elapsed_days($time)){//指定日数より古い記事の編集はエラーにする
 		closeFile($fp);
 		error(MSG028);
 	}
@@ -2669,9 +2681,9 @@ function getId ($userip) {
 }
 
 // 古いスレッドへの投稿を許可するかどうか
-function check_elapsed_days ($res) {
+function check_elapsed_days ($time) {
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
-		? ((time() - (int)(substr($res['time'], -13, -3))) <= ((int)ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
+		? ((time() - (int)(substr($time, -13, -3))) <= ((int)ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 
