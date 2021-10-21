@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.09.2');
-define('POTI_LOT','lot.211020'); 
+define('POTI_VER','v3.09.3');
+define('POTI_LOT','lot.211021'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -170,7 +170,7 @@ defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロー�
 defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
 defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
 defined('MSG045') or define('MSG045', 'アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。');
-defined('MSG046') or define('MSG046', 'パスワードが短ずぎます。最低6文字。');
+defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最低6文字。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
