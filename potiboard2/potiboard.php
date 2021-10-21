@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.09.1');
-define('POTI_LOT','lot.211017'); 
+define('POTI_VER','v3.09.2');
+define('POTI_LOT','lot.211020'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -761,7 +761,8 @@ function regist(){
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
 			srand((double)microtime()*1000000);
-			$pwd = substr(rand(), 0, 8);
+			$pwd = substr(md5(uniqid(rand())),2,15);
+			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
 			$c_pass=$pwd;
 		}
 	}
