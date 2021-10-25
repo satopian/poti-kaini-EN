@@ -1,7 +1,7 @@
 <?php
 /*
   * POTI-board EVO v3.03.6 lot.210712
-  * by POTI-kai >> https://pbbs.sakura.ne.jp/poti/
+  * by POTI-kai >> https://paintbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board EVO
   * Japanese is left in the comments for the convenience of translation.

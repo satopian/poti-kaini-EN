@@ -1,7 +1,7 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   POTI-board Kai-Ni
-  by POTI-board redevelopment team. >> https://pbbs.sakura.ne.jp/poti/?en=on
+  by POTI-board redevelopment team. >> https://paintbbs.sakura.ne.jp/poti/?en=on
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

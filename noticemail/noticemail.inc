@@ -4,7 +4,7 @@
 **
 ** http://www.punyu.net/php/
 ** by SakaQ
-** https://pbbs.sakura.ne.jp/poti/
+** https://paintbbs.sakura.ne.jp/poti/
 ** by POTI改
 **
 ** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。

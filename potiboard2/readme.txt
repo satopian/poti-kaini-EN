@@ -1,7 +1,7 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   POTI-board改二
-  by POTI改 >> https://pbbs.sakura.ne.jp/poti/
+  by POTI改 >> https://paintbbs.sakura.ne.jp/poti/
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -11,7 +11,7 @@ define('POTI_LOT','lot.211021');
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
-  >> https://pbbs.sakura.ne.jp/poti/
+  >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
   *   POTI-board v1.32
@@ -43,7 +43,7 @@ define('POTI_LOT','lot.211021');
 
 このスクリプトの改造部分に関する質問は「レッツPHP!」
 「ふたば★ちゃんねる」「ぷにゅねっと」に問い合わせないでください。
-ご質問は、<https://pbbs.sakura.ne.jp/poti/>までどうぞ。
+ご質問は、<https://paintbbs.sakura.ne.jp/poti/>までどうぞ。
 */
 
 if (($phpver = phpversion()) < "5.5.0") {

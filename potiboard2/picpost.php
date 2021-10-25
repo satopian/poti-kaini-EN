@@ -1,7 +1,7 @@
 <?php
 //----------------------------------------------------------------------
 // picpost.php lot.210517  by SakaQ >> http://www.punyu.net/php/
-// & POTI改 >> https://pbbs.sakura.ne.jp/poti/
+// & POTI改 >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
 //

@@ -2,7 +2,7 @@
 //POTI-board plugin search(C)2020-2021 さとぴあ(@satopian)
 //v1.7.1 lot.210825
 //
-//https://pbbs.sakura.ne.jp/
+//https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
 
 //使用条件。

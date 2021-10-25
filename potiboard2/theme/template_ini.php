@@ -1,6 +1,6 @@
 <?php
 /*
-  * Template - MONO-en by sakots  >> https://pbbs.sakura.ne.jp/poti/?en=on
+  * Template - MONO-en by sakots  >> https://paintbbs.sakura.ne.jp/poti/?en=on
   *
   * Template setting file of potiboard.php(v2.21.4～)
   *

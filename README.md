@@ -13,7 +13,7 @@ The HTML5 version of [PaintBBS NEO](https://github.com/funige/neo/) is still ava
 
 This is a project to translate [POTI-board EVO](https://github.com/satopian/poti-kaini/) into English.
 
-[POTI-board Kai official website](https://pbbs.sakura.ne.jp/poti/?en=on) English.
+[POTI-board Kai official website](https://paintbbs.sakura.ne.jp/poti/?en=on) English.
 
 ## Required php version
 
