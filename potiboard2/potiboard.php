@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.09.3');
-define('POTI_LOT','lot.211021'); 
+define('POTI_VER','v3.09.5');
+define('POTI_LOT','lot.211027'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -138,9 +138,7 @@ defined('USE_SELECT_PALETTES') or define('USE_SELECT_PALETTES', '0');
 defined('DO_NOT_CHANGE_POSTS_TIME') or define('DO_NOT_CHANGE_POSTS_TIME', '0');
 
 //画像なしのチェックボックスを使用する する:1 しない:0 
-defined('USE_CHECK_NO_FILE') or define('USE_CHECK_NO_FILE', '1');
-//コメント内のHTMLタグをHTMLとして表示する する:1 しない:0
-defined('DISPLAY_HTML_TAGS_IN_THE_COMMENT_AS_HTML') or define('DISPLAY_HTML_TAGS_IN_THE_COMMENT_AS_HTML', '0');
+defined('USE_CHECK_NO_FILE') or define('USE_CHECK_NO_FILE', '0');
 //CSRFトークンを使って不正な投稿を拒絶する する:1 しない:0
 defined('CHECK_CSRF_TOKEN') or define('CHECK_CSRF_TOKEN', '0');
 
