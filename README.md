@@ -26,6 +26,21 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+### [2021/10/27] v3.09.5
+
+- To prevent the use of weak passwords, an error message will be displayed when the password is 5 characters or less. The error message is "Password is too short. At least 6 characters."
+- In order to prevent tampering with articles by third parties, the function to lock replies to threads older than the set number of days has been expanded to lock editing of old articles.
+You can delete it. In addition, the administrator can edit and delete as before.
+
+- If you used the old config.php that doesn't have the following settings, you had to check or uncheck [no_imane].  
+>// Use to the checkbox of [no_imane], do:'1', do not:'0'  
+define('USE_CHECK_NO_FILE', '0');  
+
+we changed this default value from "do:'1'" to "do not:'0'".  
+Previously, even if you were using a new theme HTML file, you had to check or uncheck "[no_imane]" when the version of config.php was old.  
+- Changing the copyright link on the site. [https://paintbbs.sakura.ne.jp/poti/](https://paintbbs.sakura.ne.jp/poti/)
+
+
 ### [2021/09/28] v3.08.1.1
 
 - Fixed a bug in POTI-board EVO v3.08.1.  
