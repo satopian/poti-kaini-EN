@@ -29,9 +29,10 @@ Please also use the English version of the theme created by @boxfries.
 ## [2021/10/30] v3.10.0 Fixed a serious bug
 
 - A serious flaw was found in all previous versions of POTI-board.
-The url length was not checked. Please upgrade to the latest version as soon as possible.
-For those who are using POTI-board v2.
-You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.
+The url length was not checked. Please upgrade to the latest version as soon as possible.  
+For those who are using POTI-board v2.  
+You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.  
+
 Please update `potiboard.php` by overwriting.
 
 More information can be found in the release.  
