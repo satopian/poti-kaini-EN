@@ -26,6 +26,17 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2021/10/30] v3.10.0 Fixed a serious bug
+
+- A serious flaw was found in all previous versions of POTI-board.
+The url length was not checked. Please upgrade to the latest version as soon as possible.
+For those who are using POTI-board v2.
+You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.
+Please update `potiboard.php` by overwriting.
+
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.10.0](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.10.0)
+
 ### [2021/10/27] v3.09.5
 
 - To prevent the use of weak passwords, an error message will be displayed when the password is 5 characters or less. The error message is "Password is too short. At least 6 characters."
