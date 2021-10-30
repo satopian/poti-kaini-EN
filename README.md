@@ -28,8 +28,8 @@ Please also use the English version of the theme created by @boxfries.
 
 ## [2021/10/31] v3.10.1 
 - Added password length check. 
+- Moved the length check of each input item to the first half of the process.
 
-Moved the length check of each input item to the first half of the process.
 Fixed a minor error that occurred when displaying the management screen.
 The file needed to fix this issue is potiboard.php.
 Please update `potiboard.php` by overwriting.
