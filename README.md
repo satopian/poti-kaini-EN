@@ -26,7 +26,7 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-[2021/10/31] v3.10.1 
+## [2021/10/31] v3.10.1 
 - Added password length check. 
 
 Moved the length check of each input item to the first half of the process.
