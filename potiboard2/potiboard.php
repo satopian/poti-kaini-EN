@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.09.5');
-define('POTI_LOT','lot.211027'); 
+define('POTI_VER','v3.10.0');
+define('POTI_LOT','lot.211030'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -2348,6 +2348,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(strlen($com) > MAX_COM) error(MSG011,$dest);
 	if(strlen($name) > MAX_NAME) error(MSG012,$dest);
 	if(strlen($email) > MAX_EMAIL) error(MSG013,$dest);
+	if(strlen($url) > 200) error(MSG015,$dest);
 	if(strlen($sub) > MAX_SUB) error(MSG014,$dest);
 	if(USE_NAME&&!$name) error(MSG009,$dest);
 	if(USE_COM&&!$com) error(MSG008,$dest);
