@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.10.0');
-define('POTI_LOT','lot.211030'); 
+define('POTI_VER','v3.10.1');
+define('POTI_LOT','lot.211031'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -746,7 +746,7 @@ function regist(){
 	$host = gethostbyaddr($userip);
 	check_badip($host);
 	//NGワードがあれば拒絶
-	Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub);
+	Reject_if_NGword_exists_in_the_post();
 
 	$pictmp = filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
 	$picfile = newstring(filter_input(INPUT_POST, 'picfile'));
@@ -1315,6 +1315,7 @@ function admindel($pass){
 			'no' => $no,
 			'host' => $host,
 			'clip' => "",
+			'chk' => "",
 		] ;
 		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
 		$res['name'] = strip_tags($name);//タグ除去
@@ -1978,7 +1979,7 @@ global $ADMIN_PASS;
 	$host = gethostbyaddr($userip);
 	check_badip($host);
 	//NGワードがあれば拒絶
-	Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub);
+	Reject_if_NGword_exists_in_the_post();
 
 	// 時間
 	$date = now_date(time());//日付取得
@@ -2296,9 +2297,25 @@ function charconvert($str){
 }
 
 // NGワードがあれば拒絶
-function Reject_if_NGword_exists_in_the_post($com,$name,$email,$url,$sub){
+function Reject_if_NGword_exists_in_the_post(){
 	global $badstring,$badname,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
+
+	$com = filter_input(INPUT_POST, 'com');
+	$name = filter_input(INPUT_POST, 'name');
+	$email = filter_input(INPUT_POST, 'email');
+	$sub = filter_input(INPUT_POST, 'sub');
+	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$pwd = filter_input(INPUT_POST, 'pwd');
+
+	if(strlen($com) > MAX_COM) error(MSG011);
+	if(strlen($name) > MAX_NAME) error(MSG012);
+	if(strlen($email) > MAX_EMAIL) error(MSG013);
+	if(strlen($sub) > MAX_SUB) error(MSG014);
+	if(strlen($url) > 200) error(MSG015);
+	if(strlen($pwd) > 72) error(MSG015);
+
 	//チェックする項目から改行・スペース・タブを消す
+
 	$chk_com  = preg_replace("/\s/u", "", $com );
 	$chk_name = preg_replace("/\s/u", "", $name );
 	$chk_email = preg_replace("/\s/u", "", $email );
@@ -2345,15 +2362,9 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
-	if(strlen($com) > MAX_COM) error(MSG011,$dest);
-	if(strlen($name) > MAX_NAME) error(MSG012,$dest);
-	if(strlen($email) > MAX_EMAIL) error(MSG013,$dest);
-	if(strlen($url) > 200) error(MSG015,$dest);
-	if(strlen($sub) > MAX_SUB) error(MSG014,$dest);
 	if(USE_NAME&&!$name) error(MSG009,$dest);
 	if(USE_COM&&!$com) error(MSG008,$dest);
 	if(USE_SUB&&!$sub) error(MSG010,$dest);
-	
 
 	// 改行コード
 	$com = str_replace(["\r\n","\r"], "\n", $com);
