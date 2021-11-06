@@ -76,6 +76,7 @@ define('MSG043', "is not writable");
 define('MSG044', "[Either the MAX LOG is not set, or it contains a non-numeric string.]");
 define('MSG045', "[This file does not supported by the ability to load uploaded files onto the canvas.]<br>[Supported formats are pch, spch and chi.]");
 define('MSG046', "[The password is too short. At least 6 characters.]");
+define('MSG047', "[The size of the picture is too large. You can not continue.]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'

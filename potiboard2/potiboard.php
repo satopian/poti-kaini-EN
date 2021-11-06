@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.10.5');
-define('POTI_LOT','lot.211031'); 
+define('POTI_VER','v3.11.1');
+define('POTI_LOT','lot.211105'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -169,6 +169,7 @@ defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り�
 defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
 defined('MSG045') or define('MSG045', 'アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。');
 defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最低6文字。');
+defined('MSG047') or define('MSG047', '画像の幅と高さが大きすぎるため続行できません。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -1465,15 +1466,6 @@ function paintform(){
 
 	if(strlen($pwd) > 72) error(MSG015);
 
-	if($picw < 300) $picw = 300;
-	if($pich < 300) $pich = 300;
-	if($picw > PMAX_W) $picw = PMAX_W;
-	if($pich > PMAX_H) $pich = PMAX_H;
-
-	//Cookie保存
-	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
-	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
-	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
 	$useneo=filter_input(INPUT_POST, 'useneo',FILTER_VALIDATE_BOOLEAN);
@@ -1549,6 +1541,9 @@ function paintform(){
 		$dat['ext'] = $ext;
 		$dat['applet'] = true;
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
+		if($shi==='chicken' && ($picw > PMAX_W)) error(MSG047);
+		if($shi==='chicken' && ($pich > PMAX_H)) error(MSG047);	
+	
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch);
 		if($is_mobile && ($_pch_ext==='.spch')){
 			$ctype='img';
@@ -1595,6 +1590,11 @@ function paintform(){
 	if(!$useneo){
 		$useneo=$is_mobile;//mobileの時はNEOしか起動しない。
 	}
+	if($picw < 300) $picw = 300;
+	if($pich < 300) $pich = 300;
+	if($picw > PMAX_W) $picw = PMAX_W;
+	if($pich > PMAX_H) $pich = PMAX_H;
+
 
 	if(!$useneo && $shi){
 	$w = $picw + 510;//しぃぺの時の幅
@@ -1685,7 +1685,14 @@ function paintform(){
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode	;
 		$usercode.='&repcode='.$repcode;
 	}
+
 	$dat['usercode'] = $usercode;
+
+	//Cookie保存
+	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
+	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
+	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
+
 	htmloutput(SKIN_DIR.PAINTFILE,$dat);
 }
 
@@ -2107,7 +2114,7 @@ function replace(){
 	$pwd=openssl_decrypt($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//復号化
 
 	foreach($line as $i => $value){
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$max_w,$max_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
+		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
 			$upfile = $temppath.$file_name.$imgext;
@@ -2145,7 +2152,17 @@ function replace(){
 
 			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
-			//縮小表示 元のサイズを最大値にセット
+			$trees=file(TREEFILE);
+
+			$oya=false;
+			foreach ($trees as $tree) {
+				if (strpos(trim($tree) . ',', $no . ',') === 0) {
+					$oya=true;
+					break;
+				}
+			}
+			$max_w = $oya ? MAX_W : MAX_RESW ;
+			$max_h = $oya ? MAX_H : MAX_RESH ;
 			list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 	
 			//サムネイル作成
