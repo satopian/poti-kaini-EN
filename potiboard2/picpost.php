@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.211031  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.211108  by SakaQ >> http://www.punyu.net/php/
 // & POTI改 >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2021/11/08 CSRF対策にusercodeを使用。cookieが確認できない場合は画像を保存しない。
 // 2021/10/31 エラー発生時は、ユーザーのキャンバスにエラー内容が表示されるためシステムログへのエラーログの保存処理を削除した。
 // 2021/05/17 エラーが発生した時はお絵かき画面から移動せず、エラーの内容を表示する。
 // 2021/02/17 $badfileが未定義の時は拒絶画像の処理をしない。
@@ -23,7 +24,6 @@
 // 2020/01/25 REMOTE_ADDRが取得できないサーバに対応
 // 2019/12/03 軽微なエラー修正。datファイルのパーミッションを600に
 // 2018/07/13 動画が記録できなくなっていたのを修正
-// 2018/06/14 軽微なエラー修正
 // 2018/01/12 php7対応
 // 2005/06/04 容量違反・画像サイズ違反・拒絶画像のチェックを追加
 // 2005/02/14 差し換え時の認識コードrepcodeを投稿者情報に追加
@@ -108,6 +108,27 @@ if($imgh=="PNG\r\n"){
 }else{
 	$imgext = '.jpg';	// JPEG
 }
+/* ---------- 投稿者情報記録 ---------- */
+$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
+// 拡張ヘッダーを取り出す
+$sendheader = substr($buffer, 1 + 8, $headerLength);
+if($sendheader){
+	$sendheader = str_replace("&amp;", "&", $sendheader);
+	parse_str($sendheader, $u);
+	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
+	$resto = isset($u['resto']) ? $u['resto'] : '';
+	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
+	$stime = isset($u['stime']) ? $u['stime'] : '';
+	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
+	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
+}
+$userdata .= "\n";
+
+//CSRF
+if($usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+	die("error\n{$errormsg_1}");
+}
+
 $full_imgfile = TEMP_DIR.$imgfile.$imgext;
 // 画像データをファイルに書き込む
 $fp = fopen($full_imgfile,"wb");
@@ -168,25 +189,6 @@ if($pchLength){
 	}
 }
 
-/* ---------- 投稿者情報記録 ---------- */
-$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-// 拡張ヘッダーを取り出す
-$sendheader = substr($buffer, 1 + 8, $headerLength);
-if($sendheader){
-	$sendheader = str_replace("&amp;", "&", $sendheader);
-	$query_str = explode("&", $sendheader);
-	foreach($query_str as $query_s){
-		list($name,$value) = explode("=", $query_s);
-		$u[$name] = $value;
-	}
-	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
-	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
-	$stime = isset($u['stime']) ? $u['stime'] : '';
-	$resto = isset($u['resto']) ? $u['resto'] : '';
-	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
-}
-$userdata .= "\n";
 // 情報データをファイルに書き込む
 $fp = fopen(TEMP_DIR.$imgfile.".dat","w");
 if(!$fp){

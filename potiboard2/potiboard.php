@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.11.1');
-define('POTI_LOT','lot.211105'); 
+define('POTI_VER','v3.12.2');
+define('POTI_LOT','lot.211108'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -646,7 +646,7 @@ function res($resno = 0){
 	$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
 	$res['limit'] = ($lineindex[$res['no']] >= $logmax * LOG_LIMIT / 100) ? true : false; // そろそろ消える。
 	$res['resub'] = $resub;
-	$res['descriptioncom'] = strip_tags($res['com']); //メタタグに使うコメントからタグを除去
+	$res['descriptioncom'] = h(strip_tags(mb_strcut($res['com'],0,300))); //メタタグに使うコメントからタグを除去
 
 	$dat['oya'][0] = $res;
 

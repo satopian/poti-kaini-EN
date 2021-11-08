@@ -20,16 +20,20 @@ function chibi_die($message) {
 	die("CHIBIERROR $message");
 }
 
+header('Content-type: text/plain');
+
 if (!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK
 		|| isset($_FILES['chibifile']) && $_FILES['chibifile']['error'] != UPLOAD_ERR_OK) {
 	chibi_die("Your picture upload failed! Please try again!");
 }
 
-header('Content-type: text/plain');
-
+$usercode = (string)filter_input(INPUT_GET, 'usercode');
+//csrf
+if($usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+	chibi_die("Your picture upload failed! Please try again!");
+}
 $rotation = isset($_POST['rotation']) && ((int) $_POST['rotation']) > 0 ? ((int) $_POST['rotation']) : 0;
 
-$success = TRUE;
 
 if(SIZE_CHECK && ($_FILES['picture']['size'] > (PICTURE_MAX_KB * 1024))){
 
@@ -40,11 +44,11 @@ if(isset($_FILES['chibifile']) && ($_FILES['chibifile']['size'] > CHIBI_MAX_KB *
 	chibi_die("Your picture upload failed! Please try again!");
 }
 
-list($w,$h)=getimagesize($_FILES['picture']['tmp_name']);
-
 if(mime_content_type($_FILES['picture']['tmp_name'])!=='image/png'){
-    chibi_die("Your picture upload failed! Please try again!");
+	chibi_die("Your picture upload failed! Please try again!");
 }
+
+list($w,$h)=getimagesize($_FILES['picture']['tmp_name']);
 
 if($w > PMAX_W || $h > PMAX_H){//幅と高さ
 	//規定サイズ違反を検出しました。画像は保存されません。
@@ -61,7 +65,7 @@ if(isset($badfile)&&is_array($badfile)){
 		}
 	}
 }
-
+$success = TRUE;
 $success = $success && move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
 if (isset($_FILES["chibifile"])) {
@@ -85,16 +89,12 @@ $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-// 拡張ヘッダーを取り出す
-
-	$usercode = (string)filter_input(INPUT_GET, 'usercode');
-	$repcode = (string)filter_input(INPUT_GET, 'repcode');
-	$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
-	$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-
-	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
-	$userdata .= "\n";
+$repcode = (string)filter_input(INPUT_GET, 'repcode');
+$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
+$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
+//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
+$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
+$userdata .= "\n";
 // 情報データをファイルに書き込む
 $fp = fopen(TEMP_DIR.$imgfile.".dat","w");
 if(!$fp){
