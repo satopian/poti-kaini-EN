@@ -44,7 +44,7 @@ You cannot use all the functions of v3 system just by replacing `potiboard.php`,
 Please update `potiboard.php` by overwriting.
 
 More information can be found in the release.  
-[Release POTI-board EVO EN v3.10.0](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.10.0)
+[Release POTI-board EVO EN v3.10.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.10.1)
 
 ### [2021/10/27] v3.09.5
 
