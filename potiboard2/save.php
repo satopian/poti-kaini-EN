@@ -29,7 +29,7 @@ if (!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK
 
 $usercode = (string)filter_input(INPUT_GET, 'usercode');
 //csrf
-if($usercode && $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
 	chibi_die("Your picture upload failed! Please try again!");
 }
 $rotation = isset($_POST['rotation']) && ((int) $_POST['rotation']) > 0 ? ((int) $_POST['rotation']) : 0;

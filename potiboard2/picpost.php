@@ -38,9 +38,9 @@
 
 //設定
 include(__DIR__.'/config.php');
+$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
+  ? explode( ',', $http_langs )[0] : '';
 
-$lang = ($http_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'])
-  ? explode( ',', $http_langs )[0] : 'ja';
 if($lang==="ja"){//ブラウザの言語が日本語の時
 	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
@@ -125,7 +125,7 @@ if($sendheader){
 $userdata .= "\n";
 
 //CSRF
-if($usercode && $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_1}");
 }
 
