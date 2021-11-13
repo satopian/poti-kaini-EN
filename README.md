@@ -50,6 +50,11 @@ Previously, the cookie was set to 8000px even in such cases.
 - Checks the length of the reply number and returns an error if the length is incorrect.
 - Fixed the specification that the full text of the parent's comment is displayed in the description of the article displayed on the reply screen, and now omits 300 bytes or more.
 
+Please update potiboard.php.
+### picpost.php and save.php updates
+- In order to mitigate unauthorized posting from external sites, the usercode set in the usercode and cookie during post processing is now checked.
+
+Please update picpost.php and save.php.
 ## [2021/10/31] v3.10.1 
 - Added password length check. 
 - Moved the length check of each input item to the first half of the process.
