@@ -37,6 +37,19 @@ Please also use the English version of the theme created by @boxfries.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2021/11/08] v3.12.2
+
+### potiboard.php updates
+
+- Fixed the calculation method of the width and height of the thumbnail image and the width and height of the HTML image when drawing the continuation.
+The setting value of connfig.php is set as the maximum value and the calculation is restarted from the beginning.
+In ChickenPaint, you can change the height and width of the image by rotating it, but until now, the size of the thumbnail image became smaller each time it was rotated.
+- The actual canvas size is now set in the cookie. Previously, the value entered by the user was set as is. Since there is a maximum value for the canvas size, for example, when the maximum is 800px, even if you enter 8000px, the actual canvas size that opens is 800px.
+Previously, the cookie was set to 8000px even in such cases.
+- An error is now returned when a file name with an invalid length is entered.
+- Checks the length of the reply number and returns an error if the length is incorrect.
+- Fixed the specification that the full text of the parent's comment is displayed in the description of the article displayed on the reply screen, and now omits 300 bytes or more.
+
 ## [2021/10/31] v3.10.1 
 - Added password length check. 
 - Moved the length check of each input item to the first half of the process.
