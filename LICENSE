@@ -8,10 +8,9 @@ Feel free to modify or redistribute it.
 
 Each module is subject to its own license
 
-search.php - Copyright (C) 2020 satopian
-PaintBBS NEO - Copyright (C) 2020 funige
-Skinny - Copyright (C) 2019 Kuasuki
+Skinny - Copyright (C) 2019 Kuasuki http://skinny.sx68.net/
+search.php - Copyright (C) 2020-2021 satopian
 DynamicPalette - Copyright (C) 2005 noraneko
 PaintBBS, Shi-Painter, PCH Viewer - Copyright (C) 2004 shi-chan
-ChickenPaint Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/> GNU GENERAL PUBLIC LICENSE Version 3
-Revised 2021/05/11  by Nicholas Sherlock. 
+PaintBBS NEO - Copyright (C) 2016-2021 funige https://github.com/funige/neo
+ChickenPaint Copyright (C) GNU GENERAL PUBLIC LICENSE Version 3 by Nicholas Sherlock. https://github.com/thenickdude/chickenpaint
