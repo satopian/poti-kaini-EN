@@ -4,7 +4,7 @@
 - POTI-board prior to v2.26.0 is vulnerable to XSS.
 Malicious JavaScript can be executed.
 
-- All versions of POTI-board prior to v3.09.5 have a serious bug.
+- All versions of POTI-board prior to v3.09.5 have a serious bug.  
 You may lose all log files.
 
 Please update `potiboard.php` with v3.10.1 or later by overwriting.
@@ -47,8 +47,9 @@ Please update `potiboard.php` by overwriting.
 
 ## [2021/10/30] v3.10.0 Fixed a serious bug
 
-- A serious flaw was found in all previous versions of POTI-board.
-The url length was not checked. Please upgrade to the latest version as soon as possible.  
+- All versions of POTI-board prior to v3.09.5 have a serious bug.  
+You may lose all log files.
+
 For those who are using POTI-board v2.  
 You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.  
 
