@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.5.14";
+Neo.version = "1.5.15";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -810,7 +810,7 @@ Neo.initButtons = function () {
   Neo.fillButton = new Neo.FillButton().init("fill");
   Neo.rightButton = new Neo.RightButton().init("right");
 
-  if (Neo.isMobile()) {
+  if (Neo.isMobile() || Neo.config.neo_show_right_button == "true") {
     Neo.rightButton.element.style.display = "block";
   }
 

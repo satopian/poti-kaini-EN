@@ -195,6 +195,8 @@
 					<% def(paintbbs) %>
 					<% def(useneo) %>
 					<applet-dummy code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="<% echo(w) %>" height="<% echo(h) %>" mayscript>
+					<param name="neo_confirm_unload" value="true">
+					<param name="neo_show_right_button" value="true">
 					<% elsedef %>
 					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="<% echo(w) %>" height="<% echo(h) %>" mayscript>
 					<% /def %>
@@ -245,7 +247,6 @@
 						<param name="security_post" value="false">
 						<% /def %>
 					<% def(useneo) %>
-						<param name="neo_confirm_unload" value="true">
 					</applet-dummy>
 					<% elsedef %>
 					</applet>
