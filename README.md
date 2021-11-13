@@ -1,5 +1,16 @@
 # POTI-board EVO EN
 
+## Serious bugs in older versions
+- POTI-board prior to v2.26.0 is vulnerable to XSS.
+Malicious JavaScript can be executed.
+
+- All versions of POTI-board prior to v3.09.5 have a serious bug.
+You may lose all log files.
+
+Please update `potiboard.php` with v3.10.1 or later by overwriting.
+For those who are using the old version v2.x system.
+Please update `potiboard.php` by overwriting. Overwriting updates to `potiboard.php` alone can address the above two major issues.
+
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
 ![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
