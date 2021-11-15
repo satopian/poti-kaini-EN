@@ -35,6 +35,18 @@ This oekaki board can be used by switching themes.
 Please also use the English version of the theme created by @boxfries.  
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
+### To change the color scheme of the Default theme MONO
+MONO's HTML and CSS have been significantly updated in v3.07.5.  
+Therefore, if you use a CSS file older than v3.07.5, some designs will not be displayed correctly.  
+For example, footers and catalogs don't look as intended.  
+If you want to change only the color scheme, please use the SCSS repository for development.  
+
+[satopian / poti-kaini-themes: MONO for POTI-board EVO](https://github.com/satopian/poti-kaini-themes)  
+
+It's easy to change the color scheme because the settings are separated for the color scheme and other designs.  
+However, an environment that can handle SCSS is required.  
+For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [Live Sass Compiler](https:///marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass).   
+
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
 ## [2021/11/08] v3.12.2
