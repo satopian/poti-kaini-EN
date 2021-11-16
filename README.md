@@ -1,5 +1,16 @@
 # POTI-board EVO EN
 
+## Serious bugs in older versions
+- POTI-board prior to v2.26.0 is vulnerable to XSS.  
+Malicious JavaScript can be executed.
+
+- All versions of POTI-board prior to v3.09.5 have a serious bug.  
+You may lose all log files.
+
+Please update `potiboard.php` with v3.10.1 or later by overwriting.
+For those who are using the old version v2.x system.
+Please update `potiboard.php` by overwriting. Overwriting updates to `potiboard.php` alone can address the above two major issues.
+
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
 ![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
@@ -24,7 +35,41 @@ This oekaki board can be used by switching themes.
 Please also use the English version of the theme created by @boxfries.  
 [boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
 
+### To change the color scheme of the Default theme MONO
+MONO's HTML and CSS have been significantly updated in v3.07.5.  
+Therefore, if you use a CSS file older than v3.07.5, some designs will not be displayed correctly.  
+For example, footers and catalogs don't look as intended.  
+If you want to change only the color scheme, please use the SCSS repository for development.  
+
+[satopian / poti-kaini-themes: MONO for POTI-board EVO](https://github.com/satopian/poti-kaini-themes)  
+
+It's easy to change the color scheme because the settings are separated for the color scheme and other designs.  
+However, an environment that can handle SCSS is required.  
+For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [Live Sass Compiler](https:///marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass).   
+
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+## [2021/11/08] v3.12.2
+
+### `potiboard.php` updates
+
+- Fixed the calculation method of the width and height of the thumbnail image and the width and height of the HTML image when drawing the continuation.
+The setting value of connfig.php is set as the maximum value and the calculation is restarted from the beginning.
+In ChickenPaint, you can change the height and width of the image by rotating it, but until now, the size of the thumbnail image became smaller each time it was rotated.
+- The actual canvas size is now set in the cookie. Previously, the value entered by the user was set as is. Since there is a maximum value for the canvas size, for example, when the maximum is 800px, even if you enter 8000px, the actual canvas size that opens is 800px.
+Previously, the cookie was set to 8000px even in such cases.
+- An error is now returned when a file name with an invalid length is entered.
+- Checks the length of the reply number and returns an error if the length is incorrect.
+- Fixed the specification that the full text of the parent's comment is displayed in the description of the article displayed on the reply screen, and now omits 300 bytes or more.
+
+Please update `potiboard.php`.
+### `picpost.php` and `save.php` updates
+- In order to mitigate unauthorized posting from external sites, the usercode set in the usercode and cookie during post processing is now checked.
+
+Please update `picpost.php` and `save.php`.
+
+More information can be found in the release.  
+[Release POTI-board EVO EN v3.12.2 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.12.2)
 
 ## [2021/10/31] v3.10.1 
 - Added password length check. 
@@ -36,8 +81,9 @@ Please update `potiboard.php` by overwriting.
 
 ## [2021/10/30] v3.10.0 Fixed a serious bug
 
-- A serious flaw was found in all previous versions of POTI-board.
-The url length was not checked. Please upgrade to the latest version as soon as possible.  
+- All versions of POTI-board prior to v3.09.5 have a serious bug.  
+You may lose all log files.
+
 For those who are using POTI-board v2.  
 You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.  
 
