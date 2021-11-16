@@ -169,7 +169,7 @@
 						<input type="hidden" name="MAX_FILE_SIZE" value="<% echo(maxbyte) %>">
 						<table>
 							<tr>
-								<td>name<% def(usename) %><% echo(usename) %><% /def %></td>
+								<td>Name<% def(usename) %><% echo(usename) %><% /def %></td>
 								<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username"></td>
 							</tr>
 							<tr>
@@ -348,9 +348,9 @@
 						<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
 						Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
 						<select class="form" name="mode" tabindex="1">
-							<option value="edit" selected>edit</option>
+							<option value="edit" selected>Edit</option>
 							<% def(userdel) %>
-							<option value="usrdel">delete</option>
+							<option value="usrdel">Delete</option>
 							<% /def %>
 						</select>
 						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>

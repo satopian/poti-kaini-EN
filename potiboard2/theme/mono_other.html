@@ -84,7 +84,7 @@
 						<% def(use_select_palettes) %>
 						Palette :<select name="selected_palette_no" title="Palette" class="form"><% echo(palette_select_tags) %></select>
 						<% /def %>
-						<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback (Time lapse)" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback</label><% /def %>
+						<% def(anime) %><label><input type="checkbox" value="true" name="anime" title="Save Playback" <% def(animechk) %><% echo(animechk) %><% /def %>>Save Playback</label><% /def %>
 						<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi" title="pch upload">
 						<input type="hidden" name="mode" value="paint">
 						<input type="hidden" name="admin" value="<% echo(admin) %>">
@@ -232,12 +232,12 @@
 				<div class="thread">
 					<h2 class="oekaki">Admin mode</h2>
 					<form action="<% echo(self) %>" method="post" class="adminin">
-						<label><input type="radio" name="admin" value="update" checked>UPDATE</label>
-						<label><input type="radio" name="admin" value="del">DELETE</label>
-						<label><input type="radio" name="admin" value="post">ADMIN POST</label>
+						<label><input type="radio" name="admin" value="update" checked>Update</label>
+						<label><input type="radio" name="admin" value="del">Manage posts</label>
+						<label><input type="radio" name="admin" value="post">Admin Post</label>
 						<input type="hidden" name="mode" value="admin">
 						<input class="form" type="password" name="pass" size="8">
-						<input class="button" type="submit" value="ADMIN IN">
+						<input class="button" type="submit" value="Admin In">
 					</form>
 				</div>
 			</section>
@@ -268,9 +268,9 @@
 								<th>Check</th>
 								<th>No</th>
 								<th>Time</th>
-								<th>subject</th>
-								<th>name</th>
-								<th>comment</th>
+								<th>Subject</th>
+								<th>Name</th>
+								<th>Comment</th>
 								<th>Host</th>
 								<th>Image (Bytes) md5</th>
 							</tr>
@@ -322,7 +322,7 @@
 				<div class="thread">
 					<h2 class="oekaki">ERROR</h2>
 					<p class="err"><% echo(mes) %></p>
-					<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[back]</a></p>
+					<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[Back]</a></p>
 					<!-- <p><a href="<% echo(self2) %>">[reload]</a></p> -->
 				</div>
 			</section>
