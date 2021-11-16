@@ -239,12 +239,12 @@ if($query!==''&&$radio===3){
 	$dat['h1']=$query.'\'s '.$img_or_com;//h1タグに入る
 }
 elseif($query!==''){
-	$dat['title']='postes by '.$query;
-	$dat['h1']='postes by '.$query;
+	$dat['title']='posts by '.$query;
+	$dat['h1']='posts by '.$query;
 }
 else{
-	$dat['title']='new postes';
-	$dat['h1']='new postes';
+	$dat['title']='new posts';
+	$dat['h1']='new posts';
 }
 
 //ページング

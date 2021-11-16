@@ -76,18 +76,18 @@
 		<header id="header">
 			<h1><a href="<% echo(self2) %>"><% echo(title) %></a></h1>
 			<div>
-				<a href="<% echo(home) %>" target="_top">[home]</a>
-				<a href="<% echo(self) %>?mode=admin">[admin mode]</a>
+				<a href="<% echo(home) %>" target="_top">[Home]</a>
+				<a href="<% echo(self) %>?mode=admin">[Admin mode]</a>
 			</div>
 			<hr>
 			<div>
 				<nav class="menu">
-					<a href="<% echo(self2) %>">[top]</a>
+					<a href="<% echo(self2) %>">[Top]</a>
 					<% def(for_new_post) %>
-					<a href="<% echo(self) %>?mode=newpost">[post]</a>
+					<a href="<% echo(self) %>?mode=newpost">[Post]</a>
 					<% /def %>
-					<a href="<% echo(self) %>?mode=catalog">[catalog]</a>
-					[normal mode]
+					<a href="<% echo(self) %>?mode=catalog">[Catalog]</a>
+					[Normal mode]
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Recover Images]</a>
 					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
@@ -125,8 +125,8 @@
 				<div class="epost">
 					<form action="<% echo(self) %>" method="post" enctype="multipart/form-data">
 						<p>
-							width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
-							height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
+							Width :<input name="picw" type="number" title="width" class="form" value="<% echo(pdefw) %>" min="300" max="<% echo(pmaxw) %>">
+							Height :<input name="pich" type="number" title="height" class="form" value="<% echo(pdefh) %>" min="300" max="<% echo(pmaxh) %>">
 							<% def(select_app) %>
 							Tool:
 							<select name="shi">
@@ -173,22 +173,22 @@
 								<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username"></td>
 							</tr>
 							<tr>
-								<td>mail</td>
+								<td>Mail</td>
 								<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email"></td>
 							</tr>
 							<tr>
-								<td>URL</td>
+								<td>Url</td>
 								<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
 							</tr>
 							<tr>
-								<td>sub<% def(usesub) %><% echo(usesub) %><% /def %></td>
+								<td>Sub<% def(usesub) %><% echo(usesub) %><% /def %></td>
 								<td>
 									<input class="form" type="text" name="sub" size="20" value="<% def(resub) %><% echo(resub) %><% /def %>" autocomplete="section-sub">
-									<input class="button" type="submit" value="WRITE">
+									<input class="button" type="submit" value="Post">
 								</td>
 							</tr>
 							<tr>
-								<td>com<% def(usecom) %><% echo(usecom) %><% /def %></td>
+								<td>Com<% def(usecom) %><% echo(usecom) %><% /def %></td>
 								<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft" id="p_input_com"></textarea></td>
 							</tr>
 							<% def(upfile) %>

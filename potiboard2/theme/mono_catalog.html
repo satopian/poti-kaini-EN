@@ -49,18 +49,18 @@
 		<header>
 			<h1><a href="<% echo(self2) %>"><% echo(title) %></a></h1>
 			<div>
-				<a href="<% echo(home) %>" target="_top">[home]</a>
+				<a href="<% echo(home) %>" target="_top">[Home]</a>
 				<a href="<% echo(self) %>?mode=admin">[Admin mode]</a>
 			</div>
 			<hr>
 			<div>
 				<nav class="menu">
-					<a href="<% echo(self2) %>">[top]</a>
+					<a href="<% echo(self2) %>">[Top]</a>
 					<% def(for_new_post) %>
-					<a href="<% echo(self) %>?mode=newpost">[post]</a>
+					<a href="<% echo(self) %>?mode=newpost">[Post]</a>
 					<% /def %>
-					[catalog]
-					<a href="<% echo(self) %>">[normal mode]</a>
+					[Catalog]
+					<a href="<% echo(self) %>">[Normal mode]</a>
 					<a href="<% echo(self) %>?mode=piccom<% def(resno) %>&amp;resto=<% echo(resno) %><% /def %>">[Recover Images]</a>
 					<a href="#footer" title="to bottom">[&darr;]</a>
 				</nav>
