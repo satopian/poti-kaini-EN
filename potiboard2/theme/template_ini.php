@@ -144,7 +144,7 @@ define('UPDATE_MARK', ' *');
 
 //Date format
 //Refer to the URL below
-// http://www.php.net/manual/ja/function.date.php
+// http://www.php.net/manual/en/function.date.php
 //define(DATE_FORMAT, 'Y/m/d(<1>) H:i');
 define('DATE_FORMAT', 'Y/m/d(D) H:i');
 
