@@ -49,7 +49,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-## [2021/11/08] v3.12.2
+## [2021/11/16] v3.12.2
 
 ### `potiboard.php` updates
 
@@ -61,6 +61,7 @@ Previously, the cookie was set to 8000px even in such cases.
 - An error is now returned when a file name with an invalid length is entered.
 - Checks the length of the reply number and returns an error if the length is incorrect.
 - Fixed the specification that the full text of the parent's comment is displayed in the description of the article displayed on the reply screen, and now omits 300 bytes or more.
+- The translation has been improved.
 
 Please update `potiboard.php`.
 ### `picpost.php` and `save.php` updates
