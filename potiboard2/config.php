@@ -25,9 +25,9 @@ define('LOG_MAX', '2000');
 // Theme directory, requires '/' at the end.
 define('SKIN_DIR', 'theme/');
 
-// 設置場所のURL。phpのあるディレクトリの'/'まで
+// 設置場所のURL。potiboard.phpのあるディレクトリの'/'まで
 // メール通知のほか、シェアボタンなどで使用
-// Installation URL. Directory of php-files, and need last '/'.
+// Installation URL. In the directory where potiboard.php is located, and need last '/'.
 // Be used notification by email, and share button, etc.
 define('ROOT_URL', 'https://example.com/oekaki/');
 
@@ -47,13 +47,14 @@ define('HOME', '../');
 // 管理画面で画像アップロードできます。
 // Whether to enable image uploads, '1' to enable.
 // Drawing is still enabled even with this disabled.
-// Administrators can still upload images in management mode.
+// Administrators can still upload images in admin post mode.
 define('USE_IMG_UPLOAD','1');
 
 // 画像のないコメントのみの新規投稿を拒否する する:1 しない:0
-// する:1 でも管理画面からはコメントのみの投稿ができます。
-// They CANNOT post that has no image if setting '1'. be able to do, set '0'.
-// if '0', Administrator can do in management mode.
+//する:1 でも管理者はコメントのみの投稿ができます。
+// If '1' is set, a new thread without an image cannot be created. To enable it, set it to '0'.
+// Even if it is '1', the administrator can create a new thread without an image.
+
 define('DENY_COMMENTS_ONLY', '0');
 
 // Use Shi Painter 
@@ -93,6 +94,7 @@ define('SHARE_BUTTON', '0');
 // To disable, type array();
 
 // 拒絶する文字列
+// Reject string
 // String blacklists and regular expressions are supported.
 $badstring = array("irc.s16.xrea.com","Unsolicitedad");
 
@@ -109,8 +111,7 @@ $badname = array("brandedgoods","mailorder","sale");
 // 名前以外の項目も設定する場合は
 // こことは別の設定項目
 // 拒絶する文字列で
-// Settings other than the name,
-// Anti-spam posting -> Character string that cannot be posted
+// When setting other than the name, set the "Reject string".
 
 // AとBが両方あったら拒絶。
 // Reject post if both conditions A and B are met (supports regular expressions, use array(""); to disable).
@@ -157,10 +158,9 @@ $badip = array("addr.dummy.com","addr2.dummy.com");
 // メール通知機能を使う使わないを設定する項目はここにはありません。
 // noticemail.inc を potiboard.php と同じディレクトリにアップロードすると
 // メール通知機能が自動的にオンになります。
-// The mail server configuration is performed in the 'noticemail.inc' file.
-// To enable this feature, upload 'noticemail.inc' to the same directory
-// where 'potiboard.php' is, and modify it's parameters accordingly.
-// When you do that, email notifications will be rurned on automatically.
+// There is no setting item here to decide whether to use the mail notification function.
+// If you upload "noticemail.inc" to the same directory as potiboard.php
+// The email notification function will be turned on automatically.
 
 // 管理者が投稿したものもメールで通知 しない:1 する:0
 // Notify by email what the administrator posted (OFF:'1', ON'0').
@@ -218,10 +218,8 @@ define('USE_FONTCOLOR', '0');
 // By php limit, it is allowed up to 2048.
 define('MAX_KB', '1000');
 
-// 表示サイズ（これ以上はサイズを縮小
-// Maximum display size of posted images.
-// If any size is bigger than these values, the image will be shrinken
-// to the maximum value.
+//表示する最大サイズ（これ以上はサムネイルまたは縮小表示
+// Maximum size to display (more thumbnails or reduced display.
 define('MAX_W', '600');	//幅(width)
 define('MAX_H', '600');	//高さ(height)
 
@@ -230,9 +228,8 @@ define('MAX_H', '600');	//高さ(height)
 // Allow image comments, '1' to enable.
 define('RES_UPLOAD', '1');
 
-// レス用表示サイズ（これ以上はサイズを縮小
-// Maximum display size of posted images.
-// When posting a response.
+// Maximum size to display when replying (more thumbnails or reduced display
+
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
@@ -257,17 +254,17 @@ define('AUTOLINK', '1');
 define('MD_LINK', '0');
 
 // 名前を必須にする する:1 しない:0
-// Force new posts to have a NAME (Yes: 1, No: 0)
+// Make the post name mandatory. (Yes: 1, No: 0)
 define('USE_NAME', '0');
 define('DEF_NAME', 'anonymous');	//未入力時の名前(default name)
 
 // 本文を必須にする する:1 しない:0
-// Force new posts to have a BODY message (Yes: 1, No: 0)
+// Make the body of the post mandatory. (Yes: 1, No: 0)
 define('USE_COM', '0');
 define('DEF_COM', 'no body');	//未入力時の本文(default letter body)
 
 // 題名を必須にする する:1 しない:0
-// Force new posts to have a title (Must have a title: 1, Must not have a title: 0)
+// Make the title of the post mandatory. (Must have a title: 1, Must not have a title: 0)
 define('USE_SUB', '0');
 define('DEF_SUB', 'no title');	//未入力時の題名(default title)
 
@@ -288,13 +285,13 @@ define('DO_NOT_CHANGE_POSTS_TIME', '0');
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 
 // お絵かき機能を使用する お絵かきのみ:2 する:1 しない:0
-// Use the Paint function  (Yes: 1, No: 0)
+// Use the oekaki function  (Yes: 1, No: 0)
 define('USE_PAINT', '1'); 
 
 // お絵描き最大サイズ（これ以上は強制でこの値
 // 最小値は幅、高さともに 300 固定です
-// Maximum drawing dimensions. Drawings can't be bigger
-// than the vaules specified here for each dimension.
+// Maximum drawing size (values larger than this will be the maximum value set here
+// The minimum value is fixed at 300 for both width and height.
 define('PMAX_W', '800');	//幅 (width)
 define('PMAX_H', '800');	//高さ (height)
 
