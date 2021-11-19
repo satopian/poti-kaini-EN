@@ -290,7 +290,7 @@ define('USE_PAINT', '1');
 
 // お絵描き最大サイズ（これ以上は強制でこの値
 // 最小値は幅、高さともに 300 固定です
-// Maximum drawing size (values larger than this will be the maximum value set here
+// The maximum drawing size value larger than this will be the maximum value set here.
 // The minimum value is fixed at 300 for both width and height.
 define('PMAX_W', '800');	//幅 (width)
 define('PMAX_H', '800');	//高さ (height)
