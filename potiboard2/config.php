@@ -219,7 +219,7 @@ define('USE_FONTCOLOR', '0');
 define('MAX_KB', '1000');
 
 //表示する最大サイズ（これ以上はサムネイルまたは縮小表示
-// Maximum size to display (more thumbnails or reduced display.
+// Maximum size to display (thumbnails or reduced view.
 define('MAX_W', '600');	//幅(width)
 define('MAX_H', '600');	//高さ(height)
 
@@ -228,7 +228,7 @@ define('MAX_H', '600');	//高さ(height)
 // Allow image comments, '1' to enable.
 define('RES_UPLOAD', '1');
 
-// Maximum size to display when replying (more thumbnails or reduced display
+// Maximum size to display when replying (thumbnails or reduced view.
 
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
