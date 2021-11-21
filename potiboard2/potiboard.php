@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.12.2');
-define('POTI_LOT','lot.211108'); 
+define('POTI_VER','v3.15.2');
+define('POTI_LOT','lot.211120'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -1348,7 +1348,7 @@ function admindel($pass){
 		$dat['del'][] = $res;
 		}
 	}
-	$dat['all'] = ($all - ($all % 1024)) / 1024;
+	$dat['all'] = h(($all - ($all % 1024)) / 1024);
 
 	if(is_array($del)){
 		sort($del);
@@ -1809,7 +1809,7 @@ function deltemp(){
 				unlink(TEMP_DIR.$file);
 			}
 			//pchアップロードペイントファイル削除
-			if(preg_match("/\A(pchup-.*-tmp\.s?pch)\z/i",$file)) {
+			if(preg_match("/\A(pchup-.*-tmp\.(s?pch|chi))\z/i",$file)) {
 				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (300)){//5分
 					unlink(TEMP_DIR.$file);
@@ -1829,7 +1829,7 @@ function incontinue(){
 	$lines = file(LOGFILE);
 	$flag = FALSE;
 	foreach($lines as $line){
-		list($cno,,,,,,,,,$cext,$picw,$pich,$ctim,,$cptime,) = explode(",", rtrim($line));
+		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,) = explode(",", rtrim($line));
 		if($cno == $no){
 			$flag = TRUE;
 			break;
@@ -1846,6 +1846,9 @@ function incontinue(){
 	//新規投稿で削除キー不要の時 true
 	if(! CONTINUE_PASS) $dat['newpost_nopassword'] = true;
 	$dat['picfile'] = IMG_DIR.$ctim.$cext;
+	$dat['name']=h($name);
+	$dat['sub']=h($sub);
+
 	list($dat['picw'], $dat['pich']) = getimagesize($dat['picfile']);
 	$dat['no'] = $no;
 	$dat['pch'] = $ctim;
@@ -1949,12 +1952,12 @@ function editform(){
 	$dat['maxkb']   = MAX_KB;
 	$dat['addinfo'] = $addinfo;
 	$dat['name'] = h(strip_tags($name));
-	$dat['email'] = h($email);
+	$dat['email'] = h(filter_var($email,FILTER_VALIDATE_EMAIL));
 	$dat['sub'] = h(strip_tags($sub));
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); // <br>または<br />を改行へ戻す
 	$dat['com'] = h($com);
-	$dat['url'] = filter_var($url,FILTER_VALIDATE_URL);
-	$dat['pwd'] = $pwd;
+	$dat['url'] = h(filter_var($url,FILTER_VALIDATE_URL));
+	$dat['pwd'] = h($pwd);
 
 	//文字色
 	if(USE_FONTCOLOR){

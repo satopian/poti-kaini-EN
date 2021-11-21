@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="<% echo(charset) %>">
-		<meta name="viewport" content="width=device-width">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css">
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
@@ -205,7 +205,7 @@
 							<% /def %>
 							<tr>
 								<td>Pass</td>
-								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"> <small>Required to delete article</small></td>
+								<td><input class="form" type="password" name="pwd" size="8" value="" autocomplete="current-password"> <small>(For editing and deleting)</small></td>
 							</tr>
 						</table>
 						<ul>
@@ -249,10 +249,12 @@
 						</div>
 						<figure>
 							<% def(oya/thumb) %>
-							<a href="<% echo(oya/src) %>" target="_blank" title="<% echo(oya/sub) %>"  rel="noopener"><img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>" loading="lazy"></a>
-							<% elsedef %>
-							<img src="<% echo(oya/imgsrc) %>" alt="<% echo(oya/srcname) %>" title="<% echo(oya/sub) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>" loading="lazy">
-							<% /def %>
+							<a href="<% echo(oya/src) %>" target="_blank" rel="noopener">
+							<% /def %>	
+								<img src="<% echo(oya/imgsrc) %>" alt="<% echo (oya/sub) %> by <% echo (oya/name) %>" title="<% echo (oya/sub) %> by <% echo (oya/name) %>" width="<% echo (oya/w) %>" height="<% echo (oya/h) %>" loading="lazy">
+								<% def(oya/thumb) %>
+								</a>
+								<% /def %>
 						</figure>
 						<% /def %>
 						<div class="res">
@@ -281,10 +283,13 @@
 										<a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/res/continue) %>">*Continue</a><% /def %><% def(oya/res/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/res/pch) %>" target="_blank">*Replay</a><% /def %>
 									</div>
 									<% def(oya/res/thumb) %>
-									<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy"></a>
-									<% elsedef %>
-									<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/srcname) %>" title="<% echo(oya/res/sub) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy">
+									<a href="<% echo(oya/res/src) %>"  target="_blank">
 									<% /def %>
+										<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" title="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy">
+										<% def(oya/res/thumb) %>
+										</a>
+										<% /def %>
+										
 								</figure>
 								<% /def %>
 								<div class="comment_wrap">

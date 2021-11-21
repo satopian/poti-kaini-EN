@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="<% echo(charset) %>">
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css">
 		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
@@ -75,10 +75,10 @@
 					<% each(y) %><% each(y/x) %><% def(y/x/no) %>
 					<div>
 						<% def(y/x/imgsrc) %>
-						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> (by <% echo(y/x/name) %>)"><img src="<% echo(y/x/imgsrc) %>" alt="<% echo(y/x/sub) %> (by <% echo(y/x/name) %>)" loading="lazy"></a></p>
+						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> by <% echo(y/x/name) %>"><img src="<% echo(y/x/imgsrc) %>" alt="<% echo(y/x/sub) %> by <% echo(y/x/name) %>" loading="lazy"></a></p>
 						<% /def %>
 						<% def(y/x/txt) %>
-						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> (by <% echo(y/x/name) %>)"><% echo(y/x/sub) %> (by <% echo(y/x/name) %>)</a></p>
+						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> by <% echo(y/x/name) %>"><% echo(y/x/sub) %> by <% echo(y/x/name) %></a></p>
 						<% /def %>
 						<p>[<% echo(y/x/no) %>] <% echo(y/x/now) %><% def(y/x/updatemark) %><% echo(y/x/updatemark) %><% /def %><% def(y/x/id) %> ID:<% echo(y/x/id) %><% /def %></p>
 					</div>
