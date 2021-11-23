@@ -1,7 +1,7 @@
 # POTI-board EVO EN
 
 ## Serious bugs in older versions
-- POTI-board prior to v2.26.0 is vulnerable to XSS.  
+- POTI-board v2.26.0 and earlier all versions is vulnerable to XSS.    
 Malicious JavaScript can be executed.
 
 - POTI-board v3.09.x and earlier all versions have a serious bug.  
