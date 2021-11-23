@@ -4,7 +4,7 @@
 - POTI-board prior to v2.26.0 is vulnerable to XSS.  
 Malicious JavaScript can be executed.
 
-- All versions of POTI-board v3.09.x and earlier versions have a serious bug.  
+- POTI-board v3.09.x and earlier all versions have a serious bug.  
 You may lose all log files.
 
 Please update `potiboard.php` with v3.10.1 or later by overwriting.
