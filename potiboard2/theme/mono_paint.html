@@ -264,7 +264,7 @@
 						<fieldset>
 							<legend>PALETTE</legend>
 							<select class="form" name="select" size="13" onchange="setPalette()">
-								<option>Temp palette</option>
+								<option>saved palette</option>
 								<% def(dynp) %><?php echo "\n"; ?>
 								<% echo(dynp) %>
 								<% /def %><?php echo "\n"; ?>
@@ -395,23 +395,25 @@
 						<h3>Basic</h3>
 							<p>
 								Right-click, ctrl + click, and alt + click work the same in PaintBBS.<br>
-								Basically, the operation is completed with a single click or right click. (Except when using Bezier or copy)
+								Basically, the operation is completed with a single click or Right-click. (Except when using Bezier or copy)
 							</p>
 						<h3>toolbar</h3>
 							<p>
 								Most buttons on the toolbar can be clicked multiple times to switch between functions.<br>
-								Right click to reverse. Right-click on other palette colors, mask colors, register the current status in the one-character save tool, switch layer display / non-display, etc.<br>
-								On the contrary, you can retrieve the color of the palette and the state saved in the temporary save tool by clicking.
+								Right-click to reverse the order of function switching.
+								Right-click to register the current status in the palette color, mask color, and temporary save tool.<br>
+								Left-click to get the color and state of the palette saved in the temporary save tool.
 							</p>
 						<h3>Canvas part</h3>
 						<p>
-							Right click to dropper the color.<br>
+							Right-click to pick up the color.<br>
 							Right-click in the middle of processing such as Bezier or copy to reset.
 						</p>
 					<h2>Special operation (a function that does not need to be used but is convenient if you get used to it)</h2>
 						<h3>toolbar</h3>
 							<p>
-								The bar that changes the value changes slowly when it is moved out of the bar when dragging, so you can use it to make fine changes. Shift + click the palette to return the colors to their default state.
+								As you move away from the bar while dragging, the bar's values change slowly, allowing you to make subtle changes.
+	 Shift + click the palette to return the colors to their default state.
 							</p>
 						<h3>Keyboard shortcuts</h3>
 							<ul>
@@ -445,7 +447,7 @@
 								</dd>
 								<dt>Mask mode specification (normal, mask, reverse mask)</dt>
 								<dd>
-									Disables the colors registered in the mask. The reverse mask is the opposite.<br>
+									Makes it impossible to draw the colors registered in the color mask. The reverse mask is the opposite.<br>
 									Normal is no mask. You can also change the mask color by right-clicking.
 								</dd>
 								<dt>Eraser (eraser pen, eraser square, all eraser)</dt>
@@ -472,9 +474,9 @@
 								<dd>
 									When the line width is changed when the watercolor pen is selected, the default value is assigned to the alpha value.
 								</dd>
-								<dt>Line temporary save tool</dt>
+								<dt>Temporary pen save tool</dt>
 								<dd>
-									Get data by clicking. Right-click to register data. (Mask value is not registered)
+									Get the data by left-clicking. Register data by right-clicking. (Mask value is not registered)
 								</dd>
 								<dt>Layer tool</dt>
 								<dd>
@@ -486,7 +488,7 @@
 							</dl>
 						<h2>Regarding posting</h2>
 							<p>
-								When the picture is completed, post it with the post button. If the picture is posted successfully, it will jump to the specified URL. If it fails, it just reports that it failed and does not fly anywhere. If it was just heavy, please wait a moment and try posting again. At this time, it may be posted twice, but it is a process on the Web server or PHP side, so I'm not sure.
+								When the picture is completed, post it with the post button. If the picture is posted successfully, it will jump to the specified URL. If it fails, it just reports that it failed and does not fly anywhere. If it was just heavy, please wait a moment and try posting again. At this time, it may be posted twice, but it is a process on the Web server or CGI side, so I'm not sure.
 							</p>
 				</div>
 			</section>
