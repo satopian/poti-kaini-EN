@@ -38,10 +38,11 @@
 
 //設定
 include(__DIR__.'/config.php');
+
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
+if(stripos($lang,'ja')===0){//ブラウザの言語が日本語の時
 
-if($lang==="ja"){//ブラウザの言語が日本語の時
 	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
 	$errormsg_3 = "画像ファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";

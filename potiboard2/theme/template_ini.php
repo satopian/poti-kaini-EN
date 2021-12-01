@@ -92,9 +92,9 @@ $fontcolors = array('white,White'
 
 //Drawing time format
 //ex) "1day 1hr 1min 1sec"
-define('PTIME_D', 'day');
-define('PTIME_H', 'hr');
-define('PTIME_M', 'min');
+define('PTIME_D', 'day ');
+define('PTIME_H', 'hr ');
+define('PTIME_M', 'min ');
 define('PTIME_S', 'sec');
 
 //Format when > is attached
