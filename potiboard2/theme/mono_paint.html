@@ -68,13 +68,17 @@
 			user-select: none;
 		}
 		</style>
-		<script>
-			function load() {
-			document.addEventListener("dblclick", function(e){ e.preventDefault();}, { passive: false });
-			}
-			window.onload = load;
-		</script>
-		
+<script>
+	function fixchicken() {
+		document.addEventListener("dblclick", function(dble){ dble.preventDefault()}, { passive: false });
+		document.querySelector('#chickenpaint-parent').addEventListener('contextmenu', function (conte){
+			conte.preventDefault();
+			conte.stopPropagation();
+		}, { passive: false });
+		}
+	window.addEventListener('DOMContentLoaded',fixchicken,false);
+</script>
+			
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
@@ -263,7 +267,7 @@
 						<% /def %>
 						<fieldset>
 							<legend>PALETTE</legend>
-							<select class="form" name="select" size="13" onchange="setPalette()">
+							<select class="form palette_select" name="select" size="13" onchange="setPalette()">
 								<option>saved palette</option>
 								<% def(dynp) %><?php echo "\n"; ?>
 								<% echo(dynp) %>
@@ -333,7 +337,8 @@
 								<option>13</option>
 								<option>14</option>
 							</select>
-							<input class="form" type="text" name="ped" size="8" onkeypress="Chenge_()" onchange="Chenge_()"><div id="psft" style="position:absolute;width:100px;height:30px;z-index:1;left:5px;top:10px;"></div>
+							<input class="form" type="text" name="ped" size="8" onkeypress="Chenge_()" onchange="Chenge_()">
+							<div id="psft"></div>
 							<script>
 								if(DynamicColor) PaletteListSetColor();
 							</script>

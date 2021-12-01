@@ -387,8 +387,9 @@ form.adminin {
   height: 1.2em;
 }
 
-.palette select.form {
+.palette_select {
   max-width: 100%;
+  min-width: 78%;
 }
 
 .c {
