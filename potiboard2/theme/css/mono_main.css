@@ -387,6 +387,10 @@ form.adminin {
   height: 1.2em;
 }
 
+.palette select.form {
+  width: 100%;
+}
+
 .c {
   text-align: center;
 }
