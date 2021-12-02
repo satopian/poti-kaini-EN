@@ -68,17 +68,16 @@
 			user-select: none;
 		}
 		</style>
-<script>
-	function fixchicken() {
-		document.addEventListener('dblclick', function(dble){ dble.preventDefault()}, { passive: false });
-		document.querySelector('#chickenpaint-parent').addEventListener('contextmenu', function (conte){
-			conte.preventDefault();
-			conte.stopPropagation();
-		}, { passive: false });
-		}
-	window.addEventListener('DOMContentLoaded',fixchicken,false);
-</script>
-			
+		<script>
+			function fixchicken() {
+				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
+				document.querySelector('#chickenpaint-parent').addEventListener('contextmenu', function (e){
+					e.preventDefault();
+					e.stopPropagation();
+				}, { passive: false });
+				}
+			window.addEventListener('DOMContentLoaded',fixchicken,false);
+		</script>
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>">
