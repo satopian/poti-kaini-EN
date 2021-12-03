@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.15.2');
-define('POTI_LOT','lot.211120'); 
+define('POTI_VER','v3.15.3');
+define('POTI_LOT','lot.211203'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -47,7 +47,7 @@ define('POTI_LOT','lot.211120');
 */
 
 if (($phpver = phpversion()) < "5.5.0") {
-	die("PHP version 5.5.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
+	die("Error. PHP version 5.5.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
 }
 
 //INPUT_POSTから変数を取得

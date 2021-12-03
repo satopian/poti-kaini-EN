@@ -54,10 +54,25 @@
 		<% def(useneo) %>
 		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
 		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
-		<% /def %>
+		<script>
+			function fixneo() {
+		
+				if(screen.width>767){//iPad以上の横幅の時は、NEOの網目のところでtouchmoveしない。
+					console.log(screen.width);
+					document.querySelector('#NEO').addEventListener('touchmove', function (e){
+						e.preventDefault();
+						e.stopPropagation();
+					}, { passive: false });
+				}
+			}
+			window.addEventListener('DOMContentLoaded',fixneo,false);
+		</script>
+				<% /def %>
 		<% def(pch_mode) %>
+		<% def(type_neo) %>
 		<link rel="stylesheet" href="neo.css<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" type="text/css">
 		<script src="neo.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>" charset="UTF-8"></script>
+		<% /def %>
 		<% /def %>
 		<% def(chickenpaint)%>
 		<style>
@@ -272,18 +287,13 @@
 								<% echo(dynp) %>
 								<% /def %><?php echo "\n"; ?>
 							</select><br>
-							<input class="button" type="button" value="save" onclick="PaletteSave()"><br>
-							<input class="button" type="button" value="make" onclick="PaletteNew()">
-							<input class="button" type="button" value="
-							rev." onclick="PaletteRenew()">
-							<input class="button" type="button" value="delete
-							" onclick="PaletteDel()"><br>
-							<input class="button" type="button" value="
-							bright+" onclick="P_Effect(10)">
-							<input class="button" type="button" value="
-							bright-" onclick="P_Effect(-10)">
-							<input class="button" type="button" value="
-							Invers" onclick="P_Effect(255)">
+							<input class="button" type="button" value="Save" onclick="PaletteSave()"><br>
+							<input class="button" type="button" value="New" onclick="PaletteNew()">
+							<input class="button" type="button" value="Renew" onclick="PaletteRenew()">
+							<input class="button" type="button" value="Del" onclick="PaletteDel()"><br>
+							<input class="button" type="button" value="Bright" onclick="P_Effect(10)">
+							<input class="button" type="button" value="Dark" onclick="P_Effect(-10)">
+							<input class="button" type="button" value="Invert" onclick="P_Effect(255)">
 						</fieldset>
 						<fieldset>
 							<legend>MATRIX</legend>
@@ -292,8 +302,8 @@
 								<option value="1">Current</option>
 								<option value="2">Add</option>
 							</select>
-							<input type="button" class="button" name="m_g" value="GET" onclick="PaletteMatrixGet()">
-							<input type="button" class="button" name="m_h" value="SET" onclick="PalleteMatrixSet()">
+							<input type="button" class="button" name="m_g" value="Get" onclick="PaletteMatrixGet()">
+							<input type="button" class="button" name="m_h" value="Set" onclick="PalleteMatrixSet()">
 							<input type="button" class="button" name="1" value=" ? " onclick="PalleteMatrixHelp()"><br>
 							<textarea class="form" name="setr" rows="1" cols="13" onmouseover="this.select()"></textarea>
 						</fieldset>
@@ -302,7 +312,7 @@
 						<fieldset>
 							<legend>GRADATION</legend>
 							<input type="checkbox" name="view" onclick="showHideLayer()">
-							<input type="button" class="button" value=" OK " onclick="ChengeGrad()"><br>
+							<input type="button" class="button" value=" Ok " onclick="ChengeGrad()"><br>
 							<select class="form" name="p_st" onchange="GetPalette()">
 								<option>1</option>
 								<option>2</option>
@@ -395,25 +405,24 @@
 					<p>
 						If you make a mistake and change the page or close the window, calm down and reopen the edit page with the same canvas width. Mostly left.
 					</p>
-					<h2>Basic behavior (probably this is the only feature you should remember)</h2>
+					<h2>Basic function (At a minimum, the function you need to remember)</h2>
 						<h3>Basic</h3>
 							<p>
-								Right-click, ctrl + click, and alt + click work the same in PaintBBS.<br>
+								In PaintBBS, right-click, [Ctrl + click], and [Alt + click] have the same behavior.<br>
 								Basically, the operation is completed with a single click or Right-click. (Except when using Bezier or copy)
 							</p>
 						<h3>toolbar</h3>
 							<p>
 								Most buttons on the toolbar can be clicked multiple times to switch between functions.<br>
 								Right-click to reverse the order of function switching.
-								Right-click to register the current status in the palette color, mask color, and temporary save tool.<br>
-								Left-click to get the color and state of the palette saved in the temporary save tool.
+								Use right-click to set palette colors, mask colors, and the current state of the pen tool.<br>
+								Left-click to get the color and state of the palette saved in the pen save tool.
 							</p>
 						<h3>Canvas part</h3>
 						<p>
 							Right-click to pick up the color.<br>
-							Right-click in the middle of processing such as Bezier or copy to reset.
 						</p>
-					<h2>Special operation (a function that does not need to be used but is useful if you know it)</h2>
+					<h2>Special function (Function that is not essential but useful to remember)</h2>
 						<h3>toolbar</h3>
 							<p>
 								As you move away from the bar while dragging, the bar's values change slowly, allowing you to make subtle changes.
@@ -421,15 +430,15 @@
 							</p>
 						<h3>Keyboard shortcuts</h3>
 							<ul>
-								<li>[+] To enlarge [-] to reduce.</li>
+								<li>[+] to zoom in [-] to zoom out.</li>
 								<li>Undo with [Ctrl + Z] or [Ctrl + U], redo with [Ctrl + Alt + Z] or [Ctrl + Y].</li>
-								<li>Copy and reset Bezier with [Esc]. (Same for right-clicking)</li>
+								<li>Copy and Bezier operations can be reset with [Esc]. (Same for right-clicking)</li>
 								<li>Free scrolling by dragging the canvas while holding down the space key.</li>
-								<li>Change the line width by draging with Ctrl + Alt.</li>
+								<li>Change the line width by [Ctrl + Alt + drag].</li>
 							</ul>
 						<h3>Special usage of copy tool</h3>
 							<p>
-								Currently, moving between layers is only copy and layer merge. To move by copying, first select the rectangle on the layer you want to move, then select the layer you want to move, and then continue the normal copy work. By doing so, you can move between layers.
+								Use copy and merge layers to move between layers. To move by copying, first select the rectangle on the layer you want to move, then select the layer you want to move, and then continue the normal copy work. By doing so, you can move between layers.
 							</p>
 						<h2>A brief description of the toolbar buttons and special features</h2>
 							<dl>
@@ -445,29 +454,29 @@
 								<dd>
 									Shapes such as rectangles and circles
 								</dd>
-								<dt>Special (copy, layer combination, inversion, etc.)</dt>
+								<dt>Special (copy, merge layers, flip, etc.)</dt>
 								<dd>
 									Copy is a tool that allows you to select, then drag, move, and copy.
 								</dd>
 								<dt>Mask mode specification (normal, mask, reverse mask)</dt>
 								<dd>
-									Makes it impossible to draw the colors registered in the color mask. The reverse mask is the opposite.<br>
+									Masks the color set in the color mask. The reverse mask is the opposite.<br>
 									Normal is no mask. You can also change the mask color by right-clicking.
 								</dd>
-								<dt>Eraser (eraser pen, eraser square, clear)</dt>
+								<dt>Eraser (white, white rect , clear)</dt>
 								<dd>
 									If you fill the transparent layer with white, the lower layer will not be visible, Use this tool to erase lines in the upper layers.<br>
 									Clear is a tool that makes everything transparent pixels.<br>
-									If you want to clear all　, select this tool and click on the canvas.
+									If you want to clear all, select this tool and click on the canvas.
 								</dd>
-								<dt>Designation of drawing method. (Handwriting, straight line, Bezier curve)</dt>
+								<dt>Designation of drawing method (Freehand, straight line, Bezier curve)</dt>
 								<dd>
 									The pen tip and drawing function are not specified.<br>
 									And it applies only to freeline tools.
 								</dd>
-								<dt>Color palette states</dt>
+								<dt>Color palette group</dt>
 								<dd>
-									Click to get color. Right-click to register the color. Shift + click to default value.
+									Click to get color. Right-click to set the color. Shift + click to default color.
 								</dd>
 								<dt>RGB bar and alpha bar</dt>
 								<dd>
@@ -478,15 +487,15 @@
 								<dd>
 									When the line width is changed when the watercolor pen is selected, the default value is assigned to the alpha value.
 								</dd>
-								<dt>Temporary pen save tool</dt>
+								<dt>temporary pen save tool</dt>
 								<dd>
-									Get the data by left-clicking. Register data by right-clicking. (Mask value is not registered)
+									Left-click to get the data. Right-click to set the data. (Mask value is not set)
 								</dd>
 								<dt>Layer tool</dt>
 								<dd>
 									Paint BBS has a structure in which two transparent canvases are stacked.<br>
 									it is a tool that makes it possible to draw the main line on the top and the color on the bottom.<br>
-									Since it is a type of thing called a normal layer, lines like those drawn with a pencil can be transparent.<br>
+									Since it is a type of thing called a normal layer, Lines like those drawn with a pencil are also transparent.<br>
 									Click to switch layers. Show / hide the selected layer by right-clicking.
 								</dd>
 							</dl>
