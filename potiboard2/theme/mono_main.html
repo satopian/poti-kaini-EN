@@ -59,6 +59,7 @@
 		<meta property="og:image:width" content="1028"> 
 		<meta property="og:image:height" content="1028">
 		<meta property="og:url" content="<% echo(rooturl) %>">
+		<meta name="description" content="">
 		<% /def %>
 		<% def(resno) %><% each(oya) %>
 		<meta name="twitter:card" content="summary">
@@ -69,7 +70,9 @@
 		<meta property="og:description" content="">
 		<meta property="og:url" content="<% echo(rooturl) %><% echo(self) %>?res=<% echo(oya/no) %>">
 		<% def(oya/src) %><meta property="og:image" content="<% echo(rooturl) %><% echo(oya/imgsrc) %>"><% /def %>
-		<% /each %><% /def %>
+		<meta name="description" content="<% echo (oya/descriptioncom) %>">
+		<% /each %>
+		<% /def %>
 		<style id="for_mobile"></style>
 	</head>
 	<body>
