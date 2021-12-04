@@ -49,6 +49,37 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2021/12/04] v3.15.3
+
+- Updated index.php required for new installations.  
+Even if the PHP version is PHP5.3 or lower, an error message will be displayed indicating that it will not work because the PHP version is low.  
+Previously it was a fatal PHP error.  
+
+- Fixed an issue where longpress the ChickenPaint's palette with the pen would open an unwanted mouse right-click menu.
+
+- Fixed an issue where the screen would move up and down when copying and layer merging with PaintBBS NEO.  
+If you select a rectangle to perform a copy and layer combination operation, the pen may protrude slightly from the canvas.  
+At this time, the PaintBBS NEO's canvas may move up and down.  
+Occurs when using Windows ink or Apple Pencil.  
+If a screen width wider than the iPad is detected, the screen will not move even if you swipe the mesh part around the canvas of PaintBBSNEO.  
+When using a smartphone, the operation is the same as before. This is because if you can't pinch out and swipe to enlarge the canvas, you won't be able to work.  
+
+Please update `mono_paint.html` to resolve these issues.
+
+- picpost.php
+Fixed false positives for languages.
+
+- Many translations have been improved.
+
+## [2021/11/23] v3.15.2
+### Updated contents of `potiboard.php`
+
+- Chi file deletion process after upload painting  
+I added it because there was no process to delete the chi file after uploading the ChickenPaint-specific file and the chi format file and loading it on the canvas in the administrator's post.  
+This fix removes it from the temporary directory 5 minutes after uploading. Prior to this fix, files that were no longer needed were deleted after a few days.  
+- The HTML ALT for images has been fixed. The HTML translation of the theme has been improved.  
+
+
 ## [2021/11/16] v3.12.2
 
 ### `potiboard.php` updates
