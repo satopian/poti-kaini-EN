@@ -1,5 +1,6 @@
 <?php
-//サムネイル作成
+// thumbnail_gd.php by POTI改 >> https://paintbbs.sakura.ne.jp/poti/ 
+// originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 //210922 コード整理
 //201218 webp形式対応
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
