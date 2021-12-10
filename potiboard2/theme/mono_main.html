@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
-		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css">
-		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css" id="css1" disabled>
-		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css" id="css2" disabled>
-		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css" id="css3" disabled>
+		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_main.css?211211">
+		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_dark.css?211211" id="css1" disabled>
+		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_deep.css?211211" id="css2" disabled>
+		<link rel="stylesheet" href="<% echo(skindir) %>css/mono_mayo.css?211211" id="css3" disabled>
 		<style>.input_disp_none{display: none;}</style>	
 	
 	<script>
@@ -344,12 +344,24 @@
 		</main>
 		<footer id="footer">
 			<div>
-				<% def(notres) %>
+				<% def(resno) %>
+				<div class="pcdisp page">
+					<% def(res_prev) %><a href="<% echo (self) %>?res=<% echo (@res_prev/no) %>">≪<% echo (@res_prev/substr_sub) %></a><% /def %>  | 
+					<% def(res_next) %><a href="<% echo (self) %>?res=<% echo (@res_next/no) %>"><% echo (@res_next/substr_sub) %>≫</a><% /def %>
+				</div>
+
+				<div class="mobiledisp">
+					<% def(res_prev) %>Prev: <a href="<% echo (self) %>?res=<% echo (@res_prev/no) %>"><% echo (@res_prev/substr_sub) %></a><br><% /def %> 
+					<% def(res_next) %>Next: <a href="<% echo (self) %>?res=<% echo (@res_next/no) %>"><% echo (@res_next/substr_sub) %></a><br><% /def %>
+				</div>
+					<% /def %>
+
+					<% def(notres) %>
 				<p class="page">
-					<% def(prev) %><a href="<% echo(prev) %>">≪BACK</a> |<% /def %> <% def(next) %><a href="<% echo(next) %>">NEXT≫</a> <% /def %>
+					<% def(prev) %><a href="<% echo(prev) %>">≪Prev</a><% /def %> | <% def(next) %><a href="<% echo(next) %>">Next≫</a> <% /def %>
 					<% echo(paging) %>
 				</p>
-				<% /def %>
+					<% /def %>
 				<form class="delf" action="<% echo(self) %>" method="post">
 					<p>
 						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">

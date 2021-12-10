@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.15.3');
-define('POTI_LOT','lot.211203'); 
+define('POTI_VER','v3.16.3');
+define('POTI_LOT','lot.211210'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -152,6 +152,8 @@ defined('TOTAL_PAINTTIME') or define('TOTAL_PAINTTIME', '1');
 defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
 //ChickenPaintを使う 使う:1 使わない:0 
 defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
+//レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
+defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
 
 //パーミッション
 
@@ -609,8 +611,8 @@ function updatelog(){
 //レス画面を表示
 function res($resno = 0){
 
-	$tree = file(TREEFILE);
-	foreach($tree as $value){
+	$trees = file(TREEFILE);
+	foreach($trees as $i => $value){
 		//レス先検索
 		if (strpos(trim($value) . ',', $resno . ',') === 0) {
 			$treeline = explode(",", trim($value));
@@ -626,6 +628,7 @@ function res($resno = 0){
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
 	}
+
 	$_line = $line[$lineindex[$resno]];
 
 	$dat = form($resno);
@@ -674,6 +677,13 @@ function res($resno = 0){
 		$dat['resname'] = $rresname ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 		$dat['oya'][0]['res'] = $rres[0];
 	}
+	//前のスレッド、次のスレッド
+	$n=$i+1;
+	$p=$i-1;
+	$next=(isset($trees[$n])&&$trees[$n]) ? explode(",",trim($trees[$n]))[0]:'';
+	$dat['res_next']=$next ? create_res($line[$lineindex[$next]]):[];
+	$prev=(isset($trees[$p])&&$trees[$p]) ? explode(",",trim($trees[$p]))[0]:'';
+	$dat['res_prev']=$prev ? create_res($line[$lineindex[$prev]]):[];
 
 	htmloutput(SKIN_DIR.RESFILE,$dat);
 }
@@ -1533,6 +1543,21 @@ function paintform(){
 		$dat['animeform'] = true;
 
 	if($mode==="contpaint"){
+
+		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
+
+			$trees=file(TREEFILE);
+			foreach ($trees as $i =>$tree) {
+				if (strpos(trim($tree) . ',', $no . ',') !== false) {
+					$tree_nos = explode(',', trim($tree));
+					$oyano=$tree_nos[0];
+					break;
+				}
+			}
+			$resto=(isset($oyano)&&((int)$oyano!==$no)) ? $oyano :'';
+			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
+			//親の番号ではない事を確認してレス先の番号をセット。
+		}
 		$dat['no'] = $no;
 		$dat['pch'] = $pch;
 		$dat['ctype'] = $ctype;
@@ -1735,7 +1760,7 @@ function paintcom(){
 	}
 	closedir($handle);
 	$tmp = array();
-	if(count($tmplist)!==0){
+	if(!empty($tmplist)){
 		foreach($tmplist as $tmpimg){
 			list($ucode,$uip,$ufilename) = explode("\t", $tmpimg);
 			if($ucode == $usercode||$uip == $userip){
@@ -2601,6 +2626,7 @@ function create_res ($line, $options = []) {
 		'h' => $h,
 		'no' => (int)$no,
 		'sub' => strip_tags($sub),
+		'substr_sub' => mb_substr(strip_tags(($sub)),0,12),
 		'url' => filter_var($url,FILTER_VALIDATE_URL),
 		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
 		'ext' => $ext,

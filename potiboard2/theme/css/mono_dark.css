@@ -444,19 +444,39 @@ form.adminin {
   background-color: #3b4856;
 }
 
-p.page {
-  margin: 8px 0;
+.page {
+  margin: 15px 0;
+  text-align: center;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .res {
     clear: left;
   }
 }
 
-@media screen and (max-width: 768px) {
+.pcdisp {
+  display: block;
+}
+
+.mobiledisp {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
   body {
     margin: 6px;
+  }
+  .pcdisp {
+    display: none;
+  }
+  .mobiledisp {
+    display: block;
+    margin: 15px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.8;
   }
 }
 

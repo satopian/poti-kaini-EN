@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board EVO v3.03.6 lot.210712
+  * POTI-board EVO v3.16.3 lot.211208
   * by POTI-kai >> https://paintbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board EVO
@@ -356,6 +356,12 @@ define('USE_CONTINUE', '1');
 // (1: The deletion password will be required, 0: No password required)
 // However, anyone will be able to continue with a drawing when the mode is set to '0'.
 define('CONTINUE_PASS', '0');
+
+//レス画像から新規投稿で続きを描いた画像をレスとして投稿する する:1 しない:0
+// When continuing from the reply image, even if it is'new post', it will be a reply to the current thread.
+// (1: Enabled, 0: Disabled) 
+define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
+
 
 /* ---------- 詳細設定(Advanced Setting) ---------- */
 // このスクリプト名。変更することをおすすめしません。
