@@ -97,7 +97,7 @@
 				<hr>
 				<% def(resno) %>
 				<p class="resm">
-					response mode
+					Reply mode
 					<% each(oya) %>
 					<% def(resname) %>
 					<script>function add_to_com(){
@@ -122,7 +122,7 @@
 					</script>
 
 				<% def(resno) %>
-				<p class="resm">response at oekaki</p>
+				<p class="resm">Reply with oekaki</p>
 				<hr>
 				<% /def %>
 				<div class="epost">
@@ -264,7 +264,7 @@
 							<div class="comment_wrap">
 								<p><% echo(oya/com) %></p>
 								<% def(oya/limit) %><p class="limit">This thread is old and will disappear soon.</p><% /def %>
-								<% def(resform) %><% def(oya/skipres) %><p class="ryaku"><% echo(oya/skipres) %> responses Omitted.[<a href="<% echo(self) %>?res=<% echo(oya/no) %>">See all</a>]</p><% /def %><% /def %>
+								<% def(resform) %><% def(oya/skipres) %><p class="ryaku"><% echo(oya/skipres) %> post<% if(oya/skipres,>,1)%>s<% /def %> Omitted.[<a href="<% echo(self) %>?res=<% echo(oya/no) %>">See all</a>]</p><% /def %><% /def %>
 							</div>
 							<% def(oya/res) %>
 							<% each(oya/res) %>
@@ -306,7 +306,7 @@
 							<hr>
 							<% if(resform,==,false) %>
 							<% def(oya/skipres) %>
-							<% echo(oya/skipres) %>response(s) Omitted. Click the reply button to see all.
+							<% echo(oya/skipres) %>post<% if(oya/skipres,>,1)%>s<% /def %> Omitted. Click the reply button to see all.
 							<% /def %>
 							<% def(sharebutton) %>
 							<span class="share_button">
@@ -375,7 +375,7 @@
 						</select>
 						<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
 						<input class="button" type="submit" value=" OK ">
-						<span class="stylechanger">Color: 
+						<span class="stylechanger">Style: 
 							<select class="form" id="mystyle" onchange="SetCss(this);">
 								<option>MONO</option>
 								<option>Dark</option>
