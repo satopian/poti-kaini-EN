@@ -90,12 +90,11 @@
 		<footer id="footer">
 			<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 			<div>
-				<% def(notres) %>
-				<p class="page">
-					<% def(prev) %><a href="<% echo(prev) %>">≪BACK</a> |<% /def %> <% def(next) %><a href="<% echo(next) %>">NEXT≫</a> <% /def %>
+				<div class="page">
+					<% def(prev) %><a href="<% echo(prev) %>">≪Prev</a><% /def %> | <a href="<% echo(self2) %>">Top</a> |
+					<% def(next) %><a href="<% echo(next) %>">Next≫</a> <% /def %><br>
 					<% echo(paging) %>
-				</p>
-				<% /def %>
+				</div>
 				<form class="delf" action="<% echo(self) %>" method="post">
 					<p>
 						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">

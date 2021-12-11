@@ -447,6 +447,7 @@ form.adminin {
 .page {
   margin: 15px 0;
   text-align: center;
+  line-height: 2.2;
 }
 
 @media screen and (max-width: 1023px) {
