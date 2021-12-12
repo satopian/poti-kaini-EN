@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.16.3');
-define('POTI_LOT','lot.211210'); 
+define('POTI_VER','v3.16.5');
+define('POTI_LOT','lot.211212'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -2621,12 +2621,13 @@ function create_res ($line, $options = []) {
 
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
 		= explode(",", rtrim($line));
+	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
 		'w' => $w,
 		'h' => $h,
 		'no' => (int)$no,
 		'sub' => strip_tags($sub),
-		'substr_sub' => mb_substr(strip_tags(($sub)),0,12),
+		'substr_sub' => mb_substr(strip_tags(($sub)),0,12).$three_point_sub,
 		'url' => filter_var($url,FILTER_VALIDATE_URL),
 		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
 		'ext' => $ext,
