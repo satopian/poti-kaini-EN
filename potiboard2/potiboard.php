@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.16.6');
+define('POTI_VER','v3.16.7');
 define('POTI_LOT','lot.211215'); 
 
 /*
@@ -598,9 +598,8 @@ function updatelog(){
 		$logfilename = ($page === 0) ? PHP_SELF2 : ($page / PAGE_DEF) . PHP_EXT;
 
 		$fp = fopen($logfilename, "w");
-		set_file_buffer($fp, 0);
 		flock($fp, LOCK_EX); //*
-		fwrite($fp, $buf);
+		writeFile($fp, $buf);
 		closeFile($fp);
 		if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 	}
@@ -677,7 +676,6 @@ function res($resno = 0){
 		$dat['paintform'] = false;
 		$dat['resname'] = false;//投稿者名をコピーを閉じる
 	}
-
 
 	//前のスレッド、次のスレッド
 	$n=$i+1;
@@ -1774,7 +1772,7 @@ function paintcom(){
 	$dat['post_mode'] = true;
 	$dat['regist'] = true;
 	$dat['ipcheck'] = true;//常にtrue
-	if(count($tmp)==0){
+	if(empty($tmp)){
 		$dat['notmp'] = true;
 		$dat['pictmp'] = 1;
 	}else{

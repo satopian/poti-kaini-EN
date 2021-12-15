@@ -84,14 +84,19 @@
 		}
 		</style>
 		<script>
-			function fixchicken() {
-				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
-				document.querySelector('#chickenpaint-parent').addEventListener('contextmenu', function (e){
-					e.preventDefault();
-					e.stopPropagation();
-				}, { passive: false });
-				}
-			window.addEventListener('DOMContentLoaded',fixchicken,false);
+		function fixchicken() {
+			document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
+			const chicken=document.querySelector('#chickenpaint-parent');
+			chicken.addEventListener('contextmenu', function (e){
+				e.preventDefault();
+				e.stopPropagation();
+			}, { passive: false });
+			chicken.addEventListener('touchmove', function (e){
+				e.preventDefault();
+				e.stopPropagation();
+			}, { passive: false });
+		}
+		window.addEventListener('DOMContentLoaded',fixchicken,false);
 		</script>
 
 <script src="chickenpaint/js/chickenpaint.min.js<% def(parameter_day) %>?<% echo(parameter_day)%><% /def %>"></script>
