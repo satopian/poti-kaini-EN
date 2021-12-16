@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.16.7');
+define('POTI_VER','v3.16.8');
 define('POTI_LOT','lot.211215'); 
 
 /*
@@ -52,21 +52,21 @@ if (($phpver = phpversion()) < "5.5.0") {
 
 //INPUT_POSTから変数を取得
 
-$mode = filter_input(INPUT_POST, 'mode');
-$mode = $mode ? $mode : filter_input(INPUT_GET, 'mode');
-$resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-$type = newstring(filter_input(INPUT_POST, 'type'));
+$mode = (string)filter_input(INPUT_POST, 'mode');
+$mode = $mode ? $mode : (string)filter_input(INPUT_GET, 'mode');
+$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
+$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+$type = (string)newstring(filter_input(INPUT_POST, 'type'));
 $admin = (string)filter_input(INPUT_POST, 'admin');
-$pass = newstring(filter_input(INPUT_POST, 'pass'));
+$pass = (string)newstring(filter_input(INPUT_POST, 'pass'));
 
 //INPUT_GETから変数を取得
 
-$res = filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
+$res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 
 //INPUT_COOKIEから変数を取得
 
-$usercode = filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
+$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
@@ -288,7 +288,7 @@ function gd_check(){
 function get_gd_ver(){
 	if(function_exists("gd_info")){
 	$gdver=gd_info();
-	$phpinfo=$gdver["GD Version"];
+	$phpinfo=(string)$gdver["GD Version"];
 	$end=strpos($phpinfo,".");
 	$phpinfo=substr($phpinfo,0,$end);
 	$length = strlen($phpinfo)-1;
@@ -330,7 +330,7 @@ function get_csrf_token(){
 //csrfトークンをチェック	
 function check_csrf_token(){
 	session_sta();
-	$token=filter_input(INPUT_POST,'token');
+	$token=(string)filter_input(INPUT_POST,'token');
 	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
 	if(!$session_token||$token!==$session_token){
 		error(MSG006);
@@ -742,15 +742,15 @@ function regist(){
 	}
 
 	$admin = (string)filter_input(INPUT_POST, 'admin');
-	$resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-	$com = filter_input(INPUT_POST, 'com');
-	$name = filter_input(INPUT_POST, 'name');
-	$email = filter_input(INPUT_POST, 'email');
-	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
-	$sub = filter_input(INPUT_POST, 'sub');
-	$fcolor = filter_input(INPUT_POST, 'fcolor');
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
+	$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
+	$com = (string)filter_input(INPUT_POST, 'com');
+	$name = (string)filter_input(INPUT_POST, 'name');
+	$email = (string)filter_input(INPUT_POST, 'email');
+	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = (string)filter_input(INPUT_POST, 'sub');
+	$fcolor = (string)filter_input(INPUT_POST, 'fcolor');
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 
 	$userip = get_uip();
 	//ホスト取得
@@ -760,10 +760,10 @@ function regist(){
 	Reject_if_NGword_exists_in_the_post();
 
 	$pictmp = filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
-	$picfile = newstring(filter_input(INPUT_POST, 'picfile'));
+	$picfile = (string)newstring(filter_input(INPUT_POST, 'picfile'));
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
-	$c_pass=str_replace("\t",'',filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
+	$c_pass=str_replace("\t",'',(string)filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
 	if($pwd===''){
 		if($pwdc){//Cookieはnullの可能性があるので厳密な型でチェックしない
 			$pwd=newstring($pwdc);
@@ -826,7 +826,7 @@ function regist(){
 			$psec=(int)$postedtime-(int)$starttime;
 			$ptime = TOTAL_PAINTTIME ? $psec : calcPtime($psec);
 		}
-		$uresto=filter_var($uresto,FILTER_VALIDATE_INT);
+		$uresto=(string)filter_var($uresto,FILTER_VALIDATE_INT);
 		$resto = $uresto ? $uresto : $resto;//変数上書き$userdataのレス先を優先する
 	}
 	$dest='';
@@ -1132,7 +1132,7 @@ function regist(){
 	//-- クッキー保存 --
 	//パスワード
 	$email = $email ? $email : ($sage ? 'sage' : '') ;
-	$name=str_replace("\t",'',filter_input(INPUT_POST, 'name'));//エスケープ前の値をセット
+	$name=str_replace("\t",'',(string)filter_input(INPUT_POST, 'name'));//エスケープ前の値をセット
 	//クッキー項目："クッキー名 クッキー値"
 	$cooks = ["namec\t".$name,"emailc\t".$email,"urlc\t".$url,"fcolorc\t".$fcolor,"pwdc\t".$c_pass];
 
@@ -1248,8 +1248,8 @@ function userdel(){
 
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 	
 	if(!is_array($del)){
 		return;
@@ -1321,7 +1321,10 @@ function admindel($pass){
 	}
 
 	foreach($line as $j => $value){
-		if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
+		if(!$value){
+			continue;
+		}
+			if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
 			list($no,$date,$name,$email,$sub,$com,$url,
 			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
 		$res= [
@@ -1456,20 +1459,20 @@ function paintform(){
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
 	$admin = (string)filter_input(INPUT_POST, 'admin');
-	$type = newstring(filter_input(INPUT_POST, 'type'));
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-	$resto = filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
+	$type = (string)newstring(filter_input(INPUT_POST, 'type'));
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 	if(strlen($resto)>1000){
 		error(MSG015);
 	}
-	$mode = filter_input(INPUT_POST, 'mode');
+	$mode = (string)filter_input(INPUT_POST, 'mode');
 	$picw = filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
 	$anime = filter_input(INPUT_POST, 'anime',FILTER_VALIDATE_BOOLEAN);
 	$shi = filter_input(INPUT_POST, 'shi');
-	$pch = newstring(filter_input(INPUT_POST, 'pch'));
-	$ext = newstring(filter_input(INPUT_POST, 'ext'));
-	$ctype = newstring(filter_input(INPUT_POST, 'ctype'));
+	$pch = (string)newstring(filter_input(INPUT_POST, 'pch'));
+	$ext = (string)newstring(filter_input(INPUT_POST, 'ext'));
+	$ctype = (string)newstring(filter_input(INPUT_POST, 'ctype'));
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$is_mobile = filter_input(INPUT_POST, 'is_mobile',FILTER_VALIDATE_BOOLEAN);
@@ -1632,7 +1635,7 @@ function paintform(){
 
 	$dat['security_url'] = SECURITY_URL;
 
-	$savetype = filter_input(INPUT_POST, 'savetype'); // JPEG or PNG or AUTO or それ以外 が来ることを想定
+	$savetype = (string)filter_input(INPUT_POST, 'savetype'); // JPEG or PNG or AUTO or それ以外 が来ることを想定
 	$dat['image_jpeg'] = in_array($savetype, ['JPEG', 'AUTO']);
 	$dat['image_size'] = in_array($savetype, ['PNG', 'AUTO']) ? IMAGE_SIZE : ($savetype == 'JPEG' ? 1 : 0);
 	$dat['savetypes']
@@ -1725,8 +1728,8 @@ function paintform(){
 function paintcom(){
 	global $usercode;
 	$userip = get_uip();
-	$resto = filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-	$stime = filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
+	$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
+	$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 	//描画時間
 	if($stime && DSP_PAINTTIME){
 		$dat['ptime'] = calcPtime(time()-$stime);
@@ -1797,7 +1800,7 @@ function openpch(){
 
 	$dat['parameter_day']=date("Ymd");
 
-	$pch = newstring(filter_input(INPUT_GET, 'pch'));
+	$pch = (string)newstring(filter_input(INPUT_GET, 'pch'));
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 
 	$ext = check_pch_ext(PCH_DIR . $_pch);
@@ -1850,7 +1853,7 @@ function deltemp(){
 function incontinue(){
 	global $addinfo;
 
-	$no = filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
 	$lines = file(LOGFILE);
 	$flag = FALSE;
 	foreach($lines as $line){
@@ -1913,8 +1916,8 @@ function incontinue(){
 // コンティニュー認証
 function check_cont_pass(){
 
-	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$lines = file(LOGFILE);
 	foreach($lines as $line){
 		list($cno,,,,,,,,$cpwd,) = explode(",", $line);
@@ -1936,8 +1939,8 @@ function editform(){
 	}
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
-	$pwdc = filter_input(INPUT_COOKIE, 'pwdc');
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 
 	if (!is_array($del)) {
 		error(MSG031);
@@ -2008,14 +2011,14 @@ global $ADMIN_PASS;
 		check_csrf_token();
 	}
 	
-	$com = filter_input(INPUT_POST, 'com');
-	$name = filter_input(INPUT_POST, 'name');
-	$email = filter_input(INPUT_POST, 'email');
-	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
-	$sub = filter_input(INPUT_POST, 'sub');
-	$fcolor = filter_input(INPUT_POST, 'fcolor');
-	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
-	$pwd = newstring(filter_input(INPUT_POST, 'pwd'));
+	$com = (string)filter_input(INPUT_POST, 'com');
+	$name = (string)filter_input(INPUT_POST, 'name');
+	$email = (string)filter_input(INPUT_POST, 'email');
+	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = (string)filter_input(INPUT_POST, 'sub');
+	$fcolor = (string)filter_input(INPUT_POST, 'fcolor');
+	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$admin = (string)filter_input(INPUT_POST, 'admin');
 
 	$userip = get_uip();
@@ -2088,9 +2091,9 @@ global $ADMIN_PASS;
 // 画像差し換え
 function replace(){
 	global $path,$temppath;
-	$no = filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	$pwd = newstring(filter_input(INPUT_GET, 'pwd'));
-	$repcode = newstring(filter_input(INPUT_GET, 'repcode'));
+	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	$pwd = (string)newstring(filter_input(INPUT_GET, 'pwd'));
+	$repcode = (string)newstring(filter_input(INPUT_GET, 'repcode'));
 	$message="";
 	$userip = get_uip();
 	//ホスト取得
@@ -2263,7 +2266,7 @@ function replace(){
 function catalog(){
 
 	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
-	$page=($page===null) ? 0 : $page;
+	$page= $page ? $page : 0;
 	$line = file(LOGFILE);
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 
@@ -2354,12 +2357,12 @@ function charconvert($str){
 function Reject_if_NGword_exists_in_the_post(){
 	global $badstring,$badname,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
 
-	$com = filter_input(INPUT_POST, 'com');
-	$name = filter_input(INPUT_POST, 'name');
-	$email = filter_input(INPUT_POST, 'email');
-	$sub = filter_input(INPUT_POST, 'sub');
-	$url = filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
-	$pwd = filter_input(INPUT_POST, 'pwd');
+	$com = (string)filter_input(INPUT_POST, 'com');
+	$name = (string)filter_input(INPUT_POST, 'name');
+	$email = (string)filter_input(INPUT_POST, 'email');
+	$sub = (string)filter_input(INPUT_POST, 'sub');
+	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$pwd = (string)filter_input(INPUT_POST, 'pwd');
 
 	if(strlen($com) > MAX_COM) error(MSG011);
 	if(strlen($name) > MAX_NAME) error(MSG012);
