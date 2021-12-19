@@ -318,7 +318,7 @@
 		</main>
 		<footer id="footer">
 			<div>
-				<% def(resno) %>
+			<% def(resno) %>
 				<div class="pcdisp page">
 					<% def(res_prev) %><a href="<% echo (self) %>?res=<% echo (@res_prev/no) %>">≪<% echo (@res_prev/substr_sub) %></a><% /def %>
 					  | <a href="<% echo(self2) %>">Top</a> | 
@@ -329,16 +329,28 @@
 					<% def(res_prev) %>Prev: <a href="<% echo (self) %>?res=<% echo (@res_prev/no) %>"><% echo (@res_prev/sub) %></a><br><% /def %> 
 					<% def(res_next) %>Next: <a href="<% echo (self) %>?res=<% echo (@res_next/no) %>"><% echo (@res_next/sub) %></a><br><% /def %>
 				</div>
-					<% /def %>
+				<% def(view_other_works)%>
+				<div class="view_other_works">
+					<% each(view_other_works)%><div><a href="<% echo (self) %>?res=<%%(view_other_works/no)%%>"><img src="<%% (view_other_works/imgsrc)%%>" alt="<%% (view_other_works/sub)%%> by <%% (view_other_works/name)%%>" title="<%% (view_other_works/sub)%%> by <%% (view_other_works/name)%%>" width="<%% (view_other_works/w)%%>" height="<%% (view_other_works/h)%%>" loading="lazy"></a></div><% /each %>
+				</div>
+				<% /def %>	
+			<% /def %>
 
-					<% def(notres) %>
+			<% def(notres) %>
 					<div class="page">
 						<% def(prev) %><a href="<% echo(prev) %>">≪Prev</a><% /def %> | <a href="<% echo(self2) %>">Top</a> |
 						<% def(next) %><a href="<% echo(next) %>">Next≫</a> <% /def %><br>
 						<% echo(paging) %>
 					</div>
-					<% /def %>
+			<% /def %>
 				<form class="delf" action="<% echo(self) %>" method="post">
+			<% def(notres) %>
+					<input type="hidden" name="logfilename" value="<% def(logfilename)%><% echo(logfilename)%><% /def %>">
+			<% /def %>
+			<% def(resno) %>
+					<input type="hidden" name="thread_no" value="<% def(@oya/0/no) %><% echo(@oya/0/no) %><% /def %>">
+			<% /def %>
+
 					<p>
 						No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
 						<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>

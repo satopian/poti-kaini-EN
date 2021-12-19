@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.16.8');
-define('POTI_LOT','lot.211215'); 
+define('POTI_VER','v3.18.15');
+define('POTI_LOT','lot.211218'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -154,6 +154,7 @@ defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
 defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
 defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
+defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 
 //パーミッション
 
@@ -232,8 +233,6 @@ switch($mode){
 			return error(MSG033);
 		}
 		userdel();
-		updatelog();
-		return redirect(PHP_SELF2, 0);
 	case 'paint':
 		return paintform();
 	case 'piccom':
@@ -591,11 +590,10 @@ function updatelog(){
 			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 
-		// $dat['resform'] = RES_FORM ? true : false;
-
-		$buf = htmloutput(SKIN_DIR.MAINFILE,$dat,true);
-
 		$logfilename = ($page === 0) ? PHP_SELF2 : ($page / PAGE_DEF) . PHP_EXT;
+		$dat['logfilename']= $logfilename;
+		
+		$buf = htmloutput(SKIN_DIR.MAINFILE,$dat,true);
 
 		$fp = fopen($logfilename, "w");
 		flock($fp, LOCK_EX); //*
@@ -684,7 +682,21 @@ function res($resno = 0){
 	$dat['res_next']=$next ? create_res($line[$lineindex[$next]]):[];
 	$prev=(isset($trees[$p])&&$trees[$p]) ? explode(",",trim($trees[$p]))[0]:'';
 	$dat['res_prev']=$prev ? create_res($line[$lineindex[$prev]]):[];
-
+	$dat['view_other_works']=false;
+	if(VIEW_OTHER_WORKS){
+		$a=[];
+		for($j=($i-7);$j<($i+10);++$j){
+			$p=(isset($trees[$j])&&$trees[$j]) ? explode(",",trim($trees[$j]))[0]:'';
+			$b=$p?create_res($line[$lineindex[$p]]):[];
+			if($b&&$b['imgsrc']&&$b['no']!==$resno){
+				$a[]=$b;
+			}
+		}
+		$c=($i<5) ? 0 : (count($a)>9 ? 4 :0);
+		$a=array_slice($a,$c,6,false);
+		$dat['view_other_works']=$a;
+	}
+	
 	htmloutput(SKIN_DIR.RESFILE,$dat);
 }
 //マークダウン記法のリンクをHTMLに変換
@@ -1183,8 +1195,10 @@ function regist(){
 
 		noticemail::send($data);
 	}
+	$destination = $resto ? PHP_SELF.'?res='.h($resto) :PHP_SELF2;
+
 	redirect(
-		PHP_SELF2 . (URL_PARAMETER ? "?".time() : ''),
+		$destination . (URL_PARAMETER ? "?".time() : ''),
 		1,
 		$message . THE_SCREEN_CHANGES
 	);
@@ -1204,6 +1218,7 @@ function treedel($delno){
 	if(!$buf){error(MSG024);}
 	$line = explode("\n", trim($buf));
 	$find=false;
+	$thread_exists=true;
 	foreach($line as $i =>$value){
 		$treeline = explode(",", rtrim($value));
 		foreach($treeline as $j => $value){
@@ -1214,6 +1229,7 @@ function treedel($delno){
 						error(MSG026);
 					}else{
 						unset($line[$i]);
+						$thread_exists=false;
 					}
 				}else{//レス削除
 					unset($treeline[$j]);
@@ -1233,6 +1249,7 @@ function treedel($delno){
 		writeFile($fp, implode("\n", $line));
 	}
 	closeFile($fp);
+	return $thread_exists;//スレがあればtrue
 }
 
 // HTMLの特殊文字をエスケープ
@@ -1245,6 +1262,11 @@ function newstring($str){
 // ユーザー削除
 function userdel(){
 	global $path;
+
+	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
+	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
+	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
+	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
 
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
@@ -1267,12 +1289,13 @@ function userdel(){
 	$line = explode("\n", trim($buf));
 	$flag = false;
 	$find = false;
+	$thread_exists = true;
 	foreach($line as $i => $value){//190701
 		if($value!==""){
 			list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",$value);
 			if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
 				if(!$onlyimgdel){	//記事削除
-					treedel($no);
+					$thread_exists=treedel($no);
 					if(USER_DELETES > 2){
 						unset($line[$i]);
 						$find = true;
@@ -1293,6 +1316,11 @@ function userdel(){
 		writeFile($fp, implode("\n", $line));
 	}
 	closeFile($fp);
+	$destination = ($thread_no&&$thread_exists) ? PHP_SELF.'?res='.h($thread_no) :($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : PHP_SELF2));
+
+	updatelog();
+	return redirect($destination, 0);
+
 }
 
 // 管理者削除
@@ -1937,6 +1965,10 @@ function editform(){
 	if(CHECK_CSRF_TOKEN){
 		$dat['token']=get_csrf_token();
 	}
+	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
+	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
+	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
+	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -1986,6 +2018,11 @@ function editform(){
 	$dat['com'] = h($com);
 	$dat['url'] = h(filter_var($url,FILTER_VALIDATE_URL));
 	$dat['pwd'] = h($pwd);
+	$dat['thread_no'] = h($thread_no);
+	$dat['logfilename'] = h($logfilename);
+	$dat['mode_catalog'] = h($mode_catalog);
+	$dat['catalog_pageno'] = h($catalog_pageno);
+
 
 	//文字色
 	if(USE_FONTCOLOR){
@@ -2010,6 +2047,11 @@ global $ADMIN_PASS;
 	if(CHECK_CSRF_TOKEN){
 		check_csrf_token();
 	}
+
+	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
+	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
+	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
+	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
 	
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
@@ -2082,8 +2124,11 @@ global $ADMIN_PASS;
 	closeFile($fp);
 
 	updatelog();
+
+	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : PHP_SELF2));
+
 	redirect(
-		PHP_SELF2 . (URL_PARAMETER ? "?".time() : ''),
+		$destination . (URL_PARAMETER ? "?".time() : ''),
 		1,
 		THE_SCREEN_CHANGES
 	);
@@ -2343,6 +2388,7 @@ function catalog(){
 	if($counttree > $next){
 		$dat['next'] = PHP_SELF.'?mode=catalog&amp;page='.$next;
 	}
+	$dat['catalog_pageno']=h($page);
 
 	htmloutput(SKIN_DIR.CATALOGFILE,$dat);
 }

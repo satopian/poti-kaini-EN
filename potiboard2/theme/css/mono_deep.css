@@ -450,6 +450,30 @@ form.adminin {
   line-height: 2.2;
 }
 
+.view_other_works {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.view_other_works div {
+  width: 16.1%;
+  height: auto;
+  margin-right: 0.6%;
+  display: inline-block;
+  max-height: 200px;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.view_other_works img {
+  width: 100%;
+  height: auto;
+}
+
+.view_other_works div:nth-of-type(6n) {
+  margin-right: 0;
+}
+
 @media screen and (max-width: 1023px) {
   .res {
     clear: left;

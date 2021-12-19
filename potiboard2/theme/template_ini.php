@@ -57,7 +57,7 @@ define('MSG024', "[It failed in the deletion of the tree.]");
 define('MSG025', "[Thread does not exist.]");
 define('MSG026', "[This is the last thread, it can not be deleted.]");
 define('MSG027', "[failed in deletion.(User)]");
-define('MSG028', "[article is not found or password is wrong.]");
+define('MSG028', "[The password is wrong or the article does not exist.]");
 define('MSG029', "[password is wrong.]");
 define('MSG030', "[failed in deletion.(Admin)]");
 define('MSG031', "[Please input No.]");
