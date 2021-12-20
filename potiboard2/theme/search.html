@@ -67,7 +67,8 @@
 	</div>
 <nav>
 	<div class="menu">
-	[<a href="./">Return to bulletin board</a>]
+	[<a href="./<% def(php_self2)%><% echo(php_self2)%><% /def %>">Return to bulletin board</a>]
+
 	<% def(imgsearch) %>
 	 [<a href="?page=1&imgsearch=off<% echo(query_l) %>">Comments</a>]
 	 <% else %>
