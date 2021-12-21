@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.18.16');
+define('POTI_VER','v3.18.17');
 define('POTI_LOT','lot.211220'); 
 
 /*
@@ -688,7 +688,7 @@ function res($resno = 0){
 		for($j=($i-7);$j<($i+10);++$j){
 			$p=(isset($trees[$j])&&$trees[$j]) ? explode(",",trim($trees[$j]))[0]:'';
 			$b=$p?create_res($line[$lineindex[$p]]):[];
-			if($b&&$b['imgsrc']&&$b['no']!==$resno){
+			if(!empty($b)&&$b['imgsrc']&&$b['no']!==$resno){
 				$a[]=$b;
 			}
 		}
@@ -696,7 +696,7 @@ function res($resno = 0){
 		$a=array_slice($a,$c,6,false);
 		$dat['view_other_works']=$a;
 	}
-	
+
 	htmloutput(SKIN_DIR.RESFILE,$dat);
 }
 //マークダウン記法のリンクをHTMLに変換
@@ -2683,7 +2683,7 @@ function create_res ($line, $options = []) {
 		'time' => $time,
 		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
 	];
-
+	$res['imgsrc']='';
 	// 画像系変数セット
 	$res['img'] = $path.$time.$ext; // 画像ファイル名
 	if ($res['img_file_exists'] = ($ext && is_file($res['img']))) { // 画像ファイルがある場合
