@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.18.17');
-define('POTI_LOT','lot.211220'); 
+define('POTI_VER','v3.19.3');
+define('POTI_LOT','lot.211221'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -224,7 +224,7 @@ switch($mode){
 		}
 		if($admin==="update"){
 			updatelog();
-			return redirect(PHP_SELF2, 0);
+			return redirect(h(PHP_SELF2), 0);
 		}
 		return;
 
@@ -262,7 +262,7 @@ switch($mode){
 		if($res){
 			return res($res);
 		}
-		return redirect(PHP_SELF2, 0);
+		return redirect(h(PHP_SELF2), 0);
 }
 
 exit;
@@ -342,7 +342,7 @@ function basicpart(){
 	$dat['title'] = TITLE;
 	$dat['home']  = HOME;
 	$dat['self']  = PHP_SELF;
-	$dat['self2'] = PHP_SELF2;
+	$dat['self2'] = h(PHP_SELF2);
 	$dat['paint'] = USE_PAINT ? true : false;
 	$dat['applet'] = APPLET ? true : false;
 	$dat['usepbbs'] = APPLET!=1 ? true : false;
@@ -554,7 +554,7 @@ function updatelog(){
 		$next = $page + PAGE_DEF;
 		// 改ページ処理
 		if($prev >= 0){
-			$dat['prev'] = $prev == 0 ? PHP_SELF2 : ($prev / PAGE_DEF) . PHP_EXT;
+			$dat['prev'] = $prev == 0 ? h(PHP_SELF2) : ($prev / PAGE_DEF) . PHP_EXT;
 		}
 		$paging = "";
 		for($l = 0; $l < $counttree; $l += (PAGE_DEF*35)){
@@ -577,7 +577,7 @@ function updatelog(){
 
 			$paging .= ($page === $i)
 				? str_replace("<PAGE>", $pn, NOW_PAGE) // 現在ページにはリンクを付けない
-				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : PHP_SELF2),
+				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
 			}
@@ -590,7 +590,7 @@ function updatelog(){
 			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 
-		$logfilename = ($page === 0) ? PHP_SELF2 : ($page / PAGE_DEF) . PHP_EXT;
+		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
 		$dat['logfilename']= $logfilename;
 		
 		$buf = htmloutput(SKIN_DIR.MAINFILE,$dat,true);
@@ -1195,7 +1195,7 @@ function regist(){
 
 		noticemail::send($data);
 	}
-	$destination = $resto ? PHP_SELF.'?res='.h($resto) :PHP_SELF2;
+	$destination = $resto ? PHP_SELF.'?res='.h($resto) :h(PHP_SELF2);
 
 	redirect(
 		$destination . (URL_PARAMETER ? "?".time() : ''),
@@ -1266,7 +1266,7 @@ function userdel(){
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
 	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
-	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
+	$catalog_pageno=(string)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
 
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
@@ -1316,7 +1316,7 @@ function userdel(){
 		writeFile($fp, implode("\n", $line));
 	}
 	closeFile($fp);
-	$destination = ($thread_no&&$thread_exists) ? PHP_SELF.'?res='.h($thread_no) :($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : PHP_SELF2));
+	$destination = ($thread_no&&$thread_exists) ? PHP_SELF.'?res='.h($thread_no) :($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
 	updatelog();
 	return redirect($destination, 0);
@@ -1450,7 +1450,7 @@ function init(){
 	USE_THUMB && $err .= check_dir(THUMB_DIR);
 	USE_PAINT && $err .= check_dir(TEMP_DIR);
 	if($err)error($err);
-	if(!is_file(realpath(PHP_SELF2)))updatelog();
+	if(!is_file(realpath(h(PHP_SELF2))))updatelog();
 }
 
 // ファイル存在チェック
@@ -1577,15 +1577,18 @@ function paintform(){
 
 		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
 
+
+			$oyano='';
 			$trees=file(TREEFILE);
 			foreach ($trees as $i =>$tree) {
-				if (strpos(trim($tree) . ',', $no . ',') !== false) {
+				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 					$tree_nos = explode(',', trim($tree));
 					$oyano=$tree_nos[0];
 					break;
 				}
 			}
-			$resto=(isset($oyano)&&((int)$oyano!==$no)) ? $oyano :'';
+			
+			$resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
 			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
 			//親の番号ではない事を確認してレス先の番号をセット。
 		}
@@ -1968,7 +1971,7 @@ function editform(){
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
 	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
-	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
+	$catalog_pageno=(string)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -2051,7 +2054,7 @@ global $ADMIN_PASS;
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
 	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
-	$catalog_pageno=filter_input(INPUT_POST,'catalog_pageno');
+	$catalog_pageno=(string)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
 	
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
@@ -2125,7 +2128,7 @@ global $ADMIN_PASS;
 
 	updatelog();
 
-	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : PHP_SELF2));
+	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
 	redirect(
 		$destination . (URL_PARAMETER ? "?".time() : ''),
@@ -2300,8 +2303,22 @@ function replace(){
 
 
 	updatelog();
+
+
+	$oyano='';
+	$trees=file(TREEFILE);
+	foreach ($trees as $i =>$tree) {
+		if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
+			$tree_nos = explode(',', trim($tree));
+			$oyano=$tree_nos[0];
+			break;
+		}
+	}
+	$thread_no = $oyano ? $oyano :'';
+
+	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) :  h(PHP_SELF2);
 	redirect(
-		PHP_SELF2 . (URL_PARAMETER ? "?".time() : ''),
+		$destination . (URL_PARAMETER ? "?".time() : ''),
 		1,
 		$message . THE_SCREEN_CHANGES
 	);
