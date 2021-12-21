@@ -466,7 +466,7 @@ form.adminin {
 }
 
 .view_other_works img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
 }
 
