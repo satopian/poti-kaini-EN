@@ -281,6 +281,10 @@ define('USE_RESUB', '1');
 // and will remain the same as the first posting date and time.
 // The post will not be marked as "Edited" either.
 define('DO_NOT_CHANGE_POSTS_TIME', '0');
+//レス画面に前後のスレッドの画像を表示する する:1 しない:0
+// Show images of next and previous threads in reply view
+// (Yes: 1, No: 0)
+define('VIEW_OTHER_WORKS', '1');
 
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 

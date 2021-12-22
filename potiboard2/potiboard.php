@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.19.3');
-define('POTI_LOT','lot.211221'); 
+define('POTI_VER','v3.19.5');
+define('POTI_LOT','lot.211222'); 
 
 /*
   (C) 2018-2021 POTI改 POTI-board redevelopment team
@@ -154,6 +154,7 @@ defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
 defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
 defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
+//レス画面に前後のスレッドの画像を表示する する:1 しない:0
 defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 
 //パーミッション
