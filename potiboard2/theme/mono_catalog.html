@@ -89,11 +89,13 @@
 		</main>
 		<footer id="footer">
 			<div>
+				<nav>
 				<div class="page">
 					<% def(prev) %><a href="<% echo(prev) %>">≪Prev</a><% /def %> | <a href="<% echo(self2) %>">Top</a> |
 					<% def(next) %><a href="<% echo(next) %>">Next≫</a> <% /def %><br>
 					<% echo(paging) %>
 				</div>
+				</nav>
 				<form class="delf" action="<% echo(self) %>" method="post">
 				<input type="hidden" name="catalog_pageno" value="<% def(catalog_pageno)%><%% (catalog_pageno)%%><% /def %>">	
 				<input type="hidden" name="mode_catalog" value="on">	
