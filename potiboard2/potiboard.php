@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.20.0');
+define('POTI_VER','v3.20.1');
 define('POTI_LOT','lot.220106'); 
 
 /*
@@ -2716,7 +2716,9 @@ function create_res ($line, $options = []) {
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
 		//動画リンク
-		$res['pch'] = (isset($options['pch']) && USE_ANIME && check_pch_ext(PCH_DIR.$time)) ? $time.$ext : '';
+		$pch_ext=check_pch_ext(PCH_DIR.$time);
+		$res['spch']=($pch_ext==='.spch') ? true : false;
+		$res['pch'] = (isset($options['pch']) && USE_ANIME && $pch_ext) ? $time.$ext : '';
 		//コンティニュー
 		$res['continue'] = USE_CONTINUE ? $res['no'] : '';
 	}

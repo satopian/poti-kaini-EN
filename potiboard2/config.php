@@ -88,8 +88,8 @@ define('SHARE_BUTTON', '0');
 // 正規表現を使うことができます
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
-// Even if the posted character string contains line breaks or spaces, it will be judged as the same character string and rejected.
-// This is because the character string without spaces and line breaks is checked.
+// Even if the posted character strings contains line breaks or spaces, it will be judged as the same character string and rejected.
+// This is because the strings is checked with removed spaces and line breaks .
 // 設定しないなら array();
 // To disable, type array();
 
