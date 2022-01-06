@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board EVO v3.16.3 lot.211208
+  * POTI-board EVO v3.20.0 lot.220106
   * by POTI-kai >> https://paintbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board EVO
@@ -88,7 +88,7 @@ define('SHARE_BUTTON', '0');
 // 正規表現を使うことができます
 // 全角半角スペース改行を考慮する必要はありません
 // スペースと改行を除去した文字列をチェックします
-// Do not specify spaces or line breaks.
+// Even if the posted character string contains line breaks or spaces, it will be judged as the same character string and rejected.
 // This is because the character string without spaces and line breaks is checked.
 // 設定しないなら array();
 // To disable, type array();

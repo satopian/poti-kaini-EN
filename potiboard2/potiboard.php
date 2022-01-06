@@ -6,11 +6,11 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.19.5');
-define('POTI_LOT','lot.211222'); 
+define('POTI_VER','v3.20.0');
+define('POTI_LOT','lot.220106'); 
 
 /*
-  (C) 2018-2021 POTI改 POTI-board redevelopment team
+  (C) 2018-2022 POTI改 POTI-board redevelopment team
   >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
@@ -694,8 +694,7 @@ function res($resno = 0){
 			}
 		}
 		$c=($i<5) ? 0 : (count($a)>9 ? 4 :0);
-		$a=array_slice($a,$c,6,false);
-		$dat['view_other_works']=$a;
+		$dat['view_other_works']=array_slice($a,$c,6,false);
 	}
 
 	htmloutput(SKIN_DIR.RESFILE,$dat);
@@ -1888,11 +1887,13 @@ function incontinue(){
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
 	$lines = file(LOGFILE);
 	$flag = FALSE;
+	$cptime='';
 	foreach($lines as $line){
+		//記事ナンバーのログを取得		
+		if (strpos(trim($line) . ',', $no . ',') === 0) {
 		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,) = explode(",", rtrim($line));
-		if($cno == $no){
-			$flag = TRUE;
-			break;
+		$flag = true;
+		break;
 		}
 	}
 	if(!$flag) error(MSG001);
@@ -1905,17 +1906,17 @@ function incontinue(){
 	$dat['passflag'] = true;
 	//新規投稿で削除キー不要の時 true
 	if(! CONTINUE_PASS) $dat['newpost_nopassword'] = true;
-	$dat['picfile'] = IMG_DIR.$ctim.$cext;
+	$dat['picfile'] = IMG_DIR.h($ctim).h($cext);
 	$dat['name']=h($name);
 	$dat['sub']=h($sub);
 
 	list($dat['picw'], $dat['pich']) = getimagesize($dat['picfile']);
-	$dat['no'] = $no;
-	$dat['pch'] = $ctim;
-	$dat['ext'] = $cext;
+	$dat['no'] = h($no);
+	$dat['pch'] = h($ctim);
+	$dat['ext'] = h($cext);
 	$dat['ctype_img'] = true;
 	//描画時間
-	$cptime=is_numeric($cptime) ? calcPtime($cptime) : $cptime; 
+	$cptime=is_numeric($cptime) ? h(calcPtime($cptime)) : h($cptime); 
 	if(DSP_PAINTTIME) $dat['painttime'] = $cptime;
 	$dat['applet'] = true;//従来の条件のアプリの選択メニューを出すかどうか(旧タイプ互換)
 	if(is_file(PCH_DIR.$ctim.'.pch')){
@@ -2305,9 +2306,7 @@ function replace(){
 
 	updatelog();
 
-
 	$oyano='';
-	$trees=file(TREEFILE);
 	foreach ($trees as $i =>$tree) {
 		if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 			$tree_nos = explode(',', trim($tree));
@@ -2638,6 +2637,9 @@ function is_ngword ($ngwords, $strs) {
 	if (!is_array($strs)) {
 		$strs = [$strs];
 	}
+	foreach($ngwords as $i => $ngword){//拒絶する文字列
+		$ngwords[$i]  = str_replace([" ", "　"], "", $ngword);
+	}
 	foreach ($strs as $str) {
 		foreach($ngwords as $ngword){//拒絶する文字列
 			if ($ngword !== '' && preg_match("/{$ngword}/ui", $str)){
@@ -2690,8 +2692,8 @@ function create_res ($line, $options = []) {
 		= explode(",", rtrim($line));
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
-		'w' => $w,
-		'h' => $h,
+		'w' => is_numeric($w) ? $w :'',
+		'h' => is_numeric($h) ? $h :'',
 		'no' => (int)$no,
 		'sub' => strip_tags($sub),
 		'substr_sub' => mb_substr(strip_tags(($sub)),0,12).$three_point_sub,
