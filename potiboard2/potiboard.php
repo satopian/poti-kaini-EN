@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.20.1');
-define('POTI_LOT','lot.220106'); 
+define('POTI_VER','v3.20.6');
+define('POTI_LOT','lot.220107'); 
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -648,7 +648,7 @@ function res($resno = 0){
 	$oyaname = $res['name']; //投稿者名をコピー
 
 	//レス作成
-	$rres = [];
+	$dat['oya'][0]['res'] = [];
 	$rresname = [];
 	array_shift($treeline); // 親レス番号を除去
 	foreach($treeline as $disptree){ // 子レスだけ回す
@@ -656,19 +656,23 @@ function res($resno = 0){
 		$j=$lineindex[$disptree];
 
 		$_res = create_res($line[$j], ['pch' => 1]);
-		$rres[0][] = $_res;
+		$dat['oya'][0]['res'][] = $_res;
 
 		// 投稿者名を配列にいれる
 		if ($oyaname != $_res['name'] && !in_array($_res['name'], $rresname)) { // 重複チェックと親投稿者除外
 			$rresname[] = $_res['name'];
 		}
 	}
+	foreach($rresname as $key => $val){
+		$rep=str_replace('&quot;','”',$val);
+		$rep=str_replace('&#039;','’',$rep);
+		$rep=str_replace('&lt;','＜',$rep);
+		$rep=str_replace('&gt;','＞',$rep);
+		$rep=str_replace("&#44;",",",$rep);
+		$rresname[$key]=str_replace('&amp;','＆',$rep);
+	}			
 
-	// レス記事一括格納
-	if($rres){//レスがある時
-		$dat['resname'] = $rresname ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
-		$dat['oya'][0]['res'] = $rres[0];
-	}
+	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
 	if(!check_elapsed_days($res['time'])){//親の値
 		$dat['form'] = false;//フォームを閉じる
@@ -1577,10 +1581,9 @@ function paintform(){
 
 		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
 
-
 			$oyano='';
 			$trees=file(TREEFILE);
-			foreach ($trees as $i =>$tree) {
+			foreach ($trees as $tree) {
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 					$tree_nos = explode(',', trim($tree));
 					$oyano=$tree_nos[0];
