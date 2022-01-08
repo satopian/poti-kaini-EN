@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.20.6');
-define('POTI_LOT','lot.220107'); 
+define('POTI_VER','v3.20.9');
+define('POTI_LOT','lot.220108'); 
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -670,7 +670,7 @@ function res($resno = 0){
 		$rep=str_replace('&gt;','＞',$rep);
 		$rep=str_replace("&#44;",",",$rep);
 		$rresname[$key]=str_replace('&amp;','＆',$rep);
-	}			
+	}	
 
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
@@ -1772,10 +1772,12 @@ function paintcom(){
 	if(USE_RESUB && $resto) {
 		$lines = file(LOGFILE);
 		foreach($lines as $line){
-			list($cno,,,,$sub,,,,,,,,,,) = explode(",", charconvert($line));
-			if($cno == $resto){
-				$dat['sub'] = 'Re: '.$sub;
-				break;
+
+			if (strpos(trim($line) . ',', $resto . ',') === 0) {
+
+				list($cno,,,,$sub,,,,,,,,,,) = explode(",", charconvert($line));
+					$dat['sub'] = 'Re: '.$sub;
+					break;
 			}
 		}
 	}
@@ -1956,10 +1958,12 @@ function check_cont_pass(){
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$lines = file(LOGFILE);
 	foreach($lines as $line){
+		if (strpos(trim($line) . ',', $no . ',') === 0) {
 		list($cno,,,,,,,,$cpwd,) = explode(",", $line);
 		if($cno == $no && check_password($pwd, $cpwd)){
 			return true;
 		}
+	}
 	}
 	error(MSG028);
 }
@@ -2758,11 +2762,9 @@ function create_res ($line, $options = []) {
 }
 //Tweet
 function encode_for_share($str){
-	//大なり小なりなど一部の情報は失われる
-	$str = str_replace(["&lt;","&gt;"], "", $str);
 	$str = str_replace("&#44;",",", $str);
 	$str = htmlspecialchars_decode($str, ENT_QUOTES);
-	return urlencode(strip_tags($str));
+	return h(urlencode($str));
 }
 
 
