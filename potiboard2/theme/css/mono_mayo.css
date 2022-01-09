@@ -246,6 +246,15 @@ ul.menu {
   display: table;
 }
 
+.res figure img {
+  float: left;
+  margin: 0 8px 1em 0;
+}
+
+.res_wrap {
+  display: table;
+}
+
 .resma {
   color: #675e5e;
 }
@@ -474,12 +483,6 @@ form.adminin {
   margin-right: 0;
 }
 
-@media screen and (max-width: 1023px) {
-  .res {
-    clear: left;
-  }
-}
-
 .pcdisp {
   display: block;
 }
@@ -489,6 +492,9 @@ form.adminin {
 }
 
 @media screen and (max-width: 767px) {
+  .res {
+    clear: left;
+  }
   body {
     margin: 6px;
   }

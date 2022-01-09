@@ -96,6 +96,7 @@
 				</nav>
 				<hr>
 				<% def(resno) %>
+				<% def(form) %>
 				<p class="resm">
 					Reply mode
 					<% each(oya) %>
@@ -108,6 +109,7 @@
 					<% /each %>
 				</p>
 				<hr>
+				<% /def %>
 				<% /def %>
 				<% def(paintform) %>
 				<% def(paint) %>
@@ -251,7 +253,7 @@
 							<% def(oya/continue) %> <a href="<% echo(self) %>?mode=continue&amp;no=<% echo(oya/continue) %>">*Continue</a><% /def %><% def(oya/spch)%><span class="for_pc"><% /def %><% def(oya/pch) %> <a href="<% echo(self) %>?mode=openpch&amp;pch=<% echo(oya/pch) %>" target="_blank">*Replay</a><% /def %>
 							<% def(oya/spch)%></span><% /def %>
 						</div>
-						<figure>
+						<figure <% if(oya/w,>=,748) %>style="float:none;margin-right:0"<% /if %>>
 							<% def(oya/thumb) %>
 							<a href="<% echo(oya/src) %>" target="_blank" rel="noopener">
 							<% /def %>	
@@ -265,12 +267,17 @@
 							<div class="comment_wrap">
 								<p><% echo(oya/com) %></p>
 								<% def(oya/limit) %><p class="limit">This thread is old and will disappear soon.</p><% /def %>
-								<% def(resform) %><% def(oya/skipres) %><p class="ryaku"><% echo(oya/skipres) %> post<% if(oya/skipres,>,1)%>s<% /def %> Omitted.[<a href="<% echo(self) %>?res=<% echo(oya/no) %>">See all</a>]</p><% /def %><% /def %>
+								<% def(oya/skipres) %>
+							</div>
+							<hr>
+							<div class="comment_wrap">
+								<% echo(oya/skipres) %> post<% if(oya/skipres,>,1)%>s<% /def %> Omitted.
+								<% /def %>
 							</div>
 							<% def(oya/res) %>
 							<% each(oya/res) %>
 							<hr>
-							<div>
+							<div class="res_wrap">
 								<h4>
 									<span class="oyaresno">[<% echo(oya/res/no) %>]</span>
 									<span class="rsub"><% echo(oya/res/sub) %></span> :
@@ -278,7 +285,7 @@
 									<% def(oya/res/updatemark) %> <% echo(oya/res/updatemark) %><% /def %>
 								</h4>
 								<% def(oya/res/src) %>
-								<figure>
+								<figure style="float:none;margin:0">
 									<div class="img_info_wrap">
 										<a href="<% echo(oya/res/src) %>" title="<% echo(oya/res/sub) %>" target="_blank"><% echo(oya/res/srcname) %></a> (<% echo(oya/res/size) %> B)<% def(oya/res/thumb) %> - thumbnail is shown -<% /def %><% def(oya/res/painttime) %>  PaintTime :<% echo(oya/res/painttime) %>
 										<% /def %>
@@ -290,7 +297,7 @@
 									<% def(oya/res/thumb) %>
 									<a href="<% echo(oya/res/src) %>"  target="_blank">
 									<% /def %>
-										<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" title="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy">
+										<img src="<% echo(oya/res/imgsrc) %>" alt="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" title="<% echo(oya/res/sub) %> by <% echo(oya/res/name) %>" width="<% echo (oya/res/w) %>" height="<% echo (oya/res/h) %>" loading="lazy" <% if(oya/res/w,>=,748) %>style="float:none;margin-right:0"<% /if %>>
 										<% def(oya/res/thumb) %>
 										</a>
 										<% /def %>
@@ -312,7 +319,7 @@
 							<a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u=<% echo(rooturl|urlencode) %><% echo(self|urlencode) %>?res=<% echo(oya/no|urlencode) %>"><span class="icon-facebook2 button"><img src="<% echo(skindir) %>img/facebook.svg" alt=""> share</span></a>
 							</span>
 							<% /def %>
-							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><img src="<% echo(skindir) %>img/rep.svg" alt=""> reply</a></span><% /def %> <a href="#header" title="to top">[&uarr;]</a>
+							<% def(notres) %><span class="button"><a href="<% echo(self) %>?res=<% echo(oya/no) %>"><img src="<% echo(skindir) %>img/rep.svg" alt=""><% def(oya/disp_resform)%>Reply<% elsedef %>View<% /def %></a></span><% /def %> <a href="#header" title="to top">[&uarr;]</a>
 						</div>
 				</div>
 				<% /each %>
