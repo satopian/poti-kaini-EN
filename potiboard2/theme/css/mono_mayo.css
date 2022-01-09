@@ -237,13 +237,14 @@ ul.menu {
   margin-bottom: 1ex;
 }
 
-.res figure {
-  float: none;
-}
-
 .res .comment_wrap {
   min-width: 300px;
   display: table;
+}
+
+.res figure {
+  float: none;
+  margin: 0;
 }
 
 .res figure img {
@@ -252,7 +253,7 @@ ul.menu {
 }
 
 .res_wrap {
-  display: table;
+  display: flow-root;
 }
 
 .resma {
