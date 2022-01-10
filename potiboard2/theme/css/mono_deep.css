@@ -199,8 +199,7 @@ h1 + div {
 
 figure {
   float: left;
-  margin-right: 8px;
-  margin-bottom: 1ex;
+  margin: 0 8px 1em 0;
 }
 
 figure img {
@@ -238,7 +237,7 @@ ul.menu {
 }
 
 .res .comment_wrap {
-  min-width: 300px;
+  min-width: 500px;
   display: table;
 }
 
