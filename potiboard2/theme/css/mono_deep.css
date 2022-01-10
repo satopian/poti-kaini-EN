@@ -237,7 +237,7 @@ ul.menu {
 }
 
 .res .comment_wrap {
-  min-width: 500px;
+  min-width: 300px;
   display: table;
 }
 
@@ -247,8 +247,7 @@ ul.menu {
 }
 
 .res figure img {
-  float: left;
-  margin: 0 8px 1em 0;
+  margin: 0 0 1em 0;
 }
 
 .res_wrap {
@@ -437,7 +436,7 @@ form.adminin {
 
 #catalog > div img {
   max-width: 100%;
-  max-height: 100%;
+  height: auto;
   vertical-align: middle;
 }
 
