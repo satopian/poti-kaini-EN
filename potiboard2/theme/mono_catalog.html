@@ -75,7 +75,8 @@
 					<% each(y) %><% each(y/x) %><% def(y/x/no) %>
 					<div>
 						<% def(y/x/imgsrc) %>
-						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> by <% echo(y/x/name) %>"><img src="<% echo(y/x/imgsrc) %>" alt="<% echo(y/x/sub) %> by <% echo(y/x/name) %>" loading="lazy"></a></p>
+						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> by <% echo(y/x/name) %>"><img src="<% echo(y/x/imgsrc) %>" alt="<% echo(y/x/sub) %> by <% echo(y/x/name) %>" width="<% echo (y/x/w) %>" <% def(y/x/h) %>height="<% echo (y/x/h) %>"<% /def %> loading="lazy"></a></p>
+
 						<% /def %>
 						<% def(y/x/txt) %>
 						<p><a href="<% echo(self) %>?res=<% echo(y/x/no) %>" title="<% echo(y/x/sub) %> by <% echo(y/x/name) %>"><% echo(y/x/sub) %> by <% echo(y/x/name) %></a></p>
