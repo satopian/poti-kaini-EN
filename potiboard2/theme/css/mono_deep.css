@@ -237,7 +237,7 @@ ul.menu {
 }
 
 .res .comment_wrap {
-  min-width: 300px;
+  min-width: 500px;
   display: table;
 }
 
@@ -493,6 +493,9 @@ form.adminin {
 @media screen and (max-width: 767px) {
   .res {
     clear: left;
+  }
+  .res .comment_wrap {
+    min-width: initial;
   }
   body {
     margin: 6px;
