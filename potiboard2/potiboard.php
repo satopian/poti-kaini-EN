@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v3.22.6');
+define('POTI_VER','v3.22.8');
 define('POTI_LOT','lot.220112');
 
 /*
@@ -379,17 +379,20 @@ function basicpart(){
 	$dat['hide_the_checkbox_for_nofile'] = USE_CHECK_NO_FILE ? false : true;//poti本体が古い時はfalse→画像なしのチェックが出る
 	$dat['_san']=HONORIFIC_SUFFIX;
 	$dat['cheerpj_url']=CHEERPJ_URL;
-	//PHP8.1 その他テンプレート
+	$dat['n']=false;//コメント行
+	$dat['resform'] = false;//ミニフォーム廃止	
+
+	//初期化 PHP8.1 OTHERFILE 
+	$dat['post_mode']=false;
+	$dat['rewrite']=false;
+	$dat['admin']=false;
+	$dat['admin_in']=false;
 	$dat['admin_del']=false;
 	$dat['pass']=false;
 	$dat['regist']=false;
-	$dat['admin']=false;
-	$dat['admin_in']=false;
-	$dat['post_mode']=false;
 	$dat['mes']=false;
 	$dat['err_mode']=false;
 	$dat['resno']=false;
-	$dat['rewrite']=false;
 	$dat['pictmp']=false;
 	$dat['notmp']=false;
 	$dat['ptime']=false;
@@ -400,8 +403,6 @@ function basicpart(){
 	$dat['com']=false;
 	$dat['ipcheck']=false;
 	$dat['tmp']=false;
-	$dat['resform'] = false;//ミニフォーム廃止	
-	$dat['n']=false;//コメント行
 
 	return $dat;
 }
@@ -804,7 +805,7 @@ function regist(){
 		}
 	}
 
-	if(strlen($pwd) < 6) error(MSG046);
+	if(strlen((string)$pwd) < 6) error(MSG046);
 
 	//画像アップロード
 	$upfile_name = isset($_FILES["upfile"]["name"]) ? basename($_FILES["upfile"]["name"]) : "";

@@ -1,6 +1,7 @@
 <?php
 //2020/12/20 パーミッションの値を設定できるようにした。初期値を 0777→0707 0666→0606 に。
 //2022/01/11 PHP8.1エラー対策。sub_str(),explode()のstrを、(string)で文字列に変換。
+//defの条件式を変更。値にtrueが入っていればtrue、falseが入っていればfalseに。 
 //変更者 さとぴあ(@satopian) https://paintbbs.sakura.ne.jp/poti/
 /**
  *  Skinny  - One File Simple Template Engine over PHP -
@@ -69,7 +70,7 @@ $skConf['TEMPLATE']['BASEDIR']= '';         // テンプレートを保存する
 
 // キャッシュ関連
 $skConf['CACHE']['FLG']       = true;      // スキンキャッシュの利用    [true]:する  false:しない
-$skConf['CACHE']['DIR']       = './cache';  // キャッシュの生成先DIR （出来ればフルパスで。相対だとアチコチに作られるかも）
+$skConf['CACHE']['DIR']       = __DIR__.'/cache';  // キャッシュの生成先DIR （出来ればフルパスで。相対だとアチコチに作られるかも）
 $skConf['CACHE']['ALIVETIME'] = 86400;       // キャッシュの有効時間（秒）
 
 // 画面表示関連
@@ -641,7 +642,7 @@ class Skinny {
 		$variable_name = $this->_skTags_LoopCounter( $vals );
 		$src ="<?php\n";
 		$src.="  if( !isset($variable_name) ){ $variable_name=null;}\n";
-		$src.="  if( (!is_array($variable_name) and strlen((string)$variable_name)!==0) or (is_array($variable_name) and count($variable_name)!==0) ) {\n";
+		$src.="  if(($variable_name===true) or ( ($variable_name!==null) and ($variable_name!==false) and ( (!is_array($variable_name) and strlen($variable_name)!==0) or (is_array($variable_name) and count($variable_name)!==0)) ) ) {\n";
 		$src.="?>";
 		return $src;
 	}
