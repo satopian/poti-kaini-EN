@@ -5,3 +5,9 @@
 !.vscode/extensions.json
 *.code-workspace
 .tgitconfig
+*.log
+*.cgi
+src/
+thumb/
+tmp/
+cache/
