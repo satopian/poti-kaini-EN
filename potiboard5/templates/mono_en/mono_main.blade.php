@@ -134,7 +134,7 @@
 			@endif
 			@endif
 			@if($paintform)
-			@if($paint)
+			@if($paint and ($resno or !$diary)
 			@if($resno)
 			<p class="resm">Reply with oekaki</p>
 			<hr>
@@ -144,9 +144,9 @@
 				{{-- ペイントボタン --}}
 				<form action="{{$self}}" method="post" enctype="multipart/form-data">
 					<p>
-						Width :<input name="picw" type="number" title="幅" class="form" value="{{$pdefw}}" min="300"
+						Width :<input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="300"
 							max="{{$pmaxw}}">
-						Height :<input name="pich" type="number" title="高さ" class="form" value="{{$pdefh}}" min="300"
+						Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300"
 							max="{{$pmaxh}}">
 						@if($select_app)
 						Tool:
