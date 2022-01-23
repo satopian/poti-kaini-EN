@@ -145,7 +145,7 @@ while ($line = fgets($fp)) {
 		){
 			$link='';
 			$link=PHP_SELF.'?res='.$oya[$no];
-			$arr[]=compact('no','name','sub','com','ext','time','link');
+			$arr[]=[$no,$name,$sub,$com,$ext,$time,$link];
 			++$i;
 		}
 			if($i>=$max_search){break;}//1掲示板あたりの最大検索数
@@ -164,7 +164,7 @@ $dat['comments']=[];
 if($arr){
 	foreach($arr as $i => $val){
 		if($i > $page-2){//$iが表示するページになるまで待つ
-			extract($val);
+			list($no,$name,$sub,$com,$ext,$time,$link)=$val;
 			$img='';
 			if($ext){
 				if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
@@ -282,9 +282,13 @@ elseif($page>=$disp_count_of_page+1){
 	}
 }
 //最終更新日時を取得
-$postedtime= $arr ? $arr[0]['time']:'';
-$postedtime=(int)substr($postedtime,-13,10);
-$dat['lastmodified']=$arr ? ($postedtime ? (date("Y/m/d G:i", $postedtime)) : '') :'';
+$postedtime='';
+$dat['lastmodified']='';
+if(!empty($arr)){
+	list($no,$name,$sub,$com,$ext,$postedtime,$link)=$arr[0];
+	$postedtime=(int)substr($postedtime,-13,10);
+	$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
+}
 
 unset($arr);
 
