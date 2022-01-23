@@ -117,8 +117,8 @@
 				l(); //LoadCookie
 			</script>
 		</div>
-		<!--著作権表示 削除しないでください-->
-		@include('parts.mono_copyright')
+				{{--  Copyright notice, do not delete  --}}
+				@include('parts.mono_copyright')
 	</footer>
 	<script>
 		colorIdx = GetCookie('colorIdx');

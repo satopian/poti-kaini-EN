@@ -1,7 +1,7 @@
 <div class="copy">
-	<!-- 著作権表示 削除しないでください -->
-	<!-- GazouBBS v3.0 --><!-- ふたば改0.8 --><!-- POTI-board -->
-	<p>
+{{--  Copyright notice, do not delete  --}}
+<!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
+				<p>
 		<a href="https://paintbbs.sakura.ne.jp/poti/" target="_blank" rel="nofollow noopener noreferrer" title="POTI-board EVO {{$verlot}}">POTI-board EVO {{$ver}}</a>
 		Web Style by <a href="https://paintbbs.sakura.ne.jp/poti/" target="_blank" rel="nofollow noopener noreferrer" title="MONO {{$tver}}">MONO</a>
 	</p>

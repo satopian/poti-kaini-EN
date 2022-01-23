@@ -312,8 +312,8 @@
 						</tr>
 						@endforeach
 					</table>
-					<input class="button" type="submit" value="削除">
-					<input class="button" type="reset" value="リセット">
+					<input class="button" type="submit" value="DELETE">
+					<input class="button" type="reset" value="RESET">
 				</form>
 				@if($del_pages)
 				@foreach($del_pages as $del_page)
@@ -355,7 +355,7 @@
 		@endif
 	</main>
 	<footer>
-		{{-- <!-- 著作権表示 削除しないでください --> --}}
+	{{--  Copyright notice, do not delete  --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<script src="{{$skindir}}jquery-3.5.1.min.js"></script>

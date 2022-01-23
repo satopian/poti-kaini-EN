@@ -143,7 +143,7 @@
 		@if($lastmodified)
 		<p>last modified: {{$lastmodified}}</p>
 		@endif
-		<p>New posts{{$img_or_com}}.</p>
+		<p>{{$img_or_com}} new arrival.</p>
 
 		<footer>
 			<nav>
