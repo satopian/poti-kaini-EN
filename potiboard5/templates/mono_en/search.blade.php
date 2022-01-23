@@ -129,7 +129,7 @@
 				@endif
 				{{$comment['com']}}
 				<div class="res_button_wrap">
-					<form action="{{$comment['link']}}" method="post" target="_blank"><input type="submit" value="返信"
+					<form action="{{$comment['link']}}" method="post" target="_blank"><input type="submit" value=" Reply "
 							class="res_button"></form><span class="page_top"><a href="#top">△</a></span>
 				</div>
 			</div>
@@ -140,10 +140,10 @@
 		<p></p>
 
 		<!-- 最終更新日時 -->
+		<p>new arrival {{$img_or_com}}.</p>
 		@if($lastmodified)
 		<p>last modified: {{$lastmodified}}</p>
 		@endif
-		<p>{{$img_or_com}} new arrival.</p>
 
 		<footer>
 			<nav>
