@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">

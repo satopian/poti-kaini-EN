@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
@@ -134,45 +134,41 @@
 			@endif
 			@endif
 			@if($paintform)
-			@if($paint and ($resno or !$diary)
+			@if($paint and ($resno or !$diary))
 			@if($resno)
 			<p class="resm">Reply with oekaki</p>
 			<hr>
 			@endif
 			<div class="epost">
 
-				{{-- ペイントボタン --}}
-				<form action="{{$self}}" method="post" enctype="multipart/form-data">
-					<p>
-						Width :<input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="300"
-							max="{{$pmaxw}}">
-						Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300"
-							max="{{$pmaxh}}">
-						@if($select_app)
-						Tool:
-						<select name="shi">
-							<option value="neo">PaintBBS NEO</option>
-							@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
-							@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
-						</select>
-						@else
-						{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
-						<input type="hidden" name="shi" value="neo">
-						@endif
-
-						@if($use_select_palettes)
-						Palettes: <select name="selected_palette_no" title="Palette"
-							class="form">{!!$palette_select_tags!!}</select>
-						@endif
-						@if($resno)
-						<input type="hidden" name="resto" value="{{$resno}}">
-						@endif
-						@if($anime)<label><input type="checkbox" value="true" name="anime" title="Save Playback"
-								@if($animechk){{$animechk}}@endif>Save Playback</label>@endif
-						<input type="hidden" name="mode" value="paint">
-						<input class="button" type="submit" value="Paint">
-					</p>
-				</form>
+{{-- ペイントボタン --}}
+<form action="{{$self}}" method="post" enctype="multipart/form-data">
+	<p>
+		Width :<input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
+		Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
+		@if($select_app)
+		Tool:
+		<select name="shi">
+		<option value="neo">PaintBBS NEO</option>
+		@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
+		@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
+	</select>
+	@else 
+	{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
+	<input type="hidden" name="shi" value="neo">
+	@endif
+	
+		@if($use_select_palettes)
+		Palette：<select name="selected_palette_no" title="Palette" class="form">{!!$palette_select_tags!!}</select>
+		@endif
+		@if($resno)
+		<input type="hidden" name="resto" value="{{$resno}}">
+		@endif
+		@if($anime)<label><input type="checkbox" value="true" name="anime" title="Save Playback" @if($animechk){{$animechk}}@endif>Save Playback</label>@endif
+		<input type="hidden" name="mode" value="paint">
+		<input class="button" type="submit" value="Paint">
+	</p>
+</form>
 				@if($paint2)
 				<ul>
 					<li>Canvas size is width 300px to {{$pmaxw}}px, height 300px to {{$pmaxh}}px.</li>
