@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" id="search">
+<html lang="en" id="search">
 
 <head>
 	<meta charset="utf-8">
