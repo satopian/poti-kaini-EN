@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.00.15');
-define('POTI_LOT','lot.220122');
+define('POTI_VER','v5.01.00');
+define('POTI_LOT','lot.220123');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -156,6 +156,8 @@ defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
 defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
 //レス画面に前後のスレッドの画像を表示する する:1 しない:0
 defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
+//日記モードで使用する する:1 しない:0
+defined('DIARY') or define('DIARY', '0');
 
 //パーミッション
 
@@ -200,7 +202,7 @@ setcookie("usercode", $usercode, time()+(86400*365));//1年間
 
 switch($mode){
 	case 'regist':
-		if(ADMIN_NEWPOST && !$resto){
+		if(DIARY && !$resto){
 			if($pwd && ($pwd !== $ADMIN_PASS)){
 				return error(MSG029);
 			}
@@ -359,7 +361,8 @@ function basicpart(){
 	$dat['userdel'] = USER_DELETES;
 	$dat['charset'] = 'UTF-8';
 	$dat['skindir'] = 'templates/'.SKIN_DIR;
-	$dat['for_new_post'] = (!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY) ? false : true;
+	$dat['for_new_post'] = (!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY) ? false : true;
+	$dat['diary'] = DIARY ? true : false;
 	//OGPイメージ シェアボタン
 	$dat['rooturl'] = ROOT_URL;//設置場所url
 	$dat['encoded_rooturl'] = urlencode(ROOT_URL);//設置場所url
@@ -614,9 +617,8 @@ function res($resno = 0){
 
 	//レス作成
 	$dat['oya'][0] = [];
-	$res['skipres']=false;
 	$rresname = [];
-	foreach($treeline as $j => $disptree){ // 子レスだけ回す
+	foreach($treeline as $j => $disptree){
 		if(!isset($lineindex[$disptree])) continue;
 		$k=$lineindex[$disptree];
 
