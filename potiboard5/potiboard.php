@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.01.00');
-define('POTI_LOT','lot.220123');
+define('POTI_VER','v5.01.01');
+define('POTI_LOT','lot.220124');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1479,6 +1479,7 @@ function paintform(){
 
 	if(strlen($pwd) > 72) error(MSG015);
 
+	$dat['type_neo'] = false;
 	$dat['pinchin'] = false;
 	$dat['pch_mode'] = false;
 	$dat['continue_mode'] = false;
