@@ -16,13 +16,12 @@ $ADMIN_PASS = 'adminpass';
 // 最大ログ数
 // 古いログから順番に消えます
 // Maximum number of posts. Disappears in chronological order.
-define('LOG_MAX', '2000');
+define('LOG_MAX', '3000');
 
 // テーマ(テンプレート)のディレクトリ。'/'まで
-// themeディレクトリに使いたいtemplateをいれて使ってください。(推奨)
-// 別のディレクトリにしたい場合は設定してください。
-// 例えばおまけのnee2を使いたい場合は theme_nee2/ とすることができます。初期値は theme/ です。
-// Theme directory, requires '/' at the end.
+//テンプレートが入っているディレクトリを指定してください。
+// MONO_enを使いたい場合は mono_en/ です。初期値は mono_en/ です。
+// template directory, requires '/' at the end.
 define('SKIN_DIR', 'mono_en/');
 
 // 設置場所のURL。potiboard.phpのあるディレクトリの'/'まで
