@@ -46,8 +46,8 @@ define('POTI_LOT','lot.220124');
 ご質問は、<https://paintbbs.sakura.ne.jp/poti/>までどうぞ。
 */
 
-if (($phpver = phpversion()) < "7.0.0") {
-	die("Error. PHP version 7.0.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
+if (($phpver = phpversion()) < "7.1.0") {
+	die("Error. PHP version 7.1.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
 }
 
 //INPUT_POSTから変数を取得

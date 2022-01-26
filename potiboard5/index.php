@@ -1,6 +1,6 @@
 <?php
-if (($phpver = phpversion()) < "7.0.0") {
-	die("Error. PHP version 7.0.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
+if (($phpver = phpversion()) < "7.1.0") {
+	die("Error. PHP version 7.1.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
 }
 
 include(__DIR__.'/config.php');
