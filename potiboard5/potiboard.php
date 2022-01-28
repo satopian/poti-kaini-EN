@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.01.02');
-define('POTI_LOT','lot.220126');
+define('POTI_VER','v5.01.03');
+define('POTI_LOT','lot.220127');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2301,8 +2301,6 @@ function replace(){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor";
 			$flag = true;
-			//旧ファイル削除
-			delete_files($path, $etim, $ext);
 
 			break;
 		}
@@ -2315,6 +2313,9 @@ function replace(){
 	writeFile($fp, implode("\n", $line));
 
 	closeFile($fp);
+
+	//旧ファイル削除
+	delete_files($path, $etim, $ext);
 
 	//ワークファイル削除
 	safe_unlink($src);
