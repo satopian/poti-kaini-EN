@@ -7,9 +7,7 @@ Malicious JavaScript can be executed.
 - POTI-board v3.09.x and earlier all versions have a serious bug.  
 You may lose all log files.
 
-Please update `potiboard.php` with v3.10.1 or later by overwriting.
-For those who are using the old version v2.x system.
-Please update `potiboard.php` by overwriting. Overwriting updates to `potiboard.php` alone can address the above two major issues.
+Please update to v3.10.1 or higher.
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
@@ -30,22 +28,17 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 php5.5 or upper, php7.x, or php8.0.
 
-## theme
-This oekaki board can be used by switching themes.  
-Please also use the English version of the theme created by @boxfries.  
-[boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
-
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
 Therefore, if you use a CSS file older than v3.07.5, some designs will not be displayed correctly.  
 For example, footers and catalogs don't look as intended.  
-If you want to change only the color scheme, please use the SCSS repository for development.  
+If you want to change only the color scheme, please use the SCSS for development.  
 
-[satopian / poti-kaini-themes: MONO for POTI-board EVO](https://github.com/satopian/poti-kaini-themes)  
+[css/dev/sass](https://github.com/satopian/poti-kaini-EN/tree/main/potiboard5/templates/mono_en/css/dev/sass)
 
 It's easy to change the color scheme because the settings are separated for the color scheme and other designs.  
 However, an environment that can handle SCSS is required.  
-For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [Live Sass Compiler](https:///marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass).   
+For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
