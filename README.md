@@ -47,7 +47,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 I changed the template engine to BladeOne because I get a deprecated error from Skinny.php in PHP8.1 environment.
 However, that means that the templates will be incompatible.
-Templates with the extension `HTML` have been replaced with templates with the extension` blade.php`.
+Templates with the extension `HTML` have been replaced with templates with the extension `blade.php`.
 When you open the content, it's not much different from a traditional template. However, it may seem difficult because the extension is not HTML. 
 
 ### What has changed due to the change of the template engine
