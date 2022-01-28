@@ -26,7 +26,7 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 ## Required php version
 
-php5.5 or upper, php7.x, or php8.0.
+Required PHP version.PHP7.1 to PHP8.1
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
