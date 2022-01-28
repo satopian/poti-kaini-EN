@@ -57,7 +57,7 @@ POTI-board EVO v5.x requires PHP 7.1 or higher.
 
 #### Information for those who customize and use templates.
 The thread display process has changed significantly.
-Previously, there was processing for the parent of the thread, and there was separate processing for less.
+Previously, there was processing for the parent of the thread, and there was separate processing for reply.
 
 In v5.x, the loop of the array of one thread is ended at once.
 
