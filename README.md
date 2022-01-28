@@ -43,7 +43,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
 ## [2022/01/27] v5.01.03
-### Change to bladeOne for template engine
+### Change to BladeOne for template engine
 
 I changed the template engine to BladeOne because I get a deprecated error from Skinny.php in PHP8.1 environment.
 However, that means that the templates will be incompatible.
