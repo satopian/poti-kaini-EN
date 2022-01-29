@@ -7,7 +7,7 @@
 */
 
 //theme version
-define('TEMPLATE_VER', "v5.00.0 lot.220117");
+define('TEMPLATE_VER', "v5.01.0 lot.220129");
 
 //General message
 
@@ -70,9 +70,9 @@ define('MSG037', "[This name cannot be used.]");
 define('MSG038', "[This tag cannot be used.]");
 define('MSG039', "[New posts with only comments are not accepted.]");
 define('MSG040', "[The administrator password is not set.]"); //Remain in reserve for a while
-define('MSG041', "does not exist.");
-define('MSG042', "is not readable");
-define('MSG043', "is not writable");
+define('MSG041', " does not exist.");
+define('MSG042', " is not readable");
+define('MSG043', " is not writable");
 define('MSG044', "[Either the MAX LOG is not set, or it contains a non-numeric string.]");
 define('MSG045', "[This file does not supported by the ability to load uploaded files onto the canvas.]<br>[Supported formats are pch, spch and chi.]");
 define('MSG046', "[The password is too short. At least 6 characters.]");
