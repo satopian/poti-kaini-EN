@@ -7,9 +7,7 @@ Malicious JavaScript can be executed.
 - POTI-board v3.09.x and earlier all versions have a serious bug.  
 You may lose all log files.
 
-Please update `potiboard.php` with v3.10.1 or later by overwriting.
-For those who are using the old version v2.x system.
-Please update `potiboard.php` by overwriting. Overwriting updates to `potiboard.php` alone can address the above two major issues.
+Please update to v3.10.1 or higher.
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
@@ -28,26 +26,77 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 ## Required php version
 
-php5.5 or upper, php7.x, or php8.0.
-
-## theme
-This oekaki board can be used by switching themes.  
-Please also use the English version of the theme created by @boxfries.  
-[boxfries/themeparty: Collection of themes for the oekaki board &quot;Poti-board&quot;](https://github.com/boxfries/themeparty)
+Required PHP version.PHP7.1 to PHP8.1
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
 Therefore, if you use a CSS file older than v3.07.5, some designs will not be displayed correctly.  
 For example, footers and catalogs don't look as intended.  
-If you want to change only the color scheme, please use the SCSS repository for development.  
+If you want to change only the color scheme, please use the SCSS for development.  
 
-[satopian / poti-kaini-themes: MONO for POTI-board EVO](https://github.com/satopian/poti-kaini-themes)  
+[css/dev/sass](https://github.com/satopian/poti-kaini-EN/tree/main/potiboard5/templates/mono_en/css/dev/sass)
 
 It's easy to change the color scheme because the settings are separated for the color scheme and other designs.  
 However, an environment that can handle SCSS is required.  
-For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [Live Sass Compiler](https:///marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass).   
+For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+## [2022/01/27] v5.01.03
+### Change to BladeOne for template engine
+
+I changed the template engine to BladeOne because I get a deprecated error from Skinny.php in PHP8.1 environment.
+However, that means that the templates will be incompatible.
+Templates with the extension `HTML` have been replaced with templates with the extension `blade.php`.
+When you open the content, it's not much different from a traditional template. However, it may seem difficult because the extension is not HTML. 
+
+### What has changed due to the change of the template engine
+#### PHP7.1
+- I was developing it to work in PHP5.6 environment, but I found that v4.2 of BladeOne only works in PHP7.1 or higher environment.
+POTI-board EVO v5.x requires PHP 7.1 or higher.
+
+#### Information for those who customize and use templates.
+The thread display process has changed significantly.
+Previously, there was processing for the parent of the thread, and there was separate processing for reply.
+
+In v5.x, the loop of the array of one thread is ended at once.
+
+It then treats the first loop as the parent of the thread.
+Specifically, it looks like the following.
+
+```
+	@foreach ($ress as $res)
+	 {{-- Parent article header -}}
+	@if ($loop->first)
+	{{-- First loop -}}
+	<h2 class="article_title"><a href="{{$self}}?res={{$ress[0]['no']}}">[{{$ress[0]['no']}}]
+			{{$ress[0]['sub']}}</a></h2>
+
+	@else
+	<hr>
+	{{-- article header for reply -}}
+	<div class="res_article_wrap">
+		<div class="res_article_title">[{{$res['no']}}] {{$res['sub']}}</div>
+		@endif
+
+```
+
+`@if ($loop->first)` is true for the first loop of the thread.
+When `@if ($loop->first)` is true, it is processed as the parent of the thread.
+The `<h2>` tag of the title that is displayed differently only when it is the parent of the thread is put in that place.
+
+If you install the extension [laravel-blade](https://marketplace.visualstudio.com/items?itemName=cjhowe7.laravel-blade&ssr=false#review-details) in a free editor called VScode, the editor screen will appear. Switch to a color scheme optimized for the blade syntax.
+Both the extension and the editor itself can be used free of charge.
+### Files that have changed
+all.
+## Looking ahead for a few years
+We apologize for the incompatibility of the template and the resetting of config.php, but we hope you understand it.
+
+Also, please use the PHP script for the Oekaki bulletin board called [Petit Note](https://github.com/satopian/Petit_Note), which was newly recreated from scratch.
+
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.01.03 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.01.03)
+
 
 ## POTI-board EVO EN v3.19.5 released. 
 ## [2021/12/22] v3.19.5
