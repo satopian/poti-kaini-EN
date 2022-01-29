@@ -576,7 +576,7 @@
 						@endif
 					</div>
 					<p>
-						<a href="{{$pchfile}}" target="_blank">Download</a> - Datasize : {{$datasize}} kb
+						<a href="{{$pchfile}}" target="_blank">Download</a> - Datasize : {{$datasize}} KB
 					</p>
 					<p>
 						<a href="javascript:close()">close</a>
