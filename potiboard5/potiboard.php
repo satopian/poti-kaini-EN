@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.03.5');
-define('POTI_LOT','lot.220130');
+define('POTI_VER','v5.03.8');
+define('POTI_LOT','lot.220131');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -87,6 +87,11 @@ $views = __DIR__ . '/templates/'.SKIN_DIR;
 $cache = $views.'cache';
 $blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
+//サムネイルfunction
+if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
+	error($err);
+}
+require(__DIR__.'/thumbnail_gd.php');
 
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
@@ -97,11 +102,6 @@ require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 $path = realpath("./").'/'.IMG_DIR;
 $temppath = realpath("./").'/'.TEMP_DIR;
 
-//サムネイルfunction
-if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
-	error($err);
-}
-require(__DIR__.'/thumbnail_gd.php');
 
 //CheerpJ
 define('CHEERPJ_URL', 'https://cjrtnc.leaningtech.com/2.2/loader.js');
@@ -812,7 +812,7 @@ function regist(){
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
 		if(($ucode != $usercode) && ($uip != $userip)){error(MSG007);}
 		//描画時間を$userdataをもとに計算
-		if(DSP_PAINTTIME && $starttime && is_numeric($starttime)){
+		if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
 			$psec=(int)$postedtime-(int)$starttime;
 			$ptime = $psec;
 		}
@@ -1426,12 +1426,18 @@ function init(){
 	if(!is_file(realpath(h(PHP_SELF2))))updatelog();
 }
 
+function lang_en(){//言語が日本語以外ならtrue。
+	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
+	? explode( ',', $http_langs )[0] : '';
+  return (stripos($lang,'ja')!==0) ? true : false;
+  
+}
 // ファイル存在チェック
 function check_file ($path,$check_writable='') {
-
-	$msg041=defined('MSG041') ? MSG041 : "がありません"; 
-	$msg042=defined('MSG042') ? MSG042 : "を読めません"; 
-	$msg043=defined('MSG043') ? MSG043 : "を書けません"; 
+	$en=lang_en();
+	$msg041=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
+	$msg042=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
+	$msg043=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
 
 	if (!is_file($path)) return $path . $msg041."<br>";
 	if (!is_readable($path)) return $path . $msg042."<br>";
@@ -1441,10 +1447,10 @@ function check_file ($path,$check_writable='') {
 }
 // ディレクトリ存在チェック なければ作る
 function check_dir ($path) {
-
-	$msg041=defined('MSG041') ? MSG041 : "がありません"; 
-	$msg042=defined('MSG042') ? MSG042 : "を読めません"; 
-	$msg043=defined('MSG043') ? MSG043 : "を書けません"; 
+	$en=lang_en();
+	$msg041=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
+	$msg042=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
+	$msg043=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
 
 	if (!is_dir($path)) {
 			mkdir($path, PERMISSION_FOR_DIR);
@@ -2200,7 +2206,8 @@ function replace(){
 	//描画時間を$userdataをもとに計算
 	$psec='';
 	$_ptime = '';
-	if($starttime && is_numeric($starttime)){
+
+	if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
 		$psec=(int)$postedtime-(int)$starttime;
 		$_ptime = calcPtime($psec);
 	}
