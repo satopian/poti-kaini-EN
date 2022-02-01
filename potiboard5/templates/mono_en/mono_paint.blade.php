@@ -305,8 +305,8 @@
 						@if($useneo)
 						<fieldset>
 							<legend>TOOL</legend>
-							<input class="button" type="button" value="左" onclick="Neo.setToolSide(true)">
-							<input class="button" type="button" value="右" onclick="Neo.setToolSide(false)">
+							<input class="button" type="button" value="[L]" onclick="Neo.setToolSide(true)">
+							<input class="button" type="button" value="[R]" onclick="Neo.setToolSide(false)">
 						</fieldset>
 						@endif
 						<fieldset>

@@ -61,7 +61,7 @@ define('MSG028', "[The password is wrong or the article does not exist.]");
 define('MSG029', "[password is wrong.]");
 define('MSG030', "[failed in deletion.(Admin)]");
 define('MSG031', "[Please input No.]");
-define('MSG032', "[Post was rejected.]<br>[illegal character string.]");
+define('MSG032', "[There is an inappropriate string.]");
 define('MSG033', "[failed in deletion.]<br>[user doesn't have deletion authority.]");
 define('MSG034', "[Failed to upload picture.]<br>[The size of the picture is too big.]");
 define('MSG035', "[Comment should have at least some Japanese characters.]");
@@ -77,6 +77,8 @@ define('MSG044', "[Either the MAX LOG is not set, or it contains a non-numeric s
 define('MSG045', "[This file does not supported by the ability to load uploaded files onto the canvas.]<br>[Supported formats are pch, spch and chi.]");
 define('MSG046', "[The password is too short. At least 6 characters.]");
 define('MSG047', "[The size of the picture is too large. You can not continue.]");
+define('MSG048', "[There is an inappropriate URL.]");
+
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'

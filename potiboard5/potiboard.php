@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.03.8');
+define('POTI_VER','v5.05.0');
 define('POTI_LOT','lot.220131');
 
 /*
@@ -159,6 +159,8 @@ defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 //日記モードで使用する する:1 しない:0
 defined('DIARY') or define('DIARY', '0');
 
+$badurl= $badurl ?? [];//拒絶するurl
+
 //パーミッション
 
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606);
@@ -176,6 +178,7 @@ defined('MSG044') or define('MSG044', '最大ログ数が設定されていな�
 defined('MSG045') or define('MSG045', 'アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。');
 defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最低6文字。');
 defined('MSG047') or define('MSG047', '画像の幅と高さが大きすぎるため続行できません。');
+defined('MSG048') or define('MSG048', '不適切なURLがあります。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -1432,33 +1435,34 @@ function lang_en(){//言語が日本語以外ならtrue。
   return (stripos($lang,'ja')!==0) ? true : false;
   
 }
+function initial_error_message(){
+	$en=lang_en();
+	$msg['041']=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
+	$msg['042']=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
+	$msg['043']=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
+return $msg;	
+}
+
 // ファイル存在チェック
 function check_file ($path,$check_writable='') {
-	$en=lang_en();
-	$msg041=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
-	$msg042=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
-	$msg043=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
-
-	if (!is_file($path)) return $path . $msg041."<br>";
-	if (!is_readable($path)) return $path . $msg042."<br>";
+	$msg=initial_error_message();
+	if (!is_file($path)) return $path . $msg['041']."<br>";
+	if (!is_readable($path)) return $path . $msg['042']."<br>";
 	if($check_writable){//書き込みが必要なファイルのチェック
-		if (!is_writable($path)) return $path . $msg043."<br>";
+		if (!is_writable($path)) return $path . $msg['043']."<br>";
 	}
 }
 // ディレクトリ存在チェック なければ作る
 function check_dir ($path) {
-	$en=lang_en();
-	$msg041=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
-	$msg042=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
-	$msg043=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
+	$msg=initial_error_message();
 
 	if (!is_dir($path)) {
 			mkdir($path, PERMISSION_FOR_DIR);
 			chmod($path, PERMISSION_FOR_DIR);
 	}
-	if (!is_dir($path)) return $path . $msg041."<br>";
-	if (!is_readable($path)) return $path . $msg042."<br>";
-	if (!is_writable($path)) return $path . $msg043."<br>";
+	if (!is_dir($path)) return $path . $msg['041']."<br>";
+	if (!is_readable($path)) return $path . $msg['042']."<br>";
+	if (!is_writable($path)) return $path . $msg['043']."<br>";
 }
 
 // お絵描き画面
@@ -2454,13 +2458,13 @@ function charconvert($str){
 
 // NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post(){
-	global $badstring,$badname,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
+	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
 
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
 	$email = (string)filter_input(INPUT_POST, 'email');
-	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$pwd = (string)filter_input(INPUT_POST, 'pwd');
 
 	if(strlen($com) > MAX_COM) error(MSG011);
@@ -2475,6 +2479,7 @@ function Reject_if_NGword_exists_in_the_post(){
 	$chk_com  = preg_replace("/\s/u", "", $com );
 	$chk_name = preg_replace("/\s/u", "", $name );
 	$chk_email = preg_replace("/\s/u", "", $email );
+	$chk_url = preg_replace("/\s/u", "", $url );
 	$chk_sub = preg_replace("/\s/u", "", $sub );
 
 	//本文に日本語がなければ拒絶
@@ -2489,13 +2494,17 @@ function Reject_if_NGword_exists_in_the_post(){
 	}
 
 	// 使えない文字チェック
-	if (is_ngword($badstring, [$chk_com, $chk_sub, $chk_name, $chk_email])) {
+	if (is_ngword($badstring, [$chk_com, $chk_name,$chk_email,$chk_sub,$chk_url])) {
 		error(MSG032);
 	}
 
 	// 使えない名前チェック
 	if (is_ngword($badname, $chk_name)) {
 		error(MSG037);
+	}
+	// 使えないurlチェック
+	if (is_ngword($badurl, $chk_url)) {
+		error(MSG048);
 	}
 
 	//指定文字列が2つあると拒絶
