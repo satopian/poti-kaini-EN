@@ -177,7 +177,7 @@
 			<li>Canvas size is width 300px to {{$pmaxw}}px, height 300px to {{$pmaxh}}px.</li>
 			<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
 			@endif
-			{{$addinfo}}
+			{!!$addinfo!!}
 		</ul>
 		@endif	
 		</div>
@@ -238,7 +238,7 @@
 					<li>Images larger than width {{$maxw}}px height {{$maxh}}pxpx will be displayed in reduced size.</li>
 					@endif
 					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
-					@if($addinfo){{$addinfo}}@endif
+					{!!$addinfo!!}
 				</ul>
 			</form>
 		</div>
