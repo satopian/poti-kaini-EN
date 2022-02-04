@@ -131,33 +131,33 @@
 				@endif
 			</p>
 			<hr>
-			@endif
-			@endif
-			@if($paintform)
-			@if($paint and ($resno or !$diary))
-			@if($resno)
+	@endif
+	@endif
+	@if($paintform)
+	@if($paint and ($resno or !$diary))
+		@if($resno)
 			<p class="resm">Reply with oekaki</p>
 			<hr>
-			@endif
-			<div class="epost">
+		@endif
+		<div class="epost">
 
-{{-- ペイントボタン --}}
-<form action="{{$self}}" method="post" enctype="multipart/form-data">
-	<p>
-		Width :<input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
-		Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
+		{{-- ペイントボタン --}}
+		<form action="{{$self}}" method="post" enctype="multipart/form-data">
+		<p>
+			Width :<input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
+			Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
 		@if($select_app)
-		Tool:
-		<select name="shi">
-		<option value="neo">PaintBBS NEO</option>
-		@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
-		@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
-	</select>
-	@else 
-	{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
-	<input type="hidden" name="shi" value="neo">
-	@endif
-	
+			Tool:
+			<select name="shi">
+			<option value="neo">PaintBBS NEO</option>
+			@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
+			@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
+		</select>
+		@else 
+		{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
+		<input type="hidden" name="shi" value="neo">
+		@endif
+
 		@if($use_select_palettes)
 		Palette：<select name="selected_palette_no" title="Palette" class="form">{!!$palette_select_tags!!}</select>
 		@endif
@@ -167,80 +167,83 @@
 		@if($anime)<label><input type="checkbox" value="true" name="anime" title="Save Playback" @if($animechk){{$animechk}}@endif>Save Playback</label>@endif
 		<input type="hidden" name="mode" value="paint">
 		<input class="button" type="submit" value="Paint">
-	</p>
-</form>
-				@if($paint2)
+		</p>
+		</form>
+	@endif
+
+		@if ($notres and (!$diary or $addinfo))
+		<ul>
+			@if ($paint2 and !$diary)
+			<li>Canvas size is width 300px to {{$pmaxw}}px, height 300px to {{$pmaxh}}px.</li>
+			<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
+			@endif
+			{{$addinfo}}
+		</ul>
+		@endif	
+		</div>
+			@endif
+		@if($form)
+			<div>
+			<form action="{{$self}}" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="token" value="@if($token){{$token}}@endif">
+				<input type="hidden" name="mode" value="regist">
+				@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{$maxbyte}}">
+				<table>
+					<tr>
+						<td>Name @if($usename){{$usename}}@endif</td>
+						<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username">
+						</td>
+					</tr>
+					<tr>
+						<td>Mail</td>
+						<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email">
+						</td>
+					</tr>
+					<tr>
+						<td>URL</td>
+						<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
+					</tr>
+					<tr>
+						<td>Sub @if($usesub){{$usesub}}@endif</td>
+						<td>
+							<input class="form" type="text" name="sub" size="20" value="@if($resub){{$resub}}@endif"
+								autocomplete="section-sub">
+							<input class="button" type="submit" value="Post">
+						</td>
+					</tr>
+					<tr>
+						<td>Com @if($usecom){{$usecom}}@endif</td>
+						<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft"
+								id="p_input_com"></textarea></td>
+					</tr>
+					@if($upfile)
+					<tr>
+						<td>UpFile</td>
+						<td>
+							<input class="form" type="file" name="upfile" accept="image/*">
+							<span class="preview"></span>
+						</td>
+					</tr>
+					@endif
+					<tr>
+						<td>Pass</td>
+						<td><input class="form" type="password" name="pwd" value=""
+								autocomplete="current-password"><small>(For editing and deleting)</small></td>
+					</tr>
+				</table>
 				<ul>
-					<li>Canvas size is width 300px to {{$pmaxw}}px, height 300px to {{$pmaxh}}px.</li>
-					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
+					@if($upfile)
+					<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
+					<li>Images larger than width {{$maxw}}px height {{$maxh}}pxpx will be displayed in reduced size.</li>
+					@endif
+					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
 					@if($addinfo){{$addinfo}}@endif
 				</ul>
-				@endif
-			</div>
-			@endif
-			@endif
-			@if($form)
-			<div>
-				<form action="{{$self}}" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="token" value="@if($token){{$token}}@endif">
-					<input type="hidden" name="mode" value="regist">
-					@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif
-					<input type="hidden" name="MAX_FILE_SIZE" value="{{$maxbyte}}">
-					<table>
-						<tr>
-							<td>Name @if($usename){{$usename}}@endif</td>
-							<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username">
-							</td>
-						</tr>
-						<tr>
-							<td>Mail</td>
-							<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email">
-							</td>
-						</tr>
-						<tr>
-							<td>URL</td>
-							<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
-						</tr>
-						<tr>
-							<td>Sub @if($usesub){{$usesub}}@endif</td>
-							<td>
-								<input class="form" type="text" name="sub" size="20" value="@if($resub){{$resub}}@endif"
-									autocomplete="section-sub">
-								<input class="button" type="submit" value="Post">
-							</td>
-						</tr>
-						<tr>
-							<td>Com @if($usecom){{$usecom}}@endif</td>
-							<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft"
-									id="p_input_com"></textarea></td>
-						</tr>
-						@if($upfile)
-						<tr>
-							<td>UpFile</td>
-							<td>
-								<input class="form" type="file" name="upfile" accept="image/*">
-								<span class="preview"></span>
-							</td>
-						</tr>
-						@endif
-						<tr>
-							<td>Pass</td>
-							<td><input class="form" type="password" name="pwd" value=""
-									autocomplete="current-password"><small>(For editing and deleting)</small></td>
-						</tr>
-					</table>
-					<ul>
-						@if($upfile)
-						<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
-						<li>Images larger than width {{$maxw}}px height {{$maxh}}pxpx will be displayed in reduced size.</li>
-						@endif
-						<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
-						@if($addinfo){{$addinfo}}@endif
-					</ul>
-				</form>
-			</div>
-			@endif
+			</form>
 		</div>
+	@endif
+	</div>
 	</header>
 
 	<main>
