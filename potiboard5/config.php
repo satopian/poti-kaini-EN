@@ -97,8 +97,8 @@ define('SHARE_BUTTON', '0');
 // String blacklists and regular expressions are supported.
 $badstring = array("irc.s16.xrea.com","Unsolicitedad");
 
-//拒絶するurl
-// Reject url
+//拒絶するURL
+// URL blacklists
 $badurl = array("example.com","www.example.com");
 
 // 使用できない名前
