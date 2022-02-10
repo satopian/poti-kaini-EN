@@ -48,8 +48,11 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 When the character string specified by the "String blacklists" exists in the URL, it is now rejected.
 In addition, we have added a "URL blacklists" .
 
-`// URL blacklists`  
-`$badurl = array("example.com","www.example.com");`
+```
+// URL blacklists
+$badurl = array("example.com","www.example.com");
+
+```
 
 Previously, no spam word checking was done on the URL.
 
