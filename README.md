@@ -42,6 +42,43 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2022/02/10] v5.05.0
+
+### URL blacklists
+When the character string specified by the "String blacklists" exists in the URL, it is now rejected.
+In addition, we have added a "URL blacklists" .
+
+```
+// URL blacklists
+$badurl = array("example.com","www.example.com");
+
+```
+
+Previously, no spam word checking was done on the URL.
+
+### Older threads don't show links to draw more. Do not allow the continuation to be drawn.
+
+There was a function to lock the editing of articles that exceeded the specified number of days, but I was able to draw the continuation.
+I created these settings because the article will be modified if the password is compromised by a third party.
+Even if the article is locked, it can be deleted by the user.
+In addition, the administrator can edit even after the specified number of days.
+
+However, I think that some people may be in trouble if the lock is applied within a certain number of days.
+
+`define ('ELAPSED_DAYS', '365');`
+
+Threads older than 1 year will be locked in `365`,
+
+`define ('ELAPSED_DAYS', '0');`
+  
+If set to `0`, it will not be locked.
+
+- If the specified number of days has passed while drawing, it will be a new post.
+Also, when the thread is deleted while drawing, it will be a new post.
+
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.05.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.05.0)
+
 ## [2022/01/27] v5.01.03
 ### Change to BladeOne for template engine
 
