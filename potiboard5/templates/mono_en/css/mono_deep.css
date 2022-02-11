@@ -230,6 +230,9 @@ ul.menu {
   display: table;
 }
 
+.res {
+  display: table;
+}
 .res section {
   display: table;
 }
@@ -243,10 +246,6 @@ ul.menu {
 }
 .res figure img {
   margin: 0 0 1em 0;
-}
-
-.res_wrap {
-  display: flow-root;
 }
 
 .resma {

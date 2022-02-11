@@ -2,7 +2,11 @@
 /*! =====このcssファイルはsassから生成されています。===== */
 
 //設定ファイルの読み込み
+// @use "mono_dark_conf" as val;
 @use "mono_deep_conf" as val;
+// @use "mono_main_conf" as val;
+// @use "mono_mayo_conf" as val;
+
 //リセット
 * {
 	margin: 0;
@@ -205,6 +209,7 @@
   }
 
   .res {
+	display: table;
 	section {
 	  display: table;
 	}
@@ -222,9 +227,6 @@
 	  }
   }
   
-  .res_wrap {
-	  display: flow-root;
-  }
   
   .resma {
 	color: val.$resmoji;
