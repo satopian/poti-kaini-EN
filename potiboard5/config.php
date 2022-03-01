@@ -63,6 +63,11 @@ define('USE_SHI_PAINTER', '1');
 // Use ChickenPaint
 // (1: Enabled, 0: Disabled) 
 define('USE_CHICKENPAINT', '1');
+
+//Use Klecks
+// (1: Enabled, 0: Disabled) 
+define('USE_KLECKS', '1');
+
 //PaintBBS NEO can be used with any setting.
 
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/

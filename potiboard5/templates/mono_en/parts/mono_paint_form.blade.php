@@ -9,6 +9,7 @@
 		<option value="neo">PaintBBS NEO</option>
 		@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
 		@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
+		@if ($use_klecks)<option value="klecks">Klecks</option>@endif
 	</select>
 	@else 
 	{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}

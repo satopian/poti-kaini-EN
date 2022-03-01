@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.05.0');
-define('POTI_LOT','lot.220131');
+define('POTI_VER','v5.06.3');
+define('POTI_LOT','lot.220301');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -152,6 +152,11 @@ defined('MD_LINK') or define('MD_LINK', '0');
 defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
 //ChickenPaintを使う 使う:1 使わない:0 
 defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
+//Klecksを使う 使う:1 使わない:0
+defined('USE_KLECKS') or define('USE_KLECKS', '1');
+
+defined('PAINT_KLECKS') or define('PAINT_KLECKS', 'paint_klecks');
+
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
 defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
 //レス画面に前後のスレッドの画像を表示する する:1 しない:0
@@ -358,6 +363,7 @@ function basicpart(){
 	$dat['app_to_use'] = $dat['select_app'] ? false : "neo";
 	$dat['use_shi_painter'] = USE_SHI_PAINTER ? true : false;
 	$dat['use_chickenpaint'] = USE_CHICKENPAINT ? true : false;
+	$dat['use_klecks'] = USE_KLECKS ? true : false;
 	$dat['ver'] = POTI_VER;
 	$dat['verlot'] = POTI_VERLOT;
 	$dat['tver'] = TEMPLATE_VER;
@@ -1011,23 +1017,16 @@ function regist(){
 			}
 			if($i>=$chkline){break;}//チェックする最大行数
 		}
-		//chiファイルアップロード
-		if(is_file($temppath.$picfile.'.chi')){
-			$src = $temppath.$picfile.'.chi';
-			$dst = PCH_DIR.$time.'.chi';
+		//PCHファイルアップロード
+		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
+		if ($pchext = check_pch_ext($temppath.$picfile)) {
+		$src = $temppath.$picfile.$pchext;
+		$dst = PCH_DIR.$time.$pchext;
 			if(copy($src, $dst)){
 				chmod($dst,PERMISSION_FOR_DEST);
 			}
 		}
 
-		//PCHファイルアップロード
-		if ($pchext = check_pch_ext($temppath.$picfile)) {
-			$src = $temppath.$picfile.$pchext;
-			$dst = PCH_DIR.$time.$pchext;
-			if(copy($src, $dst)){
-				chmod($dst,PERMISSION_FOR_DEST);
-			}
-		}
 		list($w, $h) = getimagesize($dest);
 		$ext = getImgType($img_type, $dest);
 
@@ -1155,9 +1154,6 @@ function regist(){
 		$data['option'][] = NOTICE_MAIL_TITLE.','.$sub;
 		if($ext) $data['option'][] = NOTICE_MAIL_IMG.','.ROOT_URL.IMG_DIR.$time.$ext;//拡張子があったら
 		if(is_file(THUMB_DIR.$time.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$time.'s.jpg';
-		if ($_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$time)) {
-			$data['option'][] = NOTICE_MAIL_ANIME.','.ROOT_URL.PCH_DIR.$time.$_pch_ext;
-		}
 		if($resto){
 			$data['subject'] = '['.TITLE.'] No.'.$resto.NOTICE_MAIL_REPLY;
 			$data['option'][] = "\n".NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
@@ -1490,18 +1486,21 @@ function paintform(){
 
 	if(strlen($pwd) > 72) error(MSG015);
 
+	$dat['klecksusercode']=$usercode;//klecks
+	$dat['resto']=$resto;//klecks
 	$dat['type_neo'] = false;
 	$dat['pinchin'] = false;
 	$dat['pch_mode'] = false;
 	$dat['continue_mode'] = false;
 	$dat['imgfile'] = false;
 	$dat['img_chi'] = false;
+	$dat['img_klecks']=false;
 	$dat['paintbbs'] = false;
 	$dat['quality'] = false;
 	$dat['pro'] = false;
 	$dat['normal'] = false;
-	$dat['image_jpeg'] = false;
-	$dat['image_size'] = false;
+	$dat['image_jpeg'] = 'false';
+	$dat['image_size'] = 0;
 	$dat['undo'] = false;
 	$dat['undo_in_mg'] = false;
 	$dat['pchfile'] = false;
@@ -1519,11 +1518,6 @@ function paintform(){
 	$dat['newpost_nopassword'] = false;
 
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
-	$useneo=filter_input(INPUT_POST, 'useneo',FILTER_VALIDATE_BOOLEAN) ? true :false;
-	if($shi==='neo'){
-		$useneo=true;//trueのみfalseは入らない
-	}
-	$dat['chickenpaint']= (!$is_mobile && $shi==='chicken') ? true :false;
 	//pchファイルアップロードペイント
 	if($admin&&($admin===$ADMIN_PASS)){
 		
@@ -1550,12 +1544,10 @@ function paintform(){
 					error(MSG045,$pchup);
 				}
 				if($pchext==="pch"){
-					$shi=0;
-					$useneo = is_neo($pchup);
+					$shi = is_neo($pchup) ? 'neo': 0;
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="spch"){
-					$shi=$shi ? $shi : 1;
-					$useneo=false;
+					$shi=($shi==1||$shi==2) ? $shi : 1;
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="chi"){
 					$dat['chickenpaint']=true;
@@ -1605,37 +1597,34 @@ function paintform(){
 		$dat['type'] = $type;
 		$dat['pwd'] = $pwd;
 		$dat['ext'] = $ext;
-		$dat['applet'] = true;
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 		if($shi==='chicken' && ($picw > PMAX_W)) error(MSG047);
 		if($shi==='chicken' && ($pich > PMAX_H)) error(MSG047);	
 	
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch);
+		$continue_from_pch = in_array($_pch_ext,['.pch','.spch']);
 		if($is_mobile && ($_pch_ext==='.spch')){
 			$ctype='img';
 		}
-		if($ctype=='pch'&& $_pch_ext){
+		if($ctype=='pch'&& $continue_from_pch){
 			$anime=true;
 			if($_pch_ext==='.pch'){
-				$useneo = is_neo(PCH_DIR.$pch.'.pch');
-				$dat['applet'] = false;
-			}elseif($_pch_ext==='.spch'){
-				$dat['usepbbs'] = false;
-				$useneo=false;
+				$shi = is_neo(PCH_DIR.$pch.'.pch') ? 'neo':0;
 			}
 			$dat['pchfile'] = './'.PCH_DIR.$pch.$_pch_ext;
 		}
-
-		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像または
+		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
 				if(mime_content_type(IMG_DIR.$pch.$ext)==='image/webp'){
-					$useneo=true;
+					$shi='neo';
 				}
-	
 			$dat['animeform'] = false;
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
 			if(!$is_mobile && is_file('./'.PCH_DIR.$pch.'.chi')){
 				$dat['img_chi'] = './'.PCH_DIR.$pch.'.chi';
+			}
+			if(!$is_mobile && is_file('./'.PCH_DIR.$pch.'.psd')){
+				$dat['img_klecks'] = './'.PCH_DIR.$pch.'.psd';
 			}
 		}
 	
@@ -1653,16 +1642,14 @@ function paintform(){
 		$dat['newpaint'] = true;
 	}
 
-	if(!$useneo){
-		$useneo=$is_mobile;//mobileの時はNEOしか起動しない。
-	}
+	$shi= $is_mobile ? 'neo':$shi;//mobileの時はNEOしか起動しない。
 	if($picw < 300) $picw = 300;
 	if($pich < 300) $pich = 300;
 	if($picw > PMAX_W) $picw = PMAX_W;
 	if($pich > PMAX_H) $pich = PMAX_H;
 
 
-	if(!$useneo && $shi){
+	if($shi==1||$shi==2){
 	$w = $picw + 510;//しぃぺの時の幅
 	$h = $pich + 120;//しぃぺの時の高さ
 	} else{
@@ -1673,21 +1660,10 @@ function paintform(){
 
 	$dat['security_url'] = SECURITY_URL;
 
-	$savetype = (string)filter_input(INPUT_POST, 'savetype'); // JPEG or PNG or AUTO or それ以外 が来ることを想定
-	$dat['image_jpeg'] = in_array($savetype, ['JPEG', 'AUTO']);
-	$dat['image_size'] = in_array($savetype, ['PNG', 'AUTO']) ? IMAGE_SIZE : ($savetype == 'JPEG' ? 1 : 0);
-	$dat['savetypes']
-		= '<option value="AUTO"' . ($savetype == 'AUTO' ? ' selected' : '') . '>AUTO</option>'
-		. '<option value="PNG"' . ($savetype == 'PNG' ? ' selected' : '') . '>PNG</option>'
-		. '<option value="JPEG"' . ($savetype == 'JPEG' ? ' selected' : '') . '>JPEG</option>';
-
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
 	if($shi) $dat['quality'] = $quality ? $quality : $qualitys[0];
 	//NEOを使う時はPaintBBSの設定
-	if(!$useneo && $shi==1){ $dat['normal'] = true; }
-	elseif(!$useneo && $shi==2){ $dat['pro'] = true; }
-	else{ $dat['paintbbs'] = true; }
 
 	$initial_palette = 'Palettes[0] = "#000000\n#FFFFFF\n#B47575\n#888888\n#FA9696\n#C096C0\n#FFB6FF\n#8080FF\n#25C7C9\n#E7E58D\n#E7962D\n#99CB7B\n#FCECE2\n#F9DDCF";';
 	if(USE_SELECT_PALETTES){//パレット切り替え機能を使う時
@@ -1739,18 +1715,26 @@ function paintform(){
 	$resto = ($resto) ? '&resto='.$resto : '';
 	$dat['mode'] = 'piccom'.$resto;
 
-	$dat['useneo'] = $useneo; //NEOを使う
 	$usercode.='&stime='.time().$resto;
 	//差し換え時の認識コード追加
+	$dat['rep']=false;
 	if($type==='rep'){
+		$dat['rep']=true;
 		$time=time();
 		$userip = get_uip();
 		$repcode = substr(crypt(md5($no.$userip.$pwd.date("Ymd", $time)),$time),-8);
+		$dat['repcode']=$repcode;
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
-		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode	;
+		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
 	}
+	//アプリ選択 
+	if($shi==1){ $dat['normal'] = true; }
+	elseif($shi==2){ $dat['pro'] = true; }
+	else{ $dat['paintbbs'] = true; }
+	$dat['useneo'] = ($shi=='neo') ? true:false;//NEOを使う
+	$dat['chickenpaint']= (!$is_mobile && $shi==='chicken') ? true :false;
 
 	$dat['usercode'] = $usercode;
 
@@ -1758,8 +1742,11 @@ function paintform(){
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
 	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
-
-	htmloutput(PAINTFILE,$dat);
+	if($shi!=='klecks'){
+		return htmloutput(PAINTFILE,$dat);
+	}elseif($shi==='klecks'){
+		return htmloutput(PAINT_KLECKS,$dat);
+	}
 }
 
 // お絵かきコメント 
@@ -1853,7 +1840,7 @@ function openpch(){
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 
 	$ext = check_pch_ext(PCH_DIR . $_pch);
-	if(!$ext){
+	if(!in_array($ext,['.pch','.spch'])){
 		error(MSG001);
 	}
 	$dat['pchfile'] = './' . PCH_DIR . $_pch . $ext;
@@ -1942,13 +1929,11 @@ function incontinue(){
 	//描画時間
 	$cptime=is_numeric($cptime) ? h(calcPtime($cptime)) : h($cptime); 
 	if(DSP_PAINTTIME) $dat['painttime'] = $cptime;
-	$dat['applet'] = true;//従来の条件のアプリの選択メニューを出すかどうか(旧タイプ互換)
+	$dat['ctype_img'] = true;
 	$dat['ctype_pch'] = false;
 	if(is_file(PCH_DIR.$ctim.'.pch')){
 		$dat['ctype_pch'] = true;
-		$dat['applet'] = false;
 		$dat['select_app'] = false;
-		$dat['usepbbs'] = true;
 		if(is_neo(PCH_DIR.$ctim.'.pch')){
 			$dat['app_to_use'] = "neo";
 		}else{
@@ -1962,9 +1947,11 @@ function incontinue(){
 	}elseif(is_file(PCH_DIR.$ctim.'.chi')){
 		$dat['select_app'] = false;
 		$dat['app_to_use'] = 'chicken';
+	}elseif(is_file(PCH_DIR.$ctim.'.psd')){
+		$dat['select_app'] = false;
+		$dat['app_to_use'] = 'klecks';
 	}
 	if(mime_content_type(IMG_DIR.$ctim.$cext)==='image/webp'){
-		$dat['applet'] = false;
 		$dat['use_shi_painter'] = false; 
 	}
 	$dat['addinfo'] = $addinfo;
@@ -2184,6 +2171,15 @@ function replace(){
 	$host = gethostbyaddr($userip);
 	check_badip($host);
 
+
+	// var_dump($no,$pwd,$repcode);
+	//  = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	
+	//  = (string)newstring(filter_input(INPUT_GET, 'pwd'));
+	
+	//  = (string)newstring(filter_input(INPUT_GET, 'repcode'));
+
+
 	/*--- テンポラリ捜査 ---*/
 	$find=false;
 	$handle = opendir(TEMP_DIR);
@@ -2294,17 +2290,7 @@ function replace(){
 			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
 
 			$src='';
-			//chiファイルアップロード
-			if(is_file($temppath.$file_name.'.chi')){
-				$src = $temppath.$file_name.'.chi';
-				$dst = PCH_DIR.$time.'.chi';
-				if(copy($src, $dst)){
-					chmod($dst,PERMISSION_FOR_DEST);
-				}
-			}
-
-			//PCHファイルアップロード
-			// .pch, .spch, ブランク どれかが返ってくる
+			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 			if ($pchext = check_pch_ext($temppath . $file_name)) {
 				$src = $temppath . $file_name . $pchext;
 				$dst = PCH_DIR . $time . $pchext;
@@ -2634,6 +2620,10 @@ function check_pch_ext ($filepath) {
 		return ".pch";
 	} elseif (is_file($filepath . ".spch")) {
 		return ".spch";
+	} elseif (is_file($filepath . ".chi")) {
+		return ".chi";
+	} elseif (is_file($filepath . ".psd")) {
+		return ".psd";
 	}
 	return '';
 }
@@ -2662,6 +2652,7 @@ function delete_files ($path, $filename, $ext) {
 	safe_unlink(PCH_DIR.$filename.'.pch');
 	safe_unlink(PCH_DIR.$filename.'.spch');
 	safe_unlink(PCH_DIR.$filename.'.chi');
+	safe_unlink(PCH_DIR.$filename.'.psd');
 }
 
 /**
@@ -2768,9 +2759,10 @@ function create_res ($line, $options = []) {
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
 		//動画リンク
-		$pch_ext=check_pch_ext(PCH_DIR.$time);
+		$pch_ext= (isset($options['pch'])) ? check_pch_ext(PCH_DIR.$time):'';
 		$res['spch']=($pch_ext==='.spch') ? true : false;
-		$res['pch'] = (isset($options['pch']) && USE_ANIME && $pch_ext) ? $time.$ext : '';
+		$res['pch'] = (USE_ANIME && ($pch_ext==='.pch'||$pch_ext==='.spch')) ? $time.$ext : '';
+		
 		//コンティニュー
 		$res['continue'] = USE_CONTINUE ? (check_elapsed_days($time) ? $res['no'] : '') :'';
 	}
