@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.06.3');
-define('POTI_LOT','lot.220301');
+define('POTI_VER','v5.06.5');
+define('POTI_LOT','lot.220302');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1083,7 +1083,7 @@ function regist(){
 				$find = TRUE;
 				$line[$i] = rtrim($value).','.$no;
 				$treelines=explode(",", rtrim($line[$i]));
-				if(!$sage || (count($treelines)>MAX_RES)){
+				if(!($sage || count($treelines)>MAX_RES)){
 					$new_treeline=$line[$i] . "\n";
 					unset($line[$i]);
 				}
