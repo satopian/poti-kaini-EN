@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!-- mocked drawing page -->
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-	<title>お絵かきモード - {{$title}}</title> 
+	<title>{{$title}}</title> 
 
     <!-- this is important -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -82,44 +82,42 @@
             setTimeout(() => {
                 onSuccess();
 
-
-
 			//2022 (c)satopian MIT LICENCE
+			//この箇所はさとぴあが作成したMIT LICENCEのコードです。
 			klecks.getPSD().then((psd)=>{
 				var formData = new FormData();
 				formData.append("picture", klecks.getPNG(),'blob');
 				formData.append("psd", psd,'blob');
 				formData.append("usercode", "{{$klecksusercode}}");
-				@if($rep) formData.append("repcode", "{{$repcode}}");@endif
+				@if($rep)formData.append("repcode", "{{$repcode}}");@endif
 				formData.append("stime", <?=time();?>);
 				formData.append("resto", "{{$resto}}");
+				@if($pwd)formData.append("pwd", "{{$pwd}}");@endif
 
 				var request = new XMLHttpRequest();
 				request.open("POST", "saveklecks.php");
 				request.send(formData);
 
-				request.onreadystatechange = function() {
+					request.onreadystatechange = function() {
 
-				console.log(request.readyState);
-				console.log(request.responseText);
+					console.log(request.readyState);
+					console.log(request.responseText);
 
-				if ( request.readyState === 4 && request.status ===200) {
+					if ( request.readyState === 4 && request.status ===200) {
 
-					if(request.responseText === 'ok'){
-					//PHPからOKが返って来た時は画面を推移。OKが返って来ない時は、alertを出す。
-					return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
-					
+						if(request.responseText === 'ok'){
+						//PHPからOKが返って来た時は画面を推移。OKが返って来ない時は、alertを出す。
+						return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
+						
+					}
+					alert('投稿に失敗。時間をおいて再度投稿してみてください。');
+					return;
 				}
-				alert('投稿に失敗。時間をおいて再度投稿してみてください。');
-				return;
 			}
-			//2022 (c)satopian MIT LICENCE ここまで
-
-		}
-				
-	});
+		});
+		//2022 (c)satopian MIT LICENCE ここまで
 			
-				// location.reload();
+		// location.reload();
 
 	}, 500);
 	}

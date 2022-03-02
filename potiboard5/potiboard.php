@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.06.5');
+define('POTI_VER','v5.07.0');
 define('POTI_LOT','lot.220302');
 
 /*
@@ -1019,7 +1019,7 @@ function regist(){
 		}
 		//PCHファイルアップロード
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-		if ($pchext = check_pch_ext($temppath.$picfile)) {
+		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
 		$src = $temppath.$picfile.$pchext;
 		$dst = PCH_DIR.$time.$pchext;
 			if(copy($src, $dst)){
@@ -1461,7 +1461,7 @@ function check_dir ($path) {
 	if (!is_writable($path)) return $path . $msg['043']."<br>";
 }
 
-// お絵描き画面
+// お絵かき画面
 function paintform(){
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
@@ -1532,7 +1532,7 @@ function paintform(){
 			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
 			$pchext=strtolower($pchext);//すべて小文字に
 			//拡張子チェック
-			if (!in_array($pchext, ['pch','spch','chi'])) {
+			if (!in_array($pchext, ['pch','spch','chi','psd'])) {
 				error(MSG045,$pchtmp);
 			}
 			$pchup = TEMP_DIR.'pchup-'.$time.'-tmp.'.$pchext;//アップロードされるファイル名
@@ -1540,7 +1540,7 @@ function paintform(){
 			if(move_uploaded_file($pchtmp, $pchup)){//アップロード成功なら続行
 
 				$pchup=TEMP_DIR.basename($pchup);//ファイルを開くディレクトリを固定
-				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip"])){
+				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip","image/vnd.adobe.photoshop"])){
 					error(MSG045,$pchup);
 				}
 				if($pchext==="pch"){
@@ -1550,8 +1550,12 @@ function paintform(){
 					$shi=($shi==1||$shi==2) ? $shi : 1;
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="chi"){
-					$dat['chickenpaint']=true;
+					$shi='chicken';
 					$dat['img_chi'] = $pchup;
+				} elseif($pchext==="psd"){
+					$shi='klecks';
+					$dat['img_klecks'] = $pchup;
+					$pwd=$admin;
 				}
 			}
 		}
@@ -1591,22 +1595,15 @@ function paintform(){
 			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
 			//親の番号ではない事を確認してレス先の番号をセット。
 		}
-		$dat['no'] = $no;
-		$dat['pch'] = $pch;
-		$dat['ctype'] = $ctype;
-		$dat['type'] = $type;
-		$dat['pwd'] = $pwd;
-		$dat['ext'] = $ext;
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 		if($shi==='chicken' && ($picw > PMAX_W)) error(MSG047);
 		if($shi==='chicken' && ($pich > PMAX_H)) error(MSG047);	
 	
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch);
-		$continue_from_pch = in_array($_pch_ext,['.pch','.spch']);
 		if($is_mobile && ($_pch_ext==='.spch')){
 			$ctype='img';
 		}
-		if($ctype=='pch'&& $continue_from_pch){
+		if($ctype=='pch'&& $_pch_ext){
 			$anime=true;
 			if($_pch_ext==='.pch'){
 				$shi = is_neo(PCH_DIR.$pch.'.pch') ? 'neo':0;
@@ -1620,10 +1617,10 @@ function paintform(){
 			$dat['animeform'] = false;
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
-			if(!$is_mobile && is_file('./'.PCH_DIR.$pch.'.chi')){
+			if(is_file('./'.PCH_DIR.$pch.'.chi')){
 				$dat['img_chi'] = './'.PCH_DIR.$pch.'.chi';
 			}
-			if(!$is_mobile && is_file('./'.PCH_DIR.$pch.'.psd')){
+			if(is_file('./'.PCH_DIR.$pch.'.psd')){
 				$dat['img_klecks'] = './'.PCH_DIR.$pch.'.psd';
 			}
 		}
@@ -1712,6 +1709,7 @@ function paintform(){
 		$pwd=openssl_encrypt ($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//暗号化
 		$pwd=bin2hex($pwd);//16進数に
 	}
+	$dat['pwd'] = $pwd;//klecks
 	$resto = ($resto) ? '&resto='.$resto : '';
 	$dat['mode'] = 'piccom'.$resto;
 
@@ -1840,7 +1838,7 @@ function openpch(){
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 
 	$ext = check_pch_ext(PCH_DIR . $_pch);
-	if(!in_array($ext,['.pch','.spch'])){
+	if(!$ext){
 		error(MSG001);
 	}
 	$dat['pchfile'] = './' . PCH_DIR . $_pch . $ext;
@@ -1873,7 +1871,7 @@ function deltemp(){
 				unlink(TEMP_DIR.$file);
 			}
 			//pchアップロードペイントファイル削除
-			if(preg_match("/\A(pchup-.*-tmp\.(s?pch|chi))\z/i",$file)) {
+			if(preg_match("/\A(pchup-.*?-tmp\.(s?pch|chi|psd))\z/i",$file)) {
 				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (300)){//5分
 					unlink(TEMP_DIR.$file);
@@ -2291,7 +2289,7 @@ function replace(){
 
 			$src='';
 			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-			if ($pchext = check_pch_ext($temppath . $file_name)) {
+			if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
 				$src = $temppath . $file_name . $pchext;
 				$dst = PCH_DIR . $time . $pchext;
 				if(copy($src, $dst)){
@@ -2615,11 +2613,13 @@ function calcPtime ($psec) {
  * @param $filepath
  * @return string
  */
-function check_pch_ext ($filepath) {
+function check_pch_ext ($filepath,$options = []) {
 	if (is_file($filepath . ".pch")) {
 		return ".pch";
 	} elseif (is_file($filepath . ".spch")) {
 		return ".spch";
+	} elseif (!isset($options['upfile'])) {
+		return '';
 	} elseif (is_file($filepath . ".chi")) {
 		return ".chi";
 	} elseif (is_file($filepath . ".psd")) {
@@ -2761,7 +2761,7 @@ function create_res ($line, $options = []) {
 		//動画リンク
 		$pch_ext= (isset($options['pch'])) ? check_pch_ext(PCH_DIR.$time):'';
 		$res['spch']=($pch_ext==='.spch') ? true : false;
-		$res['pch'] = (USE_ANIME && ($pch_ext==='.pch'||$pch_ext==='.spch')) ? $time.$ext : '';
+		$res['pch'] = (USE_ANIME && $pch_ext) ? $time.$ext : '';
 		
 		//コンティニュー
 		$res['continue'] = USE_CONTINUE ? (check_elapsed_days($time) ? $res['no'] : '') :'';
