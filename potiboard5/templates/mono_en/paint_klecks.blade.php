@@ -92,7 +92,6 @@
 				@if($rep)formData.append("repcode", "{{$repcode}}");@endif
 				formData.append("stime", <?=time();?>);
 				formData.append("resto", "{{$resto}}");
-				@if($pwd)formData.append("pwd", "{{$pwd}}");@endif
 
 				var request = new XMLHttpRequest();
 				request.open("POST", "saveklecks.php");
