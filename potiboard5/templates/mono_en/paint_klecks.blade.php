@@ -41,7 +41,7 @@
 <body>
 
 <!-- embed start -->
-<script src="klecks/embed.js"></script>
+<script src="klecks/embed.js?{{$parameter_day}}"></script>
 <script type="text/javascript">
 
     /*
