@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.07.3');
+define('POTI_VER','v5.07.5');
 define('POTI_LOT','lot.220303');
 
 /*
@@ -1595,9 +1595,6 @@ function paintform(){
 			//親の番号ではない事を確認してレス先の番号をセット。
 		}
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
-		if(in_array($shi,['chicken','klecks']) && ($picw > PMAX_W)||($pich > PMAX_H)){
-			error(MSG047);	
-		}
 	
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch);
 		if($is_mobile && ($_pch_ext==='.spch')){
