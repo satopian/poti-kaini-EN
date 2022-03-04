@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.07.5');
+define('POTI_VER','v5.08.0');
 define('POTI_LOT','lot.220303');
 
 /*
@@ -1705,7 +1705,6 @@ function paintform(){
 		$pwd=openssl_encrypt ($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//暗号化
 		$pwd=bin2hex($pwd);//16進数に
 	}
-	$dat['pwd'] = $pwd;//klecks
 	$resto = ($resto) ? '&resto='.$resto : '';
 	$dat['mode'] = 'piccom'.$resto;
 
