@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.0');
-define('POTI_LOT','lot.220303');
+define('POTI_VER','v5.08.2');
+define('POTI_LOT','lot.220305');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -793,10 +793,14 @@ function regist(){
 	}
 	$upfile = isset($_FILES["upfile"]["tmp_name"]) ? $_FILES["upfile"]["tmp_name"] : "";
 
-	if($upfile_name && isset($_FILES["upfile"]["error"])){//エラーチェック
+	if(isset($_FILES["upfile"]["error"])){//エラーチェック
 		if(in_array($_FILES["upfile"]["error"],[1,2])){
 			error(MSG034);//容量オーバー
 		} 
+	}
+	$filesize = isset($_FILES["upfile"]['size']) ? $_FILES["upfile"]['size'] :'';
+	if($filesize > MAX_KB*1024){
+		error(MSG034);//容量オーバー
 	}
 
 	$message="";
@@ -806,6 +810,7 @@ function regist(){
 
 	$ptime='';
 	// お絵かき絵アップロード処理
+	$pictmp2 = false;
 	if($pictmp==2){
 		if(!$picfile) error(MSG002);
 		$upfile = $temppath.$picfile;
@@ -813,13 +818,15 @@ function regist(){
 		$picfile=pathinfo($picfile, PATHINFO_FILENAME );//拡張子除去
 		//選択された絵が投稿者の絵か再チェック
 		if (!$picfile || !is_file($temppath.$picfile.".dat")) {
-			error(MSG007);
+			return error(MSG007);
 		}
 		$fp = fopen($temppath.$picfile.".dat", "r");
 		$userdata = fread($fp, 1024);
 		fclose($fp);
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
-		if(($ucode != $usercode) && ($uip != $userip)){error(MSG007);}
+		if(($ucode != $usercode) && ($uip != $userip)){
+			return error(MSG007);
+		}
 		//描画時間を$userdataをもとに計算
 		if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
 			$psec=(int)$postedtime-(int)$starttime;
@@ -827,12 +834,13 @@ function regist(){
 		}
 		$uresto=(string)filter_var($uresto,FILTER_VALIDATE_INT);
 		$resto = $uresto ? $uresto : $resto;//変数上書き$userdataのレス先を優先する
+		$pictmp2 = true;
 	}
 	$dest='';
 	$is_file_dest=false;
 	if($upfile && is_file($upfile)){//アップロード
 		$dest = $path.$time.'.tmp';
-		if($pictmp==2){
+		if($pictmp2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
 			if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){//アップロード禁止で管理画面からの投稿ではない時
@@ -890,7 +898,7 @@ function regist(){
 	$lineindex=get_lineindex($line);//逆変換テーブル作成
 
 	if($resto && !isset($lineindex[$resto])){//レス先のログが存在しない時
-		if($pictmp==2){//お絵かきは
+		if($pictmp2){//お絵かきは
 			$resto = '';//新規投稿
 		}else{
 			error(MSG025,$dest);
@@ -899,7 +907,7 @@ function regist(){
 	if($resto && isset($lineindex[$resto])){
 		list(,,,,,,,,,,,,$_time,) = explode(",", $line[$lineindex[$resto]]);
 		if(!check_elapsed_days($_time)){//フォームが閉じられていたら
-			if($pictmp==2){//お絵かきは
+			if($pictmp2){//お絵かきは
 				$resto = '';//新規投稿
 			}else{
 				error(MSG001,$dest);
@@ -1091,7 +1099,7 @@ function regist(){
 			}
 		}
 	}
-	if($pictmp==2 && !$find ){//お絵かきでレス先が無い時は新規投稿
+	if($pictmp2 && !$find ){//お絵かきでレス先が無い時は新規投稿
 		$resto='';
 	}
 	if(!$resto){
@@ -1522,7 +1530,7 @@ function paintform(){
 	if($admin&&($admin===$ADMIN_PASS)){
 		
 		$pchtmp= isset($_FILES['pch_upload']['tmp_name']) ? $_FILES['pch_upload']['tmp_name'] :'';
-		if($pchtmp && in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
+		if(in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
 			error(MSG034);
 		} 
 		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
