@@ -208,6 +208,10 @@
 						</tr>
 						@endif
 						@if($tmp)
+						@php 
+						rsort($tmp);
+						@endphp
+		
 						<tr>
 							<td>Images</td>
 							<td><select name="picfile">
