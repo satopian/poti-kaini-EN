@@ -58,7 +58,7 @@ $success = $success && move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_D
 if (!$success) {
     chibi_die("Couldn't move uploaded files");
 }
-if (isset($_FILES['chibifile']) && ($$_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
+if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
 	if(!SIZE_CHECK || ($_FILES['chibifile']['size'] < (CHIBI_MAX_KB * 1024))){
 	//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
 	move_uploaded_file($_FILES['chibifile']['tmp_name'], TEMP_DIR.$imgfile.'.chi');
