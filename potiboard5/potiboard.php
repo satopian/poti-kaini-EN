@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.5');
+define('POTI_VER','v5.08.6');
 define('POTI_LOT','lot.220306');
 
 /*
@@ -1530,7 +1530,7 @@ function paintform(){
 	if($admin&&($admin===$ADMIN_PASS)){
 		
 		$pchtmp= isset($_FILES['pch_upload']['tmp_name']) ? $_FILES['pch_upload']['tmp_name'] :'';
-		if(in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
+		if(isset($_FILES['pch_upload']['error']) && in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
 			error(MSG034);
 		} 
 		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
