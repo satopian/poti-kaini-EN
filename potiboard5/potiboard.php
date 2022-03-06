@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.3');
+define('POTI_VER','v5.08.5');
 define('POTI_LOT','lot.220306');
 
 /*
@@ -799,7 +799,7 @@ function regist(){
 		} 
 	}
 	$filesize = isset($_FILES["upfile"]['size']) ? $_FILES["upfile"]['size'] :'';
-	if($filesize > MAX_KB*1024){
+	if($filesize > MAX_KB*1024*2){//png→jpegで容量が減るかもしれないので2倍
 		error(MSG034);//容量オーバー
 	}
 
