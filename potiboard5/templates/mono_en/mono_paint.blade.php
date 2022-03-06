@@ -105,7 +105,6 @@
 <link rel="stylesheet" type="text/css" href="chickenpaint/css/chickenpaint.css?{{$parameter_day}}">
 
 		@else 
-		<style>body{overscroll-behavior-x: none !important; }</style>
 		{{-- <!-- Javaが使えるかどうか判定 使えなければcheerpJをロード --> --}}
 		<script>
 			function cheerpJLoad() {
@@ -122,7 +121,10 @@
 		</script>
 
 	@endif
-		
+	@if($paint_mode)
+	<style>body{overscroll-behavior-x: none !important; }</style>
+	@endif
+
 		<title>{{$title}}</title>
 		<style id="for_mobile"></style>
 		<script>
