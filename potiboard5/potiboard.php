@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.2');
-define('POTI_LOT','lot.220305');
+define('POTI_VER','v5.08.3');
+define('POTI_LOT','lot.220306');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -453,7 +453,7 @@ function form($resno="",$adminin="",$tmp=""){
 	$dat['paintform'] = USE_PAINT ? ($resno ? (RES_UPLOAD ? true :false) :true):false;
 	$dat['admin'] = $admin_valid ? h($ADMIN_PASS) :'';
 
-	$dat['maxbyte'] = 2048 * 1024;//フォームのHTMLによるファイルサイズの制限 2Mまで
+	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	$dat['usecom'] = (USE_COM||($resno&&!RES_UPLOAD)) ? ' *' :'';
@@ -2036,8 +2036,8 @@ function editform(){
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
 	$dat['admin'] =($pwd && ($pwd===$ADMIN_PASS)) ? h($ADMIN_PASS):'';
-	$dat['maxbyte'] = MAX_KB * 1024;
-	$dat['maxkb']   = MAX_KB;
+	$dat['maxbyte'] = 0;//編集画面
+	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;
 	$dat['name'] = h(strip_tags($name));
 	$dat['email'] = h(filter_var($email,FILTER_VALIDATE_EMAIL));
