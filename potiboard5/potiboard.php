@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.6');
-define('POTI_LOT','lot.220306');
+define('POTI_VER','v5.08.8');
+define('POTI_LOT','lot.220307');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -602,7 +602,7 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
-
+	$treeline=[];
 	$trees = file(TREEFILE);
 	foreach($trees as $i => $value){
 		//レス先検索
@@ -1718,15 +1718,15 @@ function paintform(){
 
 	$usercode.='&stime='.time().$resto;
 	//差し換え時の認識コード追加
-	$dat['rep']=false;
+	$dat['rep']=false;//klecks
 	if($type==='rep'){
-		$dat['rep']=true;
+		$dat['rep']=true;//klecks
 		$time=time();
 		$userip = get_uip();
 		$repcode = substr(crypt(md5($no.$userip.$pwd.date("Ymd", $time)),$time),-8);
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
-		$dat['repcode']=$repcode;
+		$dat['repcode']=$repcode;//klecks
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
 	}
@@ -1895,10 +1895,15 @@ function incontinue(){
 	$dat['useneo'] = false;
 	$dat['chickenpaint'] = false;
 
+	$name='';
+	$sub='';
+	$cext='';
+	$ctim='';
+	$cptime='';
+
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
 	$lines = file(LOGFILE);
 	$flag = FALSE;
-	$cptime='';
 	foreach($lines as $line){
 		//記事ナンバーのログを取得		
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
@@ -1926,7 +1931,6 @@ function incontinue(){
 	$dat['no'] = h($no);
 	$dat['pch'] = h($ctim);
 	$dat['ext'] = h($cext);
-	$dat['ctype_img'] = true;
 	//描画時間
 	$cptime=is_numeric($cptime) ? h(calcPtime($cptime)) : h($cptime); 
 	if(DSP_PAINTTIME) $dat['painttime'] = $cptime;
@@ -2172,15 +2176,6 @@ function replace(){
 	$host = gethostbyaddr($userip);
 	check_badip($host);
 
-
-	// var_dump($no,$pwd,$repcode);
-	//  = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	
-	//  = (string)newstring(filter_input(INPUT_GET, 'pwd'));
-	
-	//  = (string)newstring(filter_input(INPUT_GET, 'repcode'));
-
-
 	/*--- テンポラリ捜査 ---*/
 	$find=false;
 	$handle = opendir(TEMP_DIR);
@@ -2226,6 +2221,9 @@ function replace(){
 	$pwd=hex2bin($pwd);//バイナリに
 	$pwd=openssl_decrypt($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//復号化
 	$oyano='';
+	$src='';
+	$upfile='';
+
 	foreach($line as $i => $value){
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
 	//画像差し替えに管理パスは使っていない
@@ -2290,7 +2288,7 @@ function replace(){
 			//サムネイル作成
 			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
 
-			$src='';
+			//PCHファイルアップロード
 			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 			if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
 				$src = $temppath . $file_name . $pchext;
