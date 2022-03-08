@@ -57,7 +57,7 @@ You can use 8 layers.
 Many minor bugs have been fixed.
 
 More information can be found in the release.    
-[Release POTI-board EVO EN v5.10.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.10.0)
+[Release POTI-board EVO EN v5.10.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.10.0.1)
 
 ## [2022/02/10] v5.05.0
 
