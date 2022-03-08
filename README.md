@@ -92,7 +92,7 @@ If set to `0`, it will not be locked.
 Also, when the thread is deleted while drawing, it will be a new post.
 
 More information can be found in the release.    
-[Release POTI-board EVO EN v5.05.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.05.0)
+[Release POTI-board EVO EN v5.05.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.05.0.1)
 
 ## [2022/01/27] v5.01.03
 ### Change to BladeOne for template engine
