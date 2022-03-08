@@ -42,6 +42,21 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2022/03/8] v5.10.0
+
+### new function
+- You can use the new painting app Klecks.
+
+![image](https://user-images.githubusercontent.com/44894014/157234120-d806d24f-2f2b-4600-9d29-515a5743efd6.png)
+
+Easy-to-understand UI, powerful brushes, and filter functions.
+You can use 8 layers.
+### fix
+Many minor bugs have been fixed.
+
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.10.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.10.0)
+
 ## [2022/02/10] v5.05.0
 
 ### URL blacklists
