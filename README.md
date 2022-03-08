@@ -7,7 +7,9 @@ Malicious JavaScript can be executed.
 - POTI-board v3.09.x and earlier all versions have a serious bug.  
 You may lose all log files.
 
-Please update to v3.10.1 or higher.
+- POTI-board v3.x gives a deprecated error in PHP8.1 It will not work with future versions of PHP.
+
+Please update to v5.x or higher.
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO and Chicken Paint.
 
