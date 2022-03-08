@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.08.8');
-define('POTI_LOT','lot.220307');
+define('POTI_VER','v5.10.0');
+define('POTI_LOT','lot.220308');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -394,7 +394,8 @@ function basicpart(){
 	$dat['cheerpj_url']=CHEERPJ_URL;
 	$dat['n']=false;//コメント行
 	$dat['resform'] = false;//ミニフォーム廃止	
-
+	//言語
+	$dat['en']=lang_en();
 	//初期化 PHP8.1 OTHERFILE 
 	$dat['post_mode']=false;
 	$dat['rewrite']=false;
@@ -1730,6 +1731,7 @@ function paintform(){
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
 	}
+
 	//アプリ選択 
 	if($shi==1){ $dat['normal'] = true; }
 	elseif($shi==2){ $dat['pro'] = true; }

@@ -29,10 +29,6 @@
 					e.preventDefault();
 					e.stopPropagation();
 				}, { passive: false });
-				document.addEventListener('touchmove', function (e){
-					e.preventDefault();
-					e.stopPropagation();
-				}, { passive: false });
 			}
 			window.addEventListener('DOMContentLoaded',fixklecks,false);
 		</script>
@@ -109,7 +105,7 @@
 						return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
 						
 					}
-					alert('投稿に失敗。時間をおいて再度投稿してみてください。');
+					alert(@if($en)'Your picture upload failed! Please try again!'@else'投稿に失敗。時間をおいて再度投稿してみてください。'@endif);
 					return;
 				}
 			}
