@@ -92,10 +92,6 @@
 				e.preventDefault();
 				e.stopPropagation();
 			}, { passive: false });
-			chicken.addEventListener('touchmove', function (e){
-				e.preventDefault();
-				e.stopPropagation();
-			}, { passive: false });
 		}
 		window.addEventListener('DOMContentLoaded',fixchicken,false);
 		</script>

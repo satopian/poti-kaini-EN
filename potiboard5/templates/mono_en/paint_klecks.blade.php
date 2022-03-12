@@ -25,10 +25,6 @@
 		<script>
 			function fixklecks() {
 				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
-				document.addEventListener('contextmenu', function (e){
-					e.preventDefault();
-					e.stopPropagation();
-				}, { passive: false });
 			}
 			window.addEventListener('DOMContentLoaded',fixklecks,false);
 		</script>
