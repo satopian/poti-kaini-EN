@@ -17,18 +17,16 @@
 			<published>{{$ress[0]['updated']}}</published>
 			<updated>{{$ress[0]['updated']}}</updated>
 					<summary type="html">
-						{{$ress[0]['imgsrc']}}{{'<br>'}}
-						{!!$ress[0]['descriptioncom']!!}{{'<br>'}}
+						{{$ress[0]['imgsrc']}}
+						{!!$ress[0]['descriptioncom']!!}
 					</summary>
 		<content type="html">
-			{!!$ress[0]['sub']!!} by {!!$ress[0]['name']!!}{{'<br>'}}
 			{{$ress[0]['imgsrc']}}
 			{!!$ress[0]['com']!!}{{'<br>'}}
 			@if(isset($ress) and !@empty($ress))
 			@foreach ($ress as $i=>$res)
 			@if (!$loop->first)
-				{{'<hr>'}}
-				{!!$res['sub']!!} by {!!$res['name']!!}{{'<br>'}}
+			{{'<h3>'}}{!!$res['sub']!!} by {!!$res['name']!!}{{'</h3>'}}
 				{{$res['imgsrc']}}
 				{!!$res['com']!!}{{'<br>'}}
 			@endif
