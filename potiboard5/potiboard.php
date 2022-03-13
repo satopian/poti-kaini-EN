@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.11.2');
+define('POTI_VER','v5.12.0');
 define('POTI_LOT','lot.220312');
 
 /*
@@ -162,20 +162,8 @@ defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THR
 defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 //日記モードで使用する する:1 しない:0
 defined('DIARY') or define('DIARY', '0');
-//RSSを出力する する:1 しない:0
-defined('USE_RSS') or define('USE_RSS', '1');
 
 $badurl= $badurl ?? [];//拒絶するurl
-if(USE_RSS){
-//RSSの出力に必要なファイルの確認と読み込み
-	if ($err = check_file(__DIR__.'/rss.php')) {
-		error($err);
-	}
-	require(__DIR__.'/rss.php');
-	if ($err = check_file(__DIR__ . '/templates/'.SKIN_DIR.'rss.blade.php')) {
-		error($err);
-	}
-}
 
 //パーミッション
 
@@ -514,8 +502,6 @@ function updatelog(){
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
 	$counttree = count($tree);//190619
-	$r=0;
-	$rsslines=[];
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 		$oya = 0;	//親記事のメイン添字
 		$dat=$fdat;//form()を何度もコールしない
@@ -543,20 +529,9 @@ function updatelog(){
 					$res['disp_resbutton'] = check_elapsed_days($res['time']); //返信ボタン表示有無
 					// 親レス用の値
 					$res['skipres'] = DSP_RES ? (($skipres>0) ? $skipres : false) :false;
-					// 親レス用の値
-					// if($r<20){
-					// 	$rsslines[]=$line[$j];//rss表示用
-					// }
-					++$r;
 				}
-					// if($r<20){
-				if($page===0){
-					$rsslines[$oya][]=$line[$j];//rss表示用
-				}		
-					// }
 					$dat['oya'][$oya][]=$res;
 			}
-			// = $rres;
 			clearstatcache(); //キャッシュをクリア
 			$oya++;
 
@@ -614,9 +589,7 @@ function updatelog(){
 		closeFile($fp);
 		if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 	}
-	if(USE_RSS){
-		rss::create_rss($rsslines);
-	}
+
 	safe_unlink(($page/PAGE_DEF+1).PHP_EXT);
 }
 
