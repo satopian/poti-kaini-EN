@@ -600,6 +600,7 @@
 							<input type="hidden" name="mode" value="download">
 							<input type="hidden" name="no" value="{{$no}}">
 							<input type="hidden" name="pch_ext" value="{{$pch_ext}}">
+							<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
 							Pass <input class="form" type="password" name="pwd" value="">
 							<input class="button" type="submit" value="Download {{$pch_ext}} file">
 							</form>
