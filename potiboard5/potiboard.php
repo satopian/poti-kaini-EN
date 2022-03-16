@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.15.5');
-define('POTI_LOT','lot.220316');
+define('POTI_VER','v5.15.8');
+define('POTI_LOT','lot.220317');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1938,12 +1938,12 @@ function incontinue(){
 	$dat['ctype_pch'] = false;
 	$pch_ext=check_pch_ext(PCH_DIR.$ctim,['upfile'=>true]);
 	$dat['pch_ext']=$pch_ext;
+	$dat['download_app_dat'] = true;
 
 	switch($pch_ext){
 		case '.pch':
 			$dat['ctype_pch'] = true;
 			$dat['select_app'] = false;
-			$dat['download_app_dat'] = true;
 			if(is_neo(PCH_DIR.$ctim.'.pch')){
 				$dat['app_to_use'] = "neo";
 			}else{
@@ -1955,27 +1955,22 @@ function incontinue(){
 			$dat['ctype_pch'] = true;
 			$dat['select_app'] = false;
 			$dat['app_to_use'] = "1";
-			$dat['download_app_dat'] = true;
 			break;
 
 		case '.chi':
 			$dat['select_app'] = false;
 			$dat['app_to_use'] = 'chicken';
-			$dat['download_app_dat'] = true;
 			break;
 
 		case '.psd':
 			$dat['select_app'] = false;
 			$dat['app_to_use'] = 'klecks';
-			$dat['download_app_dat'] = true;
-			$dat['pch_ext']='.psd';
 			break;
 
 		default :
 			$dat['select_app'] = true;
 			$dat['app_to_use'] = false;
 			$dat['download_app_dat'] = false;
-			$dat['pch_ext']='';
 			break;
 	}
 	
@@ -2027,11 +2022,11 @@ function download_app_dat(){
 	}
 	if(!$flag) error(MSG001);
 	if(!(($no==$cno)&&check_password($pwd,$cpwd,$pwd))){
-		return error(MSG028);
+		return error(MSG029);
 	}
 
-	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
-	if(!$filepath)error(MSG001);
+	$filepath= $pchext ? PCH_DIR.$ctime.$pchext : '';
+	if(!$filepath || !is_file($filepath))error(MSG001);
 	header('Content-Type: '.mime_content_type($filepath));
 	header('Content-Length: '.filesize($filepath));
 	header('Content-Disposition: attachment; filename="'.h(basename($filepath)).'"');
