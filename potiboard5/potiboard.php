@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.12.0');
-define('POTI_LOT','lot.220312');
+define('POTI_VER','v5.15.5');
+define('POTI_LOT','lot.220316');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -268,6 +268,8 @@ switch($mode){
 		return replace();
 	case 'catalog':
 		return catalog();
+	case 'download':
+		return download_app_dat();
 	default:
 		if($res){
 			return res($res);
@@ -1892,7 +1894,7 @@ function incontinue(){
 	$dat['pch_mode'] = false;
 	$dat['useneo'] = false;
 	$dat['chickenpaint'] = false;
-
+	
 	$name='';
 	$sub='';
 	$cext='';
@@ -1934,26 +1936,49 @@ function incontinue(){
 	if(DSP_PAINTTIME) $dat['painttime'] = $cptime;
 	$dat['ctype_img'] = true;
 	$dat['ctype_pch'] = false;
-	if(is_file(PCH_DIR.$ctim.'.pch')){
-		$dat['ctype_pch'] = true;
-		$dat['select_app'] = false;
-		if(is_neo(PCH_DIR.$ctim.'.pch')){
-			$dat['app_to_use'] = "neo";
-		}else{
-			$dat['app_to_use'] = "0";
-		}
-		
-	}elseif(is_file(PCH_DIR.$ctim.'.spch')){
-		$dat['ctype_pch'] = true;
-		$dat['select_app'] = false;
-		$dat['app_to_use'] = "1";
-	}elseif(is_file(PCH_DIR.$ctim.'.chi')){
-		$dat['select_app'] = false;
-		$dat['app_to_use'] = 'chicken';
-	}elseif(is_file(PCH_DIR.$ctim.'.psd')){
-		$dat['select_app'] = false;
-		$dat['app_to_use'] = 'klecks';
+	$pch_ext=check_pch_ext(PCH_DIR.$ctim,['upfile'=>true]);
+	$dat['pch_ext']=$pch_ext;
+
+	switch($pch_ext){
+		case '.pch':
+			$dat['ctype_pch'] = true;
+			$dat['select_app'] = false;
+			$dat['download_app_dat'] = true;
+			if(is_neo(PCH_DIR.$ctim.'.pch')){
+				$dat['app_to_use'] = "neo";
+			}else{
+				$dat['app_to_use'] = "0";
+			}
+			break;
+
+		case '.spch':
+			$dat['ctype_pch'] = true;
+			$dat['select_app'] = false;
+			$dat['app_to_use'] = "1";
+			$dat['download_app_dat'] = true;
+			break;
+
+		case '.chi':
+			$dat['select_app'] = false;
+			$dat['app_to_use'] = 'chicken';
+			$dat['download_app_dat'] = true;
+			break;
+
+		case '.psd':
+			$dat['select_app'] = false;
+			$dat['app_to_use'] = 'klecks';
+			$dat['download_app_dat'] = true;
+			$dat['pch_ext']='.psd';
+			break;
+
+		default :
+			$dat['select_app'] = true;
+			$dat['app_to_use'] = false;
+			$dat['download_app_dat'] = false;
+			$dat['pch_ext']='';
+			break;
 	}
+	
 	if(mime_content_type(IMG_DIR.$ctim.$cext)==='image/webp'){
 		$dat['use_shi_painter'] = false; 
 	}
@@ -1982,7 +2007,38 @@ function check_cont_pass(){
 	}
 	error(MSG028);
 }
+function download_app_dat(){
 
+	$pwd=(string)filter_input(INPUT_POST,'pwd');
+	$no=(string)filter_input(INPUT_POST,'no');
+	$pchext=(string)basename(filter_input(INPUT_POST,'pch_ext'));
+	$cpwd='';
+	$cno='';
+	$ctime='';
+	$lines = file(LOGFILE);
+	$flag = false;
+	foreach($lines as $line){
+		//記事ナンバーのログを取得		
+		if (strpos(trim($line) . ',', $no . ',') === 0) {
+		list($cno,,,,,,,,$cpwd,,,,$ctime,) = explode(",", rtrim($line));
+		$flag = true;
+		break;
+		}
+	}
+	if(!$flag) error(MSG001);
+	if(!(($no==$cno)&&check_password($pwd,$cpwd,$pwd))){
+		return error(MSG028);
+	}
+
+	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
+	if(!$filepath)error(MSG001);
+	header('Content-Type: '.mime_content_type($filepath));
+	header('Content-Length: '.filesize($filepath));
+	header('Content-Disposition: attachment; filename="'.h(basename($filepath)).'"');
+
+	readfile($filepath);
+ 
+}
 // 編集画面
 function editform(){
 	global $addinfo,$fontcolors,$ADMIN_PASS;
@@ -2623,8 +2679,9 @@ function check_pch_ext ($filepath,$options = []) {
 		return ".chi";
 	} elseif (is_file($filepath . ".psd")) {
 		return ".psd";
+	} else {
+		return '';
 	}
-	return '';
 }
 
 /**

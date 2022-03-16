@@ -594,6 +594,18 @@
 						<figcaption>{{$picfile_name}}@if($painttime) PaintTime : {{$painttime}}@endif</figcaption>
 					</figure>
 					<hr class="hr">
+					{{-- ダウンロード --}}
+					@if($download_app_dat)
+					<form action="{{$self}}" method="post">
+							<input type="hidden" name="mode" value="download">
+							<input type="hidden" name="no" value="{{$no}}">
+							<input type="hidden" name="pch_ext" value="{{$pch_ext}}">
+							Pass <input class="form" type="password" name="pwd" value="">
+							<input class="button" type="submit" value="Download {{$pch_ext}} file">
+							</form>
+						<hr class="hr">
+					@endif	  
+					
 					<form action="{{$self}}" method="post">
 						<input type="hidden" name="mode" value="contpaint">
 						<input type="hidden" name="anime" value="true">
