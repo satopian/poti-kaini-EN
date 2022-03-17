@@ -2025,7 +2025,7 @@ function download_app_dat(){
 		return error(MSG029);
 	}
 
-	$filepath= $pchext ? PCH_DIR.$ctime.$pchext : '';
+	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
 	if(!$filepath || !is_file($filepath))error(MSG001);
 	header('Content-Type: '.mime_content_type($filepath));
 	header('Content-Length: '.filesize($filepath));
