@@ -43,6 +43,15 @@ However, an environment that can handle SCSS is required.
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/03/12] v5.12.0
+### Bug fixes
+- Fixed the issues that the menu could not be operated with Apple Pencil.
+Fixed that the menu operation of ChickenPaint and Klecks could not be operated with.
+It was caused by Javascript added to the paint related template in v3.19.5.
+I deleted the corresponding Javascript and confirmed that it works normally.
+### Updated Klecks
+- Updated Klecks to the latest version.
+A new brush has been added. You can now do mirror painting.
 
 ## [2022/03/8] v5.10.0
 
@@ -55,9 +64,6 @@ Easy-to-understand UI, powerful brushes, and filter functions.
 You can use 8 layers.
 ### fix
 Many minor bugs have been fixed.
-
-More information can be found in the release.    
-[Release POTI-board EVO EN v5.10.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.10.0.1)
 
 ## [2022/02/10] v5.05.0
 
@@ -92,9 +98,6 @@ If set to `0`, it will not be locked.
 
 - If the specified number of days has passed while drawing, it will be a new post.
 Also, when the thread is deleted while drawing, it will be a new post.
-
-More information can be found in the release.    
-[Release POTI-board EVO EN v5.05.0 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.05.0.1)
 
 ## [2022/01/27] v5.01.03
 ### Change to BladeOne for template engine
@@ -148,9 +151,6 @@ We apologize for the incompatibility of the template and the resetting of config
 
 Also, please use the PHP script for the Oekaki bulletin board called [Petit Note](https://github.com/satopian/Petit_Note), which was newly recreated from scratch.
 
-More information can be found in the release.    
-[Release POTI-board EVO EN v5.01.03 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v5.01.03)
-
 
 ## POTI-board EVO EN v3.19.5 released. 
 ## [2021/12/22] v3.19.5
@@ -171,10 +171,6 @@ If the image you want to continue is many pages away from the top page, you had 
 
 - ChickenPaint Swipe a specific part of the screen to prevent it from moving up or down. The relevant parts are controlled by JavaScript.  
   
-More information can be found in the release.    
-[Release POTI-board EVO EN v3.19.5 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.19.5)
-
-
 ## [2021/12/04] v3.15.3
 
 - Updated index.php required for new installations.  
@@ -226,9 +222,6 @@ Please update `potiboard.php`.
 
 Please update `picpost.php` and `save.php`.
 
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.12.2 released.](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.12.2)
-
 ## [2021/10/31] v3.10.1 
 - Added password length check. 
 - Moved the length check of each input item to the first half of the process.
@@ -246,9 +239,6 @@ For those who are using POTI-board v2.
 You cannot use all the functions of v3 system just by replacing `potiboard.php`, but you can deal with this problem.  
 
 Please update `potiboard.php` by overwriting.
-
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.10.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.10.1)
 
 ### [2021/10/27] v3.09.5
 
@@ -269,8 +259,6 @@ Previously, even if you were using a new theme HTML file, you had to check or un
 
 - Fixed a bug in POTI-board EVO v3.08.1.  
 There was a problem switching the color scheme of the theme MONO because the necessary JavaScript was accidentally deleted.
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.08.1.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.08.1.1)
 
 ### [2021/09/28] v3.08.1
 #### bug fixes
@@ -296,9 +284,6 @@ Click the thread title to open the reply screen .
 
 When editing or deleting an article, if you enter the article number and press the edit button, the password may be saved as a set with the user name as the article number.
 
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.07.5](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.07.5)
-
 ### [2021/08/22] v3.06.8 lot.210822
 
 - The chickenpaint icon has been updated
@@ -319,9 +304,6 @@ Changed the number of items displayed on one page from 2000 to 1000.
 I apologize for any inconvenience, but please overwrite and update the ChickenPaint directory.  
 It has been fixed in (v3.06.8.1).  
 
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.06.8.2](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.06.8.2)
-
 ### [2021/08/11] v3.05.3 lot.210811
 - Added decoding process because Tweet and notification emails are HTML-escaped garbled characters.
 - Added output variables corresponding to the title and name used for Tweet.
@@ -336,8 +318,6 @@ Use a new variable.
 - ChickenPaint has been updated to fix many iOS related bugs. Bugs related to palm rejection have been resolved.  
 You can now recognize your palm and Apple Pencil. Until now, unintended straight lines have occurred.  
 
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.05.2.2](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.2.2)
 
 ### [2021/08/03] v3.05.2 lot.210803
 - Resolved an issue where using ChickenPaint on an iPad would cause unintended double-tap zoom issues that would make drawing difficult.  
@@ -363,9 +343,6 @@ The output is the HTML tags removed and escaped.
 - The form on the top page and the mini-less form displayed in each thread have been abolished.  
 This is because you cannot set the CSRF token in a static HTML file.  
 - ChickenPaint is now available on your smartphone.  
-
-More information can be found in the release.  
-[Release POTI-board EVO EN v3.05.1](https://github.com/satopian/poti-kaini-EN/releases/tag/v3.05.1)
 
 ### [2021/08/03] v3.05.2 lot.210803
 - Resolved an issue where using ChickenPaint on an iPad would cause unintended double-tap zoom issues that would make drawing difficult.  
