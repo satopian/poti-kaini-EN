@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.15.8');
+define('POTI_VER','v5.15.10');
 define('POTI_LOT','lot.220319');
 
 /*
@@ -481,17 +481,8 @@ function form($resno="",$adminin="",$tmp=""){
 	}
 
 	//アプレット設定
-	$undo = (string)filter_input(INPUT_POST, 'undo',FILTER_VALIDATE_INT);
-	$dat['undo'] = $undo ? $undo : UNDO;
-	$undo_in_mg = (string)filter_input(INPUT_POST, 'undo_in_mg',FILTER_VALIDATE_INT);
-	$dat['undo_in_mg'] = $undo_in_mg ? $undo_in_mg : UNDO_IN_MG;
-	$qline='';
-	$dat['qualitys'] =[];
-	foreach ( $qualitys as $q ){
-		$selq = ($q == $quality) ? ' selected' : '';
-		$qline .= '<option value='.$q.$selq.'>'.$q."</option>\n";
-	}
-	$dat['qualitys'] = $qline;
+	$dat['undo'] = UNDO;
+	$dat['undo_in_mg'] = UNDO_IN_MG;
 
 	return $dat;
 }
