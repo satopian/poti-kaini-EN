@@ -1594,7 +1594,7 @@ function paintform(){
 		}
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 	
-		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch);
+		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
 		if($is_mobile && ($_pch_ext==='.spch')){
 			$ctype='img';
 		}
@@ -1606,16 +1606,14 @@ function paintform(){
 			$dat['pchfile'] = './'.PCH_DIR.$pch.$_pch_ext;
 		}
 		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
-				if(mime_content_type(IMG_DIR.$pch.$ext)==='image/webp'){
-					$shi='neo';
-				}
+
 			$dat['animeform'] = false;
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
-			if(is_file('./'.PCH_DIR.$pch.'.chi')){
+			if($_pch_ext==='.chi'){
 				$dat['img_chi'] = './'.PCH_DIR.$pch.'.chi';
 			}
-			if(is_file('./'.PCH_DIR.$pch.'.psd')){
+			if($_pch_ext==='.psd'){
 				$dat['img_klecks'] = './'.PCH_DIR.$pch.'.psd';
 			}
 		}
@@ -2662,9 +2660,8 @@ function check_pch_ext ($filepath,$options = []) {
 		return ".chi";
 	} elseif (is_file($filepath . ".psd")) {
 		return ".psd";
-	} else {
+	} 
 		return '';
-	}
 }
 
 /**
