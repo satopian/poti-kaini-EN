@@ -7,7 +7,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 // POTI-board EVO
 // バージョン :
 define('POTI_VER','v5.15.8');
-define('POTI_LOT','lot.220317');
+define('POTI_LOT','lot.220319');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1939,11 +1939,11 @@ function incontinue(){
 	$pch_ext=check_pch_ext(PCH_DIR.$ctim,['upfile'=>true]);
 	$dat['pch_ext']=$pch_ext;
 	$dat['download_app_dat'] = true;
+	$dat['select_app'] = false;
 
 	switch($pch_ext){
 		case '.pch':
 			$dat['ctype_pch'] = true;
-			$dat['select_app'] = false;
 			if(is_neo(PCH_DIR.$ctim.'.pch')){
 				$dat['app_to_use'] = "neo";
 			}else{
@@ -1953,17 +1953,14 @@ function incontinue(){
 
 		case '.spch':
 			$dat['ctype_pch'] = true;
-			$dat['select_app'] = false;
 			$dat['app_to_use'] = "1";
 			break;
 
 		case '.chi':
-			$dat['select_app'] = false;
 			$dat['app_to_use'] = 'chicken';
 			break;
 
 		case '.psd':
-			$dat['select_app'] = false;
 			$dat['app_to_use'] = 'klecks';
 			break;
 
