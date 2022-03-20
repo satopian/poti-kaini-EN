@@ -7,7 +7,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 // POTI-board EVO
 // バージョン :
 define('POTI_VER','v5.15.10');
-define('POTI_LOT','lot.220319');
+define('POTI_LOT','lot.220320');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1570,9 +1570,7 @@ function paintform(){
 	}
 	
 	$dat = array_merge($dat,form($resto));
-		$dat['mode2'] = $mode;
-		$dat['anime'] = $anime ? true : false;
-		$dat['animeform'] = true;
+	$dat['anime'] = $anime ? true : false;
 
 	if($mode==="contpaint"){
 
@@ -1599,7 +1597,7 @@ function paintform(){
 			$ctype='img';
 		}
 		if($ctype=='pch'&& $_pch_ext){
-			$anime=true;
+
 			if($_pch_ext==='.pch'){
 				$shi = is_neo(PCH_DIR.$pch.'.pch') ? 'neo':0;
 			}
@@ -1607,7 +1605,6 @@ function paintform(){
 		}
 		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
 
-			$dat['animeform'] = false;
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
 			if($_pch_ext==='.chi'){
