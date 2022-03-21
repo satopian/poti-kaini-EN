@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.211108  by SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.211108  (C)SakaQ >> http://www.punyu.net/php/
 // & POTI改 >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存

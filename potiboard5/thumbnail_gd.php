@@ -1,7 +1,7 @@
 <?php
-// thumbnail_gd.php by POTI改 >> https://paintbbs.sakura.ne.jp/poti/ 
-// originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
-//210922 コード整理
+// thumbnail_gd.php by (C) 2018-2022 POTI改 POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
+// originalscript 2005 (C) SakaQ  >> http://www.punyu.net/php/
+//220321 透明な箇所が黒くなる問題に対応。透明部分を白に変換。
 //201218 webp形式対応
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
