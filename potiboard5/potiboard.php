@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.15.10');
-define('POTI_LOT','lot.220320');
+define('POTI_VER','v5.16.1');
+define('POTI_LOT','lot.220321');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2714,16 +2714,29 @@ function is_ngword ($ngwords, $strs) {
 	return false;
 }
 
+//png2jpg
 function png2jpg ($src) {
 	global $path;
-	if(mime_content_type($src)==="image/png" && gd_check() && function_exists("ImageCreateFromPNG")){//pngならJPEGに変換
-		if($im_in=ImageCreateFromPNG($src)){
-			$dst = $path.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
-			ImageJPEG($im_in,$dst,98);
-			ImageDestroy($im_in);// 作成したイメージを破棄
-			chmod($dst,PERMISSION_FOR_DEST);
-			return $dst;
+	if(mime_content_type($src)!=="image/png" || !function_exists("ImageCreateFromPNG")){
+		return;
+	}
+	//pngならJPEGに変換
+	if($im_in=ImageCreateFromPNG($src)){
+		if(function_exists("ImageCreateTrueColor")&&function_exists("ImageCopyResampled")){
+			list($out_w, $out_h)=getimagesize($src);
+			$im_out = ImageCreateTrueColor($out_w, $out_h);
+			$background = imagecolorallocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
+			imagefill($im_out, 0, 0, $background);
+			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $out_w, $out_h);
+		}else{
+			$im_out=$im_in;
 		}
+		$dst = $path.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
+		ImageJPEG($im_out,$dst,98);
+		ImageDestroy($im_in);// 作成したイメージを破棄
+		ImageDestroy($im_out);// 作成したイメージを破棄
+		chmod($dst,PERMISSION_FOR_DEST);
+		return $dst;
 	}
 	return false;
 }
