@@ -6,10 +6,14 @@
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
 function thumb($path,$tim,$ext,$max_w,$max_h){
+	$fname=$path.$tim.$ext;
+	if(!is_file($fname)){
+		return;
+	}
 	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
 		return;
 	}
-	$fname=$path.$tim.$ext;
+
 	$size = GetImageSize($fname); // 画像の幅と高さとタイプを取得
 	// リサイズ
 	$w_h_size_over=($size[0] > $max_w || $size[1] > $max_h);
@@ -56,8 +60,10 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 	$nottrue = 0;
 	if(function_exists("ImageCreateTrueColor")&&get_gd_ver()=="2"){
 		$im_out = ImageCreateTrueColor($out_w, $out_h);
-		$background = imagecolorallocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
-		imagefill($im_out, 0, 0, $background);
+		if(function_exists("ImageColorAlLocate") && function_exists("imagefill")){
+			$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
+			imagefill($im_out, 0, 0, $background);
+		}
 	// コピー＆再サンプリング＆縮小
 		if(function_exists("ImageCopyResampled")&&RE_SAMPLED){
 			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $size[0], $size[1]);
