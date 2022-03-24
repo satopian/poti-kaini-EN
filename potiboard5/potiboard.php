@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.2');
-define('POTI_LOT','lot.220322');
+define('POTI_VER','v5.16.3');
+define('POTI_LOT','lot.220325');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -443,11 +443,11 @@ function form($resno="",$adminin="",$tmp=""){
 
 	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
 	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
-	$dat['anime'] = USE_PAINT ? (USE_ANIME ? true : false) : false;
-	$dat['animechk'] = USE_PAINT ? (DEF_ANIME ? ' checked' : '') :'';
 	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
 	$dat['pmaxh'] = USE_PAINT ? PMAX_H : '';
 	$dat['paint2'] = USE_PAINT ? ($resno ? false : true):false;
+	$dat['anime'] = USE_ANIME ? true : false;
+	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 
 	$dat['resno'] = $resno ? $resno :'';
 	$dat['notres'] = $resno ? false : true;
@@ -1857,13 +1857,13 @@ function deltemp(){
 		if(!is_dir($file)) {
 			$lapse = time() - filemtime(TEMP_DIR.$file);
 			if($lapse > (TEMP_LIMIT*24*3600)){
-				unlink(TEMP_DIR.$file);
+				safe_unlink(TEMP_DIR.$file);
 			}
 			//pchアップロードペイントファイル削除
 			if(preg_match("/\A(pchup-.*?-tmp\.(s?pch|chi|psd))\z/i",$file)) {
 				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (300)){//5分
-					unlink(TEMP_DIR.$file);
+					safe_unlink(TEMP_DIR.$file);
 				}
 			}
 		}
