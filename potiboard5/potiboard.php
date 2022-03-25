@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.3');
+define('POTI_VER','v5.16.5');
 define('POTI_LOT','lot.220325');
 
 /*
@@ -603,7 +603,7 @@ function res($resno = 0){
 		}
 	}
 
-	if (!isset($treeline)) {
+	if (empty($treeline)) {
 		error(MSG001);
 	}
 	$line = file(LOGFILE);
