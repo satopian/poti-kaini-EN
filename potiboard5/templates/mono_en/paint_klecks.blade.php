@@ -22,13 +22,6 @@
 		}
 		</style>
 		
-		<script>
-			function fixklecks() {
-				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
-			}
-			window.addEventListener('DOMContentLoaded',fixklecks,false);
-		</script>
-
 </head>
 <body>
 
