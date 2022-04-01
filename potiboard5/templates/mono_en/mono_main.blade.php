@@ -327,7 +327,7 @@
 						@if ($res['skipres'])
 						<hr>
 						<div class="article_skipres">
-							{{$res['skipres']}}posts Omitted.
+							{{$res['skipres']}} posts Omitted.
 						</div>
 						@endif
 					</div>
