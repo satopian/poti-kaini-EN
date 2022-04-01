@@ -85,11 +85,11 @@
 		<p></p>
 		<form method="get" action="./search.php">
 			<span class="radio">
-				<input type="radio" name="radio" id="author" value="1" {{$radio_chk1}}><label for="author"
+				<input type="radio" name="radio" id="author" value="1" @if($radio_chk1)checked="checked"@endif><label for="author"
 					class="label">Name</label>
-				<input type="radio" name="radio" id="exact" value="2" {{$radio_chk2}}><label for="exact"
+				<input type="radio" name="radio" id="exact" value="2" @if($radio_chk2)checked="checked"@endif><label for="exact"
 					class="label">Exact</label>
-				<input type="radio" name="radio" id="fulltext" value="3" {{$radio_chk3}}><label for="fulltext"
+				<input type="radio" name="radio" id="fulltext" value="3" @if($radio_chk3)checked="checked"@endif><label for="fulltext"
 					class="label">Body</label>
 			</span>
 			<br>

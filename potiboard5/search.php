@@ -212,25 +212,25 @@ $dat['imgsearch']= $imgsearch ? true : false;
 //クエリを検索窓に入ったままにする
 $dat['query']=h($query);
 //ラジオボタンのチェック
-$dat['radio_chk1']='';//作者名
-$dat['radio_chk2']='';//完全一致
-$dat['radio_chk3']='';//本文題名	
+$dat['radio_chk1']=false;//作者名
+$dat['radio_chk2']=false;//完全一致
+$dat['radio_chk3']=false;//本文題名	
 $query_l='&query='.urlencode(h($query));//クエリを次ページにgetで渡す
 if($query!==''&&$radio===3){//本文題名
 	$query_l.='&radio=3';
-	$dat['radio_chk3']='checked="checked"';
+	$dat['radio_chk3']=true;
 }
 elseif($query!==''&&$radio===2){//完全一致
 	$query_l.='&radio=2';
-	$dat['radio_chk2']='checked="checked"';	
+	$dat['radio_chk2']=true;	
 }
 elseif($query!==''&&($radio===null||$radio===1)){//作者名
 	$query_l.='&radio=1';
-	$dat['radio_chk1']='checked="checked"';
+	$dat['radio_chk1']=true;
 }
 else{//作者名	
 	$query_l='';
-	$dat['radio_chk1']='checked="checked"';
+	$dat['radio_chk1']=true;
 }
 $dat['query_l']=$query_l;
 
