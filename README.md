@@ -52,6 +52,8 @@ Fixed a grammatical error in the HTML of the search screen.
 - Corrected incorrect English notation.
 - klecks updated
 The number of layers that can be used has been increased from 8 to 16.
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.16.5.1 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/03/25] v5.16.5
 
