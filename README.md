@@ -202,7 +202,6 @@ We apologize for the incompatibility of the template and the resetting of config
 Also, please use the PHP script for the Oekaki bulletin board called [Petit Note](https://github.com/satopian/Petit_Note), which was newly recreated from scratch.
 
 
-## POTI-board EVO EN v3.19.5 released. 
 ## [2021/12/22] v3.19.5
 
 - Added the ability to display images of the next and previous threads in the reply view.  
