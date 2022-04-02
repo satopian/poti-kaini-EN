@@ -68,7 +68,7 @@
 <body>
 	<div id="main">
 		<div class="title">
-			<h1>{{$pageno}} {{$h1}}</span></h1>
+			<h1>{{$pageno}} <span class="title_wrap">{{$h1}}</span></h1>
 		</div>
 		<nav>
 			<div class="menu">
