@@ -42,7 +42,58 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+## [2022/04/02] v5.16.5.1
+- fix search template.
+- fix main template.
+Fixed a grammatical error in the HTML of the search screen.
+- Corrected incorrect English notation.
+- klecks updated
+The number of layers that can be used has been increased from 8 to 16.  
+
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.16.5.1 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
+
+## [2022/03/25] v5.16.5
+
+### Improvement
+### Klecks Japanese translation
+![image](https://user-images.githubusercontent.com/44894014/160145766-395c519f-e90e-4397-a92e-03005648906e.png)
+
+- Translated Klecks into Japanese.
+I was able to bundle a Japanese version with POTI-board.
+This new version of Klecks will automatically detect your browser's language priority and switch languages ​​for you.
+You can also specify the language to use regardless of the browser language setting.
+You can select English, German, or Japanese.
+Chinese is only in Simplified Chinese and details are still in English.
+Japanese translation resources have already been merged into the klecks repository.
+
+### The download button for the application-specific file has been created.
+![image](https://user-images.githubusercontent.com/44894014/160227733-b57a5783-d95a-4648-b484-5e065b2b7402.png)
+
+#### App-specific format list
+- `. Pch` file (PaintBBS)
+- `. Chi` file (ChickenPaint)
+- `. Psd` file (Klecks)
+
+The file containing the layer information for Klecks is a `.psd` file in Photoshop format.
+The downloaded `.psd` file can be opened by CSP, SAI and many other apps.
+`.pch` and` .chi` can be opened with NEO and ChickenPaint, respectively.
+If you attach `.pch`,` .chi`, `.psd` from the administrator posting screen and press the paint button, you can load it on the canvas and post it.
+
+#### Transparent PNG, change the transparent part of the thumbnail of transparent GIF to white
+
+- Fixed the problem that the transparent part of transparent PNG was black when it was converted to JPEG.
+It is not a mistake that the transparent color is black, but since it often results in unintended results, when converting from transparent GIF or transparent PNG to JPEG, the transparent color is converted to white.
+
+### Bug fixes
+
+- Fixed the case where a minor error occurred when operating the upload format specific to the paint application used when logging in to the administrator, and the automatic deletion function of unnecessary temporary files such as pch, chi, and psd.
+### BladeOne update
+Updated template engine BladeOne to v4.5.
+
 ## [2022/03/12] v5.12.0
 ### Bug fixes
 - Fixed the issues that the menu could not be operated with Apple Pencil.
@@ -152,7 +203,6 @@ We apologize for the incompatibility of the template and the resetting of config
 Also, please use the PHP script for the Oekaki bulletin board called [Petit Note](https://github.com/satopian/Petit_Note), which was newly recreated from scratch.
 
 
-## POTI-board EVO EN v3.19.5 released. 
 ## [2021/12/22] v3.19.5
 
 - Added the ability to display images of the next and previous threads in the reply view.  
