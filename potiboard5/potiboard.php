@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.5');
-define('POTI_LOT','lot.220325');
+define('POTI_VER','v5.16.7');
+define('POTI_LOT','lot.220411');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1417,8 +1417,9 @@ function init(){
 	$err .= check_file(TREEFILE,true);
 
 	$err .= check_dir(IMG_DIR);
-	USE_THUMB && $err .= check_dir(THUMB_DIR);
-	USE_PAINT && $err .= check_dir(TEMP_DIR);
+	$err .= check_dir(PCH_DIR);
+	$err .= check_dir(THUMB_DIR);
+	$err .= check_dir(TEMP_DIR);
 	if($err)error($err);
 	if(!is_file(realpath(h(PHP_SELF2))))updatelog();
 }
@@ -1704,6 +1705,7 @@ function paintform(){
 	$usercode.='&stime='.time().$resto;
 	//差し換え時の認識コード追加
 	$dat['rep']=false;//klecks
+	$dat['repcode']='';
 	if($type==='rep'){
 		$dat['rep']=true;//klecks
 		$time=time();
