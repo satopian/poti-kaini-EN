@@ -85,8 +85,14 @@
 					request.onreadystatechange = function() {
 
 					console.log(request.readyState);
+					console.log(request.status);
 					console.log(request.responseText);
 
+					if(request.readyState === 4 && request.status>400){
+						let req_status=request.status;
+						alert(@if($en)'Error '@else'エラー '@endif + req_status);
+						return;
+					}
 					if ( request.readyState === 4 && request.status ===200) {
 
 						if(request.responseText === 'ok'){
