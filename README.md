@@ -11,7 +11,7 @@ You may lose all log files.
 
 Please update to v5.x or higher.
 
-## A POTI-board that can use HTML5 versions of PaintBBS NEO , ChickenPaint, and klecks.
+## A POTI-board that can use HTML5 versions of PaintBBS NEO , ChickenPaint , and klecks.
 
 ![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
 
