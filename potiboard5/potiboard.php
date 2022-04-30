@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.9');
+define('POTI_VER','v5.16.10');
 define('POTI_LOT','lot.220430');
 
 /*
@@ -632,7 +632,13 @@ function res($resno = 0){
 		$res['resub'] = $resub;
 		$res['descriptioncom'] = h(strip_tags(mb_strcut($res['com'],0,300))); //メタタグに使うコメントからタグを除去
 		$oyaname = $res['name']; //投稿者名をコピー
-	
+
+		if(!check_elapsed_days($res['time'])){//親の値
+		$dat['form'] = false;//フォームを閉じる
+		$dat['paintform'] = false;
+		$dat['resname'] = false;//投稿者名をコピーを閉じる
+		}
+
 	}
 	$dat['oya'][0][] = $res;
 
@@ -658,11 +664,6 @@ function res($resno = 0){
 
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
-	if(!check_elapsed_days($res['time'])){//親の値
-		$dat['form'] = false;//フォームを閉じる
-		$dat['paintform'] = false;
-		$dat['resname'] = false;//投稿者名をコピーを閉じる
-	}
 
 	//前のスレッド、次のスレッド
 	$n=$i+1;
@@ -1858,13 +1859,12 @@ function deltemp(){
 	while ($file = readdir($handle)) {
 		if(!is_dir($file)) {
 			//pchアップロードペイントファイル削除
+			$lapse = time() - filemtime(TEMP_DIR.$file);
 			if(preg_match("/\A(pchup-.*?-tmp\.(s?pch|chi|psd))\z/i",$file)) {
-				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (300)){//5分
 					safe_unlink(TEMP_DIR.$file);
 				}
 			}else{
-				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (TEMP_LIMIT*24*3600)){
 					safe_unlink(TEMP_DIR.$file);
 				}
