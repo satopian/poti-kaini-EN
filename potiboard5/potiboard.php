@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.8');
-define('POTI_LOT','lot.220417');
+define('POTI_VER','v5.16.9');
+define('POTI_LOT','lot.220430');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1857,14 +1857,15 @@ function deltemp(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
 		if(!is_dir($file)) {
-			$lapse = time() - filemtime(TEMP_DIR.$file);
-			if($lapse > (TEMP_LIMIT*24*3600)){
-				safe_unlink(TEMP_DIR.$file);
-			}
 			//pchアップロードペイントファイル削除
 			if(preg_match("/\A(pchup-.*?-tmp\.(s?pch|chi|psd))\z/i",$file)) {
 				$lapse = time() - filemtime(TEMP_DIR.$file);
 				if($lapse > (300)){//5分
+					safe_unlink(TEMP_DIR.$file);
+				}
+			}else{
+				$lapse = time() - filemtime(TEMP_DIR.$file);
+				if($lapse > (TEMP_LIMIT*24*3600)){
 					safe_unlink(TEMP_DIR.$file);
 				}
 			}
