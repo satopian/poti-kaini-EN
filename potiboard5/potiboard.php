@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.12');
-define('POTI_LOT','lot.220501');
+define('POTI_VER','v5.16.15');
+define('POTI_LOT','lot.220508');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -500,7 +500,7 @@ function updatelog(){
 		$dat=$fdat;//form()を何度もコールしない
 
 		for($i = $page; $i < $page+PAGE_DEF; ++$i){//PAGE_DEF分のスレッドを表示
-			if(!isset($tree[$i])){
+			if(!isset($tree[$i])||!trim($tree[$i])){
 				continue;
 			}
 			$treeline = explode(",", rtrim($tree[$i]));
@@ -598,7 +598,6 @@ function res($resno = 0){
 		//レス先検索
 		if (strpos(trim($value) . ',', $resno . ',') === 0) {
 			$treeline = explode(",", trim($value));
-		
 			break;
 		}
 	}
@@ -909,52 +908,53 @@ function regist(){
 	// 連続・二重投稿チェック
 	$chkline=20;//チェックする最大行数
 	foreach($line as $i => $value){
-		if($value!==""){
-		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
-		$pchk=0;
-		switch(POST_CHECKLEVEL){
-			case 1:	//low
-				if($host===$lhost
-				){$pchk=1;}
-				break;
-			case 2:	//middle
-				if($host===$lhost
-				|| ($name===$lname)
-				|| ($email===$lemail)
-				|| ($url===$lurl)
-				|| ($sub===$lsub)
-				){$pchk=1;}
-				break;
-			case 3:	//high
-				if($host===$lhost
-				|| (similar_str($name,$lname) > VALUE_LIMIT)
-				|| (similar_str($email,$lemail) > VALUE_LIMIT)
-				|| (similar_str($url,$lurl) > VALUE_LIMIT)
-				|| (similar_str($sub,$lsub) > VALUE_LIMIT)
-				){$pchk=1;}
-				break;
-			case 4:	//full
-				$pchk=1;
-		}
-			if($pchk){
-			//KASIRAが入らない10桁のUNIX timeを取り出す
-			if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
-			if(RENZOKU && (time() - (int)$ltime) < RENZOKU){error(MSG020,$dest);}
-			if(RENZOKU2 && (time() - (int)$ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
-			if($com){
-					switch(D_POST_CHECKLEVEL){//190622
-						case 1:	//low
-							if($com === $lcom){error(MSG022,$dest);}
-							break;
-						case 2:	//middle
-							if(similar_str($com,$lcom) > COMMENT_LIMIT_MIDDLE){error(MSG022,$dest);}
-							break;
-						case 3:	//high
-							if(similar_str($com,$lcom) > COMMENT_LIMIT_HIGH){error(MSG022,$dest);}
-							break;
-						default:
-							if($com === $lcom && !$upfile_name){error(MSG022,$dest);}
-					}
+	if(!trim($value)){
+		continue;
+	}
+	list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
+	$pchk=0;
+	switch(POST_CHECKLEVEL){
+		case 1:	//low
+			if($host===$lhost
+			){$pchk=1;}
+			break;
+		case 2:	//middle
+			if($host===$lhost
+			|| ($name===$lname)
+			|| ($email===$lemail)
+			|| ($url===$lurl)
+			|| ($sub===$lsub)
+			){$pchk=1;}
+			break;
+		case 3:	//high
+			if($host===$lhost
+			|| (similar_str($name,$lname) > VALUE_LIMIT)
+			|| (similar_str($email,$lemail) > VALUE_LIMIT)
+			|| (similar_str($url,$lurl) > VALUE_LIMIT)
+			|| (similar_str($sub,$lsub) > VALUE_LIMIT)
+			){$pchk=1;}
+			break;
+		case 4:	//full
+			$pchk=1;
+	}
+		if($pchk){
+		//KASIRAが入らない10桁のUNIX timeを取り出す
+		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
+		if(RENZOKU && (time() - (int)$ltime) < RENZOKU){error(MSG020,$dest);}
+		if(RENZOKU2 && (time() - (int)$ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
+		if($com){
+				switch(D_POST_CHECKLEVEL){//190622
+					case 1:	//low
+						if($com === $lcom){error(MSG022,$dest);}
+						break;
+					case 2:	//middle
+						if(similar_str($com,$lcom) > COMMENT_LIMIT_MIDDLE){error(MSG022,$dest);}
+						break;
+					case 3:	//high
+						if(similar_str($com,$lcom) > COMMENT_LIMIT_HIGH){error(MSG022,$dest);}
+						break;
+					default:
+						if($com === $lcom && !$upfile_name){error(MSG022,$dest);}
 				}
 			}
 		}
@@ -1004,15 +1004,16 @@ function regist(){
 		$chkline=200;//チェックする最大行数
 		$j=1;
 		foreach($line as $i => $value){ //画像重複チェック
-			if($value!==""){
+			if(!trim($value)){
+				continue;
+			}
 			list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", $value);
-				if($extp){//拡張子があったら
-				if($chkp===$chk&&is_file($path.$timep.$extp)){
-				error(MSG005,$dest);
-				}
-				if($j>=20){break;}//画像を20枚チェックしたら
-				++$j;
-				}
+			if($extp){//拡張子があったら
+			if($chkp===$chk&&is_file($path.$timep.$extp)){
+			error(MSG005,$dest);
+			}
+			if($j>=20){break;}//画像を20枚チェックしたら
+			++$j;
 			}
 			if($i>=$chkline){break;}//チェックする最大行数
 		}
@@ -1067,16 +1068,20 @@ function regist(){
 	if(!$buf){error(MSG023);}
 	$line = explode("\n", trim($buf));
 	foreach($line as $i => $value){
-		if($value!==""){
-			list($oyano,) = explode(",", rtrim($value));
-			if(!isset($lineindex[$oyano])){//親のログが存在しないときは
-				unset($line[$i]);//ツリーを削除
-			}
+		if(!trim($value)){
+			continue;
+		}
+		list($oyano,) = explode(",", rtrim($value));
+		if(!isset($lineindex[$oyano])){//親のログが存在しないときは
+			unset($line[$i]);//ツリーを削除
 		}
 	}
 
 	if($resto){
 		foreach($line as $i => $value){
+			if(!trim($value)){
+				continue;
+			}
 			list($_oyano,) = explode(",", rtrim($value));
 			if($_oyano==$resto){
 				$find = TRUE;
@@ -1261,21 +1266,22 @@ function userdel(){
 	$find = false;
 	$thread_exists = true;
 	foreach($line as $i => $value){//190701
-		if($value!==""){
-			list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",$value);
-			if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
-				if(!$onlyimgdel){	//記事削除
-					$thread_exists=treedel($no);
-					if(USER_DELETES > 2){
-						unset($line[$i]);
-						$find = true;
-					}
+		if(!trim($value)){
+			continue;
+		}
+		list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",$value);
+		if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
+			if(!$onlyimgdel){	//記事削除
+				$thread_exists=treedel($no);
+				if(USER_DELETES > 2){
+					unset($line[$i]);
+					$find = true;
 				}
-				if(USER_DELETES > 1){
-					delete_files($path, $time, $ext);
-				}
-				$flag = true;
 			}
+			if(USER_DELETES > 1){
+				delete_files($path, $time, $ext);
+			}
+			$flag = true;
 		}
 	}
 	if(!$flag){
@@ -1320,7 +1326,7 @@ function admindel($pass){
 	}
 
 	foreach($line as $j => $value){
-		if(!$value){
+		if(!trim($value)){
 			continue;
 		}
 			if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
@@ -1374,8 +1380,10 @@ function admindel($pass){
 		$line = explode("\n", trim($buf));
 		$find = false;
 		foreach($line as $i => $value){
-			if($value!==""){
-				list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
+			if(!trim($value)){
+				continue;
+			}
+			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
 			if(in_array($no,$del)){
 				if(!$onlyimgdel){	//記事削除
 					treedel($no);
@@ -1383,7 +1391,6 @@ function admindel($pass){
 					$find = true;
 				}
 				delete_files($path, $time, $ext);
-			}
 			}
 		}
 		if($find){//ログ更新
@@ -2158,6 +2165,9 @@ global $ADMIN_PASS;
 	// 記事上書き
 	$flag = FALSE;
 	foreach($line as $i => $value){
+		if(!trim($value)){
+			continue;
+		}
 		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value));
 		if($eno == $no && check_password($pwd, $epwd, $admin)){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
@@ -2254,6 +2264,9 @@ function replace(){
 	$upfile='';
 
 	foreach($line as $i => $value){
+		if(!trim($value)){
+			continue;
+		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
@@ -2390,7 +2403,7 @@ function catalog(){
 	$pagedef = 30;//1ページに表示する件数
 	$dat = form();
 	for($i = $page; $i < $page+$pagedef; ++$i){
-		if(!isset($tree[$i])){
+		if(!isset($tree[$i])||!trim($tree[$i])){
 			continue;
 		}
 		$treeline = explode(",", rtrim($tree[$i]));
@@ -2915,13 +2928,14 @@ function check_elapsed_days ($time) {
 function get_lineindex ($line){
 	$lineindex = [];
 	foreach($line as $i =>$value){
-		if($value !==''){
+		if(!trim($value)){
+		continue;
+		}
 			list($no,) = explode(",", $value);
 			if(!is_numeric($no)){//記事Noが正しく読み込まれたかどうかチェック
 				error(MSG019);
 			};
 			$lineindex[$no] = $i; // 値にkey keyに記事no
-		}
 	}
 	return $lineindex;
 }
