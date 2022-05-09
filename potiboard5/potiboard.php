@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.16.15');
-define('POTI_LOT','lot.220508');
+define('POTI_VER','v5.18.2');
+define('POTI_LOT','lot.220510');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -490,20 +490,21 @@ function form($resno="",$adminin="",$tmp=""){
 // 記事表示 
 function updatelog(){
 
-	$tree = file(TREEFILE);
-	$line = file(LOGFILE);
+	$logs=get_log();
+	$line=$logs['line'];
+	$trees=$logs['trees'];
+
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
-	$counttree = count($tree);//190619
+	$counttree = count($trees);//190619
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
-		$oya = 0;	//親記事のメイン添字
+
 		$dat=$fdat;//form()を何度もコールしない
 
-		for($i = $page; $i < $page+PAGE_DEF; ++$i){//PAGE_DEF分のスレッドを表示
-			if(!isset($tree[$i])||!trim($tree[$i])){
-				continue;
-			}
-			$treeline = explode(",", rtrim($tree[$i]));
+		$disp_threads = array_slice($trees,(int)$page,PAGE_DEF,false);
+
+		foreach($disp_threads as $oya=>$val){//PAGE_DEF分のスレッドを表示
+			$treeline = explode(",", rtrim($val));
 			// レス省略
 
 			$skipres=count($treeline) - DSP_RES-1;
@@ -526,7 +527,6 @@ function updatelog(){
 					$dat['oya'][$oya][]=$res;
 			}
 			clearstatcache(); //キャッシュをクリア
-			$oya++;
 
 		}
 		$prev = $page - PAGE_DEF;
@@ -535,6 +535,10 @@ function updatelog(){
 		$dat['prev'] =false;
 		if($prev >= 0){
 			$dat['prev'] = ($prev == 0) ? h(PHP_SELF2) : ($prev / PAGE_DEF) . PHP_EXT;
+		}
+		$dat['next'] = false;
+		if($counttree > $next){
+			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 		$paging = "";
 		for($l = 0; $l < $counttree; $l += (PAGE_DEF*35)){
@@ -565,10 +569,6 @@ function updatelog(){
 		//改ページ分岐ここまで
 
 		$dat['paging'] = $paging;
-		$dat['next'] = false;
-		if($oya >= PAGE_DEF && $counttree > $next){
-			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
-		}
 
 		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
 		$dat['logfilename']= $logfilename;
@@ -592,8 +592,11 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
+	$logs=get_log();
+	$line=$logs['line'];
+	$trees=$logs['trees'];
+
 	$treeline=[];
-	$trees = file(TREEFILE);
 	foreach($trees as $i => $value){
 		//レス先検索
 		if (strpos(trim($value) . ',', $resno . ',') === 0) {
@@ -605,7 +608,6 @@ function res($resno = 0){
 	if (empty($treeline)) {
 		error(MSG001);
 	}
-	$line = file(LOGFILE);
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
@@ -623,28 +625,28 @@ function res($resno = 0){
 		$res = create_res($line[$k], ['pch' => 1]);
 		$res['skipres']=false;
 	
-	if($j===0){
-		$resub = USE_RESUB ? 'Re: ' . $res['sub'] : '';
-		$dat['resub'] = $resub; //レス画面用
-	
-		// 親レス用の値
-		$res['resub'] = $resub;
-		$res['descriptioncom'] = h(strip_tags(mb_strcut($res['com'],0,300))); //メタタグに使うコメントからタグを除去
-		$oyaname = $res['name']; //投稿者名をコピー
+		if($j===0){
+			$resub = USE_RESUB ? 'Re: ' . $res['sub'] : '';
+			$dat['resub'] = $resub; //レス画面用
+		
+			// 親レス用の値
+			$res['resub'] = $resub;
+			$res['descriptioncom'] = h(strip_tags(mb_strcut($res['com'],0,300))); //メタタグに使うコメントからタグを除去
+			$oyaname = $res['name']; //投稿者名をコピー
 
-		if(!check_elapsed_days($res['time'])){//親の値
-		$dat['form'] = false;//フォームを閉じる
-		$dat['paintform'] = false;
-		$dat['resname'] = false;//投稿者名をコピーを閉じる
+			if(!check_elapsed_days($res['time'])){//親の値
+			$dat['form'] = false;//フォームを閉じる
+			$dat['paintform'] = false;
+			$dat['resname'] = false;//投稿者名をコピーを閉じる
+			}
+
 		}
+		$dat['oya'][0][] = $res;
 
-	}
-	$dat['oya'][0][] = $res;
-
-	// 投稿者名を配列にいれる
-	if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
-		$rresname[] = $res['name'];
-	}
+		// 投稿者名を配列にいれる
+		if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
+			$rresname[] = $res['name'];
+		}
 		// 投稿者名を配列にいれる
 		if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
 			$rresname[] = $res['name'];
@@ -674,13 +676,16 @@ function res($resno = 0){
 	$dat['view_other_works']=false;
 	if(VIEW_OTHER_WORKS){
 		$a=[];
-		for($j=($i-7);$j<($i+10);++$j){
-			$p=(isset($trees[$j])&&$trees[$j]) ? explode(",",trim($trees[$j]))[0]:'';
-			$b=($p && isset($lineindex[$p])) ? create_res($line[$lineindex[$p]]):[];
-			if(!empty($b)&&$b['imgsrc']&&$b['no']!==$resno){
-				$a[]=$b;
-			}
+	$start_view=(($i-7)>=0) ? ($i-7) : 0;
+	$other_works=array_slice($trees,$start_view,17,false);
+	foreach($other_works as $j=>$val){
+
+		$p=explode(",",trim($val))[0];
+		$b=($p && isset($lineindex[$p])) ? create_res($line[$lineindex[$p]]):[];
+		if(!empty($b)&&$b['imgsrc']&&$b['no']!==$resno){
+			$a[]=$b;
 		}
+	}
 		$c=($i<5) ? 0 : (count($a)>9 ? 4 :0);
 		$dat['view_other_works']=array_slice($a,$c,6,false);
 	}
@@ -908,35 +913,35 @@ function regist(){
 	// 連続・二重投稿チェック
 	$chkline=20;//チェックする最大行数
 	foreach($line as $i => $value){
-	if(!trim($value)){
-		continue;
-	}
-	list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
-	$pchk=0;
-	switch(POST_CHECKLEVEL){
-		case 1:	//low
-			if($host===$lhost
-			){$pchk=1;}
-			break;
-		case 2:	//middle
-			if($host===$lhost
-			|| ($name===$lname)
-			|| ($email===$lemail)
-			|| ($url===$lurl)
-			|| ($sub===$lsub)
-			){$pchk=1;}
-			break;
-		case 3:	//high
-			if($host===$lhost
-			|| (similar_str($name,$lname) > VALUE_LIMIT)
-			|| (similar_str($email,$lemail) > VALUE_LIMIT)
-			|| (similar_str($url,$lurl) > VALUE_LIMIT)
-			|| (similar_str($sub,$lsub) > VALUE_LIMIT)
-			){$pchk=1;}
-			break;
-		case 4:	//full
-			$pchk=1;
-	}
+		if(!trim($value)){
+			continue;
+		}
+		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
+		$pchk=0;
+		switch(POST_CHECKLEVEL){
+			case 1:	//low
+				if($host===$lhost
+				){$pchk=1;}
+				break;
+			case 2:	//middle
+				if($host===$lhost
+				|| ($name===$lname)
+				|| ($email===$lemail)
+				|| ($url===$lurl)
+				|| ($sub===$lsub)
+				){$pchk=1;}
+				break;
+			case 3:	//high
+				if($host===$lhost
+				|| (similar_str($name,$lname) > VALUE_LIMIT)
+				|| (similar_str($email,$lemail) > VALUE_LIMIT)
+				|| (similar_str($url,$lurl) > VALUE_LIMIT)
+				|| (similar_str($sub,$lsub) > VALUE_LIMIT)
+				){$pchk=1;}
+				break;
+			case 4:	//full
+				$pchk=1;
+		}
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
 		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
@@ -2321,7 +2326,6 @@ function replace(){
 
 			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
 
-		
 			$oya=($oyano===$no);
 			$max_w = $oya ? MAX_W : MAX_RESW ;
 			$max_h = $oya ? MAX_H : MAX_RESH ;
@@ -2394,19 +2398,21 @@ function catalog(){
 
 	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 	$page= $page ? $page : 0;
-	$line = file(LOGFILE);
-	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 
-	$tree = file(TREEFILE);
-	$counttree = count($tree);
-	$oya = 0;
+	$logs=get_log();
+	$line=$logs['line'];
+	$trees=$logs['trees'];
+
+	$counttree = count($trees);
+
+	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$pagedef = 30;//1ページに表示する件数
 	$dat = form();
-	for($i = $page; $i < $page+$pagedef; ++$i){
-		if(!isset($tree[$i])||!trim($tree[$i])){
-			continue;
-		}
-		$treeline = explode(",", rtrim($tree[$i]));
+	$disp_threads = array_slice($trees,(int)$page,$pagedef,false);
+
+	foreach($disp_threads as $oya=>$val){
+
+		$treeline = explode(",", rtrim($val));
 		$disptree = $treeline[0];
 		if(!isset($lineindex[$disptree])) continue; //範囲外なら次の行
 		$j=$lineindex[$disptree]; //該当記事を探して$jにセット
@@ -2429,14 +2435,20 @@ function catalog(){
 		$res['rescount'] = count($treeline) - 1;
 		// 記事格納
 		$dat['oya'][$oya][] = $res;
-		$oya++;
 	}
 
 	$prev = $page - $pagedef;
 	$next = $page + $pagedef;
 	// 改ページ処理
 	$dat['prev'] = false;
-	if($prev >= 0) $dat['prev'] = PHP_SELF.'?mode=catalog&amp;page='.$prev;
+	if($prev >= 0){
+		$dat['prev'] = PHP_SELF.'?mode=catalog&amp;page='.$prev;
+	}
+	$dat['next'] = false;
+	if($next<$counttree){
+		$dat['next'] = PHP_SELF.'?mode=catalog&amp;page='.$next;
+	}
+		
 	$paging = "";
 
 	for($l = 0; $l < $counttree; $l += ($pagedef*35)){
@@ -2464,10 +2476,6 @@ function catalog(){
 	}
 	//改ページ分岐ここまで
 	$dat['paging'] = $paging;
-	$dat['next'] = false;
-	if($counttree > $next){
-		$dat['next'] = PHP_SELF.'?mode=catalog&amp;page='.$next;
-	}
 	$dat["resno"]=false;
 	$dat["resto"]=false;//この変数使用しているテーマのエラー対策
 
@@ -2931,11 +2939,11 @@ function get_lineindex ($line){
 		if(!trim($value)){
 		continue;
 		}
-			list($no,) = explode(",", $value);
-			if(!is_numeric($no)){//記事Noが正しく読み込まれたかどうかチェック
-				error(MSG019);
-			};
-			$lineindex[$no] = $i; // 値にkey keyに記事no
+		list($no,) = explode(",", $value);
+		if(!is_numeric($no)){//記事Noが正しく読み込まれたかどうかチェック
+			error(MSG019);
+		};
+		$lineindex[$no] = $i; // 値にkey keyに記事no
 	}
 	return $lineindex;
 }
@@ -2953,4 +2961,31 @@ function is_neo($src) {//neoのPCHかどうか調べる
 	fclose($fp);
 	return $is_neo;
 }
+//表示用のログファイルを取得
+function get_log() {
 
+	$fp=fopen(LOGFILE,"r");
+	while($_line = fgets($fp)){
+		if(!trim($_line)){
+			continue;
+		}
+		$line[]=$_line;
+	}
+	$tp=fopen(TREEFILE,"r");
+	while($_tree = fgets($tp)){
+		if(!trim($_tree)){
+			continue;
+		}
+		$trees[]=$_tree;
+	}
+	closeFile($tp);
+	closeFile($fp);
+	
+	if(empty($line)||empty($trees)){
+		return error(MSG019);
+	}
+	return [
+		'line'=>$line,
+		'trees'=>$trees,
+	];
+}
