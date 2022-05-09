@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.2');
+define('POTI_VER','v5.18.3');
 define('POTI_LOT','lot.220510');
 
 /*
@@ -643,10 +643,6 @@ function res($resno = 0){
 		}
 		$dat['oya'][0][] = $res;
 
-		// 投稿者名を配列にいれる
-		if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
-			$rresname[] = $res['name'];
-		}
 		// 投稿者名を配列にいれる
 		if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
 			$rresname[] = $res['name'];
