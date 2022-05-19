@@ -140,7 +140,7 @@ while ($line = fgets($fp)) {
 		if($query===''||//空白なら
 				$query!==''&&$radio===3&&stripos($s_com,$query)!==false||//本文を検索
 				$query!==''&&$radio===3&&stripos($s_sub,$query)!==false||//題名を検索
-				$query!==''&&($radio===1||$radio===null)&&stripos($s_name,$query)!==false||//作者名が含まれる
+				$query!==''&&($radio===1||$radio===null)&&stripos($s_name,$query)===0||//作者名が含まれる
 				$query!==''&&($radio===2&&$s_name===$query)//作者名完全一致
 		){
 			$link='';
