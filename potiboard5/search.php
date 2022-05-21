@@ -111,6 +111,9 @@ foreach ($tree as $line) {
 
 $fp = fopen(LOGFILE, "r");
 while ($line = fgets($fp)) {
+	if(!trim($line)){
+		continue;
+	}
 	list($no,,$name,,$sub,$com,,,,$ext,,,$time,,,) = explode(",", $line);
 	if(!isset($oya[$no])){
 		continue;
