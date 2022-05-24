@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.5');
-define('POTI_LOT','lot.220516');
+define('POTI_VER','v5.18.6');
+define('POTI_LOT','lot.220524');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1125,13 +1125,12 @@ function regist(){
 	$email = $email ? $email : ($sage ? 'sage' : '') ;
 	$name=str_replace("\t",'',(string)filter_input(INPUT_POST, 'name'));//エスケープ前の値をセット
 	//クッキー項目："クッキー名 クッキー値"
-	$cooks = ["namec\t".$name,"emailc\t".$email,"urlc\t".$url,"fcolorc\t".$fcolor,"pwdc\t".$c_pass];
+	$cooks = [['namec',$name],['emailc',$email],['urlc',$url],['fcolorc',$fcolor],['pwdc',$c_pass]];
 
 	foreach ( $cooks as $cook ) {
-		list($c_name,$c_cookie) = explode("\t",$cook);
+		list($c_name,$c_cookie) = $cook;
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
-
 	
 	//メール通知
 
@@ -2567,7 +2566,21 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	$com = newstring($com);	//コメントのエスケープ
 	$com = nl2br($com);	//改行文字の前に HTMLの改行タグ
 	$url = str_replace(",", "", $url);
-	
+
+	//トリップ(名前の後ろの#と文字列をもとに生成)
+	if(preg_match("/(#|＃)(.*)/",$name,$regs)){
+		$cap = $regs[2];
+		$cap=strtr($cap,"&amp;", "&");
+		$cap=strtr($cap,"&#44;", ",");
+		$name=preg_replace("/(#|＃)(.*)/","",$name);
+		$salt=substr($cap."H.",1,2);
+		$salt=preg_replace("/[^\.-z]/",".",$salt);
+		$salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef");
+		$trip="◆".substr(crypt($cap,$salt),-10);
+		$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
+		$name.=$trip;
+	}
+
 	$formatted_post = [//コメント以外のエスケープと配列への格納
 		'com' => $com,
 		'name' => newstring($name),
