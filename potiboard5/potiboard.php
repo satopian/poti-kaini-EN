@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.6');
+define('POTI_VER','v5.18.8');
 define('POTI_LOT','lot.220524');
 
 /*
@@ -2078,6 +2078,9 @@ function editform(){
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;
+
+	//名前とトリップを分離
+	list($name,) = separateNameAndTrip($name);
 	$dat['name'] = h(strip_tags($name));
 	$dat['email'] = h(filter_var($email,FILTER_VALIDATE_EMAIL));
 	$dat['sub'] = h(strip_tags($sub));
