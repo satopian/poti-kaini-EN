@@ -2078,7 +2078,6 @@ function editform(){
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;
-
 	//名前とトリップを分離
 	list($name,) = separateNameAndTrip($name);
 	$dat['name'] = h(strip_tags($name));
