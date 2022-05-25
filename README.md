@@ -57,6 +57,8 @@ Updated CheerpJ, which converts Java applets to JavaScript when using the painte
 ### Improvement
 - Reimplemented tripcode function.
 
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.18.9 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/04/28] v5.16.8
 
@@ -80,8 +82,6 @@ Even if the process fails and the working files are left behind, they are now au
 - When the `.pch` save directory was specified other than`'src /'`, the automatic directory creation function did not work and the required files could not be saved.
 Changed to be created automatically when the directory does not exist.
 
-More information can be found in the release.    
-[Release POTI-board EVO EN v5.16. released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/04/02] v5.16.5.1
 - fix search template.
