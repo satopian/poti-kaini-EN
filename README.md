@@ -44,6 +44,19 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/05/25] v5.18.9
+### Klecks update
+Updated Klecks to the latest version.
+### CheerpJ update to v2.3
+Updated CheerpJ, which converts Java applets to JavaScript when using the painter, to v2.3.
+### Bug fixes
+ - Fixed a bug that the rejected character string and rejected url for anti-spam could not be processed correctly if they contained `/` (slash).
+ - Fixed a minor error when calculating the number of days elapsed for deleting temporary unnecessary files.
+ - Fixed the problem that the date and time when closing the reply in the specified number of days was not the parent's posting date and time but the latest reply posting date and time.
+
+### Improvement
+- Reimplemented tripcode function.
+
 
 ## [2022/04/28] v5.16.8
 
