@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.8');
-define('POTI_LOT','lot.220524');
+define('POTI_VER','v5.18.9');
+define('POTI_LOT','lot.220525');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2731,6 +2731,7 @@ function is_ngword ($ngwords, $strs) {
 	}
 	foreach($ngwords as $i => $ngword){//拒絶する文字列
 		$ngwords[$i]  = str_replace([" ", "　"], "", $ngword);
+		$ngwords[$i]  = str_replace("/", "\/", $ngwords[$i]);
 	}
 	foreach ($strs as $str) {
 		foreach($ngwords as $ngword){//拒絶する文字列
