@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.9');
-define('POTI_LOT','lot.220525');
+define('POTI_VER','v5.18.15');
+define('POTI_LOT','lot.220526');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -490,9 +490,8 @@ function form($resno="",$adminin="",$tmp=""){
 // 記事表示 
 function updatelog(){
 
-	$logs=get_log();
-	$line=$logs['line'];
-	$trees=$logs['trees'];
+	$line=get_log();
+	$trees=get_tree();
 
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
@@ -591,9 +590,8 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
-	$logs=get_log();
-	$line=$logs['line'];
-	$trees=$logs['trees'];
+	$line=get_log();
+	$trees=get_tree();
 
 	$treeline=[];
 	foreach($trees as $i => $value){
@@ -604,9 +602,6 @@ function res($resno = 0){
 		}
 	}
 
-	if (empty($treeline)) {
-		error(MSG001);
-	}
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
@@ -734,7 +729,6 @@ function similar_str($str1,$str2){
 function regist(){
 	global $path,$temppath,$usercode,$ADMIN_PASS;
 	
-	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
 	//CSRFトークンをチェック
 	check_csrf_token();
@@ -1309,7 +1303,7 @@ function admindel($pass){
 	$dat['admin_del'] = true;
 	$dat['pass'] = $pass;
 	$all = 0;
-	$line = file(LOGFILE);
+	$line=get_log();
 	$countlog=count($line);
 	$l = 0;
 
@@ -1325,9 +1319,6 @@ function admindel($pass){
 	}
 
 	foreach($line as $j => $value){
-		if(!trim($value)){
-			continue;
-		}
 			if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
 			list($no,$date,$name,$email,$sub,$com,$url,
 			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
@@ -1338,6 +1329,7 @@ function admindel($pass){
 			'clip' => "",
 			'chk' => "",
 		] ;
+		list($name,) = separateNameAndTrip($name);
 		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
 		$res['name'] = strip_tags($name);//タグ除去
 		$res['sub'] = strip_tags($sub);
@@ -1585,7 +1577,8 @@ function paintform(){
 		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
 
 			$oyano='';
-			$trees=file(TREEFILE);
+			$trees=get_tree();
+		
 			foreach ($trees as $tree) {
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 					$tree_nos = explode(',', trim($tree));
@@ -1757,7 +1750,8 @@ function paintcom(){
 	}
 
 	if(USE_RESUB && $resto) {
-		$lines = file(LOGFILE);
+		$lines=get_log();
+	
 		foreach($lines as $line){
 
 			if (strpos(trim($line) . ',', $resto . ',') === 0) {
@@ -1891,7 +1885,7 @@ function incontinue(){
 	$cptime='';
 
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	$lines = file(LOGFILE);
+	$lines=get_log();
 	$flag = FALSE;
 	foreach($lines as $line){
 		//記事ナンバーのログを取得		
@@ -1972,7 +1966,7 @@ function check_cont_pass(){
 
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
-	$lines = file(LOGFILE);
+	$lines=get_log();
 	foreach($lines as $line){
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
 
@@ -1996,7 +1990,7 @@ function download_app_dat(){
 	$cpwd='';
 	$cno='';
 	$ctime='';
-	$lines = file(LOGFILE);
+	$lines=get_log();
 	$flag = false;
 	foreach($lines as $line){
 		//記事ナンバーのログを取得		
@@ -2102,7 +2096,6 @@ function editform(){
 		}
 		if(!$fcolor) $dat['fctable'][0]['chk'] = true; //値が無い場合、先頭にチェック
 	}
-	// $dat = array_merge($dat,form());
 
 	htmloutput(OTHERFILE,$dat);
 }
@@ -2110,8 +2103,6 @@ function editform(){
 // 記事上書き
 function rewrite(){
 global $ADMIN_PASS;
-
-	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
 	//CSRFトークンをチェック
 	check_csrf_token();
@@ -2272,7 +2263,7 @@ function replace(){
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
 
-			$trees=file(TREEFILE);
+			$trees=get_tree();
 
 			foreach ($trees as $tree) {
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
@@ -2395,9 +2386,8 @@ function catalog(){
 	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 	$page= $page ? $page : 0;
 
-	$logs=get_log();
-	$line=$logs['line'];
-	$trees=$logs['trees'];
+	$line=get_log();
+	$trees=get_tree();
 
 	$counttree = count($trees);
 
@@ -2490,6 +2480,8 @@ function charconvert($str){
 // NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post(){
 	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
+
+	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
@@ -2974,14 +2966,24 @@ function is_neo($src) {//neoのPCHかどうか調べる
 }
 //表示用のログファイルを取得
 function get_log() {
-
+	$lines=[];
 	$fp=fopen(LOGFILE,"r");
 	while($_line = fgets($fp)){
 		if(!trim($_line)){
 			continue;
 		}
-		$line[]=$_line;
+		$lines[]=$_line;
 	}
+	closeFile($fp);
+	
+	if(empty($lines)){
+		return error(MSG019);
+	}
+	return $lines;
+}
+//表示用のログファイルを取得
+function get_tree() {
+	$trees=[];
 	$tp=fopen(TREEFILE,"r");
 	while($_tree = fgets($tp)){
 		if(!trim($_tree)){
@@ -2990,13 +2992,9 @@ function get_log() {
 		$trees[]=$_tree;
 	}
 	closeFile($tp);
-	closeFile($fp);
 	
-	if(empty($line)||empty($trees)){
+	if(empty($trees)){
 		return error(MSG019);
 	}
-	return [
-		'line'=>$line,
-		'trees'=>$trees,
-	];
+	return $trees;
 }
