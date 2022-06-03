@@ -53,7 +53,7 @@ if(isset($badfile)&&is_array($badfile)){
 	}
 }
 $success = TRUE;
-$success = $success && move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
+$success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
 if (!$success) {
     chibi_die("Couldn't move uploaded files");
