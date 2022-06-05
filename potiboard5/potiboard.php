@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.15');
-define('POTI_LOT','lot.220526');
+define('POTI_VER','v5.18.20');
+define('POTI_LOT','lot.220605');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -490,8 +490,8 @@ function form($resno="",$adminin="",$tmp=""){
 // 記事表示 
 function updatelog(){
 
-	$line=get_log();
-	$trees=get_tree();
+	$line=get_log(LOGFILE);
+	$trees=get_log(TREEFILE);
 
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
@@ -590,8 +590,8 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
-	$line=get_log();
-	$trees=get_tree();
+	$line=get_log(LOGFILE);
+	$trees=get_log(TREEFILE);
 
 	$treeline=[];
 	foreach($trees as $i => $value){
@@ -1303,7 +1303,7 @@ function admindel($pass){
 	$dat['admin_del'] = true;
 	$dat['pass'] = $pass;
 	$all = 0;
-	$line=get_log();
+	$line=get_log(LOGFILE);
 	$countlog=count($line);
 	$l = 0;
 
@@ -1577,16 +1577,18 @@ function paintform(){
 		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
 
 			$oyano='';
-			$trees=get_tree();
-		
-			foreach ($trees as $tree) {
+			$tp=fopen(TREEFILE,"r");
+			while($tree = fgets($tp)){
+				if(!trim($tree)){
+					continue;
+				}	
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 					$tree_nos = explode(',', trim($tree));
 					$oyano=$tree_nos[0];
 					break;
 				}
 			}
-			
+			closeFile($tp);
 			$resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
 			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
 			//親の番号ではない事を確認してレス先の番号をセット。
@@ -1750,10 +1752,12 @@ function paintcom(){
 	}
 
 	if(USE_RESUB && $resto) {
-		$lines=get_log();
-	
-		foreach($lines as $line){
 
+		$fp=fopen(LOGFILE,"r");
+		while($line = fgets($fp)){
+			if(!trim($line)){
+				continue;
+			}
 			if (strpos(trim($line) . ',', $resto . ',') === 0) {
 
 				list($cno,,,,$sub,,,,,,,,,,) = explode(",", charconvert($line));
@@ -1761,6 +1765,7 @@ function paintcom(){
 					break;
 			}
 		}
+		closeFile($fp);
 	}
 
 	//テンポラリ画像リスト作成
@@ -1770,9 +1775,7 @@ function paintcom(){
 	while ($file = readdir($handle)) {
 		if(!is_dir($file) && pathinfo($file, PATHINFO_EXTENSION)==='dat') {
 
-			$fp = fopen(TEMP_DIR.$file, "r");
-			$userdata = fread($fp, 1024);
-			fclose($fp);
+			$userdata=file_get_contents(TEMP_DIR.$file);
 			list($uip,$uhost,$uagent,$imgext,$ucode,) = explode("\t", rtrim($userdata));
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
@@ -1885,16 +1888,20 @@ function incontinue(){
 	$cptime='';
 
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	$lines=get_log();
 	$flag = FALSE;
-	foreach($lines as $line){
-		//記事ナンバーのログを取得		
+	$fp=fopen(LOGFILE,"r");
+	while($line = fgets($fp)){//記事ナンバーのログを取得
+		if(!trim($line)){
+			continue;
+		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
 		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,) = explode(",", rtrim($line));
 		$flag = true;
 		break;
 		}
 	}
+	closeFile($fp);
+
 	if(!$flag) error(MSG001);
 
 	$dat['continue_mode'] = true;
@@ -1966,8 +1973,8 @@ function check_cont_pass(){
 
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
-	$lines=get_log();
-	foreach($lines as $line){
+	$fp=fopen(LOGFILE,"r");
+	while($line = fgets($fp)){
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
 
 			list($cno,,,,,,,,$cpwd,,,,$ctime,)
@@ -1976,10 +1983,12 @@ function check_cont_pass(){
 		if($cno == $no && check_password($pwd, $cpwd) 
 		&& check_elapsed_days($ctime)
 		){
+			closeFile($fp);
 			return true;
 		}
 	}
 	}
+	closeFile($fp);
 	error(MSG028);
 }
 function download_app_dat(){
@@ -1990,16 +1999,20 @@ function download_app_dat(){
 	$cpwd='';
 	$cno='';
 	$ctime='';
-	$lines=get_log();
 	$flag = false;
-	foreach($lines as $line){
-		//記事ナンバーのログを取得		
+	$fp=fopen(LOGFILE,"r");
+	while($line = fgets($fp)){//記事ナンバーのログを取得		
+
+		if(!trim($line)){
+			continue;
+		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
 		list($cno,,,,,,,,$cpwd,,,,$ctime,) = explode(",", rtrim($line));
 		$flag = true;
 		break;
 		}
 	}
+	closeFile($fp);
 	if(!$flag) error(MSG001);
 	if(!(($no==$cno)&&check_password($pwd,$cpwd,$pwd))){
 		return error(MSG029);
@@ -2046,7 +2059,7 @@ function editform(){
 	$flag = FALSE;
 	foreach($line as $value){
 		if($value){
-			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value));
+			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value.',,,'));
 			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
 				$flag = TRUE;
 				break;
@@ -2160,7 +2173,7 @@ global $ADMIN_PASS;
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value));
+		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value.',,,'));
 		if($eno == $no && check_password($pwd, $epwd, $admin)){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			if(!$name) $name = $ename;
@@ -2259,11 +2272,11 @@ function replace(){
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value));
+		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value.',,,'));
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
 
-			$trees=get_tree();
+			$trees=get_log(TREEFILE);
 
 			foreach ($trees as $tree) {
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
@@ -2386,8 +2399,8 @@ function catalog(){
 	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 	$page= $page ? $page : 0;
 
-	$line=get_log();
-	$trees=get_tree();
+	$line=get_log(LOGFILE);
+	$trees=get_log(TREEFILE);
 
 	$counttree = count($trees);
 
@@ -2788,7 +2801,7 @@ function create_res ($line, $options = []) {
 	global $path;
 
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
-		= explode(",", rtrim($line));
+		= explode(",", rtrim($line.',,,'));//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
 		'w' => is_numeric($w) ? $w :'',
@@ -2965,14 +2978,17 @@ function is_neo($src) {//neoのPCHかどうか調べる
 	return $is_neo;
 }
 //表示用のログファイルを取得
-function get_log() {
+function get_log($logfile) {
+	if(!$logfile){
+		return error(MSG019);
+	}
 	$lines=[];
-	$fp=fopen(LOGFILE,"r");
-	while($_line = fgets($fp)){
-		if(!trim($_line)){
+	$fp=fopen($logfile,"r");
+	while($line = fgets($fp)){
+		if(!trim($line)){
 			continue;
 		}
-		$lines[]=$_line;
+		$lines[]=$line;
 	}
 	closeFile($fp);
 	
@@ -2980,21 +2996,4 @@ function get_log() {
 		return error(MSG019);
 	}
 	return $lines;
-}
-//表示用のログファイルを取得
-function get_tree() {
-	$trees=[];
-	$tp=fopen(TREEFILE,"r");
-	while($_tree = fgets($tp)){
-		if(!trim($_tree)){
-			continue;
-		}
-		$trees[]=$_tree;
-	}
-	closeFile($tp);
-	
-	if(empty($trees)){
-		return error(MSG019);
-	}
-	return $trees;
 }
