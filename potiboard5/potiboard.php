@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.22');
+define('POTI_VER','v5.18.25');
 define('POTI_LOT','lot.220611');
 
 /*
@@ -761,8 +761,7 @@ function regist(){
 			$pwd=newstring($pwdc);
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
-			list($usec,) = explode(' ', microtime());
-			srand($usec * 1000000);
+			srand();
 			$pwd = substr(md5(uniqid(rand(),true)),2,15);
 			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
 			$c_pass=$pwd;
