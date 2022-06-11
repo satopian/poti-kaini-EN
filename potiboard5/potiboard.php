@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.20');
-define('POTI_LOT','lot.220605');
+define('POTI_VER','v5.18.22');
+define('POTI_LOT','lot.220611');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -761,8 +761,9 @@ function regist(){
 			$pwd=newstring($pwdc);
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
-			srand((double)microtime()*1000000);
-			$pwd = substr(md5(uniqid(rand())),2,15);
+			list($usec,) = explode(' ', microtime());
+			srand($usec * 1000000);
+			$pwd = substr(md5(uniqid(rand(),true)),2,15);
 			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
 			$c_pass=$pwd;
 		}
@@ -2059,7 +2060,7 @@ function editform(){
 	$flag = FALSE;
 	foreach($line as $value){
 		if($value){
-			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value.',,,'));
+			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value).',,,');
 			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
 				$flag = TRUE;
 				break;
@@ -2173,7 +2174,7 @@ global $ADMIN_PASS;
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value.',,,'));
+		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value).',,,');
 		if($eno == $no && check_password($pwd, $epwd, $admin)){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			if(!$name) $name = $ename;
@@ -2272,7 +2273,7 @@ function replace(){
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value.',,,'));
+		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value).',,,');
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
 
@@ -2801,7 +2802,7 @@ function create_res ($line, $options = []) {
 	global $path;
 
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
-		= explode(",", rtrim($line.',,,'));//追加のカンマfutaba.phpのログ読み込み時のエラー回避
+		= explode(",", rtrim($line).',,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
 		'w' => is_numeric($w) ? $w :'',
@@ -2997,3 +2998,4 @@ function get_log($logfile) {
 	}
 	return $lines;
 }
+
