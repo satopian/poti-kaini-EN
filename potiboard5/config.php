@@ -241,15 +241,6 @@ define('RES_UPLOAD', '1');
 define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
-// レス画像貼りを許可した場合の画像付きレスを表示させる件数
-// 1スレで表示させるレスを画像付きレス表示数になるまで省略します
-// 返信画面で全件表示されます
-// (例) ※0が文字レス,iが画像レス
-// 0i0ii の場合。画像付きレス表示数2だと → 0ii に省略されます
-// Number of responses to be displayed at Allow image pasting in response
-// All items will be displayed on the reply mode.
-define('DSP_RESIMG', '2');
-
 // IDを表示する する:1 しない:0
 // To show ID, set '1', if not, set '0'.
 define('DISP_ID', '0');

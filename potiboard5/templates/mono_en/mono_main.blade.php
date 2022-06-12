@@ -324,13 +324,14 @@
 						<p>{!!$res['com']!!}</p>
 						{{-- 親のコメント部分 --}}
 						@if ($loop->first)
-						@if ($res['skipres'])
-						<hr>
-						<div class="article_skipres">
-							{{$res['skipres']}} posts Omitted.
-						</div>
-						@endif
+				
 					</div>
+					@if ($res['skipres'])
+					<hr>
+					<div class="article_skipres">
+						{{$res['skipres']}} posts Omitted.
+					</div>
+					@endif
 					@endif
 					{{-- 子レスなら --}}
 					@if (!$loop->first)
