@@ -14,17 +14,17 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 		return;
 	}
 
-	$size = GetImageSize($fname); // 画像の幅と高さとタイプを取得
+	list($w,$h) = GetImageSize($fname); // 画像の幅と高さとタイプを取得
 	// リサイズ
-	$w_h_size_over=($size[0] > $max_w || $size[1] > $max_h);
+	$w_h_size_over=($w > $max_w || $h > $max_h);
 	if(!$w_h_size_over){//サイズが範囲内なら終了
 		return;
 	}
-		$key_w = $max_w / $size[0];
-		$key_h = $max_h / $size[1];
-		($key_w < $key_h) ? $keys = $key_w : $keys = $key_h;
-		$out_w = ceil($size[0] * $keys);//端数の切り上げ
-		$out_h = ceil($size[1] * $keys);
+	$w_ratio = $max_w / $w;
+	$h_ratio = $max_h / $h;
+	$ratio = min($w_ratio, $h_ratio);
+	$out_w = ceil($w * $ratio);//端数の切り上げ
+	$out_h = ceil($h * $ratio);
 	
 	switch (mime_content_type($fname)) {
 		case "image/gif";
@@ -57,7 +57,7 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 		default : return;
 	}
 	// 出力画像（サムネイル）のイメージを作成
-	$nottrue = 0;
+	$exists_ImageCopyResampled = false;
 	if(function_exists("ImageCreateTrueColor")&&get_gd_ver()=="2"){
 		$im_out = ImageCreateTrueColor($out_w, $out_h);
 		if(function_exists("ImageColorAlLocate") && function_exists("imagefill")){
@@ -66,11 +66,12 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 		}
 	// コピー＆再サンプリング＆縮小
 		if(function_exists("ImageCopyResampled")&&RE_SAMPLED){
-			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $size[0], $size[1]);
-		}else{$nottrue = 1;}
+			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
+			$exists_ImageCopyResampled = true;
+		}
 	}else{$im_out = ImageCreate($out_w, $out_h);$nottrue = 1;}
 	// コピー＆縮小
-	if($nottrue) ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $size[0], $size[1]);
+	if(!$exists_ImageCopyResampled) ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
 	// サムネイル画像を保存
 	ImageJPEG($im_out, THUMB_DIR.$tim.'s.jpg',THUMB_Q);
 	// 作成したイメージを破棄
