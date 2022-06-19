@@ -44,6 +44,17 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+## [2022/05/25] v5.18.25
+### Bug fixes
+- Fixed the issue that the layout was broken when posts omitted .
+
+### Improvement
+- ChickenPaint now launches in full screen.
+
+More information can be found in the release.    
+[Release POTI-board EVO EN v5.18.25 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
+
 ## [2022/05/25] v5.18.9
 ### Klecks update
 Updated Klecks to the latest version.
@@ -57,8 +68,6 @@ Updated CheerpJ, which converts Java applets to JavaScript when using the painte
 ### Improvement
 - Reimplemented tripcode function.
 
-More information can be found in the release.    
-[Release POTI-board EVO EN v5.18.9 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/04/28] v5.16.8
 
