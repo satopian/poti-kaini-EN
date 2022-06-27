@@ -119,7 +119,7 @@
 				@if($pictmp)
 				<div class="tmpimg">
 					@if($notmp)
-					<p>Not OEKAKI image</p>
+					<p>There are no unposted oekaki images.</p>
 					@endif
 					@if($tmp)
 					<div>
@@ -136,6 +136,8 @@
 				<hr class="hr">
 				@if($ptime)<p class="ptime">PaintTime : {{$ptime}}</p>
 				@endif
+			{{-- 未投稿画像の画像が無い時はフォームを表示しない --}}
+			@if(!$notmp)
 				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="token" value="{{$token}}">
 
@@ -243,6 +245,7 @@
 					</ul>
 					@endif
 				</form>
+			@endif
 				@if($regist)
 				<script type="text/javascript">
 					l(); //LoadCookie

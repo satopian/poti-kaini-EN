@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.211108  (C)SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.220627  (C)SakaQ >> http://www.punyu.net/php/
 // & POTI改 >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/06/27 画像とユーザーデータが存在しない時は画面を推移せずエラーのアラートを出す。
 // 2021/11/08 CSRF対策にusercodeを使用。cookieが確認できない場合は画像を保存しない。
 // 2021/10/31 エラー発生時は、ユーザーのキャンバスにエラー内容が表示されるためシステムログへのエラーログの保存処理を削除した。
 // 2021/05/17 エラーが発生した時はお絵かき画面から移動せず、エラーの内容を表示する。
@@ -41,16 +42,8 @@ include(__DIR__.'/config.php');
 
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
-if(stripos($lang,'ja')===0){//ブラウザの言語が日本語の時
-
-	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
-	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
-	$errormsg_3 = "画像ファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
-	$errormsg_4 = "規定サイズ違反を検出しました。お絵かき画像は保存されません。";
-	$errormsg_5 = "不正な画像を検出しました。お絵かき画像は保存されません。";
-	$errormsg_6 = "PCHファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
-	$errormsg_7 = "ユーザーデータの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
-}else{//それ以外
+  $en= (stripos($lang,'ja')!==0) ? true : false;
+  if($en){//ブラウザの言語が日本語以外の時
 	$errormsg_1 = "Failed to get data. Please try posting again after a while.";
 	$errormsg_2 = "The size of the picture is too big. The drawing image is not saved.";
 	$errormsg_3 = "Failed to create the image file. Please try posting again after a while.";
@@ -58,6 +51,14 @@ if(stripos($lang,'ja')===0){//ブラウザの言語が日本語の時
 	$errormsg_5 = "There was an illegal image. The drawng image is not saved.";
 	$errormsg_6 = "Failed to open PCH file. Please try posting again after a while.";
 	$errormsg_7 = "Failed to create user data. Please try posting again after a while.";
+}else{//日本語
+	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
+	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
+	$errormsg_3 = "画像ファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
+	$errormsg_4 = "規定サイズ違反を検出しました。お絵かき画像は保存されません。";
+	$errormsg_5 = "不正な画像を検出しました。お絵かき画像は保存されません。";
+	$errormsg_6 = "PCHファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
+	$errormsg_7 = "ユーザーデータの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
 }
 
 /* ---------- picpost.php用設定 ---------- */
@@ -143,6 +144,10 @@ if(!$fp){
 	flock($fp, LOCK_UN);
 	fclose($fp);
 }
+if(!is_file(TEMP_DIR.$imgfile.$imgext)){
+	die("error\n{$errormsg_3}");
+}
+
 // 不正画像チェック(検出したら削除)
 	$size = getimagesize($full_imgfile);
 	if($size[0] > PMAX_W || $size[1] > PMAX_H){
@@ -203,5 +208,7 @@ if(!$fp){
 	fclose($fp);
 	chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 }
-
+if(!is_file(TEMP_DIR.$imgfile.".dat")){
+	die("error\n{$errormsg_7}");
+}
 die("ok");

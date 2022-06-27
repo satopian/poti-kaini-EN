@@ -30,7 +30,7 @@ define('POTI_LOT','lot.220611');
   *
   * USE FUNCTION :
   *   BladeOne              (C) Jorge Patricio Castro Castillo   >> https://github.com/EFTEC/BladeOne
-  *   DynamicPalette        (C)NoraNeko  >> wondercatstudio
+  *   DynamicPalette        (C)NoraNeko  >> WonderCatStudio
   *----------------------------------------------------------------------------------
 
 このスクリプトは「レッツPHP!」<http://php.loglog.jp/>のgazou.phpを改造した、
