@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.18.25');
-define('POTI_LOT','lot.220611');
+define('POTI_VER','v5.19.0');
+define('POTI_LOT','lot.220628');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -46,8 +46,8 @@ define('POTI_LOT','lot.220611');
 ご質問は、<https://paintbbs.sakura.ne.jp/poti/>までどうぞ。
 */
 
-if (($phpver = phpversion()) < "7.1.0") {
-	die("Error. PHP version 7.1.0 or higher is required for this program to work. <br>\n(Current PHP version:{$phpver})");
+if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+	die("Error. PHP version 7.4.0 or higher is required for this program to work. <br>\n(Current PHP version:".PHP_VERSION.")");
 }
 
 //INPUT_POSTから変数を取得
@@ -163,7 +163,7 @@ defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 //日記モードで使用する する:1 しない:0
 defined('DIARY') or define('DIARY', '0');
 
-$badurl= $badurl ?? [];//拒絶するurl
+$badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
 //パーミッション
 
