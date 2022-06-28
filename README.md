@@ -28,7 +28,7 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 ## Required php version
 
-Required PHP version.PHP7.1 to PHP8.1
+Required PHP version.PHP7.4 to PHP8.1
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
@@ -204,9 +204,9 @@ Templates with the extension `HTML` have been replaced with templates with the e
 When you open the content, it's not much different from a traditional template. However, it may seem difficult because the extension is not HTML. 
 
 ### What has changed due to the change of the template engine
-#### PHP7.1
-- I was developing it to work in PHP5.6 environment, but I found that v4.2 of BladeOne only works in PHP7.1 or higher environment.
-POTI-board EVO v5.x requires PHP 7.1 or higher.
+#### PHP7.4
+- I was developing it to work in PHP5.6 environment, but I found that v4.2 of BladeOne only works in PHP7.4 or higher environment.
+POTI-board EVO v5.x requires PHP 7.4 or higher.
 
 #### Information for those who customize and use templates.
 The thread display process has changed significantly.
