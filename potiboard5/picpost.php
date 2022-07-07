@@ -1,13 +1,14 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.220627  (C)SakaQ >> http://www.punyu.net/php/
-// & POTI改 >> https://paintbbs.sakura.ne.jp/poti/
+// picpost.php lot.220707  (C)SakaQ >> http://www.punyu.net/php/
+// & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
 //
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/07/07 同名のファイルが存在する時は秒数に+1して回避。ファイル名の秒数を13桁→16桁へ。
 // 2022/06/27 画像とユーザーデータが存在しない時は画面を推移せずエラーのアラートを出す。
 // 2021/11/08 CSRF対策にusercodeを使用。cookieが確認できない場合は画像を保存しない。
 // 2021/10/31 エラー発生時は、ユーザーのキャンバスにエラー内容が表示されるためシステムログへのエラーログの保存処理を削除した。
@@ -72,7 +73,6 @@ define('SIZE_CHECK', '1');
 define('PICPOST_MAX_KB', '5120');//5MBまで
 
 $time = time();
-$imgfile = $time.substr(microtime(),2,3);	//画像ファイル名
 
 /* ■■■■■ メイン処理 ■■■■■ */
 
@@ -130,6 +130,8 @@ $userdata .= "\n";
 if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_1}");
 }
+$imgfile = time().substr(microtime(),2,6);//画像ファイル名
+$imgfile = is_file(TEMP_DIR.$imgfile.$imgext) ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
 
 $full_imgfile = TEMP_DIR.$imgfile.$imgext;
 // 画像データをファイルに書き込む

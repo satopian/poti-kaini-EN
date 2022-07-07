@@ -13,7 +13,8 @@ defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.ph
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
 $time = time();
-$imgfile = $time.substr(microtime(),2,3);	//画像ファイル名
+$imgfile = time().substr(microtime(),2,6);	//画像ファイル名
+$imgfile = is_file(TEMP_DIR.$imgfile.'.png') ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
 
 
 function chibi_die($message) {
@@ -55,7 +56,7 @@ if(isset($badfile)&&is_array($badfile)){
 $success = TRUE;
 $success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
-if (!$success) {
+if (!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
     chibi_die("Couldn't move uploaded files");
 }
 if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
@@ -93,6 +94,9 @@ if(!$fp){
 	fclose($fp);
 	chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
+	if(!is_file(TEMP_DIR.$imgfile.'.dat')){
+		chibi_die("Your picture upload failed! Please try again!");
+	}
 
 die("CHIBIOK\n");
 
