@@ -56,13 +56,13 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 [Release POTI-board EVO EN v5.20.2 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
-## [2022/05/25] v5.19.1
+## [2022/06/30] v5.19.1
 - Since it was confirmed that it does not work with PHP7.1, the required operating environment has been changed to PHP7.2 or higher.
 In the PHP7.1 environment, it will not start and will issue an error message telling you that the PHP version is low.
 - The form is not displayed when there is no unposted image.  
 
 
-## [2022/05/25] v5.18.25
+## [2022/06/11] v5.18.25
 ### Bug fixes
 - Fixed the issue that the layout was broken when posts omitted .
 
