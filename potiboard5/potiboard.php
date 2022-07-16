@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.22.1');
+define('POTI_VER','v5.22.3');
 define('POTI_LOT','lot.220716');
 
 /*
@@ -1584,11 +1584,11 @@ function paintform(){
 	$dat = array_merge($dat,form($resto));
 	$dat['anime'] = $anime ? true : false;
 
+	$oyano='';
 	if($mode==="contpaint"){
 
 		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
 
-			$oyano='';
 			$tp=fopen(TREEFILE,"r");
 			while($tree = fgets($tp)){
 				if(!trim($tree)){
@@ -2295,7 +2295,6 @@ function replace(){
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value).',,,');
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
-			$oyano='';
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
