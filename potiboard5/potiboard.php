@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.20.1');
-define('POTI_LOT','lot.220701');
+define('POTI_VER','v5.22.1');
+define('POTI_LOT','lot.220716');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -162,6 +162,7 @@ defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THR
 defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 //日記モードで使用する する:1 しない:0
 defined('DIARY') or define('DIARY', '0');
+defined('X_FRAME_OPTIONS_DENY') or define('X_FRAME_OPTIONS_DENY', '1');
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -790,7 +791,15 @@ function regist(){
 	$message="";
 
 	//記事管理用 ユニックスタイム10桁+3桁
-	$time = time().substr(microtime(),2,3);
+	$time = (string)(time().substr(microtime(),2,3));	//投稿時刻
+
+	$testexts=['.gif','.jpg','.png','.webp'];
+	foreach($testexts as $testext){
+		if(is_file(IMG_DIR.$time.$testext)){
+		$time=(string)(time()+1).substr(microtime(),2,3);
+		break;
+		}
+	}
 
 	$ptime='';
 	// お絵かき絵アップロード処理
@@ -906,30 +915,33 @@ function regist(){
 			continue;
 		}
 		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
-		$pchk=0;
+		$pchk=false;
 		switch(POST_CHECKLEVEL){
 			case 1:	//low
-				if($host===$lhost
-				){$pchk=1;}
+				if(
+				$host===$lhost
+				){$pchk=true;}
 				break;
 			case 2:	//middle
-				if($host===$lhost
+				if(
+				($host===$lhost)
 				|| ($name && $name===$lname)
 				|| ($email && $email===$lemail)
 				|| ($url && $url===$lurl)
 				|| ($sub && $sub===$lsub)
-				){$pchk=1;}
+				){$pchk=true;}
 				break;
 			case 3:	//high
-				if($host===$lhost
+				if(
+				($host===$lhost)
 				|| ($name && similar_str($name,$lname) > VALUE_LIMIT)
 				|| ($email && similar_str($email,$lemail) > VALUE_LIMIT)
 				|| ($url && similar_str($url,$lurl) > VALUE_LIMIT)
 				|| ($sub && similar_str($sub,$lsub) > VALUE_LIMIT)
-				){$pchk=1;}
+				){$pchk=true;}
 				break;
 			case 4:	//full
-				$pchk=1;
+				$pchk=true;
 		}
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
@@ -1526,7 +1538,7 @@ function paintform(){
 		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
 		$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
 
-			$time = time().substr(microtime(),2,3);
+			$time = (string)(time().substr(microtime(),2,6));
 			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
 			$pchext=strtolower($pchext);//すべて小文字に
 			//拡張子チェック
@@ -2240,7 +2252,15 @@ function replace(){
 	}
 
 	// 時間
-	$time = time().substr(microtime(),2,3);
+	$time = (string)(time().substr(microtime(),2,3));
+	$testexts=['.gif','.jpg','.png','.webp'];
+	foreach($testexts as $testext){
+		if(is_file(IMG_DIR.$time.$testext)){
+		$time=(string)(time()+1).substr(microtime(),2,3);
+		break;
+		}
+	}
+
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	//描画時間を$userdataをもとに計算
@@ -2275,16 +2295,16 @@ function replace(){
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value).',,,');
 	//画像差し替えに管理パスは使っていない
 		if($eno == $no && check_password($pwd, $epwd)){
-
-			$trees=get_log(TREEFILE);
-
-			foreach ($trees as $tree) {
+			$oyano='';
+			$tp=fopen(TREEFILE,"r");
+			while($tree=fgets($tp)){
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
 					$tree_nos = explode(',', trim($tree));
 					$oyano=$tree_nos[0];
 					break;
 				}
 			}
+			fclose($tp);
 
 			if(!check_elapsed_days($etim)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
 				closeFile($fp);
@@ -2609,6 +2629,9 @@ function htmloutput($template,$dat,$buf_flag=''){
 	global $blade;
 	$dat += basicpart();//basicpart()で上書きしない
 	//array_merge()ならbasicpart(),$datの順
+	if(X_FRAME_OPTIONS_DENY){
+		header('X-Frame-Options: DENY');
+	}
 	if($buf_flag){
 		$buf=$blade->run($template,$dat);
 		return $buf;

@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board EVO v3.20.0 lot.220106
+  * POTI-board EVO v5.21.0 lot.220715
   * by POTI-kai >> https://paintbbs.sakura.ne.jp/poti/
   *
   * setting file of POTI-board EVO
@@ -216,7 +216,7 @@ define('DSP_RES', '7');
 
 // 文字色選択を使用する する:1 しない:0
 // 要対応テーマ
-// Use font color selection, do:'1', do not:'0'
+// Use font color selection, (1: Enabled, 0: Disabled)
 // Needed a theme for this feature
 define('USE_FONTCOLOR', '0');
 
@@ -242,8 +242,8 @@ define('MAX_RESW', '400');	//幅 (width)
 define('MAX_RESH', '400');	//高さ (height)
 
 // IDを表示する する:1 しない:0
-// To show ID, set '1', if not, set '0'.
-define('DISP_ID', '0');
+// To show ID, (1: Enabled, 0: Disabled)
+define('DISP_ID', '1');
 
 // URLを自動リンクする する:1 しない:0
 // Automatically transform URLs to links (Yes: 1, No: 0)
@@ -282,13 +282,13 @@ define('USE_RESUB', '1');
 define('DO_NOT_CHANGE_POSTS_TIME', '0');
 //レス画面に前後のスレッドの画像を表示する する:1 しない:0
 // Show images of next and previous threads in reply view
-// (Yes: 1, No: 0)
+// (1: Enabled, 0: Disabled)
 define('VIEW_OTHER_WORKS', '1');
 
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 
 // お絵かき機能を使用する お絵かきのみ:2 する:1 しない:0
-// Use the oekaki function  (Yes: 1, No: 0)
+// Use the oekaki function  (1: Enabled, 0: Disabled)
 define('USE_PAINT', '1'); 
 
 // お絵描き最大サイズ（これ以上は強制でこの値
@@ -594,3 +594,6 @@ define('PERMISSION_FOR_DIR', 0707);//初期値 0707
 // But if it causes problems, set this to '0' (disabled) 
 define('RE_SAMPLED', '1');
 
+// Deny display in iframe:  (1: Deny, 0: Allow)
+// For security reasons, we strongly recommend "Deny".
+define('X_FRAME_OPTIONS_DENY', '1');
