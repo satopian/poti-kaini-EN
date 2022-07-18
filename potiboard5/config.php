@@ -595,5 +595,5 @@ define('PERMISSION_FOR_DIR', 0707);//初期値 0707
 define('RE_SAMPLED', '1');
 
 // Deny display in iframe:  (1: Deny, 0: Allow)
-// For security reasons, we strongly recommend "Deny".
+// We strongly recommend "Deny" to avoid security risks.
 define('X_FRAME_OPTIONS_DENY', '1');

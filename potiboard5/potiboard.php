@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.22.3');
-define('POTI_LOT','lot.220716');
+define('POTI_VER','v5.22.5');
+define('POTI_LOT','lot.220718');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -395,35 +395,13 @@ function basicpart(){
 	$dat['_san']=HONORIFIC_SUFFIX;
 	$dat['cheerpj_url']=CHEERPJ_URL;
 	$dat['n']=false;//コメント行
-	$dat['resform'] = false;//ミニフォーム廃止	
 	//言語
 	$dat['en']=lang_en();
-	//初期化 PHP8.1 OTHERFILE 
-	$dat['post_mode']=false;
-	$dat['rewrite']=false;
-	$dat['admin']=false;
-	$dat['admin_in']=false;
-	$dat['admin_del']=false;
-	$dat['pass']=false;
-	$dat['regist']=false;
-	$dat['mes']=false;
-	$dat['err_mode']=false;
-	$dat['resno']=false;
-	$dat['pictmp']=false;
-	$dat['notmp']=false;
-	$dat['ptime']=false;
-	$dat['name']=false;
-	$dat['email']=false;
-	$dat['url']=false;
-	$dat['sub']=false;
-	$dat['com']=false;
-	$dat['ipcheck']=false;
-	$dat['tmp']=false;
-	//メンテナンスフォーム
-	$dat['thread_no'] = false;
-	$dat['logfilename'] = false;
-	$dat['mode_catalog'] = false;
-	$dat['catalog_pageno'] = false;
+	//初期化 PHP8.1 OTHERFILE
+	$keys=['resform','post_mode','rewrite','admin','admin_in','admin_del','pass','regist','mes','err_mode','resno','pictmp','notmp','ptime','name','email','url','sub','com','ipcheck','tmp','thread_no','logfilename','mode_catalog','catalog_pageno'];
+	foreach($keys as $key){
+		$dat[$key]=false;	
+	}
 
 	return $dat;
 }
