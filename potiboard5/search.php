@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2022 さとぴあ(@satopian)
-//v5.0 lot.22015
+//v5.1 lot.220720
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -28,6 +28,7 @@ $max_search=120;
 
 //更新履歴
 
+//v5.1.0 2022.07.20 BladeONEでエスケープしていない箇所のエスケープ処理を追加。
 //v5.0.0 2022.01.16 テンプレートエンジンをbladeに変更。
 //v1.7.1 2021.08.25 ツリーの照合方式を変更。config.phpで設定したタイムゾーンが反映されるようにした。
 //v1.7.0 2021.07.07 v3.03.1 対応。マークダウン記法による自動リンクの文字部分だけを表示。出力時のエスケープ処理追加。
@@ -276,9 +277,9 @@ if($countarr>=$nxetpage){
 }
 
 elseif($page>=$disp_count_of_page+1){
-	$dat['prev']= '<a href="?page='.$prevpage.$search_type.$query_l.'">≪prev '.$disp_count_of_page.$mai_or_ken.'</a>'; 
+	$dat['prev']= '<a href="?page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
 	if($countarr>=$nxetpage){
-		$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">next '.$disp_count_of_page.$mai_or_ken.'≫</a>';
+		$dat['nxet']='<a href="?page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
 	}
 	else{
 		$dat['nxet']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';

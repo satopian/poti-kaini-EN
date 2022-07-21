@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.22.5');
-define('POTI_LOT','lot.220718');
+define('POTI_VER','v5.22.6');
+define('POTI_LOT','lot.220721');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -192,6 +192,10 @@ if(!$ADMIN_PASS){
 
 if(!defined('LOG_MAX')|| !LOG_MAX || !is_numeric(LOG_MAX)){
 	error(MSG044);
+}
+
+if(X_FRAME_OPTIONS_DENY){
+	header('X-Frame-Options: DENY');//フレーム内への表示を拒否
 }
 
 //初期化
@@ -1380,8 +1384,7 @@ function admindel($pass){
 		closeFile($fp);
 	}
 
-	htmloutput(OTHERFILE,$dat);
-	exit;
+	return htmloutput(OTHERFILE,$dat);
 }
 
 function init(){
@@ -2606,9 +2609,6 @@ function htmloutput($template,$dat,$buf_flag=''){
 	global $blade;
 	$dat += basicpart();//basicpart()で上書きしない
 	//array_merge()ならbasicpart(),$datの順
-	if(X_FRAME_OPTIONS_DENY){
-		header('X-Frame-Options: DENY');
-	}
 	if($buf_flag){
 		$buf=$blade->run($template,$dat);
 		return $buf;
