@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.22.6');
-define('POTI_LOT','lot.220721');
+define('POTI_VER','v5.22.8');
+define('POTI_LOT','lot.220723');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2228,8 +2228,8 @@ function replace(){
 		}
 	}
 	closedir($handle);
-	if(!$find){
-	error(MSG007);
+	if(!$find){//見つからなかった時は
+		return paintcom();//通常のお絵かきコメント画面へ。
 	}
 
 	// 時間

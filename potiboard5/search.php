@@ -127,6 +127,7 @@ while ($line = fgets($fp)) {
 
 	if($continue_to_search){
 		if($radio===1||$radio===2||$radio===null){
+			list($name,) = separateNameAndTrip($name);
 			$s_name=mb_convert_kana($name, 'rn', 'UTF-8');//全角英数を半角に
 			$s_name=str_replace(array(" ", "　"), "", $s_name);
 			$s_name=str_replace("〜","～", $s_name);//波ダッシュを全角チルダに
@@ -181,14 +182,14 @@ if($arr){
 
 			$time=(int)substr($time,-13,10);
 			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
-			$sub=h(strip_tags($sub));
+			$sub=h($sub);
 			$com=str_replace('<br />',' ',$com);
 			if(MD_LINK){
 				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
 			}
 			$com=h(strip_tags($com));
 			$com=mb_strcut($com,0,180);
-			$name=h(strip_tags($name));
+			$name=h($name);
 			$encoded_name=urlencode($name);
 			//変数格納
 			$dat['comments'][]= compact('no','name','encoded_name','sub','img','com','link','postedtime');
@@ -299,6 +300,19 @@ unset($arr);
 function h($str){
 	return htmlspecialchars($str,ENT_QUOTES,'utf-8',false);
 }
+/**
+ * 名前とトリップを分離
+ * @param $name
+ * @return array
+ */
+function separateNameAndTrip ($name) {
+	$name=strip_tags($name);//タグ除去
+	if(preg_match("/(◆.*)/", $name, $regs)){
+		return [preg_replace("/(◆.*)/","",$name), $regs[1]];
+	}
+	return [$name, ''];
+}
+
 //HTML出力
 echo $blade->run('search',$dat);
 
