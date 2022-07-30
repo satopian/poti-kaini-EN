@@ -1,6 +1,7 @@
 <?php
 // thumbnail_gd.php by (C) 2018-2022 POTI改 POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript 2005 (C) SakaQ  >> http://www.punyu.net/php/
+//220729 処理が成功した時の返り値をtrueに変更。
 //220321 透明な箇所が黒くなる問題に対応。透明部分を白に変換。
 //201218 webp形式対応
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
@@ -73,19 +74,16 @@ function thumb($path,$tim,$ext,$max_w,$max_h){
 	// コピー＆縮小
 	if(!$exists_ImageCopyResampled) ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
 	// サムネイル画像を保存
-	ImageJPEG($im_out, THUMB_DIR.$tim.'s.jpg',THUMB_Q);
+	$outfile=THUMB_DIR.$tim.'s.jpg';
+	ImageJPEG($im_out, $outfile,THUMB_Q);
 	// 作成したイメージを破棄
 	ImageDestroy($im_in);
 	ImageDestroy($im_out);
-	if(!chmod(THUMB_DIR.$tim.'s.jpg',PERMISSION_FOR_DEST)){
+	if(!chmod($outfile,PERMISSION_FOR_DEST)){
 		return;
 	}
 
-	$thumbnail_size = [
-		'w' => $out_w,
-		'h' => $out_h,
-	];
-return $thumbnail_size;
+return is_file($outfile);
 
 }
 
