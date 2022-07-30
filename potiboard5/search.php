@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2022 さとぴあ(@satopian)
-//v5.1 lot.220720
+//v5.2 lot.220727
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -28,6 +28,7 @@ $max_search=120;
 
 //更新履歴
 
+//v5.2.0 2022.07.27 画像の縦横比を算出するための画像の幅と高さを出力。
 //v5.1.0 2022.07.20 BladeONEでエスケープしていない箇所のエスケープ処理を追加。
 //v5.0.0 2022.01.16 テンプレートエンジンをbladeに変更。
 //v1.7.1 2021.08.25 ツリーの照合方式を変更。config.phpで設定したタイムゾーンが反映されるようにした。
@@ -101,21 +102,22 @@ else{
 //ログの読み込み
 $i=0;$j=0;
 $arr=[];
-$tree=file(TREEFILE);
 $oya = [];
-foreach ($tree as $line) {
+$tp = fopen(TREEFILE, "r");
+while ($line = fgets($tp)) {
 	$tree_nos = explode(',', trim($line));
 	foreach ($tree_nos as $tree_no) {
 		$oya[$tree_no] = $tree_nos[0]; //キーにres no、値にoya no
 	}
 }
+fclose($tp);
 
 $fp = fopen(LOGFILE, "r");
 while ($line = fgets($fp)) {
 	if(!trim($line)){
 		continue;
 	}
-	list($no,,$name,,$sub,$com,,,,$ext,,,$time,,,) = explode(",", $line);
+	list($no,,$name,,$sub,$com,,,,$ext,$w,$h,$time,,,) = explode(",", rtrim($line));
 	if(!isset($oya[$no])){
 		continue;
 	}
@@ -150,7 +152,7 @@ while ($line = fgets($fp)) {
 		){
 			$link='';
 			$link=PHP_SELF.'?res='.$oya[$no];
-			$arr[]=[$no,$name,$sub,$com,$ext,$time,$link];
+			$arr[]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
 			++$i;
 		}
 			if($i>=$max_search){break;}//1掲示板あたりの最大検索数
@@ -169,7 +171,7 @@ $dat['comments']=[];
 if($arr){
 	foreach($arr as $i => $val){
 		if($i > $page-2){//$iが表示するページになるまで待つ
-			list($no,$name,$sub,$com,$ext,$time,$link)=$val;
+			list($no,$name,$sub,$com,$ext,$w,$h,$time,$link)=$val;
 			$img='';
 			if($ext){
 				if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
@@ -192,7 +194,7 @@ if($arr){
 			$name=h($name);
 			$encoded_name=urlencode($name);
 			//変数格納
-			$dat['comments'][]= compact('no','name','encoded_name','sub','img','com','link','postedtime');
+			$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
 
 		}
 			$j=$i+1;//表示件数
@@ -273,7 +275,7 @@ $dat['nxet']=false;
 if($page<=$disp_count_of_page){
 	$dat['prev']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';//前のページ
 if($countarr>=$nxetpage){
-	$dat['nxet']='<a href="?page='.$nxetpage.$search_type.$query_l.'">next '.$disp_count_of_page.$mai_or_ken.'≫</a>';//次のページ
+	$dat['nxet']='<a href="?page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
 }
 }
 
@@ -290,7 +292,7 @@ elseif($page>=$disp_count_of_page+1){
 $postedtime='';
 $dat['lastmodified']='';
 if(!empty($arr)){
-	list($no,$name,$sub,$com,$ext,$postedtime,$link)=$arr[0];
+	list($no,$name,$sub,$com,$ext,$w,$h,$postedtime,$link)=$arr[0];
 	$postedtime=(int)substr($postedtime,-13,10);
 	$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
 }
