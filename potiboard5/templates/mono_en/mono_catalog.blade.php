@@ -82,7 +82,7 @@
 			<hr>
 			<div>
 				@if(isset($oya) and !(empty($oya)))
-				@foreach ($oya as $ress)
+				@foreach ($oya as $i => $ress)
 				@foreach ($ress as $res)
 				<div>
 					@if($res['imgsrc'])
