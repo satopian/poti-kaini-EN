@@ -88,7 +88,7 @@
 					@if($res['imgsrc'])
 					<p><a href="{{$self}}?res={{$res['no']}}" title="{{$res['sub']}} by {{$res['name']}}"><img
 								src="{{$res['imgsrc']}}" alt="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}"
-								@if($res['h']) height="{{$res['h']}}" @endif loading="lazy"></a></p>
+								@if($res['h']) height="{{$res['h']}}" @endif @if($i>23)loading="lazy"@endif></a></p>
 					@endif
 					@if($res['txt'])
 					<p><a href="{{$self}}?res={{$res['no']}}"

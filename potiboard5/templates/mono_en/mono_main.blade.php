@@ -314,7 +314,7 @@
 							@endif
 							<img src="{{$res['imgsrc']}}" alt="{{$res['sub']}} by {{$res['name']}}"
 								title="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}"
-								height="{{$res['h']}}" loading="lazy">
+								height="{{$res['h']}}" @if($i>4)loading="lazy"@endif>
 							@if($res['thumb'])
 						</a>
 						@endif
