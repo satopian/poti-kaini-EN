@@ -1,17 +1,18 @@
 License
 
-main program - Copyright (C) 2018-2021 POTI-kai POTI-board redevelopment team.
+main program - Copyright (C) 2018-2022 POTI-kai POTI-board redevelopment team.
 original script Copyright (C) 2003-2008 SakaQ http://www.punyu.net/php/
 Distribution conditions are based on "Let's PHP!". 
 http://php.loglog.jp/waar.php
 
 Each module is subject to its own license
 
-Skinny - Copyright (C) 2019 Kuasuki http://skinny.sx68.net/
-search.php - Copyright (C) 2020-2021 satopian
+BladeOne - Copyright (c) 2016 Jorge Patricio Castro Castillo https://github.com/EFTEC/BladeOne/
+search.php - Copyright (C) 2020-2022 satopian
 DynamicPalette - Copyright (C) 2005 noraneko
 PaintBBS, Shi-Painter, PCH Viewer - Copyright (C) 2004 shi-chan
-PaintBBS NEO - Copyright (C) 2016-2021 funige https://github.com/funige/neo
+PaintBBS NEO - Copyright (C) 2016-2022 funige https://github.com/funige/neo
 Klecks - Copyright (C) 2022 bitbof https://bitbof.com/
 ChickenPaint Copyright GNU GENERAL PUBLIC LICENSE Version 3 by Nicholas Sherlock. https://github.com/thenickdude/chickenpaint
 IcoMoon-Free CC BY 4.0 or GPL. by Keyamoon https://github.com/Keyamoon/IcoMoon-Free
+Font Awesome  CC BY 4.0 by Fonticons, Inc. https://fontawesome.com
