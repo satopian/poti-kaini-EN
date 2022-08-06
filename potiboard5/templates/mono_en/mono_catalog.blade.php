@@ -50,6 +50,7 @@
 			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 		}
 	</script>
+	<link rel="preload" as="script" href="loadcookie.js">
 
 	<title>{{$title}}</title>
 </head>
@@ -114,7 +115,7 @@
 
 			<script src="loadcookie.js"></script>
 			<script>
-				l(); //LoadCookie
+				document.addEventListener('DOMContentLoaded',l,false); //LoadCookie;
 			</script>
 		</div>
 				{{--  Copyright notice, do not delete  --}}

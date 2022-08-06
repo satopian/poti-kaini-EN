@@ -249,7 +249,7 @@
 			@endif
 				@if($regist)
 				<script type="text/javascript">
-					l(); //LoadCookie
+				document.addEventListener('DOMContentLoaded',l,false); //LoadCookie
 				</script>
 				@endif
 			</div>
