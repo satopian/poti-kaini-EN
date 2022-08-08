@@ -248,9 +248,9 @@
 			@endif
 				@if($regist)
 				<script>
-					document.addEventListener('DOMContentLoaded', (e) => {
+				document.addEventListener('DOMContentLoaded', (e) => {
 					l();//LoadCookie
-					});
+				});
 				</script>
 				@endif
 			</div>

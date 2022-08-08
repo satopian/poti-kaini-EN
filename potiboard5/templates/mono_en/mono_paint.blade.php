@@ -657,9 +657,9 @@
 						</ul>
 				</div>
 				<script>
-					document.addEventListener('DOMContentLoaded', (e) => {
+				document.addEventListener('DOMContentLoaded', (e) => {
 					l();//LoadCookie
-					});
+				});
 				</script>
 			</section>
 			<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
