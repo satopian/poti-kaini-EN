@@ -298,7 +298,7 @@
 					@if($res['src'])
 					<div class="img_info_wrap">
 						<a href="{{$res['src']}}" title="{{$res['sub']}}" target="_blank">{{$res['srcname']}}</a>
-						({{$res['size']}} B)
+						({{$res['size_kb']}} KB)
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
 						<br>

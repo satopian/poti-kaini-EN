@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.23.0');
-define('POTI_LOT','lot.220805');
+define('POTI_VER','v5.23.1');
+define('POTI_LOT','lot.220810');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2836,7 +2836,10 @@ function create_res ($line, $options = []) {
 	if ($res['img_file_exists'] = ($ext && is_file($res['img']))) { // 画像ファイルがある場合
 		$res['src'] = IMG_DIR.$time.$ext;
 		$res['srcname'] = $time.$ext;
-		$res['size'] = filesize($res['img']);
+		filesize($res['img']);
+		$filesize = filesize($res['img']);
+		$res['size'] = $filesize;
+		$dat['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
 		$res['thumb'] = is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
 		//描画時間
