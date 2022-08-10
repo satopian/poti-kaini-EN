@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.23.1');
+define('POTI_VER','v5.23.2');
 define('POTI_LOT','lot.220810');
 
 /*
@@ -2839,7 +2839,7 @@ function create_res ($line, $options = []) {
 		filesize($res['img']);
 		$filesize = filesize($res['img']);
 		$res['size'] = $filesize;
-		$dat['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
+		$res['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
 		$res['thumb'] = is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
 		//描画時間
