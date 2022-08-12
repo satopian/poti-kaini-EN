@@ -10,7 +10,7 @@ label {
 }
 
 body {
-  background-color: #d1ce9e;
+  background-color: rgb(209, 206, 158);
   color: #222;
   font-family: sans-serif;
   word-wrap: break-word;
@@ -411,7 +411,7 @@ form.adminin {
   font-size: smaller;
 }
 .delfo th, .delfo td {
-  border: 1px solid #d1ce9e;
+  border: 1px solid rgb(209, 206, 158);
 }
 .delfo tr:nth-child(odd) {
   background-color: #ff8c8c;
@@ -459,19 +459,15 @@ form.adminin {
   .comment_wrap {
     min-width: 300px;
   }
-
   .res {
     clear: left;
   }
-
   body {
     margin: 6px;
   }
-
   .pcdisp {
     display: none;
   }
-
   .mobiledisp {
     display: block;
     margin: 15px 0;
@@ -485,7 +481,6 @@ form.adminin {
   textarea, input[name=upfile] {
     width: 15em;
   }
-
   #appstage {
     display: block;
   }
@@ -684,6 +679,9 @@ form.adminin {
   }
   #search .newimg li:nth-of-type(4n) {
     margin-right: 0;
+  }
+  #search input, #search textarea, #search select, #search .se {
+    margin: 5px 3px;
   }
 }
 @media screen and (max-width: 767px) {

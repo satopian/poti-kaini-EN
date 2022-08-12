@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.23.2');
-define('POTI_LOT','lot.220810');
+define('POTI_VER','v5.23.5');
+define('POTI_LOT','lot.220812');
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -45,9 +45,11 @@ define('POTI_LOT','lot.220810');
 「ふたば★ちゃんねる」「ぷにゅねっと」に問い合わせないでください。
 ご質問は、<https://paintbbs.sakura.ne.jp/poti/>までどうぞ。
 */
-
+$en=lang_en();
 if (version_compare(PHP_VERSION, '7.2.5', '<')) {
-	die("Error. PHP version 7.2.5 or higher is required for this program to work. <br>\n(Current PHP version:".PHP_VERSION.")");
+	die($en? "Error. PHP version 7.2.5 or higher is required for this program to work. <br>\n(Current PHP version:".PHP_VERSION.")":
+		"エラー。本プログラムの動作には PHPバージョン 7.2.5 以上が必要です。<br>\n(現在のPHPバージョン：".PHP_VERSION.")"
+	);
 }
 
 //INPUT_POSTから変数を取得
@@ -70,13 +72,13 @@ $usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-code
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
-	error($err);
+	die($err);
 }
 require(__DIR__.'/config.php');
 
-//autoload.php
+//BladeOne
 if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
-	error($err);
+	die($err);
 }
 
 require_once __DIR__.'/BladeOne/lib/BladeOne.php';
@@ -87,28 +89,27 @@ $views = __DIR__ . '/templates/'.SKIN_DIR;
 $cache = $views.'cache';
 $blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
-//サムネイルfunction
-if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
-	error($err);
-}
-require(__DIR__.'/thumbnail_gd.php');
-
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
-	error($err);
+	die($err);
 }
 require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 
 const JQUERY ='jquery-3.6.0.min.js';
 if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
-	error($err);
+	die($err);
 }
+//CheerpJ
+const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
+
+//サムネイルfunction
+if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
+	die($err);
+}
+require(__DIR__.'/thumbnail_gd.php');
 
 $path = realpath("./").'/'.IMG_DIR;
 $temppath = realpath("./").'/'.TEMP_DIR;
-
-//CheerpJ
-define('CHEERPJ_URL', 'https://cjrtnc.leaningtech.com/2.3/loader.js');
 
 //POTI_VERLOT定義
 define('POTI_VERLOT', POTI_VER.' '.POTI_LOT);
@@ -698,11 +699,7 @@ function error($mes,$dest=''){
 	$dat['err_mode'] = true;
 	$mes=preg_replace("#<br( *)/?>#i","\n", $mes);
 	$dat['mes'] = nl2br(h($mes));
-	if (defined('OTHERFILE')) {
 		htmloutput(OTHERFILE,$dat);
-	} else {
-		print $dat['mes'];
-	}
 	exit;
 }
 

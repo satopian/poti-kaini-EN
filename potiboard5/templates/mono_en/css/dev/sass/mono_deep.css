@@ -459,19 +459,15 @@ form.adminin {
   .comment_wrap {
     min-width: 300px;
   }
-
   .res {
     clear: left;
   }
-
   body {
     margin: 6px;
   }
-
   .pcdisp {
     display: none;
   }
-
   .mobiledisp {
     display: block;
     margin: 15px 0;
@@ -485,7 +481,6 @@ form.adminin {
   textarea, input[name=upfile] {
     width: 15em;
   }
-
   #appstage {
     display: block;
   }
@@ -684,6 +679,9 @@ form.adminin {
   }
   #search .newimg li:nth-of-type(4n) {
     margin-right: 0;
+  }
+  #search input, #search textarea, #search select, #search .se {
+    margin: 5px 3px;
   }
 }
 @media screen and (max-width: 767px) {

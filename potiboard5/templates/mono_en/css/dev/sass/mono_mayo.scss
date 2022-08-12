@@ -652,6 +652,11 @@
 	  .newimg li:nth-of-type(4n) {
 		margin-right: 0;
 	  }
+
+	  input, textarea, select, .se {
+		margin: 5px 3px;
+	  }
+	  
 	}
   
 	@media screen and (max-width:767px) {
