@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-define('POTI_VER','v5.23.5');
-define('POTI_LOT','lot.220812');
+const POTI_VER = 'v5.23.6';
+const POTI_LOT = 'lot.220812';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -52,23 +52,12 @@ if (version_compare(PHP_VERSION, '7.2.5', '<')) {
 	);
 }
 
-//INPUT_POSTから変数を取得
-
-$mode = (string)filter_input(INPUT_POST, 'mode');
-$mode = $mode ? $mode : (string)filter_input(INPUT_GET, 'mode');
-$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
-$type = (string)newstring(filter_input(INPUT_POST, 'type'));
-$admin = (string)filter_input(INPUT_POST, 'admin');
-$pass = (string)newstring(filter_input(INPUT_POST, 'pass'));
-
-//INPUT_GETから変数を取得
-
-$res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
-
-//INPUT_COOKIEから変数を取得
-
-$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
+const JQUERY ='jquery-3.6.0.min.js';
+if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
+	die($err);
+}
+//CheerpJ
+const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
@@ -89,18 +78,13 @@ $views = __DIR__ . '/templates/'.SKIN_DIR;
 $cache = $views.'cache';
 $blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
+
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
 	die($err);
 }
 require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 
-const JQUERY ='jquery-3.6.0.min.js';
-if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
-	die($err);
-}
-//CheerpJ
-const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
 
 //サムネイルfunction
 if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
@@ -203,6 +187,24 @@ if(!defined('LOG_MAX')|| !LOG_MAX || !is_numeric(LOG_MAX)){
 if(X_FRAME_OPTIONS_DENY){
 	header('X-Frame-Options: DENY');//フレーム内への表示を拒否
 }
+
+//INPUT_POSTから変数を取得
+
+$mode = (string)filter_input(INPUT_POST, 'mode');
+$mode = $mode ? $mode : (string)filter_input(INPUT_GET, 'mode');
+$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
+$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+$type = (string)newstring(filter_input(INPUT_POST, 'type'));
+$admin = (string)filter_input(INPUT_POST, 'admin');
+$pass = (string)newstring(filter_input(INPUT_POST, 'pass'));
+
+//INPUT_GETから変数を取得
+
+$res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
+
+//INPUT_COOKIEから変数を取得
+
+$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
 
 //初期化
 init();		//←■■初期設定後は不要なので削除可■■
