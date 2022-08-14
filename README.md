@@ -267,6 +267,9 @@ Also, please use the PHP script for the Oekaki bulletin board called [Petit Note
 ## [2021/12/22] v3.19.5
 
 - Added the ability to display images of the next and previous threads in the reply view.  
+
+![image](https://user-images.githubusercontent.com/44894014/147068447-9fda9fbe-bfbe-473a-b318-72be33f54273.png)
+
   
 - When you continue from the Reply image with a "new post", that image becomes the Reply image.  
 Previously, if you continue and draw from the image of Reply, a new thread was created.  
