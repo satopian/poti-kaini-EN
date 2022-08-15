@@ -56,7 +56,7 @@
 			display: inline-block;
 		}
 	</style>
-	<link rel="preload" as="script" href="lib/{{JQUERY}}">
+	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<title>{{$title}}</title>
 	<style id="for_mobile"></style>
 	<script>
@@ -367,7 +367,7 @@
 	{{--  Copyright notice, do not delete  --}}
 		@include('parts.mono_copyright')
 	</footer>
-	<script src="lib/{{JQUERY}}"></script>
+	<script src="lib/{{$jquery}}"></script>
 	<script>
 		window.onpageshow = function () {
 			var $btn = $('[type="submit"]');

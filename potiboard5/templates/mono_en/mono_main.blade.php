@@ -50,7 +50,7 @@
 			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 		}
 	</script>
-	<link rel="preload" as="script" href="lib/{{JQUERY}}">
+	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="loadcookie.js">
 	<title>{{$title}}</title>
 	@if($notres)
@@ -417,7 +417,7 @@
 		{{-- <!-- 著作権表示 削除しないでください --> --}}
 		@include('parts.mono_copyright')
 	</footer>
-	<script src="lib/{{JQUERY}}"></script>
+	<script src="lib/{{$jquery}}"></script>
 	<script>
 		colorIdx = GetCookie('colorIdx');
 		document.getElementById("mystyle").selectedIndex = colorIdx;

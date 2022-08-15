@@ -6,8 +6,8 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.23.6';
-const POTI_LOT = 'lot.220812';
+const POTI_VER = 'v5.23.8';
+const POTI_LOT = 'lot.220815';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -405,6 +405,7 @@ function basicpart(){
 		$dat['palette_select_tags']=implode("",$arr_palette_select_tags);
 	}
 	$dat['_san']=HONORIFIC_SUFFIX;
+	$dat['jquery']=JQUERY;
 	$dat['cheerpj_url']=CHEERPJ_URL;
 	$dat['n']=false;//コメント行
 	//言語
