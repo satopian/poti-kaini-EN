@@ -304,7 +304,7 @@
 							<th>Name</th>
 							<th>Comment</th>
 							<th>Host</th>
-							<th>Image (Bytes) </th>
+							<th>Image (KB) </th>
 							<th>MD5</th>
 					</tr>
 						@foreach ($dels as $del)
@@ -316,7 +316,7 @@
 							<td>{!!$del['name']!!}</td>
 							<td>{{$del['com']}}</td>
 							<td>{{$del['host']}}</td>
-							<td>@if($del['clip']){!!$del['clip']!!}({{$del['size']}})byte @endif</td>
+							<td>@if($del['clip']){!!$del['clip']!!}({{$del['size_kb']}})KB @endif</td>
 							<td>@if($del['clip']){{$del['chk']}}@endif</td>
 						</tr>
 						@endforeach
