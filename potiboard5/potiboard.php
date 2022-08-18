@@ -6,7 +6,7 @@ define('USE_DUMP_FOR_DEBUG','0');
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.23.9';
+const POTI_VER = 'v5.23.10';
 const POTI_LOT = 'lot.220818';
 
 /*
@@ -1322,6 +1322,7 @@ function admindel($pass){
 			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
 		$res= [
 			'size' => 0,
+			'size_kb' => 0,
 			'no' => $no,
 			'host' => $host,
 			'clip' => "",
@@ -2809,6 +2810,7 @@ function create_res ($line, $options = []) {
 	$res['src'] = '';
 	$res['srcname'] = '';
 	$res['size'] = '';
+	$res['size_kb'] = '';
 	$res['thumb'] = '';
 	$res['imgsrc'] = '';
 	$res['painttime'] = '';
