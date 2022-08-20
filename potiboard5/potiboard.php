@@ -1,13 +1,10 @@
 <?php
-define('USE_DUMP_FOR_DEBUG','0');
-//HTML出力の前に$datをdump しない:0 する:1 dumpしてexit：2 
 // ini_set('error_reporting', E_ALL);
-
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.23.10';
-const POTI_LOT = 'lot.220818';
+const POTI_VER = 'v5.23.12';
+const POTI_LOT = 'lot.220820';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -287,7 +284,7 @@ switch($mode){
 		if($res){
 			return res($res);
 		}
-		redirect(h(PHP_SELF2), 0);
+		return redirect(h(PHP_SELF2), 0);
 }
 
 exit;
