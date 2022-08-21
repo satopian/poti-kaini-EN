@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.23.12';
-const POTI_LOT = 'lot.220820';
+const POTI_VER = 'v5.23.16';
+const POTI_LOT = 'lot.220821';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1394,30 +1394,31 @@ function admindel($pass){
 function init(){
 	$err='';
 
-	if(!is_writable(realpath("./")))error("カレントディレクトリに書けません<br>");
-
-	if (!is_file(realpath(LOGFILE))) {
+	if($err = check_dir(__DIR__.'./')){
+		error($err);
+	};
+	if (!is_file(__DIR__.'/'.LOGFILE)) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
 		$time = time().substr(microtime(),2,3);
 		$testmes="1,".$date.",".DEF_NAME.",,".DEF_SUB.",".DEF_COM.",,,,,,,".$time.",,,\n";
-		file_put_contents(LOGFILE, $testmes);
+		file_put_contents(LOGFILE, $testmes,LOCK_EX);
 		chmod(LOGFILE, PERMISSION_FOR_LOG);
 	}
-	$err .= check_file(LOGFILE,true);
+	$err .= check_file(__DIR__.'/'.LOGFILE,true);
 
-	if (!is_file(realpath(TREEFILE))) {
-		file_put_contents(TREEFILE, "1\n");
+	if (!is_file(__DIR__.'/'.TREEFILE)) {
+		file_put_contents(TREEFILE, "1\n",LOCK_EX);
 		chmod(TREEFILE, PERMISSION_FOR_LOG);
 	}
-	$err .= check_file(TREEFILE,true);
+	$err .= check_file(__DIR__.'/'.TREEFILE,true);
 
-	$err .= check_dir(IMG_DIR);
-	$err .= check_dir(PCH_DIR);
-	$err .= check_dir(THUMB_DIR);
-	$err .= check_dir(TEMP_DIR);
-	if($err)error($err);
-	if(!is_file(realpath(h(PHP_SELF2))))updatelog();
+	$err .= check_dir(__DIR__.'/'.IMG_DIR);
+	$err .= check_dir(__DIR__.'/'.PCH_DIR);
+	$err .= check_dir(__DIR__.'/'.THUMB_DIR);
+	$err .= check_dir(__DIR__.'/'.TEMP_DIR);
+	if($err) return error($err);
+	if(!is_file(__DIR__.'/'.PHP_SELF2))updatelog();
 }
 
 function lang_en(){//言語が日本語以外ならtrue。
@@ -1430,7 +1431,7 @@ function initial_error_message(){
 	$en=lang_en();
 	$msg['041']=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
 	$msg['042']=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
-	$msg['043']=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'を書けません。'); 
+	$msg['043']=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'に書けません。'); 
 return $msg;	
 }
 
@@ -1442,6 +1443,7 @@ function check_file ($path,$check_writable='') {
 	if($check_writable){//書き込みが必要なファイルのチェック
 		if (!is_writable($path)) return $path . $msg['043']."<br>";
 	}
+	return '';
 }
 // ディレクトリ存在チェック なければ作る
 function check_dir ($path) {
@@ -1454,6 +1456,7 @@ function check_dir ($path) {
 	if (!is_dir($path)) return $path . $msg['041']."<br>";
 	if (!is_readable($path)) return $path . $msg['042']."<br>";
 	if (!is_writable($path)) return $path . $msg['043']."<br>";
+	return '';
 }
 
 // お絵かき画面

@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/08/21 PCHデータの書き込みエラーでは停止しないようにした。
 // 2022/07/07 同名のファイルが存在する時は秒数に+1して回避。ファイル名の秒数を13桁→16桁へ。
 // 2022/06/27 画像とユーザーデータが存在しない時は画面を推移せずエラーのアラートを出す。
 // 2021/11/08 CSRF対策にusercodeを使用。cookieが確認できない場合は画像を保存しない。
@@ -114,6 +115,7 @@ if($imgh=="PNG\r\n"){
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 // 拡張ヘッダーを取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
+$usercode='';
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
@@ -185,10 +187,7 @@ if($pchLength){
 	$PCHdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength + 8, $pchLength);
 	// PCHデータをファイルに書き込む
 	$fp = fopen(TEMP_DIR.$imgfile.$ext,"wb");
-	if(!$fp){
-		//PCHファイルの作成に失敗しました。PCHは保存されません。
-		die("error\n{$errormsg_6}");
-	}else{
+	if($fp){
 		flock($fp, LOCK_EX);
 		fwrite($fp, $PCHdata);
 		fflush($fp);
