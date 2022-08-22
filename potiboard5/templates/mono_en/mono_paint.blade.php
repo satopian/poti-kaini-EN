@@ -423,8 +423,8 @@
 									document.watch.count.value = disp+s+"sec";
 									clearTimeout(timerID);
 									timerID = setTimeout(function() { SetTimeCount(); }, 250);
-								}
-								SetTimeCount();
+								};
+								document.addEventListener('DOMContentLoaded',SetTimeCount,false);
 							</script>
 						</form>
 					<hr>
