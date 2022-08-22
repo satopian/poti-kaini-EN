@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.25.0';
-const POTI_LOT = 'lot.220821';
+const POTI_VER = 'v5.25.5';
+const POTI_LOT = 'lot.220822';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1394,10 +1394,8 @@ function admindel($pass){
 function init(){
 	$err='';
 
-	if($err = check_dir(__DIR__.'./')){
-		error($err);
-	};
-	if (!is_file(__DIR__.'/'.LOGFILE)) {
+	if(!is_writable(realpath("./")))error("Unable to write to current directory.<br>");
+	if (!is_file(realpath(LOGFILE))) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
 		$time = time().substr(microtime(),2,3);
@@ -1407,7 +1405,7 @@ function init(){
 	}
 	$err .= check_file(__DIR__.'/'.LOGFILE,true);
 
-	if (!is_file(__DIR__.'/'.TREEFILE)) {
+	if (!is_file(realpath(TREEFILE))) {
 		file_put_contents(TREEFILE, "1\n",LOCK_EX);
 		chmod(TREEFILE, PERMISSION_FOR_LOG);
 	}
