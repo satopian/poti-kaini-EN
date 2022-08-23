@@ -1,4 +1,4 @@
-# POTI-board EVO EN
+﻿# POTI-board EVO EN
 
 ## Serious bugs in older versions
 - POTI-board v2.26.0 and earlier all versions is vulnerable to XSS.    

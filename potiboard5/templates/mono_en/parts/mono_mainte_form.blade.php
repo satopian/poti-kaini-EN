@@ -21,8 +21,8 @@
 		<input class="button" type="submit" value=" OK ">
 		<span class="stylechanger">Style: 
 			<select class="form" id="mystyle" onchange="SetCss(this);">
-				<option>MONO</option>
 				<option>Dark</option>
+				<option>MONO</option>
 				<option>Deep</option>
 				<option>MAYO</option>
 			</select>

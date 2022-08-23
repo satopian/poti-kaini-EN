@@ -1,11 +1,22 @@
-<Files ~ "\.html?$">
+<Files ~ "\.(html|php)?$">
 	<IfModule mod_headers.c>
 		Header set Pragma no-cache
 		Header set Cache-Control no-cache
-		Header set Expires "Thu, 01 Dec 1994 16:00:00 GMT"
+		Header set Expires "Thu, 12 Oct 1989 00:00:00 GMT"
 	</IfModule>
 </Files>
 <files ~ "(^config\.php$|\.(ini|log|dat|json)$)">
 	order allow,deny
 	deny from all
 </files>
+DirectoryIndex index.html
+<If "%{THE_REQUEST} =~ m# .*php.* HTTP#">
+ Header onsuccess set X-Robots-Tag "nofollow,noindex"
+</If>
+<Else>
+ Header onsuccess set X-Robots-Tag "nofollow"
+</Else>
+
+<If "%{QUERY_STRING} =~ m#.*admin.*#">
+Require ip (redacted)
+</If>

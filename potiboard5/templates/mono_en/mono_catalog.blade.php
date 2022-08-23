@@ -4,8 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
+	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css">
+	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
 	<style>

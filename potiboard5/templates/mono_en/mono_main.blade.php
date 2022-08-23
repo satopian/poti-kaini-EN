@@ -4,8 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
+  <link rel="stylesheet" href="{{$skindir}}css/mono_dark.css">
+	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
 	<style>
@@ -97,7 +97,8 @@
 
 <body>
 	<header id="header">
-		<h1><a href="{{$self2}}">{{$title}}</a></h1>
+		<h1><img src="/banner.jpg" style="max-width:95%;display:block;margin-left:auto;margin-right:auto;border-radius:10%/100%" alt="banner" title="these are from the Crackyhouse /oekaki/ board">
+    <a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
 			<a href="{{$self}}?mode=admin">[Admin mode]</a>

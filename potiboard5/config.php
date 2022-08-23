@@ -11,12 +11,12 @@
 // 管理者パスワード
 // 必ず変更してください。
 // Administrator password, make sure to change it.
-$ADMIN_PASS = 'adminpass';
+$ADMIN_PASS = '(redacted)';
 
 // 最大ログ数
 // 古いログから順番に消えます
 // Maximum number of posts. Disappears in chronological order.
-define('LOG_MAX', '3000');
+define('LOG_MAX', '99999999999999999999999999999999999999999999999999999999');
 
 // テーマ(テンプレート)のディレクトリ。'/'まで
 //テンプレートが入っているディレクトリを指定してください。
@@ -28,18 +28,18 @@ define('SKIN_DIR', 'mono_en/');
 // メール通知のほか、シェアボタンなどで使用
 // Installation URL. In the directory where potiboard.php is located, and need last '/'.
 // Be used notification by email, and share button, etc.
-define('ROOT_URL', 'https://example.com/oekaki/');
+define('ROOT_URL', 'https://cracky.win/');
 
 //掲示板のタイトル（<title>とTOP）
 //Board title (appears in <title> and site header)
-define('TITLE', 'Paint BBS');
+define('TITLE', 'cracky.win oekaki board - please draw some Cracky-chans');
 
 //「ホーム」へのリンク
 // 自分のサイトにお絵かき掲示板がある、という慣習からのものです。
 // 自分のサイトのURL（絶対パスも可）をどうぞ。
 // URL to link your own site. They had own sites ago.
 // Absolute path is OK.
-define('HOME', '../');
+define('HOME', 'https://cracky-chan.com/');
 
 // 画像アップロード機能を 使う:1 使わない:0
 // 使わない:0 でも お絵かき機能は使えますし、
@@ -47,14 +47,14 @@ define('HOME', '../');
 // Whether to enable image uploads, '1' to enable.
 // Drawing is still enabled even with this disabled.
 // Administrators can still upload images in admin post mode.
-define('USE_IMG_UPLOAD','1');
+define('USE_IMG_UPLOAD','0');
 
 // 画像のないコメントのみの新規投稿を拒否する する:1 しない:0
 //する:1 でも管理者はコメントのみの投稿ができます。
 // If '1' is set, a new thread without an image cannot be created. To enable it, set it to '0'.
 // Even if it is '1', the administrator can create a new thread without an image.
 
-define('DENY_COMMENTS_ONLY', '0');
+define('DENY_COMMENTS_ONLY', '1');
 
 // Use Shi Painter 
 // (1: Enabled, 0: Disabled)
@@ -152,7 +152,7 @@ define('DENY_COMMENTS_URL', '0');
 //	↑ 365日
 // で1年以上経過したスレッドに返信できなくなります。
 // Close threads after X days. Set to 0 to disable.
-define('ELAPSED_DAYS','365');
+define('ELAPSED_DAYS','0');
 
 // 拒絶するファイルのmd5
 // Reject files with following MD5 hashes.
@@ -176,7 +176,7 @@ define('NOTICE_NOADMIN', '0');
 
 // メール通知先
 // Mail address where the mail notifications will be sent.
-define('TO_MAIL', 'root@example.com');
+define('TO_MAIL', 'root');
 
 // メール通知に本文を付ける 付ける:1 付けない:0
 // Add a body to the mail notifications (Yes: 1, No: 0)
@@ -201,7 +201,7 @@ define('MAX_COM', '1000');
 
 // 1ページに表示する記事
 // Number of articles to display per page
-define('PAGE_DEF', '10');
+define('PAGE_DEF', '20');
 
 // 1スレ内のレス表示件数(0で全件表示)
 // レスがこの値より多いと古いレスから省略されます
@@ -435,14 +435,14 @@ define('DIARY', '0');
 // 単位kb
 // Maximum size, in KB, for PNG files.
 // Files that exceed this value will be compressed as JPEG files.
-define('IMAGE_SIZE', '512');	
+define('IMAGE_SIZE', '2048');	
 
 // フォーム下の追加お知らせ
 // (例)'<li>お知らせデース</li>
 //     <li>サーバの規約でアダルト禁止</li>'
 // 要対応テーマ
 // Additional notice (needs a corresponding theme)
-$addinfo='';
+$addinfo='<li>Tripcodes work now but not secure trips.</li><li>NOTE: Shi-Painter may be slow to load. If it\'s a problem use one of the other tools instead</li>';
 
 // 連続・二重投稿対象セキュリティレベル
 // ※連続・二重投稿チェック対象を決める条件
@@ -554,7 +554,7 @@ define('C_SECURITY_TIMER', '');
 // ペイント画面のパスワードの暗号鍵
 // あまり頻繁に変えないように
 // Encryption key for paint mode. (don't change it too often)
-define('CRYPT_PASS','fbgtK4pj9t8Auek');
+define('CRYPT_PASS','(redacted)');
 
 // ↑ 暗号化と解読のためのパスワード。
 // phpの内部で処理するので覚えておく必要はありません。
@@ -577,11 +577,11 @@ define('URL_PARAMETER', '0');
 // using the board.
 
 //Image and HTML file permissions.
-define('PERMISSION_FOR_DEST', 0606);//初期値 0606
+define('PERMISSION_FOR_DEST', 0644);//初期値 0606
 //Log file permissions (Those are used internally by the script)
-define('PERMISSION_FOR_LOG', 0600);//初期値 0600
+define('PERMISSION_FOR_LOG', 0644);//初期値 0600
 //Directory permissions to save image and other files
-define('PERMISSION_FOR_DIR', 0707);//初期値 0707
+define('PERMISSION_FOR_DIR', 0755);//初期値 0707
 
 // Skinny.php cache and directory permissions
 // Set in Skinny.php.
