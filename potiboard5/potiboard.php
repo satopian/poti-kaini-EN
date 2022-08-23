@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.25.5';
-const POTI_LOT = 'lot.220822';
+const POTI_VER = 'v5.25.6';
+const POTI_LOT = 'lot.220823';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2738,7 +2738,7 @@ function is_ngword ($ngwords, $strs) {
 function png2jpg ($src) {
 	global $temppath;
 	if(mime_content_type($src)!=="image/png" || !gd_check() ||!function_exists("ImageCreateFromPNG")){
-		return;
+		return false;
 	}
 	//pngならJPEGに変換
 	if($im_in=ImageCreateFromPNG($src)){
@@ -2757,7 +2757,10 @@ function png2jpg ($src) {
 		ImageDestroy($im_in);// 作成したイメージを破棄
 		ImageDestroy($im_out);// 作成したイメージを破棄
 		chmod($dst,PERMISSION_FOR_DEST);
-		return $dst;
+		if(is_file($dst)){
+			return $dst;
+		}
+		return false;
 	}
 	return false;
 }
