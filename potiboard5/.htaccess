@@ -16,7 +16,3 @@ DirectoryIndex index.html
 <Else>
  Header onsuccess set X-Robots-Tag "nofollow"
 </Else>
-
-<If "%{QUERY_STRING} =~ m#.*admin.*#">
-Require ip (redacted)
-</If>
