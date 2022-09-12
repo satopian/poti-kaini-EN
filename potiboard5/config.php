@@ -346,7 +346,7 @@ define('DEF_ANIME', '1');
 // 動画再生スピード 超高速:-1 高速:0 中速:10 低速:100 超低速:1000
 // Speed of animation playback. Possible values are:
 // super fast:'-1', fast:'0', normal:'10', slow:'100', super slow:'1000'
-define('PCH_SPEED', '0');
+define('PCH_SPEED', '10');
 
 // コンティニューを使用する する:1 しない:0
 // Allow to continue drawings after leaving: (1: Enabled, 0: Disabled)
@@ -500,7 +500,7 @@ define('KASIRA', 'OB');
 
 // テンポラリ内のファイル有効期限(日数)
 // How many days until the files in the temporary folder expire.
-define('TEMP_LIMIT', '3');
+define('TEMP_LIMIT', '14');
 
 // 初期レイヤー数［しぃペインターのみ］
 // ※お絵かき中にレイヤー増やせるのであまり意味無い
