@@ -423,6 +423,10 @@ form.adminin {
   line-height: 2.2;
 }
 
+.page a, .page .thispage {
+  margin: 0 3px;
+}
+
 .view_other_works {
   text-align: center;
   margin: 15px 0;

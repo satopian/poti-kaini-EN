@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.25.6';
-const POTI_LOT = 'lot.220823';
+const POTI_VER = 'v5.26.2';
+const POTI_LOT = 'lot.220917';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -75,13 +75,11 @@ $views = __DIR__ . '/templates/'.SKIN_DIR;
 $cache = $views.'cache';
 $blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
-
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
 	die($err);
 }
 require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
-
 
 //サムネイルfunction
 if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
@@ -590,6 +588,9 @@ function res($resno = 0){
 		}
 	}
 
+	if (empty($treeline)) {
+		error(MSG001);
+	}
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
@@ -654,9 +655,9 @@ function res($resno = 0){
 	$dat['view_other_works']=false;
 	if(VIEW_OTHER_WORKS){
 		$a=[];
-	$start_view=(($i-7)>=0) ? ($i-7) : 0;
-	$other_works=array_slice($trees,$start_view,17,false);
-	foreach($other_works as $j=>$val){
+		$start_view=(($i-7)>=0) ? ($i-7) : 0;
+		$other_works=array_slice($trees,$start_view,17,false);
+		foreach($other_works as $j=>$val){
 
 		$p=explode(",",trim($val))[0];
 		$b=($p && isset($lineindex[$p])) ? create_res($line[$lineindex[$p]]):[];
@@ -1009,11 +1010,11 @@ function regist(){
 		//PCHファイルアップロード
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
-		$src = $temppath.$picfile.$pchext;
-		$dst = PCH_DIR.$time.$pchext;
-			if(copy($src, $dst)){
-				chmod($dst,PERMISSION_FOR_DEST);
-			}
+			$src = $temppath.$picfile.$pchext;
+			$dst = PCH_DIR.$time.$pchext;
+				if(copy($src, $dst)){
+					chmod($dst,PERMISSION_FOR_DEST);
+				}
 		}
 
 		list($w, $h) = getimagesize($dest);
@@ -1242,7 +1243,7 @@ function userdel(){
 
 	sort($del);
 	reset($del);
-	if($pwd===""&&$pwdc) $pwd=newstring($pwdc);
+	$pwd = $pwd ? $pwd : newstring($pwdc);
 	$fp=fopen(LOGFILE,"r+");
 	set_file_buffer($fp, 0);
 	flock($fp, LOCK_EX);
@@ -1464,6 +1465,8 @@ function paintform(){
 	$admin = (string)filter_input(INPUT_POST, 'admin');
 	$type = (string)newstring(filter_input(INPUT_POST, 'type'));
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwd = $pwd ? $pwd : newstring($pwdc);
 	$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 	if(strlen($resto)>1000){
 		error(MSG015);
@@ -1490,11 +1493,11 @@ function paintform(){
 	$dat['image_jpeg'] = 'false';
 	$dat['image_size'] = 0;
 	$keys=['type_neo','pinchin','pch_mode','continue_mode','imgfile','img_chi','img_klecks','paintbbs','quality','pro','normal','undo','undo_in_mg','pchfile','security','security_click','security_timer','security_url','speed','picfile','painttime','no','pch','ext','ctype_pch','newpost_nopassword'];
-	
+
 	foreach($keys as $key){
 		$dat[$key]=false;	
 	}
-	
+
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
 	//pchファイルアップロードペイント
 	if($admin&&($admin===$ADMIN_PASS)){
@@ -1504,7 +1507,7 @@ function paintform(){
 			error(MSG034);
 		} 
 		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
-		$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
+			$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
 
 			$time = (string)(time().substr(microtime(),2,6));
 			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
@@ -1837,7 +1840,7 @@ function deltemp(){
 		if(!is_dir($file)) {
 			//pchアップロードペイントファイル削除
 			$lapse = time() - filemtime(TEMP_DIR.$file);
-				if(strpos($file,'pchup-')===0) {
+			if(strpos($file,'pchup-')===0) {
 				if($lapse > (300)){//5分
 					safe_unlink(TEMP_DIR.$file);
 				}
@@ -1940,7 +1943,7 @@ function incontinue(){
 			$dat['download_app_dat'] = false;
 			break;
 	}
-	
+
 	if(mime_content_type(IMG_DIR.$ctim.$cext)==='image/webp'){
 		$dat['use_shi_painter'] = false; 
 	}
@@ -1953,6 +1956,8 @@ function check_cont_pass(){
 
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwd = $pwd ? $pwd : newstring($pwdc);
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
@@ -1960,22 +1965,25 @@ function check_cont_pass(){
 			list($cno,,,,,,,,$cpwd,,,,$ctime,)
 			= explode(",", rtrim($line));
 
-		if($cno == $no && check_password($pwd, $cpwd) 
-		&& check_elapsed_days($ctime)
-		){
-			closeFile($fp);
-			return true;
+			if($cno == $no && check_password($pwd, $cpwd)
+			&& check_elapsed_days($ctime)
+			){
+				closeFile($fp);
+				return true;
+			}
 		}
-	}
 	}
 	closeFile($fp);
 	error(MSG028);
 }
 function download_app_dat(){
 
-	$pwd=(string)filter_input(INPUT_POST,'pwd');
+	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
+	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 	$no=(string)filter_input(INPUT_POST,'no');
 	$pchext=(string)basename(filter_input(INPUT_POST,'pch_ext'));
+	$pwd = $pwd ? $pwd : newstring($pwdc);
+
 	$cpwd='';
 	$cno='';
 	$ctime='';
@@ -2029,7 +2037,7 @@ function editform(){
 
 	sort($del);
 	reset($del);
-	if($pwd===""&&$pwdc) $pwd=newstring($pwdc);
+	$pwd = $pwd ? $pwd : newstring($pwdc);
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -2677,7 +2685,7 @@ function check_pch_ext ($filepath,$options = []) {
 	} elseif (is_file($filepath . ".psd")) {
 		return ".psd";
 	} 
-		return '';
+	return '';
 }
 
 /**
@@ -2760,7 +2768,6 @@ function png2jpg ($src) {
 		if(is_file($dst)){
 			return $dst;
 		}
-		return false;
 	}
 	return false;
 }
@@ -2957,12 +2964,12 @@ function get_lineindex ($line){
 	return $lineindex;
 }
 
-function check_password ($pwd, $epwd, $adminPass = false) {
+function check_password ($pwd, $hash, $adminPass = false) {
 	global $ADMIN_PASS;
 	return
-		password_verify($pwd, $epwd)
-		|| $epwd === substr(md5($pwd), 2, 8)
-		|| ($adminPass ? ($adminPass === $ADMIN_PASS) : false); // 管理パスを許可する場合
+		($pwd && (password_verify($pwd, $hash)))
+		||($pwd && ($hash === substr(md5($pwd), 2, 8)))
+		|| ($adminPass && $ADMIN_PASS && ($adminPass === $ADMIN_PASS)); // 管理パスを許可する場合
 }
 function is_neo($src) {//neoのPCHかどうか調べる
 	$fp = fopen("$src", "rb");

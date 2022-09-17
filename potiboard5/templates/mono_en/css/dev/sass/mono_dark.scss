@@ -364,6 +364,9 @@
 	  text-align: center;
 	  line-height: 2.2;
   }
+  .page a ,.page .thispage {
+    margin: 0 3px;
+  }
   // 前後のスレッドの画像を表示
   .view_other_works {
 	  text-align: center;
