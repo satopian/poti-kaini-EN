@@ -1,12 +1,13 @@
 <?php
 /*
-** メール通知クラス(UTF-8) lot.210620
+** メール通知クラス(UTF-8) lot.220918
 **
 ** http://www.punyu.net/php/
 ** by SakaQ
 ** https://paintbbs.sakura.ne.jp/poti/
 ** by POTI改
 **
+** 2022/09/18 多国語対応。mb_language( 'uni' )。
 ** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。
 ** 2020/07/12 軽微なエラーを修正。
 ** 2020/05/11 説明追加、POTI改のURL変更。
@@ -68,12 +69,12 @@
 
 【使用例】※実際には変数を使うが、判り易くする為に直接内容をセットしています
 
-$data['to'] = 'me@hoge.net';
+$data['to'] = 'me@example.com';
 $data['subject'] = 'なんか投稿されてますよー';
 $data['name'] = '名無しさん';
-$data['email'] = 'hoge@hoge.com';
-$data['option'][] = 'URL,http://hogehoge.com/';
-$data['option'][] = 'お絵かき絵,http://hoge.net/poti/src/OB11111111.png';
+$data['email'] = 'example@example.com';
+$data['option'][] = 'URL,http://www.example.com/';
+$data['option'][] = 'お絵かき絵,http://example.com/poti/src/OB11111111.png';
 $data['comment'] = 'お絵かきしたにゃ';
 noticemail::send($data);
 
@@ -88,7 +89,7 @@ noticemail::send($data);
 class noticemail{
 
 	public static function send($data=''){
-	mb_language( 'Japanese' );
+	mb_language( 'uni' );
 	mb_internal_encoding("UTF-8");
 
 	$name = $data['name'];
@@ -121,7 +122,10 @@ class noticemail{
 	$Message .= 'e-Mail:'.$from."\n";
 	$option = $data['option'];
 	if(is_array($option)){
-	foreach($option as $value){ list($optitle,$opvalue)=explode(",", rtrim($value)); $Message .=$optitle.': '.$opvalue." \n"; }
+		foreach($option as $value){
+			list($optitle,$opvalue)=explode(",", rtrim($value));
+			$Message .=$optitle.': '.$opvalue." \n"; 
+		}
 	}
 		$Message .= $line;
 		if($data['comment']){
