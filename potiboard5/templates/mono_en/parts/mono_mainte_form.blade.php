@@ -11,7 +11,7 @@
 		No <input class="form" type="number" min="1" name="del[]" value="" autocomplete="off">
 		<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
 		Pass <input class="form" type="password" name="pwd" value="" autocomplete="current-password">
-		<select class="form" name="mode" tabindex="1">
+		<select class="form" name="mode">
 			<option value="edit" selected>Edit</option>
 			@if($userdel)
 			<option value="usrdel">Delete</option>
