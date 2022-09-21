@@ -45,6 +45,64 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2022/09/20] v5.26.3
+### Update
+- Updated Klecks to latest version.
+Gradient tool and pattern filter added.
+- Updated BladeOne to v4.6.
+### Bug fixes
+- Fixed a bug that an E-WARNING level PHP error occurred when specifying an article number other than the article number of the thread's parent on the reply screen.
+Please update `potiboard.php`.
+### Improvements
+- If the password field is blank for password authentication when drawing a continuation or download authentication of pch, chi, psd, the cookie password will be used instead.
+Unified to the same behavior as password authentication during edit function.  
+- Fixed function `check_password()` for password checking. Password authentication will not succeed if no password is entered and the password is not present in the cookie.  
+- Fixed the multilingual support of the mail notification function was insufficient.
+- Increased page number spacing for template MONO.
+- Fixed paint screen's clock javascript .
+- Changed the unit of file size on the managed post screen from bytes to kb.
+
+## [2022/08/16] v5.23.8
+### Update
+- Updated Klecks to the latest version.
+Added noise filter.
+  
+![image](https://user-images.githubusercontent.com/44894014/184852762-85d62967-63b4-41bd-b857-eec9d9cc63d4.png)
+
+- Updated BladeOne to v4.5.5.
+- Updated jQuery to v3.6.0.
+Since the existence of the file is checked, the program will not run if the included jQuery does not exist.
+The  case an error message telling you that the file does not exist.
+
+### Improvements
+- Fixed clickjacking vulnerability.
+It will not be possible to display in frames or iframes.
+It's more secure, but I know some people want to display it in a frame.
+Therefore, we added a new setting item to config.php so that you can select whether or not to display it in the frame.
+If you do not need to display in the frame, you do not need to add setting items.
+```
+// Deny display in iframe:  (1: Deny, 0: Allow)
+// We strongly recommend "Deny" to avoid security risks.
+define('X_FRAME_OPTIONS_DENY', '1');
+
+```
+I think it is difficult to rewrite config.php from scratch, so if you add the above setting items anywhere, you will be able to display it in the frame.
+
+- Improved mobile usability.
+Optimized tap target size and spacing.
+
+- Improved page loading speed
+Prefetch externally loaded JavaScript such as jQuery and loadcookie.js to avoid rendering blocking.
+- JavaScript execution timing to `DOMContentLoaded`.
+
+- Fixed a fatal error if not written carefully. error() function to built-in function die().
+  
+- Enabled to change the jQuery version without touching the template directly.
+- Added width and height of image in search screen.
+- In order to speed up loading speed, loading="lazy" is not applied to the range displayed from the beginning.
+- The JavaScript description of the timer under the PaintBBS startup screen was deprecated, so it has been fixed.
+[After setting the content security policy, the clock on the drawing screen of POTI-board stopped working. ｜Satopian｜note](https://note.com/satopian/n/n7b757ee05975)
+
 ## [2022/07/11] v5.20.2
 ### Improvement
 - Reduced the probability of duplicate file names when posting drawing images to 1/1000.
