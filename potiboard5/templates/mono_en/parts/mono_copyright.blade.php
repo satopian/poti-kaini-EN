@@ -21,9 +21,9 @@
 	@endif
 	<p>
 		UseFunction -
-		<a href="https://github.com/EFTEC/BladeOne" target="_blank" rel="nofollow noopener noreferrer" title="BladeOne">BladeOne</a>
 		DynamicPalette <!-- http://wondercatstudio.com/ -->
-		
+		<a href="https://github.com/imgix/luminous" target="_blank" rel="noopener noreferrer" title="by Zebrafish Labs" >luminous</a>
+		<a href="https://github.com/EFTEC/BladeOne" target="_blank" rel="nofollow noopener noreferrer" title="BladeOne">BladeOne</a>
 	</p>
 </div>
 	

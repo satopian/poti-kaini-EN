@@ -51,6 +51,8 @@
 		}
 	</script>
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
+	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
 	<link rel="preload" as="script" href="loadcookie.js">
 	<title>{{$title}}</title>
 	@if($notres)
@@ -297,7 +299,7 @@
 					{{-- 親子共通 --}}
 					@if($res['src'])
 					<div class="img_info_wrap">
-						<a href="{{$res['src']}}" title="{{$res['sub']}}" target="_blank">{{$res['srcname']}}</a>
+						<a href="{{$res['src']}}" title="{{$res['sub']}}" target="_blank" class="luminous">{{$res['srcname']}}</a>
 						({{$res['size_kb']}} KB)
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
@@ -309,15 +311,11 @@
 							@if($res['spch'])</span>@endif
 					</div>
 					<figure @if($res['w']>=750) style="float:none;margin-right:0"@endif>
-						@if($res['thumb'])
-						<a href="{{$res['src']}}" target="_blank" rel="noopener">
-							@endif
+						<a href="{{$res['src']}}" target="_blank" rel="noopener" class="luminous">
 							<img src="{{$res['imgsrc']}}" alt="{{$res['sub']}} by {{$res['name']}}"
 								title="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}"
 								height="{{$res['h']}}" @if($i>4)loading="lazy"@endif>
-							@if($res['thumb'])
 						</a>
-						@endif
 					</figure>
 					@endif
 					<div class="comment_wrap">
@@ -409,19 +407,19 @@
 
 			<script src="loadcookie.js"></script>
 			<script>
-				document.addEventListener('DOMContentLoaded', (e) => {
-				l();//LoadCookie
-				});
+			document.addEventListener('DOMContentLoaded',l,false);
 			</script>
 		</div>
 		{{-- <!-- 著作権表示 削除しないでください --> --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<script src="lib/{{$jquery}}"></script>
+	<script src="lib/luminous/luminous.min.js"></script>
 	<script>
 		colorIdx = GetCookie('colorIdx');
 		document.getElementById("mystyle").selectedIndex = colorIdx;
 
+	jQuery(function() {
 		window.onpageshow = function () {
 			var $btn = $('[type="submit"]');
 			//disbledを解除
@@ -431,6 +429,15 @@
 				$(this).closest('form').submit();
 			});
 		}
+		// https://www.webdesignleaves.com/pr/plugins/luminous-lightbox.html
+		const luminousElems = document.querySelectorAll('.luminous');
+		//取得した要素の数が 0 より大きければ
+		if( luminousElems.length > 0 ) {
+			luminousElems.forEach( (elem) => {
+			new Luminous(elem);
+			});
+		}
+	});
 	</script>
 </body>
 
