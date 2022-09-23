@@ -248,9 +248,7 @@
 			@endif
 				@if($regist)
 				<script>
-				document.addEventListener('DOMContentLoaded', (e) => {
-					l();//LoadCookie
-				});
+				document.addEventListener('DOMContentLoaded',l,false);
 				</script>
 				@endif
 			</div>
@@ -369,6 +367,7 @@
 	</footer>
 	<script src="lib/{{$jquery}}"></script>
 	<script>
+	jQuery(function() {
 		window.onpageshow = function () {
 			var $btn = $('[type="submit"]');
 			//disbledを解除
@@ -378,6 +377,7 @@
 				$(this).closest('form').submit();
 			});
 		}
+	});
 	</script>
 </body>
 
