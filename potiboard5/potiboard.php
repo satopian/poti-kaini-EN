@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.26.3';
-const POTI_LOT = 'lot.220918';
+const POTI_VER = 'v5.26.5';
+const POTI_LOT = 'lot.220930';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1485,7 +1485,6 @@ function paintform(){
 
 	if(strlen($pwd) > 72) error(MSG015);
 
-	
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
 	
@@ -2841,7 +2840,7 @@ function create_res ($line, $options = []) {
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
 		//動画リンク
 		$pch_ext= (isset($options['pch'])) ? check_pch_ext(PCH_DIR.$time):'';
-		$res['spch']=($pch_ext==='.spch') ? true : false;
+		$res['spch']=($pch_ext==='.spch');
 		$res['pch'] = (USE_ANIME && $pch_ext) ? $time.$ext : '';
 		
 		//コンティニュー
