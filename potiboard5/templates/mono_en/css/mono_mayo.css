@@ -129,7 +129,7 @@ input[name=pwd], textarea[name=pwd], select[name=pwd], .se[name=pwd], input[name
 }
 
 input[value=お絵かき], textarea[value=お絵かき], select[value=お絵かき], button.copy_button, .se[value=お絵かき], .button {
-  background-color: #f4958b;
+  background-color: #f4988a;
   color: #FFF;
 }
 
@@ -164,7 +164,7 @@ em.thispage {
 
 .name {
   line-height: 1em;
-  border: solid 1px #f4958b;
+  border: solid 1px #f4988a;
   border-radius: 5px;
   display: inline-block;
 }
@@ -597,7 +597,7 @@ form.adminin {
   background-color: #ffbbbb;
 }
 #search input[type=submit] {
-  background-color: #f4958b;
+  background-color: #f4988a;
   color: #FFF;
   border: 1px solid;
   border-color: #ff8c8c #3d3431 #3d3431 #ff8c8c;
@@ -610,7 +610,7 @@ form.adminin {
   font-weight: 700;
   color: inherit;
   display: inline-block;
-  border: solid 1px #f4958b;
+  border: solid 1px #f4988a;
   border-radius: 6px;
   line-height: 1em;
 }
@@ -663,7 +663,7 @@ form.adminin {
   padding: 0 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #f4958b;
+  border: 2px solid #f4988a;
   border-radius: 15px;
 }
 #search .label:hover {

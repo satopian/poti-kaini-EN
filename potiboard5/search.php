@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2022 さとぴあ(@satopian)
-//v5.2 lot.220727
+//v5.3 lot.220930
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -28,6 +28,7 @@ $max_search=120;
 
 //更新履歴
 
+//v5.3.0 2022.09.30 jQuery。
 //v5.2.0 2022.07.27 画像の縦横比を算出するための画像の幅と高さを出力。
 //v5.1.0 2022.07.20 BladeONEでエスケープしていない箇所のエスケープ処理を追加。
 //v5.0.0 2022.01.16 テンプレートエンジンをbladeに変更。
@@ -56,6 +57,7 @@ $max_search=120;
 //設定の読み込み
 require(__DIR__.'/config.php');
 
+$dat['jquery']='jquery-3.6.0.min.js';
 defined('SKIN_DIR') or define('SKIN_DIR','basic/');//config.php で未定義なら basic/
 
 //HTMLテンプレート
