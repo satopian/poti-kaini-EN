@@ -1,3 +1,7 @@
+<If "%{HTTP_HOST} != 'catharsisqs4vi43ml3axj3x5akpimxislcidk7nwb6iol7pn4co4rqd.onion'">
+  SSLRequireSSL
+</If>
+
 <Files ~ "\.(html|php)?$">
 	<IfModule mod_headers.c>
 		Header set Pragma no-cache
