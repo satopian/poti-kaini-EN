@@ -56,8 +56,14 @@ $max_search=120;
 
 //設定の読み込み
 require(__DIR__.'/config.php');
+const JQUERY ='jquery-3.6.0.min.js';
 
 $dat['jquery']='jquery-3.6.0.min.js';
+if($err=check_file(__DIR__.'/lib/'.JQUERY)){
+	die($err);
+}
+$dat['jquery']=JQUERY;
+
 defined('SKIN_DIR') or define('SKIN_DIR','basic/');//config.php で未定義なら basic/
 
 //HTMLテンプレート
@@ -315,6 +321,29 @@ function separateNameAndTrip ($name) {
 		return [preg_replace("/(◆.*)/","",$name), $regs[1]];
 	}
 	return [$name, ''];
+}
+function lang_en(){//言語が日本語以外ならtrue。
+	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
+	? explode( ',', $http_langs )[0] : '';
+  return (stripos($lang,'ja')!==0) ? true : false;
+  
+}
+function initial_error_message(){
+	$en=lang_en();
+	$msg['041']=$en ? ' does not exist.':'がありません。'; 
+	$msg['042']=$en ? ' is not readable.':'を読めません。'; 
+	$msg['043']=$en ? ' is not writable.':'に書けません。'; 
+return $msg;	
+}
+// ファイル存在チェック
+function check_file ($path,$check_writable='') {
+	$msg=initial_error_message();
+	if (!is_file($path)) return $path . $msg['041']."<br>";
+	if (!is_readable($path)) return $path . $msg['042']."<br>";
+	if($check_writable){//書き込みが必要なファイルのチェック
+		if (!is_writable($path)) return $path . $msg['043']."<br>";
+	}
+	return '';
 }
 
 //HTML出力
