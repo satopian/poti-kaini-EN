@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.26.5';
-const POTI_LOT = 'lot.220930';
+const POTI_VER = 'v5.26.6';
+const POTI_LOT = 'lot.22102';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -53,6 +53,14 @@ const JQUERY ='jquery-3.6.0.min.js';
 if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
 	die($err);
 }
+// luminous
+if ($err = check_file(__DIR__.'/lib/luminous/luminous.min.js')) {
+	die($err);
+}
+if (check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
+	die($err);
+}
+
 //CheerpJ
 const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
 
