@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.26.6';
-const POTI_LOT = 'lot.22102';
+const POTI_VER = 'v5.26.9';
+const POTI_LOT = 'lot.22105';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -57,7 +57,7 @@ if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
 if ($err = check_file(__DIR__.'/lib/luminous/luminous.min.js')) {
 	die($err);
 }
-if (check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
+if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
 	die($err);
 }
 
@@ -338,7 +338,7 @@ function get_uip(){
 function session_sta(){
 	if(!isset($_SESSION)){
 		session_set_cookie_params(
-			0,"","",null,true
+			0,"","",false,true
 		);
 		session_start();
 		header('Expires:');
