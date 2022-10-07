@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.26.9';
-const POTI_LOT = 'lot.22105';
+const POTI_VER = 'v5.26.10';
+const POTI_LOT = 'lot.22107';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1665,8 +1665,9 @@ function paintform(){
 		$lines=file(PALETTEFILE);//初期パレット
 	}
 
-	$pal=array();
-	$DynP=array();
+	$pal=[];
+	$DynP=[];
+	$arr_pal=[];
 	foreach ( $lines as $i => $line ) {
 		$line=charconvert(str_replace(["\r","\n","\t"],"",$line));
 		list($pid,$pname,$pal[0],$pal[2],$pal[4],$pal[6],$pal[8],$pal[10],$pal[1],$pal[3],$pal[5],$pal[7],$pal[9],$pal[11],$pal[12],$pal[13]) = explode(",", $line);
