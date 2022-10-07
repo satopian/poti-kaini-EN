@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.26.10';
+const POTI_VER = 'v5.27.2';
 const POTI_LOT = 'lot.22107';
 
 /*
@@ -1436,9 +1436,9 @@ function lang_en(){//言語が日本語以外ならtrue。
 }
 function initial_error_message(){
 	$en=lang_en();
-	$msg['041']=defined('MSG041') ? MSG041 :($en ? ' does not exist.':'がありません。'); 
-	$msg['042']=defined('MSG042') ? MSG042 :($en ? ' is not readable.':'を読めません。'); 
-	$msg['043']=defined('MSG043') ? MSG043 :($en ? ' is not writable.':'に書けません。'); 
+	$msg['041']=$en ? ' does not exist.':'がありません。'; 
+	$msg['042']=$en ? ' is not readable.':'を読めません。'; 
+	$msg['043']=$en ? ' is not writable.':'に書けません。'; 
 return $msg;	
 }
 
@@ -1643,7 +1643,6 @@ function paintform(){
 	$dat['layer_count'] = LAYER_COUNT;
 	if($shi) $dat['quality'] = $quality ? $quality : $qualitys[0];
 	//NEOを使う時はPaintBBSの設定
-
 	$initial_palette = 'Palettes[0] = "#000000\n#FFFFFF\n#B47575\n#888888\n#FA9696\n#C096C0\n#FFB6FF\n#8080FF\n#25C7C9\n#E7E58D\n#E7962D\n#99CB7B\n#FCECE2\n#F9DDCF";';
 	if(USE_SELECT_PALETTES){//パレット切り替え機能を使う時
 		foreach($pallets_dat as $i=>$value){
@@ -1651,8 +1650,8 @@ function paintform(){
 				setcookie("palettec", $i, time()+(86400*SAVE_COOKIE));//Cookie保存
 				if(is_array($value)){
 					list($p_name,$p_dat)=$value;
-					if(!is_file($p_dat)){
-						error($p_dat.MSG041);
+					if ($err = check_file(__DIR__.'/'.$p_dat)) {
+						error($err);
 					}
 					$lines=file($p_dat);
 				}else{
@@ -1662,6 +1661,9 @@ function paintform(){
 			}
 		}
 	}else{
+		if ($err = check_file(__DIR__.'/'.PALETTEFILE)) {
+			error($err);
+		}
 		$lines=file(PALETTEFILE);//初期パレット
 	}
 
