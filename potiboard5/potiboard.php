@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.27.2';
-const POTI_LOT = 'lot.22107';
+const POTI_VER = 'v5.27.5';
+const POTI_LOT = 'lot.22108';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -680,14 +680,14 @@ function res($resno = 0){
 }
 //マークダウン記法のリンクをHTMLに変換
 function md_link($str){
-	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","<a href=\"\\2\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\\1</a>",$str);
+	$str= preg_replace('{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}','<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
 	return $str;
 }
 
 // 自動リンク
 function auto_link($str){
 	if(strpos($str,'<a')===false){//マークダウン記法がなかった時
-		$str= preg_replace("{(https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)}","<a href=\"\\1\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\\1</a>",$str);
+		$str= preg_replace('{(https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)}','<a href="$1" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
 	}
 	return $str;
 }
@@ -1675,11 +1675,8 @@ function paintform(){
 		list($pid,$pname,$pal[0],$pal[2],$pal[4],$pal[6],$pal[8],$pal[10],$pal[1],$pal[3],$pal[5],$pal[7],$pal[9],$pal[11],$pal[12],$pal[13]) = explode(",", $line);
 		$DynP[]=h($pname);
 		$p_cnt=$i+1;
-		$palettes = 'Palettes['.$p_cnt.'] = "#';
 		ksort($pal);
-		$palettes.=implode('\n#',$pal);
-		$palettes.='";';//190622
-		$arr_pal[$i] = $palettes;
+		$arr_pal[$i] = 'Palettes['.h($p_cnt).'] = "#'. h(implode('\n#',$pal)) . '";';
 	}
 	$dat['palettes']=$initial_palette.implode('',$arr_pal);
 	$dat['palsize'] = count($DynP) + 1;
