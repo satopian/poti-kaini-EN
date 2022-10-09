@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.27.6';
-const POTI_LOT = 'lot.22108';
+const POTI_VER = 'v5.28.0';
+const POTI_LOT = 'lot.22109';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1844,7 +1844,7 @@ function openpch(){
 function deltemp(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
-		if(!is_dir($file)) {
+		if(!is_dir($file) && $file!=='.htaccess') {
 			//pchアップロードペイントファイル削除
 			$lapse = time() - filemtime(TEMP_DIR.$file);
 			if(strpos($file,'pchup-')===0) {
