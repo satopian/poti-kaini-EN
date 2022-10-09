@@ -1844,7 +1844,7 @@ function openpch(){
 function deltemp(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
-		if(!is_dir($file)) {
+		if(!is_dir($file) && $file!=='.htaccess') {
 			//pchアップロードペイントファイル削除
 			$lapse = time() - filemtime(TEMP_DIR.$file);
 			if(strpos($file,'pchup-')===0) {
