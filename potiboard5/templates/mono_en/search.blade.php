@@ -4,6 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css">
 	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
@@ -165,6 +167,38 @@
 		</footer>
 
 	</div>
+	<div id="bottom"></div>
+	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
+	<script src="lib/{{$jquery}}"></script>
+	<script>
+		jQuery(function() {
+			window.onpageshow = function () {
+				var $btn = $('[type="submit"]');
+				//disbledを解除
+				$btn.prop('disabled', false);
+				$btn.click(function () { //送信ボタン2度押し対策
+					$(this).prop('disabled', true);
+					$(this).closest('form').submit();
+				});
+			}
+			// https://cotodama.co/pagetop/
+			var pagetop = $('#page_top');   
+			pagetop.hide();
+			$(window).scroll(function () {
+				if ($(this).scrollTop() > 100) {  //100pxスクロールしたら表示
+					pagetop.fadeIn();
+				} else {
+					pagetop.fadeOut();
+				}
+			});
+			pagetop.click(function () {
+				$('body,html').animate({
+					scrollTop: 0
+				}, 500); //0.5秒かけてトップへ移動
+				return false;
+			});
+		});
+	</script>
 </body>
 
 </html>
