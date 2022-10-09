@@ -23,10 +23,8 @@
 	background-color: val.$ushiro;
 	color: val.$moji;
 	font-family: sans-serif;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
 	margin: 10.5px;
-  
   }
   a:link {
 	color: val.$link;
@@ -274,6 +272,11 @@
   }
   form.adminin {
 	  margin: 15px 0;
+  }
+  div#appstage,div#chickenpaint-parent{
+	letter-spacing: initial;
+	word-break:initial;
+	overflow-wrap: initial;
   }
   #appstage {
 	display: block;
