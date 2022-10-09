@@ -6,8 +6,14 @@
 			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
 			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
-			<style>.input_disp_none{display: none;}</style>	
-		
+			<style>	
+				div#appstage,div#chickenpaint-parent{
+				letter-spacing: initial;
+				word-break:initial;
+				overflow-wrap: initial;
+				}
+				.input_disp_none{display: none;}
+			</style>
 		<script>
 			var colorIdx = GetCookie("colorIdx");
 				switch (Number(colorIdx)) {
