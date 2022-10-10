@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.28.1';
-const POTI_LOT = 'lot.22109';
+const POTI_VER = 'v5.28.2';
+const POTI_LOT = 'lot.22110';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -63,6 +63,9 @@ if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
 
 //CheerpJ
 const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
+const CHEERPJ_HASH = 'sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE';
+// $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
+// https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
 
 //設定の読み込み
 if ($err = check_file(__DIR__.'/config.php')) {
@@ -410,6 +413,7 @@ function basicpart(){
 	$dat['_san']=HONORIFIC_SUFFIX;
 	$dat['jquery']=JQUERY;
 	$dat['cheerpj_url']=CHEERPJ_URL;
+	$dat['cheerpj_hash']=CHEERPJ_HASH;
 	$dat['n']=false;//コメント行
 	//言語
 	$dat['en']=lang_en();
