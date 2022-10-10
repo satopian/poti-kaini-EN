@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
+	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="lib/{{$jquery}}">
+	<link rel="preload" as="script" href="loadcookie.js">
 	<style>
 		.input_disp_none {
 			display: none;
@@ -50,8 +53,6 @@
 			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 		}
 	</script>
-	<link rel="preload" as="script" href="loadcookie.js">
-
 	<title>{{$title}}</title>
 </head>
 
@@ -110,7 +111,7 @@
 			{{-- 前、次のナビゲーション --}}
 			@include('parts.mono_prev_next')
 
-			{{-- <!-- メンテナンスフォーム欄 --> --}}
+			{{--  メンテナンスフォーム欄  --}}
 			@include('parts.mono_mainte_form')
 
 			<script src="loadcookie.js"></script>
@@ -121,9 +122,38 @@
 				{{--  Copyright notice, do not delete  --}}
 				@include('parts.mono_copyright')
 	</footer>
+	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
+	<script src="lib/{{$jquery}}"></script>
 	<script>
 		colorIdx = GetCookie('colorIdx');
 		document.getElementById("mystyle").selectedIndex = colorIdx;
+		jQuery(function() {
+		window.onpageshow = function () {
+			var $btn = $('[type="submit"]');
+			//disbledを解除
+			$btn.prop('disabled', false);
+			$btn.click(function () { //送信ボタン2度押し対策
+				$(this).prop('disabled', true);
+				$(this).closest('form').submit();
+			});
+		}
+		// https://cotodama.co/pagetop/
+		var pagetop = $('#page_top');   
+		pagetop.hide();
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {  //100pxスクロールしたら表示
+				pagetop.fadeIn();
+			} else {
+				pagetop.fadeOut();
+			}
+		});
+		pagetop.click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 500); //0.5秒かけてトップへ移動
+			return false;
+		});
+	});
 	</script>
 </body>
 

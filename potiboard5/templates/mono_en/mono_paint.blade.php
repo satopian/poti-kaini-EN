@@ -6,8 +6,14 @@
 			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
 			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
-			<style>.input_disp_none{display: none;}</style>	
-		
+			<style>	
+				div#appstage,div#chickenpaint-parent{
+				letter-spacing: initial;
+				word-break:initial;
+				overflow-wrap: initial;
+				}
+				.input_disp_none{display: none;}
+			</style>
 		<script>
 			var colorIdx = GetCookie("colorIdx");
 				switch (Number(colorIdx)) {
@@ -110,13 +116,15 @@
 			if(!jEnabled){
 				var sN = document.createElement("script");
 				sN.src = "{{$cheerpj_url}}";
+				sN.integrity="{{$cheerpj_hash}}";
+				sN.crossOrigin="anonymous";
 				var s0 = document.getElementsByTagName("script")[0];
 				s0.parentNode.insertBefore(sN, s0);
 				sN.addEventListener("load", function(){ cheerpjInit(); }, false);
 				}
 			}
 			window.addEventListener("load", function() { cheerpJLoad(); }, false);
-		</script>
+	</script>
 		@endif
 	@endif
 	@if($paint_mode)

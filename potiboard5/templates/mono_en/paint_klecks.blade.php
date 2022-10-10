@@ -9,11 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<style>
-		body {
-		letter-spacing: initial;
-		word-break:initial;
-		}
-		li{margin:inherit;}
 		:not(input){
 		-moz-user-select: none;
 		-webkit-user-select: none;

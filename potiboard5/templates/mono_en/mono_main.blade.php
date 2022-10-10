@@ -9,12 +9,15 @@
 	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
 	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="lib/{{$jquery}}">
+	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
+	<link rel="preload" as="script" href="loadcookie.js">
 	<style>
 		.input_disp_none {
 			display: none;
 		}
 	</style>
-
 	<script>
 		var colorIdx = GetCookie("colorIdx");
 		switch (Number(colorIdx)) {
@@ -51,15 +54,11 @@
 			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 		}
 	</script>
-	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
-	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
-	<link rel="preload" as="script" href="loadcookie.js">
 	<title>{{$title}}</title>
 	@if($notres)
 	{{-- I would be happy if you could change this area.
 	Please ask google for the detailed meaning. --}}
-<meta name="twitter:card" content="summary">
+	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="">
 	<meta property="og:site_name" content="">
 	<meta property="og:title" content="{{$title}}">
@@ -95,7 +94,6 @@
 		}
 		document.addEventListener('DOMContentLoaded',is_mobile,false);
 	</script>
-
 </head>
 
 <body>
@@ -415,7 +413,6 @@
 		{{-- <!-- 著作権表示 削除しないでください --> --}}
 		@include('parts.mono_copyright')
 	</footer>
-	<div id="bottom"></div>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
 	<script src="lib/{{$jquery}}"></script>
 	<script src="lib/luminous/luminous.min.js"></script>
