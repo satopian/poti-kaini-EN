@@ -41,6 +41,10 @@
 // 2003/07/11 perl版初公開
 
 //設定
+if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
+	header( "Location: ./ ") ;
+}
+
 include(__DIR__.'/config.php');
 
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
@@ -173,10 +177,10 @@ $pchLength = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength, 8);
 $h = substr($buffer, 0, 1);
 // 拡張子設定
 
-if($h=='S'){
-	$pchext = '.spch';
-}else{
+if($h=='P'){
 	$pchext = '.pch';
+}elseif($h=='S'){
+	$pchext = '.spch';
 }
 
 if($pchLength){
