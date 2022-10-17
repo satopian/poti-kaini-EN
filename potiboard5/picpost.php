@@ -41,9 +41,6 @@
 // 2003/07/11 perl版初公開
 
 //設定
-if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
-	header( "Location: ./ ") ;
-}
 
 include(__DIR__.'/config.php');
 

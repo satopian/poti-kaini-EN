@@ -1,7 +1,4 @@
 <?php
-if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
-	header( "Location: ./ ") ;
-}
 
 //設定
 include(__DIR__.'/config.php');
