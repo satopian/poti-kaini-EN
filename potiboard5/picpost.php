@@ -73,7 +73,7 @@ defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
 //投稿容量制限 KB
-define('PICPOST_MAX_KB', '5120');//5MBまで
+define('PICPOST_MAX_KB', '8192');//8MBまで
 
 $time = time();
 
