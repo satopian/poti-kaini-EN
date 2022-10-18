@@ -501,8 +501,12 @@ div#appstage, div#chickenpaint-parent {
 }
 
 @media screen and (max-width: 767px) {
+  .thread figure {
+    margin-right: 0;
+    float: none;
+  }
   .comment_wrap {
-    min-width: 300px;
+    min-width: initial;
   }
   .res {
     clear: left;

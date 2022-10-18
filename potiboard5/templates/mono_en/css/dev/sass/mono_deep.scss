@@ -278,7 +278,7 @@
 	word-break:initial;
 	overflow-wrap: initial;
   }
-  #appstage {
+ #appstage {
 	display: block;
 	text-align: center;
 	> * {
@@ -370,7 +370,7 @@
   .page a ,.page .thispage {
     margin: 0 3px;
   }
-  // 前後のスレッドの画像を表示
+ // 前後のスレッドの画像を表示
   .view_other_works {
 	  text-align: center;
 	  margin: 15px 0;
@@ -391,7 +391,7 @@
 	  margin-right: 0;
   }
   
-/* スクロールすると出てくる「トップへ戻る」ボタン */
+ /* スクロールすると出てくる「トップへ戻る」ボタン */
 /* https://cotodama.co/pagetop/ */
 #page_top {
 	width: 50px;
@@ -428,7 +428,7 @@
 }
 
 
-  //以下レスポンシブ対応
+//以下レスポンシブ対応
   .pcdisp{
 	  display: block;
   }
@@ -437,9 +437,13 @@
   }
   
   @media screen and (max-width: 767px) {
+	.thread figure {
+		margin-right: 0;
+		float: none;
+	}
 	.comment_wrap {
-		min-width: 300px;
-		}
+		min-width: initial;
+	}
 
 	.res {
 			  clear: left;
