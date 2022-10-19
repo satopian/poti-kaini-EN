@@ -492,12 +492,6 @@ define("LANG", "English");
 
 /* ---------- お絵かき詳細設定(Advanced Setting for OEKAKI) ---------- */
 
-// お絵かき画像ファイル名の頭文字
-// お絵かき投稿した画像のファイル名には、必ずこれが先頭に付きます
-// Prefix for the drawing file names. This will be appended at the
-// beginning of the file name for the drawings.
-define("KASIRA", "OB");
-
 // テンポラリ内のファイル有効期限(日数)
 // How many days until the files in the temporary folder expire.
 define("TEMP_LIMIT", "14");
