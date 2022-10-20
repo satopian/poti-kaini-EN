@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.221014  (C)SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.221020  (C)SakaQ >> http://www.punyu.net/php/
 // & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/10/20 画像の幅、高さのサイズ違反のチェックを廃止。
 // 2022/10/14 画像データのmimeタイプのチェックを追加。
 // 2022/08/21 PCHデータの書き込みエラーでは停止しないようにした。
 // 2022/07/07 同名のファイルが存在する時は秒数に+1して回避。ファイル名の秒数を13桁→16桁へ。
@@ -151,12 +152,6 @@ if(!in_array($img_type,["image/png","image/jpeg"])){
 chmod($full_imgfile,PERMISSION_FOR_DEST);
 
 // 不正画像チェック(検出したら削除)
-	$size = getimagesize($full_imgfile);
-	if($size[0] > PMAX_W || $size[1] > PMAX_H){
-		unlink($full_imgfile);
-		//規定サイズ違反を検出しました。画像は保存されません。
-		die("error\n{$errormsg_4}");
-	}
 	$chk = md5_file($full_imgfile);
 	if(isset($badfile)&&is_array($badfile)){
 		foreach($badfile as $value){
