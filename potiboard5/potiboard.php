@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.28.2';
-const POTI_LOT = 'lot.221010';
+const POTI_VER = 'v5.28.3';
+const POTI_LOT = 'lot.221014';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1821,7 +1821,7 @@ function openpch(){
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 
 	$ext = check_pch_ext(PCH_DIR . $_pch);
-	if(!$ext){
+	if(!$ext||!is_file(IMG_DIR.$pch)){
 		error(MSG001);
 	}
 	$dat['pchfile'] = './' . PCH_DIR . $_pch . $ext;
