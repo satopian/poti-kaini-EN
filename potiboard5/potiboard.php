@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.30.0';
+const POTI_VER = 'v5.30.1';
 const POTI_LOT = 'lot.221022';
 
 /*
@@ -74,7 +74,7 @@ if ($err = check_file(__DIR__.'/config.php')) {
 require(__DIR__.'/config.php');
 
 //ディレクトリチェック
-define('B_SKIN_DIR',basename(B_SKIN_DIR));
+define('B_SKIN_DIR',basename(SKIN_DIR));
 define('B_IMG_DIR',basename(IMG_DIR));
 define('B_THUMB_DIR',basename(THUMB_DIR));
 define('B_TEMP_DIR',basename(TEMP_DIR));
