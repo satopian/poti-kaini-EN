@@ -1,7 +1,7 @@
 <?php
 // thumbnail_gd.php by (C) 2018-2022 POTI改 POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript 2005 (C) SakaQ  >> http://www.punyu.net/php/
-//221021 1MBを超過する時はjpegのサムネイルを作成するようにした。
+//221022 1MBを超過する時はjpegのサムネイルを作成するようにした。
 //220729 処理が成功した時の返り値をtrueに変更。
 //220321 透明な箇所が黒くなる問題に対応。透明部分を白に変換。
 //201218 webp形式対応
@@ -27,8 +27,8 @@ function thumb($path,$time,$ext,$max_w,$max_h){
 	$w_ratio = $max_w / $w;
 	$h_ratio = $max_h / $h;
 	$ratio = min($w_ratio, $h_ratio);
-	$out_w = ceil($w * $ratio);//端数の切り上げ
-	$out_h = ceil($h * $ratio);
+	$out_w = $w_h_size_over ? ceil($w * $ratio):$w;//端数の切り上げ
+	$out_h = $w_h_size_over ? ceil($h * $ratio):$h;
 	
 	switch (mime_content_type($fname)) {
 		case "image/gif";
