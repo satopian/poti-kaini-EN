@@ -220,3 +220,29 @@ if(!is_file(TEMP_DIR.$imgfile.'.dat')){
 chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("ok");
+/**
+ * 描画時間を計算
+ * @param $starttime
+ * @return string
+ */
+function calcPtime ($psec) {
+	global $en;
+
+	$D = floor($psec / 86400);
+	$H = floor($psec % 86400 / 3600);
+	$M = floor($psec % 3600 / 60);
+	$S = $psec % 60;
+
+	if($en){
+		return
+			($D ? $D.'day '  : '')
+			. ($H ? $H.'hr ' : '')
+			. ($M ? $M.'min ' : '')
+			. ($S ? $S.'sec' : '');
+	}
+		return
+			($D ? $D.'日'  : '')
+			. ($H ? $H.'時間' : '')
+			. ($M ? $M.'分' : '')
+			. ($S ? $S.'秒' : '');
+}
