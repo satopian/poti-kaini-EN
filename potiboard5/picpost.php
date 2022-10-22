@@ -73,6 +73,7 @@ defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.ph
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0606
 defined('SECURITY_CLICK') or define('SECURITY_CLICK', 0); //config.phpで未定義なら0606
+define('B_TEMP_DIR',basename(TEMP_DIR));
 
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
@@ -162,9 +163,9 @@ if(((int)SECURITY_CLICK && !$repcode && $count) && ($count<(int)SECURITY_CLICK))
 
 }
 $imgfile = time().substr(microtime(),2,6);//画像ファイル名
-$imgfile = is_file(TEMP_DIR.$imgfile.$imgext) ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
+$imgfile = is_file(B_TEMP_DIR.'/'.$imgfile.$imgext) ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
 
-$full_imgfile = TEMP_DIR.$imgfile.$imgext;
+$full_imgfile = B_TEMP_DIR.'/'.$imgfile.$imgext;
 // 画像データをファイルに書き込む
 file_put_contents($full_imgfile,$imgdata,LOCK_EX);
 if(!is_file($full_imgfile)){
@@ -205,19 +206,19 @@ if($pchLength){
 	// PCHイメージを取り出す
 	$PCHdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength + 8, $pchLength);
 	// PCHデータをファイルに書き込む
-	file_put_contents(TEMP_DIR.$imgfile.$pchext,$PCHdata,LOCK_EX);
-	if(is_file(TEMP_DIR.$imgfile.$pchext)){
-		chmod(TEMP_DIR.$imgfile.$pchext,PERMISSION_FOR_DEST);
+	file_put_contents(B_TEMP_DIR.'/'.$imgfile.$pchext,$PCHdata,LOCK_EX);
+	if(is_file(B_TEMP_DIR.'/'.$imgfile.$pchext)){
+		chmod(B_TEMP_DIR.'/'.$imgfile.$pchext,PERMISSION_FOR_DEST);
 	}
 
 }
 
 // 情報データをファイルに書き込む
-file_put_contents(TEMP_DIR.$imgfile.".dat",$userdata,LOCK_EX);
-if(!is_file(TEMP_DIR.$imgfile.'.dat')){
+file_put_contents(B_TEMP_DIR.'/'.$imgfile.".dat",$userdata,LOCK_EX);
+if(!is_file(B_TEMP_DIR.'/'.$imgfile.'.dat')){
 	die("error\n{$errormsg_7}");
 }
-chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
+chmod(B_TEMP_DIR.'/'.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("ok");
 /**
