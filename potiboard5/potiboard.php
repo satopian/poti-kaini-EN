@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.29.3';
+const POTI_VER = 'v5.30.0';
 const POTI_LOT = 'lot.221022';
 
 /*
@@ -73,32 +73,8 @@ if ($err = check_file(__DIR__.'/config.php')) {
 }
 require(__DIR__.'/config.php');
 
-//BladeOne
-if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
-	die($err);
-}
-
-require_once __DIR__.'/BladeOne/lib/BladeOne.php';
-
-Use eftec\bladeone\BladeOne;
-
-$views = __DIR__ . '/templates/'.SKIN_DIR;
-$cache = $views.'cache';
-$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
-
-//Template設定ファイル
-if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
-	die($err);
-}
-require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
-
-//サムネイルfunction
-if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
-	die($err);
-}
-require(__DIR__.'/thumbnail_gd.php');
-
 //ディレクトリチェック
+define('B_SKIN_DIR',basename(B_SKIN_DIR));
 define('B_IMG_DIR',basename(IMG_DIR));
 define('B_THUMB_DIR',basename(THUMB_DIR));
 define('B_TEMP_DIR',basename(TEMP_DIR));
@@ -110,6 +86,31 @@ foreach($check_dirs as $check_dir){
 		die($en? "It will not work with your current directory configuration. Please change the settings. Recommended is the default value." : "現在設定されているディレクトリ構成では動作いたしません。設定の変更をお願いします。推奨デフォルト値。");
 	}
 }
+
+//BladeOne
+if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
+	die($err);
+}
+
+require_once __DIR__.'/BladeOne/lib/BladeOne.php';
+
+Use eftec\bladeone\BladeOne;
+
+$views = __DIR__ . '/templates/'.B_SKIN_DIR.'/';
+$cache = $views.'cache';
+$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
+
+//Template設定ファイル
+if ($err = check_file(__DIR__.'/templates/'.B_SKIN_DIR.'/'.'template_ini.php')) {
+	die($err);
+}
+require(__DIR__.'/templates/'.B_SKIN_DIR.'/'.'template_ini.php');
+
+//サムネイルfunction
+if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
+	die($err);
+}
+require(__DIR__.'/thumbnail_gd.php');
 
 $path = __DIR__.'/'.B_IMG_DIR.'/';
 $temppath = __DIR__.'/'.B_TEMP_DIR.'/';
@@ -402,7 +403,7 @@ function basicpart(){
 	$dat['tver'] = TEMPLATE_VER;
 	$dat['userdel'] = USER_DELETES;
 	$dat['charset'] = 'UTF-8';
-	$dat['skindir'] = 'templates/'.SKIN_DIR;
+	$dat['skindir'] = 'templates/'.B_SKIN_DIR.'/';
 	$dat['for_new_post'] = (!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY) ? false : true;
 	$dat['diary'] = DIARY ? true : false;
 	//OGPイメージ シェアボタン
@@ -1625,17 +1626,6 @@ function paintform(){
 			}
 		}
 	
-		if((C_SECURITY_CLICK || C_SECURITY_TIMER) && SECURITY_URL){
-			$dat['security'] = true;
-			$dat['security_click'] = C_SECURITY_CLICK;
-			$dat['security_timer'] = C_SECURITY_TIMER;
-		}
-	}else{
-		if((SECURITY_CLICK || SECURITY_TIMER) && SECURITY_URL){
-			$dat['security'] = true;
-			$dat['security_click'] = SECURITY_CLICK;
-			$dat['security_timer'] = SECURITY_TIMER;
-		}
 		$dat['newpaint'] = true;
 	}
 
@@ -1653,8 +1643,6 @@ function paintform(){
 		$h = $pich + 172;//PaintBBSの時の高さ
 	}
 	if($h < 560){$h = 560;}//共通の最低高
-
-	$dat['security_url'] = SECURITY_URL;
 
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
