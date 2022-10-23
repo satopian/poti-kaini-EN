@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.32.0';
+const POTI_VER = 'v5.32.1';
 const POTI_LOT = 'lot.221023';
 
 /*
@@ -1761,7 +1761,7 @@ function paintcom(){
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
 			if($ucode == $usercode||$uip == $userip){
-				$tmp[] = $file_name.$imgext;
+				$tmp[$file_name] = $file_name.$imgext;
 			}
 		}
 	}
@@ -1775,8 +1775,7 @@ function paintcom(){
 		$dat['pictmp'] = 1;
 	}else{
 		$dat['pictmp'] = 2;
-		sort($tmp);
-		reset($tmp);
+		ksort($tmp);
 		foreach($tmp as $tmpfile){
 			$tmp_img['src'] = TEMP_DIR.$tmpfile;
 			$tmp_img['srcname'] = $tmpfile;
