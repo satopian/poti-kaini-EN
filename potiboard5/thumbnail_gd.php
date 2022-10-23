@@ -77,7 +77,7 @@ function thumb($path,$time,$ext,$max_w,$max_h){
 	// コピー＆縮小
 	if(!$exists_ImageCopyResampled) ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
 	// サムネイル画像を保存
-	$outfile=B_THUMB_DIR.'./'.$time.'s.jpg';
+	$outfile=THUMB_DIR.$time.'s.jpg';
 	ImageJPEG($im_out, $outfile,THUMB_Q);
 	// 作成したイメージを破棄
 	ImageDestroy($im_in);

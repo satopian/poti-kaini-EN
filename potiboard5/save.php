@@ -3,8 +3,6 @@
 //設定
 include(__DIR__.'/config.php');
 
-define('B_TEMP_DIR',basename(TEMP_DIR));
-
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
 //PNG画像データ投稿容量制限KB(chiは含まない)
@@ -16,7 +14,7 @@ defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.
 
 $time = time();
 $imgfile = time().substr(microtime(),2,6);	//画像ファイル名
-$imgfile = is_file(B_TEMP_DIR.'/'.$imgfile.'.png') ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
+$imgfile = is_file(TEMP_DIR.$imgfile.'.png') ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
 
 
 function chibi_die($message) {
@@ -55,18 +53,18 @@ if(isset($badfile)&&is_array($badfile)){
 		}
 	}
 }
-$success = move_uploaded_file($_FILES['picture']['tmp_name'], B_TEMP_DIR.'/'.$imgfile.'.png');
+$success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
-if (!$success||!is_file(B_TEMP_DIR.'/'.$imgfile.'.png')) {
+if (!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
     chibi_die("Couldn't move uploaded files");
 }
-chmod(B_TEMP_DIR.'/'.$imgfile.'.png',PERMISSION_FOR_DEST);
+chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
 if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
 	if(!SIZE_CHECK || ($_FILES['chibifile']['size'] < (CHIBI_MAX_KB * 1024))){
 		//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
-		move_uploaded_file($_FILES['chibifile']['tmp_name'], B_TEMP_DIR.'/'.$imgfile.'.chi');
-		if(is_file(B_TEMP_DIR.'/'.$imgfile.'.chi')){
-			chmod(B_TEMP_DIR.'/'.$imgfile.'.chi',PERMISSION_FOR_DEST);
+		move_uploaded_file($_FILES['chibifile']['tmp_name'], TEMP_DIR.$imgfile.'.chi');
+		if(is_file(TEMP_DIR.$imgfile.'.chi')){
+			chmod(TEMP_DIR.$imgfile.'.chi',PERMISSION_FOR_DEST);
 		}
 	}
 }
@@ -87,12 +85,12 @@ $resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 $userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
 $userdata .= "\n";
 // 情報データをファイルに書き込む
-file_put_contents(B_TEMP_DIR.'/'.$imgfile.".dat",$userdata,LOCK_EX);
+file_put_contents(TEMP_DIR.$imgfile.".dat",$userdata,LOCK_EX);
 
-if(!is_file(B_TEMP_DIR.'/'.$imgfile.'.dat')){
+if(!is_file(TEMP_DIR.$imgfile.'.dat')){
 	chibi_die("Your picture upload failed! Please try again!");
 }
-chmod(B_TEMP_DIR.'/'.$imgfile.'.dat',PERMISSION_FOR_LOG);
+chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("CHIBIOK\n");
 
