@@ -108,8 +108,7 @@
 
 	@else 
 		@if(($paint_mode and !$useneo) or ($pch_mode and !$type_neo))
-
-		{{-- <!-- Javaが使えるかどうか判定 使えなければcheerpJをロード --> --}}
+		{{--  Javaが使えるかどうか判定 使えなければcheerpJをロード  --}}
 		<script>
 			function cheerpJLoad() {
 			var jEnabled = navigator.javaEnabled();
