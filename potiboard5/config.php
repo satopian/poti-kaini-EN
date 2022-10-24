@@ -1,9 +1,9 @@
 <?php
 /*
-  * POTI-board EVO v5.21.0 lot.220715
-  * by POTI-kai >> https://paintbbs.sakura.ne.jp/poti/
+  * POTI-board EVO v5.30.0 lot.221022
+  * by POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/
   *
-  * setting file of POTI-board EVO
+  * configuration file of POTI-board EVO
   * Japanese is left in the comments for the convenience of translation.
   *
 */
@@ -522,28 +522,16 @@ define("COMPRESS_LEVEL", "15");
 $qualitys = array("1","2","3","4");
 
 // セキュリティ関連－URLとクリック数かタイマーのどちらかが設定されていれば有効
-// ※アプレットのreadmeを参照し、十分テストした上で設定して下さい
-// NEOではデフォルトで無効
+// 十分テストした上で設定して下さい
 // Countermeasures against vandalism
 // Please set after thorough testing.
-// This setting have been disabled in NEO.
-// セキュリティクリック数。設定しないなら""で
-// Clicks for security; Not set:""
+
+// クリック数。設定しないなら""で
+// Minimum number of drawing processes required; Not set:""
 define("SECURITY_CLICK", "");
 // セキュリティタイマー(単位:秒)。設定しないなら""で
-// Timer for security(Seconds); Not set:""
+// Minimum required drawing time(Seconds); Not set:""
 define("SECURITY_TIMER", "");
-// セキュリティにヒットした場合の飛び先
-// URL to go if they violate the above
-define("SECURITY_URL", "./security_c.html");
-
-// 続きを描くときのセキュリティ。利用しないなら両方""で
-// 続きを描くときのセキュリティクリック数。設定しないなら""で
-// Clicks for security of continue mode; Not set:""
-define("C_SECURITY_CLICK", "");
-// 続きを描くときのセキュリティタイマー(単位:秒)。設定しないなら""で
-// Timer for security(Seconds) of continue mode; Not set:""
-define("C_SECURITY_TIMER", "");
 
 // ペイント画面のパスワードの暗号鍵
 // あまり頻繁に変えないように
