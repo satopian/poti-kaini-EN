@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.28.3';
-const POTI_LOT = 'lot.221014';
+const POTI_VER = 'v5.32.1';
+const POTI_LOT = 'lot.221023';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -749,7 +749,7 @@ function regist(){
 	Reject_if_NGword_exists_in_the_post();
 
 	$pictmp = filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
-	$picfile = (string)newstring(filter_input(INPUT_POST, 'picfile'));
+	$picfile = (string)basename(newstring(filter_input(INPUT_POST, 'picfile')));
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
 	$c_pass=str_replace("\t",'',(string)filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
@@ -803,7 +803,7 @@ function regist(){
 	if($pictmp==2){
 		if(!$picfile) error(MSG002);
 		$upfile = $temppath.$picfile;
-		$upfile_name = basename($picfile);
+		$upfile_name = $picfile;
 		$picfile=pathinfo($picfile, PATHINFO_FILENAME );//拡張子除去
 		//選択された絵が投稿者の絵か再チェック
 		if (!$picfile || !is_file($temppath.$picfile.".dat")) {
@@ -1612,17 +1612,6 @@ function paintform(){
 			}
 		}
 	
-		if((C_SECURITY_CLICK || C_SECURITY_TIMER) && SECURITY_URL){
-			$dat['security'] = true;
-			$dat['security_click'] = C_SECURITY_CLICK;
-			$dat['security_timer'] = C_SECURITY_TIMER;
-		}
-	}else{
-		if((SECURITY_CLICK || SECURITY_TIMER) && SECURITY_URL){
-			$dat['security'] = true;
-			$dat['security_click'] = SECURITY_CLICK;
-			$dat['security_timer'] = SECURITY_TIMER;
-		}
 		$dat['newpaint'] = true;
 	}
 
@@ -1640,8 +1629,6 @@ function paintform(){
 		$h = $pich + 172;//PaintBBSの時の高さ
 	}
 	if($h < 560){$h = 560;}//共通の最低高
-
-	$dat['security_url'] = SECURITY_URL;
 
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
@@ -1774,7 +1761,7 @@ function paintcom(){
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
 			if($ucode == $usercode||$uip == $userip){
-				$tmp[] = $file_name.$imgext;
+				$tmp[$file_name] = $file_name.$imgext;
 			}
 		}
 	}
@@ -1788,8 +1775,7 @@ function paintcom(){
 		$dat['pictmp'] = 1;
 	}else{
 		$dat['pictmp'] = 2;
-		sort($tmp);
-		reset($tmp);
+		ksort($tmp);
 		foreach($tmp as $tmpfile){
 			$tmp_img['src'] = TEMP_DIR.$tmpfile;
 			$tmp_img['srcname'] = $tmpfile;

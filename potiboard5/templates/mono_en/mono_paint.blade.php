@@ -268,6 +268,8 @@
 						@endif
 						@endif
 						<!--(========== 共通設定(変更不可) ==========)-->
+						<param name="send_header_count" value="true">
+						<param name="send_header_timer" value="true">
 						<param name="image_width" value="{{$picw}}">
 						<param name="image_height" value="{{$pich}}">
 						<param name="image_jpeg" value="{{$image_jpeg}}">
@@ -292,16 +294,6 @@
 						<param name="thumbnail_width" value="100%">
 						<param name="thumbnail_height" value="100%">
 						<param name="tool_advance" value="true">
-						@if($security)
-						@if($security_click)
-						<param name="security_click" value="{{$security_click}}">
-						@endif
-						@if($security_timer)
-						<param name="security_timer" value="{{$security_timer}}">
-						@endif
-						<param name="security_url" value="{{$security_url}}">
-						<param name="security_post" value="false">
-						@endif
 					@if($useneo)
 					</applet-dummy>
 					@else 

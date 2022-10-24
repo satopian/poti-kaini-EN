@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.221020  (C)SakaQ >> http://www.punyu.net/php/
+// picpost.php lot.221022  (C)SakaQ >> http://www.punyu.net/php/
 // & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/
 //
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/10/22 'SECURITY_TIMER''SECURITY_CLICK'で設定された必要な描画時間と描画工程数をチェックする処理を追加。
 // 2022/10/20 画像の幅、高さのサイズ違反のチェックを廃止。
 // 2022/10/14 画像データのmimeタイプのチェックを追加。
 // 2022/08/21 PCHデータの書き込みエラーでは停止しないようにした。
@@ -70,6 +71,8 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 
 defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
+defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0606
+defined('SECURITY_CLICK') or define('SECURITY_CLICK', 0); //config.phpで未定義なら0606
 
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
@@ -126,6 +129,8 @@ if($sendheader){
 	$resto = isset($u['resto']) ? $u['resto'] : '';
 	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 	$stime = isset($u['stime']) ? $u['stime'] : '';
+	$count = isset($u['count']) ? $u['count'] : 0;
+	$timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
 	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
 	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
 }
@@ -134,6 +139,27 @@ $userdata .= "\n";
 //CSRF
 if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_1}");
+}
+if(((int)SECURITY_TIMER && !$repcode && $timer) && ($timer<(int)SECURITY_TIMER)){
+
+	$psec=(int)SECURITY_TIMER-$timer;
+	$waiting_time=calcPtime ($psec);
+	if($en){
+		die("error\nPlease draw for another {$waiting_time}.");
+	}else{
+		die("error\n描画時間が短すぎます。あと{$waiting_time}。");
+	}
+
+}
+if(((int)SECURITY_CLICK && !$repcode && $count) && ($count<(int)SECURITY_CLICK)){
+	$nokori=(int)SECURITY_CLICK-$count;
+
+	if($en){
+		die("error\nPlease draw more. Further {$nokori} steps.");
+	}else{
+		die("error\n工程数が少なすぎます。あと{$nokori}工程。");
+	}
+
 }
 $imgfile = time().substr(microtime(),2,6);//画像ファイル名
 $imgfile = is_file(TEMP_DIR.$imgfile.$imgext) ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
@@ -194,3 +220,29 @@ if(!is_file(TEMP_DIR.$imgfile.'.dat')){
 chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("ok");
+/**
+ * 描画時間を計算
+ * @param $starttime
+ * @return string
+ */
+function calcPtime ($psec) {
+	global $en;
+
+	$D = floor($psec / 86400);
+	$H = floor($psec % 86400 / 3600);
+	$M = floor($psec % 3600 / 60);
+	$S = $psec % 60;
+
+	if($en){
+		return
+			($D ? $D.'day '  : '')
+			. ($H ? $H.'hr ' : '')
+			. ($M ? $M.'min ' : '')
+			. ($S ? $S.'sec' : '');
+	}
+		return
+			($D ? $D.'日'  : '')
+			. ($H ? $H.'時間' : '')
+			. ($M ? $M.'分' : '')
+			. ($S ? $S.'秒' : '');
+}

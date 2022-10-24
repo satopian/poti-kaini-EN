@@ -1,9 +1,11 @@
 <?php
 // thumbnail_gd.php by (C) 2018-2022 POTI改 POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript 2005 (C) SakaQ  >> http://www.punyu.net/php/
+//221022 1MBを超過する時はjpegのサムネイルを作成するようにした。
 //220729 処理が成功した時の返り値をtrueに変更。
 //220321 透明な箇所が黒くなる問題に対応。透明部分を白に変換。
 //201218 webp形式対応
+$thumbnail_gd_ver=20221021;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
 function thumb($path,$time,$ext,$max_w,$max_h){
@@ -14,18 +16,19 @@ function thumb($path,$time,$ext,$max_w,$max_h){
 	if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
 		return;
 	}
-
+	$fsize = filesize($fname);    // ファイルサイズを取得
 	list($w,$h) = GetImageSize($fname); // 画像の幅と高さとタイプを取得
 	// リサイズ
 	$w_h_size_over=($w > $max_w || $h > $max_h);
-	if(!$w_h_size_over){//サイズが範囲内なら終了
+	$f_size_over=$fsize>1024*1024;
+	if(!$w_h_size_over && !$f_size_over){//サイズが範囲内なら終了
 		return;
 	}
 	$w_ratio = $max_w / $w;
 	$h_ratio = $max_h / $h;
 	$ratio = min($w_ratio, $h_ratio);
-	$out_w = ceil($w * $ratio);//端数の切り上げ
-	$out_h = ceil($h * $ratio);
+	$out_w = $w_h_size_over ? ceil($w * $ratio):$w;//端数の切り上げ
+	$out_h = $w_h_size_over ? ceil($h * $ratio):$h;
 	
 	switch (mime_content_type($fname)) {
 		case "image/gif";
