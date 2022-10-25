@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.32.1';
-const POTI_LOT = 'lot.221023';
+const POTI_VER = 'v5.33.1';
+const POTI_LOT = 'lot.221025';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1337,6 +1337,8 @@ function admindel($pass){
 			'host' => $host,
 			'clip' => "",
 			'chk' => "",
+			'src' => "",
+			'srcname' => "",
 		] ;
 		list($name,) = separateNameAndTrip($name);
 		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
@@ -1360,7 +1362,9 @@ function admindel($pass){
 			$res['size_kb'] = h(($filesize-($filesize % 1024)) / 1024);
 			$all += $res['size'];	//ファイルサイズ加算
 			$res['chk']= h(substr($chk,0,10));//md5
-			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).'" target="_blank" rel="noopener">'.h($time.$ext).'</a><br>';
+			$res['src'] = h(IMG_DIR.$time.$ext);
+			$res['srcname'] = h($time.$ext);
+			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).''.h($time.$ext).'</a><br>';
 		}
 		if($res['email']){
 			$res['name']='<a href="mailto:'.h($res['email']).'">'.h($res['name']).'</a>';
