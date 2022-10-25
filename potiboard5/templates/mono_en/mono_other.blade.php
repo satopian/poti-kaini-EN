@@ -293,8 +293,8 @@
 					<input type="hidden" name="admin" value="del">
 					<input type="hidden" name="pass" value="{{$pass}}">
 					<p>Check the checkbox of the article you want to delete and press the delete button.</p>
-					<input class="button" type="submit" value="DELETE">
-					<input class="button" type="reset" value="RESET">
+					<input class="button delbtton" type="submit" value="DELETE">
+					<input class="button delbtton" type="reset" value="RESET">
 					<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
 					</form>
 				<table class="delfo">
