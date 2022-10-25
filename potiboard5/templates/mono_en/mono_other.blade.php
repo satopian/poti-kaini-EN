@@ -284,11 +284,11 @@
 					<input type="hidden" name="admin" value="update">
 					<input type="hidden" name="mode" value="admin">
 					<input type="hidden" name="pass" value="{{$pass}}">
-					<input type="submit" value="UPDATE" class="button">
+					<input type="submit" value="UPDATE" class="button delbtton">
 					Update the html file
 				</form>
 				<hr>
-				<form action="{{$self}}" method="post" class="delmode">
+				<form id="delete" action="{{$self}}" method="post" class="delmode">
 					<input type="hidden" name="mode" value="admin">
 					<input type="hidden" name="admin" value="del">
 					<input type="hidden" name="pass" value="{{$pass}}">
@@ -296,7 +296,7 @@
 					<input class="button delbtton" type="submit" value="DELETE">
 					<input class="button delbtton" type="reset" value="RESET">
 					<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
-					</form>
+				</form>
 				<table class="delfo">
 						<tr>
 							<th>Check</th>
