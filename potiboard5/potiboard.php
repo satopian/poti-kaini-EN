@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.33.1';
-const POTI_LOT = 'lot.221025';
+const POTI_VER = 'v5.33.3';
+const POTI_LOT = 'lot.221026';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2498,20 +2498,20 @@ function Reject_if_NGword_exists_in_the_post(){
 	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$pwd = (string)filter_input(INPUT_POST, 'pwd');
 
-	if(strlen($com) > MAX_COM) error(MSG011);
-	if(strlen($name) > MAX_NAME) error(MSG012);
-	if(strlen($email) > MAX_EMAIL) error(MSG013);
-	if(strlen($sub) > MAX_SUB) error(MSG014);
-	if(strlen($url) > 200) error(MSG015);
-	if(strlen($pwd) > 72) error(MSG015);
+	if($com && (strlen($com) > MAX_COM)) error(MSG011);
+	if($name && (strlen($name) > MAX_NAME)) error(MSG012);
+	if($email && (strlen($email) > MAX_EMAIL)) error(MSG013);
+	if($sub && (strlen($sub) > MAX_SUB)) error(MSG014);
+	if($url && (strlen($url) > 200)) error(MSG015);
+	if($pwd && (strlen($pwd) > 72)) error(MSG015);
 
 	//チェックする項目から改行・スペース・タブを消す
 
-	$chk_com  = preg_replace("/\s/u", "", $com );
-	$chk_name = preg_replace("/\s/u", "", $name );
-	$chk_email = preg_replace("/\s/u", "", $email );
-	$chk_url = preg_replace("/\s/u", "", $url );
-	$chk_sub = preg_replace("/\s/u", "", $sub );
+	$chk_com  = $com ? preg_replace("/\s/u", "", $com ) : '';
+	$chk_name = $name ? preg_replace("/\s/u", "", $name ) : '';
+	$chk_email = $email ? preg_replace("/\s/u", "", $email ) : '';
+	$chk_url = $url ? preg_replace("/\s/u", "", $url ) : '';
+	$chk_sub = $sub ? preg_replace("/\s/u", "", $sub ) : '';
 
 	//本文に日本語がなければ拒絶
 	if (USE_JAPANESEFILTER) {
@@ -2723,7 +2723,7 @@ function delete_files ($path, $filename, $ext) {
  * @return bool
  */
 function is_ngword ($ngwords, $strs) {
-	if (empty($ngwords)) {
+	if (empty($ngwords)||empty($strs)) {
 		return false;
 	}
 	if (!is_array($strs)) {
@@ -2801,13 +2801,13 @@ function create_res ($line, $options = []) {
 		= explode(",", rtrim($line).',,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
-		'w' => is_numeric($w) ? $w :'',
-		'h' => is_numeric($h) ? $h :'',
+		'w' => ($w && is_numeric($w)) ? $w :'',
+		'h' => ($h && is_numeric($h)) ? $h :'',
 		'no' => (int)$no,
 		'sub' => strip_tags($sub),
 		'substr_sub' => mb_substr(strip_tags(($sub)),0,12).$three_point_sub,
-		'url' => filter_var($url,FILTER_VALIDATE_URL),
-		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
+		'url' => $url ? filter_var($url,FILTER_VALIDATE_URL):'',
+		'email' => $email ? filter_var($email, FILTER_VALIDATE_EMAIL) : '',
 		'ext' => $ext,
 		'time' => $time,
 		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
