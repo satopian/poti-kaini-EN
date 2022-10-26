@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.33.3';
+const POTI_VER = 'v5.33.5';
 const POTI_LOT = 'lot.221026';
 
 /*
@@ -1364,7 +1364,7 @@ function admindel($pass){
 			$res['chk']= h(substr($chk,0,10));//md5
 			$res['src'] = h(IMG_DIR.$time.$ext);
 			$res['srcname'] = h($time.$ext);
-			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).''.h($time.$ext).'</a><br>';
+			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).'" target="_blank" rel="noopener">'.h($time.$ext).'</a>';
 		}
 		if($res['email']){
 			$res['name']='<a href="mailto:'.h($res['email']).'">'.h($res['name']).'</a>';
@@ -1410,8 +1410,9 @@ function admindel($pass){
 
 function init(){
 	$err='';
+	$en=lang_en();
 
-	if(!is_writable(realpath("./")))error("Unable to write to current directory.<br>");
+	if(!is_writable(realpath("./")))error($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
 	if (!is_file(realpath(LOGFILE))) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
@@ -1980,10 +1981,10 @@ function check_cont_pass(){
 function download_app_dat(){
 
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
-	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 	$no=(string)filter_input(INPUT_POST,'no');
 	$pchext=(string)basename(filter_input(INPUT_POST,'pch_ext'));
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ? $pwd : $pwdc;
 
 	$cpwd='';
 	$cno='';
@@ -2030,7 +2031,7 @@ function editform(){
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
-	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 
 	if (!is_array($del)) {
 		error(MSG031);
@@ -2038,7 +2039,7 @@ function editform(){
 
 	sort($del);
 	reset($del);
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ? $pwd : $pwdc;
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -2831,7 +2832,6 @@ function create_res ($line, $options = []) {
 	if ($res['img_file_exists'] = ($ext && is_file($res['img']))) { // 画像ファイルがある場合
 		$res['src'] = IMG_DIR.$time.$ext;
 		$res['srcname'] = $time.$ext;
-		filesize($res['img']);
 		$filesize = filesize($res['img']);
 		$res['size'] = $filesize;
 		$res['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
