@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.33.8';
+const POTI_VER = 'v5.35.0';
 const POTI_LOT = 'lot.221027';
 
 /*
@@ -874,7 +874,7 @@ function regist(){
 	$fcolor = $formatted_post['fcolor'];
 	$sage = $formatted_post['sage'];
 
-	if(!$com&&!$is_file_dest) error(MSG008,$dest);
+	if($com==="" && !$is_file_dest) error(MSG008,$dest);
 
 	//ログ読み込み
 	$fp=fopen(LOGFILE,"r+");
@@ -964,9 +964,9 @@ function regist(){
 	}//ここまで
 
 	// 移動(v1.32)
-	if(!$name) $name=DEF_NAME;
-	if(!$com) $com=DEF_COM;
-	if(!$sub) $sub=DEF_SUB;
+	if($name==="") $name=DEF_NAME;
+	if($com==="") $com=DEF_COM;
+	if($sub==="") $sub=DEF_SUB;
 
 	$ext=$w=$h=$chk="";
 	$thumbnail='';
