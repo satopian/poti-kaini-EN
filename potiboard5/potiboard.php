@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.35.0';
+const POTI_VER = 'v5.35.1';
 const POTI_LOT = 'lot.221027';
 
 /*
@@ -874,7 +874,7 @@ function regist(){
 	$fcolor = $formatted_post['fcolor'];
 	$sage = $formatted_post['sage'];
 
-	if($com==="" && !$is_file_dest) error(MSG008,$dest);
+	if(!$com&&!$is_file_dest) error(MSG008,$dest);
 
 	//ログ読み込み
 	$fp=fopen(LOGFILE,"r+");
@@ -964,9 +964,9 @@ function regist(){
 	}//ここまで
 
 	// 移動(v1.32)
-	if($name==="") $name=DEF_NAME;
-	if($com==="") $com=DEF_COM;
-	if($sub==="") $sub=DEF_SUB;
+	if(!$name) $name=DEF_NAME;
+	if(!$com) $com=DEF_COM;
+	if(!$sub) $sub=DEF_SUB;
 
 	$ext=$w=$h=$chk="";
 	$thumbnail='';
@@ -2559,16 +2559,16 @@ function Reject_if_NGword_exists_in_the_post(){
 function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest=''){
 
 	//入力チェック
-	if(!strlen((string)$com)||preg_match("/\A\s*\z/u",$com)) $com="";
-	if(!strlen((string)$name)||preg_match("/\A\s*\z/u",$name)) $name="";
-	if(!strlen((string)$sub)||preg_match("/\A\s*\z/u",$sub))   $sub="";
-	if(!strlen((string)$url)||!filter_var($url,FILTER_VALIDATE_URL)||!preg_match('{\Ahttps?://}', $url)) $url="";
-	$name = str_replace("◆", "◇", $name);
+	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
+	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
+	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
+	if(!$url||!filter_var($url,FILTER_VALIDATE_URL)||!preg_match('{\Ahttps?://}', $url)) $url="";
+		$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
-	if(USE_NAME&&$name==="") error(MSG009,$dest);
-	if(USE_COM&&$com==="") error(MSG008,$dest);
-	if(USE_SUB&&$sub==="") error(MSG010,$dest);
+	if(USE_NAME&&!$name) error(MSG009,$dest);
+	if(USE_COM&&!$com) error(MSG008,$dest);
+	if(USE_SUB&&!$sub) error(MSG010,$dest);
 
 	// 改行コード
 	$com = str_replace(["\r\n","\r"], "\n", $com);
