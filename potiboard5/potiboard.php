@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.32.1';
-const POTI_LOT = 'lot.221023';
+const POTI_VER = 'v5.35.1';
+const POTI_LOT = 'lot.221027';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -769,7 +769,7 @@ function regist(){
 
 	//画像アップロード
 	$upfile_name = isset($_FILES["upfile"]["name"]) ? basename($_FILES["upfile"]["name"]) : "";
-	if(strlen($upfile_name)>256){
+	if(strlen((string)$upfile_name)>256){
 		error(MSG015);
 	}
 	$upfile = isset($_FILES["upfile"]["tmp_name"]) ? $_FILES["upfile"]["tmp_name"] : "";
@@ -803,7 +803,7 @@ function regist(){
 	if($pictmp==2){
 		if(!$picfile) error(MSG002);
 		$upfile = $temppath.$picfile;
-		$upfile_name = $picfile;
+		$upfile_name = basename($picfile);
 		$picfile=pathinfo($picfile, PATHINFO_FILENAME );//拡張子除去
 		//選択された絵が投稿者の絵か再チェック
 		if (!$picfile || !is_file($temppath.$picfile.".dat")) {
@@ -1337,6 +1337,8 @@ function admindel($pass){
 			'host' => $host,
 			'clip' => "",
 			'chk' => "",
+			'src' => "",
+			'srcname' => "",
 		] ;
 		list($name,) = separateNameAndTrip($name);
 		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
@@ -1360,7 +1362,9 @@ function admindel($pass){
 			$res['size_kb'] = h(($filesize-($filesize % 1024)) / 1024);
 			$all += $res['size'];	//ファイルサイズ加算
 			$res['chk']= h(substr($chk,0,10));//md5
-			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).'" target="_blank" rel="noopener">'.h($time.$ext).'</a><br>';
+			$res['src'] = h(IMG_DIR.$time.$ext);
+			$res['srcname'] = h($time.$ext);
+			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).'" target="_blank" rel="noopener">'.h($time.$ext).'</a>';
 		}
 		if($res['email']){
 			$res['name']='<a href="mailto:'.h($res['email']).'">'.h($res['name']).'</a>';
@@ -1406,8 +1410,9 @@ function admindel($pass){
 
 function init(){
 	$err='';
+	$en=lang_en();
 
-	if(!is_writable(realpath("./")))error("Unable to write to current directory.<br>");
+	if(!is_writable(realpath("./")))error($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
 	if (!is_file(realpath(LOGFILE))) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
@@ -1976,10 +1981,10 @@ function check_cont_pass(){
 function download_app_dat(){
 
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
-	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 	$no=(string)filter_input(INPUT_POST,'no');
 	$pchext=(string)basename(filter_input(INPUT_POST,'pch_ext'));
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ? $pwd : $pwdc;
 
 	$cpwd='';
 	$cno='';
@@ -2026,7 +2031,7 @@ function editform(){
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
-	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
+	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 
 	if (!is_array($del)) {
 		error(MSG031);
@@ -2034,7 +2039,7 @@ function editform(){
 
 	sort($del);
 	reset($del);
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ? $pwd : $pwdc;
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -2494,25 +2499,32 @@ function Reject_if_NGword_exists_in_the_post(){
 	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$pwd = (string)filter_input(INPUT_POST, 'pwd');
 
-	if(strlen($com) > MAX_COM) error(MSG011);
-	if(strlen($name) > MAX_NAME) error(MSG012);
-	if(strlen($email) > MAX_EMAIL) error(MSG013);
-	if(strlen($sub) > MAX_SUB) error(MSG014);
-	if(strlen($url) > 200) error(MSG015);
-	if(strlen($pwd) > 72) error(MSG015);
+	$com_len=strlen((string)$com);
+	$name_len=strlen((string)$name);
+	$email_len=strlen((string)$email);
+	$sub_len=strlen((string)$sub);
+	$url_len=strlen((string)$url);
+	$pwd_len=strlen((string)$pwd);
+
+	if($com_len && ($com_len > MAX_COM)) error(MSG011);
+	if($name_len && ($name_len > MAX_NAME)) error(MSG012);
+	if($email_len && ($email_len > MAX_EMAIL)) error(MSG013);
+	if($sub_len && ($sub_len > MAX_SUB)) error(MSG014);
+	if($url_len && ($url_len > 200)) error(MSG015);
+	if($pwd_len && ($pwd_len > 72)) error(MSG015);
 
 	//チェックする項目から改行・スペース・タブを消す
 
-	$chk_com  = preg_replace("/\s/u", "", $com );
-	$chk_name = preg_replace("/\s/u", "", $name );
-	$chk_email = preg_replace("/\s/u", "", $email );
-	$chk_url = preg_replace("/\s/u", "", $url );
-	$chk_sub = preg_replace("/\s/u", "", $sub );
+	$chk_com  = $com_len ? preg_replace("/\s/u", "", $com ) : '';
+	$chk_name = $name_len ? preg_replace("/\s/u", "", $name ) : '';
+	$chk_email = $email_len ? preg_replace("/\s/u", "", $email ) : '';
+	$chk_url = $url_len ? preg_replace("/\s/u", "", $url ) : '';
+	$chk_sub = $sub_len ? preg_replace("/\s/u", "", $sub ) : '';
 
 	//本文に日本語がなければ拒絶
 	if (USE_JAPANESEFILTER) {
 		mb_regex_encoding("UTF-8");
-		if (strlen($com) > 0 && !preg_match("/[ぁ-んァ-ヶー一-龠]+/u",$chk_com)) error(MSG035);
+		if ($com_len && !preg_match("/[ぁ-んァ-ヶー一-龠]+/u",$chk_com)) error(MSG035);
 	}
 
 	//本文へのURLの書き込みを禁止
@@ -2551,7 +2563,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
 	if(!$url||!filter_var($url,FILTER_VALIDATE_URL)||!preg_match('{\Ahttps?://}', $url)) $url="";
-	$name = str_replace("◆", "◇", $name);
+		$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 	if(USE_NAME&&!$name) error(MSG009,$dest);
@@ -2719,7 +2731,7 @@ function delete_files ($path, $filename, $ext) {
  * @return bool
  */
 function is_ngword ($ngwords, $strs) {
-	if (empty($ngwords)) {
+	if (empty($ngwords)||empty($strs)) {
 		return false;
 	}
 	if (!is_array($strs)) {
@@ -2797,13 +2809,13 @@ function create_res ($line, $options = []) {
 		= explode(",", rtrim($line).',,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
-		'w' => is_numeric($w) ? $w :'',
-		'h' => is_numeric($h) ? $h :'',
+		'w' => ($w && is_numeric($w)) ? $w :'',
+		'h' => ($h && is_numeric($h)) ? $h :'',
 		'no' => (int)$no,
 		'sub' => strip_tags($sub),
 		'substr_sub' => mb_substr(strip_tags(($sub)),0,12).$three_point_sub,
-		'url' => filter_var($url,FILTER_VALIDATE_URL),
-		'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
+		'url' => $url ? filter_var($url,FILTER_VALIDATE_URL):'',
+		'email' => $email ? filter_var($email, FILTER_VALIDATE_EMAIL) : '',
 		'ext' => $ext,
 		'time' => $time,
 		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
@@ -2827,7 +2839,6 @@ function create_res ($line, $options = []) {
 	if ($res['img_file_exists'] = ($ext && is_file($res['img']))) { // 画像ファイルがある場合
 		$res['src'] = IMG_DIR.$time.$ext;
 		$res['srcname'] = $time.$ext;
-		filesize($res['img']);
 		$filesize = filesize($res['img']);
 		$res['size'] = $filesize;
 		$res['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
@@ -2967,7 +2978,7 @@ function check_password ($pwd, $hash, $adminPass = false) {
 	global $ADMIN_PASS;
 	return
 		($pwd && (password_verify($pwd, $hash)))
-		||($pwd && ($hash === substr(md5($pwd), 2, 8)))
+		|| ($pwd && ($hash === substr(md5($pwd), 2, 8)))
 		|| ($adminPass && $ADMIN_PASS && ($adminPass === $ADMIN_PASS)); // 管理パスを許可する場合
 }
 function is_neo($src) {//neoのPCHかどうか調べる
