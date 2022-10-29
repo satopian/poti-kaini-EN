@@ -44,6 +44,73 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/10/29] v5.35.3
+
+### Improvements
+#### Template Common
+- When you click the image file link on the management screen, it now pops up with luminous.
+Previously, images were opened in separate tabs.
+- Corrected [tweet] to [Tweet].
+- Corrected [TOOL] to [Tool].
+
+#### Template MONO
+- Added back to top page function that is displayed when scrolling to template MONO.
+- Display optimized for smartphones. If the resolution is iPad (768px) , unfloat the image. Set the image margins to 0.
+As a result, the left and right margins of the image displayed on the smartphone are the same.
+Previously, the margin on the right side of the screen was larger.
+・The administrator can now edit the article by clicking the article number on the MONO administrator deletion screen.
+
+### Security
+
+- If the script content of CheerpJ Applet Runner has been tampered with by hacking, etc., it will be detected and the script will not be executed.
+[Subresource Integrity](https://developer.mozilla.org/en/docs/Web/Security/Subresource_Integrity) See MDN.
+If you change the version of CheerpJ, it will not work unless you change the hash value.
+However, the calculated hash value is included in the latest version of potiboard.php
+・If the image file received by picpost.php, which receives data from the Shi applet or PaintBBS NEO, is not  jpeg, png, etc. image, it will be judged as illegal and deleted.
+
+### When using Shii applet and PaintBBS NEO, the behavior of rejection due to the time required for drawing or the number of steps required has been changed.
+
+・shi-chan has developed a function to redirect the drawing screen to the police site when the drawing time is short or the number of drawing processes is small.
+However, this feature was impractical and of no use.
+Therefore, instead of suddenly jumping to the specified URL from the drawing screen, we changed the specification to display an alert on the drawing screen that "drawing time is too short" and "the number of steps is low".
+  
+![221027_002 Issue an alert when the NEO drawing time or number of processes is insufficient. ](https://user-images.githubusercontent.com/44894014/198825566-dc572087-a49a-4ec4-b79b-4d0bdaa18c04.gif)
+
+### Compulsory thumbnail function is back
+- Restored the force thumbnail feature that was in v1.3.
+Using the latest `thumbnail_gd.php` turns this feature on.
+If the file size exceeds 1MB, a thumbnail image in jpeg format will be output.
+Assumed case. If a GIF animation image file that is small in height and width but large in file size exceeds 1 MB, a thumbnail image in JPEG format will be displayed instead of the GIF animation.
+Click the image to view the original GIF animation.
+
+### others
+- Changed the initial error message to switch automatically between Japanese and English.
+- Reduce load by avoiding unnecessary processing. For example, if there are no comments, you don't have to check the length of the comment or the bad words, so returning immediately reduces the load.
+
+### update Klecks
+Fixes an issue where white fills after using distortion tool show lines that follow the shape of the Liquify.
+Added how-to video link to help page and added gradient shortcut keys section.
+
+[Release POTI-board EVO EN v5.35.3 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
+
+## [2022/10/03] v5.26.8
+
+### Updated ChickenPaint to the latest version.
+
+![ChickenPaint_Chrome106_bug](https://user-images.githubusercontent.com/44894014/193561979-a99928d2-5e4d-4265-8e20-1f42cb630599.gif)
+
+The attached image is a GIF animation when I did a reproduction test of the problem that the color picker is not displayed.
+Updated to the latest version of ChickenPaint to avoid a bug in Google Chrome 105,106 that causes this problem.
+
+### Updated klecks to the latest version.
+
+- Added option to use gradient tool as an eraser.
+- Added vanishing point filter.
+
+### Display images using luminous.
+
+![luminous](https://user-images.githubusercontent.com/44894014/193562309-209f2623-0969-4726-8285-203932641057.gif)
+
 
 ## [2022/09/20] v5.26.3
 ### Update
