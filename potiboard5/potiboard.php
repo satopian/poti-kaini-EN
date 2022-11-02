@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.35.3';
-const POTI_LOT = 'lot.221028';
+const POTI_VER = 'v5.35.5';
+const POTI_LOT = 'lot.221102';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -792,7 +792,8 @@ function regist(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=(string)(time()+1).substr(microtime(),2,3);
+		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
+
 		break;
 		}
 	}
@@ -2234,7 +2235,7 @@ function replace(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=(string)(time()+1).substr(microtime(),2,3);
+		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
 		break;
 		}
 	}
