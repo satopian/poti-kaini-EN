@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.35.5';
+const POTI_VER = 'v5.35.6';
 const POTI_LOT = 'lot.221102';
 
 /*
@@ -797,6 +797,7 @@ function regist(){
 		break;
 		}
 	}
+	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 
 	$ptime='';
 	// お絵かき絵アップロード処理
@@ -2239,7 +2240,7 @@ function replace(){
 		break;
 		}
 	}
-
+	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	//描画時間を$userdataをもとに計算
