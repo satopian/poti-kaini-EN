@@ -18,5 +18,5 @@ DirectoryIndex index.html
  Header onsuccess set X-Robots-Tag "nofollow,noindex"
 </If>
 <Else>
- Header onsuccess set X-Robots-Tag "nofollow"
+# Header onsuccess set X-Robots-Tag "nofollow"
 </Else>

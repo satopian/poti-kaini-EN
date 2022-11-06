@@ -442,7 +442,7 @@ define("IMAGE_SIZE", "2048");
 //     <li>サーバの規約でアダルト禁止</li>"
 // 要対応テーマ
 // Additional notice (needs a corresponding theme)
-$addinfo="<li>Tripcodes work now but not secure trips.</li><li>NOTE: Shi-Painter may be slow to load. If it's a problem use one of the other tools instead</li>";
+$addinfo="<li>Tripcodes work now but not secure trips.</li><li>NOTE: Shi-Painter may be slow to load. If it's a problem use one of the other tools instead</li><li><a href='src/'>/src/</a></li>";
 
 // 連続・二重投稿対象セキュリティレベル
 // ※連続・二重投稿チェック対象を決める条件
