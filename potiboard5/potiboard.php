@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.35.6';
-const POTI_LOT = 'lot.221102';
+const POTI_VER = 'v5.36.1';
+const POTI_LOT = 'lot.221113';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1435,6 +1435,7 @@ function init(){
 	$err .= check_dir(__DIR__.'/'.PCH_DIR);
 	$err .= check_dir(__DIR__.'/'.THUMB_DIR);
 	$err .= check_dir(__DIR__.'/'.TEMP_DIR);
+	$err .= check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache');
 	if($err) return error($err);
 	if(!is_file(__DIR__.'/'.PHP_SELF2))updatelog();
 }
