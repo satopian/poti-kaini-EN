@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.1';
-const POTI_LOT = 'lot.221113';
+const POTI_VER = 'v5.36.3';
+const POTI_LOT = 'lot.221122';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -213,7 +213,7 @@ $res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 $usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
 
 //初期化
-init();		//←■■初期設定後は不要なので削除可■■
+init();	
 //テンポラリ
 deltemp();
 
@@ -567,8 +567,11 @@ function updatelog(){
 		$dat['paging'] = $paging;
 
 		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
+		if(is_file($logfilename)){
+			if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
+		}
 		$dat['logfilename']= $logfilename;
-		
+
 		$buf = htmloutput(MAINFILE,$dat,true);
 		// return htmloutput(MAINFILE,$dat,false);
 
@@ -879,6 +882,7 @@ function regist(){
 	if(!$com&&!$is_file_dest) error(MSG008,$dest);
 
 	//ログ読み込み
+	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -1065,6 +1069,7 @@ function regist(){
 	//ツリー更新
 	$find = false;
 	$new_treeline = '';
+	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$tp=fopen(TREEFILE,"r+");
 	set_file_buffer($tp, 0);
 	flock($tp, LOCK_EX); //*
@@ -1189,6 +1194,7 @@ function h_decode($str){
 
 //ツリー削除
 function treedel($delno){
+	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(TREEFILE,"r+");
 	set_file_buffer($fp, 0);
 	flock($fp, LOCK_EX);
@@ -1258,6 +1264,7 @@ function userdel(){
 	sort($del);
 	reset($del);
 	$pwd = $pwd ? $pwd : newstring($pwdc);
+	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	set_file_buffer($fp, 0);
 	flock($fp, LOCK_EX);
@@ -1379,6 +1386,7 @@ function admindel($pass){
 	if(is_array($del)){
 		sort($del);
 		reset($del);
+		chmod(LOGFILE,PERMISSION_FOR_LOG);
 		$fp=fopen(LOGFILE,"r+");
 		set_file_buffer($fp, 0);
 		flock($fp, LOCK_EX);
@@ -2153,6 +2161,7 @@ global $ADMIN_PASS;
 	$fcolor = $formatted_post['fcolor'];
 	
 	//ログ読み込み
+	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -2254,6 +2263,7 @@ function replace(){
 	}
 
 	//ログ読み込み
+	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
@@ -2707,6 +2717,7 @@ function check_pch_ext ($filepath,$options = []) {
  */
 function safe_unlink ($path) {
 	if ($path && is_file($path)) {
+		chmod($path,PERMISSION_FOR_DEST);
 		return unlink($path);
 	}
 	return false;
