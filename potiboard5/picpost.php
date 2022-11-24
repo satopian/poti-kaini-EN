@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2022/11/23 ユーザーコード不一致の時のためのエラーメッセージを追加。
 // 2022/10/22 'SECURITY_TIMER''SECURITY_CLICK'で設定された必要な描画時間と描画工程数をチェックする処理を追加。
 // 2022/10/20 画像の幅、高さのサイズ違反のチェックを廃止。
 // 2022/10/14 画像データのmimeタイプのチェックを追加。
@@ -57,6 +58,7 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_5 = "There was an illegal image. The drawng image is not saved.";
 	$errormsg_6 = "Failed to open PCH file. Please try posting again after a while.";
 	$errormsg_7 = "Failed to create user data. Please try posting again after a while.";
+	$errormsg_8 = "User code mismatch.";
 }else{//日本語
 	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
@@ -65,14 +67,15 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_5 = "不正な画像を検出しました。お絵かき画像は保存されません。";
 	$errormsg_6 = "PCHファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_7 = "ユーザーデータの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
+	$errormsg_8 = "ユーザーコードが一致しません。";
 }
 
 /* ---------- picpost.php用設定 ---------- */
 
 defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
-defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0606
-defined('SECURITY_CLICK') or define('SECURITY_CLICK', 0); //config.phpで未定義なら0606
+defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0
+defined('SECURITY_CLICK') or define('SECURITY_CLICK', 0); //config.phpで未定義なら0
 
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
@@ -138,7 +141,7 @@ $userdata .= "\n";
 
 //CSRF
 if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
-	die("error\n{$errormsg_1}");
+	die("error\n{$errormsg_8}");
 }
 if(((int)SECURITY_TIMER && !$repcode && $timer) && ($timer<(int)SECURITY_TIMER)){
 

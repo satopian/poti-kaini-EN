@@ -64,46 +64,55 @@
 
 			//2022 (c)satopian MIT LICENCE
 			//この箇所はさとぴあが作成したMIT LICENCEのコードです。
-			klecks.getPSD().then((psd)=>{
-				var formData = new FormData();
-				formData.append("picture", klecks.getPNG(),'blob');
-				formData.append("psd", psd,'blob');
-				formData.append("usercode", "{{$klecksusercode}}");
-				@if($rep)formData.append("repcode", "{{$repcode}}");@endif
-				formData.append("stime", <?=time();?>);
-				formData.append("resto", "{{$resto}}");
+		klecks.getPSD().then((psd)=>{
+			var formData = new FormData();
+			formData.append("picture", klecks.getPNG(),'blob');
+			formData.append("psd", psd,'blob');
+			formData.append("usercode", "{{$klecksusercode}}");
+			@if($rep)formData.append("repcode", "{{$repcode}}");@endif
+			formData.append("stime", <?=time();?>);
+			formData.append("resto", "{{$resto}}");
 
-				var request = new XMLHttpRequest();
-				request.open("POST", "saveklecks.php");
-				request.send(formData);
+			var request = new XMLHttpRequest();
+			request.open("POST", "saveklecks.php");
+			request.send(formData);
 
-					request.onreadystatechange = function() {
+				request.onreadystatechange = function() {
 
-					console.log(request.readyState);
-					console.log(request.status);
-					console.log(request.responseText);
+				console.log(request.readyState);
+				console.log(request.status);
+				console.log(request.responseText);
 
-					if(request.readyState === 4 && request.status>=400){
-						let req_status=request.status;
-						alert(@if($en)'Error '@else'エラー '@endif + req_status);
-						return;
-					}
-					if ( request.readyState === 4 && request.status ===200) {
-
-						if(request.responseText === 'ok'){
-						//PHPからOKが返って来た時は画面を推移。OKが返って来ない時は、alertを出す。
-						return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
-						
-					}
-					alert(@if($en)'Your picture upload failed! Please try again!'@else'投稿に失敗。時間をおいて再度投稿してみてください。'@endif);
-					return;
-				}
+			if(request.readyState === 4 && (request.status >= 400 || request.status === 0)){
+			let req_status=request.status;
+			if(req_status===0){
+				return alert(@if($en)'Server or line is unstable.\nPlease try again!'@else'サーバまたは回線が不安定です。\n時間をおいて再度投稿してみてください。'@endif);	
 			}
-		});
-		//2022 (c)satopian MIT LICENCE ここまで
+			if(req_status===404){
+				return alert(@if($en)'404 not found\nsaveklecks.php'@else'エラー404\nsaveklecks.phpがありません。'@endif);	
+			}
+			if(req_status===403){
+				return alert(@if($en)'403 Forbidden\nsaveklecks.php'@else'エラー403\nsaveklecks.phpへのアクセスが拒否されました。'@endif);
+			}
+			if(req_status===503){
+				return alert(@if($en)'503 Service Unavailable\nPlease try again!'@else'エラー503\n時間をおいて再度投稿してみてください。'@endif);
+			}
+			return alert(@if($en)'Error '@else'エラー'@endif + req_status);
+		}
+		if ( request.readyState === 4 && request.status === 200) {
+
+					if(request.responseText === 'ok'){
+					//PHPからOKが返って来た時は画面を推移。OKが返って来ない時は、alertを出す。
+					return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
+					
+				}
+				return alert(@if($en)'Your picture upload failed! Please try again!'@else'投稿に失敗。時間をおいて再度投稿してみてください。'@endif);
+			}
+		}
+	});
+	//2022 (c)satopian MIT LICENCE ここまで
 			
 		// location.reload();
-
 	}, 500);
 	}
     });
