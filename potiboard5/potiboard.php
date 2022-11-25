@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.3';
-const POTI_LOT = 'lot.221122';
+const POTI_VER = 'v5.36.5';
+const POTI_LOT = 'lot.221125';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1451,7 +1451,7 @@ function init(){
 function lang_en(){//言語が日本語以外ならtrue。
 	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
 	? explode( ',', $http_langs )[0] : '';
-  return (stripos($lang,'ja')!==0) ? true : false;
+  return (stripos($lang,'ja')!==0);
   
 }
 function initial_error_message(){
