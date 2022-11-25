@@ -2,28 +2,27 @@
 <!-- mocked drawing page -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<title>{{$title}}</title> 
 
-    <!-- this is important -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- this is important -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<style>
-		:not(input){
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
+		:not(input) {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
-		</style>
+	</style>
 </head>
 <body>
 
-<!-- embed start -->
-<script src="klecks/embed.js?{{$parameter_day}}"></script>
-<script type="text/javascript">
-
-    /*
+	<!-- embed start -->
+	<script src="klecks/embed.js?{{$parameter_day}}"></script>
+	<script>
+	/*
     Using Klecks in a drawing community:
     - on first time opening, start with a manually created project (klecks.openProject)
     - on submit, upload psd (and png) to the server
@@ -111,52 +110,52 @@
 		// location.reload();
 		}, 500);
 	}
-    });
-    if (psdURL) {
-        fetch(new Request(psdURL)).then(response => {
-            return response.arrayBuffer();
-        }).then(buffer => {
-            return klecks.readPSD(buffer); // resolves to Klecks project
-        }).then(project => {
-            klecks.openProject(project);
-        }).catch(e => {
-            klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
-        });
+	});
+	if (psdURL) {
+		fetch(new Request(psdURL)).then(response => {
+			return response.arrayBuffer();
+		}).then(buffer => {
+			return klecks.readPSD(buffer); // resolves to Klecks project
+		}).then(project => {
+			klecks.openProject(project);
+		}).catch(e => {
+			klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
+		});
 
-    } else {
+	} else {
 
-    klecks.openProject({
-        width: {{$picw}},
-        height: {{$pich}},
+		klecks.openProject({
+			width: {{$picw}},
+			height: {{$pich}},
 
-		layers: [{
-            name: 'Background',
-            opacity: 1,
-            mixModeStr: 'source-over',
+			layers: [{
+				name: 'Background',
+				opacity: 1,
+				mixModeStr: 'source-over',
 
-			image: (() => {
-                const canvas = document.createElement('canvas');
-                canvas.width = {{$picw}};
-                canvas.height = {{$pich}};
-				const ctx = canvas.getContext('2d');
-				//PSDがなくて画像がある時はcanvasに読み込む
-				@if($imgfile)
-					var img = new Image();
-					img.src = "{{$imgfile}}";
-					img.onload = function(){
-						ctx.drawImage(img, 0, 0);
-					}
-				@endif
-				ctx.save();
-				ctx.fillStyle = '#fff';
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-				ctx.restore();
-			return canvas;
-            })(),
-        }]
-    });
-}
-</script>
-<!-- embed end -->
+				image: (() => {
+					const canvas = document.createElement('canvas');
+					canvas.width = {{$picw}};
+					canvas.height = {{$pich}};
+					const ctx = canvas.getContext('2d');
+						//PSDがなくて画像がある時はcanvasに読み込む
+					@if($imgfile)
+						var img = new Image();
+						img.src = "{{$imgfile}}";
+						img.onload = function(){
+							ctx.drawImage(img, 0, 0);
+						}
+					@endif
+					ctx.save();
+					ctx.fillStyle = '#fff';
+					ctx.fillRect(0, 0, canvas.width, canvas.height);
+					ctx.restore();
+					return canvas;
+				})(),
+			}]
+		});
+	}
+	</script>
+	<!-- embed end -->
 </body>
 </html>
