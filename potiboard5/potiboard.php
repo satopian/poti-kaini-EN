@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.6';
+const POTI_VER = 'v5.36.8';
 const POTI_LOT = 'lot.221130';
 
 /*
@@ -948,8 +948,9 @@ function regist(){
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
 		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
-		if(RENZOKU && (time() - (int)$ltime) < RENZOKU){error(MSG020,$dest);}
-		if(RENZOKU2 && (time() - (int)$ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
+		$interval=time()-(int)$ltime;
+		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
+		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $upfile_name){error(MSG021,$dest);}
 		if($com){
 				switch(D_POST_CHECKLEVEL){//190622
 					case 1:	//low
