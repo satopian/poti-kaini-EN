@@ -44,6 +44,28 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/11/30] v5.36.8
+
+### update
+- Updated Klecks.
+- Fixed brush shortcut key behavior.
+Updated BladeOne to v4.7.1.
+
+### improvement
+- Even if the timestamps used in the working files overlap, advance the post time by 1 second so that the timestamps do not overlap.
+Previously, the working file could be overwritten by another file.
+
+- An error does not occur when the post time to be compared is in the future.
+In the post waiting time calculation process, even if the post time after the current time is detected, it will not be an error.
+For example, if the posting time is delayed by one year due to some mistake, the next posting will not be possible until one year has passed. To avoid this, if the waiting time is a negative value, it will pass without generating an error.
+
+- BladeOne v4.7.1. Along with that, I changed potiboard.php to automatically generate the cache directory.
+The cache directory auto-generation feature has been removed from BladeOne. As an alternative function, added a cache directory auto-creation function to potiboard.php.
+
+- Change the permission of files that need to be written in advance to 0606 (606). The log file that cannot be viewed externally is 0600 (600).
+
+- The types of error messages have increased when posting OEKAKI images fails.
+
 ## [2022/10/29] v5.35.3
 
 ### Improvements
