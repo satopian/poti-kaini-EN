@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.5';
-const POTI_LOT = 'lot.221125';
+const POTI_VER = 'v5.36.6';
+const POTI_LOT = 'lot.221130';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -795,12 +795,12 @@ function regist(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
+		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
 
 		break;
 		}
 	}
-	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
+	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 
 	$ptime='';
 	// お絵かき絵アップロード処理
@@ -2246,11 +2246,11 @@ function replace(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
+		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
 		break;
 		}
 	}
-	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
+	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	//描画時間を$userdataをもとに計算
