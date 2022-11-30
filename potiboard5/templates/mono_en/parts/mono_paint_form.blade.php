@@ -27,7 +27,7 @@
 		<input class="button" type="submit" value="Paint">
 		@if($admin)
 		<input type="hidden" name="admin" value="{{$admin}}">
-		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd" />
+		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd">
 		@endif
 	</p>
 </form>

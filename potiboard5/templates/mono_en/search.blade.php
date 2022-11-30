@@ -107,7 +107,7 @@
 			<input type="hidden" name="imgsearch" value="off">
 			@endif
 			<input type="text" name="query" placeholder="Search Word" value="{{$query}}">
-			<input type="submit" value="Search" />
+			<input type="submit" value="Search">
 		</form>
 		<p></p>
 		<!-- 反復 -->
