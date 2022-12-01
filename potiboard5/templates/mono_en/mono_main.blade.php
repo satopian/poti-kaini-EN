@@ -238,7 +238,7 @@
 				<ul>
 					@if($upfile)
 					<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
-					<li>Images larger than width {{$maxw}}px height {{$maxh}}pxpx will be displayed in reduced size.</li>
+					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
 					@endif
 					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
 					{!!$addinfo!!}

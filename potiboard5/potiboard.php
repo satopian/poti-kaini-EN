@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.3';
-const POTI_LOT = 'lot.221122';
+const POTI_VER = 'v5.36.8';
+const POTI_LOT = 'lot.221130';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -795,12 +795,12 @@ function regist(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
+		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
 
 		break;
 		}
 	}
-	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
+	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 
 	$ptime='';
 	// お絵かき絵アップロード処理
@@ -948,8 +948,9 @@ function regist(){
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
 		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
-		if(RENZOKU && (time() - (int)$ltime) < RENZOKU){error(MSG020,$dest);}
-		if(RENZOKU2 && (time() - (int)$ltime) < RENZOKU2 && $upfile_name){error(MSG021,$dest);}
+		$interval=time()-(int)$ltime;
+		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
+		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $upfile_name){error(MSG021,$dest);}
 		if($com){
 				switch(D_POST_CHECKLEVEL){//190622
 					case 1:	//low
@@ -1451,7 +1452,7 @@ function init(){
 function lang_en(){//言語が日本語以外ならtrue。
 	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
 	? explode( ',', $http_langs )[0] : '';
-  return (stripos($lang,'ja')!==0) ? true : false;
+  return (stripos($lang,'ja')!==0);
   
 }
 function initial_error_message(){
@@ -2246,11 +2247,11 @@ function replace(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=((string)substr($time,0,-3)+1).(string)substr($time,-3);
+		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
 		break;
 		}
 	}
-	$time = is_file($temppath.$time.'.tmp') ? ((string)substr($time,0,-3)+1).(string)substr($time,-3) :$time;
+	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	//描画時間を$userdataをもとに計算
