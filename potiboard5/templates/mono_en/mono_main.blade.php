@@ -80,8 +80,8 @@
 	<meta property="og:description" content="{{$oya[0][0]['descriptioncom']}}">
 	<meta property="og:url" content="{{$rooturl}}{{$self}}?res={{$oya[0][0]['no']}}">
 	@if ($oya[0][0]['src'])
-	<meta property="og:image" content="{{$rooturl}}{{$oya[0][0]['imgsrc']}}" />
-	<meta property="og:description" content="{{$oya[0][0]['descriptioncom']}}" />
+	<meta property="og:image" content="{{$rooturl}}{{$oya[0][0]['imgsrc']}}">
+	<meta property="og:description" content="{{$oya[0][0]['descriptioncom']}}">
 	@endif
 	@endif
 	<style id="for_mobile"></style>
