@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.36.8';
-const POTI_LOT = 'lot.221130';
+const POTI_VER = 'v5.37.0';
+const POTI_LOT = 'lot.221205';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -180,6 +180,7 @@ defined('MSG045') or define('MSG045', 'アップロードペイントに対応�
 defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最低6文字。');
 defined('MSG047') or define('MSG047', '画像の幅と高さが大きすぎるため続行できません。');
 defined('MSG048') or define('MSG048', '不適切なURLがあります。');
+defined('MSG049') or define('MSG049', '拒絶されました。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -359,6 +360,14 @@ function get_csrf_token(){
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
+	//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
+	//Orijinがhostと異なっていたら投稿を拒絶。
+	$url_scheme=isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://':'';
+	if($url_scheme && isset($_SERVER['HTTP_HOST']) &&
+	str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+		error(MSG049);
+	}
+
 	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
 	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';

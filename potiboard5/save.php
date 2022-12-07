@@ -1,5 +1,7 @@
 <?php
-
+if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
+	return header( "Location: ./ ") ;
+}
 //設定
 include(__DIR__.'/config.php');
 
@@ -22,6 +24,14 @@ function chibi_die($message) {
 }
 
 header('Content-type: text/plain');
+
+//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
+//Orijinがhostと異なっていたら投稿を拒絶。
+$url_scheme=isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://':'';
+if($url_scheme && isset($_SERVER['HTTP_HOST']) &&
+str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+	chibi_die("The post has been rejected.");
+}
 
 if (!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK) {
 	chibi_die("Your picture upload failed! Please try again!");
@@ -59,6 +69,7 @@ if (!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
     chibi_die("Couldn't move uploaded files");
 }
 chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
+
 if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
 	if(!SIZE_CHECK || ($_FILES['chibifile']['size'] < (CHIBI_MAX_KB * 1024))){
 		//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
@@ -93,6 +104,3 @@ if(!is_file(TEMP_DIR.$imgfile.'.dat')){
 chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("CHIBIOK\n");
-
-
-

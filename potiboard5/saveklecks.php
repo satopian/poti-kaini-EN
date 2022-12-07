@@ -1,4 +1,7 @@
 <?php
+if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
+	return header( "Location: ./ ") ;
+}
 
 //設定
 include(__DIR__.'/config.php');
@@ -16,22 +19,29 @@ $imgfile = time().substr(microtime(),2,6);	//画像ファイル名
 $imgfile = is_file(TEMP_DIR.$imgfile.'.png') ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
 
 header('Content-type: text/plain');
+//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
+//Orijinがhostと異なっていたら投稿を拒絶。
+$url_scheme=isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://':'';
+if($url_scheme && isset($_SERVER['HTTP_HOST']) &&
+str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+	die("The post has been rejected.");
+}
+// Paint画面と一緒に更新しないとエラーになるのでコメントアウト。
+// if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+// 	die('Your operation failed.');
+// }
 
-if (!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK)
- {
+if (!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK){
 	die("Your picture upload failed! Please try again!");
 }
 
 $usercode = (string)filter_input(INPUT_POST, 'usercode');
 //csrf
 if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
-
 	die("Your picture upload failed! Please try again!");
 }
-$rotation = isset($_POST['rotation']) && ((int) $_POST['rotation']) > 0 ? ((int) $_POST['rotation']) : 0;
 
 if(SIZE_CHECK && ($_FILES['picture']['size'] > (PICTURE_MAX_KB * 1024))){
-
 	die("Your picture upload failed! Please try again!");
 }
 
@@ -54,7 +64,7 @@ if (!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
     die("Couldn't move uploaded files");
 }
 chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
-if (isset($_FILES['psd']) && ($_FILES['psd']['error'] == UPLOAD_ERR_OK)){
+if(isset($_FILES['psd']) && ($_FILES['psd']['error'] == UPLOAD_ERR_OK)){
 		if(!SIZE_CHECK || ($_FILES['psd']['size'] < (PSD_MAX_KB * 1024))){
 		//PSDファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
 		move_uploaded_file($_FILES['psd']['tmp_name'], TEMP_DIR.$imgfile.'.psd');
@@ -88,4 +98,3 @@ if (!is_file(TEMP_DIR.$imgfile.'.dat')) {
 chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
 die("ok");
-
