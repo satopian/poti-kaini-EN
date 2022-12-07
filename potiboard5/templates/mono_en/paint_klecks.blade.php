@@ -72,6 +72,7 @@
 
 				var request = new XMLHttpRequest();
 				request.open("POST", "saveklecks.php");
+				request.setRequestHeader( "X-Requested-With", "klecks" );
 				request.send(formData);
 
 				request.onreadystatechange = function() {

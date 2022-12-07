@@ -46,8 +46,6 @@ define('MSG013', "[email is too long.]");
 define('MSG014', "[subject is too long.]");
 define('MSG015', "[Unknown error]");
 define('MSG016', "[Post was rejected.]<br>[This HOST has been banned from posting.]");
-define('MSG017', "[Error ! Open-PROXY is limited.](80)");
-define('MSG018', "[Error ! Open-PROXY is limited.](8080)");
 define('MSG019', "[It failed in reading the log.]");
 define('MSG020', "[Please wait a little bit before posting again.]");
 define('MSG021', "[Please wait a little bit before posting again.]");
@@ -78,7 +76,7 @@ define('MSG045', "[This file does not supported by the ability to load uploaded 
 define('MSG046', "[The password is too short. At least 6 characters.]");
 define('MSG047', "[The size of the picture is too large. You can not continue.]");
 define('MSG048', "[There is an inappropriate URL.]");
-
+define('MSG049', "[The post has been rejected.]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
