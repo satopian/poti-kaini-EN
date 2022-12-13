@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.37.0';
-const POTI_LOT = 'lot.221205';
+const POTI_VER = 'v5.38.5';
+const POTI_LOT = 'lot.221211';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -242,6 +242,7 @@ switch($mode){
 			$dat['admin_in'] = true;
 			return htmloutput(OTHERFILE,$dat);
 		}
+		check_same_origin();
 		if($pass && ($pass !== $ADMIN_PASS)) 
 		return error(MSG029);
 	
@@ -360,14 +361,8 @@ function get_csrf_token(){
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
-	//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
-	//Orijinがhostと異なっていたら投稿を拒絶。
-	$url_scheme=isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://':'';
-	if($url_scheme && isset($_SERVER['HTTP_HOST']) &&
-	str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
-		error(MSG049);
-	}
 
+	check_same_origin();
 	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
 	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
@@ -375,7 +370,14 @@ function check_csrf_token(){
 		error(MSG006);
 	}
 }
-	
+function check_same_origin(){
+
+	$url_scheme=(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://' : '';
+	if($url_scheme && str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+		error(MSG049);
+	}
+}
+
 // ベース
 function basicpart(){
 	global $pallets_dat;
@@ -574,7 +576,9 @@ function updatelog(){
 		//改ページ分岐ここまで
 
 		$dat['paging'] = $paging;
-
+		if(!is_numeric($page)){
+			error(MSG015);
+		} 
 		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
 		if(is_file($logfilename)){
 			if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
@@ -738,7 +742,6 @@ function similar_str($str1,$str2){
 function regist(){
 	global $path,$temppath,$usercode,$ADMIN_PASS;
 	
-
 	//CSRFトークンをチェック
 	check_csrf_token();
 
@@ -805,7 +808,6 @@ function regist(){
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
 		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
-
 		break;
 		}
 	}
@@ -1257,6 +1259,8 @@ function newstring($str){
 function userdel(){
 	global $path;
 
+	check_same_origin();
+
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
 	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
@@ -1322,6 +1326,8 @@ function userdel(){
 // 管理者削除
 function admindel($pass){
 	global $path;
+
+	check_same_origin();
 
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
@@ -1462,7 +1468,6 @@ function lang_en(){//言語が日本語以外ならtrue。
 	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
 	? explode( ',', $http_langs )[0] : '';
   return (stripos($lang,'ja')!==0);
-  
 }
 function initial_error_message(){
 	$en=lang_en();
@@ -1500,6 +1505,8 @@ function check_dir ($path) {
 function paintform(){
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
+	check_same_origin();
+
 	$admin = (string)filter_input(INPUT_POST, 'admin');
 	$type = (string)newstring(filter_input(INPUT_POST, 'type'));
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -1514,8 +1521,8 @@ function paintform(){
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
 	$anime = filter_input(INPUT_POST, 'anime',FILTER_VALIDATE_BOOLEAN);
 	$shi = filter_input(INPUT_POST, 'shi');
-	$pch = (string)newstring(filter_input(INPUT_POST, 'pch'));
-	$ext = (string)newstring(filter_input(INPUT_POST, 'ext'));
+	$pch = (string)basename(newstring(filter_input(INPUT_POST, 'pch')));
+	$ext = (string)basename(newstring(filter_input(INPUT_POST, 'ext')));
 	$ctype = (string)newstring(filter_input(INPUT_POST, 'ctype'));
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
@@ -1525,7 +1532,6 @@ function paintform(){
 
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
-	
 	// 初期化
 	$dat['image_jpeg'] = 'false';
 	$dat['image_size'] = 0;
@@ -1612,6 +1618,9 @@ function paintform(){
 			$resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
 			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
 			//親の番号ではない事を確認してレス先の番号をセット。
+		}
+		if(!is_file(IMG_DIR.$pch.$ext)){
+			error(MSG001);
 		}
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 	
@@ -1860,6 +1869,7 @@ function openpch(){
 function deltemp(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
+		$file=basename($file);
 		if(!is_dir($file)) {
 			//pchアップロードペイントファイル削除
 			$lapse = time() - filemtime(TEMP_DIR.$file);
@@ -1881,6 +1891,8 @@ function deltemp(){
 // コンティニュー前画面
 function incontinue(){
 	global $addinfo;
+
+	check_same_origin();
 
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
@@ -1977,6 +1989,8 @@ function incontinue(){
 // コンティニュー認証
 function check_cont_pass(){
 
+	check_same_origin();
+
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
@@ -2041,6 +2055,8 @@ function download_app_dat(){
 // 編集画面
 function editform(){
 	global $addinfo,$fontcolors,$ADMIN_PASS;
+
+	check_same_origin();
 
 	//csrfトークンをセット
 	$dat['token']=get_csrf_token();
@@ -2223,6 +2239,7 @@ global $ADMIN_PASS;
 // 画像差し換え
 function replace(){
 	global $path,$temppath;
+
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_GET, 'pwd'));
 	$repcode = (string)newstring(filter_input(INPUT_GET, 'repcode'));
@@ -2237,6 +2254,7 @@ function replace(){
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
 		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
+			$file=basename($file);
 			$fp = fopen(TEMP_DIR.$file, "r");
 			$userdata = fread($fp, 1024);
 			fclose($fp);

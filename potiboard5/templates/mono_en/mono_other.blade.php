@@ -71,7 +71,6 @@
 		}
 		document.addEventListener('DOMContentLoaded',is_mobile,false);
 	</script>
-
 </head>
 
 <body>
