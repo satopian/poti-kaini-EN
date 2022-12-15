@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.38.8';
+const POTI_VER = 'v5.50.0';
 const POTI_LOT = 'lot.221215';
 
 /*
@@ -1802,6 +1802,7 @@ function paintcom(){
 			$userdata=file_get_contents(TEMP_DIR.$file);
 			list($uip,$uhost,$uagent,$imgext,$ucode,) = explode("\t", rtrim($userdata));
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
+			$imgext=basename($imgext);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
 			if($ucode == $usercode||$uip == $userip){
 				$tmp[$file_name] = $file_name.$imgext;
@@ -2270,6 +2271,7 @@ function replace(){
 			fclose($fp);
 			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime) = explode("\t", rtrim($userdata)."\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
+			$imgext=basename($imgext);
 			//画像があり、認識コードがhitすれば抜ける
 			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $urepcode === $repcode){$find=true;break;}
 		}
