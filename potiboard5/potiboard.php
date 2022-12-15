@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.0';
+const POTI_VER = 'v5.50.1';
 const POTI_LOT = 'lot.221215';
 
 /*
@@ -1529,8 +1529,8 @@ function paintform(){
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
 	$anime = filter_input(INPUT_POST, 'anime',FILTER_VALIDATE_BOOLEAN);
 	$shi = filter_input(INPUT_POST, 'shi');
-	$pch = (string)basename(newstring(filter_input(INPUT_POST, 'pch')));
-	$ext = (string)basename(newstring(filter_input(INPUT_POST, 'ext')));
+	$pch = basename((string)newstring(filter_input(INPUT_POST, 'pch')));
+	$ext = basename((string)newstring(filter_input(INPUT_POST, 'ext')));
 	$ctype = (string)newstring(filter_input(INPUT_POST, 'ctype'));
 	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
@@ -2028,8 +2028,8 @@ function download_app_dat(){
 
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
-	$no=(string)filter_input(INPUT_POST,'no');
-	$pchext=(string)basename(filter_input(INPUT_POST,'pch_ext'));
+	$no=basename((string)filter_input(INPUT_POST,'no'));
+	$pchext=basename((string)filter_input(INPUT_POST,'pch_ext'));
 	$pwd = $pwd ? $pwd : $pwdc;
 
 	$cpwd='';
@@ -2053,7 +2053,7 @@ function download_app_dat(){
 	if(!(($no==$cno)&&check_password($pwd,$cpwd,$pwd))){
 		return error(MSG029);
 	}
-
+	$ctime=basename($ctime);
 	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
 	if(!$filepath || !is_file($filepath))error(MSG001);
 	header('Content-Type: '.mime_content_type($filepath));
