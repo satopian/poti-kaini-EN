@@ -76,7 +76,8 @@ define('MSG045', "[This file does not supported by the ability to load uploaded 
 define('MSG046', "[The password is too short. At least 6 characters.]");
 define('MSG047', "[The size of the picture is too large. You can not continue.]");
 define('MSG048', "[There is an inappropriate URL.]");
-define('MSG049', "[The post has been rejected.]");
+define('MSG049', "[Rejected.]");
+define('MSG050', "[Cookie check failed,]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'

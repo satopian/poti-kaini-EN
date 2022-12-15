@@ -579,3 +579,15 @@ define("RE_SAMPLED", "1");
 // Deny display in iframe:  (1: Deny, 0: Allow)
 // We strongly recommend "Deny" to avoid security risks.
 define("X_FRAME_OPTIONS_DENY", "1");
+
+/*safety*/
+
+//Reject if admin password is wrong for her 5 times in a row
+// (1: Enabled, 0: Disabled) 
+// 1: Enabled for more security, but if the login page is locked it will take more effort to unlock it.
+
+define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
+
+// Access via ftp etc.
+// Remove the `templates/errorlog/error.log` and you should be able to login again.
+//This file contains the IP addresses of clients who entered an incorrect admin password.

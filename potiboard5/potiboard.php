@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.38.5';
-const POTI_LOT = 'lot.221211';
+const POTI_VER = 'v5.38.8';
+const POTI_LOT = 'lot.221215';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -159,6 +159,8 @@ defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
 //日記モードで使用する する:1 しない:0
 defined('DIARY') or define('DIARY', '0');
 defined('X_FRAME_OPTIONS_DENY') or define('X_FRAME_OPTIONS_DENY', '1');
+//管理者パスワードを5回連続で間違えたときはロック する:1 しない:0
+defined('CHECK_PASSWORD_INPUT_ERROR_COUNT') or define('CHECK_PASSWORD_INPUT_ERROR_COUNT', '0');
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -181,6 +183,7 @@ defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最�
 defined('MSG047') or define('MSG047', '画像の幅と高さが大きすぎるため続行できません。');
 defined('MSG048') or define('MSG048', '不適切なURLがあります。');
 defined('MSG049') or define('MSG049', '拒絶されました。');
+defined('MSG050') or define('MSG050', 'Cookieが確認できません。');
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -243,6 +246,7 @@ switch($mode){
 			return htmloutput(OTHERFILE,$dat);
 		}
 		check_same_origin();
+		check_password_input_error_count();
 		if($pass && ($pass !== $ADMIN_PASS)) 
 		return error(MSG029);
 	
@@ -372,6 +376,10 @@ function check_csrf_token(){
 }
 function check_same_origin(){
 
+	$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
+	if(!$usercode){
+		error(MSG050);
+	}
 	$url_scheme=(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://' : '';
 	if($url_scheme && str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
 		error(MSG049);
@@ -812,7 +820,7 @@ function regist(){
 		}
 	}
 	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
-
+	$time = basename($time);
 	$ptime='';
 	// お絵かき絵アップロード処理
 	$pictmp2 = false;
@@ -2015,6 +2023,8 @@ function check_cont_pass(){
 }
 function download_app_dat(){
 
+	check_same_origin();
+
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 	$no=(string)filter_input(INPUT_POST,'no');
@@ -2279,6 +2289,7 @@ function replace(){
 		}
 	}
 	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
+	$time = basename($time);
 	$date = now_date(time());//日付取得
 	$date .= UPDATE_MARK;
 	//描画時間を$userdataをもとに計算
@@ -3056,3 +3067,23 @@ function get_log($logfile) {
 	return $lines;
 }
 
+//パスワードを5回連続して間違えた時は拒絶
+function check_password_input_error_count(){
+	global $ADMIN_PASS;
+	if(!CHECK_PASSWORD_INPUT_ERROR_COUNT){
+		return;
+	}
+	$userip = get_uip();
+	check_dir(__DIR__.'/templates/errorlog/');
+	$arr_err=is_file(__DIR__.'/templates/errorlog/error.log') ? file(__DIR__.'/templates/errorlog/error.log'):[];
+	if(count($arr_err)>=5){
+		error(MSG049);
+	}
+if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
+	$errlog=$userip."\n";
+	file_put_contents(__DIR__.'/templates/errorlog/error.log',$errlog,FILE_APPEND);
+	chmod(__DIR__.'/templates/errorlog/error.log',0600);
+	}else{
+		unlink(__DIR__.'/templates/errorlog/error.log');
+	}
+}
