@@ -969,7 +969,7 @@ function regist(){
 		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
 		$interval=time()-(int)$ltime;
 		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
-		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $upfile_name){error(MSG021,$dest);}
+		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $dest){error(MSG021,$dest);}
 		if($com){
 				switch(D_POST_CHECKLEVEL){//190622
 					case 1:	//low
@@ -982,7 +982,7 @@ function regist(){
 						if(similar_str($com,$lcom) > COMMENT_LIMIT_HIGH){error(MSG022,$dest);}
 						break;
 					default:
-						if($com === $lcom && !$upfile_name){error(MSG022,$dest);}
+						if($com === $lcom && !$dest){error(MSG022,$dest);}
 				}
 			}
 		}
@@ -2324,7 +2324,7 @@ function replace(){
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value).',,,');
 	//画像差し替えに管理パスは使っていない
-		if($eno == $no && check_password($pwd, $epwd)){
+		if($eno === $no && check_password($pwd, $epwd)){
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
