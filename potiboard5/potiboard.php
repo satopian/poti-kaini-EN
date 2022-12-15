@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.1';
-const POTI_LOT = 'lot.221215';
+const POTI_VER = 'v5.50.2';
+const POTI_LOT = 'lot.221216';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1444,9 +1444,12 @@ function admindel($pass){
 
 function init(){
 	$err='';
+	$err_cache_dir='';
 	$en=lang_en();
 
-	if(!is_writable(realpath("./")))error($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
+	if(!is_writable(realpath("./")))die($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
+	$err_cache_dir=check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache');
+	if($err_cache_dir){die($err_cache_dir);}
 	if (!is_file(realpath(LOGFILE))) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
@@ -1467,7 +1470,6 @@ function init(){
 	$err .= check_dir(__DIR__.'/'.PCH_DIR);
 	$err .= check_dir(__DIR__.'/'.THUMB_DIR);
 	$err .= check_dir(__DIR__.'/'.TEMP_DIR);
-	$err .= check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache');
 	if($err) return error($err);
 	if(!is_file(__DIR__.'/'.PHP_SELF2))updatelog();
 }
