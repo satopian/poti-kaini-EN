@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.2';
+const POTI_VER = 'v5.50.3';
 const POTI_LOT = 'lot.221216';
 
 /*
@@ -98,8 +98,8 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
 }
 require(__DIR__.'/thumbnail_gd.php');
 
-$path = realpath("./").'/'.IMG_DIR;
-$temppath = realpath("./").'/'.TEMP_DIR;
+$path = __DIR__.'/'.IMG_DIR;
+$temppath = __DIR__.'/'.TEMP_DIR;
 
 //POTI_VERLOT定義
 define('POTI_VERLOT', POTI_VER.' '.POTI_LOT);
@@ -1444,13 +1444,13 @@ function admindel($pass){
 
 function init(){
 	$err='';
-	$err_cache_dir='';
 	$en=lang_en();
 
-	if(!is_writable(realpath("./")))die($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
-	$err_cache_dir=check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache');
-	if($err_cache_dir){die($err_cache_dir);}
-	if (!is_file(realpath(LOGFILE))) {
+	if(!is_writable(__DIR__.'/'))die($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
+	if($err=check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache')){
+		die($err);
+	}
+	if (!is_file(__DIR__.'/'.LOGFILE)) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
 		$time = time().substr(microtime(),2,3);
@@ -1460,7 +1460,7 @@ function init(){
 	}
 	$err .= check_file(__DIR__.'/'.LOGFILE,true);
 
-	if (!is_file(realpath(TREEFILE))) {
+	if (!is_file(__DIR__.'/'.TREEFILE)) {
 		file_put_contents(TREEFILE, "1\n",LOCK_EX);
 		chmod(TREEFILE, PERMISSION_FOR_LOG);
 	}
