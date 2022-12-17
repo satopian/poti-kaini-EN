@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.6';
-const POTI_LOT = 'lot.221216';
+const POTI_VER = 'v5.50.8';
+const POTI_LOT = 'lot.221217';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -245,7 +245,7 @@ switch($mode){
 			$dat['admin_in'] = true;
 			return htmloutput(OTHERFILE,$dat);
 		}
-		check_same_origin();
+		check_same_origin(true);
 		check_password_input_error_count();
 		if($pass && ($pass !== $ADMIN_PASS)) 
 		return error(MSG029);
@@ -369,7 +369,7 @@ function get_csrf_token(){
 //csrfトークンをチェック	
 function check_csrf_token(){
 
-	check_same_origin();
+	check_same_origin(true);
 	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
 	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
@@ -377,10 +377,10 @@ function check_csrf_token(){
 		error(MSG006);
 	}
 }
-function check_same_origin(){
+function check_same_origin($cookie_check=false){
 
 	$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
-	if(!$usercode){
+	if($cookie_check && !$usercode){
 		error(MSG050);
 	}
 	$url_scheme=(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://' : '';
@@ -1338,7 +1338,7 @@ function userdel(){
 function admindel($pass){
 	global $path;
 
-	check_same_origin();
+	check_same_origin(true);
 
 	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
@@ -1906,7 +1906,7 @@ function deltemp(){
 function incontinue(){
 	global $addinfo;
 
-	check_same_origin();
+	check_same_origin(true);
 
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
@@ -2003,7 +2003,7 @@ function incontinue(){
 // コンティニュー認証
 function check_cont_pass(){
 
-	check_same_origin();
+	check_same_origin(true);
 
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -2029,7 +2029,7 @@ function check_cont_pass(){
 }
 function download_app_dat(){
 
-	check_same_origin();
+	check_same_origin(true);
 
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
