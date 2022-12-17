@@ -80,10 +80,15 @@ if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_
 	}
 }
 
+$u_ip = '';
 $u_ip = getenv("HTTP_CLIENT_IP");
-if(!$u_ip) $u_ip = getenv("HTTP_X_FORWARDED_FOR");
-if(!$u_ip) $u_ip = getenv("REMOTE_ADDR");
-$u_host = gethostbyaddr($u_ip);
+$u_ip = $u_ip ? $u_ip : getenv("HTTP_X_FORWARDED_FOR");
+$u_ip = $u_ip ? $u_ip : getenv("REMOTE_ADDR");
+if (strstr($u_ip, ', ')) {
+    $ips = explode(', ', $u_ip);
+    $u_ip = $ips[0];
+}
+$u_host = $u_ip ? gethostbyaddr($u_ip) : '';
 $u_agent = getenv("HTTP_USER_AGENT");
 $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';

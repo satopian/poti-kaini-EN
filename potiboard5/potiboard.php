@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.3';
+const POTI_VER = 'v5.50.6';
 const POTI_LOT = 'lot.221216';
 
 /*
@@ -336,12 +336,15 @@ function get_gd_ver(){
 
 //ユーザーip
 function get_uip(){
-	if ($ip = getenv("HTTP_CLIENT_IP")) {
-		return $ip;
-	} elseif ($ip = getenv("HTTP_X_FORWARDED_FOR")) {
-		return $ip;
+	$ip = '';
+	$ip = getenv("HTTP_CLIENT_IP");
+	$ip = $ip ? $ip : getenv("HTTP_X_FORWARDED_FOR");
+	$ip = $ip ? $ip : getenv("REMOTE_ADDR");
+	if (strstr($ip, ', ')) {
+		$ips = explode(', ', $ip);
+		$ip = $ips[0];
 	}
-	return getenv("REMOTE_ADDR");
+	return $ip;
 }
 //session開始
 function session_sta(){
@@ -766,7 +769,7 @@ function regist(){
 
 	$userip = get_uip();
 	//ホスト取得
-	$host = gethostbyaddr($userip);
+	$host = $userip ? gethostbyaddr($userip) : '';
 	check_badip($host);
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post();
@@ -2177,7 +2180,7 @@ global $ADMIN_PASS;
 
 	$userip = get_uip();
 	//ホスト取得
-	$host = gethostbyaddr($userip);
+	$host = $userip ? gethostbyaddr($userip) : '';
 	check_badip($host);
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post();
@@ -2259,7 +2262,7 @@ function replace(){
 	$message="";
 	$userip = get_uip();
 	//ホスト取得
-	$host = gethostbyaddr($userip);
+	$host = $userip ? gethostbyaddr($userip) : '';
 	check_badip($host);
 
 	/*--- テンポラリ捜査 ---*/
