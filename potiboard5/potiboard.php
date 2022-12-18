@@ -226,7 +226,7 @@ if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
 	$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
 	//念の為にエスケープ文字があればアルファベットに変換
-	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
+	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 }
 setcookie("usercode", $usercode, time()+(86400*365));//1年間
 
@@ -787,7 +787,7 @@ function regist(){
 		}else{
 			srand();
 			$pwd = substr(md5(uniqid(rand(),true)),2,15);
-			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
+			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 			$c_pass=$pwd;
 		}
 	}
@@ -1744,7 +1744,7 @@ function paintform(){
 		$userip = get_uip();
 		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-8);
 		//念の為にエスケープ文字があればアルファベットに変換
-		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
+		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 		$dat['repcode']=$repcode;//klecks
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
@@ -2647,7 +2647,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 		$salt=preg_replace("/[^\.-z]/",".",$salt);
 		$salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef");
 		$trip="◆".substr(crypt($cap,$salt),-10);
-		$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
+		$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 		$name.=$trip;
 	}
 
