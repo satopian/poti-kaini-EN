@@ -841,7 +841,7 @@ function regist(){
 		$userdata = fread($fp, 1024);
 		fclose($fp);
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
-		if(($ucode != $usercode) && ($uip != $userip)){
+		if(($ucode != $usercode) && (!$uip || ($uip != $userip))){
 			return error(MSG007);
 		}
 		//描画時間を$userdataをもとに計算
