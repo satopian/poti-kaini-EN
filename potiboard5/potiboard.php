@@ -222,9 +222,9 @@ init();
 deltemp();
 
 //user-codeの発行
-if(!$usercode){//falseなら発行
+if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
-	$usercode = (string)substr(crypt(md5($userip.ID_SEED.date("Ymd", time())),'id'),-12);
+	$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
 	//念の為にエスケープ文字があればアルファベットに変換
 	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
 }
@@ -1742,7 +1742,7 @@ function paintform(){
 		$dat['rep']=true;//klecks
 		$time=time();
 		$userip = get_uip();
-		$repcode = substr(crypt(md5($no.$userip.$pwd.date("Ymd", $time)),$time),-8);
+		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-8);
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~","ABCDEFGHIJKLMNOabcdefghijklmn");
 		$dat['repcode']=$repcode;//klecks
