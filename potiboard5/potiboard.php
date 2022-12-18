@@ -4,7 +4,7 @@
 // POTI-board EVO
 // バージョン :
 const POTI_VER = 'v5.50.8';
-const POTI_LOT = 'lot.221217';
+const POTI_LOT = 'lot.221218';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -336,16 +336,17 @@ function get_gd_ver(){
 
 //ユーザーip
 function get_uip(){
-	$ip = '';
-	$ip = getenv("HTTP_CLIENT_IP");
-	$ip = $ip ? $ip : getenv("HTTP_X_FORWARDED_FOR");
-	$ip = $ip ? $ip : getenv("REMOTE_ADDR");
+	$ip = isset($_SERVER["HTTP_CLIENT_IP"]) ? $_SERVER["HTTP_CLIENT_IP"] :'';
+	$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
+	$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
+	$ip = $ip ? $ip : (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '');
 	if (strstr($ip, ', ')) {
 		$ips = explode(', ', $ip);
 		$ip = $ips[0];
 	}
 	return $ip;
 }
+
 //session開始
 function session_sta(){
 	if(!isset($_SESSION)){
@@ -1809,7 +1810,7 @@ function paintcom(){
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			$imgext=basename($imgext);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
-			if($ucode == $usercode||$uip == $userip){
+			if($ucode == $usercode||($uip && ($uip == $userip))){
 				$tmp[$file_name] = $file_name.$imgext;
 			}
 		}
