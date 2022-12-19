@@ -1742,7 +1742,7 @@ function paintform(){
 		$dat['rep']=true;//klecks
 		$time=time();
 		$userip = get_uip();
-		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-8);
+		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-12);
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 		$dat['repcode']=$repcode;//klecks
