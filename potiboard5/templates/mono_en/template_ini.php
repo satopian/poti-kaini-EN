@@ -24,7 +24,7 @@ define('THE_SCREEN_CHANGES', 'The screen changes');
 define('NOTICE_MAIL_TITLE', 'Title');
 define('NOTICE_MAIL_IMG', 'Picture');
 define('NOTICE_MAIL_THUMBNAIL', 'Thumbnail');
-define('NOTICE_MAIL_ANIME', 'Timelapse');
+define("NOTICE_MAIL_ANIME", "Playback");
 define('NOTICE_MAIL_URL', 'Fixed link');
 define('NOTICE_MAIL_REPLY', ' Notification: There is a new reply to a post.');
 define('NOTICE_MAIL_NEWPOST', ' Notification: There is a new post');
