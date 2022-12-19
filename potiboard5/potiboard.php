@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.8';
-const POTI_LOT = 'lot.221218';
+const POTI_VER = 'v5.50.10';
+const POTI_LOT = 'lot.221220';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1192,10 +1192,10 @@ function regist(){
 		if(is_file(THUMB_DIR.$time.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$time.'s.jpg';
 		if($resto){
 			$data['subject'] = '['.TITLE.'] No.'.$resto.NOTICE_MAIL_REPLY;
-			$data['option'][] = "\n".NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
+			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
 		}else{
 			$data['subject'] = '['.TITLE.'] '.NOTICE_MAIL_NEWPOST;
-			$data['option'][] = "\n".NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$no;
+			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$no;
 		}
 
 		$data['comment'] = SEND_COM ? preg_replace("#<br( *)/?>#i","\n", $com) : '';
