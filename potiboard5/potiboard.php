@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.10';
+const POTI_VER = 'v5.50.11';
 const POTI_LOT = 'lot.221220';
 
 /*
@@ -2034,7 +2034,7 @@ function download_app_dat(){
 
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
-	$no=basename((string)filter_input(INPUT_POST,'no'));
+	$no=basename((string)filter_input(INPUT_POST,'no',FILTER_VALIDATE_INT));
 	$pchext=basename((string)filter_input(INPUT_POST,'pch_ext'));
 	$pwd = $pwd ? $pwd : $pwdc;
 
@@ -2056,7 +2056,7 @@ function download_app_dat(){
 	}
 	closeFile($fp);
 	if(!$flag) error(MSG001);
-	if(!(($no==$cno)&&check_password($pwd,$cpwd,$pwd))){
+	if(!(($no===$cno)&&check_password($pwd,$cpwd,$pwd))){
 		return error(MSG029);
 	}
 	$ctime=basename($ctime);
