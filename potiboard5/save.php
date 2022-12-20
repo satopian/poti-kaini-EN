@@ -82,7 +82,7 @@ if (isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_
 
 $u_ip = get_uip();
 $u_host = $u_ip ? gethostbyaddr($u_ip) : '';
-$u_agent = getenv("HTTP_USER_AGENT");
+$u_agent = $_SERVER["HTTP_USER_AGENT"];
 $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
 /* ---------- 投稿者情報記録 ---------- */
