@@ -1195,8 +1195,15 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 
     var errorMessage = null;
     if (request.status / 100 != 2) {
-      errorMessage = request.responseURL + "\n"
-                   + Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
+		if (request.status == 403) {
+			errorMessage = Neo.translate("投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。")
+			+ "\n" + request.responseURL;
+			} else if (request.status == 404) {
+				errorMessage = Neo.translate("ファイルが見当たりません。")+"\n" + request.responseURL;
+			} else {
+				errorMessage = request.responseURL + "\n"
+				+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
+			}
     } else if (request.response.match(/^error\n/m)) {
       errorMessage = request.response.replace(/^error\n/m, '');
     } else {
@@ -1223,6 +1230,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     }
   };
   request.onerror = function (e) {
+	errorMessage = Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
     console.log("error");
     Neo.submitButton.enable();
   };
@@ -1235,6 +1243,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     Neo.submitButton.enable();
   };
 
+  request.setRequestHeader("X-Requested-With", "PaintBBS");
   request.send(body);
 };
 
@@ -1472,8 +1481,12 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "Please push send button again.",
-  },
-  enx: {
+	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "It may be a WAF false positive.\nTry to draw a little more.",
+ 
+	  "ファイルが見当たりません。":"File not found",
+	},
+	enx: {
     やり直し: "Redo",
     元に戻す: "Undo",
     塗り潰し: "Fill",
@@ -1530,7 +1543,10 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "Failed to upload image. please try again.",
-  },
+	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "It may be a WAF false positive.\nTry to draw a little more.",
+	  "ファイルが見当たりません。":"File not found.",
+	},
   es: {
     やり直し: "Rehacer",
     元に戻す: "Deshacer",
@@ -1588,7 +1604,10 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "No se pudo cargar la imagen. por favor, inténtalo de nuevo.",
-  },
+	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "Puede ser un falso positivo de WAF.\nIntenta dibujar un poco más.",
+	  "ファイルが見当たりません。":"Archivo no encontrado.",
+	},
 };
 
 Neo.translate = (function () {
