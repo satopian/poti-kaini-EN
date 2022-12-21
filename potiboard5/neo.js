@@ -1195,22 +1195,22 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 
     var errorMessage = null;
     if (request.status / 100 != 2) {
+		errorMessage = request.responseURL + "\n";
 		if (request.status == 403) {
-			errorMessage = Neo.translate("投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。")
-			+ "\n" + request.responseURL;
+			errorMessage = errorMessage + Neo.translate("投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。");
 			} else if (request.status == 404) {
-				errorMessage = Neo.translate("ファイルが見当たりません。")+"\n" + request.responseURL;
+			errorMessage = errorMessage + Neo.translate("ファイルが見当たりません。");
 			} else {
-				errorMessage = request.responseURL + "\n"
-				+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
+			errorMessage = errorMessage + 
+			+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
 			}
-    } else if (request.response.match(/^error\n/m)) {
-      errorMessage = request.response.replace(/^error\n/m, '');
-    } else {
-      Neo.uploaded = true;
-    }
-
-    var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
+		} else if (request.response.match(/^error\n/m)) {
+		  errorMessage = request.response.replace(/^error\n/m, '');
+		} else {
+		  Neo.uploaded = true;
+		}
+	
+		var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
     var responseURL = request.response.replace(/&amp;/g, "&");
 
     // ふたばではresponseの文字列をそのままURLとして解釈する
@@ -1481,7 +1481,7 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "Please push send button again.",
-	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
 	  "It may be a WAF false positive.\nTry to draw a little more.",
  
 	  "ファイルが見当たりません。":"File not found",
@@ -1543,7 +1543,7 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "Failed to upload image. please try again.",
-	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
 	  "It may be a WAF false positive.\nTry to draw a little more.",
 	  "ファイルが見当たりません。":"File not found.",
 	},
@@ -1604,7 +1604,7 @@ Neo.dictionary = {
     鈍: "L",
     "投稿に失敗。時間を置いて再度投稿してみてください。":
       "No se pudo cargar la imagen. por favor, inténtalo de nuevo.",
-	  "投稿に失敗。\nWAFの誤検出かもしれません。\nもう少し描いてみてください。":
+	  "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
 	  "Puede ser un falso positivo de WAF.\nIntenta dibujar un poco más.",
 	  "ファイルが見当たりません。":"Archivo no encontrado.",
 	},
