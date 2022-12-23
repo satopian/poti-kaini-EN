@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.50.11';
-const POTI_LOT = 'lot.221220';
+const POTI_VER = 'v5.51.0';
+const POTI_LOT = 'lot.221223';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -228,7 +228,7 @@ if(!$usercode){//user-codeがなければ発行
 	//念の為にエスケープ文字があればアルファベットに変換
 	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 }
-setcookie("usercode", $usercode, time()+(86400*365));//1年間
+setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
 
 switch($mode){
 	case 'regist':
