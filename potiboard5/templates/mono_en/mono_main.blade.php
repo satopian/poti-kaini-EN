@@ -151,7 +151,7 @@
 			@endif
 		@if($form)
 			<div>
-			<form action="{{$self}}" method="post" enctype="multipart/form-data">
+			<form action="{{$self}}" method="post" enctype="multipart/form-data" id="comment_form">
 				<input type="hidden" name="token" value="@if($token){{$token}}@endif">
 				<input type="hidden" name="mode" value="regist">
 				@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif

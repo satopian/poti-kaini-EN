@@ -103,7 +103,7 @@
 				@endif
 			{{-- 未投稿画像の画像が無い時はフォームを表示しない --}}
 			@if(!$notmp)
-				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data">
+				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data" @if(!$rewrite)id="comment_form"@endif>
 					<input type="hidden" name="token" value="{{$token}}">
 
 					<table>
