@@ -1,5 +1,5 @@
 {{-- ペイントボタン --}}
-<form action="{{$self}}" method="post" enctype="multipart/form-data">
+<form action="{{$self}}" method="post" enctype="multipart/form-data" id="paint_form">
 	<p>
 		Width :<input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
 		Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">

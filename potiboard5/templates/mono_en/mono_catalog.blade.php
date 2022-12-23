@@ -11,48 +11,12 @@
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="loadcookie.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
 	<style>
 		.input_disp_none {
 			display: none;
 		}
 	</style>
-
-	<script>
-		var colorIdx = GetCookie("colorIdx");
-		switch (Number(colorIdx)) {
-			case 1:
-				document.getElementById("css1").removeAttribute("disabled");
-				break;
-			case 2:
-				document.getElementById("css2").removeAttribute("disabled");
-				break;
-			case 3:
-				document.getElementById("css3").removeAttribute("disabled");
-				break;
-		}
-
-		function SetCss(obj) {
-			var idx = obj.selectedIndex;
-			SetCookie("colorIdx", idx);
-			window.location.reload();
-		}
-
-		function GetCookie(key) {
-			var tmp = document.cookie + ";";
-			var tmp1 = tmp.indexOf(key, 0);
-			if (tmp1 != -1) {
-				tmp = tmp.substring(tmp1, tmp.length);
-				var start = tmp.indexOf("=", 0) + 1;
-				var end = tmp.indexOf(";", start);
-				return (decodeURIComponent(tmp.substring(start, end)));
-			}
-			return ("");
-		}
-
-		function SetCookie(key, val) {
-			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
-		}
-	</script>
 	<title>{{$title}}</title>
 </head>
 
@@ -114,47 +78,17 @@
 			{{--  メンテナンスフォーム欄  --}}
 			@include('parts.mono_mainte_form')
 
-			<script src="loadcookie.js"></script>
-			<script>
-			document.addEventListener('DOMContentLoaded',l,false);
-			</script>
 		</div>
 				{{--  Copyright notice, do not delete  --}}
 				@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
-	<script src="lib/{{$jquery}}"></script>
+	<script src="loadcookie.js"></script>
 	<script>
-		colorIdx = GetCookie('colorIdx');
-		document.getElementById("mystyle").selectedIndex = colorIdx;
-		jQuery(function() {
-		window.onpageshow = function () {
-			var $btn = $('[type="submit"]');
-			//disbledを解除
-			$btn.prop('disabled', false);
-			$btn.click(function () { //送信ボタン2度押し対策
-				$(this).prop('disabled', true);
-				$(this).closest('form').submit();
-			});
-		}
-		// https://cotodama.co/pagetop/
-		var pagetop = $('#page_top');   
-		pagetop.hide();
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 100) {  //100pxスクロールしたら表示
-				pagetop.fadeIn();
-			} else {
-				pagetop.fadeOut();
-			}
-		});
-		pagetop.click(function () {
-			$('body,html').animate({
-				scrollTop: 0
-			}, 500); //0.5秒かけてトップへ移動
-			return false;
-		});
-	});
+	document.addEventListener('DOMContentLoaded',l,false);
 	</script>
+	<script src="lib/{{$jquery}}"></script>
+	<script src="{{$skindir}}js/mono_common.js"></script>
 </body>
 
 </html>
