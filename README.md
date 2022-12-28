@@ -74,10 +74,6 @@ This is a GIF animation created to introduce the operation when uploading files 
 The canvas size is still 300x300, but the canvas is open at its original size.
 If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.
 
-### changed files
-
-- potiboard.php
-
 ## [2022/12/24] v5.51.0
 - PaintBBS NEO update v1.5.16
 - Solved the problem that cookies could not be read with JavaScript when WAF (Web Application Firewall) was turned on.
