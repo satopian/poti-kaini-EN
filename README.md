@@ -44,6 +44,100 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/12/28] v5.52.2
+
+### Improved. PaintBBS NEO animation file upload painting made easy.
+-  It has become easier and more convenient to upload and paint PaintBBS NEO and Java Shi Painter videos from the administrator screen.  
+Until now, it was necessary to specify the canvas size before loading the pch animation file into the canvas.  
+With v5.52, you can now automatically get the canvas size from the animation file.  
+However, it is necessary to specify the canvas size when uploading the animation file of the Java version of PaintBBS.  
+For HTML5 version PaintBBS NEO, you can automatically get the canvas size when uploading animation files.  
+
+![221227_005](https://user-images.githubusercontent.com/44894014/209773098-d83a702f-dd79-49e8-9030-c2cdedee266b.gif)
+↑  
+This is a GIF animation created to introduce the operation when uploading files in specific formats for shi-Painter, PaintBBS NEO, Klecks, and ChickenPaint from the administrator screen.  
+The canvas size is still 300x300, but the canvas is open at its original size.  
+If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.  
+
+## [2022/12/28] v5.52.2
+
+### Improved. PaintBBS NEO animation file upload painting made easy.
+-  It has become easier and more convenient to upload and paint PaintBBS NEO and Java Shi Painter videos from the administrator screen.
+Until now, it was necessary to specify the canvas size before loading the pch animation file into the canvas.
+With v5.52, you can now automatically get the canvas size from the animation file.
+However, it is necessary to specify the canvas size when uploading the animation file of the Java version of PaintBBS.
+For HTML5 version PaintBBS NEO, you can automatically get the canvas size when uploading animation files.
+
+![221227_005](https://user-images.githubusercontent.com/44894014/209773098-d83a702f-dd79-49e8-9030-c2cdedee266b.gif)
+↑
+This is a GIF animation created to introduce the operation when uploading files in specific formats for shi-Painter, PaintBBS NEO, Klecks, and ChickenPaint from the administrator screen.
+The canvas size is still 300x300, but the canvas is open at its original size.
+If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.
+
+### changed files
+
+- potiboard.php
+
+## [2022/12/24] v5.51.0
+- PaintBBS NEO update v1.5.16
+- Solved the problem that cookies could not be read with JavaScript when WAF (Web Application Firewall) was turned on.
+If WAF is turned on, cookies are encrypted and have the httpOnly attribute.
+POTI-board uses JavaScript to load cookies into static HTML files.
+Therefore, with the conventional POTI-board, it was not possible to read the cookie of the form input content when the WAF was turned on.
+I solved this problem by issuing a form input cookie not only in PHP programs, but also in JavaScript.
+However, it is safer to use httpOnly cookies, which prevent JavaScript from reading the cookie.
+There is also a drawing board that uses httpOnly cookies.
+[satopian/Petit_Note_EN: Petit Note English ver.PHP script for PaintBBS,ChickenPaint, and Klecks PHP5.6-PHP8.2](https://github.com/satopian/Petit_Note_EN)
+Log conversion from POTI-board is also possible.
+[satopian/PetitNote_plugin: Petit Note Plugin for Drawing Board](https://github.com/satopian/PetitNote_plugin)
+
+- Adding JavaScript to HTML files to emit cookies for form inputs increases the number of lines of inline JavaScript.
+So I externalized my JavaScript.
+This externalized JavaScript also includes the back to top button JavaScript and the Luminous image popup JavaScript.
+We apologize for the inconvenience and the need to update templates frequently.
+A directory for JavaScript has also been added, such as `templates/mono_en/js/`.
+Please note that if you forget to upload this directory, things like the back button that appears when you scroll down or the JavaScript that appears on the same screen when you click on an image will not work.
+Overwrite everything in the `templates/` directory if you haven't customized the templates.
+Just upload all new installations.
+
+## POTI-board EVO v5.50.11 release
+## [2022/12/21] v5.50.11
+
+### Improvements
+
+- Changed the format of the canvas size pull-down menu formula generation loop to prevent XSS.
+- Removed self-closing tag due to warnings when checked by [W3C Markup Validation Service](https://validator.w3.org/).
+- Add same-origin check. Illegal posts from different origins are now rejected.
+However, for browsers that do not support Orijin headers, such as Edge's IE mode, Orijin headers are not checked.
+This is because if this check becomes mandatory, it will not be possible to start the shi-painter using Java.
+CheerpJ, for example, cannot smoothly play Shi-Painter's drawing animation, so Java must be started.
+- Protection against directory traversal attacks. Invalidate hierarchies such as `../../` in basename() when variables are entered in fopen().
+- Rejection when the password is incorrect 5 times in a row.
+If you enter the wrong administrator password five times in a row, you can now refuse to enter it any more.
+If you want to use this function, please add the following setting items anywhere in config.php.
+
+> /*safety*/
+> 
+> //Reject if admin password is wrong for her 5 times in a row
+> // (1: Enabled, 0: Disabled) 
+> // 1: Enabled for more security, but if the login page is locked it will take more effort to unlock it.
+> 
+> define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
+> 
+> // Access via ftp etc.
+> // Remove the `templates/errorlog/error.log` and you should be able to login again.
+> //This file contains the IP addresses of clients who entered an incorrect admin password.
+> 
+
+- Changed the method to get IP address and host name because some servers cannot get IP address with getenv().
+- Use uniqid() to emit user-code repcode. It now changes in micro time units.
+- Increased the replacement code length from 8 to 12 characters.
+
+- Added original error message for WAF false positive to PaintBBS NEO.
+
+![Screen-2022-12-21_14-34-31](https://user-images.githubusercontent.com/44894014/208915842-51352610-9abc-46b1-b4c1-8403a51bb573.png)
+
+
 ## [2022/11/30] v5.36.8
 
 ### update
