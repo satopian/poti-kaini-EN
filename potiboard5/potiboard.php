@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.52.2';
-const POTI_LOT = 'lot.221227';
+const POTI_VER = 'v5.52.5';
+const POTI_LOT = 'lot.221228';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1584,10 +1584,8 @@ function paintform(){
 				if($pchext==="pch"){
 					$is_neo=is_neo($pchup);
 					$shi = $is_neo ? 'neo': 0;
-					if($is_neo){
-						if($get_pch_size=get_pch_size($pchup)){
-							list($picw,$pich)=$get_pch_size;//pchの幅と高さを取得
-						}
+					if($get_pch_size=get_pch_size($pchup)){
+						list($picw,$pich)=$get_pch_size;//pchの幅と高さを取得
 					}
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="spch"){
@@ -3064,25 +3062,43 @@ function is_neo($src) {//neoのPCHかどうか調べる
 	return $is_neo;
 }
 //pchデータの幅と高さ
+get_pch_size($pch);
 function get_pch_size($src) {
+	if(!$src){
+		return;
+	}
 	$fp = fopen("$src", "rb");
+	$is_neo=(fread($fp,3)==="NEO");//ファイルポインタが3byte移動
 	$pch_data=bin2hex(fread($fp,8));
 	fclose($fp);
 	$width=null;
 	$height=null;
-	$w0=hexdec(substr($pch_data,8,2));
-	$w1=hexdec(substr($pch_data,10,2));
-	$h0=hexdec(substr($pch_data,12,2));
-	$h1=hexdec(substr($pch_data,14,2));
+	if($is_neo){
+		$w0=hexdec(substr($pch_data,2,2));
+		$w1=hexdec(substr($pch_data,4,2));
+		$h0=hexdec(substr($pch_data,6,2));
+		$h1=hexdec(substr($pch_data,8,2));
+	}else{
+		$w0=hexdec(substr($pch_data,6,2));
+		$w1=hexdec(substr($pch_data,8,2));
+		$h0=hexdec(substr($pch_data,10,2));
+		$h1=hexdec(substr($pch_data,12,2));
+	}
 	if(!is_numeric($w0)||!is_numeric($w1)||!is_numeric($h0)||!is_numeric($h1)){
 		return;
 	}
 	$width=(int)$w0+((int)$w1*256);
 	$height=(int)$h0+((int)$h1*256);
+	if(!$width||!$height){
+		return;
+	}
 	return[(int)$width,(int)$height];
 }
 //spchデータの幅と高さ
 function get_spch_size($src) {
+	if(!$src){
+		return;
+	}
 	$lines=[];
 	$width=null;
 	$height=null;
@@ -3108,6 +3124,9 @@ function get_spch_size($src) {
 	}
 	}
 	if(!is_numeric($width)||!is_numeric($height)){
+		return;
+	}
+	if(!$width||!$height){
 		return;
 	}
 	return[(int)$width,(int)$height];
