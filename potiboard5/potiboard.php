@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.52.5';
-const POTI_LOT = 'lot.221228';
+const POTI_VER = 'v5.52.8';
+const POTI_LOT = 'lot.221229';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1054,9 +1054,9 @@ function regist(){
 		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
 			$src = $temppath.$picfile.$pchext;
 			$dst = PCH_DIR.$time.$pchext;
-				if(copy($src, $dst)){
-					chmod($dst,PERMISSION_FOR_DEST);
-				}
+			if(copy($src, $dst)){
+				chmod($dst,PERMISSION_FOR_DEST);
+			}
 		}
 
 		list($w, $h) = getimagesize($dest);
@@ -2750,17 +2750,21 @@ function calcPtime ($psec) {
  * @return string
  */
 function check_pch_ext ($filepath,$options = []) {
-	if (is_file($filepath . ".pch")) {
-		return ".pch";
-	} elseif (is_file($filepath . ".spch")) {
-		return ".spch";
-	} elseif (!isset($options['upfile'])) {
-		return '';
-	} elseif (is_file($filepath . ".chi")) {
-		return ".chi";
-	} elseif (is_file($filepath . ".psd")) {
-		return ".psd";
-	} 
+	
+	$exts=[".pch",".spch",".chi",".psd"];
+
+	foreach($exts as $i => $ext){
+
+		if (is_file($filepath . $ext)) {
+			if(!in_array(mime_content_type($filepath . $ext),["application/octet-stream","application/gzip","image/vnd.adobe.photoshop"])){
+				return '';
+			}
+			return $ext;
+		}
+		if(!isset($options['upfile']) && $i === 1){
+			return '';
+		}
+	}
 	return '';
 }
 
@@ -3071,6 +3075,9 @@ function get_pch_size($src) {
 	$is_neo=(fread($fp,3)==="NEO");//ファイルポインタが3byte移動
 	$pch_data=bin2hex(fread($fp,8));
 	fclose($fp);
+	if(!$pch_data){
+		return;
+	}
 	$width=null;
 	$height=null;
 	if($is_neo){
@@ -3079,6 +3086,9 @@ function get_pch_size($src) {
 		$h0=hexdec(substr($pch_data,6,2));
 		$h1=hexdec(substr($pch_data,8,2));
 	}else{
+		if(mime_content_type($src)!=="application/gzip"){
+			return;
+		}
 		$w0=hexdec(substr($pch_data,6,2));
 		$w1=hexdec(substr($pch_data,8,2));
 		$h0=hexdec(substr($pch_data,10,2));
@@ -3097,6 +3107,9 @@ function get_pch_size($src) {
 //spchデータの幅と高さ
 function get_spch_size($src) {
 	if(!$src){
+		return;
+	}
+	if(mime_content_type($src)!=="application/octet-stream"){
 		return;
 	}
 	$lines=[];
