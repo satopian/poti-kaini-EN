@@ -211,8 +211,6 @@ Click the image to view the original GIF animation.
 Fixes an issue where white fills after using distortion tool show lines that follow the shape of the Liquify.
 Added how-to video link to help page and added gradient shortcut keys section.
 
-[Release POTI-board EVO EN v5.35.3 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
-
 ## [2022/10/03] v5.26.8
 
 ### Updated ChickenPaint to the latest version.
