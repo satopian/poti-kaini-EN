@@ -1,6 +1,11 @@
 {{-- ペイントボタン --}}
 <form action="{{$self}}" method="post" enctype="multipart/form-data" id="paint_form">
 	<p>
+		@if($admin)
+		<input type="hidden" name="admin" value="{{$admin}}">
+		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd" class="pchup_button">
+		<br>
+		@endif
 		Width :<input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
 		Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
 		@if($select_app)
@@ -25,9 +30,5 @@
 		@if($anime)<label><input type="checkbox" value="true" name="anime" title="Save Playback" @if($animechk){{$animechk}}@endif>Save Playback</label>@endif
 		<input type="hidden" name="mode" value="paint">
 		<input class="button" type="submit" value="Paint">
-		@if($admin)
-		<input type="hidden" name="admin" value="{{$admin}}">
-		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd">
-		@endif
 	</p>
 </form>
