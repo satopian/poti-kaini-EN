@@ -44,6 +44,14 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/12/30] v5.52.8
+
+### It is now possible to extract the width and height from the old Java version pch file and load it into the canvas.
+All apps no longer require canvas size input when uploading an app specific file and loading it into the canvas.
+
+![221227_006](https://user-images.githubusercontent.com/44894014/210079467-e7e3d80b-cf15-4dc1-8cb2-89dfc3f52800.gif)
+
+
 ## [2022/12/28] v5.52.2
 
 ### Improved. PaintBBS NEO animation file upload painting made easy.
@@ -58,21 +66,6 @@ For HTML5 version PaintBBS NEO, you can automatically get the canvas size when u
 This is a GIF animation created to introduce the operation when uploading files in specific formats for shi-Painter, PaintBBS NEO, Klecks, and ChickenPaint from the administrator screen.  
 The canvas size is still 300x300, but the canvas is open at its original size.  
 If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.  
-
-## [2022/12/28] v5.52.2
-
-### Improved. PaintBBS NEO animation file upload painting made easy.
--  It has become easier and more convenient to upload and paint PaintBBS NEO and Java Shi Painter videos from the administrator screen.
-Until now, it was necessary to specify the canvas size before loading the pch animation file into the canvas.
-With v5.52, you can now automatically get the canvas size from the animation file.
-However, it is necessary to specify the canvas size when uploading the animation file of the Java version of PaintBBS.
-For HTML5 version PaintBBS NEO, you can automatically get the canvas size when uploading animation files.
-
-![221227_005](https://user-images.githubusercontent.com/44894014/209773098-d83a702f-dd79-49e8-9030-c2cdedee266b.gif)
-↑
-This is a GIF animation created to introduce the operation when uploading files in specific formats for shi-Painter, PaintBBS NEO, Klecks, and ChickenPaint from the administrator screen.
-The canvas size is still 300x300, but the canvas is open at its original size.
-If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.
 
 ## [2022/12/24] v5.51.0
 - PaintBBS NEO update v1.5.16
@@ -202,8 +195,6 @@ Click the image to view the original GIF animation.
 ### update Klecks
 Fixes an issue where white fills after using distortion tool show lines that follow the shape of the Liquify.
 Added how-to video link to help page and added gradient shortcut keys section.
-
-[Release POTI-board EVO EN v5.35.3 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/10/03] v5.26.8
 
