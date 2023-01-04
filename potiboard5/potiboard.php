@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.52.8';
-const POTI_LOT = 'lot.221229';
+const POTI_VER = 'v5.53.0';
+const POTI_LOT = 'lot.220105';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1115,8 +1115,8 @@ function regist(){
 			if(!trim($value)){
 				continue;
 			}
-			list($_oyano,) = explode(",", rtrim($value));
-			if($_oyano==$resto){
+			//レス先検索
+			if (strpos(trim($value) . ',', $resto . ',') === 0){
 				$find = TRUE;
 				$line[$i] = rtrim($value).','.$no;
 				$treelines=explode(",", rtrim($line[$i]));
