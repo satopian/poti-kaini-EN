@@ -4,7 +4,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{{$title}}</title> 
-
 	<!-- this is important -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -89,10 +88,9 @@
 								if(text==='ok'){
 									return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
 								}
-								return alert(@if($en)'Your picture upload failed! Please try again!'@else'投稿に失敗。時間をおいて再度投稿してみてください。'@endif);
+								return alert(text);
 							})
 						}
-
 					})
 					.catch((error) => {
 						return alert(@if($en)'Server or line is unstable.\nPlease try again!'@else'サーバまたは回線が不安定です。\n時間をおいて再度投稿してみてください。'@endif);	
