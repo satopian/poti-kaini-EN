@@ -5,10 +5,12 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 
 //設定
 include(__DIR__.'/config.php');
+defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0
 
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
 $en= (stripos($lang,'ja')!==0);
+
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
 //PNG画像データ投稿容量制限KB(chiは含まない)
@@ -50,7 +52,7 @@ $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-$tool = (string)filter_input(INPUT_POST, 'tool');
+$tool = 'klecks';
 $repcode = (string)filter_input(INPUT_POST, 'repcode');
 $stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
 $resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
@@ -58,10 +60,10 @@ $resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 $userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 $userdata .= "\n";
 
-$timer=time()-$stime;
+$timer=time()-(int)$stime;
 if((bool)SECURITY_TIMER && !$repcode && ((int)$timer<(int)SECURITY_TIMER)){
 
-	$psec=SECURITY_TIMER-$timer;
+	$psec=(int)SECURITY_TIMER-(int)$timer;
 	$waiting_time=calcPtime ($psec);
 	if($en){
 		die("Please draw for another {$waiting_time}.");
@@ -75,7 +77,7 @@ if(!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK){
 }
 
 if(SIZE_CHECK && ($_FILES['picture']['size'] > (PICTURE_MAX_KB * 1024))){
-	die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
+	die($en ? "The size of the picture is too big. " : "ファイルサイズが大きすぎます。");
 }
 
 if(mime_content_type($_FILES['picture']['tmp_name'])!=='image/png'){
@@ -95,7 +97,7 @@ if(isset($badfile)&&is_array($badfile)){
 $success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
 if(!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
-    die("Couldn't move uploaded files");
+    die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
 }
 chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
 if(isset($_FILES['psd']) && ($_FILES['psd']['error'] == UPLOAD_ERR_OK)){
@@ -136,13 +138,13 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S.'sec' : '');
+			. ($S ? $S : '0').'sec';
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S.'秒' : '');
+			. ($S ? $S : '0').'秒';
 }
 //ユーザーip
 function get_uip(){
@@ -150,7 +152,7 @@ function get_uip(){
 	$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
 	$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
 	$ip = $ip ? $ip : (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '');
-	if (strstr($ip, ', ')) {
+	if(strstr($ip, ', ')) {
 		$ips = explode(', ', $ip);
 		$ip = $ips[0];
 	}

@@ -143,7 +143,7 @@ defined('DO_NOT_CHANGE_POSTS_TIME') or define('DO_NOT_CHANGE_POSTS_TIME', '0');
 //マークダウン記法のリンクをHTMLに する:1 しない:0
 defined('MD_LINK') or define('MD_LINK', '0');
 
-//しぃペインターを使う 使う:1 使わない:0 
+//PaintBBS NEOを使う 使う:1 使わない:0 
 defined('USE_PAINTBBS_NEO') or define('USE_PAINTBBS_NEO', '1');
 //しぃペインターを使う 使う:1 使わない:0 
 defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');

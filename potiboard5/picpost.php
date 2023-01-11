@@ -49,12 +49,11 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 }
 
 //設定
-
 include(__DIR__.'/config.php');
-
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
   $en= (stripos($lang,'ja')!==0) ? true : false;
+ 
   if($en){//ブラウザの言語が日本語以外の時
 	$errormsg_1 = "Failed to get data. Please try posting again after a while.";
 	$errormsg_2 = "The size of the picture is too big. The drawing image is not saved.";
@@ -156,9 +155,9 @@ $userdata .= "\n";
 if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_8}");
 }
-if(((int)SECURITY_TIMER && !$repcode && $timer) && ($timer<(int)SECURITY_TIMER)){
+if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
 
-	$psec=(int)SECURITY_TIMER-$timer;
+	$psec=(int)SECURITY_TIMER-(int)$timer;
 	$waiting_time=calcPtime ($psec);
 	if($en){
 		die("error\nPlease draw for another {$waiting_time}.");
@@ -253,13 +252,13 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S.'sec' : '');
+			. ($S ? $S : '0').'sec';
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S.'秒' : '');
+			. ($S ? $S : '0').'秒';
 }
 //ユーザーip
 function get_uip(){
