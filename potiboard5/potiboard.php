@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.53.0';
-const POTI_LOT = 'lot.220105';
+const POTI_VER = 'v5.55.3';
+const POTI_LOT = 'lot.220111';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -143,6 +143,8 @@ defined('DO_NOT_CHANGE_POSTS_TIME') or define('DO_NOT_CHANGE_POSTS_TIME', '0');
 //マークダウン記法のリンクをHTMLに する:1 しない:0
 defined('MD_LINK') or define('MD_LINK', '0');
 
+//しぃペインターを使う 使う:1 使わない:0 
+defined('USE_PAINTBBS_NEO') or define('USE_PAINTBBS_NEO', '1');
 //しぃペインターを使う 使う:1 使わない:0 
 defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
 //ChickenPaintを使う 使う:1 使わない:0 
@@ -392,21 +394,14 @@ function check_same_origin($cookie_check=false){
 
 // ベース
 function basicpart(){
-	global $pallets_dat;
+	global $pallets_dat,$resno;
+	
 	$dat['title'] = TITLE;
 	$dat['encoded_title'] = urlencode(TITLE);
 	$dat['home']  = HOME;
 	$dat['self']  = PHP_SELF;
 	$dat['encoded_self'] = urlencode(PHP_SELF);
 	$dat['self2'] = h(PHP_SELF2);
-	$dat['paint'] = USE_PAINT ? true : false;
-	$dat['applet'] = true;
-	$dat['usepbbs'] = true;
-	$dat['select_app'] =(USE_SHI_PAINTER||USE_CHICKENPAINT) ? true : false;//しぃペインターとChickenPaintを使うかどうか?
-	$dat['app_to_use'] = $dat['select_app'] ? false : "neo";
-	$dat['use_shi_painter'] = USE_SHI_PAINTER ? true : false;
-	$dat['use_chickenpaint'] = USE_CHICKENPAINT ? true : false;
-	$dat['use_klecks'] = USE_KLECKS ? true : false;
 	$dat['ver'] = POTI_VER;
 	$dat['verlot'] = POTI_VERLOT;
 	$dat['tver'] = TEMPLATE_VER;
@@ -441,7 +436,7 @@ function basicpart(){
 	//言語
 	$dat['en']=lang_en();
 	//初期化 PHP8.1 OTHERFILE
-	$keys=['resform','post_mode','rewrite','admin','admin_in','admin_del','pass','regist','mes','err_mode','resno','pictmp','notmp','ptime','name','email','url','sub','com','ipcheck','tmp','thread_no','logfilename','mode_catalog','catalog_pageno'];
+	$keys=['resform','post_mode','paint','rewrite','admin','admin_in','admin_del','pass','regist','mes','err_mode','resno','pictmp','notmp','ptime','name','email','url','sub','com','ipcheck','tmp','thread_no','logfilename','mode_catalog','catalog_pageno'];
 	foreach($keys as $key){
 		$dat[$key]=false;	
 	}
@@ -463,11 +458,20 @@ function form($resno="",$adminin="",$tmp=""){
 
 	$dat['form'] = $resno ? true : false;
 
+	$arr_apps=app_to_use();
+	$count_arr_apps=count($arr_apps);
+	$dat['paint'] = $admin_valid ? true :((USE_PAINT && !empty($count_arr_apps)) ? true : false);
+	$dat['paint2'] = $dat['paint'] ? ($resno ? false : true):false;
+	$dat['select_app'] =$admin_valid ? true : ($count_arr_apps>1);//複数のペイントアプリを使う時
+	$dat['app_to_use'] = $admin_valid ? false :(($count_arr_apps===1) ? $arr_apps[0] : false);	//ペイントアプリが1種類の時
+	$dat['use_neo'] = $admin_valid ? true : (USE_PAINTBBS_NEO ? true : false);
+	$dat['use_shi_painter'] = $admin_valid ? true : (USE_SHI_PAINTER ? true : false);
+	$dat['use_chickenpaint'] = $admin_valid ? true : (USE_CHICKENPAINT ? true : false);
+	$dat['use_klecks'] = $admin_valid ? true : (USE_KLECKS ? true : false);
 	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
 	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
 	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
 	$dat['pmaxh'] = USE_PAINT ? PMAX_H : '';
-	$dat['paint2'] = USE_PAINT ? ($resno ? false : true):false;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 
@@ -476,6 +480,10 @@ function form($resno="",$adminin="",$tmp=""){
 	
 	$dat['paintform'] = USE_PAINT ? ($resno ? (RES_UPLOAD ? true :false) :true):false;
 	$dat['admin'] = $admin_valid ? h($ADMIN_PASS) :'';
+
+
+
+
 
 	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
 	$dat['usename'] = USE_NAME ? ' *' : '';
@@ -1969,42 +1977,50 @@ function incontinue(){
 	$pch_ext=check_pch_ext(PCH_DIR.$ctim,['upfile'=>true]);
 	$dat['pch_ext']=$pch_ext;
 	$dat['download_app_dat'] = true;
-	$dat['select_app'] = false;
+	$select_app = false;
 
 	switch($pch_ext){
 		case '.pch':
 			$dat['ctype_pch'] = true;
 			if(is_neo(PCH_DIR.$ctim.'.pch')){
-				$dat['app_to_use'] = "neo";
+				$app_to_use = "neo";
 			}else{
-				$dat['app_to_use'] = "0";
+				$app_to_use = "0";
 			}
 			break;
 
 		case '.spch':
 			$dat['ctype_pch'] = true;
-			$dat['app_to_use'] = "1";
+			$app_to_use = "1";
 			break;
 
 		case '.chi':
-			$dat['app_to_use'] = 'chicken';
+			$app_to_use = 'chicken';
 			break;
 
 		case '.psd':
-			$dat['app_to_use'] = 'klecks';
+			$app_to_use = 'klecks';
 			break;
 
 		default :
-			$dat['select_app'] = true;
-			$dat['app_to_use'] = false;
+			$select_app = true;
+			$app_to_use = false;
 			$dat['download_app_dat'] = false;
 			break;
 	}
+
+	$dat = array_merge($dat,form());
+	$arr_apps=app_to_use();
+
+	$dat['select_app']= $select_app ? $dat['select_app'] : false;
+	$dat['app_to_use']=($dat['paint'] && !$dat['select_app'] && !$app_to_use) ? $arr_apps[0]: $app_to_use;
 
 	if(mime_content_type(IMG_DIR.$ctim.$cext)==='image/webp'){
 		$dat['use_shi_painter'] = false; 
 	}
 	$dat['addinfo'] = $addinfo;
+	var_dump($dat);
+	exit;
 	htmloutput(PAINTFILE,$dat);
 }
 
@@ -2741,7 +2757,7 @@ function calcPtime ($psec) {
 		($D ? $D . PTIME_D : '')
 		. ($H ? $H . PTIME_H : '')
 		. ($M ? $M . PTIME_M : '')
-		. ($S ? $S . PTIME_S : '');
+		. ($S ? $S : '0'). PTIME_S;
 }
 
 /**
@@ -3065,6 +3081,25 @@ function is_neo($src) {//neoのPCHかどうか調べる
 	fclose($fp);
 	return $is_neo;
 }
+//使用するペイントアプリの配列化
+function app_to_use(){
+
+	$arr_apps=[];
+		if(USE_PAINTBBS_NEO){
+			$arr_apps[]='neo';
+		}
+		if(USE_SHI_PAINTER){
+			$arr_apps[]='1';
+		}
+		if(USE_CHICKENPAINT){
+			$arr_apps[]='chicken';
+		}
+		if(USE_KLECKS){
+			 $arr_apps[]='klecks';
+		}
+		return $arr_apps;
+	}
+
 //pchデータの幅と高さ
 get_pch_size($pch);
 function get_pch_size($src) {

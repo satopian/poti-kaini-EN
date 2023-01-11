@@ -115,14 +115,15 @@
 		@if($select_app)
 			Tool:
 			<select name="shi">
-			<option value="neo">PaintBBS NEO</option>
+			@if($use_neo)<option value="neo">PaintBBS NEO</option>@endif
 			@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
 			@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
 			@if ($use_klecks)<option value="klecks">Klecks</option>@endif
 		</select>
-		@else 
-		{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
-		<input type="hidden" name="shi" value="neo">
+		@endif 
+		{{-- 選択メニューを出さない時に起動するアプリ --}}
+		@if($app_to_use)
+		<input type="hidden" name="shi" value="{{$app_to_use}}">
 		@endif
 
 		@if($use_select_palettes)

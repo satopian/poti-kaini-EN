@@ -56,6 +56,10 @@ define("USE_IMG_UPLOAD","1");
 
 define("DENY_COMMENTS_ONLY", "0");
 
+// Use PaintBBS NEO 
+// (1: Enabled, 0: Disabled)
+define("USE_PAINTBBS_NEO", "1");
+
 // Use Shi Painter 
 // (1: Enabled, 0: Disabled)
 define("USE_SHI_PAINTER", "1");
@@ -67,8 +71,6 @@ define("USE_CHICKENPAINT", "1");
 //Use Klecks
 // (1: Enabled, 0: Disabled) 
 define("USE_KLECKS", "1");
-
-//PaintBBS NEO can be used with any setting.
 
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/
 /* That's all the necessary settings. From here on as needed. */
