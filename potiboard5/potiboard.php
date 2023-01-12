@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.55.3';
-const POTI_LOT = 'lot.220111';
+const POTI_VER = 'v5.55.8';
+const POTI_LOT = 'lot.220112';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -256,7 +256,8 @@ switch($mode){
 		if($admin==="post"){
 			$dat['post_mode'] = true;
 			$dat['regist'] = true;
-			$dat = array_merge($dat,form($res,'valid'));
+			$dat = array_merge($dat,form($res));
+			$dat = array_merge($dat,form_admin_in('valid'));
 			return htmloutput(OTHERFILE,$dat);
 		}
 		if($admin==="update"){
@@ -445,12 +446,11 @@ function basicpart(){
 }
 
 // 投稿フォーム 
-function form($resno="",$adminin="",$tmp=""){
+function form($resno="",$tmp=""){
 	global $addinfo;
 	global $fontcolors,$qualitys;
 	global $ADMIN_PASS;
 
-	$admin_valid = ($adminin === 'valid');
 	//csrfトークンをセット
 	$dat['token']= get_csrf_token();
 
@@ -460,38 +460,30 @@ function form($resno="",$adminin="",$tmp=""){
 
 	$arr_apps=app_to_use();
 	$count_arr_apps=count($arr_apps);
-	$dat['paint'] = $admin_valid ? true :((USE_PAINT && !empty($count_arr_apps)) ? true : false);
+	$dat['paint'] = ((USE_PAINT && !empty($count_arr_apps)) ? true : false);
 	$dat['paint2'] = $dat['paint'] ? ($resno ? false : true):false;
-	$dat['select_app'] =$admin_valid ? true : ($count_arr_apps>1);//複数のペイントアプリを使う時
-	$dat['app_to_use'] = $admin_valid ? false :(($count_arr_apps===1) ? $arr_apps[0] : false);	//ペイントアプリが1種類の時
-	$dat['use_neo'] = $admin_valid ? true : (USE_PAINTBBS_NEO ? true : false);
-	$dat['use_shi_painter'] = $admin_valid ? true : (USE_SHI_PAINTER ? true : false);
-	$dat['use_chickenpaint'] = $admin_valid ? true : (USE_CHICKENPAINT ? true : false);
-	$dat['use_klecks'] = $admin_valid ? true : (USE_KLECKS ? true : false);
+	$dat['select_app'] =($count_arr_apps>1);//複数のペイントアプリを使う時
+	$dat['app_to_use'] =(($count_arr_apps===1) ? $arr_apps[0] : false);	//ペイントアプリが1種類の時
+	$dat['use_neo'] = (USE_PAINTBBS_NEO ? true : false);
+	$dat['use_shi_painter'] = (USE_SHI_PAINTER ? true : false);
+	$dat['use_chickenpaint'] =(USE_CHICKENPAINT ? true : false);
+	$dat['use_klecks'] = (USE_KLECKS ? true : false);
 	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
 	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
 	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
 	$dat['pmaxh'] = USE_PAINT ? PMAX_H : '';
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
-
 	$dat['resno'] = $resno ? $resno :'';
 	$dat['notres'] = $resno ? false : true;
-	
 	$dat['paintform'] = USE_PAINT ? ($resno ? (RES_UPLOAD ? true :false) :true):false;
-	$dat['admin'] = $admin_valid ? h($ADMIN_PASS) :'';
-
-
-
-
-
 	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	$dat['usecom'] = (USE_COM||($resno&&!RES_UPLOAD)) ? ' *' :'';
 	//本文必須の設定では無い時はレスでも画像かコメントがあれば通る
 	$dat['upfile'] = false;
-	if(!USE_IMG_UPLOAD && !$admin_valid){//画像アップロード機能を使わない時
+	if(!USE_IMG_UPLOAD){//画像アップロード機能を使わない時
 		$dat['upfile'] = false;
 	} else{
 		if((!$resno && !$tmp) || (RES_UPLOAD && !$tmp)) $dat['upfile'] = true;
@@ -513,6 +505,22 @@ function form($resno="",$adminin="",$tmp=""){
 	//アプレット設定
 	$dat['undo'] = UNDO;
 	$dat['undo_in_mg'] = UNDO_IN_MG;
+
+	return $dat;
+}
+function form_admin_in($adminin=""){
+	global $ADMIN_PASS;
+
+	$admin_valid = ($adminin === 'valid');
+	$dat['paint'] = true; 
+	$dat['select_app'] = true;
+	$dat['app_to_use'] = false;
+	$dat['use_neo'] = true;
+	$dat['use_shi_painter'] = true; 
+	$dat['use_chickenpaint'] = true;
+	$dat['use_klecks'] = true;
+	$dat['admin'] = h($ADMIN_PASS);
+	$dat['upfile'] = true;
 
 	return $dat;
 }
@@ -1849,7 +1857,7 @@ function paintcom(){
 		}
 	}
 
-	$dat = array_merge($dat,form($resto,'',$tmp));
+	$dat = array_merge($dat,form($resto,$tmp));
 
 	htmloutput(OTHERFILE,$dat);
 }
