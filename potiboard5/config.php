@@ -72,6 +72,10 @@ define("USE_CHICKENPAINT", "1");
 // (1: Enabled, 0: Disabled) 
 define("USE_KLECKS", "1");
 
+//Allow admins to use all apps regardless of settings
+// (1: Enabled, 0: Disabled) 
+define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
+
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/
 /* That's all the necessary settings. From here on as needed. */
 

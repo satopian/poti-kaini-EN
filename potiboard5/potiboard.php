@@ -163,6 +163,8 @@ defined('DIARY') or define('DIARY', '0');
 defined('X_FRAME_OPTIONS_DENY') or define('X_FRAME_OPTIONS_DENY', '1');
 //管理者パスワードを5回連続で間違えたときはロック する:1 しない:0
 defined('CHECK_PASSWORD_INPUT_ERROR_COUNT') or define('CHECK_PASSWORD_INPUT_ERROR_COUNT', '0');
+//管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
+defined('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS') or define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -511,17 +513,20 @@ function form($resno="",$tmp=""){
 function form_admin_in($adminin=""){
 	global $ADMIN_PASS;
 
-	$admin_valid = ($adminin === 'valid');
-	$dat['paint'] = true; 
-	$dat['select_app'] = true;
-	$dat['app_to_use'] = false;
-	$dat['use_neo'] = true;
-	$dat['use_shi_painter'] = true; 
-	$dat['use_chickenpaint'] = true;
-	$dat['use_klecks'] = true;
+	if(($adminin !== 'valid')){
+		return;
+	}
+	if(ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS){
+		$dat['paint'] = true; 
+		$dat['select_app'] = true;
+		$dat['app_to_use'] = false;
+		$dat['use_neo'] = true;
+		$dat['use_shi_painter'] = true; 
+		$dat['use_chickenpaint'] = true;
+		$dat['use_klecks'] = true;
+	}
 	$dat['admin'] = h($ADMIN_PASS);
 	$dat['upfile'] = true;
-
 	return $dat;
 }
 

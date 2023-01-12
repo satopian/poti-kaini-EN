@@ -67,12 +67,14 @@
 		<script type="text/javascript" src="loadcookie.js"></script>
 		@endif
 		@if($admin)@if($rewrite)@else
+		@if($paint)
 		<div class="epost">
 
 			{{-- ペイントフォーム --}}
 			@include('parts.mono_paint_form',['admin'=>$admin])
 
 		</div>
+		@endif
 		@endif @endif
 		@endif
 		{{-- <!-- 管理者お絵かきモードおわり --> --}}
