@@ -2032,8 +2032,7 @@ function incontinue(){
 		$dat['use_shi_painter'] = false; 
 	}
 	$dat['addinfo'] = $addinfo;
-	var_dump($dat);
-	exit;
+
 	htmloutput(PAINTFILE,$dat);
 }
 
