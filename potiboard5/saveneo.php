@@ -33,7 +33,7 @@ if($en){//ブラウザの言語が日本語以外の時
 define('SIZE_CHECK', '1');
 //PNG画像データ投稿容量制限KB(chiは含まない)
 define('PICTURE_MAX_KB', '8192');//8MBまで
-define('PSD_MAX_KB', '40960');//40MBまで。ただしサーバのPHPの設定によって2MB以下に制限される可能性があります。
+define('PCH_MAX_KB', '40960');//40MBまで。ただしサーバのPHPの設定によって2MB以下に制限される可能性があります。
 defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 
@@ -54,7 +54,6 @@ if(str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 	die("error\n{$errormsg_3}");
 }
-
 
 $u_ip = get_uip();
 $u_host = $u_ip ? gethostbyaddr($u_ip) : '';
@@ -136,15 +135,15 @@ if(!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
 }
 chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
 if(isset($_FILES['pch']) && ($_FILES['pch']['error'] == UPLOAD_ERR_OK)){
-	// if(mime_content_type($_FILES['psd']['tmp_name'])==="image/vnd.adobe.photoshop"){
-		if(!SIZE_CHECK || ($_FILES['pch']['size'] < (PSD_MAX_KB * 1024))){
+	if(mime_content_type($_FILES['pch']['tmp_name'])==="application/octet-stream"){
+		if(!SIZE_CHECK || ($_FILES['pch']['size'] < (PCH_MAX_KB * 1024))){
 			//PSDファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
 			move_uploaded_file($_FILES['pch']['tmp_name'], TEMP_DIR.$imgfile.'.pch');
 			if(is_file(TEMP_DIR.$imgfile.'.pch')){
 				chmod(TEMP_DIR.$imgfile.'.pch',PERMISSION_FOR_DEST);
 			}
 		}
-	// }
+	}
 }
 // 情報データをファイルに書き込む
 file_put_contents(TEMP_DIR.$imgfile.".dat",$userdata,LOCK_EX);
@@ -172,13 +171,17 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S : '0').'sec';
+			. ($S ? $S.'sec' : '')
+			. (!$D&&!$H&&!$M&&!$S) ? '0sec':'';
+
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S : '0').'秒';
+			. ($S ? $S.'秒' : '')
+			. (!$D&&!$H&&!$M&&!$S) ? '0秒':'';
+
 }
 //ユーザーip
 function get_uip(){
