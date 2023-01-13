@@ -235,6 +235,7 @@
 					@if($paintbbs)
 					@if($useneo)
 					<applet-dummy code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
+						<param name="neo_send_with_formdata" value="true">
 						<param name="neo_confirm_unload" value="true">
 						<param name="neo_show_right_button" value="true">
 					@else 
@@ -276,7 +277,11 @@
 						<param name="compress_level" value="{{$compress_level}}">
 						<param name="undo" value="{{$undo}}">
 						<param name="undo_in_mg" value="{{$undo_in_mg}}">
+						@if($useneo)
+						<param name="url_save" value="saveneo.php">
+						@else
 						<param name="url_save" value="picpost.php">
+						@endif
 						<param name="url_exit" value="{{$self}}?mode={{$mode}}&amp;stime={{$stime}}">
 						@if($anime)
 						<param name="thumbnail_type" value="animation">

@@ -50,6 +50,7 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 
 //設定
 include(__DIR__.'/config.php');
+
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
   $en= (stripos($lang,'ja')!==0) ? true : false;
@@ -252,13 +253,17 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S : '0').'sec';
+			. ($S ? $S.'sec' : '')
+			. (!$D&&!$H&&!$M&&!$S) ? '0sec':'';
+
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S : '0').'秒';
+			. ($S ? $S.'秒' : '')
+			. (!$D&&!$H&&!$M&&!$S) ? '0秒':'';
+
 }
 //ユーザーip
 function get_uip(){

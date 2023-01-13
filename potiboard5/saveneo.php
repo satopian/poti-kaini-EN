@@ -11,6 +11,24 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
   ? explode( ',', $http_langs )[0] : '';
 $en= (stripos($lang,'ja')!==0);
 
+if($en){//ブラウザの言語が日本語以外の時
+	$errormsg_1 = "Your picture upload failed! Please try again!";
+	$errormsg_2 = "Your browser is not supported.";
+	$errormsg_3 = "The post has been rejected.";
+	$errormsg_4 = "User code mismatch.";
+	$errormsg_5 = "The size of the picture is too big. ";
+	$errormsg_6 = "Your browser is not supported.";
+	$errormsg_7 = "Illegal image detected.\nImages are not saved.";
+}else{//日本語
+	$errormsg_1 = "投稿に失敗。時間をおいて再度投稿してみてください。";
+	$errormsg_2 = "お使いのブラウザはサポートされていません。";
+	$errormsg_3 = "拒絶されました。";
+	$errormsg_4 = "ユーザーコードが一致しません。";
+	$errormsg_5 = "ファイルサイズが大きすぎます。";
+	$errormsg_6 = "お使いのブラウザはサポートされていません。";
+	$errormsg_7 = "不正な画像を検出しました。\n画像は保存されません。";
+}
+
 //容量違反チェックをする する:1 しない:0
 define('SIZE_CHECK', '1');
 //PNG画像データ投稿容量制限KB(chiは含まない)
@@ -27,61 +45,78 @@ header('Content-type: text/plain');
 //Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
 //Orijinがhostと異なっていたら投稿を拒絶。
 if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
-	die($en ? "Your browser is not supported." : "お使いのブラウザはサポートされていません。");
+	die("error\n{$$errormsg_2}");
 }
 $url_scheme=parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://';
-
 if(str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
-	die($en ? "The post has been rejected." : "拒絶されました。");
+	die("error\n{$errormsg_3}");
 }
-
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-	die($en ? "The post has been rejected." : "拒絶されました。");
+	die("error\n{$errormsg_3}");
 }
-$usercode = (string)filter_input(INPUT_POST, 'usercode');
-//csrf
 
-if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
-	die($en ? "User code mismatch." : "ユーザーコードが一致しません。");
-}
 
 $u_ip = get_uip();
 $u_host = $u_ip ? gethostbyaddr($u_ip) : '';
 $u_agent = $_SERVER["HTTP_USER_AGENT"];
 $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
+// 拡張ヘッダーを取り出す
+$sendheader = filter_input(INPUT_POST,'header',);
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-$tool = 'klecks';
-$repcode = (string)filter_input(INPUT_POST, 'repcode');
-$stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
-$resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
-$userdata .= "\n";
+$usercode='';
+if($sendheader){
+	$sendheader = str_replace("&amp;", "&", $sendheader);
+	parse_str($sendheader, $u);
+	$tool = 'neo';
+	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
+	$resto = isset($u['resto']) ? $u['resto'] : '';
+	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
+	$stime = isset($u['stime']) ? $u['stime'] : '';
+	$count = isset($u['count']) ? $u['count'] : 0;
+	$timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
+	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
+	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
+}
 
-$timer=time()-(int)$stime;
-if((bool)SECURITY_TIMER && !$repcode && ((int)$timer<(int)SECURITY_TIMER)){
+//csrf
+if($usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+	die("error\n{$errormsg_4}");
+}
+
+if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
 
 	$psec=(int)SECURITY_TIMER-(int)$timer;
 	$waiting_time=calcPtime ($psec);
 	if($en){
-		die("Please draw for another {$waiting_time}.");
+		die("error\nPlease draw for another {$waiting_time}.");
 	}else{
-		die("描画時間が短すぎます。あと{$waiting_time}。");
+		die("error\n描画時間が短すぎます。あと{$waiting_time}。");
 	}
+
+}
+if(((int)SECURITY_CLICK && !$repcode && $count) && ($count<(int)SECURITY_CLICK)){
+	$nokori=(int)SECURITY_CLICK-$count;
+
+	if($en){
+		die("error\nPlease draw more. Further {$nokori} steps.");
+	}else{
+		die("error\n工程数が少なすぎます。あと{$nokori}工程。");
+	}
+
 }
 
 if(!isset ($_FILES["picture"]) || $_FILES['picture']['error'] != UPLOAD_ERR_OK){
-	die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
+	die("error\n{$errormsg_1}");
 }
 
 if(SIZE_CHECK && ($_FILES['picture']['size'] > (PICTURE_MAX_KB * 1024))){
-	die($en ? "The size of the picture is too big. " : "ファイルサイズが大きすぎます。");
+	die("error\n{$errormsg_5}");
 }
 
 if(mime_content_type($_FILES['picture']['tmp_name'])!=='image/png'){
-	die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
+	die("error\n{$errormsg_1}");
 }
 
 $chk = md5_file($_FILES['picture']['tmp_name']);
@@ -97,25 +132,24 @@ if(isset($badfile)&&is_array($badfile)){
 $success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$imgfile.'.png');
 
 if(!$success||!is_file(TEMP_DIR.$imgfile.'.png')) {
-    die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
+    die("error\n{$errormsg_1}");
 }
 chmod(TEMP_DIR.$imgfile.'.png',PERMISSION_FOR_DEST);
-if(isset($_FILES['psd']) && ($_FILES['psd']['error'] == UPLOAD_ERR_OK)){
-	if(mime_content_type($_FILES['psd']['tmp_name'])==="image/vnd.adobe.photoshop"){
-		if(!SIZE_CHECK || ($_FILES['psd']['size'] < (PSD_MAX_KB * 1024))){
+if(isset($_FILES['pch']) && ($_FILES['pch']['error'] == UPLOAD_ERR_OK)){
+	// if(mime_content_type($_FILES['psd']['tmp_name'])==="image/vnd.adobe.photoshop"){
+		if(!SIZE_CHECK || ($_FILES['pch']['size'] < (PSD_MAX_KB * 1024))){
 			//PSDファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
-			move_uploaded_file($_FILES['psd']['tmp_name'], TEMP_DIR.$imgfile.'.psd');
-			if(is_file(TEMP_DIR.$imgfile.'.psd')){
-				chmod(TEMP_DIR.$imgfile.'.psd',PERMISSION_FOR_DEST);
+			move_uploaded_file($_FILES['pch']['tmp_name'], TEMP_DIR.$imgfile.'.pch');
+			if(is_file(TEMP_DIR.$imgfile.'.pch')){
+				chmod(TEMP_DIR.$imgfile.'.pch',PERMISSION_FOR_DEST);
 			}
 		}
-	}
+	// }
 }
 // 情報データをファイルに書き込む
 file_put_contents(TEMP_DIR.$imgfile.".dat",$userdata,LOCK_EX);
-
-if(!is_file(TEMP_DIR.$imgfile.'.dat')) {
-	die($en ? "Your picture upload failed! Please try again!" : "投稿に失敗。時間をおいて再度投稿してみてください。");
+if(!is_file(TEMP_DIR.$imgfile.'.dat')){
+	die("error\n{$errormsg_1}");
 }
 chmod(TEMP_DIR.$imgfile.'.dat',PERMISSION_FOR_LOG);
 
@@ -138,17 +172,13 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S.'sec' : '')
-			. (!$D&&!$H&&!$M&&!$S) ? '0sec':'';
-
+			. ($S ? $S : '0').'sec';
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S.'秒' : '')
-			. (!$D&&!$H&&!$M&&!$S) ? '0秒':'';
-
+			. ($S ? $S : '0').'秒';
 }
 //ユーザーip
 function get_uip(){

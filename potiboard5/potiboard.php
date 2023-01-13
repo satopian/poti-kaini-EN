@@ -2769,7 +2769,7 @@ function calcPtime ($psec) {
 		($D ? $D . PTIME_D : '')
 		. ($H ? $H . PTIME_H : '')
 		. ($M ? $M . PTIME_M : '')
-		. ($S ? $S : '0'). PTIME_S;
+		. ($S ? $S . PTIME_S : '');
 }
 
 /**
