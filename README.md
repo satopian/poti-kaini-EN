@@ -44,7 +44,59 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2022/01/14] v5.55.8.1
+- fixd saveneo.php
+
+Fixed an issue where depending on the content of the error that occurred, it would not be displayed as an alert and the screen would transition and fail to post.
+
 ## [2022/01/13] v5.55.8
+
+### Changed communication of PaintBBS NEO from raw data to formData to avoid false positive error by WAF.
+- In order to be able to post to the conventional oekaki bulletin board, we modified NEO, which used to send raw data, and made it possible to send header, image, and timelapse animetion data with formData.
+With this change, the probability that the conventional WAF will detect NEO transmission data as an attack and block it will be greatly reduced, and the probability of successful posting will be dramatically increased.
+[Added an option to send data individually with formData so that WAF does not judge it as an attack. by satopian Pull Request #94 funige/neo](https://github.com/funige/neo/pull/94)
+#### Important changes
+- Receipt of shi-Painter data is done by `picpost.php` as before.
+However, the data of PaintBBS NEO is received by newly added `saveneo.php`.
+If you forget to upload this file, you will not be able to post from NEO, so be sure to update it.
+Transfer it to the same directory as potiboard.php.
+Please update 
+
+- Updated Paint screen template
+
+```
+paint.blade.php
+
+```
+A parameter has been added to switch to the formData submit mode.
+
+### Changed the config.php
+
+Until now, it was not possible to remove PaintBBS NEO from apps that use it, but now you can choose to use or not use NEO.
+If you set it to not use all, it will be a setting that does not use the drawing function.
+You can also set it to use only Klecks or only ChickenPaint.
+When there is only one app to use, the pull-down menu for app selection disappears and the screen becomes clean.
+
+### Limited by drawing time
+
+For example, if you want to reject submissions with only lines drawn in less than 1 minute,
+
+```
+// Security timer (unit: seconds). If not set, use ""
+define("SECURITY_TIMER", "");
+
+```
+It was possible to specify the minimum required drawing time with , but until now, it was effective only for Shi-Painter and PaintBBS NEO.
+With this update, ChickenPaint and Klecks now have this setting enabled.
+In the old method, when there was a violation, it was possible to jump to another site (for example, the Metropolitan Police Department site), but instead of that method, an alert will open "Please draw for another 30 seconds.".
+
+## [2023/01/14] v5.55.8.1
+- fixd saveneo.php
+
+Fixed an issue where depending on the content of the error that occurred, it would not be displayed as an alert and the screen would transition and fail to post.
+
+
+## [2023/01/13] v5.55.8
 
 ### Changed communication of PaintBBS NEO from raw data to formData to avoid false positive error by WAF.
 - In order to be able to post to the conventional oekaki bulletin board, we modified NEO, which used to send raw data, and made it possible to send header, image, and timelapse animetion data with formData.
