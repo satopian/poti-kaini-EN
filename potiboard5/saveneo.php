@@ -121,7 +121,7 @@ if(isset($badfile)&&is_array($badfile)){
 		if(preg_match("/\A$value/",$chk)){
 			unlink($_FILES['picture']['tmp_name']);
 			// 不正な画像を検出しました。画像は保存されません。
-			die("error\n{$errormsg_5}");
+			die("error\n{$errormsg_6}");
 		}
 	}
 }
