@@ -6,7 +6,6 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 //設定
 include(__DIR__.'/config.php');
 defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0
-
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
 $en= (stripos($lang,'ja')!==0);
@@ -17,16 +16,14 @@ if($en){//ブラウザの言語が日本語以外の時
 	$errormsg_3 = "The post has been rejected.";
 	$errormsg_4 = "User code mismatch.";
 	$errormsg_5 = "The size of the picture is too big. ";
-	$errormsg_6 = "Your browser is not supported.";
-	$errormsg_7 = "Illegal image detected.\nImages are not saved.";
+	$errormsg_6 = "Illegal image detected.\nImages are not saved.";
 }else{//日本語
 	$errormsg_1 = "投稿に失敗。時間をおいて再度投稿してみてください。";
 	$errormsg_2 = "お使いのブラウザはサポートされていません。";
 	$errormsg_3 = "拒絶されました。";
 	$errormsg_4 = "ユーザーコードが一致しません。";
 	$errormsg_5 = "ファイルサイズが大きすぎます。";
-	$errormsg_6 = "お使いのブラウザはサポートされていません。";
-	$errormsg_7 = "不正な画像を検出しました。\n画像は保存されません。";
+	$errormsg_6 = "不正な画像を検出しました。\n画像は保存されません。";
 }
 
 //容量違反チェックをする する:1 しない:0
@@ -45,7 +42,7 @@ header('Content-type: text/plain');
 //Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
 //Orijinがhostと異なっていたら投稿を拒絶。
 if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
-	die("error\n{$$errormsg_2}");
+	die("error\n{$errormsg_2}");
 }
 $url_scheme=parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://';
 if(str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
@@ -124,7 +121,7 @@ if(isset($badfile)&&is_array($badfile)){
 		if(preg_match("/\A$value/",$chk)){
 			unlink($_FILES['picture']['tmp_name']);
 			// 不正な画像を検出しました。画像は保存されません。
-			chibi_die($en ? "Illegal image detected.\nImages are not saved." : "不正な画像を検出しました。\n画像は保存されません。");
+			die("error\n{$errormsg_5}");
 		}
 	}
 }
