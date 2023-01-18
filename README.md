@@ -45,6 +45,15 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2023/01/19] v5.55.8.3
+### Bug fixes
+- PaintBBS NEO data was not received at all in the environment of PHP5.6 to PHP7.x. Since it works without causing an error in PHP8.1 and PHP8.2, the discovery was delayed.
+Overwrite and update `saveneo.php`.
+
+### changed files
+- saveneo.php
+
+
 ## [2023/01/14] v5.55.8.2
 ### Bug fix
 
