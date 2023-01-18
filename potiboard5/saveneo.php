@@ -58,7 +58,7 @@ $u_agent = $_SERVER["HTTP_USER_AGENT"];
 $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
 // 拡張ヘッダーを取り出す
-$sendheader = filter_input(INPUT_POST,'header',);
+$sendheader = filter_input(INPUT_POST,'header');
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 $usercode='';
