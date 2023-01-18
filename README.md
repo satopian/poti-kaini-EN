@@ -44,7 +44,18 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+
+## [2023/01/14] v5.55.8.2
+### Bug fix
+
+Fixed a bug where setting the minimum number of seconds required to draw would cause all alerts that should have been displayed as "15 sec" to be displayed as "0 seconds".
+Even if this bug exists, if you set it to 60 seconds, you can post normally when it exceeds 60 seconds.
+The problem was that the remaining time was not displayed accurately, and it was all "remaining 0 sec".
+
+
 ## [2022/01/14] v5.55.8.1
+### Bug fix
+
 - fixd saveneo.php
 
 Fixed an issue where depending on the content of the error that occurred, it would not be displayed as an alert and the screen would transition and fail to post.
