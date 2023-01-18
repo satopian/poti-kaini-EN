@@ -74,7 +74,7 @@
 						let response_status = response.status; 
 
 						if(response_status===403){
-							return alert(@if($en)'403 Forbidden\nsaveklecks.php'@else'エラー403\nsaveklecks.phpへのアクセスが拒否されました。'@endif);
+							return alert(@if($en)'It may be a WAF false positive.\nTry to draw a little more.'@else'投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。'@endif);
 						}
 						if(response_status===404){
 							return alert(@if($en)'404 not found\nsaveklecks.php'@else'エラー404\nsaveklecks.phpがありません。'@endif);	
