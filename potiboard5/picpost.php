@@ -153,7 +153,7 @@ if($sendheader){
 $userdata .= "\n";
 
 //CSRF
-if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== (string)filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){

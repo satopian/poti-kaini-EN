@@ -42,7 +42,7 @@ str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
 $usercode = (string)filter_input(INPUT_GET, 'usercode');
 
 //csrf
-if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== (string)filter_input(INPUT_COOKIE, 'usercode')){
 	chibi_die($en ? "User code mismatch." : "ユーザーコードが一致しません。");
 }
 

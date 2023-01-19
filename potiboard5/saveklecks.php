@@ -41,7 +41,7 @@ if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 $usercode = (string)filter_input(INPUT_POST, 'usercode');
 //csrf
 
-if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== (string)filter_input(INPUT_COOKIE, 'usercode')){
 	die($en ? "User code mismatch." : "ユーザーコードが一致しません。");
 }
 
