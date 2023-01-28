@@ -61,19 +61,38 @@
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}" type="text/css">
 		<script src="neo.js?{{$parameter_day}}" charset="UTF-8"></script>
 		<script>
-			function fixneo() {
-		
-				if(screen.width>767){//iPad以上の横幅の時は、NEOの網目のところでtouchmoveしない。
-					console.log(screen.width);
-					document.querySelector('#NEO').addEventListener('touchmove', function (e){
-						e.preventDefault();
-						e.stopPropagation();
-					}, { passive: false });
+			// https://qiita.com/tsmd/items/cfb5dcbec8433b87dc36
+			function isPinchZooming () {//ピンチズームを検知
+				if ('visualViewport' in window) {
+					return window.visualViewport.scale > 1
+				} else {
+					return document.documentElement.clientWidth > window.innerWidth
 				}
 			}
-			window.addEventListener('DOMContentLoaded',fixneo,false);
+		
+			function neo_disable_touch_move (e) {//NEOの網目でスワイプしない
+				let screenwidth = Number(screen.width);
+				let appw = Number({{$w}});
+				if((screenwidth-appw)>100){
+					if (typeof e.cancelable !== 'boolean' || e.cancelable) {
+					e.preventDefault();
+					e.stopPropagation();
+					}
+				}
+			}
+		
+			function neo_add_disable_touch_move() {
+				document.getElementById('NEO').addEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
+			}
+			document.addEventListener('touchmove', function(e) {
+				neo_add_disable_touch_move();
+				if(isPinchZooming ()){//ピンチズーム使用時はNEOの網目でスワイプする
+					document.getElementById('NEO').removeEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
+				}
+			});
+			window.addEventListener('DOMContentLoaded',neo_add_disable_touch_move,false);
 		</script>
-		@endif
+				@endif
 		@if($pch_mode)
 		@if($type_neo)
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}" type="text/css">

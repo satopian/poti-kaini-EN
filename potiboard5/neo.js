@@ -553,7 +553,10 @@ Neo.backgroundImage = function () {
   var bgCanvas = document.createElement("canvas");
   bgCanvas.width = 16;
   bgCanvas.height = 16;
-  var ctx = bgCanvas.getContext("2d");
+  var ctx = bgCanvas.getContext("2d", {
+	willReadFrequently: true,
+  });
+
   var imageData = ctx.getImageData(0, 0, 16, 16);
   var buf32 = new Uint32Array(imageData.data.buffer);
   var buf8 = new Uint8ClampedArray(imageData.data.buffer);
@@ -1044,7 +1047,9 @@ Neo.resizeCanvas = function () {
 
   Neo.painter.destCanvas.width = width;
   Neo.painter.destCanvas.height = height;
-  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d");
+  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   Neo.painter.destCanvasCtx.imageSmoothingEnabled = false;
   //Neo.painter.destCanvasCtx.mozImageSmoothingEnabled = false;
 
@@ -1929,7 +1934,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
     this.canvas[i] = document.createElement("canvas");
     this.canvas[i].width = width;
     this.canvas[i].height = height;
-    this.canvasCtx[i] = this.canvas[i].getContext("2d");
+    this.canvasCtx[i] = this.canvas[i].getContext("2d", {
+		willReadFrequently: true,
+	});
 
     this.canvas[i].style.imageRendering = "pixelated";
     this.canvasCtx[i].imageSmoothingEnabled = false;
@@ -1940,7 +1947,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   this.tempCanvas = document.createElement("canvas");
   this.tempCanvas.width = width;
   this.tempCanvas.height = height;
-  this.tempCanvasCtx = this.tempCanvas.getContext("2d");
+  this.tempCanvasCtx = this.tempCanvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   this.tempCanvas.style.position = "absolute";
   this.tempCanvas.enabled = false;
 
@@ -1952,7 +1961,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
     this.container.appendChild(this.destCanvas);
   }
 
-  this.destCanvasCtx = this.destCanvas.getContext("2d");
+  this.destCanvasCtx = this.destCanvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   this.destCanvas.width = destWidth;
   this.destCanvas.height = destHeight;
 
@@ -2649,7 +2660,9 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
   var pngCanvas = document.createElement("canvas");
   pngCanvas.width = imageWidth;
   pngCanvas.height = imageHeight;
-  var pngCanvasCtx = pngCanvas.getContext("2d");
+  var pngCanvasCtx = pngCanvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   pngCanvasCtx.fillStyle = "#ffffff";
   pngCanvasCtx.fillRect(0, 0, imageWidth, imageHeight);
 
@@ -7557,7 +7570,9 @@ Neo.ToolTip.prototype.update = function () {};
 Neo.ToolTip.prototype.draw = function (c) {
   if (this.hasTintImage) {
     if (typeof c != "string") c = Neo.painter.getColorString(c);
-    var ctx = this.canvas.getContext("2d");
+    var ctx = this.canvas.getContext("2d", {
+	willReadFrequently: true,
+  });
 
     if (this.prevMode != this.mode) {
       this.prevMode = this.mode;
@@ -7730,7 +7745,9 @@ Neo.Pen2Tip.prototype.update = function () {
 };
 
 Neo.Pen2Tip.prototype.drawTone = function () {
-  var ctx = this.canvas.getContext("2d");
+  var ctx = this.canvas.getContext("2d", {
+	willReadFrequently: true,
+  });
 
   var imageData = ctx.getImageData(0, 0, 46, 18);
   var buf32 = new Uint32Array(imageData.data.buffer);
@@ -7803,7 +7820,9 @@ Neo.EraserTip.prototype.update = function () {
 };
 
 Neo.EraserTip.prototype.draw = function () {
-  var ctx = this.canvas.getContext("2d");
+  var ctx = this.canvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   var img = new Image();
 
@@ -7968,7 +7987,9 @@ Neo.MaskTip.prototype.update = function () {
 Neo.MaskTip.prototype.draw = function (c) {
   if (typeof c != "string") c = Neo.painter.getColorString(c);
 
-  var ctx = this.canvas.getContext("2d");
+  var ctx = this.canvas.getContext("2d", {
+	willReadFrequently: true,
+  });
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   ctx.fillStyle = c;
   ctx.fillRect(1, 1, 43, 9);
@@ -8520,7 +8541,9 @@ Neo.ViewerButton.prototype.init = function (name, params) {
   if (name != "viewerSpeed") {
     this.element.innerHTML = "<canvas width=24 height=24></canvas>";
     this.canvas = this.element.getElementsByTagName("canvas")[0];
-    var ctx = this.canvas.getContext("2d");
+    var ctx = this.canvas.getContext("2d", {
+	willReadFrequently: true,
+  });
 
     var img = new Image();
     img.src = Neo.ViewerButton[name.toLowerCase().replace(/viewer/, "")];
