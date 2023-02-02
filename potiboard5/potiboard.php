@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.55.8';
-const POTI_LOT = 'lot.220112';
+const POTI_VER = 'v5.56.0';
+const POTI_LOT = 'lot.220202';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -796,7 +796,7 @@ function regist(){
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post();
 
-	$pictmp = filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
+	$pictmp = (int)filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
 	$picfile = (string)basename(newstring(filter_input(INPUT_POST, 'picfile')));
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
@@ -1362,7 +1362,7 @@ function admindel($pass){
 
 	check_same_origin(true);
 
-	$onlyimgdel = filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
+	$onlyimgdel = (bool)filter_input(INPUT_POST, 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$del_pageno=(int)filter_input(INPUT_POST,'del_pageno',FILTER_VALIDATE_INT);
 	// 削除画面
@@ -1552,16 +1552,16 @@ function paintform(){
 		error(MSG015);
 	}
 	$mode = (string)filter_input(INPUT_POST, 'mode');
-	$picw = filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
-	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
-	$anime = filter_input(INPUT_POST, 'anime',FILTER_VALIDATE_BOOLEAN);
-	$shi = filter_input(INPUT_POST, 'shi');
+	$picw = (int)filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
+	$pich = (int)filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
+	$anime = (bool)filter_input(INPUT_POST, 'anime',FILTER_VALIDATE_BOOLEAN);
+	$shi = (string)filter_input(INPUT_POST, 'shi');
 	$pch = basename((string)newstring(filter_input(INPUT_POST, 'pch')));
 	$ext = basename((string)newstring(filter_input(INPUT_POST, 'ext')));
 	$ctype = (string)newstring(filter_input(INPUT_POST, 'ctype'));
-	$quality = filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
-	$no = filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
-	$is_mobile = filter_input(INPUT_POST, 'is_mobile',FILTER_VALIDATE_BOOLEAN);
+	$quality = (int)filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
+	$no = (int)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$is_mobile = (bool)filter_input(INPUT_POST, 'is_mobile',FILTER_VALIDATE_BOOLEAN);
 
 	if(strlen($pwd) > 72) error(MSG015);
 
@@ -2114,9 +2114,8 @@ function editform(){
 	$dat['token']=get_csrf_token();
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
-	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
-	$catalog_pageno=(string)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
-	$catalog_pageno= $catalog_pageno ? $catalog_pageno : 0;
+	$mode_catalog=(string)filter_input(INPUT_POST,'mode_catalog');
+	$catalog_pageno=(int)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
 
 	$del = filter_input(INPUT_POST,'del',FILTER_VALIDATE_INT,FILTER_REQUIRE_ARRAY);//$del は配列
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -2201,7 +2200,7 @@ global $ADMIN_PASS;
 
 	$thread_no=(string)filter_input(INPUT_POST,'thread_no',FILTER_VALIDATE_INT);
 	$logfilename=(string)filter_input(INPUT_POST,'logfilename');
-	$mode_catalog=filter_input(INPUT_POST,'mode_catalog');
+	$mode_catalog=(string)filter_input(INPUT_POST,'mode_catalog');
 	$catalog_pageno=(string)filter_input(INPUT_POST,'catalog_pageno',FILTER_VALIDATE_INT);
 	
 	$com = (string)filter_input(INPUT_POST, 'com');
@@ -2488,8 +2487,7 @@ function replace(){
 // カタログ
 function catalog(){
 
-	$page = filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
-	$page= $page ? $page : 0;
+	$page = (int)filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 
 	$line=get_log(LOGFILE);
 	$trees=get_log(TREEFILE);
