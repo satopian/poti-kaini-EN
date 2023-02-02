@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.56.0';
+const POTI_VER = 'v5.56.1';
 const POTI_LOT = 'lot.220202';
 
 /*
@@ -165,6 +165,8 @@ defined('X_FRAME_OPTIONS_DENY') or define('X_FRAME_OPTIONS_DENY', '1');
 defined('CHECK_PASSWORD_INPUT_ERROR_COUNT') or define('CHECK_PASSWORD_INPUT_ERROR_COUNT', '0');
 //管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
 defined('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS') or define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
+//URL入力欄を使用する する:1 しない:0
+defined('USE_URL_INPUT_FIELD') or define('USE_URL_INPUT_FIELD', '1');
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -483,6 +485,8 @@ function form($resno="",$tmp=""){
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	$dat['usecom'] = (USE_COM||($resno&&!RES_UPLOAD)) ? ' *' :'';
+	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
+
 	//本文必須の設定では無い時はレスでも画像かコメントがあれば通る
 	$dat['upfile'] = false;
 	if(!USE_IMG_UPLOAD){//画像アップロード機能を使わない時
@@ -783,7 +787,7 @@ function regist(){
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
 	$email = (string)filter_input(INPUT_POST, 'email');
-	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$url = USE_URL_INPUT_FIELD ? (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL) : '';
 	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$fcolor = (string)filter_input(INPUT_POST, 'fcolor');
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
@@ -2206,7 +2210,7 @@ global $ADMIN_PASS;
 	$com = (string)filter_input(INPUT_POST, 'com');
 	$name = (string)filter_input(INPUT_POST, 'name');
 	$email = (string)filter_input(INPUT_POST, 'email');
-	$url = (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL);
+	$url = USE_URL_INPUT_FIELD ? (string)filter_input(INPUT_POST, 'url',FILTER_VALIDATE_URL) : '';
 	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$fcolor = (string)filter_input(INPUT_POST, 'fcolor');
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);

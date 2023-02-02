@@ -123,12 +123,14 @@
 							<td><input class="form" type="text" name="email" size="28" autocomplete="email" @if($email)
 									value="{{$email}}" @endif></td>
 						</tr>
+						@if($use_url_input)
 						<tr>
 							<td>URL</td>
 							<td>
 								<input class="form" type="text" name="url" size="28" autocomplete="url" @if($url)
 									value="{{$url}}" @endif></td>
 						</tr>
+						@endif
 						<tr>
 							<td>Sub @if($usesub){{$usesub}}@endif</td>
 							<td>
