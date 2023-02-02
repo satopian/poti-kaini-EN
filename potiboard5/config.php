@@ -150,14 +150,18 @@ define("USE_JAPANESEFILTER", "0");
 // 管理者は設定にかかわらず許可
 // Reject if there is a url in the comment field.
 // Administrator writes are not rejected.
+// (Yes: 1, No: 0)
 define("DENY_COMMENTS_URL", "0");
 
-// define("ELAPSED_DAYS","0");
-// 設定しないなら "0"で。フォームを閉じません。
-// define("ELAPSED_DAYS","365");
-//	↑ 365日
-// で1年以上経過したスレッドに返信できなくなります。
-// Close threads after X days. Set to 0 to disable.
+//URL入力欄を使用する する:1 しない:0
+// Use URL input field (Yes: 1, No: 0)
+define("USE_URL_INPUT_FIELD", "1");
+//No: 0, the URL field disappears from the form input fields.
+// Even if the form is faked, the URL will not be entered.
+
+// Close threads after X days. 
+// Setting "365" days will close threads older than 1 year.
+// Set to 0 to disable.
 define("ELAPSED_DAYS","365");
 
 // 拒絶するファイルのmd5
