@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.56.1';
+const POTI_VER = 'v5.56.2';
 const POTI_LOT = 'lot.220202';
 
 /*
@@ -2167,6 +2167,8 @@ function editform(){
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;
+	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
+
 	//名前とトリップを分離
 	list($name,) = separateNameAndTrip($name);
 	$dat['name'] = h(strip_tags($name));
