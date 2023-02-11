@@ -79,8 +79,8 @@
 						if(response_status===404){
 							return alert(@if($en)'404 not found\nsaveklecks.php'@else'エラー404\nsaveklecks.phpがありません。'@endif);	
 						}
-						if(response_status===503){
-							return alert(@if($en)'503 Service Unavailable\nPlease try again!'@else'エラー503\n時間をおいて再度投稿してみてください。'@endif);
+						if(response_status!==200){
+							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
 						}
 						if (response.ok) {
 							response.text().then((text) => {
