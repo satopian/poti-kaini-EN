@@ -260,8 +260,8 @@ elseif($j){
 		$pageno = $j.$mai_or_ken;
 }
 if($query!==''&&$radio===3){
-	$dat['title']=$pageno.$query.'\'s'.$img_or_com;//titleタグに入る
-	$dat['h1']=$pageno.$query.'\'s '.$img_or_com;//h1タグに入る
+	$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
+	$dat['h1']=$pageno.' '.$img_or_com.' of '.$query;//h1タグに入る
 }
 elseif($query!==''){
 	$dat['title']=$pageno.' Posts by '.$query;
