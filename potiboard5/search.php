@@ -1,6 +1,6 @@
 <?php
-//POTI-board plugin search(C)2020-2022 さとぴあ(@satopian)
-//v5.3 lot.220930
+//POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
+//v5.5 lot.230218
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -28,6 +28,7 @@ $max_search=120;
 
 //更新履歴
 
+//v5.5.0 2022.09.30 翻訳の改善。記事の並び方が最新順になっていなかったのを修正。
 //v5.3.0 2022.09.30 jQuery。
 //v5.2.0 2022.07.27 画像の縦横比を算出するための画像の幅と高さを出力。
 //v5.1.0 2022.07.20 BladeONEでエスケープしていない箇所のエスケープ処理を追加。
@@ -58,7 +59,6 @@ $max_search=120;
 require(__DIR__.'/config.php');
 const JQUERY ='jquery-3.6.0.min.js';
 
-$dat['jquery']='jquery-3.6.0.min.js';
 if($err=check_file(__DIR__.'/lib/'.JQUERY)){
 	die($err);
 }
@@ -160,7 +160,7 @@ while ($line = fgets($fp)) {
 		){
 			$link='';
 			$link=PHP_SELF.'?res='.$oya[$no];
-			$arr[]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
+			$arr[(int)substr($time,-13)]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
 			++$i;
 			if($i>=$max_search){break;}//1掲示板あたりの最大検索数
 		}
@@ -175,40 +175,41 @@ while ($line = fgets($fp)) {
 //検索結果の出力
 $j=0;
 $dat['comments']=[];
-if($arr){
-	foreach($arr as $i => $val){
-		if($i > $page-2){//$iが表示するページになるまで待つ
-			list($no,$name,$sub,$com,$ext,$w,$h,$time,$link)=$val;
-			$img='';
-			if($ext){
-				if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
-					$img=THUMB_DIR.$time.'s.jpg';
-				}
-				elseif($imgsearch||is_file(IMG_DIR.$time.$ext)){
-					$img=IMG_DIR.$time.$ext;
-					}
-				}
+if(!empty($arr)){
+	
+	krsort($arr);
+	
+	$articles=array_slice($arr,((int)$page-1),$disp_count_of_page,false);
 
-			$time=(int)substr($time,-13,10);
-			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
-			$sub=h($sub);
-			$com=str_replace('<br />',' ',$com);
-			if(MD_LINK){
-				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
+	foreach($articles as $i => $val){
+		list($no,$name,$sub,$com,$ext,$w,$h,$time,$link)=$val;
+		$img='';
+		if($ext){
+			if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
+				$img=THUMB_DIR.$time.'s.jpg';
 			}
-			$com=h(strip_tags($com));
-			$com=mb_strcut($com,0,180);
-			$name=h($name);
-			$encoded_name=urlencode($name);
-			//変数格納
-			$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
+			elseif($imgsearch||is_file(IMG_DIR.$time.$ext)){
+				$img=IMG_DIR.$time.$ext;
+				}
+			}
 
+		$time=(int)substr($time,-13,10);
+		$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
+		$sub=h($sub);
+		$com=str_replace('<br />',' ',$com);
+		if(MD_LINK){
+			$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
 		}
-			$j=$i+1;//表示件数
-			if($i >= $page+$disp_count_of_page-2){break;}
-	}
-}
+		$com=h(strip_tags($com));
+		$com=mb_strcut($com,0,180);
+		$name=h($name);
+		$encoded_name=urlencode($name);
+		//変数格納
+		$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
 
+	}
+	$j=$page+$i;//表示件数
+}
 unset($sub,$name,$no,$boardname);
 unset($i,$val);
 
@@ -255,9 +256,8 @@ $dat['img_or_com']=$img_or_com;
 $pageno=0;
 if($j&&$page>=2){
 	$pageno = $page.'-'.$j.$mai_or_ken;
-}
-elseif($j){
-		$pageno = $j.$mai_or_ken;
+}else{
+	$pageno = $j.$mai_or_ken;
 }
 if($query!==''&&$radio===3){
 	$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
@@ -291,8 +291,7 @@ elseif($page>=$disp_count_of_page+1){
 	$dat['prev']= '<a href="?page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
 	if($countarr>=$nxetpage){
 		$dat['nxet']='<a href="?page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
-	}
-	else{
+	}else{
 		$dat['nxet']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';
 	}
 }
@@ -300,7 +299,8 @@ elseif($page>=$disp_count_of_page+1){
 $postedtime='';
 $dat['lastmodified']='';
 if(!empty($arr)){
-	list($no,$name,$sub,$com,$ext,$w,$h,$postedtime,$link)=$arr[0];
+
+	$postedtime= key($arr);
 	$postedtime=(int)substr($postedtime,-13,10);
 	$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
 }
@@ -330,23 +330,22 @@ function lang_en(){//言語が日本語以外ならtrue。
 }
 function initial_error_message(){
 	$en=lang_en();
-	$msg['041']=$en ? ' does not exist.':'がありません。'; 
-	$msg['042']=$en ? ' is not readable.':'を読めません。'; 
-	$msg['043']=$en ? ' is not writable.':'に書けません。'; 
+	$msg['001']=$en ? ' does not exist.':'がありません。'; 
+	$msg['002']=$en ? ' is not readable.':'を読めません。'; 
+	$msg['003']=$en ? ' is not writable.':'に書けません。'; 
 return $msg;	
 }
 // ファイル存在チェック
 function check_file ($path,$check_writable='') {
 	$msg=initial_error_message();
-	if (!is_file($path)) return $path . $msg['041']."<br>";
-	if (!is_readable($path)) return $path . $msg['042']."<br>";
+	if (!is_file($path)) return $path . $msg['001']."<br>";
+	if (!is_readable($path)) return $path . $msg['002']."<br>";
 	if($check_writable){//書き込みが必要なファイルのチェック
-		if (!is_writable($path)) return $path . $msg['043']."<br>";
+		if (!is_writable($path)) return $path . $msg['003']."<br>";
 	}
 	return '';
 }
 
 //HTML出力
 echo $blade->run('search',$dat);
-
 
