@@ -130,6 +130,8 @@ while ($line = fgets($fp)) {
 		continue;
 	}
 
+	$key_time=substr($time,-13);
+
 	$continue_to_search=true;
 	if($imgsearch){//画像検索の場合
 		$continue_to_search=($ext&&is_file(IMG_DIR.$time.$ext));//画像があったら
@@ -160,7 +162,7 @@ while ($line = fgets($fp)) {
 		){
 			$link='';
 			$link=PHP_SELF.'?res='.$oya[$no];
-			$arr[(int)substr($time,-13)]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
+			$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
 			++$i;
 			if($i>=$max_search){break;}//1掲示板あたりの最大検索数
 		}
@@ -180,6 +182,7 @@ if(!empty($arr)){
 	krsort($arr);
 	
 	$articles=array_slice($arr,((int)$page-1),$disp_count_of_page,false);
+	$articles = array_values($articles);
 
 	foreach($articles as $i => $val){
 		list($no,$name,$sub,$com,$ext,$w,$h,$time,$link)=$val;
