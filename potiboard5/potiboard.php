@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.56.2';
-const POTI_LOT = 'lot.230202';
+const POTI_VER = 'v5.56.3';
+const POTI_LOT = 'lot.230225';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -102,94 +102,94 @@ $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
 
 //POTI_VERLOT定義
-define('POTI_VERLOT', POTI_VER.' '.POTI_LOT);
+define("POTI_VERLOT", POTI_VER." ".POTI_LOT);
 
 //ユーザー削除権限 (0:不可 1:treeのみ許可 2:treeと画像のみ許可 3:tree,log,画像全て許可)
 //※treeのみを消して後に残ったlogは管理者のみ削除可能
-define('USER_DELETES', '3');
+define("USER_DELETES", "3");
 
 //メール通知クラスのファイル名
-define('NOTICEMAIL_FILE' , 'noticemail.inc');
+define("NOTICEMAIL_FILE" , "noticemail.inc");
 
 //タイムゾーン
-defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');
+defined("DEFAULT_TIMEZONE") or define("DEFAULT_TIMEZONE","Asia/Tokyo");
 date_default_timezone_set(DEFAULT_TIMEZONE);
 
 //ペイント画面の$pwdの暗号化
-defined('CRYPT_PASS') or define('CRYPT_PASS','qRyFfhV6nyUggSb');//暗号鍵初期値
-define('CRYPT_METHOD','aes-128-cbc');
-define('CRYPT_IV','T3pkYxNyjN7Wz3pu');//半角英数16文字
+defined("CRYPT_PASS") or define("CRYPT_PASS","qRyFfhV6nyUggSb");//暗号鍵初期値
+define("CRYPT_METHOD","aes-128-cbc");
+define("CRYPT_IV","T3pkYxNyjN7Wz3pu");//半角英数16文字
 
 //指定した日数を過ぎたスレッドのフォームを閉じる
-defined('ELAPSED_DAYS') or define('ELAPSED_DAYS','0');
+defined("ELAPSED_DAYS") or define("ELAPSED_DAYS","0");
 
 //テーマに設定が無ければ代入
-defined('DEF_FONTCOLOR') or define('DEF_FONTCOLOR','');//色選択
-defined('ADMIN_DELGUSU') or define('ADMIN_DELGUSU','');//管理画面の色設定
-defined('ADMIN_DELKISU') or define('ADMIN_DELKISU','');//管理画面の色設定
+defined("DEF_FONTCOLOR") or define("DEF_FONTCOLOR","");//色選択
+defined("ADMIN_DELGUSU") or define("ADMIN_DELGUSU","");//管理画面の色設定
+defined("ADMIN_DELKISU") or define("ADMIN_DELKISU","");//管理画面の色設定
 
 //画像アップロード機能を 1.使う 0.使わない  
-defined('USE_IMG_UPLOAD') or define('USE_IMG_UPLOAD','1');
+defined("USE_IMG_UPLOAD") or define("USE_IMG_UPLOAD","1");
 
 //画像のないコメントのみの新規投稿を拒否する する:1 しない:0
-defined('DENY_COMMENTS_ONLY') or define('DENY_COMMENTS_ONLY', '0');
+defined("DENY_COMMENTS_ONLY") or define("DENY_COMMENTS_ONLY", "0");
 
 //パレット切り替え機能を使用する する:1 しない:0
-defined('USE_SELECT_PALETTES') or define('USE_SELECT_PALETTES', '0');
+defined("USE_SELECT_PALETTES") or define("USE_SELECT_PALETTES", "0");
 
 //編集しても投稿日時を変更しないようにする する:1 しない:0 
-defined('DO_NOT_CHANGE_POSTS_TIME') or define('DO_NOT_CHANGE_POSTS_TIME', '0');
+defined("DO_NOT_CHANGE_POSTS_TIME") or define("DO_NOT_CHANGE_POSTS_TIME", "0");
 
 //マークダウン記法のリンクをHTMLに する:1 しない:0
-defined('MD_LINK') or define('MD_LINK', '0');
+defined("MD_LINK") or define("MD_LINK", "0");
 
 //PaintBBS NEOを使う 使う:1 使わない:0 
-defined('USE_PAINTBBS_NEO') or define('USE_PAINTBBS_NEO', '1');
+defined("USE_PAINTBBS_NEO") or define("USE_PAINTBBS_NEO", "1");
 //しぃペインターを使う 使う:1 使わない:0 
-defined('USE_SHI_PAINTER') or define('USE_SHI_PAINTER', '1');
+defined("USE_SHI_PAINTER") or define("USE_SHI_PAINTER", "1");
 //ChickenPaintを使う 使う:1 使わない:0 
-defined('USE_CHICKENPAINT') or define('USE_CHICKENPAINT', '1');
+defined("USE_CHICKENPAINT") or define("USE_CHICKENPAINT", "1");
 //Klecksを使う 使う:1 使わない:0
-defined('USE_KLECKS') or define('USE_KLECKS', '1');
+defined("USE_KLECKS") or define("USE_KLECKS", "1");
 
-defined('PAINT_KLECKS') or define('PAINT_KLECKS', 'paint_klecks');
+defined("PAINT_KLECKS") or define("PAINT_KLECKS", "paint_klecks");
 
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
-defined('RES_CONTINUE_IN_CURRENT_THREAD') or define('RES_CONTINUE_IN_CURRENT_THREAD', '1');
+defined("RES_CONTINUE_IN_CURRENT_THREAD") or define("RES_CONTINUE_IN_CURRENT_THREAD", "1");
 //レス画面に前後のスレッドの画像を表示する する:1 しない:0
-defined('VIEW_OTHER_WORKS') or define('VIEW_OTHER_WORKS', '1');
+defined("VIEW_OTHER_WORKS") or define("VIEW_OTHER_WORKS", "1");
 //日記モードで使用する する:1 しない:0
-defined('DIARY') or define('DIARY', '0');
-defined('X_FRAME_OPTIONS_DENY') or define('X_FRAME_OPTIONS_DENY', '1');
+defined("DIARY") or define("DIARY", "0");
+defined("X_FRAME_OPTIONS_DENY") or define("X_FRAME_OPTIONS_DENY", "1");
 //管理者パスワードを5回連続で間違えたときはロック する:1 しない:0
-defined('CHECK_PASSWORD_INPUT_ERROR_COUNT') or define('CHECK_PASSWORD_INPUT_ERROR_COUNT', '0');
+defined("CHECK_PASSWORD_INPUT_ERROR_COUNT") or define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
 //管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
-defined('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS') or define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
+defined("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS") or define("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS", "1");
 //URL入力欄を使用する する:1 しない:0
-defined('USE_URL_INPUT_FIELD') or define('USE_URL_INPUT_FIELD', '1');
+defined("USE_URL_INPUT_FIELD") or define("USE_URL_INPUT_FIELD", "1");
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
 //パーミッション
 
-defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606);
-defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600);
-defined('PERMISSION_FOR_DIR') or define('PERMISSION_FOR_DIR', 0707);
+defined("PERMISSION_FOR_DEST") or define("PERMISSION_FOR_DEST", 0606);
+defined("PERMISSION_FOR_LOG") or define("PERMISSION_FOR_LOG", 0600);
+defined("PERMISSION_FOR_DIR") or define("PERMISSION_FOR_DIR", 0707);
 
 //メッセージ
 //template_ini.phpで未定義の時の初期値
 //このままでよければ定義不要
-defined('HONORIFIC_SUFFIX') or define('HONORIFIC_SUFFIX', 'さん');
-defined('UPLOADED_OBJECT_NAME') or define('UPLOADED_OBJECT_NAME', '画像');
-defined('UPLOAD_SUCCESSFUL') or define('UPLOAD_SUCCESSFUL', 'のアップロードが成功しました');
-defined('THE_SCREEN_CHANGES') or define('THE_SCREEN_CHANGES', '画面を切り替えます');
-defined('MSG044') or define('MSG044', '最大ログ数が設定されていないか、数字以外の文字列が入っています。');
-defined('MSG045') or define('MSG045', 'アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。');
-defined('MSG046') or define('MSG046', 'パスワードが短すぎます。最低6文字。');
-defined('MSG047') or define('MSG047', '画像の幅と高さが大きすぎるため続行できません。');
-defined('MSG048') or define('MSG048', '不適切なURLがあります。');
-defined('MSG049') or define('MSG049', '拒絶されました。');
-defined('MSG050') or define('MSG050', 'Cookieが確認できません。');
+defined("HONORIFIC_SUFFIX") or define("HONORIFIC_SUFFIX", "さん");
+defined("UPLOADED_OBJECT_NAME") or define("UPLOADED_OBJECT_NAME", "画像");
+defined("UPLOAD_SUCCESSFUL") or define("UPLOAD_SUCCESSFUL", "のアップロードが成功しました");
+defined("THE_SCREEN_CHANGES") or define("THE_SCREEN_CHANGES", "画面を切り替えます");
+defined("MSG044") or define("MSG044", "最大ログ数が設定されていないか、数字以外の文字列が入っています。");
+defined("MSG045") or define("MSG045", "アップロードペイントに対応していないファイルです。<br>対応フォーマットはpch、spch、chiです。");
+defined("MSG046") or define("MSG046", "パスワードが短すぎます。最低6文字。");
+defined("MSG047") or define("MSG047", "画像の幅と高さが大きすぎるため続行できません。");
+defined("MSG048") or define("MSG048", "不適切なURLがあります。");
+defined("MSG049") or define("MSG049", "拒絶されました。");
+defined("MSG050") or define("MSG050", "Cookieが確認できません。");
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
