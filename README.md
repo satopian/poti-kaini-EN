@@ -45,11 +45,64 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-## [2023/01/19] v5.55.8.3
+## [2023/02/11] v5.56.3
+
+### Updated Klecks to latest version
+
+![Image](https://user-images.githubusercontent.com/44894014/221393538-22d0a2b5-d725-4bc9-9e97-7dd7e15fdf3b.png)
+
+- Dark theme is now selectable.
+- Added French language support.
+- Fixed touch gesture freezing issue on iPhone and iPad.
+
+### Updated BladeOne to latest version
+- Updated BladeOne to v4.8.
+### Improvements
+- Fixed that the order of the search screen was not in the latest order.
+- Improved search screen code.
+
+
+
+## [2023/02/26] v5.56.2.3
+### Bug fix
+### changed Templates
+- templates/mono_en/paint_klecks.blade.php
+Fixed an issue where illustrations that were drawn when the server status was 502 Bad Gateway disappeared.
+
+## [2023/02/09] v5.56.2.2
+- Added missing klecks help file.
+
+## [2023/02/05] v5.56.2
+
+### You can now configure whether or not to use the URL input field in config.php.
+
+```
+// Use URL input field (Yes: 1, No: 0)
+define("USE_URL_INPUT_FIELD", "1");
+//No: 0, the URL field disappears from the form input fields.
+// Even if the form is faked, the URL will not be entered.
+
+```
+In addition to prohibiting the writing of URLs in the text, if you can also make it impossible to write URLs in the URL field, you can eliminate advertisement spam whose purpose is to write URLs.
+URL judgment of URL writing prohibition in the text is quite strict, so even if `http://` is omitted, it should be almost impossible to write URL of advertisement spam.
+
+### Fixed an issue where the template could not be sent due to a JavaScript error when the URL or subject fields did not exist.
+It's not a bug, but I've rewritten the JavaScript so that it works fine even if the template is modified by the user.
+
+### In PaintBBS NEO, improved so that the screen does not move up and down when manipulating the canvas area such as copy and layer combination.
+If the width of the terminal is large compared to the canvas size, it will not scroll even if you grab the mesh of NEO.
+This is because the screen moves up and down when copying, layer merging, and Bz curve operations.
+However, you can now grab and scroll the mesh when zooming in with pinch zoom.
+This is to avoid inoperability.
+These are implemented with inline JavaScript in NEO's paint screen, so you'll need to update the paint screen template.
+
+![NEO_issue_230201](https://user-images.githubusercontent.com/44894014/216770678-0e5ab56d-89fa-4f39-8d72-0c71c2b022de.gif)
+
+
+## [2023/01/19] v5.55.8.5
 ### Bug fixes
 - PaintBBS NEO data was not received at all in the environment of PHP5.6 to PHP7.x. Since it works without causing an error in PHP8.1 and PHP8.2, the discovery was delayed.
 Overwrite and update `saveneo.php`.
-
 
 ## [2023/01/14] v5.55.8.2
 ### Bug fix
