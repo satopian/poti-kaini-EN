@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.56.3';
-const POTI_LOT = 'lot.230225';
+const POTI_VER = 'v5.56.5';
+const POTI_LOT = 'lot.230305';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -796,7 +796,7 @@ function regist(){
 	$userip = get_uip();
 	//ホスト取得
 	$host = $userip ? gethostbyaddr($userip) : '';
-	check_badip($host);
+	check_badhost();
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post();
 
@@ -2222,7 +2222,7 @@ global $ADMIN_PASS;
 	$userip = get_uip();
 	//ホスト取得
 	$host = $userip ? gethostbyaddr($userip) : '';
-	check_badip($host);
+	check_badhost();
 	//NGワードがあれば拒絶
 	Reject_if_NGword_exists_in_the_post();
 
@@ -2304,7 +2304,7 @@ function replace(){
 	$userip = get_uip();
 	//ホスト取得
 	$host = $userip ? gethostbyaddr($userip) : '';
-	check_badip($host);
+	check_badhost();
 
 	/*--- テンポラリ捜査 ---*/
 	$find=false;
@@ -2885,12 +2885,25 @@ function png2jpg ($src) {
 	return false;
 }
 
-function check_badip ($host, $dest = '') {
+function check_badhost () {
 	global $badip;
-	foreach($badip as $value){ //拒絶host
-		if (preg_match("/$value\z/i",$host)) {
-			error(MSG016, $dest);
+	$userip = get_uip();
+	$host = $userip ? gethostbyaddr($userip) :'';
+
+	if($host === $userip){//ホスト名がipアドレスになる場合は
+		foreach($badip as $value){
+			if (preg_match("/\A$value/i",$host)) {//前方一致
+			return error(MSG016);
+			}
 		}
+		return false;
+	}else{
+		foreach($badip as $value){
+			if (preg_match("/$value\z/i",$host)) {
+			return error(MSG016);
+			}
+		}
+		return false;
 	}
 }
 
