@@ -370,12 +370,6 @@ define("USE_CONTINUE", "1");
 // However, anyone will be able to continue with a drawing when the mode is set to "0".
 define("CONTINUE_PASS", "0");
 
-//レス画像から新規投稿で続きを描いた画像をレスとして投稿する する:1 しない:0
-// When continuing from the reply image, even if it is"new post", it will be a reply to the current thread.
-// (1: Enabled, 0: Disabled) 
-define("RES_CONTINUE_IN_CURRENT_THREAD", "1");
-
-
 /* ---------- 詳細設定(Advanced Setting) ---------- */
 // このスクリプト名。変更することをおすすめしません。
 // The name of the main script. Do not modify this value unless you have a good
