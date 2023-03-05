@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$verlot}}">
+			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$verlot}}" id="css1" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$verlot}}" id="css2" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$verlot}}" id="css3" disabled>
 			<style>	
 				div#appstage,div#chickenpaint-parent{
 				letter-spacing: initial;
@@ -56,7 +56,15 @@
 		@endif
 		@endif
 		@if($pch_mode)<meta name="viewport" content="width=device-width">@endif
-		@if($continue_mode)<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">@endif
+		@if($continue_mode)
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+		<style>
+			/* index.cssを更新しない人がいるかもしれないためインラインでも記述 */
+			#span_cont_paint_same_thread {
+				display: none;
+			}
+		</style>
+		@endif	
 		@if($useneo)
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}" type="text/css">
 		<script src="neo.js?{{$parameter_day}}" charset="UTF-8"></script>
@@ -631,6 +639,7 @@
 							</form>
 						<hr class="hr">
 					@endif	  
+				<div class="continue_post_form">	
 					
 					<form action="{{$self}}" method="post">
 						<input type="hidden" name="mode" value="contpaint">
@@ -644,10 +653,14 @@
 							@if($ctype_pch)<option value="pch">from animation</option>@endif
 							@if($ctype_img)<option value="img">from picture</option>@endif
 						</select>
-						<select class="form" name="type">
+						The image is a <select class="form" name="type" id="select_post">
 							<option value="rep">replace</option>
-							<option value="new">newpost</option>
+							<option value="new">new post</option>
 						</select>
+						<span id="span_cont_paint_same_thread">
+							<input type="checkbox" name="cont_paint_same_thread" id="cont_paint_same_thread" value="on" checked="checked"><label for="cont_paint_same_thread">Post in the same thread</label>
+						</span>
+						<br>
 						@if($select_app)
 
 						<select name="shi">
@@ -662,11 +675,11 @@
 						@endif
 
 						@if($use_select_palettes)
-						Palettes: <select name="selected_palette_no" title="パレット" class="form">{!!$palette_select_tags!!}</select>
+						Palettes <select name="selected_palette_no" title="パレット" class="form">{!!$palette_select_tags!!}</select>
 							@endif
 
 						<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
-						Pass <input class="form" type="password" name="pwd" value="">
+						<span id="span_cont_pass">Pass <input class="form" type="password" name="pwd" value=""></span>
 						<input class="button" type="submit" value="Draw more">
 
 					</form>
@@ -677,13 +690,44 @@
 						@else 
 						<li>To draw the continuation, you need the password when you drew it.</li>
 						@endif
-						</ul>
+					</ul>
+				
 				</div>
-				<script>
-				document.addEventListener('DOMContentLoaded',l,false);
-				</script>
+			</div>
+			<script>
+			document.addEventListener('DOMContentLoaded',l,false);
+			</script>
 			</section>
-			<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
+			<script>
+				// 新規投稿時にのみ、同じスレッドに投稿するボタンを表示
+				document.getElementById('select_post').addEventListener('change', function() {
+					var idx=document.getElementById('select_post').selectedIndex;
+					console.log(idx);
+					var obj2style_1=document.getElementById('span_cont_paint_same_thread');
+					var obj2style_2=document.getElementById('span_cont_pass');
+					if(idx === 1){
+						if(obj2style_1){
+							obj2style_1.style.display = "inline-block";
+						}
+						@if($newpost_nopassword) 
+						if(obj2style_2){
+						obj2style_2.style.display = "none";
+						}
+						@endif
+					}else{
+						if(obj2style_1){
+							obj2style_1.style.display = "none";
+						}
+						@if($newpost_nopassword) 
+						if(obj2style_2){
+							obj2style_2.style.display = "inline-block";
+						}
+						@endif
+					}
+				});
+			</script>
+
+<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
 			@endif
 		</main>
 		<footer>

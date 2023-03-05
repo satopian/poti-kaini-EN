@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.56.5';
+const POTI_VER = 'v5.57.0';
 const POTI_LOT = 'lot.230305';
 
 /*
@@ -1647,7 +1647,9 @@ function paintform(){
 	$oyano='';
 	if($mode==="contpaint"){
 
-		if(RES_CONTINUE_IN_CURRENT_THREAD && $type!=='rep'){
+		$cont_paint_same_thread=(bool)filter_input(INPUT_POST, 'cont_paint_same_thread',FILTER_VALIDATE_BOOLEAN);
+
+		if($type!=='rep'){
 
 			$tp=fopen(TREEFILE,"r");
 			while($tree = fgets($tp)){
@@ -1661,7 +1663,9 @@ function paintform(){
 				}
 			}
 			closeFile($tp);
-			$resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
+			$resto = ($cont_paint_same_thread && $oyano) ? $oyano : '';
+
+			// $resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
 			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
 			//親の番号ではない事を確認してレス先の番号をセット。
 		}

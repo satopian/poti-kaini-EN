@@ -25,12 +25,8 @@ a:visited {
   color: #CCC;
 }
 
-a:active {
-  color: #FEFEFE;
-}
-
 a:hover {
-  color: #FEFEFE;
+  text-decoration: none;
 }
 
 h2 a:link {
@@ -216,6 +212,7 @@ figcaption {
 .img_info_wrap {
   font-size: smaller;
   margin: 10px 0;
+  line-height: 1.8;
 }
 
 ul {
@@ -458,6 +455,10 @@ div#appstage, div#chickenpaint-parent {
 
 .view_other_works div:nth-of-type(6n) {
   margin-right: 0;
+}
+
+.continue_post_form {
+  line-height: 2.1;
 }
 
 /* スクロールすると出てくる「トップへ戻る」ボタン */
