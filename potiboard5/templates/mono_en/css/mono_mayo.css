@@ -25,8 +25,13 @@ a:visited {
   color: #555;
 }
 
+a:active {
+  color: #333;
+}
+
 a:hover {
   text-decoration: none;
+  color: #333;
 }
 
 h2 a:link {

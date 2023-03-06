@@ -32,8 +32,12 @@
   a:visited {
 	color: val.$link_visited;
   }
+  a:active {
+	color: val.$link_active;
+  }
   a:hover {
     text-decoration: none;
+	color: val.$link_hover;
   }
   h2 a:link {
 	color: val.$moji;
