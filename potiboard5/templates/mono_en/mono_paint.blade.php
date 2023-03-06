@@ -686,7 +686,7 @@
 						
 					<ul>
 						@if($newpost_nopassword)
-						<li>If this is a new post, you can draw the continuation without the password.</li>
+						<li>If you select new post, you can draw the continuation without the password.</li>
 						@else 
 						<li>To draw the continuation, you need the password when you drew it.</li>
 						@endif
