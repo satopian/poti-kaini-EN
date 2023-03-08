@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
-//v5.5 lot.230218
+//v5.6 lot.230308
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -98,7 +98,7 @@ $query=mb_convert_kana($query, 'rn', 'UTF-8');
 $query=str_replace(array(" ", "　"), "", $query);
 $query=str_replace("〜","～",$query);//波ダッシュを全角チルダに
 $query=h($query);
-$radio =filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
+$radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
 
 if($imgsearch){
 	$disp_count_of_page=20;//画像検索の時の1ページあたりの表示件数
@@ -138,7 +138,7 @@ while ($line = fgets($fp)) {
 	}
 
 	if($continue_to_search){
-		if($radio===1||$radio===2||$radio===null){
+		if($radio===1||$radio===2||$radio===0){
 			list($name,) = separateNameAndTrip($name);
 			$s_name=mb_convert_kana($name, 'rn', 'UTF-8');//全角英数を半角に
 			$s_name=str_replace(array(" ", "　"), "", $s_name);

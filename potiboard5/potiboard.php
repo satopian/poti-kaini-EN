@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.57.0';
-const POTI_LOT = 'lot.230305';
+const POTI_VER = 'v5.57.3';
+const POTI_LOT = 'lot.230308';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1943,8 +1943,6 @@ function deltemp(){
 function incontinue(){
 	global $addinfo;
 
-	check_same_origin(true);
-
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
 	$dat['useneo'] = false;
@@ -2727,11 +2725,11 @@ function redirect ($url, $wait = 0, $message = '') {
 	header("Content-type: text/html; charset=UTF-8");
 	echo '<!DOCTYPE html>'
 		. '<html lang="ja"><head>'
-		. '<meta http-equiv="refresh" content="' . $wait . '; URL=' . $url . '">'
+		. '<meta http-equiv="refresh" content="' . (int)h($wait) . '; URL=' . h($url) . '">'
 		. '<meta name="robots" content="noindex,nofollow">'
 		. '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">'
 		. '<meta charset="UTF-8"><title></title></head>'
-		. '<body>' . $message . '</body></html>';
+		. '<body>' . h($message) . '</body></html>';
 	exit;
 }
 
