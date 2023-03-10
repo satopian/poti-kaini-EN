@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$verlot}}">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$verlot}}" id="css1" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$verlot}}" id="css2" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$verlot}}" id="css3" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
+			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
+			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
 			<style>	
 				div#appstage,div#chickenpaint-parent{
 				letter-spacing: initial;
@@ -619,7 +619,7 @@
 			@if($continue_mode)
 			<!-- (========== CONTINUE MODE start ==========) -->
 			<section>
-			<script type="text/javascript" src="loadcookie.js"></script>
+			<script src="loadcookie.js"></script>
 				<div class="thread">
 					<figure>
 						<img src="{{$picfile}}" width="{{$picw}}" height="{{$pich}}" alt="@if($sub){{$sub}} @endif @if($name) by {{$name}} @endif{{$picw}} x {{$pich}}" title="@if($sub){{$sub}} @endif @if($name) by {{$name}} @endif{{$picw}} x {{$pich}}">

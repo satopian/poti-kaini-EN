@@ -4,10 +4,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$verlot}}">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$verlot}}" id="css1" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$verlot}}" id="css2" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$verlot}}" id="css3" disabled>
+	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
+	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
+	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
+	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="loadcookie.js">
