@@ -49,13 +49,9 @@
 		</script>
 
 		@if($paint_mode)
-		@if($pinchin)
-		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		@else 
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 		@endif
-		@endif
-		@if($pch_mode)<meta name="viewport" content="width=device-width">@endif
+		@if($pch_mode)<meta name="viewport" content="width=device-width,initial-scale=1.0">@endif
 		@if($continue_mode)
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 		<style>

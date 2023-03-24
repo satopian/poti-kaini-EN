@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.57.5';
-const POTI_LOT = 'lot.230310';
+const POTI_VER = 'v5.57.7';
+const POTI_LOT = 'lot.230324';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1631,16 +1631,7 @@ function paintform(){
 	}
 	//pchファイルアップロードペイントここまで
 	$dat['paint_mode'] = true;
-
-	//ピンチイン
-	if($picw>=700){//横幅700以上だったら
-		$dat['pinchin'] = true;
-	} elseif($picw>=500) {//横幅500以上だったら
-		if (strpos($_SERVER['HTTP_USER_AGENT'],'iPad') === false){//iPadじゃなかったら
-			$dat['pinchin'] = (strpos($_SERVER['HTTP_USER_AGENT'],'Mobile') !== false);
-		}
-	}
-	
+	$dat['pinchin']=false;//NEOのピンチイン廃止
 	$dat = array_merge($dat,form($resto));
 	$dat['anime'] = $anime ? true : false;
 
