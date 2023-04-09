@@ -216,7 +216,7 @@
 					allowDownload: true,
 					resourcesRoot: "chickenpaint/",
 					disableBootstrapAPI: true,
-					fullScreenMode: "force"
+					fullScreenMode: "auto"
 				});
 			})
 			</script>
