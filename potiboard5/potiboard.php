@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.57.8';
-const POTI_LOT = 'lot.230325';
+const POTI_VER = 'v5.58.0';
+const POTI_LOT = 'lot.230409';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1055,7 +1055,7 @@ function regist(){
 		check_badfile($chk, $dest); // 拒絶画像チェック
 
 		$upfile_name=newstring($upfile_name);
-		$message = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL."<br><br>";
+		$message = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL;
 
 		//重複チェック
 		$chkline=200;//チェックする最大行数
@@ -1232,7 +1232,8 @@ function regist(){
 	redirect(
 		$destination . (URL_PARAMETER ? "?".time() : ''),
 		1,
-		$message . THE_SCREEN_CHANGES
+		$message,
+		THE_SCREEN_CHANGES
 	);
 }
 
@@ -2414,7 +2415,7 @@ function replace(){
 			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$time.$imgext);
 
-			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL."<br><br>";
+			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL;
 
 			$oya=($oyano===$no);
 			$max_w = $oya ? MAX_W : MAX_RESW ;
@@ -2479,7 +2480,8 @@ function replace(){
 	redirect(
 		$destination . (URL_PARAMETER ? "?".time() : ''),
 		1,
-		$message . THE_SCREEN_CHANGES
+		$message,
+		THE_SCREEN_CHANGES
 	);
 }
 
@@ -2712,7 +2714,7 @@ function htmloutput($template,$dat,$buf_flag=''){
 
 }
 
-function redirect ($url, $wait = 0, $message = '') {
+function redirect ($url, $wait = 0, $message1 = '',$message2 = '') {
 	header("Content-type: text/html; charset=UTF-8");
 	echo '<!DOCTYPE html>'
 		. '<html lang="ja"><head>'
@@ -2720,7 +2722,7 @@ function redirect ($url, $wait = 0, $message = '') {
 		. '<meta name="robots" content="noindex,nofollow">'
 		. '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">'
 		. '<meta charset="UTF-8"><title></title></head>'
-		. '<body>' . h($message) . '</body></html>';
+		. '<body>' . h($message1).($message1 ? '<br><br>':'').h($message2). '</body></html>';
 	exit;
 }
 
