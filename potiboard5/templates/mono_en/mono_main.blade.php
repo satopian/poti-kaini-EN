@@ -236,6 +236,7 @@
 				@endif
 				{{-- 親記事のヘッダ --}}
 				<h3>
+				@if(!isset($res['not_deleted'])||$res['not_deleted'])
 					<span class="name"><a
 							href="search.php?page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
 							target="_blank" rel="noopener">{{$res['name']}}</a></span><span
@@ -243,6 +244,7 @@
 					{{$res['now']}}@if($res['id']) ID : {{$res['id']}}@endif @if($res['url']) <span class="url">[<a
 							href="{{$res['url']}}" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>
 					@endif @if($res['updatemark']){{$res['updatemark']}}@endif
+				@endif
 				</h3>
 				<hr>
 				@else
@@ -251,7 +253,8 @@
 				<div class="res">
 					{{-- 子レスヘッダ --}}
 					<h4>
-						<span class="oyaresno">[{{$res['no']}}]</span>
+					<span class="oyaresno">[{{$res['no']}}]</span>
+					@if(!isset($res['not_deleted'])||$res['not_deleted'])
 						<span class="rsub">{{$res['sub']}}</span> :
 						<span class="name"><a
 								href="search.php?page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
@@ -260,6 +263,7 @@
 						{{$res['id']}}@endif @if($res['url']) <span class="url">[<a href="{{$res['url']}}"
 								target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>@endif
 						@if($res['updatemark']) {{$res['updatemark']}}@endif
+					@endif
 					</h4>
 				{{-- 子レスヘッダここまで --}}
 				@endif
@@ -286,9 +290,13 @@
 					</figure>
 					@endif
 					<div class="comment_wrap">
-						<p>{!!$res['com']!!}</p>
-						{{-- 親のコメント部分 --}}
-					</div>
+					<p>{!!$res['com']!!}
+						@if(isset($res['not_deleted'])&&!$res['not_deleted'])
+						この記事はありません。
+						@endif
+					</p>
+				</div>
+				{{-- 最初のループならレス省略件数を表示 --}}
 					@if ($loop->first)
 					@if ($res['skipres'])
 					<hr>

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.58.0';
-const POTI_LOT = 'lot.230409';
+const POTI_VER = 'v5.58.1';
+const POTI_LOT = 'lot.230410';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -2973,6 +2973,8 @@ function create_res ($line, $options = []) {
 		//コンティニュー
 		$res['continue'] = USE_CONTINUE ? (check_elapsed_days($time) ? $res['no'] : '') :'';
 	}
+
+	$res['not_deleted'] =  !(!$name && !$email && !$url && !$com && !$res['src']);//｢この記事はありません｣で使用
 
 	//日付とIDを分離
 	

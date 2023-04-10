@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
-//v5.6 lot.230308
+//v5.7 lot.230411
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -125,8 +125,8 @@ while ($line = fgets($fp)) {
 	if(!trim($line)){
 		continue;
 	}
-	list($no,,$name,,$sub,$com,,,,$ext,$w,$h,$time,,,) = explode(",", rtrim($line));
-	if(!isset($oya[$no])){
+	list($no,,$name,$email,$sub,$com,$url,,,$ext,$w,$h,$time,,,) = explode(",", rtrim($line));
+	if(!isset($oya[$no])||(!$name && !$email && !$url && !$com && !$ext)){
 		continue;
 	}
 

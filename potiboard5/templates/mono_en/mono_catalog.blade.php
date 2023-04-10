@@ -57,8 +57,7 @@
 								@if($res['h']) height="{{$res['h']}}" @endif @if($i>23)loading="lazy"@endif></a></p>
 					@endif
 					@if($res['txt'])
-					<p><a href="{{$self}}?res={{$res['no']}}"
-							title="{{$res['sub']}} by {{$res['name']}}">{{$res['sub']}} by {{$res['name']}}</a></p>
+					<p><a href="{{$self}}?res={{$res['no']}}">no image</a></p>
 					@endif
 					<p>[{{$res['no']}}] {{$res['now']}}@if($res['updatemark']){{$res['updatemark']}}@endif
 						@if($res['id']) ID:{{$res['id']}}@endif</p>
