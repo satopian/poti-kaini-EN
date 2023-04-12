@@ -292,7 +292,7 @@
 					<div class="comment_wrap">
 					<p>{!!$res['com']!!}
 						@if(isset($res['not_deleted'])&&!$res['not_deleted'])
-						この記事はありません。
+						This post does not exist.
 						@endif
 					</p>
 				</div>
@@ -317,10 +317,10 @@
 				{{-- シェアボタン --}}
 				<span class="share_button">
 					<a target="_blank"
-						href="https://twitter.com/intent/tweet?&text=%5B{{$ress[0]['encoded_no']}}%5D%20{{$ress[0]['share_sub']}}%20by%20{{$ress[0]['share_name']}}%20-%20{{$encoded_title}}&url={{$encoded_rooturl}}{{$encoded_self}}?res={{$ress[0]['encoded_no']}}"><span
-							class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
+					href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
+					class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
 					<a target="_blank" class="fb btn"
-						href="http://www.facebook.com/share.php?u={{$encoded_rooturl}}{{$encoded_self}}?res={{$ress[0]['encoded_no']}}"><span
+						href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
 							class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
 							Share</span></a>
 				</span>
@@ -377,11 +377,11 @@
 
 				@endif
 			</nav>
-			{{-- <!-- メンテナンスフォーム欄 --> --}}
+			{{--  メンテナンスフォーム欄  --}}
 			@include('parts.mono_mainte_form')
 
 		</div>
-		{{-- <!-- 著作権表示 削除しないでください --> --}}
+		{{--  著作権表示 削除しないでください  --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>

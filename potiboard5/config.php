@@ -91,7 +91,7 @@ define("DEFAULT_TIMEZONE","Asia/Tokyo");
 // 対応テンプレートが必要
 // 設置場所のURL ROOT_URL で設定したurlをもとにリンクを作成
 // Whether to show the share button, "1" to enable.
-define("SHARE_BUTTON", "0");
+define("SHARE_BUTTON", "1");
 
 /* ---------- スパム対策 (Anti-spam posting) ---------- */
 

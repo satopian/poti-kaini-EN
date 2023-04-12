@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.58.2';
+const POTI_VER = 'v5.58.5';
 const POTI_LOT = 'lot.230411';
 
 /*
@@ -2988,6 +2988,9 @@ function create_res ($line, $options = []) {
 	$res['encoded_name'] = urlencode($res['name']);
 	$res['share_name'] = encode_for_share($res['name']);
 	$res['share_sub'] = encode_for_share($res['sub']);
+	$res['encoded_t'] = encode_for_share('['.$no.']'.$res['sub'].($res['name'] ? ' by '.$res['name'] : '').' - '.TITLE);
+	$res['encoded_u'] = urlencode(ROOT_URL.PHP_SELF.'?resno='.$res['no']);
+	 
 
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); //<br />を改行に戻す
 	$res['com']=strip_tags($com);//タグ除去
