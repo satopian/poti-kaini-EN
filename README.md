@@ -45,6 +45,38 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2023/04/13] v5.58.5
+
+### ChickenPaint update
+- In order to deal with the problem that the aspect ratio of the drawing area is broken when the orientation of the device is changed on the iPad, we have included a version of ChickenPaint that has been customized and built independently. (Temporary measure until the problem is resolved)
+- This issue only occurs when using ChickenPaint in fullscreen mode.
+- Therefore, I stopped starting in full screen mode and started in normal mode.
+You can switch the display to full screen mode by selecting full screen mode from ChickenPaint's menu bar.
+
+### Improvements
+
+- Fix WCS dynamic palette script's deprecated JavaScript  Rewrote substr() to substring() . 
+[String.prototype.substr() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr) MDN
+
+- Added a "Post in the same thread" checkbox.
+ 
+![230307_continue drawing_post in the same thread](https://user-images.githubusercontent.com/44894014/223247562-6184578c-3565-4f43-8a10-2feedd5e46b1.gif)
+ 
+Added a "Post in the same thread" checkbox.
+However, in the case of "image replacement", there is no choice but to post in the same thread, so this option is unnecessary.
+ 
+Therefore, I used JavaScript to display the "Post in the same thread" checkbox only when a new post is selected.
+
+- bad host chek 
+
+When a user has the same host name and IP address, we made it possible to specify a few characters from the front of the IP address displayed as the host name and reject it with a prefix match.
+
+>$badhost =["example.com","100.100.200"];
+
+If set like this:
+
+"example.com" will be rejected with a suffix match, and "100.100.200" will be rejected with a prefix match.
+
 ## [2023/02/11] v5.56.3
 
 ### Updated Klecks to latest version
