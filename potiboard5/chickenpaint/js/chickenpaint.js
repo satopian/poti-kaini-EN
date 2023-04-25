@@ -25773,8 +25773,7 @@ function CPMainGUI(controller, uiElem) {
 
   this.resize = function () {
     var newHeight;
-    // var  windowHeight = $(window).height(),
-    var windowHeight = window.innerHeight,
+    var windowHeight = (0, _jquery.default)(window).height(),
         menuBarHeight = (0, _jquery.default)(menuBar.getElement()).outerHeight();
 
     if (fullScreenMode) {
