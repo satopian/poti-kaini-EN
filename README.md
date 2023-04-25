@@ -45,7 +45,8 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-## [2023/04/13] v5.58.6
+## [2023/04/25] v5.58.8
+### ChickenPaint update
 
 - Fixed an issue where the canvas aspect ratio was incorrect when ChickenPaint was launched in full screen mode on an iPad.
 
