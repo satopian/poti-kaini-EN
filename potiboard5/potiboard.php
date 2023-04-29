@@ -4,7 +4,7 @@
 // POTI-board EVO
 // バージョン :
 const POTI_VER = 'v5.58.8';
-const POTI_LOT = 'lot.230425';
+const POTI_LOT = 'lot.230429';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1120,7 +1120,7 @@ function regist(){
 	$new_treeline = '';
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$tp=fopen(TREEFILE,"r+");
-	set_file_buffer($tp, 0);
+	stream_set_write_buffer($tp, 0);
 	flock($tp, LOCK_EX); //*
 	$buf=fread($tp,5242880);
 	if(!$buf){error(MSG023);}
@@ -1246,7 +1246,7 @@ function h_decode($str){
 function treedel($delno){
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(TREEFILE,"r+");
-	set_file_buffer($fp, 0);
+	stream_set_write_buffer($fp, 0);
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
 	if(!$buf){error(MSG024);}
@@ -1318,7 +1318,7 @@ function userdel(){
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	set_file_buffer($fp, 0);
+	stream_set_write_buffer($fp, 0);
 	flock($fp, LOCK_EX);
 	$buf=fread($fp,5242880);
 	if(!$buf){error(MSG027);}
@@ -1442,7 +1442,7 @@ function admindel($pass){
 		reset($del);
 		chmod(LOGFILE,PERMISSION_FOR_LOG);
 		$fp=fopen(LOGFILE,"r+");
-		set_file_buffer($fp, 0);
+		stream_set_write_buffer($fp, 0);
 		flock($fp, LOCK_EX);
 		$buf=fread($fp,5242880);
 		if(!$buf){error(MSG030);}
@@ -3057,10 +3057,11 @@ function separateDatetimeAndUpdatemark ($date) {
 // 一括書き込み（上書き）
 function writeFile ($fp, $data) {
 	ftruncate($fp,0);
-	set_file_buffer($fp, 0);
 	rewind($fp);
+	stream_set_write_buffer($fp, 0);
 	fwrite($fp, $data);
 }
+
 
 function closeFile ($fp) {
 	if($fp){

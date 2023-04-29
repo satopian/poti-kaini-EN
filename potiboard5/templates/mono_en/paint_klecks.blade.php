@@ -71,25 +71,24 @@
 						body: data,
 					})
 					.then((response) => {
-						let response_status = response.status; 
-
-						if(response_status===403){
-							return alert(@if($en)'It may be a WAF false positive.\nTry to draw a little more.'@else'投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。'@endif);
-						}
-						if(response_status===404){
-							return alert(@if($en)'404 not found\nsaveklecks.php'@else'エラー404\nsaveklecks.phpがありません。'@endif);	
-						}
-						if(response_status!==200){
-							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
-						}
 						if (response.ok) {
 							response.text().then((text) => {
 							console.log(text)
-								if(text==='ok'){
-									return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
-								}
+							if(text==='ok'){
+								return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
+							}
 								return alert(text);
 							})
+						}else{
+							let response_status = response.status; 
+
+							if(response_status===403){
+								return alert(@if($en)'It may be a WAF false positive.\nTry to draw a little more.'@else'投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。'@endif);
+							}
+							if(response_status===404){
+								return alert(@if($en)'404 not found\nsaveklecks.php'@else'エラー404\nsaveklecks.phpがありません。'@endif);	
+							}
+							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
 						}
 					})
 					.catch((error) => {
