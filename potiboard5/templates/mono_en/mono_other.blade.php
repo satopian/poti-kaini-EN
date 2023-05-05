@@ -12,6 +12,7 @@
 	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href="loadcookie.js">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
 	<style>
 		.del_page form {

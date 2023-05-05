@@ -43,7 +43,7 @@
 			var $btn = $('[type="submit"]');
 			//disbledを解除
 			$btn.prop('disabled', false);
-			$btn.click(function () { //送信ボタン2度押し対策
+			$btn.on('click', function () { //送信ボタン2度押し対策
 				$(this).prop('disabled', true);
 				$(this).closest('form').submit();
 			});
