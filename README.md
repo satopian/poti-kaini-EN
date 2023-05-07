@@ -45,6 +45,16 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2023/05/07] v5.58.9.1
+- Klecks update
+- Blade One update
+
+### Changed Templates
+(fixes deprecated jQuery syntax)
+
+## [2023/05/03] v5.58.9
+- klecks update
+
 ## [2023/04/25] v5.58.8
 ### ChickenPaint update
 
