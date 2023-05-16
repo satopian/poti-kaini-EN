@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.58.9';
-const POTI_LOT = 'lot.230501';
+const POTI_VER = 'v5.58.10';
+const POTI_LOT = 'lot.230516';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -49,7 +49,7 @@ if (version_compare(PHP_VERSION, '7.2.5', '<')) {
 	);
 }
 
-const JQUERY ='jquery-3.6.0.min.js';
+const JQUERY ='jquery-3.7.0.min.js';
 if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
 	die($err);
 }
@@ -3061,7 +3061,6 @@ function writeFile ($fp, $data) {
 	stream_set_write_buffer($fp, 0);
 	fwrite($fp, $data);
 }
-
 
 function closeFile ($fp) {
 	if($fp){
