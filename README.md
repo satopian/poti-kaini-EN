@@ -48,7 +48,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 ## POTI board EVO EN v5.59.0 release
 ## [2023/05/20] v5.59.0
 ### Bug fixes
-・Fixed an issue where the URL of the fixed link of the article was not set correctly when the tweet button was pressed.
+- Fixed an issue where the URL of the fixed link of the article was not set correctly when the tweet button was pressed.
 - This bug was introduced in v5.58.6 and fixed in v5.59.0.
 
 ### Updating jQuery
