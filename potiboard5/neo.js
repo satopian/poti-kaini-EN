@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.5.16";
+Neo.version = "1.6.0";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -553,10 +553,9 @@ Neo.backgroundImage = function () {
   var bgCanvas = document.createElement("canvas");
   bgCanvas.width = 16;
   bgCanvas.height = 16;
-  var ctx = bgCanvas.getContext("2d", {
-	willReadFrequently: true,
-  });
-
+  var ctx = bgCanvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   var imageData = ctx.getImageData(0, 0, 16, 16);
   var buf32 = new Uint32Array(imageData.data.buffer);
   var buf8 = new Uint8ClampedArray(imageData.data.buffer);
@@ -572,12 +571,12 @@ Neo.backgroundImage = function () {
 };
 
 Neo.multColor = function (c, scale) {
-  var r = Math.round(parseInt(c.substr(1, 2), 16) * scale);
-  var g = Math.round(parseInt(c.substr(3, 2), 16) * scale);
-  var b = Math.round(parseInt(c.substr(5, 2), 16) * scale);
-  r = ("0" + Math.min(Math.max(r, 0), 255).toString(16)).substr(-2);
-  g = ("0" + Math.min(Math.max(g, 0), 255).toString(16)).substr(-2);
-  b = ("0" + Math.min(Math.max(b, 0), 255).toString(16)).substr(-2);
+  var r = Math.round(parseInt(c.substring(1, 3), 16) * scale);
+  var g = Math.round(parseInt(c.substring(3, 5), 16) * scale);
+  var b = Math.round(parseInt(c.substring(5, 7), 16) * scale);
+  r = ("0" + Math.min(Math.max(r, 0), 255).toString(16)).slice(-2);
+  g = ("0" + Math.min(Math.max(g, 0), 255).toString(16)).slice(-2);
+  b = ("0" + Math.min(Math.max(b, 0), 255).toString(16)).slice(-2);
   return "#" + r + g + b;
 };
 
@@ -1047,9 +1046,9 @@ Neo.resizeCanvas = function () {
 
   Neo.painter.destCanvas.width = width;
   Neo.painter.destCanvas.height = height;
-  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   Neo.painter.destCanvasCtx.imageSmoothingEnabled = false;
   //Neo.painter.destCanvasCtx.mozImageSmoothingEnabled = false;
 
@@ -1079,197 +1078,198 @@ Neo.resizeCanvas = function () {
    -----------------------------------------------------------------------
  */
 
-   Neo.clone = function (src) {
-	var dst = {};
-	for (var k in src) {
-	  dst[k] = src[k];
-	}
-	return dst;
-  };
-  
-  Neo.getSizeString = function (len) {
-	var result = String(len);
-	while (result.length < 8) {
-	  result = "0" + result;
-	}
-	return result;
-  };
-  
-  Neo.openURL = function (url) {
-	if (Neo.isApp) {
-	  require("electron").shell.openExternal(url);
-	} else {
-	  window.open(url, "_blank");
-	}
-  };
-  
-  Neo.getAbsoluteURL = function (board, url) {
-	if (url && (url.indexOf('://') > 0 || url.indexOf('//') === 0)) {
-	  return url;
-	} else {
-	  return board + url;
-	}
+Neo.clone = function (src) {
+  var dst = {};
+  for (var k in src) {
+    dst[k] = src[k];
   }
-  
-  Neo.submit = function (board, blob, thumbnail, thumbnail2) {
-	var url = Neo.getAbsoluteURL(board, Neo.config.url_save);
-	var headerString = Neo.str_header || "";
-  
-	if (document.paintBBSCallback) {
-	  var result = document.paintBBSCallback("check");
-	  if (result == 0 || result == "false") {
-		return;
-	  }
-  
-	  result = document.paintBBSCallback("header");
-	  if (result && typeof result == "string") {
-		headerString = result;
-	  }
-	}
-	if (!headerString) headerString = Neo.config.send_header || "";
-  
-	var imageType = Neo.config.send_header_image_type;
-	if (imageType && imageType == "true") {
-	  headerString = "image_type=png&" + headerString;
-	}
-  
-	var count = Neo.painter.securityCount;
-	var timer = new Date() - Neo.painter.securityTimer;
-	if (Neo.config.send_header_count == "true") {
-	  headerString = "count=" + count + "&" + headerString;
-	}
-	if (Neo.config.send_header_timer == "true") {
-	  headerString = "timer=" + timer + "&" + headerString;
-	}
-	console.log("header: " + headerString);
-  
-	if (Neo.config.neo_emulate_security_error == "true") {
-	  var securityError = false;
-	  if (Neo.config.security_click) {
-		if (count - parseInt(Neo.config.security_click || 0) < 0) {
-		  securityError = true;
-		}
-	  }
-	  if (Neo.config.security_timer) {
-		if (timer - parseInt(Neo.config.security_timer || 0) * 1000 < 0) {
-		  securityError = true;
-		}
-	  }
-	  if (securityError && Neo.config.security_url) {
-		if (Neo.config.security_post == "true") {
-		  url = Neo.config.security_url;
-		} else {
-		  location.href = Neo.config.security_url;
-		  return;
-		}
-	  }
-	}
-	if (Neo.config.neo_send_with_formdata == "true") {
-  
-	  var formData = new FormData(); // Currently empty
-	  formData.append('header', headerString);
+  return dst;
+};
+
+Neo.getSizeString = function (len) {
+  var result = String(len);
+  while (result.length < 8) {
+    result = "0" + result;
+  }
+  return result;
+};
+
+Neo.openURL = function (url) {
+  if (Neo.isApp) {
+    require("electron").shell.openExternal(url);
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
+Neo.getAbsoluteURL = function (board, url) {
+  if (url && (url.indexOf('://') > 0 || url.indexOf('//') === 0)) {
+    return url;
+  } else {
+    return board + url;
+  }
+}
+
+Neo.submit = function (board, blob, thumbnail, thumbnail2) {
+  var url = Neo.getAbsoluteURL(board, Neo.config.url_save);
+  var headerString = Neo.str_header || "";
+
+  if (document.paintBBSCallback) {
+    var result = document.paintBBSCallback("check");
+    if (result == 0 || result == "false") {
+      return;
+    }
+
+    result = document.paintBBSCallback("header");
+    if (result && typeof result == "string") {
+      headerString = result;
+    }
+  }
+  if (!headerString) headerString = Neo.config.send_header || "";
+
+  var imageType = Neo.config.send_header_image_type;
+  if (imageType && imageType == "true") {
+    headerString = "image_type=png&" + headerString;
+  }
+
+  var count = Neo.painter.securityCount;
+  var timer = new Date() - Neo.painter.securityTimer;
+  if (Neo.config.send_header_count == "true") {
+    headerString = "count=" + count + "&" + headerString;
+  }
+  if (Neo.config.send_header_timer == "true") {
+    headerString = "timer=" + timer + "&" + headerString;
+  }
+  console.log("header: " + headerString);
+
+  if (Neo.config.neo_emulate_security_error == "true") {
+    var securityError = false;
+    if (Neo.config.security_click) {
+      if (count - parseInt(Neo.config.security_click || 0) < 0) {
+        securityError = true;
+      }
+    }
+    if (Neo.config.security_timer) {
+      if (timer - parseInt(Neo.config.security_timer || 0) * 1000 < 0) {
+        securityError = true;
+      }
+    }
+    if (securityError && Neo.config.security_url) {
+      if (Neo.config.security_post == "true") {
+        url = Neo.config.security_url;
+      } else {
+        location.href = Neo.config.security_url;
+        return;
+      }
+    }
+  }
+
+  if (Neo.config.neo_send_with_formdata == "true") {
+    var formData = new FormData();
+    formData.append('header', headerString);
 	  formData.append('picture',blob,blob);
-  
+
 	  if (thumbnail) {
 		  formData.append('thumbnail',thumbnail,blob);
-		}
-		if (thumbnail2) {
-		  formData.append('pch',thumbnail2,blob);
 	  }
-	}
-	// console.log("submit url=" + url + " header=" + headerString);
-  
-	var header = new Blob([headerString]);
-	var headerLength = this.getSizeString(header.size);
-	var imgLength = this.getSizeString(blob.size);
-  
-	var array = [
-	  "P", // PaintBBS
-	  headerLength,
-	  header,
-	  imgLength,
-	  "\r\n",
-	  blob,
-	];
-  
-	if (thumbnail) {
-	  var thumbnailLength = this.getSizeString(thumbnail.size);
-	  array.push(thumbnailLength, thumbnail);
-	}
-	if (thumbnail2) {
-	  var thumbnail2Length = this.getSizeString(thumbnail2.size);
-	  array.push(thumbnail2Length, thumbnail2);
-	}
-  
+	  if (thumbnail2) {
+		  formData.append('pch',thumbnail2,blob);
+    }
+  }
+  //console.log("submit url=" + url + " header=" + headerString);
+
+  var header = new Blob([headerString]);
+  var headerLength = this.getSizeString(header.size);
+  var imgLength = this.getSizeString(blob.size);
+
+  var array = [
+    "P", // PaintBBS
+    headerLength,
+    header,
+    imgLength,
+    "\r\n",
+    blob,
+  ];
+
+  if (thumbnail) {
+    var thumbnailLength = this.getSizeString(thumbnail.size);
+    array.push(thumbnailLength, thumbnail);
+  }
+  if (thumbnail2) {
+    var thumbnail2Length = this.getSizeString(thumbnail2.size);
+    array.push(thumbnail2Length, thumbnail2);
+  }
+
 	var futaba = location.hostname.match(/2chan.net/i);
 	var subtype = futaba ? "octet-binary" : "octet-stream"; // 念のため
 	var body = new Blob(array, { type: "application/" + subtype });
-  
-	var request = new XMLHttpRequest();
-	request.open("POST", url, true);
-  
-	request.onload = function (e) {
-	  console.log(request.response, "status=", request.status);
-  
-	  var errorMessage = null;
-	  if (request.status / 100 != 2) {
-	  errorMessage = request.responseURL + "\n";
-	  if (request.status == 403) {
-		  errorMessage = errorMessage + Neo.translate("投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。");
-		  } else if (request.status == 404) {
-		  errorMessage = errorMessage + Neo.translate("ファイルが見当たりません。");
-		  } else {
-		  errorMessage = errorMessage + 
-		  + Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
-		  }
-	  } else if (request.response.match(/^error\n/m)) {
-		errorMessage = request.response.replace(/^error\n/m, '');
-	  } else {
-		Neo.uploaded = true;
-	  }
-  
-	  var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
-	  var responseURL = request.response.replace(/&amp;/g, "&");
-  
-	  // ふたばではresponseの文字列をそのままURLとして解釈する
-	  if (responseURL.match(/painttmp=/)) {
-		exitURL = responseURL;
-	  }
-	  // responseが "URL:〜" の形だった場合はそのURLへ
-	  if (responseURL.match(/^URL:/)) {
-		exitURL = responseURL.replace(/^URL:/, "");
-	  }
-  
-	  if (Neo.uploaded) {
-		location.href = exitURL;
-	  } else {
-		alert(errorMessage);
+
+	const postData = (path, data) => {
+		var errorMessage=path+"\n";
+
+		const requestOptions = {
+			method: 'post',
+			body: data,
+		};
+		
+		if (!futaba) {//ふたばの時は、'X-Requested-With'を追加しない
+			requestOptions.mode = 'same-origin';
+			requestOptions.headers = {
+			'X-Requested-With': 'PaintBBS'
+			};
+		}
+
+		fetch(path, requestOptions)
+		.then((response) => {
+			if (response.ok) {
+				response.text().then((text) => {
+				console.log(text)
+				if (text.match(/^error\n/m)) {
+					Neo.submitButton.enable();
+					return alert(text.replace(/^error\n/m, ''));
+				}
+				var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
+				var responseURL = text.replace(/&amp;/g, "&");
+			
+				// ふたばではresponseの文字列をそのままURLとして解釈する
+				if (responseURL.match(/painttmp=/)) {
+				exitURL = responseURL;
+				}
+				// responseが "URL:〜" の形だった場合はそのURLへ
+				if (responseURL.match(/^URL:/)) {
+				exitURL = responseURL.replace(/^URL:/, "");
+				}
+				Neo.uploaded = true;
+				return location.href = exitURL;
+				})
+			}else{
+				let response_status = response.status; 
+				if (response_status == 403) {
+
+					return alert(errorMessage + Neo.translate("投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。"));
+				}
+				if(response_status===404) {
+				return alert(errorMessage + Neo.translate("ファイルが見当たりません。"));
+				}
+				return alert(errorMessage + 
+				+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
+
+			}
+		})
+		.catch((error) => {
+			alert(errorMessage + 
+			+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
 		Neo.submitButton.enable();
-	  }
-	};
-	request.onerror = function (e) {
-	  var errorMessage = null;
-	  errorMessage = Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。");
-	  alert(errorMessage);
-	  console.log("error");
-	  Neo.submitButton.enable();
-	};
-	request.onabort = function (e) {
-	  console.log("abort");
-	  Neo.submitButton.enable();
-	};
-	request.ontimeout = function (e) {
-	  console.log("timeout");
-	  Neo.submitButton.enable();
-	};
-	request.setRequestHeader("X-Requested-With", "PaintBBS");
-	if (Neo.config.neo_send_with_formdata == "true") {
-	  request.send(formData);
-	}else{
-	request.send(body);
+		})
 	}
-  };
-	
+
+	if (Neo.config.neo_send_with_formdata == "true") {
+		postData(url, formData);
+	}else{
+		postData(url, body);
+	}
+};
+
 /*
   -----------------------------------------------------------------------
     LiveConnect
@@ -1934,7 +1934,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
     this.canvas[i] = document.createElement("canvas");
     this.canvas[i].width = width;
     this.canvas[i].height = height;
-    this.canvasCtx[i] = this.canvas[i].getContext("2d", {
+    this.canvasCtx[i] = this.canvas[i].getContext("2d",{
 		willReadFrequently: true,
 	});
 
@@ -1947,9 +1947,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   this.tempCanvas = document.createElement("canvas");
   this.tempCanvas.width = width;
   this.tempCanvas.height = height;
-  this.tempCanvasCtx = this.tempCanvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  this.tempCanvasCtx = this.tempCanvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   this.tempCanvas.style.position = "absolute";
   this.tempCanvas.enabled = false;
 
@@ -1961,9 +1961,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
     this.container.appendChild(this.destCanvas);
   }
 
-  this.destCanvasCtx = this.destCanvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  this.destCanvasCtx = this.destCanvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   this.destCanvas.width = destWidth;
   this.destCanvas.height = destHeight;
 
@@ -2146,20 +2146,20 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
   this.isShiftDown = e.shiftKey;
   this.isCtrlDown = e.ctrlKey;
   this.isAltDown = e.altKey;
-  if (e.keyCode == 32) this.isSpaceDown = true;
-
+  var key=e.key.toLowerCase();
+  if (key === ' ') this.isSpaceDown = true;
+  
   if (!this.isShiftDown && this.isCtrlDown) {
-    if (!this.isAltDown) {
-      if (e.keyCode == 90 || e.keyCode == 85) this.undo(); //Ctrl+Z,Ctrl.U
-      if (e.keyCode == 89) this.redo(); //Ctrl+Y
-    } else {
-      if (e.keyCode == 90) this.redo(); //Ctrl+Alt+Z
-    }
+	if (!this.isAltDown) {
+	  if (key === 'z' || key === 'u') this.undo(); // Ctrl+Z, Ctrl+U
+	  if (key === 'y') this.redo(); // Ctrl+Y
+	} else {
+	  if (key === 'z') this.redo(); // Ctrl+Alt+Z
+	}
   }
-
   if (!this.isShiftDown && !this.isCtrlDown && !this.isAltDown) {
-    if (e.keyCode == 107) new Neo.ZoomPlusCommand(this).execute(); // +
-    if (e.keyCode == 109) new Neo.ZoomMinusCommand(this).execute(); // -
+    if (key == '+') new Neo.ZoomPlusCommand(this).execute(); // +
+    if (key == '-') new Neo.ZoomMinusCommand(this).execute(); // -
   }
 
   if (this.tool.keyDownHandler) {
@@ -2181,7 +2181,7 @@ Neo.Painter.prototype._keyUpHandler = function (e) {
   this.isShiftDown = e.shiftKey;
   this.isCtrlDown = e.ctrlKey;
   this.isAltDown = e.altKey;
-  if (e.keyCode == 32) this.isSpaceDown = false;
+  if (e.key == ' ') this.isSpaceDown = false;
 
   if (this.tool.keyUpHandler) {
     this.tool.keyUpHandler(oe);
@@ -2640,7 +2640,7 @@ Neo.Painter.prototype.dataURLtoBlob = function (dataURL) {
   if (dataURL.split(",")[0].indexOf("base64") >= 0) {
     byteString = atob(dataURL.split(",")[1]);
   } else {
-    byteString = unescape(dataURL.split(",")[1]);
+    byteString = decodeURI(dataURL.split(",")[1]);
   }
 
   // write the bytes of the string to a typed array
@@ -2660,9 +2660,9 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
   var pngCanvas = document.createElement("canvas");
   pngCanvas.width = imageWidth;
   pngCanvas.height = imageHeight;
-  var pngCanvasCtx = pngCanvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  var pngCanvasCtx = pngCanvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   pngCanvasCtx.fillStyle = "#ffffff";
   pngCanvasCtx.fillRect(0, 0, imageWidth, imageHeight);
 
@@ -2867,15 +2867,15 @@ Neo.Painter.prototype.getBound = function (x0, y0, x1, y1, r) {
 
 Neo.Painter.prototype.getColor = function (c) {
   if (!c) c = this.foregroundColor;
-  var r = parseInt(c.substr(1, 2), 16);
-  var g = parseInt(c.substr(3, 2), 16);
-  var b = parseInt(c.substr(5, 2), 16);
+  var r = parseInt(c.substring(1, 3), 16);
+  var g = parseInt(c.substring(3, 5), 16);
+  var b = parseInt(c.substring(5, 7), 16);
   var a = Math.floor(this.alpha * 255);
   return (a << 24) | (b << 16) | (g << 8) | r;
 };
 
 Neo.Painter.prototype.getColorString = function (c) {
-  var rgb = ("000000" + (c & 0xffffff).toString(16)).substr(-6);
+  var rgb = ("000000" + (c & 0xffffff).toString(16)).slice(-6);
   return "#" + rgb;
 };
 
@@ -2923,14 +2923,14 @@ Neo.Painter.prototype.getAlpha = function (type) {
 };
 
 Neo.Painter.prototype.prepareDrawing = function () {
-  var r = parseInt(this.foregroundColor.substr(1, 2), 16);
-  var g = parseInt(this.foregroundColor.substr(3, 2), 16);
-  var b = parseInt(this.foregroundColor.substr(5, 2), 16);
+  var r = parseInt(this.foregroundColor.substring(1, 3), 16);
+  var g = parseInt(this.foregroundColor.substring(3, 5), 16);
+  var b = parseInt(this.foregroundColor.substring(5, 7), 16);
   var a = Math.floor(this.alpha * 255);
 
-  var maskR = parseInt(this.maskColor.substr(1, 2), 16);
-  var maskG = parseInt(this.maskColor.substr(3, 2), 16);
-  var maskB = parseInt(this.maskColor.substr(5, 2), 16);
+  var maskR = parseInt(this.maskColor.substring(1, 3), 16);
+  var maskG = parseInt(this.maskColor.substring(3, 5), 16);
+  var maskB = parseInt(this.maskColor.substring(5, 7), 16);
 
   this._currentColor = [r, g, b, a];
   this._currentMask = [maskR, maskG, maskB];
@@ -5034,7 +5034,7 @@ Neo.DrawToolBase.prototype.bezierUpMoveHandler = function (oe) {
 };
 
 Neo.DrawToolBase.prototype.bezierKeyDownHandler = function (e) {
-  if (e.keyCode == 27) {
+  if (e.key == 'Escape') {
     //Escでキャンセル
     this.step = 0;
 
@@ -5733,7 +5733,7 @@ Neo.PasteTool.prototype.moveHandler = function (oe) {
 };
 
 Neo.PasteTool.prototype.keyDownHandler = function (e) {
-  if (e.keyCode == 27) {
+  if (e.key == 'Escape') {
     //Escでキャンセル
     var oe = Neo.painter;
     oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
@@ -5875,7 +5875,7 @@ Neo.TextTool.prototype.rollOverHandler = function (oe) {};
 Neo.TextTool.prototype.rollOutHandler = function (oe) {};
 
 Neo.TextTool.prototype.keyDownHandler = function (e) {
-  if (e.keyCode == 13) {
+  if (e.key == 'Enter') {
     // Returnで確定
     e.preventDefault();
 
@@ -7043,19 +7043,20 @@ Neo.getFilename = function () {
 Neo.getPCH = function (filename, callback) {
   if (!filename || filename.slice(-4).toLowerCase() != ".pch") return null;
 
-  var request = new XMLHttpRequest();
-  request.open("GET", filename, true);
-  request.responseType = "arraybuffer";
-  request.onload = function () {
-    var pch = Neo.decodePCH(request.response);
+  fetch(filename)
+  .then(response => response.arrayBuffer())
+  .then(buffer => {
+    var pch = Neo.decodePCH(buffer);
     if (pch) {
       if (callback) callback(pch);
     } else {
       console.log("not a NEO animation");
     }
-  };
-  request.send();
-};
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}
 
 Neo.decodePCH = function (rawdata) {
   var byteArray = new Uint8Array(rawdata);
@@ -7570,9 +7571,9 @@ Neo.ToolTip.prototype.update = function () {};
 Neo.ToolTip.prototype.draw = function (c) {
   if (this.hasTintImage) {
     if (typeof c != "string") c = Neo.painter.getColorString(c);
-    var ctx = this.canvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+    var ctx = this.canvas.getContext("2d",{
+		willReadFrequently: true,
+	});
 
     if (this.prevMode != this.mode) {
       this.prevMode = this.mode;
@@ -7745,9 +7746,9 @@ Neo.Pen2Tip.prototype.update = function () {
 };
 
 Neo.Pen2Tip.prototype.drawTone = function () {
-  var ctx = this.canvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  var ctx = this.canvas.getContext("2d",{
+		willReadFrequently: true,
+	});
 
   var imageData = ctx.getImageData(0, 0, 46, 18);
   var buf32 = new Uint32Array(imageData.data.buffer);
@@ -7820,9 +7821,9 @@ Neo.EraserTip.prototype.update = function () {
 };
 
 Neo.EraserTip.prototype.draw = function () {
-  var ctx = this.canvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  var ctx = this.canvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   var img = new Image();
 
@@ -7987,9 +7988,9 @@ Neo.MaskTip.prototype.update = function () {
 Neo.MaskTip.prototype.draw = function (c) {
   if (typeof c != "string") c = Neo.painter.getColorString(c);
 
-  var ctx = this.canvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+  var ctx = this.canvas.getContext("2d",{
+		willReadFrequently: true,
+	});
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   ctx.fillStyle = c;
   ctx.fillRect(1, 1, 43, 9);
@@ -8541,9 +8542,9 @@ Neo.ViewerButton.prototype.init = function (name, params) {
   if (name != "viewerSpeed") {
     this.element.innerHTML = "<canvas width=24 height=24></canvas>";
     this.canvas = this.element.getElementsByTagName("canvas")[0];
-    var ctx = this.canvas.getContext("2d", {
-	willReadFrequently: true,
-  });
+    var ctx = this.canvas.getContext("2d",{
+		willReadFrequently: true,
+	});
 
     var img = new Image();
     img.src = Neo.ViewerButton[name.toLowerCase().replace(/viewer/, "")];
