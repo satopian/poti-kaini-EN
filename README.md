@@ -45,6 +45,18 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## POTI board EVO EN v5.59.0 release
+## [2023/05/20] v5.59.0
+### Bug fixes
+- Fixed an issue where the URL of the fixed link of the article was not set correctly when the tweet button was pressed.
+- This bug was introduced in v5.58.6 and fixed in v5.59.0.
+
+### Updating jQuery
+- Updated jQuery from jQuery3.6.0 to jQuery3.7.0.
+- jQuery versioning is done inside potiboard.php, so you don't have to change individual templates.
+### Fixed deprecated JavaScript and jQuery syntax
+- templates/mono_en/js/mono_common.js
+
 ## [2023/05/07] v5.58.9.1
 - Klecks update
 - Blade One update
