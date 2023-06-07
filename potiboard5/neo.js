@@ -1253,14 +1253,14 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 				return alert(errorMessage + Neo.translate("ファイルが見当たりません。"));
 				}
 				return alert(errorMessage + 
-				+ Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
+				Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
 
 			}
 		})
 		.catch((error) => {
 			Neo.submitButton.enable();
-			//回線が切断されている時には翻訳されず`NaN`になるため英語版のエラーメッセージ
-			return alert(errorMessage + "Please push send button again.");
+			return alert(errorMessage + 
+				Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
 		})
 	}
 
