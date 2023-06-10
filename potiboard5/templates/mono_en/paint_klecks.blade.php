@@ -151,8 +151,18 @@
 					ctx.restore();
 					return canvas;
 				})(),
-			}]
-		});
+			},{
+				name: '{{$TranslatedLayerName}} 1',
+				opacity: 1,
+				mixModeStr: 'source-over',
+				image: (() => {
+					const canvas = document.createElement('canvas');
+					canvas.width = {{$picw}};
+					canvas.height = {{$pich}};
+					return canvas;
+				})()
+			}
+		]});
 	}
 </script>
 <!-- embed end -->

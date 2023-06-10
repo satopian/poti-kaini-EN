@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.59.0';
-const POTI_LOT = 'lot.230520';
+const POTI_VER = 'v5.60.0';
+const POTI_LOT = 'lot.20230610';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -1794,6 +1794,7 @@ function paintform(){
 	if($shi!=='klecks'){
 		return htmloutput(PAINTFILE,$dat);
 	}elseif($shi==='klecks'){
+		$dat['TranslatedLayerName'] = getTranslatedLayerName();
 		return htmloutput(PAINT_KLECKS,$dat);
 	}
 }
@@ -3249,3 +3250,34 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 		safe_unlink(__DIR__.'/templates/errorlog/error.log');
 	}
 }
+
+// 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
+function getTranslatedLayerName() {
+	$acceptedLanguages = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+	$languageList = explode(',', $acceptedLanguages);
+
+	foreach ($languageList as $language) {
+		$language = strtolower(trim($language));
+		if (strpos($language, 'ja') === 0) {
+			return "レイヤー";
+		}
+		if (strpos($language, 'en') === 0) {
+			return "Layer";
+		}
+		if (strpos($language, 'zh-tw') === 0) {
+			return "圖層";
+		}
+		if (strpos($language, 'zh-cn') === 0) {
+			return "图层";
+		}
+		if (strpos($language, 'fr') === 0) {
+			return "Calque";
+		}
+		if (strpos($language, 'de') === 0) {
+			return "Ebene";
+		}
+	}
+
+	return "Layer";
+}
+
