@@ -45,7 +45,18 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
-## POTI board EVO EN v5.59.0 release
+## [2023/05/20] v5.60.0
+
+### Fixed deprecated JavaScript syntax in paint app
+
+- Updated PaintBBS NEO to v1.6.0.
+- Updated to original modified version of ChickenPaint.
+
+### The paint app Klecks has two layers at startup.
+
+![Image](https://github.com/satopian/poti-kaini/assets/44894014/23eec76c-969a-458b-931a-2c3bb56e9201)
+
+
 ## [2023/05/20] v5.59.0
 ### Bug fixes
 - Fixed an issue where the URL of the fixed link of the article was not set correctly when the tweet button was pressed.
