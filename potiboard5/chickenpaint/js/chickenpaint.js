@@ -5881,9 +5881,6 @@ CPBlend.normalOntoOpaqueFusionWithTransparentLayer = function (fusion, layer, la
 
       if (alpha1) {
         if (false) {
-          fusion.data[pixIndex] = layer.data[pixIndex];
-          fusion.data[pixIndex + 1] = layer.data[pixIndex + 1];
-          fusion.data[pixIndex + 2] = layer.data[pixIndex + 2];
         } else {
           var invAlpha1 = 255 - alpha1;
           color1 = layer.data[pixIndex];
@@ -6069,9 +6066,6 @@ CPBlend.normalOntoOpaqueFusionWithTransparentLayerMasked = function (fusion, lay
 
       if (alpha1) {
         if (false) {
-          fusion.data[pixIndex] = layer.data[pixIndex];
-          fusion.data[pixIndex + 1] = layer.data[pixIndex + 1];
-          fusion.data[pixIndex + 2] = layer.data[pixIndex + 2];
         } else {
           var invAlpha1 = 255 - alpha1;
           color1 = layer.data[pixIndex];
@@ -32236,8 +32230,8 @@ function getKeyCodeFromKey(key) {
 
 },{}],70:[function(require,module,exports){
 /*!
-  * Bootstrap v4.6.1 (https://getbootstrap.com/)
-  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Bootstrap v4.6.2 (https://getbootstrap.com/)
+  * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
@@ -32264,11 +32258,14 @@ function getKeyCodeFromKey(key) {
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
   function _extends() {
-    _extends = Object.assign || function (target) {
+    _extends = Object.assign ? Object.assign.bind() : function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
 
@@ -32281,7 +32278,6 @@ function getKeyCodeFromKey(key) {
 
       return target;
     };
-
     return _extends.apply(this, arguments);
   }
 
@@ -32293,17 +32289,16 @@ function getKeyCodeFromKey(key) {
   }
 
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
-
     return _setPrototypeOf(o, p);
   }
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.6.1): util.js
+   * Bootstrap (v4.6.2): util.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -32477,7 +32472,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$a = 'alert';
-  var VERSION$a = '4.6.1';
+  var VERSION$a = '4.6.2';
   var DATA_KEY$a = 'bs.alert';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var DATA_API_KEY$7 = '.data-api';
@@ -32625,7 +32620,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$9 = 'button';
-  var VERSION$9 = '4.6.1';
+  var VERSION$9 = '4.6.2';
   var DATA_KEY$9 = 'bs.button';
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$6 = '.data-api';
@@ -32816,14 +32811,16 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$8 = 'carousel';
-  var VERSION$8 = '4.6.1';
+  var VERSION$8 = '4.6.2';
   var DATA_KEY$8 = 'bs.carousel';
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$5 = '.data-api';
   var JQUERY_NO_CONFLICT$8 = $__default["default"].fn[NAME$8];
-  var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
+//   var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
+  var ARROW_LEFT_KEYCODE = 'ArrowLeft'; // KeyboardEvent.key value for left arrow key
 
-  var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
+//   var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
+  var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arrow key
 
   var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
 
@@ -33129,7 +33126,7 @@ function getKeyCodeFromKey(key) {
         return;
       }
 
-      switch (event.which) {
+      switch (event.key) {
         case ARROW_LEFT_KEYCODE:
           event.preventDefault();
           this.prev();
@@ -33403,7 +33400,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$7 = 'collapse';
-  var VERSION$7 = '4.6.1';
+  var VERSION$7 = '4.6.2';
   var DATA_KEY$7 = 'bs.collapse';
   var EVENT_KEY$7 = "." + DATA_KEY$7;
   var DATA_API_KEY$4 = '.data-api';
@@ -33744,20 +33741,20 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$6 = 'dropdown';
-  var VERSION$6 = '4.6.1';
+  var VERSION$6 = '4.6.2';
   var DATA_KEY$6 = 'bs.dropdown';
   var EVENT_KEY$6 = "." + DATA_KEY$6;
   var DATA_API_KEY$3 = '.data-api';
   var JQUERY_NO_CONFLICT$6 = $__default["default"].fn[NAME$6];
-  var ESCAPE_KEYCODE$1 = 27; // KeyboardEvent.which value for Escape (Esc) key
+  var ESCAPE_KEYCODE$1 = 'Escape'; // KeyboardEvent.key value for Escape (Esc) key
 
-  var SPACE_KEYCODE = 32; // KeyboardEvent.which value for space key
+  var SPACE_KEYCODE = ' '; // KeyboardEvent.key value for space key
 
-  var TAB_KEYCODE = 9; // KeyboardEvent.which value for tab key
+  var TAB_KEYCODE = 'Tab'; // KeyboardEvent.key value for tab key
 
-  var ARROW_UP_KEYCODE = 38; // KeyboardEvent.which value for up arrow key
+  var ARROW_UP_KEYCODE =  'ArrowUp'; // KeyboardEvent.which value for up arrow key
 
-  var ARROW_DOWN_KEYCODE = 40; // KeyboardEvent.which value for down arrow key
+  var ARROW_DOWN_KEYCODE = 'ArrowDown'; // KeyboardEvent.which value for down arrow key
 
   var RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseEvent.which value for the right button (assuming a right-handed mouse)
 
@@ -34067,7 +34064,7 @@ function getKeyCodeFromKey(key) {
     };
 
     Dropdown._clearMenus = function _clearMenus(event) {
-      if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+      if (event && (event.button  === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
         return;
       }
 
@@ -34095,7 +34092,7 @@ function getKeyCodeFromKey(key) {
           continue;
         }
 
-        if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) && $__default["default"].contains(parent, event.target)) {
+        if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.key === TAB_KEYCODE) && $__default["default"].contains(parent, event.target)) {
           continue;
         }
 
@@ -34143,7 +34140,7 @@ function getKeyCodeFromKey(key) {
       //  - If key is other than escape
       //    - If key is not up or down => not a dropdown command
       //    - If trigger inside the menu => not a dropdown command
-      if (/input|textarea/i.test(event.target.tagName) ? event.which === SPACE_KEYCODE || event.which !== ESCAPE_KEYCODE$1 && (event.which !== ARROW_DOWN_KEYCODE && event.which !== ARROW_UP_KEYCODE || $__default["default"](event.target).closest(SELECTOR_MENU).length) : !REGEXP_KEYDOWN.test(event.which)) {
+      if (/input|textarea/i.test(event.target.tagName) ? event.key === SPACE_KEYCODE || event.key !== ESCAPE_KEYCODE$1 && (event.key !== ARROW_DOWN_KEYCODE && event.key !== ARROW_UP_KEYCODE || $__default["default"](event.target).closest(SELECTOR_MENU).length) : !REGEXP_KEYDOWN.test(event.key)) {
         return;
       }
 
@@ -34155,15 +34152,15 @@ function getKeyCodeFromKey(key) {
 
       var isActive = $__default["default"](parent).hasClass(CLASS_NAME_SHOW$5);
 
-      if (!isActive && event.which === ESCAPE_KEYCODE$1) {
+      if (!isActive && event.key === ESCAPE_KEYCODE$1) {
         return;
       }
 
       event.preventDefault();
       event.stopPropagation();
 
-      if (!isActive || event.which === ESCAPE_KEYCODE$1 || event.which === SPACE_KEYCODE) {
-        if (event.which === ESCAPE_KEYCODE$1) {
+      if (!isActive || event.key === ESCAPE_KEYCODE$1 || event.key === SPACE_KEYCODE) {
+        if (event.key === ESCAPE_KEYCODE$1) {
           $__default["default"](parent.querySelector(SELECTOR_DATA_TOGGLE$2)).trigger('focus');
         }
 
@@ -34181,12 +34178,12 @@ function getKeyCodeFromKey(key) {
 
       var index = items.indexOf(event.target);
 
-      if (event.which === ARROW_UP_KEYCODE && index > 0) {
+      if (event.key === ARROW_UP_KEYCODE && index > 0) {
         // Up
         index--;
       }
 
-      if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
+      if (event.key === ARROW_DOWN_KEYCODE && index < items.length - 1) {
         // Down
         index++;
       }
@@ -34247,12 +34244,12 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$5 = 'modal';
-  var VERSION$5 = '4.6.1';
+  var VERSION$5 = '4.6.2';
   var DATA_KEY$5 = 'bs.modal';
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$2 = '.data-api';
   var JQUERY_NO_CONFLICT$5 = $__default["default"].fn[NAME$5];
-  var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
+  var ESCAPE_KEYCODE = 'Escape'; // KeyboardEvent.which value for Escape (Esc) key
 
   var CLASS_NAME_SCROLLABLE = 'modal-dialog-scrollable';
   var CLASS_NAME_SCROLLBAR_MEASURER = 'modal-scrollbar-measure';
@@ -34547,11 +34544,11 @@ function getKeyCodeFromKey(key) {
 
       if (this._isShown) {
         $__default["default"](this._element).on(EVENT_KEYDOWN_DISMISS, function (event) {
-          if (_this6._config.keyboard && event.which === ESCAPE_KEYCODE) {
+          if (_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
             event.preventDefault();
 
             _this6.hide();
-          } else if (!_this6._config.keyboard && event.which === ESCAPE_KEYCODE) {
+          } else if (!_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
             _this6._triggerBackdropTransition();
           }
         });
@@ -34851,7 +34848,7 @@ function getKeyCodeFromKey(key) {
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.6.1): tools/sanitizer.js
+   * Bootstrap (v4.6.2): tools/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -34976,7 +34973,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$4 = 'tooltip';
-  var VERSION$4 = '4.6.1';
+  var VERSION$4 = '4.6.2';
   var DATA_KEY$4 = 'bs.tooltip';
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var JQUERY_NO_CONFLICT$4 = $__default["default"].fn[NAME$4];
@@ -35686,7 +35683,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$3 = 'popover';
-  var VERSION$3 = '4.6.1';
+  var VERSION$3 = '4.6.2';
   var DATA_KEY$3 = 'bs.popover';
   var EVENT_KEY$3 = "." + DATA_KEY$3;
   var JQUERY_NO_CONFLICT$3 = $__default["default"].fn[NAME$3];
@@ -35860,7 +35857,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$2 = 'scrollspy';
-  var VERSION$2 = '4.6.1';
+  var VERSION$2 = '4.6.2';
   var DATA_KEY$2 = 'bs.scrollspy';
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$1 = '.data-api';
@@ -35946,9 +35943,7 @@ function getKeyCodeFromKey(key) {
         }
 
         return null;
-      }).filter(function (item) {
-        return item;
-      }).sort(function (a, b) {
+      }).filter(Boolean).sort(function (a, b) {
         return a[0] - b[0];
       }).forEach(function (item) {
         _this2._offsets.push(item[0]);
@@ -36144,7 +36139,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME$1 = 'tab';
-  var VERSION$1 = '4.6.1';
+  var VERSION$1 = '4.6.2';
   var DATA_KEY$1 = 'bs.tab';
   var EVENT_KEY$1 = "." + DATA_KEY$1;
   var DATA_API_KEY = '.data-api';
@@ -36182,7 +36177,7 @@ function getKeyCodeFromKey(key) {
     _proto.show = function show() {
       var _this = this;
 
-      if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && $__default["default"](this._element).hasClass(CLASS_NAME_ACTIVE) || $__default["default"](this._element).hasClass(CLASS_NAME_DISABLED)) {
+      if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && $__default["default"](this._element).hasClass(CLASS_NAME_ACTIVE) || $__default["default"](this._element).hasClass(CLASS_NAME_DISABLED) || this._element.hasAttribute('disabled')) {
         return;
       }
 
@@ -36368,7 +36363,7 @@ function getKeyCodeFromKey(key) {
    */
 
   var NAME = 'toast';
-  var VERSION = '4.6.1';
+  var VERSION = '4.6.2';
   var DATA_KEY = 'bs.toast';
   var EVENT_KEY = "." + DATA_KEY;
   var JQUERY_NO_CONFLICT = $__default["default"].fn[NAME];
@@ -59726,7 +59721,7 @@ module.exports = ZStream;
       var p = pointermap.get(this.POINTER_ID);
 
       // Update buttons state after possible out-of-document mouseup.
-      if (inEvent.which === 0 || !p) {
+      if (inEvent.button === 0 || !p) {
         e.buttons = 0;
       } else {
         e.buttons = p.buttons;
