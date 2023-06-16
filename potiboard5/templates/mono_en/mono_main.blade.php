@@ -88,7 +88,7 @@
 				@if($resname)
 				<script>
 					function add_to_com() {
-						var textField = document.getElementById("res_com");
+						var textField = document.getElementById("p_input_com");
 						var postername = "{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
 						// テキストフィールドの現在のカーソル位置を取得
 						var startPos = textField.selectionStart;
