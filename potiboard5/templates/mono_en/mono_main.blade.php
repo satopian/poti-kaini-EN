@@ -88,11 +88,20 @@
 				@if($resname)
 				<script>
 					function add_to_com() {
-						document.getElementById("p_input_com").value +=
-						"{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
+						var textField = document.getElementById("res_com");
+						var postername = "{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
+						// テキストフィールドの現在のカーソル位置を取得
+						var startPos = textField.selectionStart;
+						var endPos = textField.selectionEnd;
+						// カーソル位置に指定した文字列を挿入
+						textField.value = textField.value.substring(0, startPos) + postername + textField.value.substring(endPos);
+						// カーソル位置を更新
+						var newCursorPosition = startPos + postername.length;
+						textField.setSelectionRange(newCursorPosition, newCursorPosition);						// テキストフィールドにフォーカスを設定
+						textField.focus();
 					}
 				</script>
-				{{-- コピーボタン  --}}
+				{{-- copy button  --}}
 				<button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
 				@endif
 			</p>
