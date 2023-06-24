@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.61.1';
+const POTI_VER = 'v5.61.2';
 const POTI_LOT = 'lot.20230624';
 
 /*
@@ -2833,6 +2833,7 @@ function delete_files ($path, $filename, $ext) {
 	safe_unlink(PCH_DIR.$filename.'.spch');
 	safe_unlink(PCH_DIR.$filename.'.chi');
 	safe_unlink(PCH_DIR.$filename.'.psd');
+	safe_unlink(PCH_DIR.$filename.'.tgkr');
 }
 
 /**
