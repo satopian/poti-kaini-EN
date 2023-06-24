@@ -68,6 +68,10 @@ define("USE_SHI_PAINTER", "1");
 // (1: Enabled, 0: Disabled) 
 define("USE_CHICKENPAINT", "1");
 
+//Use Tegaki 
+// (1: Enabled, 0: Disabled) 
+define("USE_TEGAKI", "1");
+
 //Use Klecks
 // (1: Enabled, 0: Disabled) 
 define("USE_KLECKS", "1");
