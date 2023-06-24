@@ -52,7 +52,7 @@ $u_agent = str_replace("\t", "", $u_agent);
 $imgext='.png';
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-$tool = 'klecks';
+$tool = (string)filter_input(INPUT_POST, 'tool');
 $repcode = (string)filter_input(INPUT_POST, 'repcode');
 $stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
 $resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
@@ -107,6 +107,17 @@ if(isset($_FILES['psd']) && ($_FILES['psd']['error'] == UPLOAD_ERR_OK)){
 			move_uploaded_file($_FILES['psd']['tmp_name'], TEMP_DIR.$imgfile.'.psd');
 			if(is_file(TEMP_DIR.$imgfile.'.psd')){
 				chmod(TEMP_DIR.$imgfile.'.psd',PERMISSION_FOR_DEST);
+			}
+		}
+	}
+}
+if(isset($_FILES['tgkr']) && ($_FILES['tgkr']['error'] == UPLOAD_ERR_OK)){
+	if(mime_content_type($_FILES['tgkr']['tmp_name'])==="application/octet-stream"){
+		if(!SIZE_CHECK || ($_FILES['tgkr']['size'] < (PSD_MAX_KB * 1024))){
+			//PSDファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
+			move_uploaded_file($_FILES['tgkr']['tmp_name'], TEMP_DIR.$imgfile.'.tgkr');
+			if(is_file(TEMP_DIR.$imgfile.'.tgkr')){
+				chmod(TEMP_DIR.$imgfile.'.tgkr',PERMISSION_FOR_DEST);
 			}
 		}
 	}

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.60.1';
-const POTI_LOT = 'lot.20230616';
+const POTI_VER = 'v5.61.1';
+const POTI_LOT = 'lot.20230624';
 
 /*
   (C) 2018-2022 POTI改 POTI-board redevelopment team
@@ -151,8 +151,11 @@ defined("USE_SHI_PAINTER") or define("USE_SHI_PAINTER", "1");
 defined("USE_CHICKENPAINT") or define("USE_CHICKENPAINT", "1");
 //Klecksを使う 使う:1 使わない:0
 defined("USE_KLECKS") or define("USE_KLECKS", "1");
-
 defined("PAINT_KLECKS") or define("PAINT_KLECKS", "paint_klecks");
+//Klecksを使う 使う:1 使わない:0
+defined("USE_TEGAKI") or define("USE_TEGAKI", "1");
+defined("PAINT_TEGAKI") or define("PAINT_TEGAKI", "paint_tegaki");
+defined("TGKR_VIEW") or define("TGKR_VIEW", "tgkr_view");
 
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
 defined("RES_CONTINUE_IN_CURRENT_THREAD") or define("RES_CONTINUE_IN_CURRENT_THREAD", "1");
@@ -472,6 +475,7 @@ function form($resno="",$tmp=""){
 	$dat['use_shi_painter'] = (USE_SHI_PAINTER ? true : false);
 	$dat['use_chickenpaint'] =(USE_CHICKENPAINT ? true : false);
 	$dat['use_klecks'] = (USE_KLECKS ? true : false);
+	$dat['use_tegaki'] = (USE_TEGAKI ? true : false);
 	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
 	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
 	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
@@ -1649,8 +1653,7 @@ function paintform(){
 					continue;
 				}	
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-					$tree_nos = explode(',', trim($tree));
-					$oyano=$tree_nos[0];
+					list($oyano,) = explode(',', trim($tree));
 					break;
 				}
 			}
@@ -1791,11 +1794,15 @@ function paintform(){
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
 	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
-	if($shi!=='klecks'){
-		return htmloutput(PAINTFILE,$dat);
-	}elseif($shi==='klecks'){
+	switch($shi){
+		case 'tegaki':
+			return htmloutput(PAINT_TEGAKI,$dat);
+		case 'klecks':{
 		$dat['TranslatedLayerName'] = getTranslatedLayerName();
-		return htmloutput(PAINT_KLECKS,$dat);
+			return htmloutput(PAINT_KLECKS,$dat);
+		}
+		default:
+		return htmloutput(PAINTFILE,$dat);
 	}
 }
 
@@ -1906,7 +1913,12 @@ function openpch(){
 	$dat['pch_mode'] = true;
 	$dat['speed'] = PCH_SPEED;
 	$dat['stime'] = time();
-	htmloutput(PAINTFILE,$dat);
+
+	if($ext==='.tgkr'){
+		htmloutput(TGKR_VIEW,$dat);
+	}else{
+		htmloutput(PAINTFILE,$dat);
+	}
 }
 
 // テンポラリ内のゴミ除去 
@@ -2371,8 +2383,7 @@ function replace(){
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
 				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-					$tree_nos = explode(',', trim($tree));
-					$oyano=$tree_nos[0];
+					list($oyano,) = explode(',', trim($tree));
 					break;
 				}
 			}
@@ -2779,7 +2790,7 @@ function calcPtime ($psec) {
  */
 function check_pch_ext ($filepath,$options = []) {
 	
-	$exts=[".pch",".spch",".chi",".psd"];
+	$exts=[".pch",".spch",".tgkr",".chi",".psd"];
 
 	foreach($exts as $i => $ext){
 
@@ -2789,7 +2800,7 @@ function check_pch_ext ($filepath,$options = []) {
 			}
 			return $ext;
 		}
-		if(!isset($options['upfile']) && $i === 1){
+		if(!isset($options['upfile']) && $i === 2){
 			return '';
 		}
 	}
