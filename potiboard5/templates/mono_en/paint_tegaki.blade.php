@@ -104,7 +104,7 @@ Tegaki.open({
   // initial canvas size
   width: {{$picw}},
   height: {{$pich}},
-  saveReplay: @if($imgfile) false @else true @endif,
+  saveReplay: @if($imgfile||!$anime) false @else true @endif,
 
 });
 
