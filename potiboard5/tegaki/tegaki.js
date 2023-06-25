@@ -22,7 +22,7 @@ var isJa = browserLanguage.startsWith('ja');
   zoom:isJa ? 'ズーム':'Zoom',
   layers:isJa ? 'レイヤー':'Layers',
   switchPalette: isJa ? 'パレット切り替え':'Switch color palette',
-  paletteSlotReplace: isJa ? '現在の色を右クリックで入れ替える':'Right click to replace with the current color',
+  paletteSlotReplace: isJa ? '右クリックで色を登録':'Right click to replace with the current color',
   
   // Layers
   layer:isJa ? 'レイヤー':'Layer',
