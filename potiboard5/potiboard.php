@@ -3,11 +3,11 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.61.2';
-const POTI_LOT = 'lot.20230624';
+const POTI_VER = 'v5.61.3';
+const POTI_LOT = 'lot.20230627';
 
 /*
-  (C) 2018-2022 POTI改 POTI-board redevelopment team
+  (C) 2018-2023 POTI改 POTI-board redevelopment team
   >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
