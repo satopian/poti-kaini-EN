@@ -500,7 +500,7 @@ define("LANG", "English");
 
 /* ---------- SNS share function advanced settings ---------- */
 //Include Mastodon and Misskey servers in the share function 1: Include 0: Do not include
-defined("SWITCH_SNS","1");
+define("SWITCH_SNS","1");
 
 // Servers displayed in the list when sharing on SNS
 //Example ["display name","https://example.com/(SNS server url)"], (comma is required at the end)
