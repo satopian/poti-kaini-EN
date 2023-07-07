@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.62.1';
+const POTI_VER = 'v5.62.2';
 const POTI_LOT = 'lot.20230707';
 
 /*
@@ -97,6 +97,10 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
 	die($err);
 }
 require(__DIR__.'/thumbnail_gd.php');
+//SNS共有Class
+if ($err = check_file(__DIR__.'/sns_share.inc.php')) {
+	die($err);
+}
 require(__DIR__.'/sns_share.inc.php');
 
 $path = __DIR__.'/'.IMG_DIR;

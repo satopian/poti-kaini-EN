@@ -499,7 +499,9 @@ define("COMMENT_LIMIT_HIGH", "80");
 define("LANG", "English");
 
 /* ---------- SNS share function advanced settings ---------- */
-//Include Mastodon and Misskey servers in the share function 1: Include 0: Do not include
+
+//Include Mastodon and Misskey servers in the share function
+// (1: Include, 0: Do not include)
 define("SWITCH_SNS","1");
 
 // Servers displayed in the list when sharing on SNS
