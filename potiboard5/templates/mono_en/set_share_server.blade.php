@@ -41,7 +41,7 @@
 <input type="text" name="sns_server_direct_input" value="{{$sns_server_direct_input_cookie}}">
 <br>
 <?php if($en):?>Example<?php else:?>例<?php endif;?>
-: https://mstdn.jp/
+: https://mstdn.jp
 <br>
 <input type="hidden" name="encoded_t" value="{{$encoded_t}}">
 <input type="hidden" name="encoded_u" value="{{$encoded_u}}">
