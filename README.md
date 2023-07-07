@@ -52,7 +52,49 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 It now add at the cursor position in the text field.
 Previously, it was added at the end of the line.
 
-## [2023/05/20] v5.60.0
+## [2023/07/08] v5.62.2
+### Bug fixes
+Search function was not working.
+This bug was introduced in v5.58.10 and fixed in v5.62.2.
+
+### From "Tweet button" to "Twitter", "Mastodon" and "Misskey" sharing.
+
+In addition to "Twitter", you can now share posts on short-text posting SNS such as "Mastodon" and "Misskey".
+
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/2e28ef1a-5d35-4837-8f6e-169807016823)
+  
+You can also change it to a conventional tweet button by setting it in config.php.
+You can also edit the list of "Mastodon" and "Misskey" servers.
+
+```
+/* ---------- SNS share function advanced settings ---------- */
+
+//Include Mastodon and Misskey servers in the share function
+// (1: Include, 0: Do not include)
+define("SWITCH_SNS","1");
+
+// Servers displayed in the list when sharing on SNS
+//Example ["display name","https://example.com (SNS server url)"], (comma is required at the end)
+
+$servers =
+[
+
+	["Twitter","https://twitter.com"],
+	["mstdn.jp","https://mstdn.jp"],
+	["pawoo.net","https://pawoo.net"],
+	["fedibird.com","https://fedibird.com"],
+	["misskey.io","https://misskey.io"],
+	["misskey.design","https://misskey.design"],
+	["nijimiss.moe","https://nijimiss.moe"],
+	["sushi.ski","https://sushi.ski"],
+
+];
+
+```
+If this setting item does not exist in config.php, the above setting will be applied by default.  
+If you do not need detailed settings, please use the config.php you are currently using as it is.  
+
+## [2023/06/16] v5.60.0
 
 ### Fixed deprecated JavaScript syntax in paint app
 
