@@ -12,15 +12,15 @@ class sns_share{
 		$dat['servers']=isset($servers)?$servers:
 		[
 		
-			["twitter","https://twitter.com/"],
-			["mstdn.jp","https://mstdn.jp/"],
-			["pawoo.net","https://pawoo.net/"],
-			["fedibird.com","https://fedibird.com/"],
-			["misskey.io","https://misskey.io/"],
-			["misskey.design","https://misskey.design/"],
-			["nijimiss.moe","https://nijimiss.moe/"],
-			["sushi.ski","https://sushi.ski/"],
-		
+			["Twitter","https://twitter.com"],
+			["mstdn.jp","https://mstdn.jp"],
+			["pawoo.net","https://pawoo.net"],
+			["fedibird.com","https://fedibird.com"],
+			["misskey.io","https://misskey.io"],
+			["misskey.design","https://misskey.design"],
+			["nijimiss.moe","https://nijimiss.moe"],
+			["sushi.ski","https://sushi.ski"],
+			
 		];
 		//設定項目ここまで
 
@@ -51,7 +51,7 @@ class sns_share{
 		setcookie("sns_server_radio_cookie",$sns_server_radio_for_cookie, time()+(86400*30),"","",false,true);
 		setcookie("sns_server_direct_input_cookie",$sns_server_direct_input, time()+(86400*30),"","",false,true);
 		$share_url='';
-		if($sns_server_radio==="https://twitter.com/"){
+		if($sns_server_radio==="https://twitter.com"){
 			$share_url="https://twitter.com/intent/tweet?text=";
 		}elseif($sns_server_radio){
 			$share_url=$sns_server_radio."/share?text=";

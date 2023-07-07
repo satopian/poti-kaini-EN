@@ -508,14 +508,14 @@ define("SWITCH_SNS","1");
 $servers =
 [
 
-["twitter","https://twitter.com/"],
-["mstdn.jp","https://mstdn.jp/"],
-["pawoo.net","https://pawoo.net/"],
-["fedibird.com","https://fedibird.com/"],
-["misskey.io","https://misskey.io/"],
-["misskey.design","https://misskey.design/"],
-["nijimiss.moe","https://nijimiss.moe/"],
-["sushi.ski","https://sushi.ski/"],
+	["Twitter","https://twitter.com"],
+	["mstdn.jp","https://mstdn.jp"],
+	["pawoo.net","https://pawoo.net"],
+	["fedibird.com","https://fedibird.com"],
+	["misskey.io","https://misskey.io"],
+	["misskey.design","https://misskey.design"],
+	["nijimiss.moe","https://nijimiss.moe"],
+	["sushi.ski","https://sushi.ski"],
 
 ];
 
