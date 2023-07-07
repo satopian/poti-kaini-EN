@@ -498,6 +498,27 @@ define("COMMENT_LIMIT_HIGH", "80");
 //In case of utf-8, it is the same no matter what you set.
 define("LANG", "English");
 
+/* ---------- SNS share function advanced settings ---------- */
+//Include Mastodon and Misskey servers in the share function 1: Include 0: Do not include
+defined("SWITCH_SNS","1");
+
+// Servers displayed in the list when sharing on SNS
+//Example ["display name","https://example.com/(SNS server url)"], (comma is required at the end)
+
+$servers =
+[
+
+["twitter","https://twitter.com/"],
+["mstdn.jp","https://mstdn.jp/"],
+["pawoo.net","https://pawoo.net/"],
+["fedibird.com","https://fedibird.com/"],
+["misskey.io","https://misskey.io/"],
+["misskey.design","https://misskey.design/"],
+["nijimiss.moe","https://nijimiss.moe/"],
+["sushi.ski","https://sushi.ski/"],
+
+];
+
 /* ---------- お絵かき詳細設定(Advanced Setting for OEKAKI) ---------- */
 
 // テンポラリ内のファイル有効期限(日数)
