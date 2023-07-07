@@ -28,6 +28,7 @@ $max_search=120;
 
 //更新履歴
 
+//v5.5.1 2023.07.07 jQuery。
 //v5.5.0 2022.09.30 翻訳の改善。記事の並び方が最新順になっていなかったのを修正。
 //v5.3.0 2022.09.30 jQuery。
 //v5.2.0 2022.07.27 画像の縦横比を算出するための画像の幅と高さを出力。
@@ -57,7 +58,7 @@ $max_search=120;
 
 //設定の読み込み
 require(__DIR__.'/config.php');
-const JQUERY ='jquery-3.6.0.min.js';
+const JQUERY ='jquery-3.7.0.min.js';
 
 if($err=check_file(__DIR__.'/lib/'.JQUERY)){
 	die($err);

@@ -326,13 +326,17 @@
 				@if($sharebutton)
 				{{-- シェアボタン --}}
 				<span class="share_button">
-					<a target="_blank"
-					href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
-					class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
-					<a target="_blank" class="fb btn"
-						href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
-							class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
-							Share</span></a>
+					@if($switch_sns)
+						<a href="{{$self}}?mode=set_share_server&encoded_t={{$ress[0]['encoded_t']}}&amp;encoded_u={{$ress[0]['encoded_u']}}" onclick="open_sns_server_window(event)"><span
+						class="button"><img src="{{$skindir}}img/share-from-square-solid.svg" alt="">Share on SNS</span>
+					@else
+						<a target="_blank"
+						href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
+						class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
+						<a target="_blank" class="fb btn"
+							href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
+								class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
+								Share</span></a>
 				</span>
 				@endif
 				@if($notres)<span class="button"><a href="{{$self}}?res={{$ress[0]['no']}}"><img
