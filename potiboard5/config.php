@@ -505,7 +505,7 @@ define("LANG", "English");
 define("SWITCH_SNS","1");
 
 // Servers displayed in the list when sharing on SNS
-//Example ["display name","https://example.com (SNS server url)"], (comma is required at the end)
+//Example ["Display name","https://example.com (SNS server URL)"], (comma is required at the end)
 
 $servers =
 [
