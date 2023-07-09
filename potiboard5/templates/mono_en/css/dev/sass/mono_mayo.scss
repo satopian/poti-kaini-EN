@@ -611,7 +611,7 @@
 	  background-color: val.$button;
 	  color: val.$button_moji;
 	  border: 1px solid;
-	  border-color: val.$search_input_submit_border-color;
+	  border-color: val.$b_border val.$b_border_u val.$b_border_u val.$b_border;
 	  vertical-align: middle
 	}
   
@@ -675,6 +675,7 @@
 	}
 	input[type=radio]:checked+label {
 	  color: val.$label_hover_color;
+	  font-weight: 600;
 	  background: val.$search_label_hover_background-color;
 	}
   

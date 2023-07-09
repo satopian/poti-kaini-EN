@@ -655,7 +655,7 @@ div#appstage, div#chickenpaint-parent {
   background-color: #4e9979;
   color: #FFF;
   border: 1px solid;
-  border-color: #50a57a;
+  border-color: #50a57a #063 #063 #50a57a;
   vertical-align: middle;
 }
 #search .menu {
@@ -710,6 +710,7 @@ div#appstage, div#chickenpaint-parent {
 }
 #search input[type=radio]:checked + label {
   color: #333;
+  font-weight: 600;
   background: #c5e4c5;
 }
 #search .label {
