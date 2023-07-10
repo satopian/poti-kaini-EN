@@ -598,13 +598,11 @@
 	  height: 20px;
 	  width: 180px;
 	  border: 1px solid;
-	  color: val.$search_input_text_color;
-	  border-color: val.$search_input_text_border-color;
-	  background-color: val.$search_input_text_background-color;
+	  color: val.$form_txt;
+	  border-color: val.$b_border_u val.$b_border val.$b_border val.$b_border_u;
+	  background-color: val.$form_txt_bk;
+
 	  vertical-align: middle
-	}
-	input[type=text]:hover {
-	  background-color: val.$search_input_text_hover;
 	}
   
 	input[type=submit] {

@@ -643,13 +643,10 @@ div#appstage, div#chickenpaint-parent {
   height: 20px;
   width: 180px;
   border: 1px solid;
-  color: auto;
-  border-color: #4a4c56 #686c79 #686c79 #4a4c56;
-  background-color: #FFF;
+  color: #222;
+  border-color: #4a4c56 #66F #66F #4a4c56;
+  background-color: #EEEEEE;
   vertical-align: middle;
-}
-#search input[type=text]:hover {
-  background-color: #cae5ff;
 }
 #search input[type=submit] {
   background-color: #7aa3f5;
