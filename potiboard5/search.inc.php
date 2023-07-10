@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
-//v5.7 lot.230411
+//v5.8 lot.20230710
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -19,12 +19,6 @@
 
 // サポートは設置サポート掲示板、またはPOTI-board EVOのリポジトリのissuesで行います。
 //https://paintbbs.sakura.ne.jp/poti/
-
-//設定
-// How many cases can you search?
-// Initial value 120 Do not make it too large.
-$max_search=120;
-//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
 //更新履歴
 
@@ -56,37 +50,13 @@ $max_search=120;
 //v0.2 2020.07.14 負荷削減。ページングで表示している記事の分だけレス先を探して見つけるようにした。
 //v0.1 2020.07.13 GitHubに公開
 
-//設定の読み込み
-require(__DIR__.'/config.php');
-const JQUERY ='jquery-3.7.0.min.js';
-
-if($err=check_file(__DIR__.'/lib/'.JQUERY)){
-	die($err);
-}
-$dat['jquery']=JQUERY;
-
-defined('SKIN_DIR') or define('SKIN_DIR','basic/');//config.php で未定義なら basic/
-
-//HTMLテンプレート
-require_once __DIR__.'/BladeOne/lib/BladeOne.php';
-
-Use eftec\bladeone\BladeOne;
-
-
-$views = __DIR__ . '/templates/'.SKIN_DIR;
-$cache = $views.'cache';
-$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
-
-
-$dat['skindir'] = 'templates/'.SKIN_DIR;
-$dat['php_self2']=h(PHP_SELF2);
-
-//タイムゾーン
-defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE','Asia/Tokyo');
-date_default_timezone_set(DEFAULT_TIMEZONE);
-
-//マークダウン記法のリンクをHTMLに する:1 しない:0
-defined('MD_LINK') or define('MD_LINK', '0');
+class processsearch {
+    public static function search() {
+//設定
+// How many cases can you search?
+// Initial value 120 Do not make it too large.
+$max_search=120;
+//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
 //filter_input
 
@@ -287,14 +257,14 @@ $dat['nxet']=false;
 if($page<=$disp_count_of_page){
 	$dat['prev']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';//前のページ
 if($countarr>=$nxetpage){
-	$dat['nxet']='<a href="?page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
+	$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
 }
 }
 
 elseif($page>=$disp_count_of_page+1){
-	$dat['prev']= '<a href="?page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
+	$dat['prev']= '<a href="'.h(PHP_SELF).'?mode=search&page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
 	if($countarr>=$nxetpage){
-		$dat['nxet']='<a href="?page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
+		$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
 	}else{
 		$dat['nxet']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';
 	}
@@ -311,45 +281,8 @@ if(!empty($arr)){
 
 unset($arr);
 
-function h($str){
-	return htmlspecialchars($str,ENT_QUOTES,'utf-8',false);
-}
-/**
- * 名前とトリップを分離
- * @param $name
- * @return array
- */
-function separateNameAndTrip ($name) {
-	$name=strip_tags($name);//タグ除去
-	if(preg_match("/(◆.*)/", $name, $regs)){
-		return [preg_replace("/(◆.*)/","",$name), $regs[1]];
-	}
-	return [$name, ''];
-}
-function lang_en(){//言語が日本語以外ならtrue。
-	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
-	? explode( ',', $http_langs )[0] : '';
-  return (stripos($lang,'ja')!==0) ? true : false;
-  
-}
-function initial_error_message(){
-	$en=lang_en();
-	$msg['001']=$en ? ' does not exist.':'がありません。'; 
-	$msg['002']=$en ? ' is not readable.':'を読めません。'; 
-	$msg['003']=$en ? ' is not writable.':'に書けません。'; 
-return $msg;	
-}
-// ファイル存在チェック
-function check_file ($path,$check_writable='') {
-	$msg=initial_error_message();
-	if (!is_file($path)) return $path . $msg['001']."<br>";
-	if (!is_readable($path)) return $path . $msg['002']."<br>";
-	if($check_writable){//書き込みが必要なファイルのチェック
-		if (!is_writable($path)) return $path . $msg['003']."<br>";
-	}
-	return '';
-}
-
 //HTML出力
-echo $blade->run('search',$dat);
+htmloutput('search',$dat);
 
+}
+}

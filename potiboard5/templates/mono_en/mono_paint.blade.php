@@ -2,11 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
-			<style>	
+		<style>	
 				div#appstage,div#chickenpaint-parent{
 				letter-spacing: initial;
 				word-break:initial;
@@ -14,39 +10,11 @@
 				}
 				.input_disp_none{display: none;}
 			</style>
-		<script>
-			var colorIdx = GetCookie("colorIdx");
-				switch (Number(colorIdx)) {
-				case 1:
-					document.getElementById("css1").removeAttribute("disabled");
-					break;
-				case 2:
-					document.getElementById("css2").removeAttribute("disabled");
-					break;
-				case 3:
-					document.getElementById("css3").removeAttribute("disabled");
-				break;
-			} 
-			function SetCss(obj){
-				var idx = obj.selectedIndex;
-				SetCookie("colorIdx",idx);
-				window.location.reload();
-			}
-			function GetCookie(key){
-				var tmp = document.cookie + ";";
-				var tmp1 = tmp.indexOf(key, 0);
-				if(tmp1 != -1){
-					tmp = tmp.substring(tmp1, tmp.length);
-					var start = tmp.indexOf("=", 0) + 1;
-					var end = tmp.indexOf(";", start);
-					return(decodeURIComponent(tmp.substring(start,end)));
-					}
-				return("");
-			}
-			function SetCookie(key, val){
-				document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
-			}
-		</script>
+		@if(!$chickenpaint)
+			@include('parts.style-switcher')
+			<link rel="preload" as="script" href="lib/{{$jquery}}">
+			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+		@endif
 
 		@if($paint_mode)
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
@@ -731,6 +699,10 @@
 		{{-- <!-- 著作権表示 削除しないでください --> --}}
 							@include('parts.mono_copyright')
 
-			</footer>
+		</footer>
+	@if(!$chickenpaint)
+		<script src="lib/{{$jquery}}"></script>
+		<script src="{{$skindir}}js/mono_common.js"></script>
+	@endif
 	</body>
 </html>

@@ -7,10 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
+	@include('parts.style-switcher')
 	<style>
 	form.form_radio_sns_server {
     line-height: 2;

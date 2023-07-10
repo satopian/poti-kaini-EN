@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.62.3';
-const POTI_LOT = 'lot.20230708';
+const POTI_VER = 'v5.62.9';
+const POTI_LOT = 'lot.20230710';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -102,6 +102,11 @@ if ($err = check_file(__DIR__.'/sns_share.inc.php')) {
 	die($err);
 }
 require(__DIR__.'/sns_share.inc.php');
+//検索Class
+if ($err = check_file(__DIR__.'/search.inc.php')) {
+	die($err);
+}
+require(__DIR__.'/search.inc.php');
 
 $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
@@ -310,6 +315,8 @@ switch($mode){
 		return replace();
 	case 'catalog':
 		return catalog();
+	case 'search':
+		return processsearch::search();
 	case 'download':
 		return download_app_dat();
 	case 'set_share_server':

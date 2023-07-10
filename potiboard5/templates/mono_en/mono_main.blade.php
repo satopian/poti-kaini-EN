@@ -4,10 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
+	@include('parts.style-switcher')
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
@@ -248,7 +245,7 @@
 				<h3>
 				@if(!isset($res['not_deleted'])||$res['not_deleted'])
 					<span class="name"><a
-							href="search.php?page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
+							href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
 							target="_blank" rel="noopener">{{$res['name']}}</a></span><span
 						class="trip">{{$res['trip']}}</span> :
 					{{$res['now']}}@if($res['id']) ID : {{$res['id']}}@endif @if($res['url']) <span class="url">[<a

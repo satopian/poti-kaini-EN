@@ -7,10 +7,7 @@
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css" id="css1" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
+	@include('parts.style-switcher')
 	<style>
 		img {
 			height: auto;
@@ -43,18 +40,18 @@
 		</div>
 		<nav>
 			<div class="menu">
-				[<a href="./@if($php_self2){{$php_self2}}@endif">Return to bulletin board</a>]
+				[<a href="./@if($self2){{$self2}}@endif">Return to bulletin board</a>]
 				@if($imgsearch)
-				[<a href="?page=1&imgsearch=off{{$query_l}}">Comments</a>]
+				[<a href="{{$self}}?mode=search&page=1&imgsearch=off{{$query_l}}">Comments</a>]
 				@else
-				[<a href="?page=1&imgsearch=on{{$query_l}}">Images</a>]
+				[<a href="{{$self}}?mode=search&page=1&imgsearch=on{{$query_l}}">Images</a>]
 				@endif
 
 
 			</div>
 		</nav>
 		<p></p>
-		<form method="get" action="./search.php">
+		<form method="get" action="{{$self}}?mode=search">
 			<span class="radio">
 				<input type="radio" name="radio" id="author" value="1" @if($radio_chk1)checked="checked"@endif><label for="author"
 					class="label">Name</label>
@@ -69,6 +66,7 @@
 			@else
 			<input type="hidden" name="imgsearch" value="off">
 			@endif
+			<input type="hidden" name="mode" value="search">
 			<input type="text" name="query" placeholder="Search Word" value="{{$query}}">
 			<input type="submit" value="Search">
 		</form>
@@ -91,7 +89,7 @@
 				<div class="comments_title_wrap">
 					<h2><a href="{{$comment['link']}}" target="_blank">{{$comment['sub']}}</a></h2>
 					{{$comment['postedtime']}}<br><span class="name"><a
-							href="?page=1&query={{$comment['encoded_name']}}&radio=2"
+							href="{{$self}}?mode=search&page=1&query={{$comment['encoded_name']}}&radio=2"
 							target="_blank">{{$comment['name']}}</a></span>
 				</div>
 				@if ($comment['img'])
