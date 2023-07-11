@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	@include('parts.style-switcher')
 	<style>
 	form.form_radio_sns_server {
@@ -45,6 +45,6 @@
 <input type="hidden" name="mode" value="post_share_server">
 <input type="submit" value="@if($en) Share @else シェア @endif" class="post_share_button">
 <script src="lib/{{$jquery}}"></script>
-<script src="{{$skindir}}js/mono_common.js"></script>
+<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 </html>

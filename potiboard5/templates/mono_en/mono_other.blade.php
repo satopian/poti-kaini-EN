@@ -10,7 +10,7 @@
 	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="loadcookie.js">
-	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
 		.del_page form {
 			display: inline-block;
@@ -343,7 +343,7 @@
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
 	<script src="lib/{{$jquery}}"></script>
 	<script src="lib/luminous/luminous.min.js"></script>
-	<script src="{{$skindir}}js/mono_common.js"></script>
+	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 
 </html>

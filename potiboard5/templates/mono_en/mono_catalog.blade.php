@@ -8,7 +8,7 @@
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="script" href="loadcookie.js">
-	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
 		.input_disp_none {
 			display: none;
@@ -84,7 +84,7 @@
 	document.addEventListener('DOMContentLoaded',l,false);
 	</script>
 	<script src="lib/{{$jquery}}"></script>
-	<script src="{{$skindir}}js/mono_common.js"></script>
+	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 
 </html>

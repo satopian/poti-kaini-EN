@@ -13,7 +13,7 @@
 		@if(!$chickenpaint)
 			@include('parts.style-switcher')
 			<link rel="preload" as="script" href="lib/{{$jquery}}">
-			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 		@endif
 
 		@if($paint_mode)
@@ -702,7 +702,7 @@
 		</footer>
 	@if(!$chickenpaint)
 		<script src="lib/{{$jquery}}"></script>
-		<script src="{{$skindir}}js/mono_common.js"></script>
+		<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 	@endif
 	</body>
 </html>

@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	@include('parts.style-switcher')
 	<style>
 		img {
@@ -131,7 +131,7 @@
 	<div id="bottom"></div>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
 	<script src="lib/{{$jquery}}"></script>
-	<script src="{{$skindir}}js/mono_common.js"></script>
+	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 
 </html>
