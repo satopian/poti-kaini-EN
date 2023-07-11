@@ -45,6 +45,39 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 
+## [2023/07/11] v5.63.1
+### Replace search.php with search.inc.php
+The structure of jsearch.php has been fundamentally overhauled, modified and incorporated into potiboard.php.
+Search results that were previously displayed with a URL like "search.php?". The URL will be changed like "potiboard.php?mode=search&".
+
+### Externalize and standardize CSS switching part of templates MONO
+
+```
+`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
+<style>
+body{
+	visibility: hidden;
+}
+</style>
+<noscript>
+	<style>
+		body{
+			visibility: visible;
+		}
+	</style>
+</noscript>
+<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
+<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
+<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
+<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
+
+```
+Also set CSS `visibility: hidden;` here to hide the screen until the DOM and JavaScript have finished loading.
+This prevents MONO's color settings from temporarily appearing in a different color scheme.
+
+### Search is not case sensitive
+
+Name searches are now case insensitive when the exact match option is selected.
 
 ## [2023/07/08] v5.62.2
 ### Bug fixes
