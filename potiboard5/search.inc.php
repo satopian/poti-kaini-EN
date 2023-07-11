@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
-//v5.8.2 lot.20230711
+//v5.8.3 lot.20230711
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -55,7 +55,7 @@ class processsearch {
 //設定
 // How many cases can you search?
 // Initial value 120 Do not make it too large.
-$max_search=120;
+defined("MAX_SEARCH") or define("MAX_SEARCH","120");
 //設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
 //filter_input
@@ -138,7 +138,7 @@ while ($line = fgets($fp)) {
 			$link=PHP_SELF.'?res='.$oya[$no];
 			$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link];
 			++$i;
-			if($i>=$max_search){break;}//1掲示板あたりの最大検索数
+			if($i>=MAX_SEARCH){break;}//1掲示板あたりの最大検索数
 		}
 		
 	}
