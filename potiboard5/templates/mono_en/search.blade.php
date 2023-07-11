@@ -51,7 +51,7 @@
 			</div>
 		</nav>
 		<p></p>
-		<form method="get" action="{{$self}}?mode=search">
+		<form method="get" action="{{$self}}">
 			<span class="radio">
 				<input type="radio" name="radio" id="author" value="1" @if($radio_chk1)checked="checked"@endif><label for="author"
 					class="label">Name</label>

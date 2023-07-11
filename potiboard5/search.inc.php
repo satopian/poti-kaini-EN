@@ -1,6 +1,6 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
-//v5.8 lot.20230710
+//v5.8.2 lot.20230711
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
 //フリーウェアですが著作権は放棄しません。
@@ -65,10 +65,10 @@ $page=(int)filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
 $page= $page ? $page : 1;
 $query=(string)filter_input(INPUT_GET,'query');
 $query=urldecode($query);
-$query=mb_convert_kana($query, 'rn', 'UTF-8');
-$query=str_replace(array(" ", "　"), "", $query);
-$query=str_replace("〜","～",$query);//波ダッシュを全角チルダに
-$query=h($query);
+$check_query=mb_convert_kana($query, 'rn', 'UTF-8');
+$check_query=str_replace(array(" ", "　"), "", $check_query);
+$check_query=str_replace("〜","～",$check_query);//波ダッシュを全角チルダに
+$check_query=strtolower($check_query);//すべて小文字に
 $radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
 
 if($imgsearch){
@@ -114,22 +114,25 @@ while ($line = fgets($fp)) {
 			$s_name=mb_convert_kana($name, 'rn', 'UTF-8');//全角英数を半角に
 			$s_name=str_replace(array(" ", "　"), "", $s_name);
 			$s_name=str_replace("〜","～", $s_name);//波ダッシュを全角チルダに
+			$s_name=strtolower($s_name);//すべて小文字に
 		}
 		else{
 			$s_sub=mb_convert_kana($sub, 'rn', 'UTF-8');//全角英数を半角に
 			$s_sub=str_replace(array(" ", "　"), "", $s_sub);
 			$s_sub=str_replace("〜","～", $s_sub);//波ダッシュを全角チルダに
+			$s_sub=strtolower($s_sub);//すべて小文字に
 			$s_com=mb_convert_kana($com, 'rn', 'UTF-8');//全角英数を半角に
 			$s_com=str_replace(array(" ", "　"), "", $s_com);
 			$s_com=str_replace("〜","～", $s_com);//波ダッシュを全角チルダに
+			$s_com=strtolower($s_com);//すべて小文字に
 		}
 		
 		//ログとクエリを照合
 		if($query===''||//空白なら
-				$query!==''&&$radio===3&&stripos($s_com,$query)!==false||//本文を検索
-				$query!==''&&$radio===3&&stripos($s_sub,$query)!==false||//題名を検索
-				$query!==''&&($radio===1||$radio===null)&&stripos($s_name,$query)===0||//作者名が含まれる
-				$query!==''&&($radio===2&&$s_name===$query)//作者名完全一致
+		$check_query!==''&&$radio===3&&stripos($s_com,$check_query)!==false||//本文を検索
+		$check_query!==''&&$radio===3&&stripos($s_sub,$check_query)!==false||//題名を検索
+		$check_query!==''&&($radio===1||$radio===null)&&stripos($s_name,$check_query)===0||//作者名が含まれる
+		$check_query!==''&&($radio===2&&$s_name===$check_query)//作者名完全一致
 		){
 			$link='';
 			$link=PHP_SELF.'?res='.$oya[$no];
@@ -233,11 +236,11 @@ if($j&&$page>=2){
 }else{
 	$pageno = $j.$mai_or_ken;
 }
-if($query!==''&&$radio===3){
+if($check_query!==''&&$radio===3){
 	$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
 	$dat['h1']=$pageno.' '.$img_or_com.' of '.$query;//h1タグに入る
 }
-elseif($query!==''){
+elseif($check_query!==''){
 	$dat['title']=$pageno.' Posts by '.$query;
 	$dat['h1']=$pageno.' Posts by '.$query;
 }
