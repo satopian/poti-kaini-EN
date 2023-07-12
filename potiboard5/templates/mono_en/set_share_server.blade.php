@@ -12,7 +12,7 @@
 	form.form_radio_sns_server {
 	margin: 1em 0 0;
 	}
-	#search body{
+	#search body,input[type=submit]{
 		font-size: 18px;
 	}
 	.form_radio_sns_server label{
@@ -41,7 +41,7 @@
 	<title>Share</title>
 </head>
 <body>
-<form action="{{$self}}" method="post" class="form_radio_sns_server">
+<form action="{{$self}}" method="POST" class="form_radio_sns_server">
 @foreach($servers as $i => $server)
 	<input type="radio" name="sns_server_radio" value="{{$server[1]}}" id="{{$i}}" 
 	@if($i===0||$server[1]===$sns_server_radio_cookie) checked="checked"@endif>
@@ -50,7 +50,7 @@
 <input type="text" name="sns_server_direct_input" value="{{$sns_server_direct_input_cookie}}">
 <br>
 <?php if($en):?>Example<?php else:?>例<?php endif;?>
-: https://mstdn.jp
+: https://mstdn.jp/
 <br>
 <input type="hidden" name="encoded_t" value="{{$encoded_t}}">
 <input type="hidden" name="encoded_u" value="{{$encoded_u}}">
