@@ -719,7 +719,7 @@ div#appstage, div#chickenpaint-parent {
   border: 2px solid #4e9979;
   border-radius: 15px;
 }
-#search .label:hover {
+#search label:hover {
   color: #333;
   background-color: #c5e4c5;
 }

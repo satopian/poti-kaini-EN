@@ -17,7 +17,7 @@
 	}
 	.form_radio_sns_server label{
 		display: block;
-		margin: 0 0 5px;
+		margin: 0 0 12px;
 	}
 	.form_radio_sns_server input[type="radio"]{
 		display: none;
@@ -46,6 +46,7 @@
 			<label for="{{$i}}">{{$server[0]}}</label>
 @endforeach
 <input type="text" name="sns_server_direct_input" value="{{$sns_server_direct_input_cookie}}">
+<br>
 <?php if($en):?>Example<?php else:?>例<?php endif;?>
 : https://mstdn.jp
 <br>

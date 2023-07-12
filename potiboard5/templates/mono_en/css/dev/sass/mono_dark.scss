@@ -686,7 +686,7 @@
 	  border: 2px solid val.$button;
 	  border-radius: 15px;
 	}
-	.label:hover {
+	label:hover {
 		color: val.$label_hover_color;
 		background-color: val.$search_label_hover_background-color;
 	}

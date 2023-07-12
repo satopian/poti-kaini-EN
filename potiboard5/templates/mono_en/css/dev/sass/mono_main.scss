@@ -4,8 +4,8 @@
 //設定ファイルの読み込み
 // @use "mono_dark_conf" as val;
 // @use "mono_deep_conf" as val;
-@use "mono_main_conf" as val;
-// @use "mono_mayo_conf" as val;
+// @use "mono_main_conf" as val;
+@use "mono_mayo_conf" as val;
 
 //リセット
 * {
@@ -686,7 +686,7 @@
 	  border: 2px solid val.$button;
 	  border-radius: 15px;
 	}
-	.label:hover {
+	label:hover {
 		color: val.$label_hover_color;
 		background-color: val.$search_label_hover_background-color;
 	}
