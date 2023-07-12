@@ -44,6 +44,14 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2023/07/12] v5.63.2
+### Improved selection operability of SNS server to share posts
+
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/c72be831-cd12-4603-ab2b-0f732de869f9)
+
+Servers to share can be selected not only directly above the label string, but also by tapping the right margin of the label.
+- petitnote/template/basic/set_share_server.html
+Fixed HTML grammar errors.
 
 ## [2023/07/11] v5.63.1
 ### Replace search.php with search.inc.php
