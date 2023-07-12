@@ -47,7 +47,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 ## [2023/07/12] v5.63.2
 ### Improved selection operability of SNS server to share posts
 
-![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/c72be831-cd12-4603-ab2b-0f732de869f9)
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/c96c380c-3b72-4d1d-baa1-27a74eee7dda)
 
 Servers to share can be selected not only directly above the label string, but also by tapping the right margin of the label.
 - petitnote/template/basic/set_share_server.html
