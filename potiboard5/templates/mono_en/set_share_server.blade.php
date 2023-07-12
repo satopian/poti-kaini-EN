@@ -12,12 +12,14 @@
 	form.form_radio_sns_server {
 	margin: 1em 0 0;
 	}
-	*{
+	#search body{
 		font-size: 18px;
 	}
 	.form_radio_sns_server label{
 		display: block;
-		margin: 0 0 12px;
+		margin: 0 0 5px;
+		padding: 2px;
+		border-radius: 5px;
 	}
 	.form_radio_sns_server input[type="radio"]{
 		display: none;
