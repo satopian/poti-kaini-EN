@@ -1,19 +1,9 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
+//MIT License
 //v5.8.3 lot.20230711
 //POTI-board EVO v5.0 対応版
 //https://paintbbs.sakura.ne.jp/
-//フリーウェアですが著作権は放棄しません。
-
-//使用条件。
-
-//著作表記のリンクを削除したり見えなくしないでください。
-// Do not delete or obscure the copyrighted link.
-
-//免責
-
-//このプログラムを利用した事によって発生したいかなる損害も作者は一切の責任を負いません。
-// The author does not take any responsibility for any damage caused by using this program.
 
 //サポート
 
