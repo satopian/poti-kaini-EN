@@ -521,6 +521,13 @@ $servers =
 
 ];
 
+// Width and height of window to open when SNS sharing
+
+//window width initial value 350
+define("SNS_WINDOW_WIDTH","350"); 
+//window height initial value 490 
+define("SNS_WINDOW_HEIGHT","490");
+
 /* ---------- お絵かき詳細設定(Advanced Setting for OEKAKI) ---------- */
 
 // テンポラリ内のファイル有効期限(日数)

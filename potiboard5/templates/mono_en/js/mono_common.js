@@ -107,11 +107,23 @@
 	//shareするSNSのserver一覧を開く
 	var snsWindow = null; // グローバル変数としてウィンドウオブジェクトを保存する
 
-	function open_sns_server_window(event) {
+	function open_sns_server_window(event,width=350,height=490) {
 		event.preventDefault(); // デフォルトのリンクの挙動を中断
+
+			// 幅と高さが数値であることを確認
+			if (typeof width !== 'number' || typeof height !== 'number') {
+				width=350;//デフォルト値
+				height=490;//デフォルト値
+			}
+		
+			// 幅と高さが正の値であることを確認
+			if (width <= 0 || height <= 0) {
+				width=350;//デフォルト値
+				height=490;//デフォルト値
+			}
 		
 		var url = event.currentTarget.href;
-		var windowFeatures = "width=350,height=490"; // ウィンドウのサイズを指定
+		var windowFeatures = "width="+width+",height="+height; // ウィンドウのサイズを指定
 		
 		if (snsWindow && !snsWindow.closed) {
 			snsWindow.focus(); // 既に開かれているウィンドウがあればフォーカスする
