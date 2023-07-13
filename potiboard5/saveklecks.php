@@ -1,4 +1,6 @@
 <?php
+// saveklecks.php - Copyright (C) 2022-2023 satopian MIT-LICENSE
+
 if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 	return header( "Location: ./ ") ;
 }
