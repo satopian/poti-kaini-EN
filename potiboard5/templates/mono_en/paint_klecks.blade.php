@@ -58,8 +58,8 @@
 
 			setTimeout(() => {
 			onSuccess();
-			//2022-2023 (c)satopian MIT LICENCE
-			//この箇所はさとぴあが作成したMIT LICENCEのコードです。
+			//2022-2023 (c)satopian MIT Licence
+			//この箇所はさとぴあが作成したMIT Licenceのコードです。
 				const postData = (path, data) => {
 					fetch(path, {
 						method: 'post',
@@ -105,7 +105,7 @@
 					formData.append("resto", "{{$resto}}");
 					postData("saveklecks.php", formData);
 				});
-				// (c)satopian MIT LICENCE ここまで
+				// (c)satopian MIT Licence ここまで
 				// location.reload();
 			}, 500);
 		}

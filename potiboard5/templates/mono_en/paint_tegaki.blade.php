@@ -32,8 +32,8 @@ Tegaki.open({
 // when the user clicks on Finish
   onDone: function() {
 	
-	//2022-2023 (c)satopian MIT LICENCE
-	//この箇所はさとぴあが作成したMIT LICENCEのコードです。
+	//2022-2023 (c)satopian MIT Licence
+	//この箇所はさとぴあが作成したMIT Licenceのコードです。
 
 	if (Tegaki.saveReplay) {
 		Tegaki.replayRecorder.stop();
@@ -95,7 +95,7 @@ Tegaki.open({
       'image/png'
     );
   },
-  // (c)satopian MIT LICENCE ここまで
+  // (c)satopian MIT Licence ここまで
 
   // when the user clicks on Cancel
   onCancel: function() {

@@ -1,5 +1,5 @@
 <?php
-// saveneo.php - Copyright (C) 2023 satopian MIT-LICENSE
+// saveneo.php - Copyright (C) 2023 satopian MIT License
 
 if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 	return header( "Location: ./ ") ;

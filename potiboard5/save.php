@@ -1,5 +1,5 @@
 <?php
-// save.php - Copyright (C) 2021-2023 satopian MIT-LICENSE
+// save.php - Copyright (C) 2021-2023 satopian MIT License
 
 if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 	return header( "Location: ./ ") ;
