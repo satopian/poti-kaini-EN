@@ -274,6 +274,7 @@ if(!empty($arr)){
 
 unset($arr);
 
+$dat['self2']=PHP_SELF2;
 //HTML出力
 htmloutput('search',$dat);
 
