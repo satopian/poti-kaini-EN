@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.63.5';
-const POTI_LOT = 'lot.20230727';
+const POTI_VER = 'v5.63.6';
+const POTI_LOT = 'lot.20230728';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -441,6 +441,7 @@ function basicpart(){
 	$dat['switch_sns'] = SWITCH_SNS;
 	$dat['sns_window_width'] = SNS_WINDOW_WIDTH;
 	$dat['sns_window_height'] = SNS_WINDOW_HEIGHT;
+	$dat['is_IE'] = isIE();
 	
 	//OGPイメージ シェアボタン
 	$dat['rooturl'] = ROOT_URL;//設置場所url
@@ -3285,6 +3286,11 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 	}else{
 		safe_unlink(__DIR__.'/templates/errorlog/error.log');
 	}
+}
+
+function isIE() {
+	$userAgent = $_SERVER['HTTP_USER_AGENT'];
+    return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
 }
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す

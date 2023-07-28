@@ -40,7 +40,7 @@
 
 	jQuery(function() {
 
-		document.body.style.visibility = 'visible';
+		document.documentElement.style.visibility = 'visible';
 		window.onpageshow = function () {
 			var $btn = $('[type="submit"]');
 			//disbledを解除
