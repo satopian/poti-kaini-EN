@@ -44,6 +44,414 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
+## [2023/07/12] v5.63.2
+### Improved selection operability of SNS server to share posts
+
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/c96c380c-3b72-4d1d-baa1-27a74eee7dda)
+
+Servers to share can be selected not only directly above the label string, but also by tapping the right margin of the label.
+- petitnote/template/basic/set_share_server.html
+Fixed HTML grammar errors.
+
+## [2023/07/11] v5.63.1
+### Replace search.php with search.inc.php
+The structure of jsearch.php has been fundamentally overhauled, modified and incorporated into potiboard.php.
+Search results that were previously displayed with a URL like "search.php?". The URL will be changed like "potiboard.php?mode=search&".
+
+### Externalize and standardize CSS switching part of templates MONO
+
+```
+`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
+<style>
+body{
+	visibility: hidden;
+}
+</style>
+<noscript>
+	<style>
+		body{
+			visibility: visible;
+		}
+	</style>
+</noscript>
+<link rel="stylesheet" href="{{$skindir}}css/mono_main.css?{{$ver}}">
+<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css?{{$ver}}" id="css1" disabled>
+<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css?{{$ver}}" id="css2" disabled>
+<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css?{{$ver}}" id="css3" disabled>
+
+```
+Also set CSS `visibility: hidden;` here to hide the screen until the DOM and JavaScript have finished loading.
+This prevents MONO's color settings from temporarily appearing in a different color scheme.
+
+### Search is not case sensitive
+
+Name searches are now case insensitive when the exact match option is selected.
+
+## [2023/07/08] v5.62.2
+### Bug fixes
+Search function was not working.
+This bug was introduced in v5.58.10 and fixed in v5.62.2.
+
+### From "Tweet button" to "Twitter", "Mastodon" and "Misskey" sharing.
+
+In addition to "Twitter", you can now share posts on short-text posting SNS such as "Mastodon" and "Misskey".
+
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/2e28ef1a-5d35-4837-8f6e-169807016823)
+  
+You can also change it to a conventional tweet button by setting it in config.php.
+You can also edit the list of "Mastodon" and "Misskey" servers.
+
+```
+/* ---------- SNS share function advanced settings ---------- */
+
+//Include Mastodon and Misskey servers in the share function
+// (1: Include, 0: Do not include)
+define("SWITCH_SNS","1");
+
+// Servers displayed in the list when sharing on SNS
+//Example ["display name","https://example.com (SNS server url)"], (comma is required at the end)
+
+$servers =
+[
+
+	["Twitter","https://twitter.com"],
+	["mstdn.jp","https://mstdn.jp"],
+	["pawoo.net","https://pawoo.net"],
+	["fedibird.com","https://fedibird.com"],
+	["misskey.io","https://misskey.io"],
+	["misskey.design","https://misskey.design"],
+	["nijimiss.moe","https://nijimiss.moe"],
+	["sushi.ski","https://sushi.ski"],
+
+];
+
+```
+If this setting item does not exist in config.php, the above setting will be applied by default.  
+If you do not need detailed settings, please use the config.php you are currently using as it is.  
+
+## [2023/05/24] v5.61.2
+### Added support for the drawing application tegaki.js.
+![230621_tegaki_sukumizu_001](https://github.com/satopian/Petit_Note/assets/44894014/02a75d17-f94a-4e6b-8ec3-8e762d26713e)
+### Improved "copy poster name" functionality.
+It now add at the cursor position in the text field.
+Previously, it was added at the end of the line.
+
+## [2023/06/11] v5.60.0
+
+### Fixed deprecated JavaScript syntax in paint app
+
+- Updated PaintBBS NEO to v1.6.0.
+- Updated to original modified version of ChickenPaint.
+
+### The paint app Klecks has two layers at startup.
+
+![Image](https://github.com/satopian/poti-kaini/assets/44894014/23eec76c-969a-458b-931a-2c3bb56e9201)
+
+
+## [2023/05/20] v5.59.0
+### Bug fixes
+- Fixed an issue where the URL of the fixed link of the article was not set correctly when the tweet button was pressed.
+- This bug was introduced in v5.58.6 and fixed in v5.59.0.
+
+### Updating jQuery
+- Updated jQuery from jQuery3.6.0 to jQuery3.7.0.
+- jQuery versioning is done inside potiboard.php, so you don't have to change individual templates.
+### Fixed deprecated JavaScript and jQuery syntax
+- templates/mono_en/js/mono_common.js
+
+## [2023/05/07] v5.58.9.1
+- Klecks update
+- Blade One update
+
+### Changed Templates
+(fixes deprecated jQuery syntax)
+
+## [2023/05/03] v5.58.9
+- klecks update
+
+## [2023/04/25] v5.58.8
+### ChickenPaint update
+
+- Fixed an issue where the canvas aspect ratio was incorrect when ChickenPaint was launched in full screen mode on an iPad.
+
+## [2023/04/13] v5.58.5
+
+### ChickenPaint update
+- In order to deal with the problem that the aspect ratio of the drawing area is broken when the orientation of the device is changed on the iPad, we have included a version of ChickenPaint that has been customized and built independently. (Temporary measure until the problem is resolved)
+- This issue only occurs when using ChickenPaint in fullscreen mode.
+- Therefore, I stopped starting in full screen mode and started in normal mode.
+You can switch the display to full screen mode by selecting full screen mode from ChickenPaint's menu bar.
+
+### Improvements
+
+- Fix WCS dynamic palette script's deprecated JavaScript  Rewrote substr() to substring() . 
+[String.prototype.substr() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr) MDN
+
+- Added a "Post in the same thread" checkbox.
+ 
+![230307_continue drawing_post in the same thread](https://user-images.githubusercontent.com/44894014/223247562-6184578c-3565-4f43-8a10-2feedd5e46b1.gif)
+ 
+Added a "Post in the same thread" checkbox.
+However, in the case of "image replacement", there is no choice but to post in the same thread, so this option is unnecessary.
+ 
+Therefore, I used JavaScript to display the "Post in the same thread" checkbox only when a new post is selected.
+
+- bad host chek 
+
+When a user has the same host name and IP address, we made it possible to specify a few characters from the front of the IP address displayed as the host name and reject it with a prefix match.
+
+>$badhost =["example.com","100.100.200"];
+
+If set like this:
+
+"example.com" will be rejected with a suffix match, and "100.100.200" will be rejected with a prefix match.
+
+## [2023/02/11] v5.56.3
+
+### Updated Klecks to latest version
+
+![Image](https://user-images.githubusercontent.com/44894014/221393538-22d0a2b5-d725-4bc9-9e97-7dd7e15fdf3b.png)
+
+- Dark theme is now selectable.
+- Added French language support.
+- Fixed touch gesture freezing issue on iPhone and iPad.
+
+### Updated BladeOne to latest version
+- Updated BladeOne to v4.8.
+### Improvements
+- Fixed that the order of the search screen was not in the latest order.
+- Improved search screen code.
+
+
+
+## [2023/02/26] v5.56.2.3
+### Bug fix
+### changed Templates
+- templates/mono_en/paint_klecks.blade.php
+Fixed an issue where illustrations that were drawn when the server status was 502 Bad Gateway disappeared.
+
+## [2023/02/09] v5.56.2.2
+- Added missing klecks help file.
+
+## [2023/02/05] v5.56.2
+
+### You can now configure whether or not to use the URL input field in config.php.
+
+```
+// Use URL input field (Yes: 1, No: 0)
+define("USE_URL_INPUT_FIELD", "1");
+//No: 0, the URL field disappears from the form input fields.
+// Even if the form is faked, the URL will not be entered.
+
+```
+In addition to prohibiting the writing of URLs in the text, if you can also make it impossible to write URLs in the URL field, you can eliminate advertisement spam whose purpose is to write URLs.
+URL judgment of URL writing prohibition in the text is quite strict, so even if `http://` is omitted, it should be almost impossible to write URL of advertisement spam.
+
+### Fixed an issue where the template could not be sent due to a JavaScript error when the URL or subject fields did not exist.
+It's not a bug, but I've rewritten the JavaScript so that it works fine even if the template is modified by the user.
+
+### In PaintBBS NEO, improved so that the screen does not move up and down when manipulating the canvas area such as copy and layer combination.
+If the width of the terminal is large compared to the canvas size, it will not scroll even if you grab the mesh of NEO.
+This is because the screen moves up and down when copying, layer merging, and Bz curve operations.
+However, you can now grab and scroll the mesh when zooming in with pinch zoom.
+This is to avoid inoperability.
+These are implemented with inline JavaScript in NEO's paint screen, so you'll need to update the paint screen template.
+
+![NEO_issue_230201](https://user-images.githubusercontent.com/44894014/216770678-0e5ab56d-89fa-4f39-8d72-0c71c2b022de.gif)
+
+
+## [2023/01/19] v5.55.8.5
+### Bug fixes
+- PaintBBS NEO data was not received at all in the environment of PHP5.6 to PHP7.x. Since it works without causing an error in PHP8.1 and PHP8.2, the discovery was delayed.
+Overwrite and update `saveneo.php`.
+
+## [2023/01/14] v5.55.8.2
+### Bug fix
+
+Fixed a bug where setting the minimum number of seconds required to draw would cause all alerts that should have been displayed as "15 sec" to be displayed as "0 seconds".
+Even if this bug exists, if you set it to 60 seconds, you can post normally when it exceeds 60 seconds.
+The problem was that the remaining time was not displayed accurately, and it was all "remaining 0 sec".
+
+
+## [2022/01/14] v5.55.8.1
+### Bug fix
+
+- fixd saveneo.php
+
+Fixed an issue where depending on the content of the error that occurred, it would not be displayed as an alert and the screen would transition and fail to post.
+
+## [2022/01/13] v5.55.8
+
+### Changed communication of PaintBBS NEO from raw data to formData to avoid false positive error by WAF.
+- In order to be able to post to the conventional oekaki bulletin board, we modified NEO, which used to send raw data, and made it possible to send header, image, and timelapse animetion data with formData.
+With this change, the probability that the conventional WAF will detect NEO transmission data as an attack and block it will be greatly reduced, and the probability of successful posting will be dramatically increased.
+[Added an option to send data individually with formData so that WAF does not judge it as an attack. by satopian Pull Request #94 funige/neo](https://github.com/funige/neo/pull/94)
+#### Important changes
+- Receipt of shi-Painter data is done by `picpost.php` as before.
+However, the data of PaintBBS NEO is received by newly added `saveneo.php`.
+If you forget to upload this file, you will not be able to post from NEO, so be sure to update it.
+Transfer it to the same directory as potiboard.php.
+Please update 
+
+- Updated Paint screen template
+
+```
+paint.blade.php
+
+```
+A parameter has been added to switch to the formData submit mode.
+
+### Changed the config.php
+
+Until now, it was not possible to remove PaintBBS NEO from apps that use it, but now you can choose to use or not use NEO.
+If you set it to not use all, it will be a setting that does not use the drawing function.
+You can also set it to use only Klecks or only ChickenPaint.
+When there is only one app to use, the pull-down menu for app selection disappears and the screen becomes clean.
+
+### Limited by drawing time
+
+For example, if you want to reject submissions with only lines drawn in less than 1 minute,
+
+```
+// Security timer (unit: seconds). If not set, use ""
+define("SECURITY_TIMER", "");
+
+```
+It was possible to specify the minimum required drawing time with , but until now, it was effective only for Shi-Painter and PaintBBS NEO.
+With this update, ChickenPaint and Klecks now have this setting enabled.
+In the old method, when there was a violation, it was possible to jump to another site (for example, the Metropolitan Police Department site), but instead of that method, an alert will open "Please draw for another 30 seconds.".
+
+## [2023/01/14] v5.55.8.1
+- fixd saveneo.php
+
+Fixed an issue where depending on the content of the error that occurred, it would not be displayed as an alert and the screen would transition and fail to post.
+
+
+## [2023/01/13] v5.55.8
+
+### Changed communication of PaintBBS NEO from raw data to formData to avoid false positive error by WAF.
+- In order to be able to post to the conventional oekaki bulletin board, we modified NEO, which used to send raw data, and made it possible to send header, image, and timelapse animetion data with formData.
+With this change, the probability that the conventional WAF will detect NEO transmission data as an attack and block it will be greatly reduced, and the probability of successful posting will be dramatically increased.
+[Added an option to send data individually with formData so that WAF does not judge it as an attack. by satopian Pull Request #94 funige/neo](https://github.com/funige/neo/pull/94)
+#### Important changes
+- Receipt of shi-Painter data is done by `picpost.php` as before.
+However, the data of PaintBBS NEO is received by newly added `saveneo.php`.
+If you forget to upload this file, you will not be able to post from NEO, so be sure to update it.
+Transfer it to the same directory as potiboard.php.
+Please update 
+
+- Updated Paint screen template
+
+```
+mono_paint.blade.php
+
+```
+A parameter has been added to switch to the formData submit mode.
+
+### Changed the config.php
+
+Until now, it was not possible to remove PaintBBS NEO from apps that use it, but now you can choose to use or not use NEO.
+If you set it to not use all, it will be a setting that does not use the drawing function.
+You can also set it to use only Klecks or only ChickenPaint.
+When there is only one app to use, the pull-down menu for app selection disappears and the screen becomes clean.
+
+### Limited by drawing time
+
+For example, if you want to reject submissions with only lines drawn in less than 1 minute,
+
+```
+// Security timer (unit: seconds). If not set, use ""
+define("SECURITY_TIMER", "");
+
+```
+It was possible to specify the minimum required drawing time with , but until now, it was effective only for Shi-Painter and PaintBBS NEO.
+With this update, ChickenPaint and Klecks now have this setting enabled.
+In the old method, when there was a violation, it was possible to jump to another site (for example, the Metropolitan Police Department site), but instead of that method, an alert will open "Please draw for another 30 seconds.".
+
+
+## [2022/12/30] v5.52.8
+
+### It is now possible to extract the width and height from the old Java version pch file and load it into the canvas.
+All apps no longer require canvas size input when uploading an app specific file and loading it into the canvas.
+
+![221227_006](https://user-images.githubusercontent.com/44894014/210079467-e7e3d80b-cf15-4dc1-8cb2-89dfc3f52800.gif)
+
+
+## [2022/12/28] v5.52.2
+
+### Improved. PaintBBS NEO animation file upload painting made easy.
+-  It has become easier and more convenient to upload and paint PaintBBS NEO and Java Shi Painter videos from the administrator screen.  
+Until now, it was necessary to specify the canvas size before loading the pch animation file into the canvas.  
+With v5.52, you can now automatically get the canvas size from the animation file.  
+However, it is necessary to specify the canvas size when uploading the animation file of the Java version of PaintBBS.  
+For HTML5 version PaintBBS NEO, you can automatically get the canvas size when uploading animation files.  
+
+![221227_005](https://user-images.githubusercontent.com/44894014/209773098-d83a702f-dd79-49e8-9030-c2cdedee266b.gif)
+↑  
+This is a GIF animation created to introduce the operation when uploading files in specific formats for shi-Painter, PaintBBS NEO, Klecks, and ChickenPaint from the administrator screen.  
+The canvas size is still 300x300, but the canvas is open at its original size.  
+If you can download a PSD file, why not upload it? Including the meaning of the explanation for those who were wondering, I also uploaded the ChickenPaint `.chi` file and the Klecks `.psd` file (Photoshop format). I created this GIF animation for description.  
+
+## [2022/12/24] v5.51.0
+- PaintBBS NEO update v1.5.16
+- Solved the problem that cookies could not be read with JavaScript when WAF (Web Application Firewall) was turned on.
+If WAF is turned on, cookies are encrypted and have the httpOnly attribute.
+POTI-board uses JavaScript to load cookies into static HTML files.
+Therefore, with the conventional POTI-board, it was not possible to read the cookie of the form input content when the WAF was turned on.
+I solved this problem by issuing a form input cookie not only in PHP programs, but also in JavaScript.
+However, it is safer to use httpOnly cookies, which prevent JavaScript from reading the cookie.
+There is also a drawing board that uses httpOnly cookies.
+[satopian/Petit_Note_EN: Petit Note English ver.PHP script for PaintBBS,ChickenPaint, and Klecks PHP5.6-PHP8.2](https://github.com/satopian/Petit_Note_EN)
+Log conversion from POTI-board is also possible.
+[satopian/PetitNote_plugin: Petit Note Plugin for Drawing Board](https://github.com/satopian/PetitNote_plugin)
+
+- Adding JavaScript to HTML files to emit cookies for form inputs increases the number of lines of inline JavaScript.
+So I externalized my JavaScript.
+This externalized JavaScript also includes the back to top button JavaScript and the Luminous image popup JavaScript.
+We apologize for the inconvenience and the need to update templates frequently.
+A directory for JavaScript has also been added, such as `templates/mono_en/js/`.
+Please note that if you forget to upload this directory, things like the back button that appears when you scroll down or the JavaScript that appears on the same screen when you click on an image will not work.
+Overwrite everything in the `templates/` directory if you haven't customized the templates.
+Just upload all new installations.
+
+## POTI-board EVO v5.50.11 release
+## [2022/12/21] v5.50.11
+
+### Improvements
+
+- Changed the format of the canvas size pull-down menu formula generation loop to prevent XSS.
+- Removed self-closing tag due to warnings when checked by [W3C Markup Validation Service](https://validator.w3.org/).
+- Add same-origin check. Illegal posts from different origins are now rejected.
+However, for browsers that do not support Orijin headers, such as Edge's IE mode, Orijin headers are not checked.
+This is because if this check becomes mandatory, it will not be possible to start the shi-painter using Java.
+CheerpJ, for example, cannot smoothly play Shi-Painter's drawing animation, so Java must be started.
+- Protection against directory traversal attacks. Invalidate hierarchies such as `../../` in basename() when variables are entered in fopen().
+- Rejection when the password is incorrect 5 times in a row.
+If you enter the wrong administrator password five times in a row, you can now refuse to enter it any more.
+If you want to use this function, please add the following setting items anywhere in config.php.
+
+> /*safety*/
+> 
+> //Reject if admin password is wrong for her 5 times in a row
+> // (1: Enabled, 0: Disabled) 
+> // 1: Enabled for more security, but if the login page is locked it will take more effort to unlock it.
+> 
+> define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
+> 
+> // Access via ftp etc.
+> // Remove the `templates/errorlog/error.log` and you should be able to login again.
+> //This file contains the IP addresses of clients who entered an incorrect admin password.
+> 
+
+- Changed the method to get IP address and host name because some servers cannot get IP address with getenv().
+- Use uniqid() to emit user-code repcode. It now changes in micro time units.
+- Increased the replacement code length from 8 to 12 characters.
+
+- Added original error message for WAF false positive to PaintBBS NEO.
+
+![Screen-2022-12-21_14-34-31](https://user-images.githubusercontent.com/44894014/208915842-51352610-9abc-46b1-b4c1-8403a51bb573.png)
+
+
 ## [2022/11/30] v5.36.8
 
 ### update
@@ -112,8 +520,6 @@ Click the image to view the original GIF animation.
 ### update Klecks
 Fixes an issue where white fills after using distortion tool show lines that follow the shape of the Liquify.
 Added how-to video link to help page and added gradient shortcut keys section.
-
-[Release POTI-board EVO EN v5.35.3 released.](https://github.com/satopian/poti-kaini-EN/releases/latest)
 
 ## [2022/10/03] v5.26.8
 

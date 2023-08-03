@@ -36,6 +36,7 @@
 	color: val.$link_active;
   }
   a:hover {
+    text-decoration: none;
 	color: val.$link_hover;
   }
   h2 a:link {
@@ -195,6 +196,7 @@
   .img_info_wrap {
 	font-size: smaller;
 	margin: 10px 0;
+	line-height: 1.8;
   } 
   ul {
 	list-style-type: none;
@@ -393,7 +395,10 @@
   .view_other_works div:nth-of-type(6n) {
 	  margin-right: 0;
   }
-  
+ 
+  .continue_post_form {
+    line-height: 2.1;
+ }
  /* スクロールすると出てくる「トップへ戻る」ボタン */
 /* https://cotodama.co/pagetop/ */
 #page_top {
@@ -593,20 +598,18 @@
 	  height: 20px;
 	  width: 180px;
 	  border: 1px solid;
-	  color: val.$search_input_text_color;
-	  border-color: val.$search_input_text_border-color;
-	  background-color: val.$search_input_text_background-color;
+	  color: val.$form_txt;
+	  border-color: val.$b_border_u val.$b_border val.$b_border val.$b_border_u;
+	  background-color: val.$form_txt_bk;
+
 	  vertical-align: middle
-	}
-	input[type=text]:hover {
-	  background-color: val.$search_input_text_hover;
 	}
   
 	input[type=submit] {
 	  background-color: val.$button;
 	  color: val.$button_moji;
 	  border: 1px solid;
-	  border-color: val.$search_input_submit_border-color;
+	  border-color: val.$b_border val.$b_border_u val.$b_border_u val.$b_border;
 	  vertical-align: middle
 	}
   
@@ -670,6 +673,7 @@
 	}
 	input[type=radio]:checked+label {
 	  color: val.$label_hover_color;
+	  font-weight: 600;
 	  background: val.$search_label_hover_background-color;
 	}
   
@@ -682,7 +686,7 @@
 	  border: 2px solid val.$button;
 	  border-radius: 15px;
 	}
-	.label:hover {
+	label:hover {
 		color: val.$label_hover_color;
 		background-color: val.$search_label_hover_background-color;
 	}

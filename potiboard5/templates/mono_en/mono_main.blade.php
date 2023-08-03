@@ -4,56 +4,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="{{$skindir}}css/mono_dark.css">
-	<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
-	<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
+	@include('parts.style-switcher')
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
 	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
 	<link rel="preload" as="script" href="loadcookie.js">
+	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
 		.input_disp_none {
 			display: none;
 		}
 	</style>
-	<script>
-		var colorIdx = GetCookie("colorIdx");
-		switch (Number(colorIdx)) {
-			case 1:
-				document.getElementById("css1").removeAttribute("disabled");
-				break;
-			case 2:
-				document.getElementById("css2").removeAttribute("disabled");
-				break;
-			case 3:
-				document.getElementById("css3").removeAttribute("disabled");
-				break;
-		}
-
-		function SetCss(obj) {
-			var idx = obj.selectedIndex;
-			SetCookie("colorIdx", idx);
-			window.location.reload();
-		}
-
-		function GetCookie(key) {
-			var tmp = document.cookie + ";";
-			var tmp1 = tmp.indexOf(key, 0);
-			if (tmp1 != -1) {
-				tmp = tmp.substring(tmp1, tmp.length);
-				var start = tmp.indexOf("=", 0) + 1;
-				var end = tmp.indexOf(";", start);
-				return (decodeURIComponent(tmp.substring(start, end)));
-			}
-			return ("");
-		}
-
-		function SetCookie(key, val) {
-			document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
-		}
-	</script>
 	<title>{{$title}}</title>
 	@if($notres)
 	{{-- I would be happy if you could change this area.
@@ -98,8 +60,7 @@
 
 <body>
 	<header id="header">
-		<h1><img src="banner.jpg" style="max-width:95%;display:block;margin-left:auto;margin-right:auto;border-radius:10%/100%" alt="banner" title="these are from the Crackyhouse /oekaki/ board">
-    <a href="{{$self2}}">{{$title}}</a></h1>
+		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
 			<a href="{{$self}}?mode=admin">[Admin mode]</a>
@@ -124,11 +85,20 @@
 				@if($resname)
 				<script>
 					function add_to_com() {
-						document.getElementById("p_input_com").value +=
-						"{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
+						var textField = document.getElementById("p_input_com");
+						var postername = "{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
+						// テキストフィールドの現在のカーソル位置を取得
+						var startPos = textField.selectionStart;
+						var endPos = textField.selectionEnd;
+						// カーソル位置に指定した文字列を挿入
+						textField.value = textField.value.substring(0, startPos) + postername + textField.value.substring(endPos);
+						// カーソル位置を更新
+						var newCursorPosition = startPos + postername.length;
+						textField.setSelectionRange(newCursorPosition, newCursorPosition);						// テキストフィールドにフォーカスを設定
+						textField.focus();
 					}
 				</script>
-				{{-- コピーボタン  --}}
+				{{-- copy button  --}}
 				<button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
 				@endif
 			</p>
@@ -144,21 +114,23 @@
 		<div class="epost">
 
 		{{-- ペイントボタン --}}
-		<form action="{{$self}}" method="post" enctype="multipart/form-data">
+		<form action="{{$self}}" method="post" enctype="multipart/form-data" id="paint_form">
 		<p>
 			Width :<input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
 			Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
 		@if($select_app)
 			Tool:
 			<select name="shi">
-			<option value="neo">PaintBBS NEO</option>
+			@if($use_neo)<option value="neo">PaintBBS NEO</option>@endif
+			@if ($use_tegaki)<option value="tegaki">Tegaki</option>@endif
 			@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
 			@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
 			@if ($use_klecks)<option value="klecks">Klecks</option>@endif
 		</select>
-		@else 
-		{{-- <!-- 選択メニューを出さない時に起動するアプリ --> --}}
-		<input type="hidden" name="shi" value="neo">
+		@endif 
+		{{-- 選択メニューを出さない時に起動するアプリ --}}
+		@if($app_to_use)
+		<input type="hidden" name="shi" value="{{$app_to_use}}">
 		@endif
 
 		@if($use_select_palettes)
@@ -187,7 +159,7 @@
 			@endif
 		@if($form)
 			<div>
-			<form action="{{$self}}" method="post" enctype="multipart/form-data">
+			<form action="{{$self}}" method="post" enctype="multipart/form-data" id="comment_form">
 				<input type="hidden" name="token" value="@if($token){{$token}}@endif">
 				<input type="hidden" name="mode" value="regist">
 				@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif
@@ -203,10 +175,12 @@
 						<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email">
 						</td>
 					</tr>
+					@if($use_url_input)
 					<tr>
 						<td>URL</td>
 						<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
 					</tr>
+					@endif
 					<tr>
 						<td>Sub @if($usesub){{$usesub}}@endif</td>
 						<td>
@@ -269,13 +243,15 @@
 				@endif
 				{{-- 親記事のヘッダ --}}
 				<h3>
+				@if(!isset($res['not_deleted'])||$res['not_deleted'])
 					<span class="name"><a
-							href="search.php?page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
+							href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
 							target="_blank" rel="noopener">{{$res['name']}}</a></span><span
 						class="trip">{{$res['trip']}}</span> :
 					{{$res['now']}}@if($res['id']) ID : {{$res['id']}}@endif @if($res['url']) <span class="url">[<a
 							href="{{$res['url']}}" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>
 					@endif @if($res['updatemark']){{$res['updatemark']}}@endif
+				@endif
 				</h3>
 				<hr>
 				@else
@@ -284,15 +260,17 @@
 				<div class="res">
 					{{-- 子レスヘッダ --}}
 					<h4>
-						<span class="oyaresno">[{{$res['no']}}]</span>
+					<span class="oyaresno">[{{$res['no']}}]</span>
+					@if(!isset($res['not_deleted'])||$res['not_deleted'])
 						<span class="rsub">{{$res['sub']}}</span> :
 						<span class="name"><a
-								href="search.php?page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
+							href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
 								target="_blank" rel="noopener">{{$res['name']}}</a></span><span
 							class="trip">{{$res['trip']}}</span> : {{$res['now']}}@if($res['id']) ID :
 						{{$res['id']}}@endif @if($res['url']) <span class="url">[<a href="{{$res['url']}}"
 								target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>@endif
 						@if($res['updatemark']) {{$res['updatemark']}}@endif
+					@endif
 					</h4>
 				{{-- 子レスヘッダここまで --}}
 				@endif
@@ -319,9 +297,13 @@
 					</figure>
 					@endif
 					<div class="comment_wrap">
-						<p>{!!$res['com']!!}</p>
-						{{-- 親のコメント部分 --}}
-					</div>
+					<p>{!!$res['com']!!}
+						@if(isset($res['not_deleted'])&&!$res['not_deleted'])
+						This post does not exist.
+						@endif
+					</p>
+				</div>
+				{{-- 最初のループならレス省略件数を表示 --}}
 					@if ($loop->first)
 					@if ($res['skipres'])
 					<hr>
@@ -341,13 +323,18 @@
 				@if($sharebutton)
 				{{-- シェアボタン --}}
 				<span class="share_button">
-					<a target="_blank"
-						href="https://twitter.com/intent/tweet?&text=%5B{{$ress[0]['encoded_no']}}%5D%20{{$ress[0]['share_sub']}}%20by%20{{$ress[0]['share_name']}}%20-%20{{$encoded_title}}&url={{$encoded_rooturl}}{{$encoded_self}}?res={{$ress[0]['encoded_no']}}"><span
-							class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
-					<a target="_blank" class="fb btn"
-						href="http://www.facebook.com/share.php?u={{$encoded_rooturl}}{{$encoded_self}}?res={{$ress[0]['encoded_no']}}"><span
-							class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
-							Share</span></a>
+					@if($switch_sns)
+						<a href="{{$self}}?mode=set_share_server&encoded_t={{$ress[0]['encoded_t']}}&amp;encoded_u={{$ress[0]['encoded_u']}}" onclick="open_sns_server_window(event,{{$sns_window_width}},{{$sns_window_height}})"><span
+						class="button"><img src="{{$skindir}}img/share-from-square-solid.svg" alt=""> Share on SNS</span></a>
+					@else
+						<a target="_blank"
+						href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
+						class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
+						<a target="_blank" class="fb btn"
+							href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
+								class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
+								Share</span></a>
+					@endif
 				</span>
 				@endif
 				@if($notres)<span class="button"><a href="{{$self}}?res={{$ress[0]['no']}}"><img
@@ -402,61 +389,21 @@
 
 				@endif
 			</nav>
-			{{-- <!-- メンテナンスフォーム欄 --> --}}
+			{{--  メンテナンスフォーム欄  --}}
 			@include('parts.mono_mainte_form')
 
-			<script src="loadcookie.js"></script>
-			<script>
-			document.addEventListener('DOMContentLoaded',l,false);
-			</script>
 		</div>
-		{{-- <!-- 著作権表示 削除しないでください --> --}}
+		{{--  著作権表示 削除しないでください  --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
+	<script src="loadcookie.js"></script>
+	<script>
+	document.addEventListener('DOMContentLoaded',l,false);
+	</script>
 	<script src="lib/{{$jquery}}"></script>
 	<script src="lib/luminous/luminous.min.js"></script>
-	<script>
-		colorIdx = GetCookie('colorIdx');
-		document.getElementById("mystyle").selectedIndex = colorIdx;
-
-	jQuery(function() {
-		window.onpageshow = function () {
-			var $btn = $('[type="submit"]');
-			//disbledを解除
-			$btn.prop('disabled', false);
-			$btn.click(function () { //送信ボタン2度押し対策
-				$(this).prop('disabled', true);
-				$(this).closest('form').submit();
-			});
-		}
-		// https://cotodama.co/pagetop/
-		var pagetop = $('#page_top');   
-		pagetop.hide();
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 100) {  //100pxスクロールしたら表示
-				pagetop.fadeIn();
-			} else {
-				pagetop.fadeOut();
-			}
-		});
-		pagetop.click(function () {
-			$('body,html').animate({
-				scrollTop: 0
-			}, 500); //0.5秒かけてトップへ移動
-			return false;
-		});
-		// https://www.webdesignleaves.com/pr/plugins/luminous-lightbox.html
-		const luminousElems = document.querySelectorAll('.luminous');
-		//取得した要素の数が 0 より大きければ
-		if( luminousElems.length > 0 ) {
-			luminousElems.forEach( (elem) => {
-			new Luminous(elem);
-			});
-		}
-	});
-
-	</script>
+	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 
 </html>

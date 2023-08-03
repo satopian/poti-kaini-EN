@@ -56,6 +56,10 @@ define("USE_IMG_UPLOAD","0");
 
 define("DENY_COMMENTS_ONLY", "1");
 
+// Use PaintBBS NEO 
+// (1: Enabled, 0: Disabled)
+define("USE_PAINTBBS_NEO", "1");
+
 // Use Shi Painter 
 // (1: Enabled, 0: Disabled)
 define("USE_SHI_PAINTER", "1");
@@ -64,11 +68,17 @@ define("USE_SHI_PAINTER", "1");
 // (1: Enabled, 0: Disabled) 
 define("USE_CHICKENPAINT", "1");
 
+//Use Tegaki 
+// (1: Enabled, 0: Disabled) 
+define("USE_TEGAKI", "1");
+
 //Use Klecks
 // (1: Enabled, 0: Disabled) 
 define("USE_KLECKS", "1");
 
-//PaintBBS NEO can be used with any setting.
+//Allow admins to use all apps regardless of settings
+// (1: Enabled, 0: Disabled) 
+define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
 
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/
 /* That's all the necessary settings. From here on as needed. */
@@ -85,7 +95,7 @@ define("DEFAULT_TIMEZONE","Asia/Tokyo");
 // 対応テンプレートが必要
 // 設置場所のURL ROOT_URL で設定したurlをもとにリンクを作成
 // Whether to show the share button, "1" to enable.
-define("SHARE_BUTTON", "0");
+define("SHARE_BUTTON", "1");
 
 /* ---------- スパム対策 (Anti-spam posting) ---------- */
 
@@ -144,14 +154,18 @@ define("USE_JAPANESEFILTER", "0");
 // 管理者は設定にかかわらず許可
 // Reject if there is a url in the comment field.
 // Administrator writes are not rejected.
+// (Yes: 1, No: 0)
 define("DENY_COMMENTS_URL", "0");
 
-// define("ELAPSED_DAYS","0");
-// 設定しないなら "0"で。フォームを閉じません。
-// define("ELAPSED_DAYS","365");
-//	↑ 365日
-// で1年以上経過したスレッドに返信できなくなります。
-// Close threads after X days. Set to 0 to disable.
+//URL入力欄を使用する する:1 しない:0
+// Use URL input field (Yes: 1, No: 0)
+define("USE_URL_INPUT_FIELD", "1");
+//No: 0, the URL field disappears from the form input fields.
+// Even if the form is faked, the URL will not be entered.
+
+// Close threads after X days. 
+// Setting "365" days will close threads older than 1 year.
+// Set to 0 to disable.
 define("ELAPSED_DAYS","0");
 
 // 拒絶するファイルのmd5
@@ -360,12 +374,6 @@ define("USE_CONTINUE", "1");
 // However, anyone will be able to continue with a drawing when the mode is set to "0".
 define("CONTINUE_PASS", "0");
 
-//レス画像から新規投稿で続きを描いた画像をレスとして投稿する する:1 しない:0
-// When continuing from the reply image, even if it is"new post", it will be a reply to the current thread.
-// (1: Enabled, 0: Disabled) 
-define("RES_CONTINUE_IN_CURRENT_THREAD", "1");
-
-
 /* ---------- 詳細設定(Advanced Setting) ---------- */
 // このスクリプト名。変更することをおすすめしません。
 // The name of the main script. Do not modify this value unless you have a good
@@ -490,6 +498,36 @@ define("COMMENT_LIMIT_HIGH", "80");
 //In case of utf-8, it is the same no matter what you set.
 define("LANG", "English");
 
+/* ---------- SNS share function advanced settings ---------- */
+
+//Include Mastodon and Misskey servers in the share function
+// (1: Include, 0: Do not include)
+define("SWITCH_SNS","1");
+
+// Servers displayed in the list when sharing on SNS
+//Example ["Display name","https://example.com (SNS server URL)"], (comma is required at the end)
+
+$servers =
+[
+
+	["Twitter","https://twitter.com"],
+	["mstdn.jp","https://mstdn.jp"],
+	["pawoo.net","https://pawoo.net"],
+	["fedibird.com","https://fedibird.com"],
+	["misskey.io","https://misskey.io"],
+	["misskey.design","https://misskey.design"],
+	["nijimiss.moe","https://nijimiss.moe"],
+	["sushi.ski","https://sushi.ski"],
+
+];
+
+// Width and height of window to open when SNS sharing
+
+//window width initial value 350
+define("SNS_WINDOW_WIDTH","350"); 
+//window height initial value 490 
+define("SNS_WINDOW_HEIGHT","490");
+
 /* ---------- お絵かき詳細設定(Advanced Setting for OEKAKI) ---------- */
 
 // テンポラリ内のファイル有効期限(日数)
@@ -579,3 +617,15 @@ define("RE_SAMPLED", "1");
 // Deny display in iframe:  (1: Deny, 0: Allow)
 // We strongly recommend "Deny" to avoid security risks.
 define("X_FRAME_OPTIONS_DENY", "1");
+
+/*safety*/
+
+//Reject if admin password is wrong for her 5 times in a row
+// (1: Enabled, 0: Disabled) 
+// 1: Enabled for more security, but if the login page is locked it will take more effort to unlock it.
+
+define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
+
+// Access via ftp etc.
+// Remove the `templates/errorlog/error.log` and you should be able to login again.
+//This file contains the IP addresses of clients who entered an incorrect admin password.

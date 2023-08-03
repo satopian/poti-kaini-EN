@@ -14017,12 +14017,11 @@ a.chickenpaint .badge-dark:focus, a.chickenpaint .badge-dark.focus {
 
 /* Full screen mode */
 .chickenpaint.chickenpaint-full-screen {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
   background-color: white;
   z-index: 1000;
   -webkit-touch-callout: initial;
