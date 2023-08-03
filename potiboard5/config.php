@@ -110,7 +110,7 @@ define("SHARE_BUTTON", "1");
 // 拒絶する文字列
 // Reject string
 // String blacklists and regular expressions are supported.
-$badstring = array("irc.s16.xrea.com","Unsolicitedad");
+$badstring = array("\.onion");
 
 //拒絶するURL
 // URL blacklists
@@ -155,7 +155,7 @@ define("USE_JAPANESEFILTER", "0");
 // Reject if there is a url in the comment field.
 // Administrator writes are not rejected.
 // (Yes: 1, No: 0)
-define("DENY_COMMENTS_URL", "0");
+define("DENY_COMMENTS_URL", "1");
 
 //URL入力欄を使用する する:1 しない:0
 // Use URL input field (Yes: 1, No: 0)
