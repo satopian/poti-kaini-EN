@@ -49,12 +49,12 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 }
 
 //設定
-
 include(__DIR__.'/config.php');
 
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
   ? explode( ',', $http_langs )[0] : '';
   $en= (stripos($lang,'ja')!==0) ? true : false;
+ 
   if($en){//ブラウザの言語が日本語以外の時
 	$errormsg_1 = "Failed to get data. Please try posting again after a while.";
 	$errormsg_2 = "The size of the picture is too big. The drawing image is not saved.";
@@ -101,11 +101,10 @@ $time = time();
 
 /* ■■■■■ メイン処理 ■■■■■ */
 
-$u_ip = getenv("HTTP_CLIENT_IP");
-if(!$u_ip) $u_ip = getenv("HTTP_X_FORWARDED_FOR");
-if(!$u_ip) $u_ip = getenv("REMOTE_ADDR");
-$u_host = gethostbyaddr($u_ip);
-$u_agent = getenv("HTTP_USER_AGENT");
+$u_ip = get_uip();
+$u_host = $u_ip ? gethostbyaddr($u_ip) : '';
+$u_agent = $_SERVER["HTTP_USER_AGENT"];
+
 $u_agent = str_replace("\t", "", $u_agent);
 
 //raw POST データ取得
@@ -154,12 +153,12 @@ if($sendheader){
 $userdata .= "\n";
 
 //CSRF
-if(!$usercode || $usercode !== filter_input(INPUT_COOKIE, 'usercode')){
+if(!$usercode || $usercode !== (string)filter_input(INPUT_COOKIE, 'usercode')){
 	die("error\n{$errormsg_8}");
 }
-if(((int)SECURITY_TIMER && !$repcode && $timer) && ($timer<(int)SECURITY_TIMER)){
+if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
 
-	$psec=(int)SECURITY_TIMER-$timer;
+	$psec=(int)SECURITY_TIMER-(int)$timer;
 	$waiting_time=calcPtime ($psec);
 	if($en){
 		die("error\nPlease draw for another {$waiting_time}.");
@@ -254,11 +253,27 @@ function calcPtime ($psec) {
 			($D ? $D.'day '  : '')
 			. ($H ? $H.'hr ' : '')
 			. ($M ? $M.'min ' : '')
-			. ($S ? $S.'sec' : '');
+			. ($S ? $S.'sec' : '')
+			. ((!$D&&!$H&&!$M&&!$S) ? '0sec':'');
+
 	}
 		return
 			($D ? $D.'日'  : '')
 			. ($H ? $H.'時間' : '')
 			. ($M ? $M.'分' : '')
-			. ($S ? $S.'秒' : '');
+			. ($S ? $S.'秒' : '')
+			. ((!$D&&!$H&&!$M&&!$S) ? '0秒':'');
+
+}
+//ユーザーip
+function get_uip(){
+	$ip = isset($_SERVER["HTTP_CLIENT_IP"]) ? $_SERVER["HTTP_CLIENT_IP"] :'';
+	$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
+	$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
+	$ip = $ip ? $ip : (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '');
+	if (strstr($ip, ', ')) {
+		$ips = explode(', ', $ip);
+		$ip = $ips[0];
+	}
+	return $ip;
 }

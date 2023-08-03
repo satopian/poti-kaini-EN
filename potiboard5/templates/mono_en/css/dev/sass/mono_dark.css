@@ -30,6 +30,7 @@ a:active {
 }
 
 a:hover {
+  text-decoration: none;
   color: #FEFEFE;
 }
 
@@ -216,6 +217,7 @@ figcaption {
 .img_info_wrap {
   font-size: smaller;
   margin: 10px 0;
+  line-height: 1.8;
 }
 
 ul {
@@ -460,6 +462,10 @@ div#appstage, div#chickenpaint-parent {
   margin-right: 0;
 }
 
+.continue_post_form {
+  line-height: 2.1;
+}
+
 /* スクロールすると出てくる「トップへ戻る」ボタン */
 /* https://cotodama.co/pagetop/ */
 #page_top {
@@ -637,19 +643,16 @@ div#appstage, div#chickenpaint-parent {
   height: 20px;
   width: 180px;
   border: 1px solid;
-  color: #FFF;
-  border-color: #69C;
-  background-color: #333;
+  color: #000;
+  border-color: #003 #66F #66F #003;
+  background-color: #EEEEEE;
   vertical-align: middle;
-}
-#search input[type=text]:hover {
-  background-color: #222229;
 }
 #search input[type=submit] {
   background-color: #6f90d1;
   color: #FFF;
   border: 1px solid;
-  border-color: #6f859a;
+  border-color: #66F #003 #003 #66F;
   vertical-align: middle;
 }
 #search .menu {
@@ -704,6 +707,7 @@ div#appstage, div#chickenpaint-parent {
 }
 #search input[type=radio]:checked + label {
   color: #333;
+  font-weight: 600;
   background: #DDF;
 }
 #search .label {
@@ -715,7 +719,7 @@ div#appstage, div#chickenpaint-parent {
   border: 2px solid #6f90d1;
   border-radius: 15px;
 }
-#search .label:hover {
+#search label:hover {
   color: #333;
   background-color: #DDF;
 }

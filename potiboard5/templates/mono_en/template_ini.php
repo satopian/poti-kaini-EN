@@ -24,7 +24,7 @@ define('THE_SCREEN_CHANGES', 'The screen changes');
 define('NOTICE_MAIL_TITLE', 'Title');
 define('NOTICE_MAIL_IMG', 'Picture');
 define('NOTICE_MAIL_THUMBNAIL', 'Thumbnail');
-define('NOTICE_MAIL_ANIME', 'Timelapse');
+define("NOTICE_MAIL_ANIME", "Playback");
 define('NOTICE_MAIL_URL', 'Fixed link');
 define('NOTICE_MAIL_REPLY', ' Notification: There is a new reply to a post.');
 define('NOTICE_MAIL_NEWPOST', ' Notification: There is a new post');
@@ -76,7 +76,8 @@ define('MSG045', "[This file does not supported by the ability to load uploaded 
 define('MSG046', "[The password is too short. At least 6 characters.]");
 define('MSG047', "[The size of the picture is too large. You can not continue.]");
 define('MSG048', "[There is an inappropriate URL.]");
-define('MSG049', "[The post has been rejected.]");
+define('MSG049', "[Rejected.]");
+define('MSG050', "[Cookie check failed,]");
 
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'

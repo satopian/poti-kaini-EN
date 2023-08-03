@@ -2,11 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_dark.css">
-			<link rel="stylesheet" href="{{$skindir}}css/mono_main.css" id="css1" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_deep.css" id="css2" disabled>
-			<link rel="stylesheet" href="{{$skindir}}css/mono_mayo.css" id="css3" disabled>
-			<style>	
+		<style>	
 				div#appstage,div#chickenpaint-parent{
 				letter-spacing: initial;
 				word-break:initial;
@@ -14,66 +10,61 @@
 				}
 				.input_disp_none{display: none;}
 			</style>
-		<script>
-			var colorIdx = GetCookie("colorIdx");
-				switch (Number(colorIdx)) {
-				case 1:
-					document.getElementById("css1").removeAttribute("disabled");
-					break;
-				case 2:
-					document.getElementById("css2").removeAttribute("disabled");
-					break;
-				case 3:
-					document.getElementById("css3").removeAttribute("disabled");
-				break;
-			} 
-			function SetCss(obj){
-				var idx = obj.selectedIndex;
-				SetCookie("colorIdx",idx);
-				window.location.reload();
-			}
-			function GetCookie(key){
-				var tmp = document.cookie + ";";
-				var tmp1 = tmp.indexOf(key, 0);
-				if(tmp1 != -1){
-					tmp = tmp.substring(tmp1, tmp.length);
-					var start = tmp.indexOf("=", 0) + 1;
-					var end = tmp.indexOf(";", start);
-					return(decodeURIComponent(tmp.substring(start,end)));
-					}
-				return("");
-			}
-			function SetCookie(key, val){
-				document.cookie = key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
-			}
-		</script>
+		@if(!$chickenpaint)
+			@include('parts.style-switcher')
+			<link rel="preload" as="script" href="lib/{{$jquery}}">
+			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
+		@endif
 
 		@if($paint_mode)
-		@if($pinchin)
-		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		@else 
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 		@endif
-		@endif
-		@if($pch_mode)<meta name="viewport" content="width=device-width">@endif
-		@if($continue_mode)<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">@endif
+		@if($pch_mode)<meta name="viewport" content="width=device-width,initial-scale=1.0">@endif
+		@if($continue_mode)
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+		<style>
+			/* index.cssを更新しない人がいるかもしれないためインラインでも記述 */
+			#span_cont_paint_same_thread {
+				display: none;
+			}
+		</style>
+		@endif	
 		@if($useneo)
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}" type="text/css">
 		<script src="neo.js?{{$parameter_day}}" charset="UTF-8"></script>
 		<script>
-			function fixneo() {
-		
-				if(screen.width>767){//iPad以上の横幅の時は、NEOの網目のところでtouchmoveしない。
-					console.log(screen.width);
-					document.querySelector('#NEO').addEventListener('touchmove', function (e){
-						e.preventDefault();
-						e.stopPropagation();
-					}, { passive: false });
+			// https://qiita.com/tsmd/items/cfb5dcbec8433b87dc36
+			function isPinchZooming () {//ピンチズームを検知
+				if ('visualViewport' in window) {
+					return window.visualViewport.scale > 1
+				} else {
+					return document.documentElement.clientWidth > window.innerWidth
 				}
 			}
-			window.addEventListener('DOMContentLoaded',fixneo,false);
+		
+			function neo_disable_touch_move (e) {//NEOの網目でスワイプしない
+				let screenwidth = Number(screen.width);
+				let appw = Number({{$w}});
+				if((screenwidth-appw)>100){
+					if (typeof e.cancelable !== 'boolean' || e.cancelable) {
+					e.preventDefault();
+					e.stopPropagation();
+					}
+				}
+			}
+		
+			function neo_add_disable_touch_move() {
+				document.getElementById('NEO').addEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
+			}
+			document.addEventListener('touchmove', function(e) {
+				neo_add_disable_touch_move();
+				if(isPinchZooming ()){//ピンチズーム使用時はNEOの網目でスワイプする
+					document.getElementById('NEO').removeEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
+				}
+			});
+			window.addEventListener('DOMContentLoaded',neo_add_disable_touch_move,false);
 		</script>
-		@endif
+				@endif
 		@if($pch_mode)
 		@if($type_neo)
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}" type="text/css">
@@ -209,8 +200,8 @@
 				function setPalette(){d=document;d.paintbbs.setColors(Palettes[d.Palette.select.selectedIndex]);d.grad.view.checked&&GetPalette()}function PaletteSave(){Palettes[0]=String(document.paintbbs.getColors())}var cutomP=0;
 				function PaletteNew(){d=document;p=String(d.paintbbs.getColors());s=d.Palette.select;Palettes[s.length]=p;cutomP++;str=prompt("Palette name","Palette "+cutomP);null==str||""==str?cutomP--:(s.options[s.length]=new Option(str),30>s.length&&(s.size=s.length),PaletteListSetColor())}function PaletteRenew(){d=document;Palettes[d.Palette.select.selectedIndex]=String(d.paintbbs.getColors());PaletteListSetColor()}
 				function PaletteDel(){p=Palettes.length;s=document.Palette.select;i=s.selectedIndex;if(-1!=i&&(flag=confirm("Are you sure you want to delete ["+s.options[i].text + "] ?"))){for(s.options[i]=null;p>i;)Palettes[i]=Palettes[i+1],i++;30>s.length&&(s.size=s.length)}}
-				function P_Effect(a){a=parseInt(a);x=1;255==a&&(x=-1);d=document.paintbbs;p=String(d.getColors()).split("\n");l=p.length;var f="";for(n=0;l>n;n++)R=a+parseInt("0x"+p[n].substr(1,2))*x,G=a+parseInt("0x"+p[n].substr(3,2))*x,B=a+parseInt("0x"+p[n].substr(5,2))*x,255<R?R=255:0>R&&(R=0),255<G?G=255:0>G&&(G=0),255<B?B=255:0>B&&(B=0),f+="#"+Hex(R)+Hex(G)+Hex(B)+"\n";d.setColors(f);PaletteListSetColor()}
-				function PaletteMatrixGet(){d=document.Palette;p=Palettes.length;s=d.select;m=d.m_m.selectedIndex;t=d.setr;switch(m){default:t.value="";for(c=n=0;p>n;)null!=s.options[n]&&(t.value=t.value+"\n!"+s.options[n].text+"\n"+Palettes[n],c++),n++;alert("Number of pallets "+c+"\ngot the palette matrix.");break;case 1:t.value="!Palette\n"+String(document.paintbbs.getColors())
+				function P_Effect(a){a=parseInt(a);x=1;255==a&&(x=-1);d=document.paintbbs;p=String(d.getColors()).split("\n");l=p.length;var f="";for(n=0;l>n;n++)R=a+parseInt("0x"+p[n].substring(1,3))*x,G=a+parseInt("0x"+p[n].substring(3,5))*x,B=a+parseInt("0x"+p[n].substring(5,7))*x,255<R?R=255:0>R&&(R=0),255<G?G=255:0>G&&(G=0),255<B?B=255:0>B&&(B=0),f+="#"+Hex(R)+Hex(G)+Hex(B)+"\n";d.setColors(f);PaletteListSetColor()}
+				function PaletteMatrixGet(){d=document.Palette;p=Palettes.length;s=d.select;m=d.m_m.selectedIndex;t=d.setr;switch(m){default:t.value="";for(c=n=0;p>n;)null!=s.options[n]&&(t.value=t.value+"\n!"+s.options[n].text+"\n"+Palettes[n],c++),n++;alert("Number of pallets "+c+"\ngot the palette matrix.");break;case 1:t.value="!Palette\n"+String(document.paintbbs.getColors()),
 				alert("got the palette information currently used.")}t.value=
 				t.value.trim()+"\n!Matrix"}
 				function PalleteMatrixSet(){m=document.Palette.m_m.selectedIndex;str="Set the palette matrix.";switch(m){default:flag=confirm(str+"\nAll current palette information will be lost, is that okay ?");break;case 1:flag=confirm(str+"\nAre you sure you want to replace it with the palette you are currently using?");break;
@@ -218,11 +209,11 @@
 				function PalleteMatrixHelp(){alert("**ABOUT PALETTE MATRIX**\nThe palette matrix allows you to use free palette settings \nby using text that lists palette information.\n\nGet the matrix\n1)Get the palette matrix from the [Get] button.\n2)The retrieved information will appear in the text area below, copy it all.\n3)Let's save this matrix information as text in a file.\n\nto set matrix\n1)Paste the copied matrix into the text area below.\n2)If you have saved it in a file, copy and paste it.\n3)You can use the saved palette by pressing the set button.\n\nPlease note that the palette will not be set correctly if there is unnecessary information.")}
 				function PaletteSet(){d=document.Palette;se=d.setr.value;s=d.select;m=d.m_m.selectedIndex;l=se.length;if(1>l)alert("There is no matrix information.");else{e=o=n=0;switch(m){default:for(n=s.length;0<n;)n--,s.options[n]=null;case 2:i=s.options.length;n=se.indexOf("!",0)+1;if(0==n)return;Matrix1=1;for(Matrix2=-1;n<l;){e=se.indexOf("\n#",n);if(-1==e)return;pn=se.substring(n,e+Matrix1);o=se.indexOf("!",e);if(-1==o)return;pa=se.substring(e+1,o+Matrix2);
 				"Palette"!=pn?(0<=i&&(s.options[i]=new Option(pn)),Palettes[i]=pa,i++):document.paintbbs.setColors(pa);n=o+1}break;case 1:n=se.indexOf("!",0)+1;if(0==n)return;e=se.indexOf("\n#",n);o=se.indexOf("!",e);0<=e&&(pa=se.substring(e+1,o-1));document.paintbbs.setColors(pa)}PaletteListSetColor()}}function PaletteListSetColor(){var a=document.Palette.select;for(i=1;a.options.length>i;i++){var f=Palettes[i].split("\n");a.options[i].style.background=f[4];a.options[i].style.color=GetBright(f[4])}}
-				function GetBright(a){r=parseInt("0x"+a.substr(1,2));g=parseInt("0x"+a.substr(3,2));b=parseInt("0x"+a.substr(5,2));a=r>=g?r>=b?r:b:g>=b?g:b;return 128>a?"#FFFFFF":"#000000"}function Chenge_(){var a=document.grad.pst.value,f=document.grad.ped.value;isNaN(parseInt("0x"+a))||isNaN(parseInt("0x"+f))||GradView("#"+a,"#"+f)}
-				function ChengeGrad(){var a=document,f=a.grad.pst.value,h=a.grad.ped.value;Chenge_();var u=parseInt("0x"+f.substr(0,2)),v=parseInt("0x"+f.substr(2,2));f=parseInt("0x"+f.substr(4,2));var k=parseInt((u-parseInt("0x"+h.substr(0,2)))/15),q=parseInt((v-parseInt("0x"+h.substr(2,2)))/15);h=parseInt((f-parseInt("0x"+h.substr(4,2)))/15);isNaN(k)&&(k=1);isNaN(q)&&(q=1);isNaN(h)&&(h=1);var w=new String;cnt=0;m1=u;m2=v;for(m3=f;14>cnt;cnt++,m1-=k,m2-=q,m3-=h){if(255<m1||0>m1)k*=-1,m1-=k;if(255<m2||0>m2)q*=-1,
+				function GetBright(a){r=parseInt("0x"+a.substring(1,3));g=parseInt("0x"+a.substring(3,5));b=parseInt("0x"+a.substring(5,7));a=r>=g?r>=b?r:b:g>=b?g:b;return 128>a?"#FFFFFF":"#000000"}function Chenge_(){var a=document.grad.pst.value,f=document.grad.ped.value;isNaN(parseInt("0x"+a))||isNaN(parseInt("0x"+f))||GradView("#"+a,"#"+f)}
+				function ChengeGrad(){var a=document,f=a.grad.pst.value,h=a.grad.ped.value;Chenge_();var u=parseInt("0x"+f.substring(0,2)),v=parseInt("0x"+f.substring(2,4));f=parseInt("0x"+f.substring(4,6));var k=parseInt((u-parseInt("0x"+h.substring(0,2)))/15),q=parseInt((v-parseInt("0x"+h.substring(2,4)))/15);h=parseInt((f-parseInt("0x"+h.substring(4,6)))/15);isNaN(k)&&(k=1);isNaN(q)&&(q=1);isNaN(h)&&(h=1);var w=new String;cnt=0;m1=u;m2=v;for(m3=f;14>cnt;cnt++,m1-=k,m2-=q,m3-=h){if(255<m1||0>m1)k*=-1,m1-=k;if(255<m2||0>m2)q*=-1,
 				m2-=q;if(255<m3||0>m3)h*=-1,m2-=h;w+="#"+Hex(m1)+Hex(m2)+Hex(m3)+"\n"}a.paintbbs.setColors(w)}function Hex(a){a=parseInt(a);0>a&&(a*=-1);for(var f=new String,h;16<a;)h=a,16<a&&(a=parseInt(a/16),h-=16*a),h=Hex_(h),f=h+f;h=Hex_(a);for(f=h+f;2>f.length;)f="0"+f;return f}function Hex_(a){isNaN(a)?a="":10==a?a="A":11==a?a="B":12==a?a="C":13==a?a="D":14==a?a="E":15==a&&(a="F");return a}
-				function GetPalette(){d=document;p=String(d.paintbbs.getColors());"null"!=p&&""!=p&&(ps=p.split("\n"),st=d.grad.p_st.selectedIndex,ed=d.grad.p_ed.selectedIndex,d.grad.pst.value=ps[st].substr(1.6),d.grad.ped.value=ps[ed].substr(1.6),GradSelC(),GradView(ps[st],ps[ed]),PaletteListSetColor())}
-				function GradSelC(){if(d.grad.view.checked){d=document.grad;l=ps.length;pe="";for(n=0;l>n;n++)R=255+-1*parseInt("0x"+ps[n].substr(1,2)),G=255+-1*parseInt("0x"+ps[n].substr(3,2)),B=255+-1*parseInt("0x"+ps[n].substr(5,2)),255<R?R=255:0>R&&(R=0),255<G?G=255:0>G&&(G=0),255<B?B=255:0>B&&(B=0),pe+="#"+Hex(R)+Hex(G)+Hex(B)+"\n";pe=pe.split("\n");for(n=0;l>n;n++)d.p_st.options[n].style.background=ps[n],d.p_st.options[n].style.color=pe[n],d.p_ed.options[n].style.background=ps[n],d.p_ed.options[n].style.color=pe[n]}}function GradView(a,f){d=document}function showHideLayer(){d=document;var a=d.layers?d.layers.psft:d.all("psft").style;d.grad.view.checked||(a.visibility="hidden");d.grad.view.checked&&(a.visibility="visible",GetPalette())};
+				function GetPalette(){d=document;p=String(d.paintbbs.getColors());"null"!=p&&""!=p&&(ps=p.split("\n"),st=d.grad.p_st.selectedIndex,ed=d.grad.p_ed.selectedIndex,d.grad.pst.value=ps[st].substring(1,7),d.grad.ped.value=ps[ed].substring(1,7),GradSelC(),GradView(ps[st],ps[ed]),PaletteListSetColor())}
+				function GradSelC(){if(d.grad.view.checked){d=document.grad;l=ps.length;pe="";for(n=0;l>n;n++)R=255+-1*parseInt("0x"+ps[n].substring(1,3)),G=255+-1*parseInt("0x"+ps[n].substring(3,5)),B=255+-1*parseInt("0x"+ps[n].substring(5,7)),255<R?R=255:0>R&&(R=0),255<G?G=255:0>G&&(G=0),255<B?B=255:0>B&&(B=0),pe+="#"+Hex(R)+Hex(G)+Hex(B)+"\n";pe=pe.split("\n");for(n=0;l>n;n++)d.p_st.options[n].style.background=ps[n],d.p_st.options[n].style.color=pe[n],d.p_ed.options[n].style.background=ps[n],d.p_ed.options[n].style.color=pe[n]}}function GradView(a,f){d=document}function showHideLayer(){d=document;var a=d.layers?d.layers.psft:d.all("psft").style;d.grad.view.checked||(a.visibility="hidden");d.grad.view.checked&&(a.visibility="visible",GetPalette())};
 			</script>
 			<noscript>
 				<p>JavaScript isn't working</p>
@@ -235,6 +226,7 @@
 					@if($paintbbs)
 					@if($useneo)
 					<applet-dummy code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
+						<param name="neo_send_with_formdata" value="true">
 						<param name="neo_confirm_unload" value="true">
 						<param name="neo_show_right_button" value="true">
 					@else 
@@ -276,7 +268,11 @@
 						<param name="compress_level" value="{{$compress_level}}">
 						<param name="undo" value="{{$undo}}">
 						<param name="undo_in_mg" value="{{$undo_in_mg}}">
+						@if($useneo)
+						<param name="url_save" value="saveneo.php">
+						@else
 						<param name="url_save" value="picpost.php">
+						@endif
 						<param name="url_exit" value="{{$self}}?mode={{$mode}}&amp;stime={{$stime}}">
 						@if($anime)
 						<param name="thumbnail_type" value="animation">
@@ -587,7 +583,7 @@
 			@if($continue_mode)
 			<!-- (========== CONTINUE MODE start ==========) -->
 			<section>
-			<script type="text/javascript" src="loadcookie.js"></script>
+			<script src="loadcookie.js"></script>
 				<div class="thread">
 					<figure>
 						<img src="{{$picfile}}" width="{{$picw}}" height="{{$pich}}" alt="@if($sub){{$sub}} @endif @if($name) by {{$name}} @endif{{$picw}} x {{$pich}}" title="@if($sub){{$sub}} @endif @if($name) by {{$name}} @endif{{$picw}} x {{$pich}}">
@@ -607,6 +603,7 @@
 							</form>
 						<hr class="hr">
 					@endif	  
+				<div class="continue_post_form">	
 					
 					<form action="{{$self}}" method="post">
 						<input type="hidden" name="mode" value="contpaint">
@@ -620,14 +617,19 @@
 							@if($ctype_pch)<option value="pch">from animation</option>@endif
 							@if($ctype_img)<option value="img">from picture</option>@endif
 						</select>
-						<select class="form" name="type">
+						The image is a <select class="form" name="type" id="select_post">
 							<option value="rep">replace</option>
-							<option value="new">newpost</option>
+							<option value="new">new post</option>
 						</select>
+						<span id="span_cont_paint_same_thread">
+							<input type="checkbox" name="cont_paint_same_thread" id="cont_paint_same_thread" value="on" checked="checked"><label for="cont_paint_same_thread">Post in the same thread</label>
+						</span>
+						<br>
 						@if($select_app)
 
 						<select name="shi">
-							<option value="neo">PaintBBS NEO</option>
+							@if ($use_neo)<option value="neo">PaintBBS NEO</option>@endif
+							@if ($use_tegaki)<option value="tegaki">Tegaki</option>@endif
 							@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
 							@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
 							@if ($use_klecks)<option value="klecks">Klecks</option>@endif
@@ -638,34 +640,69 @@
 						@endif
 
 						@if($use_select_palettes)
-						Palettes: <select name="selected_palette_no" title="パレット" class="form">{!!$palette_select_tags!!}</select>
+						Palettes <select name="selected_palette_no" title="パレット" class="form">{!!$palette_select_tags!!}</select>
 							@endif
 
 						<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
-						Pass <input class="form" type="password" name="pwd" value="">
+						<span id="span_cont_pass">Pass <input class="form" type="password" name="pwd" value=""></span>
 						<input class="button" type="submit" value="Draw more">
 
 					</form>
 						
 					<ul>
 						@if($newpost_nopassword)
-						<li>If this is a new post, you can draw the continuation without the password.</li>
+						<li>If you select new post, you can draw the continuation without the password.</li>
 						@else 
 						<li>To draw the continuation, you need the password when you drew it.</li>
 						@endif
-						</ul>
+					</ul>
+				
 				</div>
-				<script>
-				document.addEventListener('DOMContentLoaded',l,false);
-				</script>
+			</div>
+			<script>
+			document.addEventListener('DOMContentLoaded',l,false);
+			</script>
 			</section>
-			<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
+			<script>
+				// 新規投稿時にのみ、同じスレッドに投稿するボタンを表示
+				document.getElementById('select_post').addEventListener('change', function() {
+					var idx=document.getElementById('select_post').selectedIndex;
+					console.log(idx);
+					var obj2style_1=document.getElementById('span_cont_paint_same_thread');
+					var obj2style_2=document.getElementById('span_cont_pass');
+					if(idx === 1){
+						if(obj2style_1){
+							obj2style_1.style.display = "inline-block";
+						}
+						@if($newpost_nopassword) 
+						if(obj2style_2){
+						obj2style_2.style.display = "none";
+						}
+						@endif
+					}else{
+						if(obj2style_1){
+							obj2style_1.style.display = "none";
+						}
+						@if($newpost_nopassword) 
+						if(obj2style_2){
+							obj2style_2.style.display = "inline-block";
+						}
+						@endif
+					}
+				});
+			</script>
+
+<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
 			@endif
 		</main>
 		<footer>
 		{{-- <!-- 著作権表示 削除しないでください --> --}}
 							@include('parts.mono_copyright')
 
-			</footer>
+		</footer>
+	@if(!$chickenpaint)
+		<script src="lib/{{$jquery}}"></script>
+		<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
+	@endif
 	</body>
 </html>
