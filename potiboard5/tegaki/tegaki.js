@@ -40,12 +40,12 @@ var isJa = browserLanguage.startsWith('ja');
   saveAs: 'Save As',
   export:isJa ? 'エクスポート':'Export',
   undo:isJa ? '取り消し':'Undo',
-  redo: isJa ? 'やり直し':'Redo',
-  close: isJa ? '閉じる':'Close',
+  redo:isJa ? 'やり直し':'Redo',
+  close:isJa ? '閉じる':'Close',
   finish:isJa ? '投稿': 'Finish',
   
   // Tool modes
-  tip: 'Tip',
+  tip:isJa ? '先端':'Tip',
   pressure:isJa ?'筆圧':'Pressure',
   preserveAlpha:isJa ?'透明度をロック': 'Preserve Alpha',
   
