@@ -60,7 +60,7 @@
 
 <body>
 	<header id="header">
-    <h1><img src="banner.jpg" style="max-width:95%;display:block;margin-left:auto;margin-right:auto;border-radius:10%/100%" alt="banner" title="these are from the Crackyhouse /oekaki/ board">
+    <h1><img src="banner.jpg" style="max-width:95%;display:block;margin-left:auto;margin-right:auto;border-radius:10%/100%" alt="banner" title="these are from the Crackyhouse /oekaki/ board"></h1>
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
