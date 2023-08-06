@@ -47,6 +47,8 @@
 
 	const klecks = new Klecks({
 		
+		disableAutoFit: true,
+		
 		onSubmit: (onSuccess, onError) => {
 			// download png
 			// saveData(klecks.getPNG(), 'drawing.png');
