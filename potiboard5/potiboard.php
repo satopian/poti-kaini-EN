@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.63.6';
-const POTI_LOT = 'lot.20230728';
+const POTI_VER = 'v5.63.7';
+const POTI_LOT = 'lot.20230806';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -410,12 +410,11 @@ function check_csrf_token(){
 }
 function check_same_origin($cookie_check=false){
 
-	$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
+	$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');
 	if($cookie_check && !$usercode){
 		error(MSG050);
 	}
-	$url_scheme=(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://' : '';
-	if($url_scheme && str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST']) && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
 		error(MSG049);
 	}
 }
