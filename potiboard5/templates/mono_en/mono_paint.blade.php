@@ -193,7 +193,7 @@
 			<script>
 				var DynamicColor = 1;	// パレットリストに色表示
 				var Palettes = new Array();
-				<!--パレット配列作成-->
+				// パレット配列作成
 				@if($palettes) 
 				{!!$palettes!!}
 				@endif
