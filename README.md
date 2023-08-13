@@ -42,6 +42,66 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 23/08/13 v5.63.8
+### Added option to hide [Admin mode] link. 
+
+#### Added this option to config.php.
+
+```
+// Display a link to the [Admin mode]  Yes: 1 No: 0
+define("USE_ADMIN_LINK", "1");
+// No: 0 hides the link the admin mode.
+
+```
+## 23/08/07 v5.63.7.1
+
+- klecks/  (Update directory by overwriting)
+- potiboard.php
+- templates/mono_en/paint_klecks.blade.php
+- templates/mono_en/mono_paint.blade.php
+
+## 23/08/04 v5.63.6.1
+### Updated Klecks and Tegaki
+
+- klecks/  (Update directory by overwriting)
+- tegaki/  (Update directory by overwriting)
+
+## 23/08/04 v5.63.6
+
+### Fixed bug.
+- Fixed a bug that could not be displayed in IE mode of Edge.
+
+
+## 23/07/27 v5.63.5
+### Fixed bugs.
+
+- potiboard.php
+- search.inc.php
+(Some variables were undefined.)
+- templates/mono_en/mono_main.blade.php
+(There was a part where the search link was still "search.php".)
+- templates/mono_en/paint_tegaki.blade.php
+(When used on an iPad, the screen was being magnified by double-tap zoom.)
+
+## 23/07/13 v5.63.3
+
+### You can now set the width and height of the window that opens when sharing on SNS in config.php.
+Added a new setting item to config.php.
+
+""
+
+// Width and height of window to open when SNS sharing
+
+//window width initial value 350
+define("SNS_WINDOW_WIDTH","350"); 
+//window height initial value 490 
+define("SNS_WINDOW_HEIGHT","490");
+
+""
+
+When adding a server for SNS sharing, the height of the shared screen window was insufficient and scrolling was sometimes required.
+Solved the problem by making it possible to set the width and height of the shared screen of the server list when sharing with SNS.
+If the above setting items do not exist in config.php, the default values of 350px width and 490px height will be applied.
 
 ## Change log (timezone: Asia/Tokyo, UTC+09:00)
 ## [2023/07/12] v5.63.2
