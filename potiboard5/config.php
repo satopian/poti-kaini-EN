@@ -299,6 +299,10 @@ define("DO_NOT_CHANGE_POSTS_TIME", "0");
 // (1: Enabled, 0: Disabled)
 define("VIEW_OTHER_WORKS", "1");
 
+//管理画面へのリンクを表示する する:1 しない:0
+// Display a link to the [Admin mode]  Yes: 1 No: 0
+define("USE_ADMIN_LINK", "1");
+// No: 0 Hide link to the admin mode.
 /* ---------- お絵かき設定(paint mode settings) ---------- */
 
 // お絵かき機能を使用する お絵かきのみ:2 する:1 しない:0

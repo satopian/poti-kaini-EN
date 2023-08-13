@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.63.7';
-const POTI_LOT = 'lot.20230806';
+const POTI_VER = 'v5.63.8';
+const POTI_LOT = 'lot.20230813';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -184,6 +184,8 @@ defined("USE_URL_INPUT_FIELD") or define("USE_URL_INPUT_FIELD", "1");
 defined("SWITCH_SNS") or define("SWITCH_SNS", "1");
 defined("SNS_WINDOW_WIDTH") or define("SNS_WINDOW_WIDTH","350");
 defined("SNS_WINDOW_HEIGHT") or define("SNS_WINDOW_HEIGHT","490");
+defined("USE_ADMIN_LINK") or define("USE_ADMIN_LINK","1");
+
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -441,6 +443,7 @@ function basicpart(){
 	$dat['sns_window_width'] = SNS_WINDOW_WIDTH;
 	$dat['sns_window_height'] = SNS_WINDOW_HEIGHT;
 	$dat['is_IE'] = isIE();
+	$dat['use_admin_link'] = USE_ADMIN_LINK;
 	
 	//OGPイメージ シェアボタン
 	$dat['rooturl'] = ROOT_URL;//設置場所url
