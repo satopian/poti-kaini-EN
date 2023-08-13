@@ -63,7 +63,8 @@
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
-			<a href="{{$self}}?mode=admin">[Admin mode]</a>
+			@if($use_admin_link)<a href="{{$self}}?mode=admin">[Admin mode]</a>@endif
+
 		</div>
 		<hr>
 		<div>
