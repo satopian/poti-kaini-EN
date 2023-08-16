@@ -81,10 +81,10 @@ header('Content-type: text/plain');
 
 //Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
 //Orijinがhostと異なっていたら投稿を拒絶。
-$url_scheme=isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://':'';
-if($url_scheme && isset($_SERVER['HTTP_HOST']) &&
-str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
-	die("error\n{$errormsg_9}");
+if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])){//EdgeのIEモードでは$_SERVER['HTTP_ORIGIN']を取得できない
+	if(parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']){
+		die("error\n{$errormsg_9}");
+	}
 }
 /* ---------- picpost.php用設定 ---------- */
 defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600

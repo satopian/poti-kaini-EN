@@ -46,8 +46,7 @@ header('Content-type: text/plain');
 if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
 	die("error\n{$errormsg_2}");
 }
-$url_scheme=parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_SCHEME).'://';
-if(str_replace($url_scheme,'',$_SERVER['HTTP_ORIGIN']) !== $_SERVER['HTTP_HOST']){
+if(parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']){
 	die("error\n{$errormsg_3}");
 }
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
