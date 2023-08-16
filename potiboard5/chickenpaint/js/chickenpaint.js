@@ -28080,7 +28080,7 @@ function CPSwatchesPalette(controller) {
       reader.readAsArrayBuffer(file);
     };
 
-    fileInput.trigger('click');
+    fileInput.click();
   }
 
   function saveSwatches() {
@@ -32817,10 +32817,10 @@ function getKeyCodeFromKey(key) {
   var DATA_API_KEY$5 = '.data-api';
   var JQUERY_NO_CONFLICT$8 = $__default["default"].fn[NAME$8];
 //   var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
-  var ARROW_LEFT_KEYCODE = 'ArrowLeft'; // KeyboardEvent.key value for left arrow key
+var ARROW_LEFT_KEYCODE = 'ArrowLeft'; // KeyboardEvent.key value for left arrow key
 
 //   var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
-  var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arrow key
+var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arrow key
 
   var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
 
