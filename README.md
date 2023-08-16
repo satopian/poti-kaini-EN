@@ -50,8 +50,7 @@ For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/pro
 ```
 // Display a link to the [Admin mode]  Yes: 1 No: 0
 define("USE_ADMIN_LINK", "1");
-// No: 0 hides the link the admin mode.
-
+// No: 0 Hide link to the admin mode.
 ```
 ## 23/08/07 v5.63.7.1
 
