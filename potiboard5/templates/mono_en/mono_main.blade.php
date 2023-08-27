@@ -282,6 +282,7 @@
 						({{$res['size_kb']}} KB)
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
+						@if($res['tool'])<span class="article_info_desc"> Tool: {{$res['tool']}}</span>@endif
 						<br>
 						@if($res['continue']) <a
 							href="{{$self}}?mode=continue&amp;no={{$res['continue']}}">*Continue</a>@endif
