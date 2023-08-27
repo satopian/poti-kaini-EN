@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v5.63.9';
-const POTI_LOT = 'lot.20230816';
+const POTI_VER = 'v6.00.0';
+const POTI_LOT = 'lot.20230827';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -596,7 +596,7 @@ function updatelog(){
 				}
 				$res['skipres']=false;
 				if($k===0){//スレッドの親の時
-					$res['disp_resbutton'] = check_elapsed_days($res['time']); //返信ボタン表示有無
+					$res['disp_resbutton'] = check_elapsed_days($res['time'],$res['logver']); //返信ボタン表示有無
 					// 親レス用の値
 					$res['skipres'] = DSP_RES ? (($skipres>0) ? $skipres : false) :false;
 				}
@@ -713,7 +713,7 @@ function res($resno = 0){
 			$res['descriptioncom'] = h(strip_tags(mb_strcut($res['com'],0,300))); //メタタグに使うコメントからタグを除去
 			$oyaname = $res['name']; //投稿者名をコピー
 
-			if(!check_elapsed_days($res['time'])){//親の値
+			if(!check_elapsed_days($res['time'],$res['logver'])){//親の値
 			$dat['form'] = false;//フォームを閉じる
 			$dat['paintform'] = false;
 			$dat['resname'] = false;//投稿者名をコピーを閉じる
@@ -833,6 +833,7 @@ function regist(){
 
 	$pictmp = (int)filter_input(INPUT_POST, 'pictmp',FILTER_VALIDATE_INT);
 	$picfile = (string)basename(newstring(filter_input(INPUT_POST, 'picfile')));
+	$tool="";
 
 	// パスワード未入力の時はパスワードを生成してクッキーにセット
 	$c_pass=str_replace("\t",'',(string)filter_input(INPUT_POST, 'pwd'));//エスケープ前の値をCookieにセット
@@ -875,8 +876,8 @@ function regist(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
-		break;
+			$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
+			break;
 		}
 	}
 	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
@@ -896,7 +897,7 @@ function regist(){
 		$fp = fopen($temppath.$picfile.".dat", "r");
 		$userdata = fread($fp, 1024);
 		fclose($fp);
-		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto) = explode("\t", rtrim($userdata)."\t");
+		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
 		if(($ucode != $usercode) && (!$uip || ($uip != $userip))){
 			return error(MSG007);
 		}
@@ -925,6 +926,7 @@ function regist(){
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
 			}
+			$tool="Upload";
 		}
 
 		$is_file_dest = is_file($dest);
@@ -979,8 +981,8 @@ function regist(){
 		}
 	}
 	if($resto && isset($lineindex[$resto])){
-		list(,,,,,,,,,,,,$_time,) = explode(",", $line[$lineindex[$resto]]);
-		if(!check_elapsed_days($_time)){//フォームが閉じられていたら
+		list(,,,,,,,,,,,,$_time,,,,,,,$_logver) = explode(",", trim($line[$lineindex[$resto]]).",,,,,,,,");
+		if(!check_elapsed_days($_time,$_logver)){//フォームが閉じられていたら
 			if($pictmp2){//お絵かきは
 				$resto = '';//新規投稿
 			}else{
@@ -995,7 +997,8 @@ function regist(){
 		if(!trim($value)){
 			continue;
 		}
-		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,) = explode(",", $value);
+		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,,,,,,,$logver) = explode(",", trim($value).",,,,,,,,");
+
 		$pchk=false;
 		switch(POST_CHECKLEVEL){
 			case 1:	//low
@@ -1026,7 +1029,8 @@ function regist(){
 		}
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
-		if(strlen($ltime)>10){$ltime=substr($ltime,-13,-3);}
+		$ltime= $logver==="6" ? substr($ltime,0,-3) :
+		(strlen($ltime)>12 ? substr($ltime,-13,-3) : $ltime);
 		$interval=time()-(int)$ltime;
 		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
 		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $dest){error(MSG021,$dest);}
@@ -1095,7 +1099,7 @@ function regist(){
 			if(!trim($value)){
 				continue;
 			}
-			list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", $value);
+			list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
 			if($extp){//拡張子があったら
 			if($chkp===$chk&&is_file($path.$timep.$extp)){
 			error(MSG005,$dest);
@@ -1125,8 +1129,11 @@ function regist(){
 		$max_h = $resto ? MAX_RESH : MAX_H;
 		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 
-		if(USE_THUMB){thumb($path,$time,$ext,$max_w,$max_h);}
-
+		if(USE_THUMB){
+			if(thumb($path,$time,$ext,$max_w,$max_h)){
+				$thumbnail="thumbnail";
+			}
+		}
 	}
 	// 最大ログ数を超過した行と画像を削除
 	$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
@@ -1142,7 +1149,7 @@ function regist(){
 	}
 	list($lastno,) = explode(",", $line[0]);
 	$no = $lastno + 1;
-	$newline = "$no,$date,$name,$email,$sub,$com,$url,$host,$pass,$ext,$w,$h,$time,$chk,$ptime,$fcolor\n";
+	$newline = "$no,$date,$name,$email,$sub,$com,$url,$host,$pass,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,\n";
 	$newline.= implode("\n", $line);
 
 
@@ -1285,7 +1292,7 @@ function treedel($delno){
 	$find=false;
 	$thread_exists=true;
 	foreach($line as $i =>$value){
-		$treeline = explode(",", rtrim($value));
+		$treeline = explode(",", trim($value));
 		foreach($treeline as $j => $value){
 			if($value == $delno){
 				if($j===0){//スレ削除
@@ -1362,7 +1369,7 @@ function userdel(){
 		if(!trim($value)){
 			continue;
 		}
-		list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",$value);
+		list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",trim($value));
 		if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
 			if(!$onlyimgdel){	//記事削除
 				$thread_exists=treedel($no);
@@ -1423,7 +1430,7 @@ function admindel($pass){
 	foreach($line as $j => $value){
 			if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
 			list($no,$date,$name,$email,$sub,$com,$url,
-			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",$value);
+			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",trim($value));
 		$res= [
 			'size' => 0,
 			'size_kb' => 0,
@@ -1484,7 +1491,7 @@ function admindel($pass){
 			if(!trim($value)){
 				continue;
 			}
-			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",$value);
+			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
 			if(in_array($no,$del)){
 				if(!$onlyimgdel){	//記事削除
 					treedel($no);
@@ -1515,7 +1522,7 @@ function init(){
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
 		$time = time().substr(microtime(),2,3);
-		$testmes="1,".$date.",".DEF_NAME.",,".DEF_SUB.",".DEF_COM.",,,,,,,".$time.",,,\n";
+		$testmes="1,".$date.",".DEF_NAME.",,".DEF_SUB.",".DEF_COM.",,,,,,,".$time.",,,,,,,6,\n";
 		file_put_contents(LOGFILE, $testmes,LOCK_EX);
 		chmod(LOGFILE, PERMISSION_FOR_LOG);
 	}
@@ -2087,11 +2094,11 @@ function check_cont_pass(){
 	while($line = fgets($fp)){
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
 
-			list($cno,,,,,,,,$cpwd,,,,$ctime,)
-			= explode(",", rtrim($line));
+			list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
+			= explode(",", trim($line).",,,,,,,,");
 
 			if($cno == $no && check_password($pwd, $cpwd)
-			&& check_elapsed_days($ctime)
+			&& check_elapsed_days($ctime,$logver)
 			){
 				closeFile($fp);
 				return true;
@@ -2175,7 +2182,7 @@ function editform(){
 	$flag = FALSE;
 	foreach($line as $value){
 		if($value){
-			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor) = explode(",", rtrim($value).',,,');
+			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver) = explode(",", rtrim($value).",,,,,,,,");
 			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
 				$flag = TRUE;
 				break;
@@ -2186,7 +2193,7 @@ function editform(){
 	if(!$flag) {
 		error(MSG028);
 	}
-	if((!$pwd || $pwd!==$ADMIN_PASS) && !check_elapsed_days($time)){//指定日数より古い記事の編集はエラーにする
+	if((!$pwd || $pwd!==$ADMIN_PASS) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 			error(MSG028);
 	}
 
@@ -2292,14 +2299,14 @@ global $ADMIN_PASS;
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor) = explode(",", rtrim($value).',,,');
+		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver) = explode(",", rtrim($value).',,,,,,,');
 		if($eno == $no && check_password($pwd, $epwd, $admin)){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			if(!$name) $name = $ename;
 			if(!$sub)  $sub  = $esub;
 			if(!$com)  $com  = $ecom;
 			if(!$fcolor) $fcolor = $efcolor;
-			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor";
+			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver";
 			$flag = TRUE;
 			break;
 		}
@@ -2308,7 +2315,7 @@ global $ADMIN_PASS;
 		closeFile($fp);
 		error(MSG028);
 	}
-	if((!$admin || $admin!==$ADMIN_PASS) && !check_elapsed_days($time)){//指定日数より古い記事の編集はエラーにする
+	if((!$admin || $admin!==$ADMIN_PASS) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 		closeFile($fp);
 		error(MSG028);
 	}
@@ -2335,6 +2342,7 @@ function replace(){
 	$pwd = (string)newstring(filter_input(INPUT_GET, 'pwd'));
 	$repcode = (string)newstring(filter_input(INPUT_GET, 'repcode'));
 	$message="";
+	$tool = "";
 	$userip = get_uip();
 	//ホスト取得
 	$host = $userip ? gethostbyaddr($userip) : '';
@@ -2349,7 +2357,7 @@ function replace(){
 			$fp = fopen(TEMP_DIR.$file, "r");
 			$userdata = fread($fp, 1024);
 			fclose($fp);
-			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime) = explode("\t", rtrim($userdata)."\t");//区切りの"\t"を行末に
+			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool) = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
 			//画像があり、認識コードがhitすれば抜ける
@@ -2366,8 +2374,8 @@ function replace(){
 	$testexts=['.gif','.jpg','.png','.webp'];
 	foreach($testexts as $testext){
 		if(is_file(IMG_DIR.$time.$testext)){
-		$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
-		break;
+			$time=(string)(substr($time,0,-3)+1).(string)substr($time,-3);
+			break;
 		}
 	}
 	$time = is_file($temppath.$time.'.tmp') ? (string)(substr($time,0,-3)+1).(string)substr($time,-3) :$time;
@@ -2377,6 +2385,7 @@ function replace(){
 	//描画時間を$userdataをもとに計算
 	$psec='';
 	$_ptime = '';
+	$thumbnail="";
 
 	if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
 		$psec=(int)$postedtime-(int)$starttime;
@@ -2404,7 +2413,7 @@ function replace(){
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor) = explode(",", rtrim($value).',,,');
+		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver) = explode(",", rtrim($value).',,,,,,,');
 	//画像差し替えに管理パスは使っていない
 		if($eno === $no && check_password($pwd, $epwd)){
 			$tp=fopen(TREEFILE,"r");
@@ -2416,7 +2425,7 @@ function replace(){
 			}
 			fclose($tp);
 
-			if(!check_elapsed_days($etim)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
+			if(!check_elapsed_days($etim,$logver)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
 				closeFile($fp);
 				return paintcom();
 			}
@@ -2462,8 +2471,11 @@ function replace(){
 			list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 	
 			//サムネイル作成
-			if(USE_THUMB){thumb($path,$time,$imgext,$max_w,$max_h);}
-
+			if(USE_THUMB){
+				if(thumb($path,$time,$imgext,$max_w,$max_h)){
+				$thumbnail="thumbnail";
+				}
+			}
 			//PCHファイルアップロード
 			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 			if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
@@ -2486,7 +2498,7 @@ function replace(){
 			$date = str_replace(",", "&#44;", $date);
 			$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
-			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor";
+			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6";
 			$flag = true;
 
 			break;
@@ -2963,8 +2975,8 @@ function h($str){//出力のエスケープ
 function create_res ($line, $options = []) {
 	global $path;
 
-	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor)
-		= explode(",", rtrim($line).',,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
+	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver)
+	= explode(",", rtrim($line).',,,,,,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
 		'w' => ($w && is_numeric($w)) ? $w :'',
@@ -2978,11 +2990,12 @@ function create_res ($line, $options = []) {
 		'time' => $time,
 		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
 		'not_deleted' => !(!$name && !$email && !$url && !$com && !$ext),//｢この記事はありません｣で使用
+		'logver' => $logver,
 	];
 	$res['imgsrc']='';
 	// 画像系変数セット
-
 	//初期化
+	$res['tool'] = '';
 	$res['src'] = '';
 	$res['srcname'] = '';
 	$res['size'] = '';
@@ -3001,20 +3014,25 @@ function create_res ($line, $options = []) {
 		$filesize = filesize($res['img']);
 		$res['size'] = $filesize;
 		$res['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
-		$res['thumb'] = is_file(THUMB_DIR.$time.'s.jpg');
+		$res['thumb'] = ($logver === "6") ? ($thumbnail==="thumbnail") : is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
+		$res['tool'] = in_array($tool,["PaintBBS NEO","shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
+
 		//描画時間
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
 		//動画リンク
-		$pch_ext= (isset($options['pch'])) ? check_pch_ext(PCH_DIR.$time):'';
+		if($logver === "6"){
+			$pch_ext= in_array($pchext, ['.pch','.spch','.tgkr']) ? $pchext :'';
+		}else{
+			$pch_ext= isset($options['pch']) ? check_pch_ext(PCH_DIR.$time) : '';
+		}
 		$res['spch']=($pch_ext==='.spch');
 		$res['pch'] = (USE_ANIME && $pch_ext) ? $time.$ext : '';
 		
 		//コンティニュー
-		$res['continue'] = USE_CONTINUE ? (check_elapsed_days($time) ? $res['no'] : '') :'';
+		$res['continue'] = USE_CONTINUE ? (check_elapsed_days($time,$logver) ? $res['no'] : '') :'';
 	}
-
 
 	//日付とIDを分離
 	
@@ -3115,9 +3133,12 @@ function getId ($userip) {
 }
 
 // 古いスレッドへの投稿を許可するかどうか
-function check_elapsed_days ($time) {
+function check_elapsed_days ($time,$logver=false) {
+
+	$time = ($logver==="6") ? (int)substr($time,0,-3) : (int)substr($time, -13, -3);
+
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
-		? ((time() - (int)(substr($time, -13, -3))) <= ((int)ELAPSED_DAYS * 86400)) // 指定日数以内なら許可
+		? ((time() - $time)) <= ((int)ELAPSED_DAYS * 86400) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 
