@@ -139,6 +139,7 @@ $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 $sendheader = substr($buffer, 1 + 8, $headerLength);
 $usercode='';
 if($sendheader){
+	$tool = "shi-Painter";
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
 	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
@@ -148,7 +149,7 @@ if($sendheader){
 	$count = isset($u['count']) ? $u['count'] : 0;
 	$timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
 	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto";
+	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 }
 $userdata .= "\n";
 
