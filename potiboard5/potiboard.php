@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.3';
+const POTI_VER = 'v6.00.5';
 const POTI_LOT = 'lot.20230828';
 
 /*
@@ -107,6 +107,11 @@ if ($err = check_file(__DIR__.'/search.inc.php')) {
 	die($err);
 }
 require(__DIR__.'/search.inc.php');
+//画像保存Class
+if ($err = check_file(__DIR__.'/save.inc.php')) {
+	die($err);
+}
+require(__DIR__.'/save.inc.php');
 
 $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
@@ -327,6 +332,8 @@ switch($mode){
 		return sns_share::set_share_server();
 	case 'post_share_server':
 		return sns_share::post_share_server();
+	case 'saveimage':
+		return saveimage();
 	default:
 		if($res){
 			return res($res);
@@ -3072,6 +3079,31 @@ function encode_for_share($str){
 	$str = str_replace("&#44;",",", $str);
 	$str = htmlspecialchars_decode((string)$str, ENT_QUOTES);
 	return h(urlencode($str));
+}
+
+function saveimage(){
+	
+	$tool=filter_input(INPUT_GET,"tool");
+
+	$image_save = new image_save;
+
+	header('Content-type: text/plain');
+
+	switch($tool){
+		case "neo":
+			$image_save->save_neo();
+			break;
+		case "chi":
+			$image_save->save_chickenpaint();
+			break;
+		case "klecks":
+			$image_save->save_klecks();
+			break;
+		case "tegaki":
+			$image_save->save_klecks();
+			break;
+	}
+
 }
 
 
