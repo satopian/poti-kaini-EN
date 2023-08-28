@@ -66,7 +66,7 @@ class image_save{
 
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		parse_str($sendheader, $u);
-		$this->tool = 'neo';
+		$this->tool = 'PaintBBS NEO';
 		
 		$this->usercode = isset($u['usercode']) ? $u['usercode'] : '';
 		$this->repcode = isset($u['repcode']) ? $u['repcode'] : '';
@@ -100,7 +100,7 @@ class image_save{
 	public function save_chickenpaint(){
 
 		$this->error_type="chi";
-		$this->tool = 'chi';
+		$this->tool = 'ChickenPaint';
 		$this->usercode = (string)filter_input(INPUT_GET, 'usercode');
 		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
 		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
@@ -134,7 +134,7 @@ class image_save{
 			$this->error_msg($this->en ? "The post has been rejected." : "拒絶されました。");
 		}
 
-		if((bool)SECURITY_TIMER && !$this->repcode && !adminpost_valid()  && ((int)$this->timer<(int)SECURITY_TIMER)){
+		if((bool)SECURITY_TIMER && !$this->repcode && ((int)$this->timer<(int)SECURITY_TIMER)){
 
 			$psec=(int)SECURITY_TIMER-(int)$this->timer;
 			$waiting_time=calcPtime ($psec);
