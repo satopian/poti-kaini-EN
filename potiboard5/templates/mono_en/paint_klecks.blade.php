@@ -106,7 +106,7 @@
 					formData.append("stime", <?=time();?>);
 					formData.append("tool", "Klecks");
 					formData.append("resto", "{{$resto}}");
-					postData("saveklecks.php", formData);
+					postData("?mode=saveimage&tool=klecks", formData);
 				});
 				// (c)satopian MIT Licence ここまで
 				// location.reload();
