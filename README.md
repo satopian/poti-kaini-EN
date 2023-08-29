@@ -42,6 +42,9 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 23/08/30 v6.00.6
+The image attached and uploaded is now displayed as "Tool:Upload".
+
 ## 23/08/28 v6.00.5
 
 ### Extended log file
