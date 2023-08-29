@@ -1,6 +1,6 @@
 License
 
-main program - Copyright (C) 2018-2023 POTI-kai POTI-board redevelopment team.
+main program - Copyright (C) 2018-2023 POTI-board redevelopment team.
 original script Copyright (C) 2003-2008 SakaQ http://www.punyu.net/php/
 Distribution conditions are based on "Let's PHP!". 
 http://php.loglog.jp/waar.php
@@ -10,9 +10,7 @@ Each module is subject to its own license
 BladeOne - Copyright (C) 2016-2023 Jorge Patricio Castro Castillo https://github.com/EFTEC/BladeOne/
 picpost.php  - Copyright (C)SakaQ 2005 >> http://www.punyu.net/php/
 thumbnail_gd.php - Copyright (C)SakaQ 2005 >> http://www.punyu.net/php/
-save.php - Copyright (C) 2021-2023 satopian
-saveklecks.php - Copyright (C) 2022-2023 satopian
-saveneo.php - Copyright (C) 2023 satopian
+save.inc.php - Copyright (C) 2023 satopian
 search.inc.php - Copyright (C) 2020-2023 satopian
 sns_share.inc.php- Copyright (C) 2023 satopian
 DynamicPalette - Copyright (C) 2005 noraneko

@@ -178,7 +178,7 @@
 			
 				@if($imgfile) loadImageUrl: "{{$imgfile}}",@endif
 				@if($img_chi) loadChibiFileUrl: "{{$img_chi}}",@endif
-				saveUrl: "save.php?usercode={!!$usercode!!}",
+				saveUrl: "?mode=saveimage&tool=chi&usercode={!!$usercode!!}",
 				postUrl: "?mode={!!$mode!!}&stime={{$stime}}",
 				exitUrl: "?mode={!!$mode!!}&stime={{$stime}}",
 			
@@ -270,7 +270,7 @@
 						<param name="undo" value="{{$undo}}">
 						<param name="undo_in_mg" value="{{$undo_in_mg}}">
 						@if($useneo)
-						<param name="url_save" value="saveneo.php">
+						<param name="url_save" value="{{$self}}?mode=saveimage&tool=neo">
 						@else
 						<param name="url_save" value="picpost.php">
 						@endif

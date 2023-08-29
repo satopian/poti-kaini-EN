@@ -1,8 +1,8 @@
 <?php
 //POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
 //MIT License
-//v5.8.3 lot.20230711
-//POTI-board EVO v5.0 対応版
+//v6.0.0 lot.20230828
+//POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
 //サポート
@@ -12,6 +12,7 @@
 
 //更新履歴
 
+//v6.0.0 2023.08.28 POTI-board v6.0に対応。
 //v5.5.1 2023.07.07 jQuery。
 //v5.5.0 2022.09.30 翻訳の改善。記事の並び方が最新順になっていなかったのを修正。
 //v5.3.0 2022.09.30 jQuery。
