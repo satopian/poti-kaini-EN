@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.221203 for POTI-board
+// picpost.php lot.230831 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -139,7 +139,7 @@ $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 $sendheader = substr($buffer, 1 + 8, $headerLength);
 $usercode='';
 if($sendheader){
-	$tool = "shi-Painter";
+	$tool = "Shi-Painter";
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
 	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
