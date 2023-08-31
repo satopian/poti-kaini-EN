@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.6';
-const POTI_LOT = 'lot.20230830';
+const POTI_VER = 'v6.00.7';
+const POTI_LOT = 'lot.20230831';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -3023,7 +3023,8 @@ function create_res ($line, $options = []) {
 		$res['size_kb'] = ($filesize-($filesize % 1024)) / 1024;
 		$res['thumb'] = ($logver === "6") ? ($thumbnail==="thumbnail") : is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
-		$res['tool'] = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
+		$tool=($tool==="shi-Painter") ? "Shi-Painter" : $tool; 
+		$res['tool'] = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
 
 		//描画時間
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
