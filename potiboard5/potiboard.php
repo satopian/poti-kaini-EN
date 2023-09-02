@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.7';
-const POTI_LOT = 'lot.20230831';
+const POTI_VER = 'v6.00.8';
+const POTI_LOT = 'lot.20230902';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -3031,7 +3031,7 @@ function create_res ($line, $options = []) {
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
 		//動画リンク
 		if($logver === "6"){
-			$pch_ext= in_array($pchext, ['.pch','.spch','.tgkr']) ? $pchext :'';
+			$pch_ext= $pchext && in_array($pchext, ['.pch','.spch','.tgkr']) ? $pchext :'';
 		}else{
 			$pch_ext= isset($options['pch']) ? check_pch_ext(PCH_DIR.$time) : '';
 		}
