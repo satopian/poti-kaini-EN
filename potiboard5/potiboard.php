@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.8';
-const POTI_LOT = 'lot.20230902';
+const POTI_VER = 'v6.00.10';
+const POTI_LOT = 'lot.20230909';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -3345,7 +3345,7 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 }
 
 function isIE() {
-	$userAgent = $_SERVER['HTTP_USER_AGENT'];
+	$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
     return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
 }
 
