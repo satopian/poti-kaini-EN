@@ -217,6 +217,10 @@ define("MAX_COM", "1000");
 // Number of articles to display per page
 define("PAGE_DEF", "20");
 
+// カタログモードの時の1ページに表示する画像
+// Number of images displayed per page in catalog mode 
+define("CATALOG_PAGE_DEF", "30");
+
 // 1スレ内のレス表示件数(0で全件表示)
 // レスがこの値より多いと古いレスから省略されます
 // 返信画面で全件表示されます

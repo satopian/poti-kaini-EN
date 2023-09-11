@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.10';
-const POTI_LOT = 'lot.20230909';
+const POTI_VER = 'v6.01.7';
+const POTI_LOT = 'lot.20230911';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -190,7 +190,7 @@ defined("SWITCH_SNS") or define("SWITCH_SNS", "1");
 defined("SNS_WINDOW_WIDTH") or define("SNS_WINDOW_WIDTH","350");
 defined("SNS_WINDOW_HEIGHT") or define("SNS_WINDOW_HEIGHT","490");
 defined("USE_ADMIN_LINK") or define("USE_ADMIN_LINK","1");
-
+defined("CATALOG_PAGE_DEF") or define("CATALOG_PAGE_DEF",30);
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -581,6 +581,7 @@ function updatelog(){
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
 	$counttree = count($trees);//190619
+	$totalpages = ceil($counttree / PAGE_DEF)-1;
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 
 		$dat=$fdat;//form()を何度もコールしない
@@ -624,11 +625,11 @@ function updatelog(){
 			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 		$paging = "";
-		for($l = 0; $l < $counttree; $l += (PAGE_DEF*35)){
+		for($l = 0; $l < $counttree; $l += (PAGE_DEF*30)){
 
 			$start_page=$l;
-			$end_page=$l+(PAGE_DEF*36);//現在のページよりひとつ後ろのページ
-			if($page-(PAGE_DEF*35)<=$l){break;}//現在ページより1つ前のページ
+			$end_page=$l+(PAGE_DEF*31);//現在のページよりひとつ後ろのページ
+			if($page-(PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 		}
 
 	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
@@ -647,6 +648,8 @@ function updatelog(){
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
+				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
+				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2 : "";
 		}
 		//改ページ分岐ここまで
 
@@ -2554,9 +2557,8 @@ function catalog(){
 	$counttree = count($trees);
 
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
-	$pagedef = 30;//1ページに表示する件数
 	$dat = form();
-	$disp_threads = array_slice($trees,(int)$page,$pagedef,false);
+	$disp_threads = array_slice($trees,(int)$page,CATALOG_PAGE_DEF,false);
 
 	foreach($disp_threads as $oya=>$val){
 
@@ -2585,8 +2587,8 @@ function catalog(){
 		$dat['oya'][$oya][] = $res;
 	}
 
-	$prev = $page - $pagedef;
-	$next = $page + $pagedef;
+	$prev = $page - CATALOG_PAGE_DEF;
+	$next = $page + CATALOG_PAGE_DEF;
 	// 改ページ処理
 	$dat['prev'] = false;
 	if($prev >= 0){
@@ -2599,15 +2601,16 @@ function catalog(){
 		
 	$paging = "";
 
-	for($l = 0; $l < $counttree; $l += ($pagedef*35)){
+	$totalpages = ceil($counttree / CATALOG_PAGE_DEF)-1;
+	for($l = 0; $l < $counttree; $l += (CATALOG_PAGE_DEF*30)){
 
 		$start_page=$l;
-		$end_page=$l+($pagedef*36);//現在のページよりひとつ後ろのページ
-		if($page-($pagedef*35)<=$l){break;}//現在ページより1つ前のページ
+		$end_page=$l+(CATALOG_PAGE_DEF*31);//現在のページよりひとつ後ろのページ
+		if($page-(CATALOG_PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 	}
-		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += $pagedef){
+		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += CATALOG_PAGE_DEF){
 	
-		$pn = $i / $pagedef;
+		$pn = $i / CATALOG_PAGE_DEF;
 		
 		if($i === $end_page){//特定のページに代入される記号 エンド
 			$rep_page_no="≫";
@@ -2620,7 +2623,9 @@ function catalog(){
 		? str_replace("<PAGE>", $pn, NOW_PAGE)
 		: str_replace("<PURL>", PHP_SELF."?mode=catalog&amp;page=".$i,
 		str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
-	}
+		$dat['lastpage'] = (($end_page/CATALOG_PAGE_DEF) <= $totalpages) ? "?mode=catalog&amp;page=".$totalpages*CATALOG_PAGE_DEF : "";
+		$dat['firstpage'] = (0 < $start_page) ? PHP_SELF."?mode=catalog&page=0" : "";
+}
 	//改ページ分岐ここまで
 	$dat['paging'] = $paging;
 	$dat["resno"]=false;

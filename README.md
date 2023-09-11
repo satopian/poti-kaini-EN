@@ -28,7 +28,7 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 ## Required php version
 
-Required PHP version.PHP7.2 to PHP8.2
+Required PHP version.PHP7.2 to PHP8.3
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
@@ -41,6 +41,18 @@ If you want to change only the color scheme, please use the SCSS for development
 It's easy to change the color scheme because the settings are separated for the color scheme and other designs.  
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
+
+## 23/09/09 v6.01.7
+- The first and last page of paging can now be displayed. Click "Last" to display the oldest posts.
+- The number of images displayed on one page when in catalog mode was fixed at 30, but can now be set.
+
+## 23/09/09 v6.00.10
+- Fixed a minor error that occurred when accessing from a browser other than a browser without a user agent.
+- Reduce the load by checking whether the drawn animation file exists before checking its extension.
+- Corrected that the calculation part of the last update date on the search screen did not correspond to the year 2286 problem.
+
+## 23/08/30 v6.00.7
+- shi-Painter -> Shi-Painter
 
 ## 23/08/30 v6.00.6
 The image attached and uploaded is now displayed as "Tool:Upload".
