@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.01.02';
+const POTI_VER = 'v6.01.05';
 const POTI_LOT = 'lot.20230911';
 
 /*
@@ -648,8 +648,8 @@ function updatelog(){
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
-				$dat['totalpages'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
-				$dat['startpage'] = (0 < $start_page) ? PHP_SELF2 : "";
+				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
+				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2 : "";
 		}
 		//改ページ分岐ここまで
 
@@ -2602,11 +2602,12 @@ function catalog(){
 		
 	$paging = "";
 
-	for($l = 0; $l < $counttree; $l += ($pagedef*35)){
+	$totalpages = ceil($counttree / $pagedef)-1;
+	for($l = 0; $l < $counttree; $l += ($pagedef*30)){
 
 		$start_page=$l;
-		$end_page=$l+($pagedef*36);//現在のページよりひとつ後ろのページ
-		if($page-($pagedef*35)<=$l){break;}//現在ページより1つ前のページ
+		$end_page=$l+($pagedef*31);//現在のページよりひとつ後ろのページ
+		if($page-($pagedef*30)<=$l){break;}//現在ページより1つ前のページ
 	}
 		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += $pagedef){
 	
@@ -2623,7 +2624,9 @@ function catalog(){
 		? str_replace("<PAGE>", $pn, NOW_PAGE)
 		: str_replace("<PURL>", PHP_SELF."?mode=catalog&amp;page=".$i,
 		str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
-	}
+		$dat['lastpage'] = (($end_page/30) <= $totalpages) ? "?mode=catalog&amp;page=".$totalpages*30 : "";
+		$dat['firstpage'] = (0 < $start_page) ? PHP_SELF."?mode=catalog&page=0" : "";
+}
 	//改ページ分岐ここまで
 	$dat['paging'] = $paging;
 	$dat["resno"]=false;
