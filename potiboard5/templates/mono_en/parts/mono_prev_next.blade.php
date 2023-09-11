@@ -3,6 +3,6 @@
 	@if($next)<a href="{{$next}}">Next≫</a>@endif<br>
 	@if($startpage)<a href="{{$self2}}">start</a> | @endif
 	{!!$paging!!}
-	@if($totalpages) | <a href="{{$totalpages}}">end</a>@endif</div>
+	@if($totalpages) | <a href="{{$totalpages}}">end</a>@endif
 
 </div>

@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.01.01';
+const POTI_VER = 'v6.01.02';
 const POTI_LOT = 'lot.20230911';
 
 /*
@@ -648,7 +648,7 @@ function updatelog(){
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
-				$dat['totalpages'] = (ceil($end_page/PAGE_DEF) < $totalpages) ? $totalpages.PHP_EXT : "";
+				$dat['totalpages'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
 				$dat['startpage'] = (0 < $start_page) ? PHP_SELF2 : "";
 		}
 		//改ページ分岐ここまで
