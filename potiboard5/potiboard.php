@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.01.06';
+const POTI_VER = 'v6.01.07';
 const POTI_LOT = 'lot.20230911';
 
 /*
@@ -2623,7 +2623,7 @@ function catalog(){
 		? str_replace("<PAGE>", $pn, NOW_PAGE)
 		: str_replace("<PURL>", PHP_SELF."?mode=catalog&amp;page=".$i,
 		str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
-		$dat['lastpage'] = (($end_page/30) <= $totalpages) ? "?mode=catalog&amp;page=".$totalpages*CATALOG_PAGE_DEF : "";
+		$dat['lastpage'] = (($end_page/CATALOG_PAGE_DEF) <= $totalpages) ? "?mode=catalog&amp;page=".$totalpages*CATALOG_PAGE_DEF : "";
 		$dat['firstpage'] = (0 < $start_page) ? PHP_SELF."?mode=catalog&page=0" : "";
 }
 	//改ページ分岐ここまで
