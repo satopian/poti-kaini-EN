@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.00.10';
-const POTI_LOT = 'lot.20230909';
+const POTI_VER = 'v6.01.01';
+const POTI_LOT = 'lot.20230911';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -581,6 +581,7 @@ function updatelog(){
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	$fdat=form();
 	$counttree = count($trees);//190619
+	$totalpages = ceil($counttree / PAGE_DEF)-1;
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 
 		$dat=$fdat;//form()を何度もコールしない
@@ -624,11 +625,11 @@ function updatelog(){
 			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 		$paging = "";
-		for($l = 0; $l < $counttree; $l += (PAGE_DEF*35)){
+		for($l = 0; $l < $counttree; $l += (PAGE_DEF*30)){
 
 			$start_page=$l;
-			$end_page=$l+(PAGE_DEF*36);//現在のページよりひとつ後ろのページ
-			if($page-(PAGE_DEF*35)<=$l){break;}//現在ページより1つ前のページ
+			$end_page=$l+(PAGE_DEF*31);//現在のページよりひとつ後ろのページ
+			if($page-(PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 		}
 
 	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
@@ -647,6 +648,8 @@ function updatelog(){
 				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
+				$dat['totalpages'] = (ceil($end_page/PAGE_DEF) < $totalpages) ? $totalpages.PHP_EXT : "";
+				$dat['startpage'] = (0 < $start_page) ? PHP_SELF2 : "";
 		}
 		//改ページ分岐ここまで
 
