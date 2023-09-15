@@ -120,7 +120,7 @@
 			Width :<input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="300" max="{{$pmaxw}}">
 			Height :<input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="300" max="{{$pmaxh}}">
 		@if($select_app)
-			Tool:
+			Tool :
 			<select name="shi">
 			@if($use_neo)<option value="neo">PaintBBS NEO</option>@endif
 			@if ($use_tegaki)<option value="tegaki">Tegaki</option>@endif
@@ -282,7 +282,8 @@
 						({{$res['size_kb']}} KB)
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
-						@if($res['tool'])<span class="article_info_desc"> Tool: {{$res['tool']}}</span>@endif
+						@if($res['tool'])<span class="article_info_desc"> Tool :
+						{{$res['tool']}}</span>@endif
 						<br>
 						@if($res['continue']) <a
 							href="{{$self}}?mode=continue&amp;no={{$res['continue']}}">*Continue</a>@endif
