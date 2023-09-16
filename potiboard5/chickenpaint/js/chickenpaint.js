@@ -19817,34 +19817,30 @@ function CPResourceSaver(options) {
   }
 
   function postDrawing(formData) {
-    var xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener("progress", function (evt) {
-      var progress;
+    // リクエストのオプションを設定
+    var requestOptions = {
+      method: 'POST',
+      body: formData,
+      signal: new AbortController().signal // キャンセル用のAbortSignalを生成
 
-      if (evt.lengthComputable) {
-        progress = evt.loaded / evt.total;
-      } else {
-        progress = null;
+    }; // リクエストを送信
+
+    fetch(options.url, requestOptions).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Network response was not ok (".concat(response.status, ")"));
       }
 
-      reportProgress(progress);
-    }, false);
-    xhr.addEventListener("load", function (evt) {
-      reportProgress(1.0);
-
-      if (this.status == 200 && /^CHIBIOK/.test(this.response)) {
+      return response.text();
+    }).then(function (responseText) {
+      if (/^CHIBIOK/.test(responseText)) {
+        reportProgress(1.0);
         that.emitEvent("savingComplete");
       } else {
-        reportFatal(this.response);
+        reportFatal(responseText);
       }
-    }, false);
-    xhr.addEventListener("error", function () {
-      reportFatal(this.response);
-    }, false);
-    reportProgress(0);
-    xhr.open("POST", options.url, true);
-    xhr.responseType = "text";
-    xhr.send(formData);
+    }).catch(function (error) {
+      reportFatal(error.message);
+    });
   }
   /**
    * Begin saving the data provided in the constructor. Returns immediately, and fires these events to report the
@@ -32816,11 +32812,8 @@ function getKeyCodeFromKey(key) {
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$5 = '.data-api';
   var JQUERY_NO_CONFLICT$8 = $__default["default"].fn[NAME$8];
-//   var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
-var ARROW_LEFT_KEYCODE = 'ArrowLeft'; // KeyboardEvent.key value for left arrow key
-
-//   var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
-var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arrow key
+  var ARROW_LEFT_KEYCODE = 'ArrowLeft'; // KeyboardEvent.key value for left arrow key
+  var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arrow key
 
   var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
 
@@ -33756,7 +33749,7 @@ var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arr
 
   var ARROW_DOWN_KEYCODE = 'ArrowDown'; // KeyboardEvent.which value for down arrow key
 
-  var RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseEvent.which value for the right button (assuming a right-handed mouse)
+  var RIGHT_MOUSE_BUTTON_WHICH = 2; // MouseEvent.which value for the right button (assuming a right-handed mouse)
 
   var REGEXP_KEYDOWN = new RegExp(ARROW_UP_KEYCODE + "|" + ARROW_DOWN_KEYCODE + "|" + ESCAPE_KEYCODE$1);
   var CLASS_NAME_DISABLED$1 = 'disabled';
@@ -34064,8 +34057,8 @@ var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arr
     };
 
     Dropdown._clearMenus = function _clearMenus(event) {
-      if (event && (event.button  === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
-        return;
+		if (event && (event.button  === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
+			return;
       }
 
       var toggles = [].slice.call(document.querySelectorAll(SELECTOR_DATA_TOGGLE$2));
@@ -34093,7 +34086,7 @@ var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arr
         }
 
         if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.key === TAB_KEYCODE) && $__default["default"].contains(parent, event.target)) {
-          continue;
+			continue;
         }
 
         var hideEvent = $__default["default"].Event(EVENT_HIDE$3, relatedTarget);
@@ -34544,11 +34537,11 @@ var ARROW_RIGHT_KEYCODE = 'ArrowRight'; // KeyboardEvent.key value for right arr
 
       if (this._isShown) {
         $__default["default"](this._element).on(EVENT_KEYDOWN_DISMISS, function (event) {
-          if (_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
-            event.preventDefault();
+			if (_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
+				event.preventDefault();
 
             _this6.hide();
-          } else if (!_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
+		} else if (!_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
             _this6._triggerBackdropTransition();
           }
         });
@@ -59720,8 +59713,10 @@ module.exports = ZStream;
     prepareButtonsForMove: function(e, inEvent) {
       var p = pointermap.get(this.POINTER_ID);
 
-      // Update buttons state after possible out-of-document mouseup.
-      if (inEvent.button === 0 || !p) {
+      const button_num  = [0,1,2];
+	  // Update buttons state after possible out-of-document mouseup.
+	  if(!button_num.includes(inEvent.button)||!p){ 
+	//   if (inEvent.button === 0 || !p) {
         e.buttons = 0;
       } else {
         e.buttons = p.buttons;
