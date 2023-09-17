@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.01.7';
-const POTI_LOT = 'lot.20230911';
+const POTI_VER = 'v6.02.0';
+const POTI_LOT = 'lot.20230917';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1275,10 +1275,9 @@ function regist(){
 
 		noticemail::send($data);
 	}
-	$destination = $resto ? PHP_SELF.'?res='.h($resto) :h(PHP_SELF2);
-
+	$resno = $resto ? $resto : $no;
 	redirect(
-		$destination . (URL_PARAMETER ? "?".time() : ''),
+		PHP_SELF.'?res='.h($resno) . (URL_PARAMETER ? "?".time() : ''),
 		1,
 		$message,
 		THE_SCREEN_CHANGES
