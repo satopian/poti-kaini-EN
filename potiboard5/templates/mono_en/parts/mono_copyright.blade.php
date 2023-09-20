@@ -3,7 +3,7 @@
 <!-- GazouBBS v3.0 --><!-- futaba Kai 0.8 --><!-- POTI-board -->
 				<p>
 		<a href="https://paintbbs.sakura.ne.jp/poti/" target="_blank" rel="noopener noreferrer" title="POTI-board EVO {{$verlot}}">POTI-board EVO {{$ver}}</a>
-		Web Style by <a href="https://paintbbs.sakura.ne.jp/poti/" target="_blank" rel="noopener noreferrer" title="MONO {{$tver}}">MONO</a>
+		Template <a href="https://paintbbs.sakura.ne.jp/poti/" target="_blank" rel="noopener noreferrer" title="MONO {{$tver}}">MONO</a>
 	</p>
 	<p>
 		OriginalScript -
