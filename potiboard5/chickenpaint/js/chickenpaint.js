@@ -19820,11 +19820,14 @@ function CPResourceSaver(options) {
     // リクエストのオプションを設定
     var requestOptions = {
       method: 'POST',
+	  mode: 'same-origin',
+	  headers: {
+		  'X-Requested-With': 'chickenpaint'
+		  ,
+	  },
       body: formData,
-      signal: new AbortController().signal // キャンセル用のAbortSignalを生成
-
-    }; // リクエストを送信
-
+    }; 
+	// リクエストを送信
     fetch(options.url, requestOptions).then(function (response) {
       if (!response.ok) {
         throw new Error("Network response was not ok (".concat(response.status, ")"));
