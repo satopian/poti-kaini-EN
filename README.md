@@ -42,6 +42,20 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 2023/09/21 v6.03.0
+
+### Improvement
+
+- Rewritten ChickenPaint's sending process to "fetch API" from old "xhr".
+(PaintBBS NEO, Tegaki, and klecks have already been sent using the "fetch API")
+- Change the template's "Web Style" to "Template".
+
+- The corresponding thread is now displayed when posting a new post or replying to a post.
+Previously, the top of the bulletin board was displayed when a new post was posted, and the corresponding thread was displayed when replying to a post.
+
+### Bug fixes
+Fixed an issue where validation was not performed when logging tool names to log files.
+
 ## 23/09/09 v6.01.7
 - The first and last page of paging can now be displayed. Click "Last" to display the oldest posts.
 - The number of images displayed on one page when in catalog mode was fixed at 30, but can now be set.

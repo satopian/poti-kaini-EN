@@ -19817,32 +19817,36 @@ function CPResourceSaver(options) {
   }
 
   function postDrawing(formData) {
-    // リクエストのオプションを設定
-    var requestOptions = {
-      method: 'POST',
-      body: formData,
-      signal: new AbortController().signal // キャンセル用のAbortSignalを生成
+	// リクエストのオプションを設定
+	var requestOptions = {
+	  method: 'POST',
+	  mode: 'same-origin',
+	  headers: {
+		  'X-Requested-With': 'chickenpaint'
+		  ,
+	  },
+	  body: formData,
+	}; 
+	reportProgress(0.5);
+	// リクエストを送信
+	fetch(options.url, requestOptions).then(response => {
+	  if (!response.ok) {
+		throw new Error("Network response was not ok (".concat(response.status, ")"));
+	  }
 
-    }; // リクエストを送信
-
-    fetch(options.url, requestOptions).then(function (response) {
-      if (!response.ok) {
-        throw new Error("Network response was not ok (".concat(response.status, ")"));
-      }
-
-      return response.text();
-    }).then(function (responseText) {
-      if (/^CHIBIOK/.test(responseText)) {
-        reportProgress(1.0);
-        that.emitEvent("savingComplete");
-      } else {
-        reportFatal(responseText);
-      }
-    }).catch(function (error) {
-      reportFatal(error.message);
-    });
+	  return response.text();
+	}).then(responseText => {
+	  if (/^CHIBIOK/.test(responseText)) {
+		reportProgress(1.0);
+		that.emitEvent("savingComplete");
+	  } else {
+		reportFatal(responseText);
+	  }
+	}).catch(error => {
+	  reportFatal(error.message);
+	});
   }
-  /**
+/**
    * Begin saving the data provided in the constructor. Returns immediately, and fires these events to report the
    * saving progress:
    * 
