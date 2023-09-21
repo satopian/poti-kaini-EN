@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.02.0';
-const POTI_LOT = 'lot.20230917';
+const POTI_VER = 'v6.03.0';
+const POTI_LOT = 'lot.20230921';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -113,6 +113,9 @@ if ($err = check_file(__DIR__.'/save.inc.php')) {
 }
 require(__DIR__.'/save.inc.php');
 
+if($save_inc_ver < 20230921){
+die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
+}
 $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
 
@@ -1159,6 +1162,7 @@ function regist(){
 	}
 	list($lastno,) = explode(",", $line[0]);
 	$no = $lastno + 1;
+	$tool = is_paint_tool_name($tool);
 	$newline = "$no,$date,$name,$email,$sub,$com,$url,$host,$pass,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,\n";
 	$newline.= implode("\n", $line);
 
@@ -2315,6 +2319,7 @@ global $ADMIN_PASS;
 			if(!$sub)  $sub  = $esub;
 			if(!$com)  $com  = $ecom;
 			if(!$fcolor) $fcolor = $efcolor;
+			is_paint_tool_name($tool);
 			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver,";
 			$flag = TRUE;
 			break;
@@ -2507,6 +2512,7 @@ function replace(){
 			$date = str_replace(",", "&#44;", $date);
 			$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
+			$tool = is_paint_tool_name($tool); 
 			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,";
 			$flag = true;
 
@@ -3028,8 +3034,7 @@ function create_res ($line, $options = []) {
 		$res['thumb'] = ($logver === "6") ? ($thumbnail==="thumbnail") : is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
 		$tool=($tool==="shi-Painter") ? "Shi-Painter" : $tool; 
-		$res['tool'] = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
-
+		$res['tool'] = is_paint_tool_name($tool);
 		//描画時間
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
@@ -3382,4 +3387,6 @@ function getTranslatedLayerName() {
 
 	return "Layer";
 }
-
+function is_paint_tool_name($tool){
+	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
+}

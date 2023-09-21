@@ -2,7 +2,7 @@
 //save.inc.php 2023 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20230826;
+$save_inc_ver=20230921;
 class image_save{
 
 	private $imgfile,$usercode,$en,$count,$errtext; // プロパティとして宣言
@@ -160,6 +160,7 @@ class image_save{
 		$this->stime = trim($this->stime);
 		$this->resto = trim($this->resto);
 		$this->tool = trim($this->tool);
+		$this->tool= is_paint_tool_name($this->tool);
 		$this->hide_animation = isset($this->hide_animation) ? $this->hide_animation : ''; 
 		$this->hide_animation = trim($this->hide_animation);
 		/* ---------- 投稿者情報記録 ---------- */
