@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.03.1';
-const POTI_LOT = 'lot.20230930';
+const POTI_VER = 'v6.05.2';
+const POTI_LOT = 'lot.20231001';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -113,7 +113,7 @@ if ($err = check_file(__DIR__.'/save.inc.php')) {
 }
 require(__DIR__.'/save.inc.php');
 
-if($save_inc_ver < 20230930){
+if($save_inc_ver < 20230921){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -740,7 +740,6 @@ function res($resno = 0){
 			$rresname[] = $res['name'];
 		}
 	}
-
 	
 	foreach($rresname as $key => $val){
 		$rep=str_replace('&quot;','”',$val);
@@ -753,7 +752,6 @@ function res($resno = 0){
 
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
-
 	//前のスレッド、次のスレッド
 	$n=$i+1;
 	$p=$i-1;
@@ -761,24 +759,56 @@ function res($resno = 0){
 	$dat['res_next']=($next && isset($lineindex[$next])) ? create_res($line[$lineindex[$next]]):[];
 	$prev=(isset($trees[$p])&&$trees[$p]) ? explode(",",trim($trees[$p]))[0]:'';
 	$dat['res_prev']=($prev && isset($lineindex[$prev])) ? create_res($line[$lineindex[$prev]]):[];
+
 	$dat['view_other_works']=false;
 	if(VIEW_OTHER_WORKS){
-		$a=[];
-		$start_view=(($i-7)>=0) ? ($i-7) : 0;
-		$other_works=array_slice($trees,$start_view,17,false);
-		foreach($other_works as $j=>$val){
 
-		$p=explode(",",trim($val))[0];
-		$b=($p && isset($lineindex[$p])) ? create_res($line[$lineindex[$p]]):[];
-		if(!empty($b)&&$b['imgsrc']&&$b['no']!==$resno){
-			$a[]=$b;
+		$arr1=[];
+		$arr2=[];
+			// $iより20手前のキーから$iまでのデータを$arr1に格納
+		for ($j = max(0, $i - 20); $j < $i; $j++) {
+			$arr1[$j] = $trees[$j];
 		}
-	}
-		$c=($i<5) ? 0 : (count($a)>9 ? 4 :0);
-		$dat['view_other_works']=array_slice($a,$c,6,false);
+		$count_trees=count($trees);
+		// $iより20後ろのキーから$iまでのデータを$arr2に格納
+		for ($j = $i + 1; $j <= min($i + 20, $count_trees - 1); $j++) {
+			$arr2[$j] = $trees[$j];
+		}
+		$prev_res=[];
+		$next_res=[];
+		foreach($arr1 as $j=>$val){
+			$n=explode(",",trim($val))[0];
+			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
+			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+				$prev_res[]=$_res;
+			}
+		}
+		foreach($arr2 as $j=>$val){
+			$n=explode(",",trim($val))[0];
+			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
+			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+				$next_res[]=$_res;
+			}
+		}
+		if((3<=count($prev_res)) && (3<=count($next_res))){
+			$prev_res = array_slice($prev_res,-3);
+			$next_res = array_slice($next_res,0,3);
+			$view_other_works= array_merge($prev_res,$next_res);
+		
+		}elseif((6>count($next_res))&&(6<=count($prev_res))){
+			$view_other_works= array_slice($prev_res,-6);
+		}elseif((6>count($prev_res))&&(6<=count($next_res))){
+			$view_other_works= array_slice($next_res,0,6);
+		}else{
+			$view_other_works= array_merge($prev_res,$next_res);
+			$view_other_works= array_slice($view_other_works,0,6);
+
+		}
+		$dat['view_other_works']=$view_other_works;
 	}
 	htmloutput(RESFILE,$dat);
 }
+
 //マークダウン記法のリンクをHTMLに変換
 function md_link($str){
 	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+)\)}",'<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
