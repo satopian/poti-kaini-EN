@@ -2538,8 +2538,6 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-
-
 	$thread_no = $oyano ? $oyano :'';
 
 	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) :  h(PHP_SELF2);
