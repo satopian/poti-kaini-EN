@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.05.2';
+const POTI_VER = 'v6.06.1';
 const POTI_LOT = 'lot.20231001';
 
 /*
@@ -776,14 +776,14 @@ function res($resno = 0){
 		}
 		$prev_res=[];
 		$next_res=[];
-		foreach($arr1 as $j=>$val){
+		foreach($arr1 as $val){
 			$n=explode(",",trim($val))[0];
 			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$prev_res[]=$_res;
 			}
 		}
-		foreach($arr2 as $j=>$val){
+		foreach($arr2 as $val){
 			$n=explode(",",trim($val))[0];
 			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
@@ -1138,19 +1138,21 @@ function regist(){
 		//重複チェック
 		$chkline=200;//チェックする最大行数
 		$j=1;
-		foreach($line as $i => $value){ //画像重複チェック
-			if(!trim($value)){
-				continue;
+		if(!$pictmp2){
+			foreach($line as $i => $value){ //画像重複チェック
+				if(!trim($value)){
+					continue;
+				}
+				list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
+				if($extp){//拡張子があったら
+				if($chkp===$chk&&is_file($path.$timep.$extp)){
+				error(MSG005,$dest);
+				}
+				if($j>=20){break;}//画像を20枚チェックしたら
+				++$j;
+				}
+				if($i>=$chkline){break;}//チェックする最大行数
 			}
-			list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
-			if($extp){//拡張子があったら
-			if($chkp===$chk&&is_file($path.$timep.$extp)){
-			error(MSG005,$dest);
-			}
-			if($j>=20){break;}//画像を20枚チェックしたら
-			++$j;
-			}
-			if($i>=$chkline){break;}//チェックする最大行数
 		}
 		//PCHファイルアップロード
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
@@ -2158,7 +2160,6 @@ function download_app_dat(){
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 	$no=basename((string)filter_input(INPUT_POST,'no',FILTER_VALIDATE_INT));
-	$pchext=basename((string)filter_input(INPUT_POST,'pch_ext'));
 	$pwd = $pwd ? $pwd : $pwdc;
 
 	$cpwd='';
@@ -2183,9 +2184,12 @@ function download_app_dat(){
 		return error(MSG029);
 	}
 	$ctime=basename($ctime);
-	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
-	if(!$filepath || !is_file($filepath))error(MSG001);
-	header('Content-Type: '.mime_content_type($filepath));
+	$pchext = check_pch_ext(PCH_DIR.$ctime,['upfile'=>true]);
+	if(!$pchext)error(MSG001);
+	$pchext = basename($pchext);
+	$filepath= PCH_DIR.$ctime.$pchext;
+	$mime_content_type = mime_content_type($filepath);
+	header('Content-Type: '.$mime_content_type);
 	header('Content-Length: '.filesize($filepath));
 	header('Content-Disposition: attachment; filename="'.h(basename($filepath)).'"');
 
