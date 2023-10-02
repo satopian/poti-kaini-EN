@@ -166,9 +166,9 @@ The structure of jsearch.php has been fundamentally overhauled, modified and inc
 Search results that were previously displayed with a URL like "search.php?". The URL will be changed like "potiboard.php?mode=search&".
 
 ### Externalize and standardize CSS switching part of templates MONO
+`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
 
 ```
-`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
 <style>
 body{
 	visibility: hidden;
