@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.06.1';
-const POTI_LOT = 'lot.20231001';
+const POTI_VER = 'v6.07.1';
+const POTI_LOT = 'lot.20231003';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -81,10 +81,6 @@ if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
 require_once __DIR__.'/BladeOne/lib/BladeOne.php';
 
 Use eftec\bladeone\BladeOne;
-
-$views = __DIR__ . '/templates/'.SKIN_DIR;
-$cache = $views.'cache';
-$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
@@ -685,26 +681,78 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
-	$line=get_log(LOGFILE);
 	$trees=get_log(TREEFILE);
 
 	$treeline=[];
 	foreach($trees as $i => $value){
 		//レス先検索
-		if (strpos(trim($value) . ',', $resno . ',') === 0) {
-			$treeline = explode(",", trim($value));
+		if (strpos(trim($value).',' , $resno .',') === 0) {
+			$treeline = explode(",", trim($value));//現在のスレッドのツリーを取得
 			break;
 		}
 	}
+	$nxet_tree=[];
+	foreach($trees as $j => $value){
+		if (($i<$j)&&($i+20)>=$j) {//現在のスレッドより後ろの20スレッドのツリーを取得
+			$nxet_tree[]=explode(",", trim($value))[0];
+		}
+	}
+	$prev_tree=[];
+	foreach($trees as $j => $value){
+		if (($i-20)<=$j && $i>$j) {//現在のスレッドより手前の20スレッドのツリーを取得
+			$prev_tree[]=explode(",", trim($value))[0];
+		}
+	}
+
 
 	if (empty($treeline)) {
 		error(MSG001);
 	}
+
+	$line=[];
+
+	$fp=fopen(LOGFILE,"r");
+	while($lines = fgets($fp)){
+		if(!trim($lines)){
+			continue;
+		}
+		list($no,) = explode(",", $lines);
+		if(in_array($no,$treeline)){
+			$line[]=trim($lines);
+		}
+
+	}
+	rewind($fp);
+	$prev_line=[];
+	while($lines = fgets($fp)){
+		if(!trim($lines)){
+			continue;
+		}
+		list($no,) = explode(",", $lines);
+		if(in_array($no,$prev_tree)){
+			$prev_line[]=trim($lines);
+		}
+
+	}
+	rewind($fp);
+	$next_line=[];
+	while($lines = fgets($fp)){
+		if(!trim($lines)){
+			continue;
+		}
+		list($no,) = explode(",", $lines);
+		if(in_array($no,$nxet_tree)){
+			$next_line[]=trim($lines);
+		}
+	}
+
+	closeFile($fp);
+
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
 	}
-	
+
 	$dat = form($resno);
 
 	//レス作成
@@ -753,39 +801,23 @@ function res($resno = 0){
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
 	//前のスレッド、次のスレッド
-	$n=$i+1;
-	$p=$i-1;
-	$next=(isset($trees[$n])&&$trees[$n]) ? explode(",",trim($trees[$n]))[0]:'';
-	$dat['res_next']=($next && isset($lineindex[$next])) ? create_res($line[$lineindex[$next]]):[];
-	$prev=(isset($trees[$p])&&$trees[$p]) ? explode(",",trim($trees[$p]))[0]:'';
-	$dat['res_prev']=($prev && isset($lineindex[$prev])) ? create_res($line[$lineindex[$prev]]):[];
-
+	$dat['res_next']= isset($next_line[0]) ? create_res($next_line[0]) :[];
+	$last_prev_line = $prev_line;
+	$last_prev_line = isset($prev_line) ? end($prev_line) : [];
+	$dat['res_prev']= !empty($last_prev_line) ? create_res($last_prev_line):[];
 	$dat['view_other_works']=false;
 	if(VIEW_OTHER_WORKS){
 
-		$arr1=[];
-		$arr2=[];
-			// $iより20手前のキーから$iまでのデータを$arr1に格納
-		for ($j = max(0, $i - 20); $j < $i; $j++) {
-			$arr1[$j] = $trees[$j];
-		}
-		$count_trees=count($trees);
-		// $iより20後ろのキーから$iまでのデータを$arr2に格納
-		for ($j = $i + 1; $j <= min($i + 20, $count_trees - 1); $j++) {
-			$arr2[$j] = $trees[$j];
-		}
 		$prev_res=[];
 		$next_res=[];
-		foreach($arr1 as $val){
-			$n=explode(",",trim($val))[0];
-			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
+		foreach($prev_line as $val){
+			$_res=$val ? create_res($val):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$prev_res[]=$_res;
 			}
 		}
-		foreach($arr2 as $val){
-			$n=explode(",",trim($val))[0];
-			$_res=($n && isset($lineindex[$n])) ? create_res($line[$lineindex[$n]]):[];
+		foreach($next_line as $val){
+			$_res=$val ? create_res($val):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$next_res[]=$_res;
 			}
@@ -2803,7 +2835,11 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 
 // HTML出力
 function htmloutput($template,$dat,$buf_flag=''){
-	global $blade;
+
+	$views = __DIR__ . '/templates/'.SKIN_DIR;
+	$cache = $views.'cache';
+	$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
+
 	$dat += basicpart();//basicpart()で上書きしない
 	//array_merge()ならbasicpart(),$datの順
 	if($buf_flag){
