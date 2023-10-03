@@ -42,6 +42,13 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 2023/10/02 v6.06.1
+- Optimized the display conditions for the thumbnail images of the previous and next threads at the bottom of the reply sending screen.
+Split processing before and after the current thread for a more optimal display.
+- Security update.
+Fixed an issue where mime type was not checked when acquiring ChickenPaint specific format files.
+It also checks the mime type when downloading app-specific files.
+
 ## 2023/09/21 v6.03.0
 
 ### Improvement
@@ -159,9 +166,9 @@ The structure of jsearch.php has been fundamentally overhauled, modified and inc
 Search results that were previously displayed with a URL like "search.php?". The URL will be changed like "potiboard.php?mode=search&".
 
 ### Externalize and standardize CSS switching part of templates MONO
+`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
 
 ```
-`templates/mono/parts/style-switcher.blade.php` contains the following parts that have been written in many templates so far.
 <style>
 body{
 	visibility: hidden;
