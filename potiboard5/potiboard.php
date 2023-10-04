@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.07.7';
+const POTI_VER = 'v6.07.8';
 const POTI_LOT = 'lot.20231003';
 
 /*
@@ -784,13 +784,13 @@ function res($resno = 0){
 
 		$prev_res=[];
 		$next_res=[];
-		foreach($prev_tree as $j=>$n){
+		foreach($prev_tree as $n){
 			$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$prev_res[]=$_res;
 			}
 		}
-		foreach($next_tree as $j=>$n){
+		foreach($next_tree as $n){
 			$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$next_res[]=$_res;
