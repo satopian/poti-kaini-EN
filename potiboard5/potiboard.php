@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.07.6';
+const POTI_VER = 'v6.07.7';
 const POTI_LOT = 'lot.20231003';
 
 /*
@@ -771,12 +771,12 @@ function res($resno = 0){
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
 	//前のスレッド、次のスレッド
-	$next=(isset($next_tree[0])&&$next_tree[0]) ? explode(",",trim($next_tree[0]))[0]:'';
+	$next=(isset($next_tree[0])&&$next_tree[0]) ? $next_tree[0] :'';
 	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
 
 	$last_prev_tree = $prev_tree;
 	$last_prev_tree = end($last_prev_tree);
-	$prev=$last_prev_tree ? explode(",",trim($last_prev_tree))[0]:'';
+	$prev=$last_prev_tree ? $last_prev_tree :'';
 
 	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
 	$dat['view_other_works']=false;
@@ -784,15 +784,13 @@ function res($resno = 0){
 
 		$prev_res=[];
 		$next_res=[];
-		foreach($prev_tree as $j=>$val){
-			$n=explode(",",trim($val))[0];
+		foreach($prev_tree as $j=>$n){
 			$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$prev_res[]=$_res;
 			}
 		}
-		foreach($next_tree as $j=>$val){
-			$n=explode(",",trim($val))[0];
+		foreach($next_tree as $j=>$n){
 			$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
 			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 				$next_res[]=$_res;
@@ -2612,10 +2610,8 @@ function catalog(){
 
 	$dat = form();
 
-	foreach($disp_threads as $oya=>$val){
+	foreach($treeline as $oya=>$disptree){
 
-		$treeline = explode(",", rtrim($val));
-		$disptree = $treeline[0];
 		if(!isset($lineindex[$disptree])) continue; //範囲外なら次の行
 		$j=$lineindex[$disptree]; //該当記事を探して$jにセット
 
