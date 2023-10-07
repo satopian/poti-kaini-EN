@@ -5873,6 +5873,7 @@ var TegakiUI = {
 	  el = $T.el('input');
 	  el.id = 'tegaki-layer-alpha-opt';
 	  el.className = 'tegaki-stealth-input tegaki-range-lbl-xs';
+	  el.type = 'number';
 	  el.setAttribute('maxlength', 3);
 	  $T.on(el, 'input', Tegaki.onLayerAlphaChange);
 	  cnt.appendChild(el);
@@ -5949,6 +5950,7 @@ var TegakiUI = {
 	  el.id = 'tegaki-size-lbl';
 	  el.setAttribute('maxlength', 3);
 	  el.className = 'tegaki-stealth-input tegaki-range-lbl';
+	  el.type = 'number';
 	  $T.on(el, 'input', Tegaki.onToolSizeChange);
 	  row.appendChild(el);
 	  
@@ -5979,6 +5981,7 @@ var TegakiUI = {
 	  el.id = 'tegaki-alpha-lbl';
 	  el.setAttribute('maxlength', 3);
 	  el.className = 'tegaki-stealth-input tegaki-range-lbl';
+	  el.type = 'number';
 	  $T.on(el, 'input', Tegaki.onToolAlphaChange);
 	  row.appendChild(el);
 	  
@@ -6009,6 +6012,7 @@ var TegakiUI = {
 	  el.id = 'tegaki-flow-lbl';
 	  el.setAttribute('maxlength', 3);
 	  el.className = 'tegaki-stealth-input tegaki-range-lbl';
+	  el.type = 'number';
 	  $T.on(el, 'input', Tegaki.onToolFlowChange);
 	  row.appendChild(el);
 	  

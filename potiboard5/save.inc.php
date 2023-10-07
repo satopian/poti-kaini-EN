@@ -2,7 +2,7 @@
 //save.inc.php 2023 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20230921;
+$save_inc_ver=20230930;
 class image_save{
 
 	private $imgfile,$usercode,$en,$count,$errtext; // プロパティとして宣言
@@ -203,11 +203,13 @@ class image_save{
 
 	private function move_uploaded_chi(){
 		if(isset($_FILES['chibifile']) && ($_FILES['chibifile']['error'] == UPLOAD_ERR_OK)){
-			if(!SIZE_CHECK || ($_FILES['chibifile']['size'] < (PSD_MAX_KB * 1024))){
-				//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
-			move_uploaded_file($_FILES['chibifile']['tmp_name'], TEMP_DIR.$this->imgfile.'.chi');
-				if(is_file(TEMP_DIR.$this->imgfile.'.chi')){
+			if(mime_content_type($_FILES['chibifile']['tmp_name'])==="application/octet-stream"){
+				if(!SIZE_CHECK || ($_FILES['chibifile']['size'] < (PSD_MAX_KB * 1024))){
+					//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
+					move_uploaded_file($_FILES['chibifile']['tmp_name'], TEMP_DIR.$this->imgfile.'.chi');
+					if(is_file(TEMP_DIR.$this->imgfile.'.chi')){
 					chmod(TEMP_DIR.$this->imgfile.'.chi',PERMISSION_FOR_DEST);
+					}
 				}
 			}
 		}

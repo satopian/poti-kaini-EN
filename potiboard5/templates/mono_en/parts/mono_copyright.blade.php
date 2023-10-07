@@ -9,7 +9,7 @@
 		OriginalScript -
 		<a href="http://www.punyu.net/" target="_blank" rel="noopener noreferrer" title="POTI-board (by PunyuNet)">POTI-board</a>
 		<span title="futaba.php v0.8 lot.031015 (by futaba)">futaba.php</span>
-		(<a href="http://php.loglog.jp/" target="_blank" rel="noopener noreferrer" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a>custom )
+		(<a href="http://php.loglog.jp/" target="_blank" rel="noopener noreferrer" title="gazou.php v3.0 (by Let's PHP!)">gazou.php</a> custom)
 	</p>
 	@if($paint)
 	<p>

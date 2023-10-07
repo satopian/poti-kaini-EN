@@ -161,7 +161,7 @@ if(!empty($arr)){
 				}
 			}
 
-		$time= ($logver==="6") ? substr($time,0,-3) : (int)substr($time,-13,-3);
+		$time= ($logver==="6") ? (int)substr($time,0,-3) : (int)substr($time,-13,-3);
 		$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
 		$sub=h($sub);
 		$com=str_replace('<br />',' ',$com);

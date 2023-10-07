@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.03.0';
-const POTI_LOT = 'lot.20230921';
+const POTI_VER = 'v6.07.8';
+const POTI_LOT = 'lot.20231003';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -81,10 +81,6 @@ if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
 require_once __DIR__.'/BladeOne/lib/BladeOne.php';
 
 Use eftec\bladeone\BladeOne;
-
-$views = __DIR__ . '/templates/'.SKIN_DIR;
-$cache = $views.'cache';
-$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
 //Template設定ファイル
 if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
@@ -685,26 +681,48 @@ function res($resno = 0){
 	if(!$resno){
 		return redirect(h(PHP_SELF2), 0);
 	}
-	$line=get_log(LOGFILE);
 	$trees=get_log(TREEFILE);
 
 	$treeline=[];
 	foreach($trees as $i => $value){
 		//レス先検索
-		if (strpos(trim($value) . ',', $resno . ',') === 0) {
-			$treeline = explode(",", trim($value));
+		if (strpos(trim($value).',' , $resno .',') === 0) {
+			$treeline = explode(",", trim($value));//現在のスレッドのツリーを取得
 			break;
+		}
+	}
+	$next_tree=[];
+	foreach($trees as $j => $value){
+		if (($i<$j)&&($i+20)>=$j) {//現在のスレッドより後ろの20スレッドのツリーを取得
+			$next_tree[]=explode(",", trim($value))[0];
+		}
+	}
+	$prev_tree=[];
+	foreach($trees as $j => $value){
+		if (($i-20)<=$j && $i>$j) {//現在のスレッドより手前の20スレッドのツリーを取得
+			$prev_tree[]=explode(",", trim($value))[0];
 		}
 	}
 
 	if (empty($treeline)) {
 		error(MSG001);
 	}
+
+
+	$fp=fopen(LOGFILE,"r");
+	$line=create_line_from_treenumber ($fp,$treeline);
+	$prev_line=create_line_from_treenumber ($fp,$prev_tree);
+	$next_line=create_line_from_treenumber ($fp,$next_tree);
+	closeFile($fp);
+
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
+	$prev_lineindex = get_lineindex($prev_line); // 逆変換テーブル作成
+	$next_lineindex = get_lineindex($next_line); // 逆変換テーブル作成
+
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
 	}
-	
+
 	$dat = form($resno);
 
 	//レス作成
@@ -740,7 +758,6 @@ function res($resno = 0){
 			$rresname[] = $res['name'];
 		}
 	}
-
 	
 	foreach($rresname as $key => $val){
 		$rep=str_replace('&quot;','”',$val);
@@ -753,32 +770,51 @@ function res($resno = 0){
 
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
-
 	//前のスレッド、次のスレッド
-	$n=$i+1;
-	$p=$i-1;
-	$next=(isset($trees[$n])&&$trees[$n]) ? explode(",",trim($trees[$n]))[0]:'';
-	$dat['res_next']=($next && isset($lineindex[$next])) ? create_res($line[$lineindex[$next]]):[];
-	$prev=(isset($trees[$p])&&$trees[$p]) ? explode(",",trim($trees[$p]))[0]:'';
-	$dat['res_prev']=($prev && isset($lineindex[$prev])) ? create_res($line[$lineindex[$prev]]):[];
+	$next=(isset($next_tree[0])&&$next_tree[0]) ? $next_tree[0] :'';
+	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
+
+	$last_prev_tree = $prev_tree;
+	$last_prev_tree = end($last_prev_tree);
+	$prev=$last_prev_tree ? $last_prev_tree :'';
+
+	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
 	$dat['view_other_works']=false;
 	if(VIEW_OTHER_WORKS){
-		$a=[];
-		$start_view=(($i-7)>=0) ? ($i-7) : 0;
-		$other_works=array_slice($trees,$start_view,17,false);
-		foreach($other_works as $j=>$val){
 
-		$p=explode(",",trim($val))[0];
-		$b=($p && isset($lineindex[$p])) ? create_res($line[$lineindex[$p]]):[];
-		if(!empty($b)&&$b['imgsrc']&&$b['no']!==$resno){
-			$a[]=$b;
+		$prev_res=[];
+		$next_res=[];
+		foreach($prev_tree as $n){
+			$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
+			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+				$prev_res[]=$_res;
+			}
 		}
-	}
-		$c=($i<5) ? 0 : (count($a)>9 ? 4 :0);
-		$dat['view_other_works']=array_slice($a,$c,6,false);
+		foreach($next_tree as $n){
+			$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
+			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+				$next_res[]=$_res;
+			}
+		}
+		if((3<=count($prev_res)) && (3<=count($next_res))){
+			$prev_res = array_slice($prev_res,-3);
+			$next_res = array_slice($next_res,0,3);
+			$view_other_works= array_merge($prev_res,$next_res);
+		
+		}elseif((6>count($next_res))&&(6<=count($prev_res))){
+			$view_other_works= array_slice($prev_res,-6);
+		}elseif((6>count($prev_res))&&(6<=count($next_res))){
+			$view_other_works= array_slice($next_res,0,6);
+		}else{
+			$view_other_works= array_merge($prev_res,$next_res);
+			$view_other_works= array_slice($view_other_works,0,6);
+
+		}
+		$dat['view_other_works']=$view_other_works;
 	}
 	htmloutput(RESFILE,$dat);
 }
+
 //マークダウン記法のリンクをHTMLに変換
 function md_link($str){
 	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+)\)}",'<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
@@ -1108,19 +1144,21 @@ function regist(){
 		//重複チェック
 		$chkline=200;//チェックする最大行数
 		$j=1;
-		foreach($line as $i => $value){ //画像重複チェック
-			if(!trim($value)){
-				continue;
+		if(!$pictmp2){
+			foreach($line as $i => $value){ //画像重複チェック
+				if(!trim($value)){
+					continue;
+				}
+				list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
+				if($extp){//拡張子があったら
+				if($chkp===$chk&&is_file($path.$timep.$extp)){
+				error(MSG005,$dest);
+				}
+				if($j>=20){break;}//画像を20枚チェックしたら
+				++$j;
+				}
+				if($i>=$chkline){break;}//チェックする最大行数
 			}
-			list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
-			if($extp){//拡張子があったら
-			if($chkp===$chk&&is_file($path.$timep.$extp)){
-			error(MSG005,$dest);
-			}
-			if($j>=20){break;}//画像を20枚チェックしたら
-			++$j;
-			}
-			if($i>=$chkline){break;}//チェックする最大行数
 		}
 		//PCHファイルアップロード
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
@@ -2128,7 +2166,6 @@ function download_app_dat(){
 	$pwd=(string)newstring(filter_input(INPUT_POST,'pwd'));
 	$pwdc = (string)newstring(filter_input(INPUT_COOKIE, 'pwdc'));
 	$no=basename((string)filter_input(INPUT_POST,'no',FILTER_VALIDATE_INT));
-	$pchext=basename((string)filter_input(INPUT_POST,'pch_ext'));
 	$pwd = $pwd ? $pwd : $pwdc;
 
 	$cpwd='';
@@ -2153,9 +2190,12 @@ function download_app_dat(){
 		return error(MSG029);
 	}
 	$ctime=basename($ctime);
-	$filepath= ($ctime && $pchext) ? PCH_DIR.$ctime.$pchext : '';
-	if(!$filepath || !is_file($filepath))error(MSG001);
-	header('Content-Type: '.mime_content_type($filepath));
+	$pchext = check_pch_ext(PCH_DIR.$ctime,['upfile'=>true]);
+	if(!$pchext)error(MSG001);
+	$pchext = basename($pchext);
+	$filepath= PCH_DIR.$ctime.$pchext;
+	$mime_content_type = mime_content_type($filepath);
+	header('Content-Type: '.$mime_content_type);
 	header('Content-Length: '.filesize($filepath));
 	header('Content-Disposition: attachment; filename="'.h(basename($filepath)).'"');
 
@@ -2538,8 +2578,6 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-
-
 	$thread_no = $oyano ? $oyano :'';
 
 	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) :  h(PHP_SELF2);
@@ -2556,19 +2594,24 @@ function catalog(){
 
 	$page = (int)filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 
-	$line=get_log(LOGFILE);
 	$trees=get_log(TREEFILE);
 
 	$counttree = count($trees);
 
-	$lineindex = get_lineindex($line); // 逆変換テーブル作成
-	$dat = form();
 	$disp_threads = array_slice($trees,(int)$page,CATALOG_PAGE_DEF,false);
+	$treeline=[];
+	foreach($disp_threads as $val){
+		$treeline[]=explode(",", trim($val))[0];
+	}
+	$fp=fopen(LOGFILE,"r");
+	$line = create_line_from_treenumber ($fp,$treeline);
+	closeFile($fp);
+	$lineindex = get_lineindex($line); // 逆変換テーブル作成
 
-	foreach($disp_threads as $oya=>$val){
+	$dat = form();
 
-		$treeline = explode(",", rtrim($val));
-		$disptree = $treeline[0];
+	foreach($treeline as $oya=>$disptree){
+
 		if(!isset($lineindex[$disptree])) continue; //範囲外なら次の行
 		$j=$lineindex[$disptree]; //該当記事を探して$jにセット
 
@@ -2613,7 +2656,7 @@ function catalog(){
 		$end_page=$l+(CATALOG_PAGE_DEF*31);//現在のページよりひとつ後ろのページ
 		if($page-(CATALOG_PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 	}
-		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += CATALOG_PAGE_DEF){
+	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += CATALOG_PAGE_DEF){
 	
 		$pn = $i / CATALOG_PAGE_DEF;
 		
@@ -2630,7 +2673,7 @@ function catalog(){
 		str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 		$dat['lastpage'] = (($end_page/CATALOG_PAGE_DEF) <= $totalpages) ? "?mode=catalog&amp;page=".$totalpages*CATALOG_PAGE_DEF : "";
 		$dat['firstpage'] = (0 < $start_page) ? PHP_SELF."?mode=catalog&page=0" : "";
-}
+	}
 	//改ページ分岐ここまで
 	$dat['paging'] = $paging;
 	$dat["resno"]=false;
@@ -2771,7 +2814,11 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 
 // HTML出力
 function htmloutput($template,$dat,$buf_flag=''){
-	global $blade;
+
+	$views = __DIR__ . '/templates/'.SKIN_DIR;
+	$cache = $views.'cache';
+	$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
+
 	$dat += basicpart();//basicpart()で上書きしない
 	//array_merge()ならbasicpart(),$datの順
 	if($buf_flag){
@@ -3389,4 +3436,19 @@ function getTranslatedLayerName() {
 }
 function is_paint_tool_name($tool){
 	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
+}
+function create_line_from_treenumber ($fp,$trees){
+
+	rewind($fp);
+	$line=[];
+	while($lines = fgets($fp)){
+		if(!trim($lines)){
+			continue;
+		}
+		list($no,) = explode(",", $lines);
+		if(in_array($no,$trees)){
+			$line[]=trim($lines);
+		}
+	}
+	return $line;
 }
