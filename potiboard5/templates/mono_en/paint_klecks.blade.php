@@ -19,7 +19,7 @@
 <body>
 
 <!-- embed start -->
-<script src="klecks/embed.js?{{$parameter_day}}"></script>
+<script src="klecks/embed.js?{{$parameter_day}}&{{$ver}}"></script>
 <script>
 	/*
 	Using Klecks in a drawing community:
