@@ -19817,36 +19817,35 @@ function CPResourceSaver(options) {
   }
 
   function postDrawing(formData) {
-	// リクエストのオプションを設定
-	var requestOptions = {
-	  method: 'POST',
-	  mode: 'same-origin',
-	  headers: {
-		  'X-Requested-With': 'chickenpaint'
-		  ,
-	  },
-	  body: formData,
-	}; 
-	reportProgress(0.5);
-	// リクエストを送信
-	fetch(options.url, requestOptions).then(response => {
-	  if (!response.ok) {
-		throw new Error("Network response was not ok (".concat(response.status, ")"));
-	  }
+    // リクエストのオプションを設定
+    var requestOptions = {
+      method: 'POST',
+      mode: 'same-origin',
+      headers: {
+        'X-Requested-With': 'chickenpaint'
+      },
+      body: formData
+    };
+    reportProgress(0.5); // リクエストを送信
 
-	  return response.text();
-	}).then(responseText => {
-	  if (/^CHIBIOK/.test(responseText)) {
-		reportProgress(1.0);
-		that.emitEvent("savingComplete");
-	  } else {
-		reportFatal(responseText);
-	  }
-	}).catch(error => {
-	  reportFatal(error.message);
-	});
-  }
-/**
+    fetch(options.url, requestOptions).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Network response was not ok (".concat(response.status, ")"));
+      }
+
+      return response.text();
+    }).then(function (responseText) {
+      if (/^CHIBIOK/.test(responseText)) {
+        reportProgress(1.0);
+        that.emitEvent("savingComplete");
+      } else {
+        reportFatal(responseText);
+      }
+    }).catch(function (error) {
+      reportFatal(error.message);
+    });
+  } 
+  /**
    * Begin saving the data provided in the constructor. Returns immediately, and fires these events to report the
    * saving progress:
    * 
@@ -28331,27 +28330,7 @@ var _lang = require("../languages/lang");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
-    ChickenPaint
-    
-    ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-    by Nicholas Sherlock / Chicken Smoothie.
-    
-    ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-
-    ChickenPaint is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    ChickenPaint is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-*/
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  *
@@ -28380,7 +28359,9 @@ function loadTextures(textureFilename, width, height, textureCount, then) {
 
   img.onload = function () {
     var canvas = document.createElement("canvas"),
-        canvasContext = canvas.getContext("2d");
+        canvasContext = canvas.getContext("2d", _defineProperty({
+      willReadFrequently: true
+    }, "willReadFrequently", true));
     canvas.width = img.width;
     canvas.height = img.height;
 
@@ -34090,7 +34071,7 @@ function getKeyCodeFromKey(key) {
         }
 
         if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.key === TAB_KEYCODE) && $__default["default"].contains(parent, event.target)) {
-			continue;
+          continue;
         }
 
         var hideEvent = $__default["default"].Event(EVENT_HIDE$3, relatedTarget);
@@ -34541,11 +34522,11 @@ function getKeyCodeFromKey(key) {
 
       if (this._isShown) {
         $__default["default"](this._element).on(EVENT_KEYDOWN_DISMISS, function (event) {
-			if (_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
-				event.preventDefault();
+          if (_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
+            event.preventDefault();
 
             _this6.hide();
-		} else if (!_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
+          } else if (!_this6._config.keyboard && event.key === ESCAPE_KEYCODE) {
             _this6._triggerBackdropTransition();
           }
         });
