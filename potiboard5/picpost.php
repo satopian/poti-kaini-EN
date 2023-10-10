@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.230831 for POTI-board
+// picpost.php lot.231010 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2023/10/10 セキュリティ対策。pchデータのmime typeチェックを追加。
 // 2022/12/03 same-originでは無かった時はエラーにする。
 // 2022/11/23 ユーザーコード不一致の時のためのエラーメッセージを追加。
 // 2022/10/22 'SECURITY_TIMER''SECURITY_CLICK'で設定された必要な描画時間と描画工程数をチェックする処理を追加。
@@ -222,12 +223,16 @@ if($pchLength){
 	// PCHイメージを取り出す
 	$PCHdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength + 8, $pchLength);
 	// PCHデータをファイルに書き込む
-	file_put_contents(TEMP_DIR.$imgfile.$pchext,$PCHdata,LOCK_EX);
-	if(is_file(TEMP_DIR.$imgfile.$pchext)){
-		chmod(TEMP_DIR.$imgfile.$pchext,PERMISSION_FOR_DEST);
+	$pch_file=TEMP_DIR.$imgfile.$pchext;
+	file_put_contents($pch_file,$PCHdata,LOCK_EX);
+	if(is_file($pch_file)){
+		chmod($pch_file,PERMISSION_FOR_DEST);
+		$pch_type=mime_content_type($pch_file);
+		if(!in_array($pch_type,["application/octet-stream","application/gzip"])){
+			unlink($pch_file);
+		}
 	}
 }
-
 // 情報データをファイルに書き込む
 file_put_contents(TEMP_DIR.$imgfile.".dat",$userdata,LOCK_EX);
 if(!is_file(TEMP_DIR.$imgfile.'.dat')){
