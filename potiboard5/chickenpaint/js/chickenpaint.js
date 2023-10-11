@@ -19844,7 +19844,7 @@ function CPResourceSaver(options) {
     }).catch(function (error) {
       reportFatal(error.message);
     });
-  } 
+  }
   /**
    * Begin saving the data provided in the constructor. Returns immediately, and fires these events to report the
    * saving progress:
@@ -28330,7 +28330,27 @@ var _lang = require("../languages/lang");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/*
+    ChickenPaint
+    
+    ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+    by Nicholas Sherlock / Chicken Smoothie.
+    
+    ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+
+    ChickenPaint is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ChickenPaint is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
  *
@@ -28359,9 +28379,9 @@ function loadTextures(textureFilename, width, height, textureCount, then) {
 
   img.onload = function () {
     var canvas = document.createElement("canvas"),
-        canvasContext = canvas.getContext("2d", _defineProperty({
+        canvasContext = canvas.getContext("2d", {
       willReadFrequently: true
-    }, "willReadFrequently", true));
+    });
     canvas.width = img.width;
     canvas.height = img.height;
 
@@ -59698,11 +59718,11 @@ module.exports = ZStream;
     prepareButtonsForMove: function(e, inEvent) {
       var p = pointermap.get(this.POINTER_ID);
 
-      const button_num  = [0,1,2];
+	  const button_num  = [0,1,2];
 	  // Update buttons state after possible out-of-document mouseup.
 	  if(!button_num.includes(inEvent.button)||!p){ 
 	//   if (inEvent.button === 0 || !p) {
-        e.buttons = 0;
+		e.buttons = 0;
       } else {
         e.buttons = p.buttons;
       }
