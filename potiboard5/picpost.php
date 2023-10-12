@@ -212,14 +212,14 @@ $pchLength = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength, 8);
 // ヘッダーを獲得
 $h = substr($buffer, 0, 1);
 // 拡張子設定
-
+$pchext="";
 if($h=='P'){
 	$pchext = '.pch';
 }elseif($h=='S'){
 	$pchext = '.spch';
 }
 
-if($pchLength){
+if($pchext && $pchLength){
 	// PCHイメージを取り出す
 	$PCHdata = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength + 8, $pchLength);
 	// PCHデータをファイルに書き込む

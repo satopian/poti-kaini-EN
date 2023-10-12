@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.07.11';
-const POTI_LOT = 'lot.20231011';
+const POTI_VER = 'v6.08.0';
+const POTI_LOT = 'lot.20231012';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -509,10 +509,10 @@ function form($resno="",$tmp=""){
 	$dat['use_chickenpaint'] =(USE_CHICKENPAINT ? true : false);
 	$dat['use_klecks'] = (USE_KLECKS ? true : false);
 	$dat['use_tegaki'] = (USE_TEGAKI ? true : false);
-	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
-	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
-	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
-	$dat['pmaxh'] = USE_PAINT ? PMAX_H : '';
+	$dat['pdefw'] = PDEF_W;
+	$dat['pdefh'] = PDEF_H;
+	$dat['pmaxw'] = PMAX_W;
+	$dat['pmaxh'] = PMAX_H;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 	$dat['resno'] = $resno ? $resno :'';
