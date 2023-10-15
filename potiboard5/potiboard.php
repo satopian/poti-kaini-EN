@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.08.1';
+const POTI_VER = 'v6.08.2';
 const POTI_LOT = 'lot.20231015';
 
 /*
@@ -3437,16 +3437,18 @@ function getTranslatedLayerName() {
 function is_paint_tool_name($tool){
 	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
 }
+//ツリーnoと一致する行の配列を作成
 function create_line_from_treenumber ($fp,$trees){
 
 	rewind($fp);
 	$line=[];
+	$treeSet = array_flip($trees);//配列とキーを反転
 	while($lines = fgets($fp)){
 		if(!trim($lines)){
 			continue;
 		}
 		list($no,) = explode(",", $lines);
-		if(in_array($no,$trees)){
+		if(isset($treeSet[$no])) {//$treesに含まれている記事番号なら定義ずみ
 			$line[]=trim($lines);
 		}
 	}
