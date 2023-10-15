@@ -42,12 +42,19 @@
 
 		document.documentElement.style.visibility = 'visible';
 		window.onpageshow = function () {
-			var $btn = $('[type="submit"]');
-			//disbledを解除
-			$btn.prop('disabled', false);
-			$btn.on('click', function () { //送信ボタン2度押し対策
-				$(this).prop('disabled', true);
-				$(this).closest('form').trigger('submit');
+			$('[type="submit"]').each(function() {
+				const $btn = $(this);
+				const $form = $btn.closest('form');
+				const isTargetBlank = $form.prop('target') === '_blank';
+			
+				$btn.prop('disabled', false);
+				// ボタンが target="_blank" の場合は無効化しない
+				if (!isTargetBlank) {
+					$btn.on('click', function() {//ボタンをクリックすると
+					$btn.prop('disabled', true);//ボタンを無効化して
+					$form.trigger('submit');//送信する
+					});
+				}
 			});
 		}
 		// https://cotodama.co/pagetop/
@@ -110,17 +117,12 @@
 	function open_sns_server_window(event,width=350,height=490) {
 		event.preventDefault(); // デフォルトのリンクの挙動を中断
 
-			// 幅と高さが数値であることを確認
-			if (typeof width !== 'number' || typeof height !== 'number') {
-				width=350;//デフォルト値
-				height=490;//デフォルト値
-			}
-		
-			// 幅と高さが正の値であることを確認
-			if (width <= 0 || height <= 0) {
-				width=350;//デフォルト値
-				height=490;//デフォルト値
-			}
+		// 幅と高さが数値であることを確認
+		// 幅と高さが正の値であることを確認
+		if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
+			width = 350; // デフォルト値
+			height = 490; // デフォルト値
+		}
 		
 		var url = event.currentTarget.href;
 		var windowFeatures = "width="+width+",height="+height; // ウィンドウのサイズを指定

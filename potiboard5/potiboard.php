@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.08.0';
-const POTI_LOT = 'lot.20231012';
+const POTI_VER = 'v6.08.1';
+const POTI_LOT = 'lot.20231015';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -446,8 +446,8 @@ function basicpart(){
 	$dat['for_new_post'] = (!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY) ? false : true;
 	$dat['diary'] = DIARY ? true : false;
 	$dat['switch_sns'] = SWITCH_SNS;
-	$dat['sns_window_width'] = SNS_WINDOW_WIDTH;
-	$dat['sns_window_height'] = SNS_WINDOW_HEIGHT;
+	$dat['sns_window_width'] = (int)SNS_WINDOW_WIDTH;
+	$dat['sns_window_height'] = (int)SNS_WINDOW_HEIGHT;
 	$dat['is_IE'] = isIE();
 	$dat['use_admin_link'] = USE_ADMIN_LINK;
 	
