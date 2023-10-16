@@ -126,7 +126,7 @@ while ($line = fgets($fp)) {
 		$check_query!==''&&($radio===2&&$s_name===$check_query)//作者名完全一致
 		){
 			$link='';
-			$link=PHP_SELF.'?res='.$oya[$no];
+			$link=PHP_SELF."?res={$oya[$no]}#{$time}";
 			$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver];
 			++$i;
 			if($i>=MAX_SEARCH){break;}//1掲示板あたりの最大検索数

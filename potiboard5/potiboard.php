@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.08.2';
+const POTI_VER = 'v6.09.0';
 const POTI_LOT = 'lot.20231015';
 
 /*
@@ -436,7 +436,7 @@ function basicpart(){
 	$dat['home']  = HOME;
 	$dat['self']  = PHP_SELF;
 	$dat['encoded_self'] = urlencode(PHP_SELF);
-	$dat['self2'] = h(PHP_SELF2);
+	$dat['self2'] = h(PHP_SELF2).(URL_PARAMETER ? '?'.time():'');
 	$dat['ver'] = POTI_VER;
 	$dat['verlot'] = POTI_VERLOT;
 	$dat['tver'] = TEMPLATE_VER;
@@ -581,6 +581,8 @@ function updatelog(){
 	$fdat=form();
 	$counttree = count($trees);//190619
 	$totalpages = ceil($counttree / PAGE_DEF)-1;
+	$url_parameter = URL_PARAMETER ? '?'.time() : '';
+
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 
 		$dat=$fdat;//form()を何度もコールしない
@@ -631,6 +633,7 @@ function updatelog(){
 			if($page-(PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 		}
 
+
 	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
 
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
@@ -644,11 +647,11 @@ function updatelog(){
 
 				$paging .= ($page === $i)
 				? str_replace("<PAGE>", $pn, NOW_PAGE) // 現在ページにはリンクを付けない
-				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
+				: str_replace("<PURL>", ($i ? $pn.PHP_EXT.$url_parameter : h(PHP_SELF2.$url_parameter)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
-				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
-				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2 : "";
+				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT.$url_parameter : "";
+				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2.$url_parameter : "";
 		}
 		//改ページ分岐ここまで
 
@@ -1319,7 +1322,7 @@ function regist(){
 	}
 	$resno = $resto ? $resto : $no;
 	redirect(
-		PHP_SELF.'?res='.h($resno) . (URL_PARAMETER ? "?".time() : ''),
+		PHP_SELF.'?res='.h($resno) . '#'.$time,
 		1,
 		$message,
 		THE_SCREEN_CHANGES
@@ -2578,11 +2581,9 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-	$thread_no = $oyano ? $oyano :'';
-
-	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) :  h(PHP_SELF2);
 	redirect(
-		$destination . (URL_PARAMETER ? "?".time() : ''),
+		//$oyanoがFalseの時は新規投稿になるので分岐不要
+		PHP_SELF.'?res='.h($oyano) . '#'.$time,
 		1,
 		$message,
 		THE_SCREEN_CHANGES
