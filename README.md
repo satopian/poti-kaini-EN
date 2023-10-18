@@ -42,6 +42,39 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 2023/10/17 v6.09.0
+
+### improvement
+- Fixed an issue where the Open in another tab button on the search screen remained disabled.
+- The response display screen has been displayed faster.
+
+## 2023/10/13 v6.08.0
+### fixd bug
+```
+// Use the oekaki function  (1: Enabled, 0: Disabled)
+define("USE_PAINT", "0"); 
+
+//Allow admins to use all apps regardless of settings
+// (1: Enabled, 0: Disabled) 
+define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
+
+```
+Fixed a bug where the canvas size value was not displayed on the Paint form when using this configuration combination.
+### Improvement
+
+To simplify the work, we externalized the paint form so that it can be used as a common component.
+
+## 2023/10/11 v6.07.11
+Updated ChickenPaint.
+
+## 2023/10/10 v6.07.10
+### Security Update
+Added mime type check for pch files of Java's Shi-Painter and PaintBBS.
+
+## 2023/10/09 v6.07.9
+- updated Klecks.
+- updated ChickenPaint.
+
 ## 2023/10/03 v6.07.8
 ### Reduce memory consumption by 50%
 Previously, with POTI-board, if 10,000 comments were recorded in the log file, even if only one comment was displayed on the reply screen, it would read the data for 10,000 comments.
