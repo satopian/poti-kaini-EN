@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.09.0';
-const POTI_LOT = 'lot.20231015';
+const POTI_VER = 'v6.09.1';
+const POTI_LOT = 'lot.20231020';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1282,6 +1282,9 @@ function regist(){
 		list($c_name,$c_cookie) = $cook;
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
+
+	$resno = $resto ? $resto : $no;
+	$resno = h($resno);
 	
 	//メール通知
 
@@ -1309,20 +1312,18 @@ function regist(){
 		if($ext) $data['option'][] = NOTICE_MAIL_IMG.','.ROOT_URL.IMG_DIR.$time.$ext;//拡張子があったら
 		if(is_file(THUMB_DIR.$time.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$time.'s.jpg';
 		if($resto){
-			$data['subject'] = '['.TITLE.'] No.'.$resto.NOTICE_MAIL_REPLY;
-			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
+			$data['subject'] = '['.TITLE.'] No.'.$resno.NOTICE_MAIL_REPLY;
 		}else{
 			$data['subject'] = '['.TITLE.'] '.NOTICE_MAIL_NEWPOST;
-			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$no;
 		}
-
+		$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF."?res={$resno}#{$time}";
 		$data['comment'] = SEND_COM ? preg_replace("#<br( *)/?>#i","\n", $com) : '';
 
 		noticemail::send($data);
 	}
-	$resno = $resto ? $resto : $no;
 	redirect(
-		PHP_SELF.'?res='.h($resno) . '#'.$time,
+		PHP_SELF."?res={$resno}#{$time}"
+		,
 		1,
 		$message,
 		THE_SCREEN_CHANGES

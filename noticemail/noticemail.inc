@@ -1,12 +1,13 @@
 <?php
 /*
-** メール通知クラス(UTF-8) lot.221219
+** メール通知クラス(UTF-8) lot.231020
 **
 ** https://paintbbs.sakura.ne.jp/poti/
 ** by POTI改
 ** originalscript (C)SakaQ 2004-2007
 ** http://www.punyu.net/php/
 **
+** 2023/10/20 Subjectのダブルクオートをエスケープ。
 ** 2022/12/19 コード整理。
 ** 2022/09/18 多国語対応。mb_language( 'uni' )。
 ** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。
@@ -89,13 +90,16 @@ noticemail::send($data);
 
 class noticemail{
 
-	public static function send($data=''){
+	public static function send($data){
 	mb_language( 'uni' );
 	mb_internal_encoding("UTF-8");
 
 	$name = isset($data['name']) ? $data['name'] : '';
 	// 明らかにメールアドレスじゃない物は除外
 	$from = isset($data['email']) ? filter_var($data['email']) : '';
+	$subject = isset($data['subject']) ? $data['subject'] : '';
+	$comment = isset($data['comment']) ? $data['comment'] : '';
+	$option = isset($data['option']) ? $data['option'] : [];
 
 	$line = "---------------------------------------------------------------------\n";
 
@@ -106,17 +110,16 @@ class noticemail{
 	$MailHeaders .= 'Content-Transfer-Encoding: 8bit'."\n";
 
 	// メール本文作成
-	$Message = '■'.$data['subject']."\n";
+	$Message = '■'.$subject."\n";
 	$Message .= 'Date: '.date("Y/m/d H:i:s",time())."\n";
 	//ユーザーip
-	$userip = self::get_uip();
+	$userip = get_uip();
 	$host= $userip ? gethostbyaddr($userip) :'';
 	$Message .= 'Host: '.$host."\n";
 	$Message .= 'UserAgent: '.$_SERVER["HTTP_USER_AGENT"]."\n";
 	$Message .= $line;
 	$Message .= $name ? ('Name: '.$name."\n") :'';
 	$Message .= $from ? ('e-Mail:'.$from."\n") : '';
-	$option = $data['option'];
 	if(is_array($option)){
 		foreach($option as $value){
 			list($optitle,$opvalue)=explode(",", rtrim($value));
@@ -124,8 +127,8 @@ class noticemail{
 		}
 	}
 		$Message .= $line;
-		if($data['comment']){
-			$com = str_replace(["\r\n","\r"], "\n", $data['comment']);// 改行文字の統一
+		if($comment){
+			$com = str_replace(["\r\n","\r"], "\n", $comment);// 改行文字の統一
 			$com = preg_replace("/^(\n)+|(\n)+$/i", "", $com);	// 連続改行を消す
 			$Message .= $com;
 		}
@@ -140,23 +143,12 @@ class noticemail{
 		$name = mb_encode_mimeheader($name);
 		// ヘッダにFrom追加
 		$MailHeaders .= 'From: '.$name.' <'.$from.'>'."\n";
-			// メール送信
+		$subject = str_replace('"', '\"', $subject);//ダブルクオートをエスケープ
+		// メール送信
 		mb_send_mail($data['to'],
-		$data['subject'],
+		$subject,
 			$Message,$MailHeaders);
 
 			return true;
-	}
-	//ユーザーip
-	private static function get_uip(){
-		$ip = isset($_SERVER["HTTP_CLIENT_IP"]) ? $_SERVER["HTTP_CLIENT_IP"] :'';
-		$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
-		$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
-		$ip = $ip ? $ip : (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '');
-		if (strstr($ip, ', ')) {
-			$ips = explode(', ', $ip);
-			$ip = $ips[0];
-		}
-		return $ip;
 	}
 }
