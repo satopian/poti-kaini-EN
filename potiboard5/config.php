@@ -313,10 +313,11 @@ define("USE_ADMIN_LINK", "1");
 // Use the oekaki function  (1: Enabled, 0: Disabled)
 define("USE_PAINT", "1"); 
 
-// お絵描き最大サイズ（これ以上は強制でこの値
-// 最小値は幅、高さともに 300 固定です
-// The maximum drawing size value larger than this will be the maximum value set here.
-// The minimum value is fixed at 300 for both width and height.
+// If a drawing size smaller than this is input, it will be the minimum value set here.
+define("PMIN_W", "300");	//幅 (width) Setting the size below 300px might result in layout distortion.
+define("PMIN_H", "300");	//高さ (height)
+
+// If a drawing size larger than this is input, the maximum value set here will be used.
 define("PMAX_W", "800");	//幅 (width)
 define("PMAX_H", "800");	//高さ (height)
 

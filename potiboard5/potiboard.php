@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.09.1';
-const POTI_LOT = 'lot.20231020';
+const POTI_VER = 'v6.10.1';
+const POTI_LOT = 'lot.20231021';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -190,6 +190,9 @@ defined("SNS_WINDOW_WIDTH") or define("SNS_WINDOW_WIDTH","350");
 defined("SNS_WINDOW_HEIGHT") or define("SNS_WINDOW_HEIGHT","490");
 defined("USE_ADMIN_LINK") or define("USE_ADMIN_LINK","1");
 defined("CATALOG_PAGE_DEF") or define("CATALOG_PAGE_DEF",30);
+//お絵かきできる最小の幅と高さ
+defined("PMIN_W") or define("PMIN_W", "300"); //幅
+defined("PMIN_H") or define("PMIN_H", "300"); //高さ
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -513,6 +516,8 @@ function form($resno="",$tmp=""){
 	$dat['pdefh'] = PDEF_H;
 	$dat['pmaxw'] = PMAX_W;
 	$dat['pmaxh'] = PMAX_H;
+	$dat['pminw'] = PMIN_H;
+	$dat['pminh'] = PMIN_H;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 	$dat['resno'] = $resno ? $resno :'';
@@ -1784,11 +1789,10 @@ function paintform(){
 		$dat['newpaint'] = true;
 	}
 
-	if($picw < 300) $picw = 300;
-	if($pich < 300) $pich = 300;
-	if($picw > PMAX_W) $picw = PMAX_W;
-	if($pich > PMAX_H) $pich = PMAX_H;
-
+	$picw = ($picw < PMIN_W) ? PMIN_W : $picw;//最低の幅チェック
+	$pich = ($pich < PMIN_H) ? PMIN_H : $pich;//最低の高さチェック
+	$picw = ($picw > PMAX_W) ? PMAX_W : $picw;//最大の幅チェック
+	$pich = ($pich > PMAX_H) ? PMAX_H : $pich;//最大の高さチェック
 
 	if($shi==1||$shi==2){
 	$w = $picw + 510;//しぃぺの時の幅
@@ -1797,7 +1801,9 @@ function paintform(){
 		$w = $picw + 150;//PaintBBSの時の幅
 		$h = $pich + 172;//PaintBBSの時の高さ
 	}
-	if($h < 560){$h = 560;}//共通の最低高
+
+	$w = ($w < 450) ? 450 : $w;//最低幅
+	$h = ($h < 560) ? 560 : $h;//最低高
 
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;

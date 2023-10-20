@@ -30,9 +30,9 @@
 		</style>
 		@endif	
 		@if($useneo)
-		<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
-		<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
-		<script>
+			<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
+			<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
+			<script>
 			// https://qiita.com/tsmd/items/cfb5dcbec8433b87dc36
 			function isPinchZooming () {//ピンチズームを検知
 				if ('visualViewport' in window) {
@@ -64,7 +64,7 @@
 			});
 			window.addEventListener('DOMContentLoaded',neo_add_disable_touch_move,false);
 		</script>
-				@endif
+	@endif
 		@if($pch_mode)
 		@if($type_neo)
 		<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
@@ -660,7 +660,7 @@
 				</div>
 			</div>
 			<script>
-			document.addEventListener('DOMContentLoaded',l,false);
+				document.addEventListener('DOMContentLoaded',l,false);
 			</script>
 			</section>
 			<script>
@@ -692,17 +692,17 @@
 				});
 			</script>
 
-<!-- (========== CONTINUE MODE(コンティニューモード) end ==========) -->
+			{{-- (========== CONTINUE MODE(コンティニューモード) end ==========) --}}
 			@endif
 		</main>
 		<footer>
-		{{-- <!-- 著作権表示 削除しないでください --> --}}
-							@include('parts.mono_copyright')
+		{{--  著作権表示 削除しないでください --}}
+		@include('parts.mono_copyright')
 
-		</footer>
-	@if(!$chickenpaint)
-		<script src="lib/{{$jquery}}"></script>
-		<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
-	@endif
+			</footer>
+		@if(!$chickenpaint)
+			<script src="lib/{{$jquery}}"></script>
+			<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
+		@endif
 	</body>
 </html>

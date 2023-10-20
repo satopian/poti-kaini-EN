@@ -123,7 +123,7 @@
 		<div class="epost">
 			<ul>
 			@if ($paint2 and !$diary)
-			<li>Canvas size is width 300px to {{$pmaxw}}px, height 300px to {{$pmaxh}}px.</li>
+			<li>Canvas size is width {{$pminw}}px to {{$pmaxw}}px, height {{$pminh}}px to {{$pmaxh}}px.</li>
 			<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
 			@endif
 			{!!$addinfo!!}
