@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.07.8';
-const POTI_LOT = 'lot.20231003';
+const POTI_VER = 'v6.09.1';
+const POTI_LOT = 'lot.20231020';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -436,7 +436,7 @@ function basicpart(){
 	$dat['home']  = HOME;
 	$dat['self']  = PHP_SELF;
 	$dat['encoded_self'] = urlencode(PHP_SELF);
-	$dat['self2'] = h(PHP_SELF2);
+	$dat['self2'] = h(PHP_SELF2).(URL_PARAMETER ? '?'.time():'');
 	$dat['ver'] = POTI_VER;
 	$dat['verlot'] = POTI_VERLOT;
 	$dat['tver'] = TEMPLATE_VER;
@@ -446,8 +446,8 @@ function basicpart(){
 	$dat['for_new_post'] = (!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY) ? false : true;
 	$dat['diary'] = DIARY ? true : false;
 	$dat['switch_sns'] = SWITCH_SNS;
-	$dat['sns_window_width'] = SNS_WINDOW_WIDTH;
-	$dat['sns_window_height'] = SNS_WINDOW_HEIGHT;
+	$dat['sns_window_width'] = (int)SNS_WINDOW_WIDTH;
+	$dat['sns_window_height'] = (int)SNS_WINDOW_HEIGHT;
 	$dat['is_IE'] = isIE();
 	$dat['use_admin_link'] = USE_ADMIN_LINK;
 	
@@ -509,10 +509,10 @@ function form($resno="",$tmp=""){
 	$dat['use_chickenpaint'] =(USE_CHICKENPAINT ? true : false);
 	$dat['use_klecks'] = (USE_KLECKS ? true : false);
 	$dat['use_tegaki'] = (USE_TEGAKI ? true : false);
-	$dat['pdefw'] = USE_PAINT ? PDEF_W : '';
-	$dat['pdefh'] = USE_PAINT ? PDEF_H : '';
-	$dat['pmaxw'] = USE_PAINT ? PMAX_W : '';
-	$dat['pmaxh'] = USE_PAINT ? PMAX_H : '';
+	$dat['pdefw'] = PDEF_W;
+	$dat['pdefh'] = PDEF_H;
+	$dat['pmaxw'] = PMAX_W;
+	$dat['pmaxh'] = PMAX_H;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 	$dat['resno'] = $resno ? $resno :'';
@@ -581,6 +581,8 @@ function updatelog(){
 	$fdat=form();
 	$counttree = count($trees);//190619
 	$totalpages = ceil($counttree / PAGE_DEF)-1;
+	$url_parameter = URL_PARAMETER ? '?'.time() : '';
+
 	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
 
 		$dat=$fdat;//form()を何度もコールしない
@@ -631,6 +633,7 @@ function updatelog(){
 			if($page-(PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 		}
 
+
 	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
 
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
@@ -644,11 +647,11 @@ function updatelog(){
 
 				$paging .= ($page === $i)
 				? str_replace("<PAGE>", $pn, NOW_PAGE) // 現在ページにはリンクを付けない
-				: str_replace("<PURL>", ($i ? $pn.PHP_EXT : h(PHP_SELF2)),
+				: str_replace("<PURL>", ($i ? $pn.PHP_EXT.$url_parameter : h(PHP_SELF2.$url_parameter)),
 				str_replace("<PAGE>", $rep_page_no , OTHER_PAGE));
 
-				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT : "";
-				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2 : "";
+				$dat['lastpage'] = (($end_page/PAGE_DEF) <= $totalpages) ? $totalpages.PHP_EXT.$url_parameter : "";
+				$dat['firstpage'] = (0 < $start_page) ? PHP_SELF2.$url_parameter : "";
 		}
 		//改ページ分岐ここまで
 
@@ -1279,6 +1282,9 @@ function regist(){
 		list($c_name,$c_cookie) = $cook;
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
+
+	$resno = $resto ? $resto : $no;
+	$resno = h($resno);
 	
 	//メール通知
 
@@ -1306,20 +1312,18 @@ function regist(){
 		if($ext) $data['option'][] = NOTICE_MAIL_IMG.','.ROOT_URL.IMG_DIR.$time.$ext;//拡張子があったら
 		if(is_file(THUMB_DIR.$time.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$time.'s.jpg';
 		if($resto){
-			$data['subject'] = '['.TITLE.'] No.'.$resto.NOTICE_MAIL_REPLY;
-			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$resto;
+			$data['subject'] = '['.TITLE.'] No.'.$resno.NOTICE_MAIL_REPLY;
 		}else{
 			$data['subject'] = '['.TITLE.'] '.NOTICE_MAIL_NEWPOST;
-			$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF.'?res='.$no;
 		}
-
+		$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF."?res={$resno}#{$time}";
 		$data['comment'] = SEND_COM ? preg_replace("#<br( *)/?>#i","\n", $com) : '';
 
 		noticemail::send($data);
 	}
-	$resno = $resto ? $resto : $no;
 	redirect(
-		PHP_SELF.'?res='.h($resno) . (URL_PARAMETER ? "?".time() : ''),
+		PHP_SELF."?res={$resno}#{$time}"
+		,
 		1,
 		$message,
 		THE_SCREEN_CHANGES
@@ -2578,11 +2582,9 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-	$thread_no = $oyano ? $oyano :'';
-
-	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) :  h(PHP_SELF2);
 	redirect(
-		$destination . (URL_PARAMETER ? "?".time() : ''),
+		//$oyanoがFalseの時は新規投稿になるので分岐不要
+		PHP_SELF.'?res='.h($oyano) . '#'.$time,
 		1,
 		$message,
 		THE_SCREEN_CHANGES
@@ -3437,16 +3439,18 @@ function getTranslatedLayerName() {
 function is_paint_tool_name($tool){
 	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
 }
+//ツリーnoと一致する行の配列を作成
 function create_line_from_treenumber ($fp,$trees){
 
 	rewind($fp);
 	$line=[];
+	$treeSet = array_flip($trees);//配列とキーを反転
 	while($lines = fgets($fp)){
 		if(!trim($lines)){
 			continue;
 		}
 		list($no,) = explode(",", $lines);
-		if(in_array($no,$trees)){
+		if(isset($treeSet[$no])) {//$treesに含まれている記事番号なら定義ずみ
 			$line[]=trim($lines);
 		}
 	}
