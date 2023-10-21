@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.1';
+const POTI_VER = 'v6.10.2';
 const POTI_LOT = 'lot.20231021';
 
 /*
@@ -516,7 +516,7 @@ function form($resno="",$tmp=""){
 	$dat['pdefh'] = PDEF_H;
 	$dat['pmaxw'] = PMAX_W;
 	$dat['pmaxh'] = PMAX_H;
-	$dat['pminw'] = PMIN_H;
+	$dat['pminw'] = PMIN_W;
 	$dat['pminh'] = PMIN_H;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';

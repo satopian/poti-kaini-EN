@@ -9,7 +9,7 @@
 				overflow-wrap: initial;
 				}
 				.input_disp_none{display: none;}
-			</style>
+		</style>
 		@if(!$chickenpaint)
 			@include('parts.style-switcher')
 			<link rel="preload" as="script" href="lib/{{$jquery}}">
@@ -32,7 +32,7 @@
 		@if($useneo)
 			<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
 			<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
-			<script>
+		<script>
 			// https://qiita.com/tsmd/items/cfb5dcbec8433b87dc36
 			function isPinchZooming () {//ピンチズームを検知
 				if ('visualViewport' in window) {
@@ -221,7 +221,7 @@
 			</noscript>
 		
 						<div id="appstage">
-							<div class="app">
+							<div class="app" style="width:{{$w}}px; height:{{$h}}px">
 			
 
 					@if($paintbbs)
@@ -418,7 +418,7 @@
 									}
 									document.watch.count.value = disp+s+"sec";
 									clearTimeout(timerID);
-									timerID = setTimeout(function() { SetTimeCount(); }, 250);
+									timerID = setTimeout(()=>{ SetTimeCount(); }, 250);
 								};
 								document.addEventListener('DOMContentLoaded',SetTimeCount,false);
 							</script>

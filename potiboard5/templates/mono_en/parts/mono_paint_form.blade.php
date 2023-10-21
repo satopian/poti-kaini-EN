@@ -6,7 +6,7 @@
 		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd" class="pchup_button">
 		<br>
 		@endif
-		Width : <input name="picw" type="number" title="Width :" class="form" value="{{$pdefw}}" min="{{$pminw}}" max="{{$pmaxw}}">
+		Width : <input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="{{$pminw}}" max="{{$pmaxw}}">
 		Height : <input name="pich" type="number" title="Height" class="form" value="{{$pdefh}}" min="{{$pminh}}" max="{{$pmaxh}}">
 		@if($select_app)
 			Tool:
