@@ -314,7 +314,7 @@ define("USE_ADMIN_LINK", "1");
 define("USE_PAINT", "1"); 
 
 // If a drawing size smaller than this is input, it will be the minimum value set here.
-define("PMIN_W", "300");	//幅 (width) Setting the size below 300px might result in layout distortion.
+define("PMIN_W", "300");	//幅 (width)
 define("PMIN_H", "300");	//高さ (height)
 
 // If a drawing size larger than this is input, the maximum value set here will be used.
