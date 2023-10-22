@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.3';
+const POTI_VER = 'v6.10.5';
 const POTI_LOT = 'lot.20231023';
 
 /*
@@ -1121,15 +1121,14 @@ function regist(){
 	$src='';
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
-	//画像フォーマット
-		$fsize_dest=filesize($dest);
-		if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
-			convert_andsave_if_smaller_png2jpg($dest);
-		}
+
+		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
+		convert_andsave_if_smaller_png2jpg($dest);
 		clearstatcache();
 		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
 		error(MSG034,$dest);
 		}
+		//画像フォーマット
 		$img_type=mime_content_type($dest);//190603
 
 		if (!in_array($img_type, ['image/gif', 'image/jpeg', 'image/png','image/webp'])) {
@@ -2494,11 +2493,10 @@ function replace(){
 			if(!is_file($dest)) error(MSG003);
 			chmod($dest,PERMISSION_FOR_DEST);
 
-			$fsize_dest=filesize($dest);
-			if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
-				convert_andsave_if_smaller_png2jpg($dest);
-			}
+			//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
+			convert_andsave_if_smaller_png2jpg($dest);
 		
+			//画像フォーマット
 			$img_type=mime_content_type($dest);
 			if (!in_array($img_type, ['image/gif', 'image/jpeg', 'image/png','image/webp'])) {
 				error(MSG004,$dest);
@@ -2992,14 +2990,17 @@ function png2jpg ($src) {
 
 //pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 function convert_andsave_if_smaller_png2jpg($dest){
-	if ($im_jpg = png2jpg($dest)) {
-		clearstatcache();
-		$fsize_dest=filesize($dest);
-		if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
-			rename($im_jpg,$dest);//JPEGで保存
-			chmod($dest,PERMISSION_FOR_DEST);
-		} else{//PNGよりファイルサイズが大きくなる時は
-			unlink($im_jpg);//作成したJPEG画像を削除
+	clearstatcache();
+	$fsize_dest=filesize($dest);
+	if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
+
+		if ($im_jpg = png2jpg($dest)) {
+			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
+				rename($im_jpg,$dest);//JPEGで保存
+				chmod($dest,PERMISSION_FOR_DEST);
+			} else{//PNGよりファイルサイズが大きくなる時は
+				unlink($im_jpg);//作成したJPEG画像を削除
+			}
 		}
 	}
 }
