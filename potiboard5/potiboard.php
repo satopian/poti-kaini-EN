@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.2';
-const POTI_LOT = 'lot.20231021';
+const POTI_VER = 'v6.10.3';
+const POTI_LOT = 'lot.20231023';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1124,14 +1124,7 @@ function regist(){
 	//画像フォーマット
 		$fsize_dest=filesize($dest);
 		if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
-			if ($im_jpg = png2jpg($dest)) {
-				if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
-					rename($im_jpg,$dest);//JPEGで保存
-					chmod($dest,PERMISSION_FOR_DEST);
-				} else{//PNGよりファイルサイズが大きくなる時は
-					unlink($im_jpg);//作成したJPEG画像を削除
-				}
-			}
+			convert_andsave_if_smaller_png2jpg($dest);
 		}
 		clearstatcache();
 		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
@@ -2503,14 +2496,7 @@ function replace(){
 
 			$fsize_dest=filesize($dest);
 			if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
-				if ($im_jpg = png2jpg($dest)) {
-					if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
-						rename($im_jpg,$dest);//JPEGで保存
-						chmod($dest,PERMISSION_FOR_DEST);
-					} else{//PNGよりファイルサイズが大きくなる時は
-						unlink($im_jpg);//作成したJPEG画像を削除
-					}
-				}
+				convert_andsave_if_smaller_png2jpg($dest);
 			}
 		
 			$img_type=mime_content_type($dest);
@@ -3002,6 +2988,20 @@ function png2jpg ($src) {
 		}
 	}
 	return false;
+}
+
+//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
+function convert_andsave_if_smaller_png2jpg($dest){
+	if ($im_jpg = png2jpg($dest)) {
+		clearstatcache();
+		$fsize_dest=filesize($dest);
+		if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
+			rename($im_jpg,$dest);//JPEGで保存
+			chmod($dest,PERMISSION_FOR_DEST);
+		} else{//PNGよりファイルサイズが大きくなる時は
+			unlink($im_jpg);//作成したJPEG画像を削除
+		}
+	}
 }
 
 function check_badhost () {
