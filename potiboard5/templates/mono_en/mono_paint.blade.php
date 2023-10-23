@@ -110,11 +110,11 @@
 				sN.crossOrigin="anonymous";
 				var s0 = document.getElementsByTagName("script")[0];
 				s0.parentNode.insertBefore(sN, s0);
-				sN.addEventListener("load", function(){ cheerpjInit(); }, false);
+				sN.addEventListener('DOMContentLoaded', ()=>{ cheerpjInit(); }, false);
 				}
 			}
-			window.addEventListener("load", function() { cheerpJLoad(); }, false);
-	</script>
+			document.addEventListener('DOMContentLoaded', ()=>{ cheerpJLoad(); }, false);
+		</script>
 		@endif
 	@endif
 	@if($paint_mode)
