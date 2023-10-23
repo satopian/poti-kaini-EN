@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.5';
+const POTI_VER = 'v6.10.6';
 const POTI_LOT = 'lot.20231023';
 
 /*
@@ -969,6 +969,7 @@ function regist(){
 	}
 	$dest='';
 	$is_file_dest=false;
+	$is_upload=false;
 	if($upfile && is_file($upfile)){//アップロード
 		$dest = $temppath.$time.'.tmp';
 		if($pictmp2){
@@ -984,6 +985,7 @@ function regist(){
 				error(MSG003,$upfile);
 			}
 			$tool="Upload";
+			$is_upload=true;
 		}
 
 		$is_file_dest = is_file($dest);
@@ -1123,7 +1125,7 @@ function regist(){
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
 		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-		convert_andsave_if_smaller_png2jpg($dest);
+		convert_andsave_if_smaller_png2jpg($dest,$is_upload);
 		clearstatcache();
 		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
 		error(MSG034,$dest);
@@ -2989,10 +2991,10 @@ function png2jpg ($src) {
 }
 
 //pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-function convert_andsave_if_smaller_png2jpg($dest){
+function convert_andsave_if_smaller_png2jpg($dest,$is_upload=false){
 	clearstatcache();
 	$fsize_dest=filesize($dest);
-	if($fsize_dest > IMAGE_SIZE * 1024 || $fsize_dest > MAX_KB * 1024){//指定サイズを超えていたら
+	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
 
 		if ($im_jpg = png2jpg($dest)) {
 			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
