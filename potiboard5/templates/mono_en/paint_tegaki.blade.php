@@ -19,7 +19,7 @@
 	</style>
 <script>
 	document.addEventListener('DOMContentLoaded',()=>{
-	document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
+	document.addEventListener('dblclick', (e)=>{ e.preventDefault()}, { passive: false });
 	});
 </script>
 </head>
