@@ -120,15 +120,6 @@
 
 		<title>{{$title}}</title>
 		<style id="for_mobile"></style>
-		<script>
-			function is_mobile() {
-				if (navigator.maxTouchPoints && (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)){
-					return	document.getElementById("for_mobile").textContent = ".for_pc{display: none;}";
-				}
-				return false;
-			}
-			document.addEventListener('DOMContentLoaded',is_mobile,false);
-		</script>
 	
 	</head>
 	<body id="paintmode">

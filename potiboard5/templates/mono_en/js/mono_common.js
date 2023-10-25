@@ -133,3 +133,10 @@
 			snsWindow = window.open(url, "_blank", windowFeatures); // 新しいウィンドウを開く
 			}
 	}
+
+	//モバイルの時はPC用のメニューを非表示
+	document.addEventListener('DOMContentLoaded',()=> {
+		if (navigator.maxTouchPoints && (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)){
+			document.getElementById("for_mobile").textContent = ".for_pc{display: none;}";
+		}
+	});
