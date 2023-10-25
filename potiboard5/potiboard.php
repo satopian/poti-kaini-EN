@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.7';
-const POTI_LOT = 'lot.20231024';
+const POTI_VER = 'v6.10.8';
+const POTI_LOT = 'lot.20231025';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1658,7 +1658,6 @@ function paintform(){
 	$ctype = (string)newstring(filter_input(INPUT_POST, 'ctype'));
 	$quality = (int)filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 	$no = (int)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
-	$is_mobile = (bool)filter_input(INPUT_POST, 'is_mobile',FILTER_VALIDATE_BOOLEAN);
 
 	if(strlen($pwd) > 72) error(MSG015);
 
@@ -1758,9 +1757,7 @@ function paintform(){
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 	
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
-		if($is_mobile && ($_pch_ext==='.spch')){
-			$ctype='img';
-		}
+
 		if($ctype=='pch'&& $_pch_ext){
 
 			if($_pch_ext==='.pch'){
