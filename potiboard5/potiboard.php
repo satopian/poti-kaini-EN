@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.8';
-const POTI_LOT = 'lot.20231025';
+const POTI_VER = 'v6.10.10';
+const POTI_LOT = 'lot.20231027';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -61,7 +61,9 @@ if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
 	die($err);
 }
 
-//CheerpJ
+// const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/3_20231025_240/cj3loader.js';
+// const CHEERPJ_HASH = 'sha384-hDtP7bmp5Cl2BRQenCjcXT1iveiD/ZvIsJzm3H5hQZSEDPNmPnJvJyMy5RY/hTmv';
+
 const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
 const CHEERPJ_HASH = 'sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE';
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
@@ -1659,6 +1661,7 @@ function paintform(){
 	$quality = (int)filter_input(INPUT_POST, 'quality',FILTER_VALIDATE_INT);
 	$no = (int)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 
+	
 	if(strlen($pwd) > 72) error(MSG015);
 
 	$dat['klecksusercode']=$usercode;//klecks
@@ -1866,6 +1869,10 @@ function paintform(){
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
 	}
+
+	$not_support_async_await=not_support_async_await()&&($shi==1||$shi==2);
+	$dat['await']=$not_support_async_await ? '' : 'await';//しぃペインターのダイナミックパレットの制御
+	$dat['async']=$not_support_async_await ? '' : 'async';//awaitをSupportしていない古いブラウザの時は空白に
 
 	//アプリ選択 
 	if($shi==1){ $dat['normal'] = true; }
@@ -3411,6 +3418,21 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 function isIE() {
 	$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
     return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
+}
+function not_support_async_await(){
+
+	if(isIE()){
+		return true;
+	}
+	$userAgent = $_SERVER['HTTP_USER_AGENT'];
+	if (strpos($userAgent, 'Firefox/') !== false) {
+		$matches = [];
+		preg_match('/Firefox\/(\d+)/', $userAgent, $matches);
+		if (isset($matches[1]) && (int)$matches[1] < 89 ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
