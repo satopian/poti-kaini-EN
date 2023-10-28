@@ -249,6 +249,11 @@ define("MAX_KB", "1000");
 define("MAX_W", "600");	//幅(width)
 define("MAX_H", "600");	//高さ(height)
 
+//アップロード時の幅と高さの最大サイズ これ以上は縮小
+// The maximum size for width and height during upload, any larger will be resized.
+define("MAX_W_PX", "1024"); //幅(width)
+define("MAX_H_PX", "1024"); //高さ(height)
+
 // レスで画像貼りを許可する する:1 しない:0
 // ※お絵かきも連動
 // Allow image comments, "1" to enable.

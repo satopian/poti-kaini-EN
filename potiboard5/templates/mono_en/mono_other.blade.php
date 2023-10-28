@@ -23,7 +23,6 @@
 		.pchup_button {
 			margin: 0 0 10px 0;
 		}
-
 </style>
 	<title>{{$title}}</title>
 	<style id="for_mobile"></style>
@@ -198,7 +197,8 @@
 					<ul>
 						@if($upfile)
 						<li>Attachable files type: GIF, JPG, PNG and WEBP.</li>
-						<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be displayed in reduced size.</li>
+						<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
+						<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be thumbnailed.</li>
 						<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
 						@endif
 						@if($rewrite)

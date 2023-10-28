@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.10.10';
-const POTI_LOT = 'lot.20231027';
+const POTI_VER = 'v6.11.2';
+const POTI_LOT = 'lot.20231028';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -61,8 +61,8 @@ if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
 	die($err);
 }
 
-// const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/3_20231025_240/cj3loader.js';
-// const CHEERPJ_HASH = 'sha384-hDtP7bmp5Cl2BRQenCjcXT1iveiD/ZvIsJzm3H5hQZSEDPNmPnJvJyMy5RY/hTmv';
+//const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/3_20231026_244/cj3loader.js';
+//const CHEERPJ_HASH = 'sha384-hDtP7bmp5Cl2BRQenCjcXT1iveiD/ZvIsJzm3H5hQZSEDPNmPnJvJyMy5RY/hTmv';
 
 const CHEERPJ_URL = 'https://cjrtnc.leaningtech.com/2.3/loader.js';
 const CHEERPJ_HASH = 'sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE';
@@ -195,6 +195,9 @@ defined("CATALOG_PAGE_DEF") or define("CATALOG_PAGE_DEF",30);
 //お絵かきできる最小の幅と高さ
 defined("PMIN_W") or define("PMIN_W", "300"); //幅
 defined("PMIN_H") or define("PMIN_H", "300"); //高さ
+//アップロード時の幅と高さの最大サイズ これ以上は縮小
+defined("MAX_W_PX") or define("MAX_W_PX", "1024"); //高さ
+defined("MAX_H_PX") or define("MAX_H_PX", "1024"); //高さ
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -516,6 +519,8 @@ function form($resno="",$tmp=""){
 	$dat['use_tegaki'] = (USE_TEGAKI ? true : false);
 	$dat['pdefw'] = PDEF_W;
 	$dat['pdefh'] = PDEF_H;
+	$dat['maxw_px'] = MAX_W_PX;
+	$dat['maxh_px'] = MAX_H_PX;
 	$dat['pmaxw'] = PMAX_W;
 	$dat['pmaxh'] = PMAX_H;
 	$dat['pminw'] = PMIN_W;
@@ -986,6 +991,8 @@ function regist(){
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
 			}
+			//Exifをチェックして画像が回転している時と位置情報付いている時は上書き保存
+			check_jpeg_exif($dest);
 			$tool="Upload";
 			$is_upload=true;
 		}
@@ -1126,8 +1133,10 @@ function regist(){
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
+		thumb($temppath,$time,".tmp",MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
 		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 		convert_andsave_if_smaller_png2jpg($dest,$is_upload);
+
 		clearstatcache();
 		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
 		error(MSG034,$dest);
@@ -3010,6 +3019,46 @@ function convert_andsave_if_smaller_png2jpg($dest,$is_upload=false){
 		}
 	}
 }
+//Exifをチェックして画像が回転している時と位置情報付いている時は上書き保存
+function check_jpeg_exif($dest){
+
+	if((exif_imagetype($dest) !== IMAGETYPE_JPEG ) || !function_exists("imagecreatefromjpeg")){
+		return;
+	}
+	//画像回転の検出
+	$exif = exif_read_data($dest);
+	$orientation = isset($exif["Orientation"]) ? $exif["Orientation"] : 1;
+	//位置情報はあるか?
+	$gpsdata_exists =(isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])); 
+
+	if ($orientation !== 1||$gpsdata_exists) {//画像が回転あるいは位置情報が存在する時は
+		$image = imagecreatefromjpeg($dest);
+
+		switch ($orientation) {
+			case 3:
+				$image = imagerotate($image, 180, 0);
+				break;
+			case 6:
+				$image = imagerotate($image, -90, 0);
+				break;
+			case 8:
+				$image = imagerotate($image, 90, 0);
+				break;
+			case 1://画像が回転していない時
+				break;
+			default:
+				break;
+		}
+	// 画像を保存
+	imagejpeg($image, $dest,98);
+	// 画像のメモリを解放
+	imagedestroy($image);
+	}
+	if(!is_file($dest)){
+		error(MSG003,$upfile);
+	}
+}
+
 
 function check_badhost () {
 	global $badip;
