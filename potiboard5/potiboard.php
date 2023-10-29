@@ -541,7 +541,10 @@ function form($resno="",$tmp=""){
 	if(!USE_IMG_UPLOAD){//画像アップロード機能を使わない時
 		$dat['upfile'] = false;
 	} else{
-		if((!$resno && !$tmp) || (RES_UPLOAD && !$tmp)) $dat['upfile'] = true;
+		if((!$resno && !$tmp) || (RES_UPLOAD && !$tmp)){
+			$dat['upfile'] = true;
+		}
+			
 	}
 	$dat['maxkb']   = MAX_KB;//実際にアップロードできるファイルサイズ
 	$dat['maxw']    = $resno ? MAX_RESW : MAX_W;

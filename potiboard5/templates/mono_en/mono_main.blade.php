@@ -110,8 +110,8 @@
 
 	@endif
 
-	<div class="epost">
-			@if ($notres and (!$diary or $addinfo))
+		<div class="epost">
+		@if ($notres and (!$diary or $addinfo))
 			<ul>
 			@if ($paint2 and !$diary)
 			<li>Canvas size is width {{$pminw}}px to {{$pmaxw}}px, height {{$pminh}}px to {{$pmaxh}}px.</li>
@@ -121,7 +121,7 @@
 		</ul>
 		@endif	
 		</div>
-	@endif
+		@endif
 		@if($form)
 			<div>
 			<form action="{{$self}}" method="post" enctype="multipart/form-data" id="comment_form">
@@ -179,7 +179,7 @@
 					<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
 					<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
 					@endif
-					@if($paint or $upfile)
+					@if(($paintform and $paint) or $upfile)
 					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be  will be thumbnailed.</li>
 					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
 					@endif
