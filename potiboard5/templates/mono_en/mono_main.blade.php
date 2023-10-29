@@ -98,8 +98,8 @@
 	@endif
 	@endif
 	@if($paintform)
-	@if($paint and ($resno or !$diary))
-		@if($resno)
+	@if($resno or !$diary)
+	@if($resno)
 			<p class="resm">Reply with oekaki</p>
 			<hr>
 		@endif
@@ -179,7 +179,7 @@
 					<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
 					<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
 					@endif
-					@if(($paintform and $paint) or $upfile)
+					@if($paintform or $upfile)
 					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be  will be thumbnailed.</li>
 					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
 					@endif

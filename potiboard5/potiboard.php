@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.11.2';
-const POTI_LOT = 'lot.20231028';
+const POTI_VER = 'v6.11.5';
+const POTI_LOT = 'lot.20231029';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -529,7 +529,7 @@ function form($resno="",$tmp=""){
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 	$dat['resno'] = $resno ? $resno :'';
 	$dat['notres'] = $resno ? false : true;
-	$dat['paintform'] = USE_PAINT ? ($resno ? (RES_UPLOAD ? true :false) :true):false;
+	$dat['paintform'] = (USE_PAINT && !empty($count_arr_apps)) ? ($resno ? (RES_UPLOAD ? true :false) :true):false;
 	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
@@ -3333,6 +3333,9 @@ function app_to_use(){
 	$arr_apps=[];
 		if(USE_PAINTBBS_NEO){
 			$arr_apps[]='neo';
+		}
+		if(USE_TEGAKI){
+			$arr_apps[]='tegaki';
 		}
 		if(USE_SHI_PAINTER){
 			$arr_apps[]='1';
