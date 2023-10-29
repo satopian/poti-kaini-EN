@@ -994,7 +994,7 @@ function regist(){
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
 			}
-			//Exifをチェックして画像が回転している時と位置情報付いている時は上書き保存
+			//Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
 			check_jpeg_exif($dest);
 			$tool="Upload";
 			$is_upload=true;
@@ -3022,7 +3022,7 @@ function convert_andsave_if_smaller_png2jpg($dest,$is_upload=false){
 		}
 	}
 }
-//Exifをチェックして画像が回転している時と位置情報付いている時は上書き保存
+//Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
 function check_jpeg_exif($dest){
 
 	if((exif_imagetype($dest) !== IMAGETYPE_JPEG ) || !function_exists("imagecreatefromjpeg")){
