@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.11.5';
-const POTI_LOT = 'lot.20231029';
+const POTI_VER = 'v6.11.6';
+const POTI_LOT = 'lot.20231030';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1146,10 +1146,8 @@ function regist(){
 		}
 		//画像フォーマット
 		$img_type=mime_content_type($dest);//190603
-
-		if (!in_array($img_type, ['image/gif', 'image/jpeg', 'image/png','image/webp'])) {
-			error(MSG004,$dest);
-		}
+		//サポートしていないフォーマットならエラーが返る
+		getImgType($img_type, $dest);
 
 		$chk = md5_file($dest);
 		check_badfile($chk, $dest); // 拒絶画像チェック
@@ -1187,8 +1185,9 @@ function regist(){
 		}
 
 		list($w, $h) = getimagesize($dest);
+		//サポートしていないフォーマットならエラーが返る
 		$ext = getImgType($img_type, $dest);
-
+	
 		rename($dest,$path.$time.$ext);
 		chmod($path.$time.$ext,PERMISSION_FOR_DEST);
 		// 縮小表示
@@ -2516,15 +2515,13 @@ function replace(){
 		
 			//画像フォーマット
 			$img_type=mime_content_type($dest);
-			if (!in_array($img_type, ['image/gif', 'image/jpeg', 'image/png','image/webp'])) {
-				error(MSG004,$dest);
-			}
+			//サポートしていないフォーマットならエラーが返る
+			$imgext = getImgType($img_type, $dest);
 
 			$chk = md5_file($dest);
 			check_badfile($chk, $dest); // 拒絶画像チェック
 
 			list($w, $h) = getimagesize($dest);
-			$imgext = getImgType($img_type, $dest);
 	
 			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$time.$imgext);
