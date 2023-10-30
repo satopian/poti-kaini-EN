@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.11.6';
+const POTI_VER = 'v6.11.7';
 const POTI_LOT = 'lot.20231030';
 
 /*
@@ -981,15 +981,15 @@ function regist(){
 	$is_file_dest=false;
 	$is_upload=false;
 	if($upfile && is_file($upfile)){//アップロード
-		$dest = $temppath.$time.'.tmp';
-		if($pictmp2){
+	$img_type=mime_content_type($upfile);//190603
+	//サポートしていないフォーマットならエラーが返る
+	getImgType($img_type, $upfile);
+	$dest = $temppath.$time.'.tmp';
+	if($pictmp2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
 			if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
-			}
-			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
-				error(MSG004,$upfile);
 			}
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
