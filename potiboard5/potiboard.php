@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.11.7';
-const POTI_LOT = 'lot.20231030';
+const POTI_VER = 'v6.11.10';
+const POTI_LOT = 'lot.20231101';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -981,15 +981,17 @@ function regist(){
 	$is_file_dest=false;
 	$is_upload=false;
 	if($upfile && is_file($upfile)){//アップロード
-	$img_type=mime_content_type($upfile);//190603
 	//サポートしていないフォーマットならエラーが返る
-	getImgType($img_type, $upfile);
+	getImgType($upfile);
 	$dest = $temppath.$time.'.tmp';
 	if($pictmp2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
 			if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
+			}
+			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
+				error(MSG004,$upfile);
 			}
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
@@ -1144,10 +1146,8 @@ function regist(){
 		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
 		error(MSG034,$dest);
 		}
-		//画像フォーマット
-		$img_type=mime_content_type($dest);//190603
 		//サポートしていないフォーマットならエラーが返る
-		getImgType($img_type, $dest);
+		getImgType($dest);
 
 		$chk = md5_file($dest);
 		check_badfile($chk, $dest); // 拒絶画像チェック
@@ -1186,7 +1186,7 @@ function regist(){
 
 		list($w, $h) = getimagesize($dest);
 		//サポートしていないフォーマットならエラーが返る
-		$ext = getImgType($img_type, $dest);
+		$ext = getImgType($dest);
 	
 		rename($dest,$path.$time.$ext);
 		chmod($path.$time.$ext,PERMISSION_FOR_DEST);
@@ -2505,6 +2505,9 @@ function replace(){
 
 			$upfile = $temppath.$file_name.$imgext;
 			$dest = $temppath.$time.'.tmp';
+			
+			//サポートしていないフォーマットならエラーが返る
+			getImgType($upfile);
 			copy($upfile, $dest);
 			
 			if(!is_file($dest)) error(MSG003);
@@ -2513,10 +2516,8 @@ function replace(){
 			//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 			convert_andsave_if_smaller_png2jpg($dest);
 		
-			//画像フォーマット
-			$img_type=mime_content_type($dest);
 			//サポートしていないフォーマットならエラーが返る
-			$imgext = getImgType($img_type, $dest);
+			$imgext = getImgType($dest);
 
 			$chk = md5_file($dest);
 			check_badfile($chk, $dest); // 拒絶画像チェック
@@ -2848,7 +2849,9 @@ function redirect ($url, $wait = 0, $message1 = '',$message2 = '') {
 	exit;
 }
 
-function getImgType ($img_type, $dest) {
+function getImgType ($dest) {
+
+	$img_type=mime_content_type($dest);
 
 	switch ($img_type) {
 		case "image/gif" : return ".gif";
@@ -3031,34 +3034,54 @@ function check_jpeg_exif($dest){
 	//位置情報はあるか?
 	$gpsdata_exists =(isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])); 
 
-	if ($orientation !== 1||$gpsdata_exists) {//画像が回転あるいは位置情報が存在する時は
-		$image = imagecreatefromjpeg($dest);
-
-		switch ($orientation) {
-			case 3:
-				$image = imagerotate($image, 180, 0);
-				break;
-			case 6:
-				$image = imagerotate($image, -90, 0);
-				break;
-			case 8:
-				$image = imagerotate($image, 90, 0);
-				break;
-			case 1://画像が回転していない時
-				break;
-			default:
-				break;
-		}
-	// 画像を保存
-	imagejpeg($image, $dest,98);
-	// 画像のメモリを解放
-	imagedestroy($image);
+	if ($orientation === 1 && !$gpsdata_exists) {
+	//画像が回転していない、位置情報も存在しない時
+		return;
 	}
+
+	list($w,$h) = getimagesize($dest);
+
+	$im_in = imagecreatefromjpeg($dest);
+
+	switch ($orientation) {
+		case 3:
+			$im_in = imagerotate($im_in, 180, 0);
+			break;
+		case 6:
+			$im_in = imagerotate($im_in, -90, 0);
+			break;
+		case 8:
+			$im_in = imagerotate($im_in, 90, 0);
+			break;
+		default:
+			break;
+	}
+	if ($orientation === 6 || $orientation === 8) {
+		// 90度または270度回転の場合、幅と高さを入れ替える
+		list($w, $h) = [$h, $w];
+	}
+	$w_ratio = MAX_W_PX / $w;
+	$h_ratio = MAX_H_PX / $h;
+	$ratio = min($w_ratio, $h_ratio);
+	$out_w = ceil($w * $ratio);//端数の切り上げ
+	$out_h = ceil($h * $ratio);
+	$im_out = $im_in;//縮小しない時
+	//JPEG形式で何度も保存しなおすのを回避するため、
+	//指定範囲内にリサイズしておく。
+	if(function_exists("ImageCreateTrueColor") && function_exists("ImageCopyResampled")){
+		$im_out = ImageCreateTrueColor($out_w, $out_h);
+		ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
+	}
+	// 画像を保存
+	imagejpeg($im_out, $dest,98);
+	// 画像のメモリを解放
+	imagedestroy($im_in);
+	imagedestroy($im_out);
+
 	if(!is_file($dest)){
-		error(MSG003,$upfile);
+		error(MSG003,$dest);
 	}
 }
-
 
 function check_badhost () {
 	global $badip;
