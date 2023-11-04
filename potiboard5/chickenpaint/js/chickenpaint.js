@@ -38,27 +38,27 @@ var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"
 var _lang = require("./languages/lang.js");
 var _CPUserPreferences = _interopRequireDefault(require("./gui/CPUserPreferences.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); } /*
-                                                                                                                                                                                                                                                                                                                                                     ChickenPaint
-                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                     ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                                                                                                                                                     by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                     ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                     ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                                                                                                                                                     it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                                                                                                                                                     the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                                                                                                                                                     (at your option) any later version.
-                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                     ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                                                                                                                                                     but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                                                                                                                                                     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                                                                                                                                                     GNU General Public License for more details.
-                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                     You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                                                                                                                                                     along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                                                                                                                                                 */ // core-js Polyfills for the features we use
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); } /*
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint
+                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                   by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                   ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                   it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                   the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                   (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                   but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                   GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                   You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                   along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                               */ // core-js Polyfills for the features we use
 /* Check for native pointer event support before PEP adds its polyfill */
 if (window.PointerEvent) {
   window.hasNativePointerEvents = true;
@@ -1445,7 +1445,7 @@ ChickenPaint.COLOR_MODE_RGB = 0;
 ChickenPaint.COLOR_MODE_GREYSCALE = 1;
 module.exports = exports.default;
 
-},{"../lib/raf.js":69,"./engine/CPArtwork.js":3,"./engine/CPBrushInfo.js":8,"./engine/CPResourceLoader.js":20,"./engine/CPResourceSaver.js":21,"./gui/CPAboutDialog.js":23,"./gui/CPBoxBlurDialog.js":24,"./gui/CPConfirmTransformDialog.js":32,"./gui/CPGridDialog.js":34,"./gui/CPMainGUI.js":36,"./gui/CPSendDialog.js":42,"./gui/CPShortcutsDialog.js":43,"./gui/CPSplashScreen.js":45,"./gui/CPTabletDialog.js":48,"./gui/CPUserPreferences.js":51,"./languages/lang.js":54,"./util/CPColor.js":58,"./util/CPPolyfill.js":60,"./util/CPRect.js":63,"./util/CPWacomTablet.js":66,"bootstrap":70,"core-js/stable/array/fill.js":255,"core-js/stable/array/iterator.js":256,"core-js/stable/map/index.js":257,"core-js/stable/promise/index.js":258,"core-js/stable/set/index.js":259,"core-js/stable/string/ends-with.js":260,"core-js/stable/symbol/index.js":261,"core-js/stable/typed-array/fill.js":262,"core-js/stable/typed-array/slice.js":263,"jquery":265,"pepjs":282,"wolfy87-eventemitter":284}],2:[function(require,module,exports){
+},{"../lib/raf.js":69,"./engine/CPArtwork.js":3,"./engine/CPBrushInfo.js":8,"./engine/CPResourceLoader.js":20,"./engine/CPResourceSaver.js":21,"./gui/CPAboutDialog.js":23,"./gui/CPBoxBlurDialog.js":24,"./gui/CPConfirmTransformDialog.js":32,"./gui/CPGridDialog.js":34,"./gui/CPMainGUI.js":36,"./gui/CPSendDialog.js":42,"./gui/CPShortcutsDialog.js":43,"./gui/CPSplashScreen.js":45,"./gui/CPTabletDialog.js":48,"./gui/CPUserPreferences.js":51,"./languages/lang.js":54,"./util/CPColor.js":58,"./util/CPPolyfill.js":60,"./util/CPRect.js":63,"./util/CPWacomTablet.js":66,"bootstrap":70,"core-js/stable/array/fill.js":287,"core-js/stable/array/iterator.js":288,"core-js/stable/map/index.js":289,"core-js/stable/promise/index.js":290,"core-js/stable/set/index.js":291,"core-js/stable/string/ends-with.js":292,"core-js/stable/symbol/index.js":293,"core-js/stable/typed-array/fill.js":294,"core-js/stable/typed-array/slice.js":295,"jquery":297,"pepjs":314,"wolfy87-eventemitter":316}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1491,7 +1491,7 @@ function createImageData(width, height) {
 },{}],3:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -1517,41 +1517,43 @@ var _Canvas = require("../util/Canvas.js");
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
 var _CPBrushTool = require("./CPBrushTool.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; } /*
-                                                                                                                                                                                            ChickenPaint
-                                                                                                                                                                                            
-                                                                                                                                                                                            ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                            by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                            
-                                                                                                                                                                                            ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; } /*
+                                                                                                                                                                                        ChickenPaint
                                                                                                                                                                                         
-                                                                                                                                                                                            ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                            it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                            the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                            (at your option) any later version.
+                                                                                                                                                                                        ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                        by Nicholas Sherlock / Chicken Smoothie.
                                                                                                                                                                                         
-                                                                                                                                                                                            ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                            but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                            GNU General Public License for more details.
-                                                                                                                                                                                        
-                                                                                                                                                                                            You should have received a copy of the GNU General Public License
-                                                                                                                                                                                            along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                        */
+                                                                                                                                                                                        ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                    
+                                                                                                                                                                                        ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                        it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                        the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                        (at your option) any later version.
+                                                                                                                                                                                    
+                                                                                                                                                                                        ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                        but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                        GNU General Public License for more details.
+                                                                                                                                                                                    
+                                                                                                                                                                                        You should have received a copy of the GNU General Public License
+                                                                                                                                                                                        along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                    */
 /**
  * Capitalize the first letter of the string.
  *
@@ -4402,7 +4404,7 @@ CPArtwork.EDITING_MODE_IMAGE = 0;
 CPArtwork.EDITING_MODE_MASK = 1;
 module.exports = exports.default;
 
-},{"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPRandom.js":62,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/Canvas.js":2,"./CPBlend.js":5,"./CPBlendAdditional.js":6,"./CPBlendTree.js":7,"./CPBrushInfo.js":8,"./CPBrushManager.js":9,"./CPBrushTool.js":10,"./CPClip.js":12,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"./CPImageLayer.js":15,"./CPLayerGroup.js":17,"./CPMaskView.js":19,"./CPUndo.js":22,"wolfy87-eventemitter":284}],4:[function(require,module,exports){
+},{"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPRandom.js":62,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/Canvas.js":2,"./CPBlend.js":5,"./CPBlendAdditional.js":6,"./CPBlendTree.js":7,"./CPBrushInfo.js":8,"./CPBrushManager.js":9,"./CPBrushTool.js":10,"./CPClip.js":12,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"./CPImageLayer.js":15,"./CPLayerGroup.js":17,"./CPMaskView.js":19,"./CPUndo.js":22,"wolfy87-eventemitter":316}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11069,27 +11071,27 @@ var _CPRect = _interopRequireDefault(require("../util/CPRect.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; } /*
-                                                                                                                                                                                        	ChickenPaint
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                        	by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                        	it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                        	the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                        	(at your option) any later version.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                        	but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                        	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                        	GNU General Public License for more details.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	You should have received a copy of the GNU General Public License
-                                                                                                                                                                                        	along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                        */
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; } /*
+                                                                                                                                                                                    	ChickenPaint
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                    	by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                    	it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                    	the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                    	(at your option) any later version.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                    	GNU General Public License for more details.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	You should have received a copy of the GNU General Public License
+                                                                                                                                                                                    	along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                    */
 /**
  *
  * @param {int} width
@@ -12159,7 +12161,6 @@ module.exports = exports.default;
 },{"./CPBrushInfo.js":8}],10:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12169,36 +12170,39 @@ var _CPGreyBmp = _interopRequireDefault(require("./CPGreyBmp.js"));
 var _CPBrushInfo = _interopRequireDefault(require("./CPBrushInfo.js"));
 var _CPColorFloat = _interopRequireDefault(require("../util/CPColorFloat.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; } /*
-                                                                                                                                                                                                                                                                                                  ChickenPaint
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                                                                                                  (at your option) any later version.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                                                                                              */
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); } /*
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                                                                                  (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                              */
 /**
  * @param {number[]} array
  * @returns {number}
@@ -12231,7 +12235,7 @@ function averageColorFloat(array) {
 function lerp(from, to, prop) {
   return from * (1 - prop) + to * prop;
 }
-var CPBrushTool = /*#__PURE__*/function () {
+var CPBrushTool = exports.CPBrushTool = /*#__PURE__*/function () {
   /**
    * @param {CPGreyBmp} strokeBuffer - A 32-bit image we can use for buffering paint operations to be merged later.
    * @param {CPRect} strokedRegion - The area of the strokeBuffer we've painted on.
@@ -12427,8 +12431,7 @@ var CPBrushTool = /*#__PURE__*/function () {
   }]);
   return CPBrushTool;
 }();
-exports.CPBrushTool = CPBrushTool;
-var CPBrushToolEraser = /*#__PURE__*/function (_CPBrushTool) {
+var CPBrushToolEraser = exports.CPBrushToolEraser = /*#__PURE__*/function (_CPBrushTool) {
   _inherits(CPBrushToolEraser, _CPBrushTool);
   var _super = _createSuper(CPBrushToolEraser);
   function CPBrushToolEraser() {
@@ -12461,8 +12464,7 @@ var CPBrushToolEraser = /*#__PURE__*/function (_CPBrushTool) {
   }]);
   return CPBrushToolEraser;
 }(CPBrushTool);
-exports.CPBrushToolEraser = CPBrushToolEraser;
-var CPBrushToolDodge = /*#__PURE__*/function (_CPBrushTool2) {
+var CPBrushToolDodge = exports.CPBrushToolDodge = /*#__PURE__*/function (_CPBrushTool2) {
   _inherits(CPBrushToolDodge, _CPBrushTool2);
   var _super2 = _createSuper(CPBrushToolDodge);
   function CPBrushToolDodge() {
@@ -12530,9 +12532,8 @@ var CPBrushToolDodge = /*#__PURE__*/function (_CPBrushTool2) {
   }]);
   return CPBrushToolDodge;
 }(CPBrushTool);
-exports.CPBrushToolDodge = CPBrushToolDodge;
 var BURN_CONSTANT = 260;
-var CPBrushToolBurn = /*#__PURE__*/function (_CPBrushTool3) {
+var CPBrushToolBurn = exports.CPBrushToolBurn = /*#__PURE__*/function (_CPBrushTool3) {
   _inherits(CPBrushToolBurn, _CPBrushTool3);
   var _super3 = _createSuper(CPBrushToolBurn);
   function CPBrushToolBurn() {
@@ -12598,7 +12599,6 @@ var CPBrushToolBurn = /*#__PURE__*/function (_CPBrushTool3) {
   }]);
   return CPBrushToolBurn;
 }(CPBrushTool);
-exports.CPBrushToolBurn = CPBrushToolBurn;
 var BLUR_MIN = 64,
   BLUR_MAX = 1;
 
@@ -12607,7 +12607,7 @@ var BLUR_MIN = 64,
  * how much weight the central pixel should have in the sum (higher opacities cause the central pixel to have lower weight,
  * increasing the contribution of those on the edges)
  */
-var CPBrushToolBlur = /*#__PURE__*/function (_CPBrushTool4) {
+var CPBrushToolBlur = exports.CPBrushToolBlur = /*#__PURE__*/function (_CPBrushTool4) {
   _inherits(CPBrushToolBlur, _CPBrushTool4);
   var _super4 = _createSuper(CPBrushToolBlur);
   function CPBrushToolBlur() {
@@ -12728,7 +12728,6 @@ var CPBrushToolBlur = /*#__PURE__*/function (_CPBrushTool4) {
  * The undoBuffer (pre-stroke image data) is restored to the layer, then the pixels from strokeBuffer are blended
  * on top of that.
  */
-exports.CPBrushToolBlur = CPBrushToolBlur;
 var CPBrushToolDirectBrush = /*#__PURE__*/function (_CPBrushTool5) {
   _inherits(CPBrushToolDirectBrush, _CPBrushTool5);
   var _super5 = _createSuper(CPBrushToolDirectBrush);
@@ -12804,7 +12803,7 @@ var CPBrushToolDirectBrush = /*#__PURE__*/function (_CPBrushTool5) {
 var WATERCOLOR_NUM_SAMPLES = 50,
   WATERCOLOR_SAMPLE_RADIUS = 64,
   WATERCOLOR_SPREAD_FACTOR = 2 / 6;
-var CPBrushToolWatercolor = /*#__PURE__*/function (_CPBrushToolDirectBru) {
+var CPBrushToolWatercolor = exports.CPBrushToolWatercolor = /*#__PURE__*/function (_CPBrushToolDirectBru) {
   _inherits(CPBrushToolWatercolor, _CPBrushToolDirectBru);
   var _super6 = _createSuper(CPBrushToolWatercolor);
   function CPBrushToolWatercolor(strokeBuffer, strokedRegion) {
@@ -13060,8 +13059,7 @@ var CPBrushToolWatercolor = /*#__PURE__*/function (_CPBrushToolDirectBru) {
   }]);
   return CPBrushToolWatercolor;
 }(CPBrushToolDirectBrush);
-exports.CPBrushToolWatercolor = CPBrushToolWatercolor;
-var CPBrushToolOil = /*#__PURE__*/function (_CPBrushToolDirectBru2) {
+var CPBrushToolOil = exports.CPBrushToolOil = /*#__PURE__*/function (_CPBrushToolDirectBru2) {
   _inherits(CPBrushToolOil, _CPBrushToolDirectBru2);
   var _super7 = _createSuper(CPBrushToolOil);
   function CPBrushToolOil(strokeBuffer, strokedRegion) {
@@ -13318,7 +13316,6 @@ var CPBrushToolOil = /*#__PURE__*/function (_CPBrushToolDirectBru2) {
  * @param {CPGreyBmp} image
  * @param {CPRect} rect
  */
-exports.CPBrushToolOil = CPBrushToolOil;
 function stretchRectToFillBuffer(image, rect) {
   var imageData = image.data;
 
@@ -13360,7 +13357,7 @@ function stretchRectToFillBuffer(image, rect) {
     }
   }
 }
-var CPBrushToolSmudge = /*#__PURE__*/function (_CPBrushToolDirectBru3) {
+var CPBrushToolSmudge = exports.CPBrushToolSmudge = /*#__PURE__*/function (_CPBrushToolDirectBru3) {
   _inherits(CPBrushToolSmudge, _CPBrushToolDirectBru3);
   var _super8 = _createSuper(CPBrushToolSmudge);
   function CPBrushToolSmudge(strokeBuffer, strokedRegion) {
@@ -13615,12 +13612,10 @@ var CPBrushToolSmudge = /*#__PURE__*/function (_CPBrushToolDirectBru3) {
   }]);
   return CPBrushToolSmudge;
 }(CPBrushToolDirectBrush);
-exports.CPBrushToolSmudge = CPBrushToolSmudge;
 
 },{"../util/CPColorFloat.js":59,"./CPBrushInfo.js":8,"./CPColorBmp.js":13,"./CPGreyBmp.js":14}],11:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13637,39 +13632,42 @@ var _pako = _interopRequireDefault(require("pako"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; } /*
-                                                                                                                                                                                                                                                                                                  ChickenPaint
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                                                                                                  (at your option) any later version.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                                                                                              */
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); } /*
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                                                                                  (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                              */
 /**
  * Concat two Uint8Arrays to make a new one and return it.
  *
@@ -14594,7 +14592,7 @@ function load(source, options) {
   });
 }
 
-},{"../util/ArrayDataStream.js":56,"./CPArtwork.js":3,"./CPBlend.js":5,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"./CPImageLayer.js":15,"./CPLayerGroup.js":17,"pako":266}],12:[function(require,module,exports){
+},{"../util/ArrayDataStream.js":56,"./CPArtwork.js":3,"./CPBlend.js":5,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"./CPImageLayer.js":15,"./CPLayerGroup.js":17,"pako":298}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17432,27 +17430,27 @@ var _CPRect = _interopRequireDefault(require("../util/CPRect.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; } /*
-                                                                                                                                                                                        	ChickenPaint
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                        	by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                        	it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                        	the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                        	(at your option) any later version.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                        	but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                        	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                        	GNU General Public License for more details.
-                                                                                                                                                                                        
-                                                                                                                                                                                        	You should have received a copy of the GNU General Public License
-                                                                                                                                                                                        	along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                        */
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; } /*
+                                                                                                                                                                                    	ChickenPaint
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                    	by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                    	it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                    	the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                    	(at your option) any later version.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                    	GNU General Public License for more details.
+                                                                                                                                                                                    
+                                                                                                                                                                                    	You should have received a copy of the GNU General Public License
+                                                                                                                                                                                    	along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                    */
 /**
  *
  * @param {string} name
@@ -17644,7 +17642,7 @@ module.exports = exports.default;
 },{}],19:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17655,35 +17653,37 @@ var _CPGreyBmp = _interopRequireDefault(require("./CPGreyBmp.js"));
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /*
-                                                                                                                                                                                                                  ChickenPaint
-                                                                                                                                                                                                              
-                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                              
-                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                              
-                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                  (at your option) any later version.
-                                                                                                                                                                                                              
-                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                  GNU General Public License for more details.
-                                                                                                                                                                                                              
-                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                              */
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /*
+                                                                                                                                                                                                                         ChickenPaint
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                         by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                         it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                         the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                         (at your option) any later version.
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                         but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                         GNU General Public License for more details.
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                         along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                     */
 /**
  * Copy the rectangle from the single-channel `greyscale` to the RGBA `imageData` as greyscale pixels with full alpha.
  * Both images must be the same size.
@@ -17715,7 +17715,7 @@ function copyGreyscaleRectToImageData(imageData, greyscale, rect) {
  *
  * Emits a "changeLayer" event if the mask view attaches to a different target layer.
  */
-var CPMaskView = /*#__PURE__*/function (_EventEmitter) {
+var CPMaskView = exports.default = /*#__PURE__*/function (_EventEmitter) {
   _inherits(CPMaskView, _EventEmitter);
   var _super = _createSuper(CPMaskView);
   /**
@@ -17787,10 +17787,9 @@ var CPMaskView = /*#__PURE__*/function (_EventEmitter) {
   }]);
   return CPMaskView;
 }(_wolfy87Eventemitter.default);
-exports.default = CPMaskView;
 module.exports = exports.default;
 
-},{"../util/CPRect.js":63,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"wolfy87-eventemitter":284}],20:[function(require,module,exports){
+},{"../util/CPRect.js":63,"./CPColorBmp.js":13,"./CPGreyBmp.js":14,"wolfy87-eventemitter":316}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17948,7 +17947,7 @@ CPResourceLoader.prototype = Object.create(_wolfy87Eventemitter.default.prototyp
 CPResourceLoader.prototype.constructor = CPResourceLoader;
 module.exports = exports.default;
 
-},{"../../js/engine/CPChibiFile.js":11,"../util/AdobeColorTable.js":55,"./CPArtwork.js":3,"./CPColorBmp.js":13,"./CPImageLayer.js":15,"wolfy87-eventemitter":284}],21:[function(require,module,exports){
+},{"../../js/engine/CPChibiFile.js":11,"../util/AdobeColorTable.js":55,"./CPArtwork.js":3,"./CPColorBmp.js":13,"./CPImageLayer.js":15,"wolfy87-eventemitter":316}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18149,16 +18148,19 @@ function CPResourceSaver(options) {
 CPResourceSaver.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPResourceSaver.prototype.constructor = CPResourceSaver;
 
-},{"../../js/engine/CPChibiFile.js":11,"../languages/lang.js":54,"../util/AdobeColorTable.js":55,"file-saver":264,"wolfy87-eventemitter":284}],22:[function(require,module,exports){
+},{"../../js/engine/CPChibiFile.js":11,"../languages/lang.js":54,"../util/AdobeColorTable.js":55,"file-saver":296,"wolfy87-eventemitter":316}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
     ChickenPaint
     
@@ -18180,7 +18182,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     You should have received a copy of the GNU General Public License
     along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
 */
-var CPUndo = /*#__PURE__*/function () {
+var CPUndo = exports.default = /*#__PURE__*/function () {
   function CPUndo() {
     _classCallCheck(this, CPUndo);
   }
@@ -18230,7 +18232,6 @@ var CPUndo = /*#__PURE__*/function () {
   }]);
   return CPUndo;
 }();
-exports.default = CPUndo;
 module.exports = exports.default;
 
 },{}],23:[function(require,module,exports){
@@ -18284,7 +18285,7 @@ function CPAboutDialog(parent) {
 }
 module.exports = exports.default;
 
-},{"jquery":265}],24:[function(require,module,exports){
+},{"jquery":297}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18345,7 +18346,7 @@ function CPBoxBlurDialog(parent, controller) {
 }
 module.exports = exports.default;
 
-},{"../languages/lang.js":54,"jquery":265}],25:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":297}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18766,7 +18767,7 @@ function CPTransformPanel(controller) {
 }
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPColorBmp.js":13,"../languages/lang":54,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"./CPCheckbox.js":27,"./CPColorSwatch.js":31,"./CPGUIUtils.js":33,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":265}],26:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPColorBmp.js":13,"../languages/lang":54,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"./CPCheckbox.js":27,"./CPColorSwatch.js":31,"./CPGUIUtils.js":33,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":297}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20995,7 +20996,7 @@ CPCanvas.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPCanvas.prototype.constructor = CPCanvas;
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":265,"wolfy87-eventemitter":284}],27:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":297,"wolfy87-eventemitter":316}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21069,7 +21070,7 @@ CPCheckbox.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPCheckbox.prototype.constructor = CPCheckbox;
 module.exports = exports.default;
 
-},{"wolfy87-eventemitter":284}],28:[function(require,module,exports){
+},{"wolfy87-eventemitter":316}],28:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21170,30 +21171,33 @@ var _CPColor = _interopRequireDefault(require("../util/CPColor.js"));
 var _CPColorBmp = _interopRequireDefault(require("../engine/CPColorBmp.js"));
 var _CPGUIUtils = require("./CPGUIUtils.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } /*
-                                                                                                                                                                                                                      ChickenPaint
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                      by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                      it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                      the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                      (at your option) any later version.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                      but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                      GNU General Public License for more details.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                      along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                  */
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); } /*
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                                                                                  (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                              */
 var CONTROL_WIDTH = 128,
   CONTROL_HEIGHT = 128,
   PIXEL_SCALE = window.devicePixelRatio || 1,
@@ -21206,7 +21210,7 @@ var CONTROL_WIDTH = 128,
  * @param {CPColor} initialColor
  * @constructor
  */
-var CPColorSelect = /*#__PURE__*/function () {
+var CPColorSelect = exports.default = /*#__PURE__*/function () {
   function CPColorSelect(controller, initialColor) {
     var _this = this;
     _classCallCheck(this, CPColorSelect);
@@ -21356,10 +21360,9 @@ var CPColorSelect = /*#__PURE__*/function () {
   }]);
   return CPColorSelect;
 }();
-exports.default = CPColorSelect;
 module.exports = exports.default;
 
-},{"../engine/CPColorBmp.js":13,"../util/CPColor.js":58,"./CPGUIUtils.js":33,"jquery":265}],30:[function(require,module,exports){
+},{"../engine/CPColorBmp.js":13,"../util/CPColor.js":58,"./CPGUIUtils.js":33,"jquery":297}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21371,30 +21374,33 @@ var _CPColor = _interopRequireDefault(require("../util/CPColor.js"));
 var _CPColorBmp = _interopRequireDefault(require("../engine/CPColorBmp.js"));
 var _CPGUIUtils = require("./CPGUIUtils.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } /*
-                                                                                                                                                                                                                      ChickenPaint
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                      by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                      it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                      the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                      (at your option) any later version.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                      but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                      GNU General Public License for more details.
-                                                                                                                                                                                                                  
-                                                                                                                                                                                                                      You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                      along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                  */
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); } /*
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                                                                                  by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                  it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                                                                                  the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                                                                                  (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                  GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                  You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                  along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                              */
 var WIDTH = 24,
   HEIGHT = 128;
 
@@ -21416,7 +21422,7 @@ function makeSliderBitmap(imageData) {
     }
   }
 }
-var CPColorSlider = /*#__PURE__*/function () {
+var CPColorSlider = exports.default = /*#__PURE__*/function () {
   function CPColorSlider(controller, selecter, initialHue) {
     var _this = this;
     _classCallCheck(this, CPColorSlider);
@@ -21510,10 +21516,9 @@ var CPColorSlider = /*#__PURE__*/function () {
   }]);
   return CPColorSlider;
 }();
-exports.default = CPColorSlider;
 module.exports = exports.default;
 
-},{"../engine/CPColorBmp.js":13,"../util/CPColor.js":58,"./CPGUIUtils.js":33,"jquery":265}],31:[function(require,module,exports){
+},{"../engine/CPColorBmp.js":13,"../util/CPColor.js":58,"./CPGUIUtils.js":33,"jquery":297}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21646,7 +21651,7 @@ CPColorSwatch.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPColorSwatch.prototype.constructor = CPColorSwatch;
 module.exports = exports.default;
 
-},{"../util/CPColor.js":58,"./CPColorSelect.js":29,"./CPColorSlider.js":30,"./CPSlider.js":44,"jquery":265,"wolfy87-eventemitter":284}],32:[function(require,module,exports){
+},{"../util/CPColor.js":58,"./CPColorSelect.js":29,"./CPColorSlider.js":30,"./CPSlider.js":44,"jquery":297,"wolfy87-eventemitter":316}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21720,7 +21725,7 @@ CPConfirmTransformDialog.prototype = Object.create(_wolfy87Eventemitter.default.
 CPConfirmTransformDialog.prototype.constructor = CPConfirmTransformDialog;
 module.exports = exports.default;
 
-},{"../languages/lang.js":54,"jquery":265,"wolfy87-eventemitter":284}],33:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":297,"wolfy87-eventemitter":316}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21849,7 +21854,7 @@ function CPGridDialog(parent, canvas) {
 }
 module.exports = exports.default;
 
-},{"../languages/lang.js":54,"jquery":265}],35:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":297}],35:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23185,7 +23190,7 @@ CPLayersPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPLayersPalette.prototype.constructor = CPLayersPalette;
 module.exports = exports.default;
 
-},{"../engine/CPBlend.js":5,"../engine/CPImageLayer.js":15,"../engine/CPLayer.js":16,"../engine/CPLayerGroup.js":17,"../languages/lang.js":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":265}],36:[function(require,module,exports){
+},{"../engine/CPBlend.js":5,"../engine/CPImageLayer.js":15,"../engine/CPLayer.js":16,"../engine/CPLayerGroup.js":17,"../languages/lang.js":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":297}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23303,7 +23308,7 @@ CPMainGUI.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPMainGUI.prototype.constructor = CPMainGUI;
 module.exports = exports.default;
 
-},{"./CPCanvas.js":26,"./CPMainMenu.js":37,"./CPPaletteManager.js":40,"jquery":265,"wolfy87-eventemitter":284}],37:[function(require,module,exports){
+},{"./CPCanvas.js":26,"./CPMainMenu.js":37,"./CPPaletteManager.js":40,"jquery":297,"wolfy87-eventemitter":316}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23843,7 +23848,7 @@ function CPMainMenu(controller, mainGUI) {
 }
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../languages/lang.js":54,"jquery":265}],38:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../languages/lang.js":54,"jquery":297}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23941,7 +23946,7 @@ CPMiscPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPMiscPalette.prototype.constructor = CPMiscPalette;
 module.exports = exports.default;
 
-},{"../languages/lang.js":54,"./CPPalette.js":39,"jquery":265}],39:[function(require,module,exports){
+},{"../languages/lang.js":54,"./CPPalette.js":39,"jquery":297}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24234,7 +24239,7 @@ CPPalette.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPPalette.prototype.constructor = _wolfy87Eventemitter.default;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"jquery":265,"wolfy87-eventemitter":284}],40:[function(require,module,exports){
+},{"../languages/lang":54,"jquery":297,"wolfy87-eventemitter":316}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24443,7 +24448,7 @@ CPPaletteManager.prototype = Object.create(_wolfy87Eventemitter.default.prototyp
 CPPaletteManager.prototype.constructor = CPPaletteManager;
 module.exports = exports.default;
 
-},{"./CPBrushPalette.js":25,"./CPColorPalette.js":28,"./CPLayersPalette.js":35,"./CPMiscPalette.js":38,"./CPStrokePalette.js":46,"./CPSwatchesPalette.js":47,"./CPTexturePalette.js":49,"./CPToolPalette.js":50,"jquery":265,"wolfy87-eventemitter":284}],41:[function(require,module,exports){
+},{"./CPBrushPalette.js":25,"./CPColorPalette.js":28,"./CPLayersPalette.js":35,"./CPMiscPalette.js":38,"./CPStrokePalette.js":46,"./CPSwatchesPalette.js":47,"./CPTexturePalette.js":49,"./CPToolPalette.js":50,"jquery":297,"wolfy87-eventemitter":316}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24586,7 +24591,7 @@ CPScrollbar.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPScrollbar.prototype.constructor = CPScrollbar;
 module.exports = exports.default;
 
-},{"jquery":265,"wolfy87-eventemitter":284}],42:[function(require,module,exports){
+},{"jquery":297,"wolfy87-eventemitter":316}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24691,7 +24696,7 @@ CPSendDialog.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPSendDialog.prototype.contructor = CPSendDialog;
 module.exports = exports.default;
 
-},{"../languages/lang.js":54,"jquery":265,"wolfy87-eventemitter":284}],43:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":297,"wolfy87-eventemitter":316}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24742,7 +24747,7 @@ function CPShortcutsDialog(parent) {
 }
 module.exports = exports.default;
 
-},{"jquery":265}],44:[function(require,module,exports){
+},{"jquery":297}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24976,7 +24981,7 @@ CPSlider.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPSlider.prototype.constructor = CPSlider;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"jquery":265,"wolfy87-eventemitter":284}],45:[function(require,module,exports){
+},{"../languages/lang":54,"jquery":297,"wolfy87-eventemitter":316}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25204,7 +25209,7 @@ CPStrokePalette.prototype = Object.create(_CPPalette.default.prototype);
 CPStrokePalette.prototype.constructor = CPStrokePalette;
 module.exports = exports.default;
 
-},{"../engine/CPBrushInfo.js":8,"../languages/lang":54,"./CPPalette.js":39,"jquery":265}],47:[function(require,module,exports){
+},{"../engine/CPBrushInfo.js":8,"../languages/lang":54,"./CPPalette.js":39,"jquery":297}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25482,7 +25487,7 @@ CPSwatchesPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPSwatchesPalette.prototype.constructor = CPSwatchesPalette;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"../util/AdobeColorTable.js":55,"../util/CPColor.js":58,"./CPPalette.js":39,"file-saver":264,"jquery":265}],48:[function(require,module,exports){
+},{"../languages/lang":54,"../util/AdobeColorTable.js":55,"../util/CPColor.js":58,"./CPPalette.js":39,"file-saver":296,"jquery":297}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25553,7 +25558,7 @@ function CPTabletDialog(parent) {
 }
 module.exports = exports.default;
 
-},{"../util/CPWacomTablet.js":66,"jquery":265}],49:[function(require,module,exports){
+},{"../util/CPWacomTablet.js":66,"jquery":297}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25942,7 +25947,7 @@ CPTexturePalette.prototype = Object.create(_CPPalette.default.prototype);
 CPTexturePalette.prototype.constructor = CPTexturePalette;
 module.exports = exports.default;
 
-},{"../engine/CPGreyBmp.js":14,"../engine/CPLookUpTable.js":18,"../languages/lang":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":265,"wolfy87-eventemitter":284}],50:[function(require,module,exports){
+},{"../engine/CPGreyBmp.js":14,"../engine/CPLookUpTable.js":18,"../languages/lang":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":297,"wolfy87-eventemitter":316}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26167,7 +26172,7 @@ CPToolPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPToolPalette.prototype.constructor = CPToolPalette;
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../languages/lang":54,"./CPPalette.js":39,"jquery":265}],51:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../languages/lang":54,"./CPPalette.js":39,"jquery":297}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26176,33 +26181,34 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var DEFAULTS = {
     toolbarStyle: "new"
   },
   LOCAL_STORAGE_KEY_NAME = "chickenpaint-prefs";
-var CPUserPreferences = /*#__PURE__*/function (_EventEmitter) {
+var CPUserPreferences = exports.default = /*#__PURE__*/function (_EventEmitter) {
   _inherits(CPUserPreferences, _EventEmitter);
   var _super = _createSuper(CPUserPreferences);
-  /**
-   * Either "new" or "old"
-   */
-
   function CPUserPreferences() {
     var _this;
     _classCallCheck(this, CPUserPreferences);
     _this = _super.call(this);
+    /**
+     * Either "new" or "old"
+     */
     _defineProperty(_assertThisInitialized(_this), "toolbarStyle", void 0);
     _this.setDefaults();
     return _this;
@@ -26278,10 +26284,9 @@ var CPUserPreferences = /*#__PURE__*/function (_EventEmitter) {
   }]);
   return CPUserPreferences;
 }(_wolfy87Eventemitter.default);
-exports.default = CPUserPreferences;
 module.exports = exports.default;
 
-},{"wolfy87-eventemitter":284}],52:[function(require,module,exports){
+},{"wolfy87-eventemitter":316}],52:[function(require,module,exports){
 module.exports={
   "Dodge (tool)": "Dodge",
   "Burn (tool)": "Burn",
@@ -26487,7 +26492,7 @@ module.exports={
 },{}],54:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26497,11 +26502,11 @@ exports.guessLanguage = guessLanguage;
 exports.setLanguage = setLanguage;
 var en = _interopRequireWildcard(require("./en.json"));
 var ja = _interopRequireWildcard(require("./ja.json"));
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 var languages = {
   ja: ja,
   en: en
@@ -27510,7 +27515,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = CPRect;
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 /*
     ChickenPaint
     
@@ -28725,16 +28730,12 @@ function debounce(delay, at_begin, callback) {
       return typeof code === "function" ? code() : code;
     },
     _downKeys = [];
-  for (k = 1; k < 20; k++) {
-    _MAP['f' + k] = 111 + k;
-  }
+  for (k = 1; k < 20; k++) _MAP['f' + k] = 111 + k;
 
   // IE doesn't support Array#indexOf, so have a simple replacement
   function index(array, item) {
     var i = array.length;
-    while (i--) {
-      if (array[i] === item) return i;
-    }
+    while (i--) if (array[i] === item) return i;
     return -1;
   }
 
@@ -28756,9 +28757,7 @@ function debounce(delay, at_begin, callback) {
     91: 'metaKey'
   };
   function updateModifierKey(event) {
-    for (k in _mods) {
-      _mods[k] = event[modifierMap[k]];
-    }
+    for (k in _mods) _mods[k] = event[modifierMap[k]];
   }
   ;
 
@@ -28776,9 +28775,7 @@ function debounce(delay, at_begin, callback) {
     if (key in _mods) {
       _mods[key] = true;
       // 'assignKey' from inside this closure is exported to window.key
-      for (k in _MODIFIERS) {
-        if (_MODIFIERS[k] == key) assignKey[k] = true;
-      }
+      for (k in _MODIFIERS) if (_MODIFIERS[k] == key) assignKey[k] = true;
       return;
     }
     updateModifierKey(event);
@@ -28799,9 +28796,7 @@ function debounce(delay, at_begin, callback) {
       if (handler.scope == scope || handler.scope == 'all') {
         // check if modifiers match if any
         modifiersMatch = handler.mods.length > 0;
-        for (k in _mods) {
-          if (!_mods[k] && index(handler.mods, +k) > -1 || _mods[k] && index(handler.mods, +k) == -1) modifiersMatch = false;
-        }
+        for (k in _mods) if (!_mods[k] && index(handler.mods, +k) > -1 || _mods[k] && index(handler.mods, +k) == -1) modifiersMatch = false;
         // call the handler and stop the event if neccessary
         if (handler.mods.length == 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch) {
           if (handler.method(event, handler) === false) {
@@ -28829,19 +28824,13 @@ function debounce(delay, at_begin, callback) {
     if (key == 93 || key == 224) key = 91;
     if (key in _mods) {
       _mods[key] = false;
-      for (k in _MODIFIERS) {
-        if (_MODIFIERS[k] == key) assignKey[k] = false;
-      }
+      for (k in _MODIFIERS) if (_MODIFIERS[k] == key) assignKey[k] = false;
     }
   }
   ;
   function resetModifiers() {
-    for (k in _mods) {
-      _mods[k] = false;
-    }
-    for (k in _MODIFIERS) {
-      assignKey[k] = false;
-    }
+    for (k in _mods) _mods[k] = false;
+    for (k in _MODIFIERS) assignKey[k] = false;
   }
   ;
 
@@ -28930,9 +28919,7 @@ function debounce(delay, at_begin, callback) {
   }
 
   // initialize key.<modifier> to false
-  for (k in _MODIFIERS) {
-    assignKey[k] = false;
-  }
+  for (k in _MODIFIERS) assignKey[k] = false;
 
   // set current scope (default 'all')
   function setScope(scope) {
@@ -28970,9 +28957,7 @@ function debounce(delay, at_begin, callback) {
   // abstract mods logic for assign and unassign
   function getMods(key) {
     var mods = key.slice(0, key.length - 1);
-    for (var mi = 0; mi < mods.length; mi++) {
-      mods[mi] = _MODIFIERS[mods[mi]];
-    }
+    for (var mi = 0; mi < mods.length; mi++) mods[mi] = _MODIFIERS[mods[mi]];
     return mods;
   }
 
@@ -30924,8 +30909,8 @@ function getKeyCodeFromKey(key) {
     };
 
     Dropdown._clearMenus = function _clearMenus(event) {
-      if (event && (event.button === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
-        return;
+		if (event && (event.button === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
+			return;
       }
 
       var toggles = [].slice.call(document.querySelectorAll(SELECTOR_DATA_TOGGLE$2));
@@ -33448,20 +33433,23 @@ function getKeyCodeFromKey(key) {
 }));
 
 
-},{"jquery":265,"popper.js":283}],71:[function(require,module,exports){
+},{"jquery":297,"popper.js":315}],71:[function(require,module,exports){
+'use strict';
 require('../../modules/es.array.fill');
 var entryUnbind = require('../../internals/entry-unbind');
 
 module.exports = entryUnbind('Array', 'fill');
 
-},{"../../internals/entry-unbind":123,"../../modules/es.array.fill":223}],72:[function(require,module,exports){
+},{"../../internals/entry-unbind":127,"../../modules/es.array.fill":242}],72:[function(require,module,exports){
+'use strict';
 require('../../modules/es.array.iterator');
 require('../../modules/es.object.to-string');
 var entryUnbind = require('../../internals/entry-unbind');
 
 module.exports = entryUnbind('Array', 'values');
 
-},{"../../internals/entry-unbind":123,"../../modules/es.array.iterator":224,"../../modules/es.object.to-string":228}],73:[function(require,module,exports){
+},{"../../internals/entry-unbind":127,"../../modules/es.array.iterator":243,"../../modules/es.object.to-string":250}],73:[function(require,module,exports){
+'use strict';
 require('../../modules/es.array.iterator');
 require('../../modules/es.map');
 require('../../modules/es.object.to-string');
@@ -33470,7 +33458,8 @@ var path = require('../../internals/path');
 
 module.exports = path.Map;
 
-},{"../../internals/path":189,"../../modules/es.array.iterator":224,"../../modules/es.map":226,"../../modules/es.object.to-string":228,"../../modules/es.string.iterator":236}],74:[function(require,module,exports){
+},{"../../internals/path":200,"../../modules/es.array.iterator":243,"../../modules/es.map":247,"../../modules/es.object.to-string":250,"../../modules/es.string.iterator":265}],74:[function(require,module,exports){
+'use strict';
 require('../../modules/es.aggregate-error');
 require('../../modules/es.array.iterator');
 require('../../modules/es.object.to-string');
@@ -33483,7 +33472,8 @@ var path = require('../../internals/path');
 
 module.exports = path.Promise;
 
-},{"../../internals/path":189,"../../modules/es.aggregate-error":221,"../../modules/es.array.iterator":224,"../../modules/es.object.to-string":228,"../../modules/es.promise":232,"../../modules/es.promise.all-settled":229,"../../modules/es.promise.any":230,"../../modules/es.promise.finally":231,"../../modules/es.string.iterator":236}],75:[function(require,module,exports){
+},{"../../internals/path":200,"../../modules/es.aggregate-error":240,"../../modules/es.array.iterator":243,"../../modules/es.object.to-string":250,"../../modules/es.promise":257,"../../modules/es.promise.all-settled":251,"../../modules/es.promise.any":253,"../../modules/es.promise.finally":256,"../../modules/es.string.iterator":265}],75:[function(require,module,exports){
+'use strict';
 require('../../modules/es.array.iterator');
 require('../../modules/es.object.to-string');
 require('../../modules/es.set');
@@ -33492,13 +33482,15 @@ var path = require('../../internals/path');
 
 module.exports = path.Set;
 
-},{"../../internals/path":189,"../../modules/es.array.iterator":224,"../../modules/es.object.to-string":228,"../../modules/es.set":234,"../../modules/es.string.iterator":236}],76:[function(require,module,exports){
+},{"../../internals/path":200,"../../modules/es.array.iterator":243,"../../modules/es.object.to-string":250,"../../modules/es.set":263,"../../modules/es.string.iterator":265}],76:[function(require,module,exports){
+'use strict';
 require('../../modules/es.string.ends-with');
 var entryUnbind = require('../../internals/entry-unbind');
 
 module.exports = entryUnbind('String', 'endsWith');
 
-},{"../../internals/entry-unbind":123,"../../modules/es.string.ends-with":235}],77:[function(require,module,exports){
+},{"../../internals/entry-unbind":127,"../../modules/es.string.ends-with":264}],77:[function(require,module,exports){
+'use strict';
 require('../../modules/es.array.concat');
 require('../../modules/es.object.to-string');
 require('../../modules/es.symbol');
@@ -33523,62 +33515,65 @@ var path = require('../../internals/path');
 
 module.exports = path.Symbol;
 
-},{"../../internals/path":189,"../../modules/es.array.concat":222,"../../modules/es.json.to-string-tag":225,"../../modules/es.math.to-string-tag":227,"../../modules/es.object.to-string":228,"../../modules/es.reflect.to-string-tag":233,"../../modules/es.symbol":242,"../../modules/es.symbol.async-iterator":237,"../../modules/es.symbol.description":238,"../../modules/es.symbol.has-instance":239,"../../modules/es.symbol.is-concat-spreadable":240,"../../modules/es.symbol.iterator":241,"../../modules/es.symbol.match":244,"../../modules/es.symbol.match-all":243,"../../modules/es.symbol.replace":245,"../../modules/es.symbol.search":246,"../../modules/es.symbol.species":247,"../../modules/es.symbol.split":248,"../../modules/es.symbol.to-primitive":249,"../../modules/es.symbol.to-string-tag":250,"../../modules/es.symbol.unscopables":251}],78:[function(require,module,exports){
+},{"../../internals/path":200,"../../modules/es.array.concat":241,"../../modules/es.json.to-string-tag":245,"../../modules/es.math.to-string-tag":248,"../../modules/es.object.to-string":250,"../../modules/es.reflect.to-string-tag":261,"../../modules/es.symbol":273,"../../modules/es.symbol.async-iterator":266,"../../modules/es.symbol.description":268,"../../modules/es.symbol.has-instance":270,"../../modules/es.symbol.is-concat-spreadable":271,"../../modules/es.symbol.iterator":272,"../../modules/es.symbol.match":276,"../../modules/es.symbol.match-all":275,"../../modules/es.symbol.replace":277,"../../modules/es.symbol.search":278,"../../modules/es.symbol.species":279,"../../modules/es.symbol.split":280,"../../modules/es.symbol.to-primitive":281,"../../modules/es.symbol.to-string-tag":282,"../../modules/es.symbol.unscopables":283}],78:[function(require,module,exports){
+'use strict';
 require('../../modules/es.typed-array.fill');
 
-},{"../../modules/es.typed-array.fill":252}],79:[function(require,module,exports){
+},{"../../modules/es.typed-array.fill":284}],79:[function(require,module,exports){
+'use strict';
 require('../../modules/es.typed-array.slice');
 
-},{"../../modules/es.typed-array.slice":253}],80:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../../modules/es.typed-array.slice":285}],80:[function(require,module,exports){
+'use strict';
 var isCallable = require('../internals/is-callable');
 var tryToString = require('../internals/try-to-string');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 // `Assert: IsCallable(argument) is true`
 module.exports = function (argument) {
   if (isCallable(argument)) return argument;
-  throw TypeError(tryToString(argument) + ' is not a function');
+  throw new $TypeError(tryToString(argument) + ' is not a function');
 };
 
-},{"../internals/global":139,"../internals/is-callable":153,"../internals/try-to-string":214}],81:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/is-callable":162,"../internals/try-to-string":229}],81:[function(require,module,exports){
+'use strict';
 var isConstructor = require('../internals/is-constructor');
 var tryToString = require('../internals/try-to-string');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 // `Assert: IsConstructor(argument) is true`
 module.exports = function (argument) {
   if (isConstructor(argument)) return argument;
-  throw TypeError(tryToString(argument) + ' is not a constructor');
+  throw new $TypeError(tryToString(argument) + ' is not a constructor');
 };
 
-},{"../internals/global":139,"../internals/is-constructor":154,"../internals/try-to-string":214}],82:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/is-constructor":163,"../internals/try-to-string":229}],82:[function(require,module,exports){
+'use strict';
 var isCallable = require('../internals/is-callable');
 
-var String = global.String;
-var TypeError = global.TypeError;
+var $String = String;
+var $TypeError = TypeError;
 
 module.exports = function (argument) {
   if (typeof argument == 'object' || isCallable(argument)) return argument;
-  throw TypeError("Can't set " + String(argument) + ' as a prototype');
+  throw new $TypeError("Can't set " + $String(argument) + ' as a prototype');
 };
 
-},{"../internals/global":139,"../internals/is-callable":153}],83:[function(require,module,exports){
+},{"../internals/is-callable":162}],83:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var create = require('../internals/object-create');
-var definePropertyModule = require('../internals/object-define-property');
+var defineProperty = require('../internals/object-define-property').f;
 
 var UNSCOPABLES = wellKnownSymbol('unscopables');
 var ArrayPrototype = Array.prototype;
 
 // Array.prototype[@@unscopables]
 // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
+if (ArrayPrototype[UNSCOPABLES] === undefined) {
+  defineProperty(ArrayPrototype, UNSCOPABLES, {
     configurable: true,
     value: create(null)
   });
@@ -33589,35 +33584,37 @@ module.exports = function (key) {
   ArrayPrototype[UNSCOPABLES][key] = true;
 };
 
-},{"../internals/object-create":172,"../internals/object-define-property":174,"../internals/well-known-symbol":220}],84:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/object-create":183,"../internals/object-define-property":185,"../internals/well-known-symbol":238}],84:[function(require,module,exports){
+'use strict';
 var isPrototypeOf = require('../internals/object-is-prototype-of');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 module.exports = function (it, Prototype) {
   if (isPrototypeOf(Prototype, it)) return it;
-  throw TypeError('Incorrect invocation');
+  throw new $TypeError('Incorrect invocation');
 };
 
-},{"../internals/global":139,"../internals/object-is-prototype-of":181}],85:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/object-is-prototype-of":192}],85:[function(require,module,exports){
+'use strict';
 var isObject = require('../internals/is-object');
 
-var String = global.String;
-var TypeError = global.TypeError;
+var $String = String;
+var $TypeError = TypeError;
 
 // `Assert: Type(argument) is Object`
 module.exports = function (argument) {
   if (isObject(argument)) return argument;
-  throw TypeError(String(argument) + ' is not an object');
+  throw new $TypeError($String(argument) + ' is not an object');
 };
 
-},{"../internals/global":139,"../internals/is-object":156}],86:[function(require,module,exports){
+},{"../internals/is-object":166}],86:[function(require,module,exports){
+'use strict';
 // eslint-disable-next-line es/no-typed-arrays -- safe
 module.exports = typeof ArrayBuffer != 'undefined' && typeof DataView != 'undefined';
 
 },{}],87:[function(require,module,exports){
+'use strict';
 // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
 var fails = require('../internals/fails');
 
@@ -33629,9 +33626,9 @@ module.exports = fails(function () {
   }
 });
 
-},{"../internals/fails":127}],88:[function(require,module,exports){
+},{"../internals/fails":133}],88:[function(require,module,exports){
 'use strict';
-var NATIVE_ARRAY_BUFFER = require('../internals/array-buffer-native');
+var NATIVE_ARRAY_BUFFER = require('../internals/array-buffer-basic-detection');
 var DESCRIPTORS = require('../internals/descriptors');
 var global = require('../internals/global');
 var isCallable = require('../internals/is-callable');
@@ -33640,14 +33637,17 @@ var hasOwn = require('../internals/has-own-property');
 var classof = require('../internals/classof');
 var tryToString = require('../internals/try-to-string');
 var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
-var redefine = require('../internals/redefine');
-var defineProperty = require('../internals/object-define-property').f;
+var defineBuiltIn = require('../internals/define-built-in');
+var defineBuiltInAccessor = require('../internals/define-built-in-accessor');
 var isPrototypeOf = require('../internals/object-is-prototype-of');
 var getPrototypeOf = require('../internals/object-get-prototype-of');
 var setPrototypeOf = require('../internals/object-set-prototype-of');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var uid = require('../internals/uid');
+var InternalStateModule = require('../internals/internal-state');
 
+var enforceInternalState = InternalStateModule.enforce;
+var getInternalState = InternalStateModule.get;
 var Int8Array = global.Int8Array;
 var Int8ArrayPrototype = Int8Array && Int8Array.prototype;
 var Uint8ClampedArray = global.Uint8ClampedArray;
@@ -33659,7 +33659,7 @@ var TypeError = global.TypeError;
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 var TYPED_ARRAY_TAG = uid('TYPED_ARRAY_TAG');
-var TYPED_ARRAY_CONSTRUCTOR = uid('TYPED_ARRAY_CONSTRUCTOR');
+var TYPED_ARRAY_CONSTRUCTOR = 'TypedArrayConstructor';
 // Fixing native typed arrays in Opera Presto crashes the browser, see #595
 var NATIVE_ARRAY_BUFFER_VIEWS = NATIVE_ARRAY_BUFFER && !!setPrototypeOf && classof(global.opera) !== 'Opera';
 var TYPED_ARRAY_TAG_REQUIRED = false;
@@ -33690,6 +33690,13 @@ var isView = function isView(it) {
     || hasOwn(BigIntArrayConstructorsList, klass);
 };
 
+var getTypedArrayConstructor = function (it) {
+  var proto = getPrototypeOf(it);
+  if (!isObject(proto)) return;
+  var state = getInternalState(proto);
+  return (state && hasOwn(state, TYPED_ARRAY_CONSTRUCTOR)) ? state[TYPED_ARRAY_CONSTRUCTOR] : getTypedArrayConstructor(proto);
+};
+
 var isTypedArray = function (it) {
   if (!isObject(it)) return false;
   var klass = classof(it);
@@ -33699,12 +33706,12 @@ var isTypedArray = function (it) {
 
 var aTypedArray = function (it) {
   if (isTypedArray(it)) return it;
-  throw TypeError('Target is not a typed array');
+  throw new TypeError('Target is not a typed array');
 };
 
 var aTypedArrayConstructor = function (C) {
   if (isCallable(C) && (!setPrototypeOf || isPrototypeOf(TypedArray, C))) return C;
-  throw TypeError(tryToString(C) + ' is not a typed array constructor');
+  throw new TypeError(tryToString(C) + ' is not a typed array constructor');
 };
 
 var exportTypedArrayMethod = function (KEY, property, forced, options) {
@@ -33721,7 +33728,7 @@ var exportTypedArrayMethod = function (KEY, property, forced, options) {
     }
   }
   if (!TypedArrayPrototype[KEY] || forced) {
-    redefine(TypedArrayPrototype, KEY, forced ? property
+    defineBuiltIn(TypedArrayPrototype, KEY, forced ? property
       : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property, options);
   }
 };
@@ -33739,14 +33746,14 @@ var exportTypedArrayStaticMethod = function (KEY, property, forced) {
     if (!TypedArray[KEY] || forced) {
       // V8 ~ Chrome 49-50 `%TypedArray%` methods are non-writable non-configurable
       try {
-        return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && TypedArray[KEY] || property);
+        return defineBuiltIn(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && TypedArray[KEY] || property);
       } catch (error) { /* empty */ }
     } else return;
   }
   for (ARRAY in TypedArrayConstructorsList) {
     TypedArrayConstructor = global[ARRAY];
     if (TypedArrayConstructor && (!TypedArrayConstructor[KEY] || forced)) {
-      redefine(TypedArrayConstructor, KEY, property);
+      defineBuiltIn(TypedArrayConstructor, KEY, property);
     }
   }
 };
@@ -33754,21 +33761,21 @@ var exportTypedArrayStaticMethod = function (KEY, property, forced) {
 for (NAME in TypedArrayConstructorsList) {
   Constructor = global[NAME];
   Prototype = Constructor && Constructor.prototype;
-  if (Prototype) createNonEnumerableProperty(Prototype, TYPED_ARRAY_CONSTRUCTOR, Constructor);
+  if (Prototype) enforceInternalState(Prototype)[TYPED_ARRAY_CONSTRUCTOR] = Constructor;
   else NATIVE_ARRAY_BUFFER_VIEWS = false;
 }
 
 for (NAME in BigIntArrayConstructorsList) {
   Constructor = global[NAME];
   Prototype = Constructor && Constructor.prototype;
-  if (Prototype) createNonEnumerableProperty(Prototype, TYPED_ARRAY_CONSTRUCTOR, Constructor);
+  if (Prototype) enforceInternalState(Prototype)[TYPED_ARRAY_CONSTRUCTOR] = Constructor;
 }
 
 // WebKit bug - typed arrays constructors prototype is Object.prototype
 if (!NATIVE_ARRAY_BUFFER_VIEWS || !isCallable(TypedArray) || TypedArray === Function.prototype) {
   // eslint-disable-next-line no-shadow -- safe
   TypedArray = function TypedArray() {
-    throw TypeError('Incorrect invocation');
+    throw new TypeError('Incorrect invocation');
   };
   if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME in TypedArrayConstructorsList) {
     if (global[NAME]) setPrototypeOf(global[NAME], TypedArray);
@@ -33789,9 +33796,12 @@ if (NATIVE_ARRAY_BUFFER_VIEWS && getPrototypeOf(Uint8ClampedArrayPrototype) !== 
 
 if (DESCRIPTORS && !hasOwn(TypedArrayPrototype, TO_STRING_TAG)) {
   TYPED_ARRAY_TAG_REQUIRED = true;
-  defineProperty(TypedArrayPrototype, TO_STRING_TAG, { get: function () {
-    return isObject(this) ? this[TYPED_ARRAY_TAG] : undefined;
-  } });
+  defineBuiltInAccessor(TypedArrayPrototype, TO_STRING_TAG, {
+    configurable: true,
+    get: function () {
+      return isObject(this) ? this[TYPED_ARRAY_TAG] : undefined;
+    }
+  });
   for (NAME in TypedArrayConstructorsList) if (global[NAME]) {
     createNonEnumerableProperty(global[NAME], TYPED_ARRAY_TAG, NAME);
   }
@@ -33799,19 +33809,19 @@ if (DESCRIPTORS && !hasOwn(TypedArrayPrototype, TO_STRING_TAG)) {
 
 module.exports = {
   NATIVE_ARRAY_BUFFER_VIEWS: NATIVE_ARRAY_BUFFER_VIEWS,
-  TYPED_ARRAY_CONSTRUCTOR: TYPED_ARRAY_CONSTRUCTOR,
   TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQUIRED && TYPED_ARRAY_TAG,
   aTypedArray: aTypedArray,
   aTypedArrayConstructor: aTypedArrayConstructor,
   exportTypedArrayMethod: exportTypedArrayMethod,
   exportTypedArrayStaticMethod: exportTypedArrayStaticMethod,
+  getTypedArrayConstructor: getTypedArrayConstructor,
   isView: isView,
   isTypedArray: isTypedArray,
   TypedArray: TypedArray,
   TypedArrayPrototype: TypedArrayPrototype
 };
 
-},{"../internals/array-buffer-native":86,"../internals/classof":99,"../internals/create-non-enumerable-property":107,"../internals/descriptors":112,"../internals/global":139,"../internals/has-own-property":140,"../internals/is-callable":153,"../internals/is-object":156,"../internals/object-define-property":174,"../internals/object-get-prototype-of":179,"../internals/object-is-prototype-of":181,"../internals/object-set-prototype-of":185,"../internals/redefine":194,"../internals/try-to-string":214,"../internals/uid":216,"../internals/well-known-symbol":220}],89:[function(require,module,exports){
+},{"../internals/array-buffer-basic-detection":86,"../internals/classof":99,"../internals/create-non-enumerable-property":106,"../internals/define-built-in":110,"../internals/define-built-in-accessor":109,"../internals/descriptors":113,"../internals/global":148,"../internals/has-own-property":149,"../internals/internal-state":159,"../internals/is-callable":162,"../internals/is-object":166,"../internals/object-get-prototype-of":190,"../internals/object-is-prototype-of":192,"../internals/object-set-prototype-of":196,"../internals/try-to-string":229,"../internals/uid":231,"../internals/well-known-symbol":238}],89:[function(require,module,exports){
 'use strict';
 var toObject = require('../internals/to-object');
 var toAbsoluteIndex = require('../internals/to-absolute-index');
@@ -33830,7 +33840,8 @@ module.exports = function fill(value /* , start = 0, end = @length */) {
   return O;
 };
 
-},{"../internals/length-of-array-like":164,"../internals/to-absolute-index":205,"../internals/to-object":209}],90:[function(require,module,exports){
+},{"../internals/length-of-array-like":176,"../internals/to-absolute-index":219,"../internals/to-object":224}],90:[function(require,module,exports){
+'use strict';
 var toIndexedObject = require('../internals/to-indexed-object');
 var toAbsoluteIndex = require('../internals/to-absolute-index');
 var lengthOfArrayLike = require('../internals/length-of-array-like');
@@ -33844,10 +33855,10 @@ var createMethod = function (IS_INCLUDES) {
     var value;
     // Array#includes uses SameValueZero equality algorithm
     // eslint-disable-next-line no-self-compare -- NaN check
-    if (IS_INCLUDES && el != el) while (length > index) {
+    if (IS_INCLUDES && el !== el) while (length > index) {
       value = O[index++];
       // eslint-disable-next-line no-self-compare -- NaN check
-      if (value != value) return true;
+      if (value !== value) return true;
     // Array#indexOf ignores holes, Array#includes - not
     } else for (;length > index; index++) {
       if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
@@ -33864,7 +33875,8 @@ module.exports = {
   indexOf: createMethod(false)
 };
 
-},{"../internals/length-of-array-like":164,"../internals/to-absolute-index":205,"../internals/to-indexed-object":206}],91:[function(require,module,exports){
+},{"../internals/length-of-array-like":176,"../internals/to-absolute-index":219,"../internals/to-indexed-object":221}],91:[function(require,module,exports){
+'use strict';
 var bind = require('../internals/function-bind-context');
 var uncurryThis = require('../internals/function-uncurry-this');
 var IndexedObject = require('../internals/indexed-object');
@@ -33876,13 +33888,13 @@ var push = uncurryThis([].push);
 
 // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
 var createMethod = function (TYPE) {
-  var IS_MAP = TYPE == 1;
-  var IS_FILTER = TYPE == 2;
-  var IS_SOME = TYPE == 3;
-  var IS_EVERY = TYPE == 4;
-  var IS_FIND_INDEX = TYPE == 6;
-  var IS_FILTER_REJECT = TYPE == 7;
-  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+  var IS_MAP = TYPE === 1;
+  var IS_FILTER = TYPE === 2;
+  var IS_SOME = TYPE === 3;
+  var IS_EVERY = TYPE === 4;
+  var IS_FIND_INDEX = TYPE === 6;
+  var IS_FILTER_REJECT = TYPE === 7;
+  var NO_HOLES = TYPE === 5 || IS_FIND_INDEX;
   return function ($this, callbackfn, that, specificCreate) {
     var O = toObject($this);
     var self = IndexedObject(O);
@@ -33939,7 +33951,8 @@ module.exports = {
   filterReject: createMethod(7)
 };
 
-},{"../internals/array-species-create":96,"../internals/function-bind-context":130,"../internals/function-uncurry-this":134,"../internals/indexed-object":145,"../internals/length-of-array-like":164,"../internals/to-object":209}],92:[function(require,module,exports){
+},{"../internals/array-species-create":96,"../internals/function-bind-context":136,"../internals/function-uncurry-this":142,"../internals/indexed-object":154,"../internals/length-of-array-like":176,"../internals/to-object":224}],92:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var V8_VERSION = require('../internals/engine-v8-version');
@@ -33960,39 +33973,41 @@ module.exports = function (METHOD_NAME) {
   });
 };
 
-},{"../internals/engine-v8-version":122,"../internals/fails":127,"../internals/well-known-symbol":220}],93:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/engine-v8-version":126,"../internals/fails":133,"../internals/well-known-symbol":238}],93:[function(require,module,exports){
+'use strict';
 var toAbsoluteIndex = require('../internals/to-absolute-index');
 var lengthOfArrayLike = require('../internals/length-of-array-like');
 var createProperty = require('../internals/create-property');
 
-var Array = global.Array;
+var $Array = Array;
 var max = Math.max;
 
 module.exports = function (O, start, end) {
   var length = lengthOfArrayLike(O);
   var k = toAbsoluteIndex(start, length);
   var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-  var result = Array(max(fin - k, 0));
-  for (var n = 0; k < fin; k++, n++) createProperty(result, n, O[k]);
+  var result = $Array(max(fin - k, 0));
+  var n = 0;
+  for (; k < fin; k++, n++) createProperty(result, n, O[k]);
   result.length = n;
   return result;
 };
 
-},{"../internals/create-property":109,"../internals/global":139,"../internals/length-of-array-like":164,"../internals/to-absolute-index":205}],94:[function(require,module,exports){
+},{"../internals/create-property":108,"../internals/length-of-array-like":176,"../internals/to-absolute-index":219}],94:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 
 module.exports = uncurryThis([].slice);
 
-},{"../internals/function-uncurry-this":134}],95:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/function-uncurry-this":142}],95:[function(require,module,exports){
+'use strict';
 var isArray = require('../internals/is-array');
 var isConstructor = require('../internals/is-constructor');
 var isObject = require('../internals/is-object');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var SPECIES = wellKnownSymbol('species');
-var Array = global.Array;
+var $Array = Array;
 
 // a part of `ArraySpeciesCreate` abstract operation
 // https://tc39.es/ecma262/#sec-arrayspeciescreate
@@ -34001,15 +34016,16 @@ module.exports = function (originalArray) {
   if (isArray(originalArray)) {
     C = originalArray.constructor;
     // cross-realm fallback
-    if (isConstructor(C) && (C === Array || isArray(C.prototype))) C = undefined;
+    if (isConstructor(C) && (C === $Array || isArray(C.prototype))) C = undefined;
     else if (isObject(C)) {
       C = C[SPECIES];
       if (C === null) C = undefined;
     }
-  } return C === undefined ? Array : C;
+  } return C === undefined ? $Array : C;
 };
 
-},{"../internals/global":139,"../internals/is-array":152,"../internals/is-constructor":154,"../internals/is-object":156,"../internals/well-known-symbol":220}],96:[function(require,module,exports){
+},{"../internals/is-array":161,"../internals/is-constructor":163,"../internals/is-object":166,"../internals/well-known-symbol":238}],96:[function(require,module,exports){
+'use strict';
 var arraySpeciesConstructor = require('../internals/array-species-constructor');
 
 // `ArraySpeciesCreate` abstract operation
@@ -34019,6 +34035,7 @@ module.exports = function (originalArray, length) {
 };
 
 },{"../internals/array-species-constructor":95}],97:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var ITERATOR = wellKnownSymbol('iterator');
@@ -34042,7 +34059,9 @@ try {
 } catch (error) { /* empty */ }
 
 module.exports = function (exec, SKIP_CLOSING) {
-  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+  try {
+    if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+  } catch (error) { return false; } // workaround of old WebKit + `eval` bug
   var ITERATION_SUPPORT = false;
   try {
     var object = {};
@@ -34058,7 +34077,8 @@ module.exports = function (exec, SKIP_CLOSING) {
   return ITERATION_SUPPORT;
 };
 
-},{"../internals/well-known-symbol":220}],98:[function(require,module,exports){
+},{"../internals/well-known-symbol":238}],98:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 
 var toString = uncurryThis({}.toString);
@@ -34068,18 +34088,18 @@ module.exports = function (it) {
   return stringSlice(toString(it), 8, -1);
 };
 
-},{"../internals/function-uncurry-this":134}],99:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/function-uncurry-this":142}],99:[function(require,module,exports){
+'use strict';
 var TO_STRING_TAG_SUPPORT = require('../internals/to-string-tag-support');
 var isCallable = require('../internals/is-callable');
 var classofRaw = require('../internals/classof-raw');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var Object = global.Object;
+var $Object = Object;
 
 // ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) === 'Arguments';
 
 // fallback for IE11 Script Access Denied error
 var tryGet = function (it, key) {
@@ -34093,37 +34113,24 @@ module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
   var O, tag, result;
   return it === undefined ? 'Undefined' : it === null ? 'Null'
     // @@toStringTag case
-    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+    : typeof (tag = tryGet(O = $Object(it), TO_STRING_TAG)) == 'string' ? tag
     // builtinTag case
     : CORRECT_ARGUMENTS ? classofRaw(O)
     // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && isCallable(O.callee) ? 'Arguments' : result;
+    : (result = classofRaw(O)) === 'Object' && isCallable(O.callee) ? 'Arguments' : result;
 };
 
-},{"../internals/classof-raw":98,"../internals/global":139,"../internals/is-callable":153,"../internals/to-string-tag-support":212,"../internals/well-known-symbol":220}],100:[function(require,module,exports){
-var uncurryThis = require('../internals/function-uncurry-this');
-
-var replace = uncurryThis(''.replace);
-
-var TEST = (function (arg) { return String(Error(arg).stack); })('zxcasd');
-var V8_OR_CHAKRA_STACK_ENTRY = /\n\s*at [^:]*:[^\n]*/;
-var IS_V8_OR_CHAKRA_STACK = V8_OR_CHAKRA_STACK_ENTRY.test(TEST);
-
-module.exports = function (stack, dropEntries) {
-  if (IS_V8_OR_CHAKRA_STACK && typeof stack == 'string') {
-    while (dropEntries--) stack = replace(stack, V8_OR_CHAKRA_STACK_ENTRY, '');
-  } return stack;
-};
-
-},{"../internals/function-uncurry-this":134}],101:[function(require,module,exports){
+},{"../internals/classof-raw":98,"../internals/is-callable":162,"../internals/to-string-tag-support":227,"../internals/well-known-symbol":238}],100:[function(require,module,exports){
 'use strict';
-var defineProperty = require('../internals/object-define-property').f;
 var create = require('../internals/object-create');
-var redefineAll = require('../internals/redefine-all');
+var defineBuiltInAccessor = require('../internals/define-built-in-accessor');
+var defineBuiltIns = require('../internals/define-built-ins');
 var bind = require('../internals/function-bind-context');
 var anInstance = require('../internals/an-instance');
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 var iterate = require('../internals/iterate');
-var defineIterator = require('../internals/define-iterator');
+var defineIterator = require('../internals/iterator-define');
+var createIterResultObject = require('../internals/create-iter-result-object');
 var setSpecies = require('../internals/set-species');
 var DESCRIPTORS = require('../internals/descriptors');
 var fastKey = require('../internals/internal-metadata').fastKey;
@@ -34144,7 +34151,7 @@ module.exports = {
         size: 0
       });
       if (!DESCRIPTORS) that.size = 0;
-      if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+      if (!isNullOrUndefined(iterable)) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
     });
 
     var Prototype = Constructor.prototype;
@@ -34185,11 +34192,11 @@ module.exports = {
       if (index !== 'F') return state.index[index];
       // frozen object case
       for (entry = state.first; entry; entry = entry.next) {
-        if (entry.key == key) return entry;
+        if (entry.key === key) return entry;
       }
     };
 
-    redefineAll(Prototype, {
+    defineBuiltIns(Prototype, {
       // `{ Map, Set }.prototype.clear()` methods
       // https://tc39.es/ecma262/#sec-map.prototype.clear
       // https://tc39.es/ecma262/#sec-set.prototype.clear
@@ -34222,8 +34229,8 @@ module.exports = {
           entry.removed = true;
           if (prev) prev.next = next;
           if (next) next.previous = prev;
-          if (state.first == entry) state.first = next;
-          if (state.last == entry) state.last = prev;
+          if (state.first === entry) state.first = next;
+          if (state.last === entry) state.last = prev;
           if (DESCRIPTORS) state.size--;
           else that.size--;
         } return !!entry;
@@ -34249,7 +34256,7 @@ module.exports = {
       }
     });
 
-    redefineAll(Prototype, IS_MAP ? {
+    defineBuiltIns(Prototype, IS_MAP ? {
       // `Map.prototype.get(key)` method
       // https://tc39.es/ecma262/#sec-map.prototype.get
       get: function get(key) {
@@ -34268,7 +34275,8 @@ module.exports = {
         return define(this, value = value === 0 ? 0 : value, value);
       }
     });
-    if (DESCRIPTORS) defineProperty(Prototype, 'size', {
+    if (DESCRIPTORS) defineBuiltInAccessor(Prototype, 'size', {
+      configurable: true,
       get: function () {
         return getInternalState(this).size;
       }
@@ -34306,12 +34314,12 @@ module.exports = {
       if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
         // or finish the iteration
         state.target = undefined;
-        return { value: undefined, done: true };
+        return createIterResultObject(undefined, true);
       }
       // return step by kind
-      if (kind == 'keys') return { value: entry.key, done: false };
-      if (kind == 'values') return { value: entry.value, done: false };
-      return { value: [entry.key, entry.value], done: false };
+      if (kind === 'keys') return createIterResultObject(entry.key, false);
+      if (kind === 'values') return createIterResultObject(entry.value, false);
+      return createIterResultObject([entry.key, entry.value], false);
     }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
 
     // `{ Map, Set }.prototype[@@species]` accessors
@@ -34321,17 +34329,18 @@ module.exports = {
   }
 };
 
-},{"../internals/an-instance":84,"../internals/define-iterator":110,"../internals/descriptors":112,"../internals/function-bind-context":130,"../internals/internal-metadata":149,"../internals/internal-state":150,"../internals/iterate":160,"../internals/object-create":172,"../internals/object-define-property":174,"../internals/redefine-all":193,"../internals/set-species":197}],102:[function(require,module,exports){
+},{"../internals/an-instance":84,"../internals/create-iter-result-object":105,"../internals/define-built-in-accessor":109,"../internals/define-built-ins":111,"../internals/descriptors":113,"../internals/function-bind-context":136,"../internals/internal-metadata":158,"../internals/internal-state":159,"../internals/is-null-or-undefined":165,"../internals/iterate":170,"../internals/iterator-define":173,"../internals/object-create":183,"../internals/set-species":208}],101:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
 var global = require('../internals/global');
 var uncurryThis = require('../internals/function-uncurry-this');
 var isForced = require('../internals/is-forced');
-var redefine = require('../internals/redefine');
+var defineBuiltIn = require('../internals/define-built-in');
 var InternalMetadataModule = require('../internals/internal-metadata');
 var iterate = require('../internals/iterate');
 var anInstance = require('../internals/an-instance');
 var isCallable = require('../internals/is-callable');
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 var isObject = require('../internals/is-object');
 var fails = require('../internals/fails');
 var checkCorrectnessOfIteration = require('../internals/check-correctness-of-iteration');
@@ -34349,15 +34358,15 @@ module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
 
   var fixMethod = function (KEY) {
     var uncurriedNativeMethod = uncurryThis(NativePrototype[KEY]);
-    redefine(NativePrototype, KEY,
-      KEY == 'add' ? function add(value) {
+    defineBuiltIn(NativePrototype, KEY,
+      KEY === 'add' ? function add(value) {
         uncurriedNativeMethod(this, value === 0 ? 0 : value);
         return this;
-      } : KEY == 'delete' ? function (key) {
+      } : KEY === 'delete' ? function (key) {
         return IS_WEAK && !isObject(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
-      } : KEY == 'get' ? function get(key) {
+      } : KEY === 'get' ? function get(key) {
         return IS_WEAK && !isObject(key) ? undefined : uncurriedNativeMethod(this, key === 0 ? 0 : key);
-      } : KEY == 'has' ? function has(key) {
+      } : KEY === 'has' ? function has(key) {
         return IS_WEAK && !isObject(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
       } : function set(key, value) {
         uncurriedNativeMethod(this, key === 0 ? 0 : key, value);
@@ -34380,7 +34389,7 @@ module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
   } else if (isForced(CONSTRUCTOR_NAME, true)) {
     var instance = new Constructor();
     // early implementations not supports chaining
-    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
+    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) !== instance;
     // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
     var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
     // most early implementations doesn't supports iterables, most modern - not close it correctly
@@ -34399,7 +34408,7 @@ module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
       Constructor = wrapper(function (dummy, iterable) {
         anInstance(dummy, NativePrototype);
         var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
-        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+        if (!isNullOrUndefined(iterable)) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
         return that;
       });
       Constructor.prototype = NativePrototype;
@@ -34419,7 +34428,7 @@ module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
   }
 
   exported[CONSTRUCTOR_NAME] = Constructor;
-  $({ global: true, forced: Constructor != NativeConstructor }, exported);
+  $({ global: true, constructor: true, forced: Constructor !== NativeConstructor }, exported);
 
   setToStringTag(Constructor, CONSTRUCTOR_NAME);
 
@@ -34428,7 +34437,8 @@ module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
   return Constructor;
 };
 
-},{"../internals/an-instance":84,"../internals/check-correctness-of-iteration":97,"../internals/export":126,"../internals/fails":127,"../internals/function-uncurry-this":134,"../internals/global":139,"../internals/inherit-if-required":146,"../internals/internal-metadata":149,"../internals/is-callable":153,"../internals/is-forced":155,"../internals/is-object":156,"../internals/iterate":160,"../internals/redefine":194,"../internals/set-to-string-tag":198}],103:[function(require,module,exports){
+},{"../internals/an-instance":84,"../internals/check-correctness-of-iteration":97,"../internals/define-built-in":110,"../internals/export":132,"../internals/fails":133,"../internals/function-uncurry-this":142,"../internals/global":148,"../internals/inherit-if-required":155,"../internals/internal-metadata":158,"../internals/is-callable":162,"../internals/is-forced":164,"../internals/is-null-or-undefined":165,"../internals/is-object":166,"../internals/iterate":170,"../internals/set-to-string-tag":209}],102:[function(require,module,exports){
+'use strict';
 var hasOwn = require('../internals/has-own-property');
 var ownKeys = require('../internals/own-keys');
 var getOwnPropertyDescriptorModule = require('../internals/object-get-own-property-descriptor');
@@ -34446,7 +34456,8 @@ module.exports = function (target, source, exceptions) {
   }
 };
 
-},{"../internals/has-own-property":140,"../internals/object-define-property":174,"../internals/object-get-own-property-descriptor":175,"../internals/own-keys":188}],104:[function(require,module,exports){
+},{"../internals/has-own-property":149,"../internals/object-define-property":185,"../internals/object-get-own-property-descriptor":186,"../internals/own-keys":199}],103:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var MATCH = wellKnownSymbol('match');
@@ -34463,7 +34474,8 @@ module.exports = function (METHOD_NAME) {
   } return false;
 };
 
-},{"../internals/well-known-symbol":220}],105:[function(require,module,exports){
+},{"../internals/well-known-symbol":238}],104:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 
 module.exports = !fails(function () {
@@ -34473,25 +34485,16 @@ module.exports = !fails(function () {
   return Object.getPrototypeOf(new F()) !== F.prototype;
 });
 
-},{"../internals/fails":127}],106:[function(require,module,exports){
+},{"../internals/fails":133}],105:[function(require,module,exports){
 'use strict';
-var IteratorPrototype = require('../internals/iterators-core').IteratorPrototype;
-var create = require('../internals/object-create');
-var createPropertyDescriptor = require('../internals/create-property-descriptor');
-var setToStringTag = require('../internals/set-to-string-tag');
-var Iterators = require('../internals/iterators');
-
-var returnThis = function () { return this; };
-
-module.exports = function (IteratorConstructor, NAME, next, ENUMERABLE_NEXT) {
-  var TO_STRING_TAG = NAME + ' Iterator';
-  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(+!ENUMERABLE_NEXT, next) });
-  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
-  Iterators[TO_STRING_TAG] = returnThis;
-  return IteratorConstructor;
+// `CreateIterResultObject` abstract operation
+// https://tc39.es/ecma262/#sec-createiterresultobject
+module.exports = function (value, done) {
+  return { value: value, done: done };
 };
 
-},{"../internals/create-property-descriptor":108,"../internals/iterators":163,"../internals/iterators-core":162,"../internals/object-create":172,"../internals/set-to-string-tag":198}],107:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var definePropertyModule = require('../internals/object-define-property');
 var createPropertyDescriptor = require('../internals/create-property-descriptor');
@@ -34503,7 +34506,8 @@ module.exports = DESCRIPTORS ? function (object, key, value) {
   return object;
 };
 
-},{"../internals/create-property-descriptor":108,"../internals/descriptors":112,"../internals/object-define-property":174}],108:[function(require,module,exports){
+},{"../internals/create-property-descriptor":107,"../internals/descriptors":113,"../internals/object-define-property":185}],107:[function(require,module,exports){
+'use strict';
 module.exports = function (bitmap, value) {
   return {
     enumerable: !(bitmap & 1),
@@ -34513,7 +34517,7 @@ module.exports = function (bitmap, value) {
   };
 };
 
-},{}],109:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 'use strict';
 var toPropertyKey = require('../internals/to-property-key');
 var definePropertyModule = require('../internals/object-define-property');
@@ -34525,130 +34529,96 @@ module.exports = function (object, key, value) {
   else object[propertyKey] = value;
 };
 
-},{"../internals/create-property-descriptor":108,"../internals/object-define-property":174,"../internals/to-property-key":211}],110:[function(require,module,exports){
+},{"../internals/create-property-descriptor":107,"../internals/object-define-property":185,"../internals/to-property-key":226}],109:[function(require,module,exports){
 'use strict';
-var $ = require('../internals/export');
-var call = require('../internals/function-call');
-var IS_PURE = require('../internals/is-pure');
-var FunctionName = require('../internals/function-name');
+var makeBuiltIn = require('../internals/make-built-in');
+var defineProperty = require('../internals/object-define-property');
+
+module.exports = function (target, name, descriptor) {
+  if (descriptor.get) makeBuiltIn(descriptor.get, name, { getter: true });
+  if (descriptor.set) makeBuiltIn(descriptor.set, name, { setter: true });
+  return defineProperty.f(target, name, descriptor);
+};
+
+},{"../internals/make-built-in":177,"../internals/object-define-property":185}],110:[function(require,module,exports){
+'use strict';
 var isCallable = require('../internals/is-callable');
-var createIteratorConstructor = require('../internals/create-iterator-constructor');
-var getPrototypeOf = require('../internals/object-get-prototype-of');
-var setPrototypeOf = require('../internals/object-set-prototype-of');
-var setToStringTag = require('../internals/set-to-string-tag');
-var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
-var redefine = require('../internals/redefine');
-var wellKnownSymbol = require('../internals/well-known-symbol');
-var Iterators = require('../internals/iterators');
-var IteratorsCore = require('../internals/iterators-core');
+var definePropertyModule = require('../internals/object-define-property');
+var makeBuiltIn = require('../internals/make-built-in');
+var defineGlobalProperty = require('../internals/define-global-property');
 
-var PROPER_FUNCTION_NAME = FunctionName.PROPER;
-var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
-var IteratorPrototype = IteratorsCore.IteratorPrototype;
-var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-var ITERATOR = wellKnownSymbol('iterator');
-var KEYS = 'keys';
-var VALUES = 'values';
-var ENTRIES = 'entries';
-
-var returnThis = function () { return this; };
-
-module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-  createIteratorConstructor(IteratorConstructor, NAME, next);
-
-  var getIterationMethod = function (KIND) {
-    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
-    switch (KIND) {
-      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-    } return function () { return new IteratorConstructor(this); };
-  };
-
-  var TO_STRING_TAG = NAME + ' Iterator';
-  var INCORRECT_VALUES_NAME = false;
-  var IterablePrototype = Iterable.prototype;
-  var nativeIterator = IterablePrototype[ITERATOR]
-    || IterablePrototype['@@iterator']
-    || DEFAULT && IterablePrototype[DEFAULT];
-  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
-  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
-  var CurrentIteratorPrototype, methods, KEY;
-
-  // fix native
-  if (anyNativeIterator) {
-    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
-    if (CurrentIteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
-        if (setPrototypeOf) {
-          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
-        } else if (!isCallable(CurrentIteratorPrototype[ITERATOR])) {
-          redefine(CurrentIteratorPrototype, ITERATOR, returnThis);
-        }
-      }
-      // Set @@toStringTag to native iterators
-      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
-      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
-    }
-  }
-
-  // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
-  if (PROPER_FUNCTION_NAME && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-    if (!IS_PURE && CONFIGURABLE_FUNCTION_NAME) {
-      createNonEnumerableProperty(IterablePrototype, 'name', VALUES);
-    } else {
-      INCORRECT_VALUES_NAME = true;
-      defaultIterator = function values() { return call(nativeIterator, this); };
-    }
-  }
-
-  // export additional methods
-  if (DEFAULT) {
-    methods = {
-      values: getIterationMethod(VALUES),
-      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-      entries: getIterationMethod(ENTRIES)
-    };
-    if (FORCED) for (KEY in methods) {
-      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-        redefine(IterablePrototype, KEY, methods[KEY]);
-      }
-    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
-  }
-
-  // define iterator
-  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
-    redefine(IterablePrototype, ITERATOR, defaultIterator, { name: DEFAULT });
-  }
-  Iterators[NAME] = defaultIterator;
-
-  return methods;
+module.exports = function (O, key, value, options) {
+  if (!options) options = {};
+  var simple = options.enumerable;
+  var name = options.name !== undefined ? options.name : key;
+  if (isCallable(value)) makeBuiltIn(value, name, options);
+  if (options.global) {
+    if (simple) O[key] = value;
+    else defineGlobalProperty(key, value);
+  } else {
+    try {
+      if (!options.unsafe) delete O[key];
+      else if (O[key]) simple = true;
+    } catch (error) { /* empty */ }
+    if (simple) O[key] = value;
+    else definePropertyModule.f(O, key, {
+      value: value,
+      enumerable: false,
+      configurable: !options.nonConfigurable,
+      writable: !options.nonWritable
+    });
+  } return O;
 };
 
-},{"../internals/create-iterator-constructor":106,"../internals/create-non-enumerable-property":107,"../internals/export":126,"../internals/function-call":132,"../internals/function-name":133,"../internals/is-callable":153,"../internals/is-pure":157,"../internals/iterators":163,"../internals/iterators-core":162,"../internals/object-get-prototype-of":179,"../internals/object-set-prototype-of":185,"../internals/redefine":194,"../internals/set-to-string-tag":198,"../internals/well-known-symbol":220}],111:[function(require,module,exports){
-var path = require('../internals/path');
-var hasOwn = require('../internals/has-own-property');
-var wrappedWellKnownSymbolModule = require('../internals/well-known-symbol-wrapped');
-var defineProperty = require('../internals/object-define-property').f;
+},{"../internals/define-global-property":112,"../internals/is-callable":162,"../internals/make-built-in":177,"../internals/object-define-property":185}],111:[function(require,module,exports){
+'use strict';
+var defineBuiltIn = require('../internals/define-built-in');
 
-module.exports = function (NAME) {
-  var Symbol = path.Symbol || (path.Symbol = {});
-  if (!hasOwn(Symbol, NAME)) defineProperty(Symbol, NAME, {
-    value: wrappedWellKnownSymbolModule.f(NAME)
-  });
+module.exports = function (target, src, options) {
+  for (var key in src) defineBuiltIn(target, key, src[key], options);
+  return target;
 };
 
-},{"../internals/has-own-property":140,"../internals/object-define-property":174,"../internals/path":189,"../internals/well-known-symbol-wrapped":219}],112:[function(require,module,exports){
+},{"../internals/define-built-in":110}],112:[function(require,module,exports){
+'use strict';
+var global = require('../internals/global');
+
+// eslint-disable-next-line es/no-object-defineproperty -- safe
+var defineProperty = Object.defineProperty;
+
+module.exports = function (key, value) {
+  try {
+    defineProperty(global, key, { value: value, configurable: true, writable: true });
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+},{"../internals/global":148}],113:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 
 // Detect IE8's incomplete defineProperty implementation
 module.exports = !fails(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
-  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
+  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] !== 7;
 });
 
-},{"../internals/fails":127}],113:[function(require,module,exports){
+},{"../internals/fails":133}],114:[function(require,module,exports){
+'use strict';
+var documentAll = typeof document == 'object' && document.all;
+
+// https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot
+// eslint-disable-next-line unicorn/no-typeof-undefined -- required for testing
+var IS_HTMLDDA = typeof documentAll == 'undefined' && documentAll !== undefined;
+
+module.exports = {
+  all: documentAll,
+  IS_HTMLDDA: IS_HTMLDDA
+};
+
+},{}],115:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var isObject = require('../internals/is-object');
 
@@ -34660,7 +34630,18 @@ module.exports = function (it) {
   return EXISTS ? document.createElement(it) : {};
 };
 
-},{"../internals/global":139,"../internals/is-object":156}],114:[function(require,module,exports){
+},{"../internals/global":148,"../internals/is-object":166}],116:[function(require,module,exports){
+'use strict';
+var $TypeError = TypeError;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF; // 2 ** 53 - 1 == 9007199254740991
+
+module.exports = function (it) {
+  if (it > MAX_SAFE_INTEGER) throw $TypeError('Maximum allowed index exceeded');
+  return it;
+};
+
+},{}],117:[function(require,module,exports){
+'use strict';
 // iterable DOM collections
 // flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
 module.exports = {
@@ -34697,7 +34678,8 @@ module.exports = {
   TouchList: 0
 };
 
-},{}],115:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
+'use strict';
 // in old WebKit versions, `element.classList` is not an instance of global `DOMTokenList`
 var documentCreateElement = require('../internals/document-create-element');
 
@@ -34706,37 +34688,52 @@ var DOMTokenListPrototype = classList && classList.constructor && classList.cons
 
 module.exports = DOMTokenListPrototype === Object.prototype ? undefined : DOMTokenListPrototype;
 
-},{"../internals/document-create-element":113}],116:[function(require,module,exports){
-module.exports = typeof window == 'object';
+},{"../internals/document-create-element":115}],119:[function(require,module,exports){
+'use strict';
+var IS_DENO = require('../internals/engine-is-deno');
+var IS_NODE = require('../internals/engine-is-node');
 
-},{}],117:[function(require,module,exports){
+module.exports = !IS_DENO && !IS_NODE
+  && typeof window == 'object'
+  && typeof document == 'object';
+
+},{"../internals/engine-is-deno":120,"../internals/engine-is-node":123}],120:[function(require,module,exports){
+'use strict';
+/* global Deno -- Deno case */
+module.exports = typeof Deno == 'object' && Deno && typeof Deno.version == 'object';
+
+},{}],121:[function(require,module,exports){
+'use strict';
 var userAgent = require('../internals/engine-user-agent');
-var global = require('../internals/global');
 
-module.exports = /ipad|iphone|ipod/i.test(userAgent) && global.Pebble !== undefined;
+module.exports = /ipad|iphone|ipod/i.test(userAgent) && typeof Pebble != 'undefined';
 
-},{"../internals/engine-user-agent":121,"../internals/global":139}],118:[function(require,module,exports){
+},{"../internals/engine-user-agent":125}],122:[function(require,module,exports){
+'use strict';
 var userAgent = require('../internals/engine-user-agent');
 
+// eslint-disable-next-line redos/no-vulnerable -- safe
 module.exports = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent);
 
-},{"../internals/engine-user-agent":121}],119:[function(require,module,exports){
-var classof = require('../internals/classof-raw');
+},{"../internals/engine-user-agent":125}],123:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
+var classof = require('../internals/classof-raw');
 
-module.exports = classof(global.process) == 'process';
+module.exports = classof(global.process) === 'process';
 
-},{"../internals/classof-raw":98,"../internals/global":139}],120:[function(require,module,exports){
+},{"../internals/classof-raw":98,"../internals/global":148}],124:[function(require,module,exports){
+'use strict';
 var userAgent = require('../internals/engine-user-agent');
 
 module.exports = /web0s(?!.*chrome)/i.test(userAgent);
 
-},{"../internals/engine-user-agent":121}],121:[function(require,module,exports){
-var getBuiltIn = require('../internals/get-built-in');
+},{"../internals/engine-user-agent":125}],125:[function(require,module,exports){
+'use strict';
+module.exports = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
 
-module.exports = getBuiltIn('navigator', 'userAgent') || '';
-
-},{"../internals/get-built-in":135}],122:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var userAgent = require('../internals/engine-user-agent');
 
@@ -34765,7 +34762,8 @@ if (!version && userAgent) {
 
 module.exports = version;
 
-},{"../internals/engine-user-agent":121,"../internals/global":139}],123:[function(require,module,exports){
+},{"../internals/engine-user-agent":125,"../internals/global":148}],127:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var uncurryThis = require('../internals/function-uncurry-this');
 
@@ -34773,7 +34771,8 @@ module.exports = function (CONSTRUCTOR, METHOD) {
   return uncurryThis(global[CONSTRUCTOR].prototype[METHOD]);
 };
 
-},{"../internals/function-uncurry-this":134,"../internals/global":139}],124:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142,"../internals/global":148}],128:[function(require,module,exports){
+'use strict';
 // IE8- don't enum bug keys
 module.exports = [
   'constructor',
@@ -34785,41 +34784,77 @@ module.exports = [
   'valueOf'
 ];
 
-},{}],125:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
+'use strict';
+var uncurryThis = require('../internals/function-uncurry-this');
+
+var $Error = Error;
+var replace = uncurryThis(''.replace);
+
+var TEST = (function (arg) { return String(new $Error(arg).stack); })('zxcasd');
+// eslint-disable-next-line redos/no-vulnerable -- safe
+var V8_OR_CHAKRA_STACK_ENTRY = /\n\s*at [^:]*:[^\n]*/;
+var IS_V8_OR_CHAKRA_STACK = V8_OR_CHAKRA_STACK_ENTRY.test(TEST);
+
+module.exports = function (stack, dropEntries) {
+  if (IS_V8_OR_CHAKRA_STACK && typeof stack == 'string' && !$Error.prepareStackTrace) {
+    while (dropEntries--) stack = replace(stack, V8_OR_CHAKRA_STACK_ENTRY, '');
+  } return stack;
+};
+
+},{"../internals/function-uncurry-this":142}],130:[function(require,module,exports){
+'use strict';
+var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
+var clearErrorStack = require('../internals/error-stack-clear');
+var ERROR_STACK_INSTALLABLE = require('../internals/error-stack-installable');
+
+// non-standard V8
+var captureStackTrace = Error.captureStackTrace;
+
+module.exports = function (error, C, stack, dropEntries) {
+  if (ERROR_STACK_INSTALLABLE) {
+    if (captureStackTrace) captureStackTrace(error, C);
+    else createNonEnumerableProperty(error, 'stack', clearErrorStack(stack, dropEntries));
+  }
+};
+
+},{"../internals/create-non-enumerable-property":106,"../internals/error-stack-clear":129,"../internals/error-stack-installable":131}],131:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 var createPropertyDescriptor = require('../internals/create-property-descriptor');
 
 module.exports = !fails(function () {
-  var error = Error('a');
+  var error = new Error('a');
   if (!('stack' in error)) return true;
   // eslint-disable-next-line es/no-object-defineproperty -- safe
   Object.defineProperty(error, 'stack', createPropertyDescriptor(1, 7));
   return error.stack !== 7;
 });
 
-},{"../internals/create-property-descriptor":108,"../internals/fails":127}],126:[function(require,module,exports){
+},{"../internals/create-property-descriptor":107,"../internals/fails":133}],132:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var getOwnPropertyDescriptor = require('../internals/object-get-own-property-descriptor').f;
 var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
-var redefine = require('../internals/redefine');
-var setGlobal = require('../internals/set-global');
+var defineBuiltIn = require('../internals/define-built-in');
+var defineGlobalProperty = require('../internals/define-global-property');
 var copyConstructorProperties = require('../internals/copy-constructor-properties');
 var isForced = require('../internals/is-forced');
 
 /*
-  options.target      - name of the target object
-  options.global      - target is the global object
-  options.stat        - export as static methods of target
-  options.proto       - export as prototype methods of target
-  options.real        - real prototype method for the `pure` version
-  options.forced      - export even if the native feature is available
-  options.bind        - bind methods to the target, required for the `pure` version
-  options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
-  options.unsafe      - use the simple assignment of property instead of delete + defineProperty
-  options.sham        - add a flag to not completely full polyfills
-  options.enumerable  - export as enumerable property
-  options.noTargetGet - prevent calling a getter on target
-  options.name        - the .name of the function if it does not match the key
+  options.target         - name of the target object
+  options.global         - target is the global object
+  options.stat           - export as static methods of target
+  options.proto          - export as prototype methods of target
+  options.real           - real prototype method for the `pure` version
+  options.forced         - export even if the native feature is available
+  options.bind           - bind methods to the target, required for the `pure` version
+  options.wrap           - wrap constructors to preventing global pollution, required for the `pure` version
+  options.unsafe         - use the simple assignment of property instead of delete + defineProperty
+  options.sham           - add a flag to not completely full polyfills
+  options.enumerable     - export as enumerable property
+  options.dontCallGetSet - prevent calling a getter on target
+  options.name           - the .name of the function if it does not match the key
 */
 module.exports = function (options, source) {
   var TARGET = options.target;
@@ -34829,13 +34864,13 @@ module.exports = function (options, source) {
   if (GLOBAL) {
     target = global;
   } else if (STATIC) {
-    target = global[TARGET] || setGlobal(TARGET, {});
+    target = global[TARGET] || defineGlobalProperty(TARGET, {});
   } else {
     target = (global[TARGET] || {}).prototype;
   }
   if (target) for (key in source) {
     sourceProperty = source[key];
-    if (options.noTargetGet) {
+    if (options.dontCallGetSet) {
       descriptor = getOwnPropertyDescriptor(target, key);
       targetProperty = descriptor && descriptor.value;
     } else targetProperty = target[key];
@@ -34849,12 +34884,12 @@ module.exports = function (options, source) {
     if (options.sham || (targetProperty && targetProperty.sham)) {
       createNonEnumerableProperty(sourceProperty, 'sham', true);
     }
-    // extend global
-    redefine(target, key, sourceProperty, options);
+    defineBuiltIn(target, key, sourceProperty, options);
   }
 };
 
-},{"../internals/copy-constructor-properties":103,"../internals/create-non-enumerable-property":107,"../internals/global":139,"../internals/is-forced":155,"../internals/object-get-own-property-descriptor":175,"../internals/redefine":194,"../internals/set-global":196}],127:[function(require,module,exports){
+},{"../internals/copy-constructor-properties":102,"../internals/create-non-enumerable-property":106,"../internals/define-built-in":110,"../internals/define-global-property":112,"../internals/global":148,"../internals/is-forced":164,"../internals/object-get-own-property-descriptor":186}],133:[function(require,module,exports){
+'use strict';
 module.exports = function (exec) {
   try {
     return !!exec();
@@ -34863,7 +34898,8 @@ module.exports = function (exec) {
   }
 };
 
-},{}],128:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 
 module.exports = !fails(function () {
@@ -34871,7 +34907,8 @@ module.exports = !fails(function () {
   return Object.isExtensible(Object.preventExtensions({}));
 });
 
-},{"../internals/fails":127}],129:[function(require,module,exports){
+},{"../internals/fails":133}],135:[function(require,module,exports){
+'use strict';
 var NATIVE_BIND = require('../internals/function-bind-native');
 
 var FunctionPrototype = Function.prototype;
@@ -34883,8 +34920,9 @@ module.exports = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND ? c
   return call.apply(apply, arguments);
 });
 
-},{"../internals/function-bind-native":131}],130:[function(require,module,exports){
-var uncurryThis = require('../internals/function-uncurry-this');
+},{"../internals/function-bind-native":137}],136:[function(require,module,exports){
+'use strict';
+var uncurryThis = require('../internals/function-uncurry-this-clause');
 var aCallable = require('../internals/a-callable');
 var NATIVE_BIND = require('../internals/function-bind-native');
 
@@ -34898,16 +34936,19 @@ module.exports = function (fn, that) {
   };
 };
 
-},{"../internals/a-callable":80,"../internals/function-bind-native":131,"../internals/function-uncurry-this":134}],131:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/function-bind-native":137,"../internals/function-uncurry-this-clause":141}],137:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 
 module.exports = !fails(function () {
+  // eslint-disable-next-line es/no-function-prototype-bind -- safe
   var test = (function () { /* empty */ }).bind();
   // eslint-disable-next-line no-prototype-builtins -- safe
   return typeof test != 'function' || test.hasOwnProperty('prototype');
 });
 
-},{"../internals/fails":127}],132:[function(require,module,exports){
+},{"../internals/fails":133}],138:[function(require,module,exports){
+'use strict';
 var NATIVE_BIND = require('../internals/function-bind-native');
 
 var call = Function.prototype.call;
@@ -34916,7 +34957,8 @@ module.exports = NATIVE_BIND ? call.bind(call) : function () {
   return call.apply(call, arguments);
 };
 
-},{"../internals/function-bind-native":131}],133:[function(require,module,exports){
+},{"../internals/function-bind-native":137}],139:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var hasOwn = require('../internals/has-own-property');
 
@@ -34935,23 +34977,46 @@ module.exports = {
   CONFIGURABLE: CONFIGURABLE
 };
 
-},{"../internals/descriptors":112,"../internals/has-own-property":140}],134:[function(require,module,exports){
+},{"../internals/descriptors":113,"../internals/has-own-property":149}],140:[function(require,module,exports){
+'use strict';
+var uncurryThis = require('../internals/function-uncurry-this');
+var aCallable = require('../internals/a-callable');
+
+module.exports = function (object, key, method) {
+  try {
+    // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+    return uncurryThis(aCallable(Object.getOwnPropertyDescriptor(object, key)[method]));
+  } catch (error) { /* empty */ }
+};
+
+},{"../internals/a-callable":80,"../internals/function-uncurry-this":142}],141:[function(require,module,exports){
+'use strict';
+var classofRaw = require('../internals/classof-raw');
+var uncurryThis = require('../internals/function-uncurry-this');
+
+module.exports = function (fn) {
+  // Nashorn bug:
+  //   https://github.com/zloirock/core-js/issues/1128
+  //   https://github.com/zloirock/core-js/issues/1130
+  if (classofRaw(fn) === 'Function') return uncurryThis(fn);
+};
+
+},{"../internals/classof-raw":98,"../internals/function-uncurry-this":142}],142:[function(require,module,exports){
+'use strict';
 var NATIVE_BIND = require('../internals/function-bind-native');
 
 var FunctionPrototype = Function.prototype;
-var bind = FunctionPrototype.bind;
 var call = FunctionPrototype.call;
-var uncurryThis = NATIVE_BIND && bind.bind(call, call);
+var uncurryThisWithBind = NATIVE_BIND && FunctionPrototype.bind.bind(call, call);
 
-module.exports = NATIVE_BIND ? function (fn) {
-  return fn && uncurryThis(fn);
-} : function (fn) {
-  return fn && function () {
+module.exports = NATIVE_BIND ? uncurryThisWithBind : function (fn) {
+  return function () {
     return call.apply(fn, arguments);
   };
 };
 
-},{"../internals/function-bind-native":131}],135:[function(require,module,exports){
+},{"../internals/function-bind-native":137}],143:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var isCallable = require('../internals/is-callable');
 
@@ -34963,50 +35028,87 @@ module.exports = function (namespace, method) {
   return arguments.length < 2 ? aFunction(global[namespace]) : global[namespace] && global[namespace][method];
 };
 
-},{"../internals/global":139,"../internals/is-callable":153}],136:[function(require,module,exports){
+},{"../internals/global":148,"../internals/is-callable":162}],144:[function(require,module,exports){
+'use strict';
 var classof = require('../internals/classof');
 var getMethod = require('../internals/get-method');
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 var Iterators = require('../internals/iterators');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var ITERATOR = wellKnownSymbol('iterator');
 
 module.exports = function (it) {
-  if (it != undefined) return getMethod(it, ITERATOR)
+  if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR)
     || getMethod(it, '@@iterator')
     || Iterators[classof(it)];
 };
 
-},{"../internals/classof":99,"../internals/get-method":138,"../internals/iterators":163,"../internals/well-known-symbol":220}],137:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/classof":99,"../internals/get-method":147,"../internals/is-null-or-undefined":165,"../internals/iterators":175,"../internals/well-known-symbol":238}],145:[function(require,module,exports){
+'use strict';
 var call = require('../internals/function-call');
 var aCallable = require('../internals/a-callable');
 var anObject = require('../internals/an-object');
 var tryToString = require('../internals/try-to-string');
 var getIteratorMethod = require('../internals/get-iterator-method');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 module.exports = function (argument, usingIterator) {
   var iteratorMethod = arguments.length < 2 ? getIteratorMethod(argument) : usingIterator;
   if (aCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
-  throw TypeError(tryToString(argument) + ' is not iterable');
+  throw new $TypeError(tryToString(argument) + ' is not iterable');
 };
 
-},{"../internals/a-callable":80,"../internals/an-object":85,"../internals/function-call":132,"../internals/get-iterator-method":136,"../internals/global":139,"../internals/try-to-string":214}],138:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/an-object":85,"../internals/function-call":138,"../internals/get-iterator-method":144,"../internals/try-to-string":229}],146:[function(require,module,exports){
+'use strict';
+var uncurryThis = require('../internals/function-uncurry-this');
+var isArray = require('../internals/is-array');
+var isCallable = require('../internals/is-callable');
+var classof = require('../internals/classof-raw');
+var toString = require('../internals/to-string');
+
+var push = uncurryThis([].push);
+
+module.exports = function (replacer) {
+  if (isCallable(replacer)) return replacer;
+  if (!isArray(replacer)) return;
+  var rawLength = replacer.length;
+  var keys = [];
+  for (var i = 0; i < rawLength; i++) {
+    var element = replacer[i];
+    if (typeof element == 'string') push(keys, element);
+    else if (typeof element == 'number' || classof(element) === 'Number' || classof(element) === 'String') push(keys, toString(element));
+  }
+  var keysLength = keys.length;
+  var root = true;
+  return function (key, value) {
+    if (root) {
+      root = false;
+      return value;
+    }
+    if (isArray(this)) return value;
+    for (var j = 0; j < keysLength; j++) if (keys[j] === key) return value;
+  };
+};
+
+},{"../internals/classof-raw":98,"../internals/function-uncurry-this":142,"../internals/is-array":161,"../internals/is-callable":162,"../internals/to-string":228}],147:[function(require,module,exports){
+'use strict';
 var aCallable = require('../internals/a-callable');
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 
 // `GetMethod` abstract operation
 // https://tc39.es/ecma262/#sec-getmethod
 module.exports = function (V, P) {
   var func = V[P];
-  return func == null ? undefined : aCallable(func);
+  return isNullOrUndefined(func) ? undefined : aCallable(func);
 };
 
-},{"../internals/a-callable":80}],139:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/is-null-or-undefined":165}],148:[function(require,module,exports){
 (function (global){(function (){
+'use strict';
 var check = function (it) {
-  return it && it.Math == Math && it;
+  return it && it.Math === Math && it;
 };
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -35018,11 +35120,12 @@ module.exports =
   check(typeof self == 'object' && self) ||
   check(typeof global == 'object' && global) ||
   // eslint-disable-next-line no-new-func -- fallback
-  (function () { return this; })() || Function('return this')();
+  (function () { return this; })() || this || Function('return this')();
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],140:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var toObject = require('../internals/to-object');
 
@@ -35030,29 +35133,32 @@ var hasOwnProperty = uncurryThis({}.hasOwnProperty);
 
 // `HasOwnProperty` abstract operation
 // https://tc39.es/ecma262/#sec-hasownproperty
+// eslint-disable-next-line es/no-object-hasown -- safe
 module.exports = Object.hasOwn || function hasOwn(it, key) {
   return hasOwnProperty(toObject(it), key);
 };
 
-},{"../internals/function-uncurry-this":134,"../internals/to-object":209}],141:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142,"../internals/to-object":224}],150:[function(require,module,exports){
+'use strict';
 module.exports = {};
 
-},{}],142:[function(require,module,exports){
-var global = require('../internals/global');
-
+},{}],151:[function(require,module,exports){
+'use strict';
 module.exports = function (a, b) {
-  var console = global.console;
-  if (console && console.error) {
-    arguments.length == 1 ? console.error(a) : console.error(a, b);
-  }
+  try {
+    // eslint-disable-next-line no-console -- safe
+    arguments.length === 1 ? console.error(a) : console.error(a, b);
+  } catch (error) { /* empty */ }
 };
 
-},{"../internals/global":139}],143:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
+'use strict';
 var getBuiltIn = require('../internals/get-built-in');
 
 module.exports = getBuiltIn('document', 'documentElement');
 
-},{"../internals/get-built-in":135}],144:[function(require,module,exports){
+},{"../internals/get-built-in":143}],153:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var fails = require('../internals/fails');
 var createElement = require('../internals/document-create-element');
@@ -35062,28 +35168,29 @@ module.exports = !DESCRIPTORS && !fails(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty(createElement('div'), 'a', {
     get: function () { return 7; }
-  }).a != 7;
+  }).a !== 7;
 });
 
-},{"../internals/descriptors":112,"../internals/document-create-element":113,"../internals/fails":127}],145:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/descriptors":113,"../internals/document-create-element":115,"../internals/fails":133}],154:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var fails = require('../internals/fails');
 var classof = require('../internals/classof-raw');
 
-var Object = global.Object;
+var $Object = Object;
 var split = uncurryThis(''.split);
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 module.exports = fails(function () {
   // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
   // eslint-disable-next-line no-prototype-builtins -- safe
-  return !Object('z').propertyIsEnumerable(0);
+  return !$Object('z').propertyIsEnumerable(0);
 }) ? function (it) {
-  return classof(it) == 'String' ? split(it, '') : Object(it);
-} : Object;
+  return classof(it) === 'String' ? split(it, '') : $Object(it);
+} : $Object;
 
-},{"../internals/classof-raw":98,"../internals/fails":127,"../internals/function-uncurry-this":134,"../internals/global":139}],146:[function(require,module,exports){
+},{"../internals/classof-raw":98,"../internals/fails":133,"../internals/function-uncurry-this":142}],155:[function(require,module,exports){
+'use strict';
 var isCallable = require('../internals/is-callable');
 var isObject = require('../internals/is-object');
 var setPrototypeOf = require('../internals/object-set-prototype-of');
@@ -35103,7 +35210,8 @@ module.exports = function ($this, dummy, Wrapper) {
   return $this;
 };
 
-},{"../internals/is-callable":153,"../internals/is-object":156,"../internals/object-set-prototype-of":185}],147:[function(require,module,exports){
+},{"../internals/is-callable":162,"../internals/is-object":166,"../internals/object-set-prototype-of":196}],156:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var isCallable = require('../internals/is-callable');
 var store = require('../internals/shared-store');
@@ -35119,7 +35227,8 @@ if (!isCallable(store.inspectSource)) {
 
 module.exports = store.inspectSource;
 
-},{"../internals/function-uncurry-this":134,"../internals/is-callable":153,"../internals/shared-store":200}],148:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142,"../internals/is-callable":162,"../internals/shared-store":211}],157:[function(require,module,exports){
+'use strict';
 var isObject = require('../internals/is-object');
 var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
 
@@ -35131,7 +35240,8 @@ module.exports = function (O, options) {
   }
 };
 
-},{"../internals/create-non-enumerable-property":107,"../internals/is-object":156}],149:[function(require,module,exports){
+},{"../internals/create-non-enumerable-property":106,"../internals/is-object":166}],158:[function(require,module,exports){
+'use strict';
 var $ = require('../internals/export');
 var uncurryThis = require('../internals/function-uncurry-this');
 var hiddenKeys = require('../internals/hidden-keys');
@@ -35222,10 +35332,10 @@ var meta = module.exports = {
 
 hiddenKeys[METADATA] = true;
 
-},{"../internals/export":126,"../internals/freezing":128,"../internals/function-uncurry-this":134,"../internals/has-own-property":140,"../internals/hidden-keys":141,"../internals/is-object":156,"../internals/object-define-property":174,"../internals/object-get-own-property-names":177,"../internals/object-get-own-property-names-external":176,"../internals/object-is-extensible":180,"../internals/uid":216}],150:[function(require,module,exports){
-var NATIVE_WEAK_MAP = require('../internals/native-weak-map');
+},{"../internals/export":132,"../internals/freezing":134,"../internals/function-uncurry-this":142,"../internals/has-own-property":149,"../internals/hidden-keys":150,"../internals/is-object":166,"../internals/object-define-property":185,"../internals/object-get-own-property-names":188,"../internals/object-get-own-property-names-external":187,"../internals/object-is-extensible":191,"../internals/uid":231}],159:[function(require,module,exports){
+'use strict';
+var NATIVE_WEAK_MAP = require('../internals/weak-map-basic-detection');
 var global = require('../internals/global');
-var uncurryThis = require('../internals/function-uncurry-this');
 var isObject = require('../internals/is-object');
 var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
 var hasOwn = require('../internals/has-own-property');
@@ -35246,27 +35356,29 @@ var getterFor = function (TYPE) {
   return function (it) {
     var state;
     if (!isObject(it) || (state = get(it)).type !== TYPE) {
-      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+      throw new TypeError('Incompatible receiver, ' + TYPE + ' required');
     } return state;
   };
 };
 
 if (NATIVE_WEAK_MAP || shared.state) {
   var store = shared.state || (shared.state = new WeakMap());
-  var wmget = uncurryThis(store.get);
-  var wmhas = uncurryThis(store.has);
-  var wmset = uncurryThis(store.set);
+  /* eslint-disable no-self-assign -- prototype methods protection */
+  store.get = store.get;
+  store.has = store.has;
+  store.set = store.set;
+  /* eslint-enable no-self-assign -- prototype methods protection */
   set = function (it, metadata) {
-    if (wmhas(store, it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+    if (store.has(it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
     metadata.facade = it;
-    wmset(store, it, metadata);
+    store.set(it, metadata);
     return metadata;
   };
   get = function (it) {
-    return wmget(store, it) || {};
+    return store.get(it) || {};
   };
   has = function (it) {
-    return wmhas(store, it);
+    return store.has(it);
   };
 } else {
   var STATE = sharedKey('state');
@@ -35293,7 +35405,8 @@ module.exports = {
   getterFor: getterFor
 };
 
-},{"../internals/create-non-enumerable-property":107,"../internals/function-uncurry-this":134,"../internals/global":139,"../internals/has-own-property":140,"../internals/hidden-keys":141,"../internals/is-object":156,"../internals/native-weak-map":168,"../internals/shared-key":199,"../internals/shared-store":200}],151:[function(require,module,exports){
+},{"../internals/create-non-enumerable-property":106,"../internals/global":148,"../internals/has-own-property":149,"../internals/hidden-keys":150,"../internals/is-object":166,"../internals/shared-key":210,"../internals/shared-store":211,"../internals/weak-map-basic-detection":235}],160:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var Iterators = require('../internals/iterators');
 
@@ -35305,24 +35418,33 @@ module.exports = function (it) {
   return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
 };
 
-},{"../internals/iterators":163,"../internals/well-known-symbol":220}],152:[function(require,module,exports){
+},{"../internals/iterators":175,"../internals/well-known-symbol":238}],161:[function(require,module,exports){
+'use strict';
 var classof = require('../internals/classof-raw');
 
 // `IsArray` abstract operation
 // https://tc39.es/ecma262/#sec-isarray
 // eslint-disable-next-line es/no-array-isarray -- safe
 module.exports = Array.isArray || function isArray(argument) {
-  return classof(argument) == 'Array';
+  return classof(argument) === 'Array';
 };
 
-},{"../internals/classof-raw":98}],153:[function(require,module,exports){
+},{"../internals/classof-raw":98}],162:[function(require,module,exports){
+'use strict';
+var $documentAll = require('../internals/document-all');
+
+var documentAll = $documentAll.all;
+
 // `IsCallable` abstract operation
 // https://tc39.es/ecma262/#sec-iscallable
-module.exports = function (argument) {
+module.exports = $documentAll.IS_HTMLDDA ? function (argument) {
+  return typeof argument == 'function' || argument === documentAll;
+} : function (argument) {
   return typeof argument == 'function';
 };
 
-},{}],154:[function(require,module,exports){
+},{"../internals/document-all":114}],163:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var fails = require('../internals/fails');
 var isCallable = require('../internals/is-callable');
@@ -35335,7 +35457,7 @@ var empty = [];
 var construct = getBuiltIn('Reflect', 'construct');
 var constructorRegExp = /^\s*(?:class|function)\b/;
 var exec = uncurryThis(constructorRegExp.exec);
-var INCORRECT_TO_STRING = !constructorRegExp.exec(noop);
+var INCORRECT_TO_STRING = !constructorRegExp.test(noop);
 
 var isConstructorModern = function isConstructor(argument) {
   if (!isCallable(argument)) return false;
@@ -35376,7 +35498,8 @@ module.exports = !construct || fails(function () {
     || called;
 }) ? isConstructorLegacy : isConstructorModern;
 
-},{"../internals/classof":99,"../internals/fails":127,"../internals/function-uncurry-this":134,"../internals/get-built-in":135,"../internals/inspect-source":147,"../internals/is-callable":153}],155:[function(require,module,exports){
+},{"../internals/classof":99,"../internals/fails":133,"../internals/function-uncurry-this":142,"../internals/get-built-in":143,"../internals/inspect-source":156,"../internals/is-callable":162}],164:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 var isCallable = require('../internals/is-callable');
 
@@ -35384,8 +35507,8 @@ var replacement = /#|\.prototype\./;
 
 var isForced = function (feature, detection) {
   var value = data[normalize(feature)];
-  return value == POLYFILL ? true
-    : value == NATIVE ? false
+  return value === POLYFILL ? true
+    : value === NATIVE ? false
     : isCallable(detection) ? fails(detection)
     : !!detection;
 };
@@ -35400,17 +35523,33 @@ var POLYFILL = isForced.POLYFILL = 'P';
 
 module.exports = isForced;
 
-},{"../internals/fails":127,"../internals/is-callable":153}],156:[function(require,module,exports){
-var isCallable = require('../internals/is-callable');
-
+},{"../internals/fails":133,"../internals/is-callable":162}],165:[function(require,module,exports){
+'use strict';
+// we can't use just `it == null` since of `document.all` special case
+// https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot-aec
 module.exports = function (it) {
+  return it === null || it === undefined;
+};
+
+},{}],166:[function(require,module,exports){
+'use strict';
+var isCallable = require('../internals/is-callable');
+var $documentAll = require('../internals/document-all');
+
+var documentAll = $documentAll.all;
+
+module.exports = $documentAll.IS_HTMLDDA ? function (it) {
+  return typeof it == 'object' ? it !== null : isCallable(it) || it === documentAll;
+} : function (it) {
   return typeof it == 'object' ? it !== null : isCallable(it);
 };
 
-},{"../internals/is-callable":153}],157:[function(require,module,exports){
+},{"../internals/document-all":114,"../internals/is-callable":162}],167:[function(require,module,exports){
+'use strict';
 module.exports = false;
 
-},{}],158:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
+'use strict';
 var isObject = require('../internals/is-object');
 var classof = require('../internals/classof-raw');
 var wellKnownSymbol = require('../internals/well-known-symbol');
@@ -35421,27 +35560,27 @@ var MATCH = wellKnownSymbol('match');
 // https://tc39.es/ecma262/#sec-isregexp
 module.exports = function (it) {
   var isRegExp;
-  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) === 'RegExp');
 };
 
-},{"../internals/classof-raw":98,"../internals/is-object":156,"../internals/well-known-symbol":220}],159:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/classof-raw":98,"../internals/is-object":166,"../internals/well-known-symbol":238}],169:[function(require,module,exports){
+'use strict';
 var getBuiltIn = require('../internals/get-built-in');
 var isCallable = require('../internals/is-callable');
 var isPrototypeOf = require('../internals/object-is-prototype-of');
 var USE_SYMBOL_AS_UID = require('../internals/use-symbol-as-uid');
 
-var Object = global.Object;
+var $Object = Object;
 
 module.exports = USE_SYMBOL_AS_UID ? function (it) {
   return typeof it == 'symbol';
 } : function (it) {
   var $Symbol = getBuiltIn('Symbol');
-  return isCallable($Symbol) && isPrototypeOf($Symbol.prototype, Object(it));
+  return isCallable($Symbol) && isPrototypeOf($Symbol.prototype, $Object(it));
 };
 
-},{"../internals/get-built-in":135,"../internals/global":139,"../internals/is-callable":153,"../internals/object-is-prototype-of":181,"../internals/use-symbol-as-uid":217}],160:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/get-built-in":143,"../internals/is-callable":162,"../internals/object-is-prototype-of":192,"../internals/use-symbol-as-uid":232}],170:[function(require,module,exports){
+'use strict';
 var bind = require('../internals/function-bind-context');
 var call = require('../internals/function-call');
 var anObject = require('../internals/an-object');
@@ -35453,7 +35592,7 @@ var getIterator = require('../internals/get-iterator');
 var getIteratorMethod = require('../internals/get-iterator-method');
 var iteratorClose = require('../internals/iterator-close');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 var Result = function (stopped, result) {
   this.stopped = stopped;
@@ -35465,6 +35604,7 @@ var ResultPrototype = Result.prototype;
 module.exports = function (iterable, unboundFunction, options) {
   var that = options && options.that;
   var AS_ENTRIES = !!(options && options.AS_ENTRIES);
+  var IS_RECORD = !!(options && options.IS_RECORD);
   var IS_ITERATOR = !!(options && options.IS_ITERATOR);
   var INTERRUPTED = !!(options && options.INTERRUPTED);
   var fn = bind(unboundFunction, that);
@@ -35482,11 +35622,13 @@ module.exports = function (iterable, unboundFunction, options) {
     } return INTERRUPTED ? fn(value, stop) : fn(value);
   };
 
-  if (IS_ITERATOR) {
+  if (IS_RECORD) {
+    iterator = iterable.iterator;
+  } else if (IS_ITERATOR) {
     iterator = iterable;
   } else {
     iterFn = getIteratorMethod(iterable);
-    if (!iterFn) throw TypeError(tryToString(iterable) + ' is not iterable');
+    if (!iterFn) throw new $TypeError(tryToString(iterable) + ' is not iterable');
     // optimisation for array iterators
     if (isArrayIteratorMethod(iterFn)) {
       for (index = 0, length = lengthOfArrayLike(iterable); length > index; index++) {
@@ -35497,7 +35639,7 @@ module.exports = function (iterable, unboundFunction, options) {
     iterator = getIterator(iterable, iterFn);
   }
 
-  next = iterator.next;
+  next = IS_RECORD ? iterable.next : iterator.next;
   while (!(step = call(next, iterator)).done) {
     try {
       result = callFn(step.value);
@@ -35508,7 +35650,8 @@ module.exports = function (iterable, unboundFunction, options) {
   } return new Result(false);
 };
 
-},{"../internals/an-object":85,"../internals/function-bind-context":130,"../internals/function-call":132,"../internals/get-iterator":137,"../internals/get-iterator-method":136,"../internals/global":139,"../internals/is-array-iterator-method":151,"../internals/iterator-close":161,"../internals/length-of-array-like":164,"../internals/object-is-prototype-of":181,"../internals/try-to-string":214}],161:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/function-bind-context":136,"../internals/function-call":138,"../internals/get-iterator":145,"../internals/get-iterator-method":144,"../internals/is-array-iterator-method":160,"../internals/iterator-close":171,"../internals/length-of-array-like":176,"../internals/object-is-prototype-of":192,"../internals/try-to-string":229}],171:[function(require,module,exports){
+'use strict';
 var call = require('../internals/function-call');
 var anObject = require('../internals/an-object');
 var getMethod = require('../internals/get-method');
@@ -35533,13 +35676,136 @@ module.exports = function (iterator, kind, value) {
   return value;
 };
 
-},{"../internals/an-object":85,"../internals/function-call":132,"../internals/get-method":138}],162:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/function-call":138,"../internals/get-method":147}],172:[function(require,module,exports){
+'use strict';
+var IteratorPrototype = require('../internals/iterators-core').IteratorPrototype;
+var create = require('../internals/object-create');
+var createPropertyDescriptor = require('../internals/create-property-descriptor');
+var setToStringTag = require('../internals/set-to-string-tag');
+var Iterators = require('../internals/iterators');
+
+var returnThis = function () { return this; };
+
+module.exports = function (IteratorConstructor, NAME, next, ENUMERABLE_NEXT) {
+  var TO_STRING_TAG = NAME + ' Iterator';
+  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(+!ENUMERABLE_NEXT, next) });
+  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
+  Iterators[TO_STRING_TAG] = returnThis;
+  return IteratorConstructor;
+};
+
+},{"../internals/create-property-descriptor":107,"../internals/iterators":175,"../internals/iterators-core":174,"../internals/object-create":183,"../internals/set-to-string-tag":209}],173:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var call = require('../internals/function-call');
+var IS_PURE = require('../internals/is-pure');
+var FunctionName = require('../internals/function-name');
+var isCallable = require('../internals/is-callable');
+var createIteratorConstructor = require('../internals/iterator-create-constructor');
+var getPrototypeOf = require('../internals/object-get-prototype-of');
+var setPrototypeOf = require('../internals/object-set-prototype-of');
+var setToStringTag = require('../internals/set-to-string-tag');
+var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
+var defineBuiltIn = require('../internals/define-built-in');
+var wellKnownSymbol = require('../internals/well-known-symbol');
+var Iterators = require('../internals/iterators');
+var IteratorsCore = require('../internals/iterators-core');
+
+var PROPER_FUNCTION_NAME = FunctionName.PROPER;
+var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
+var IteratorPrototype = IteratorsCore.IteratorPrototype;
+var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
+var ITERATOR = wellKnownSymbol('iterator');
+var KEYS = 'keys';
+var VALUES = 'values';
+var ENTRIES = 'entries';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+  createIteratorConstructor(IteratorConstructor, NAME, next);
+
+  var getIterationMethod = function (KIND) {
+    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+    if (!BUGGY_SAFARI_ITERATORS && KIND && KIND in IterablePrototype) return IterablePrototype[KIND];
+
+    switch (KIND) {
+      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+    }
+
+    return function () { return new IteratorConstructor(this); };
+  };
+
+  var TO_STRING_TAG = NAME + ' Iterator';
+  var INCORRECT_VALUES_NAME = false;
+  var IterablePrototype = Iterable.prototype;
+  var nativeIterator = IterablePrototype[ITERATOR]
+    || IterablePrototype['@@iterator']
+    || DEFAULT && IterablePrototype[DEFAULT];
+  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
+  var anyNativeIterator = NAME === 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+  var CurrentIteratorPrototype, methods, KEY;
+
+  // fix native
+  if (anyNativeIterator) {
+    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
+    if (CurrentIteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
+      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
+        if (setPrototypeOf) {
+          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
+        } else if (!isCallable(CurrentIteratorPrototype[ITERATOR])) {
+          defineBuiltIn(CurrentIteratorPrototype, ITERATOR, returnThis);
+        }
+      }
+      // Set @@toStringTag to native iterators
+      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
+      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+    }
+  }
+
+  // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
+  if (PROPER_FUNCTION_NAME && DEFAULT === VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    if (!IS_PURE && CONFIGURABLE_FUNCTION_NAME) {
+      createNonEnumerableProperty(IterablePrototype, 'name', VALUES);
+    } else {
+      INCORRECT_VALUES_NAME = true;
+      defaultIterator = function values() { return call(nativeIterator, this); };
+    }
+  }
+
+  // export additional methods
+  if (DEFAULT) {
+    methods = {
+      values: getIterationMethod(VALUES),
+      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+      entries: getIterationMethod(ENTRIES)
+    };
+    if (FORCED) for (KEY in methods) {
+      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+        defineBuiltIn(IterablePrototype, KEY, methods[KEY]);
+      }
+    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+  }
+
+  // define iterator
+  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
+    defineBuiltIn(IterablePrototype, ITERATOR, defaultIterator, { name: DEFAULT });
+  }
+  Iterators[NAME] = defaultIterator;
+
+  return methods;
+};
+
+},{"../internals/create-non-enumerable-property":106,"../internals/define-built-in":110,"../internals/export":132,"../internals/function-call":138,"../internals/function-name":139,"../internals/is-callable":162,"../internals/is-pure":167,"../internals/iterator-create-constructor":172,"../internals/iterators":175,"../internals/iterators-core":174,"../internals/object-get-prototype-of":190,"../internals/object-set-prototype-of":196,"../internals/set-to-string-tag":209,"../internals/well-known-symbol":238}],174:[function(require,module,exports){
 'use strict';
 var fails = require('../internals/fails');
 var isCallable = require('../internals/is-callable');
+var isObject = require('../internals/is-object');
 var create = require('../internals/object-create');
 var getPrototypeOf = require('../internals/object-get-prototype-of');
-var redefine = require('../internals/redefine');
+var defineBuiltIn = require('../internals/define-built-in');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var IS_PURE = require('../internals/is-pure');
 
@@ -35561,7 +35827,7 @@ if ([].keys) {
   }
 }
 
-var NEW_ITERATOR_PROTOTYPE = IteratorPrototype == undefined || fails(function () {
+var NEW_ITERATOR_PROTOTYPE = !isObject(IteratorPrototype) || fails(function () {
   var test = {};
   // FF44- legacy iterators case
   return IteratorPrototype[ITERATOR].call(test) !== test;
@@ -35573,7 +35839,7 @@ else if (IS_PURE) IteratorPrototype = create(IteratorPrototype);
 // `%IteratorPrototype%[@@iterator]()` method
 // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
 if (!isCallable(IteratorPrototype[ITERATOR])) {
-  redefine(IteratorPrototype, ITERATOR, function () {
+  defineBuiltIn(IteratorPrototype, ITERATOR, function () {
     return this;
   });
 }
@@ -35583,9 +35849,10 @@ module.exports = {
   BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
 };
 
-},{"../internals/fails":127,"../internals/is-callable":153,"../internals/is-pure":157,"../internals/object-create":172,"../internals/object-get-prototype-of":179,"../internals/redefine":194,"../internals/well-known-symbol":220}],163:[function(require,module,exports){
-arguments[4][141][0].apply(exports,arguments)
-},{"dup":141}],164:[function(require,module,exports){
+},{"../internals/define-built-in":110,"../internals/fails":133,"../internals/is-callable":162,"../internals/is-object":166,"../internals/is-pure":167,"../internals/object-create":183,"../internals/object-get-prototype-of":190,"../internals/well-known-symbol":238}],175:[function(require,module,exports){
+arguments[4][150][0].apply(exports,arguments)
+},{"dup":150}],176:[function(require,module,exports){
+'use strict';
 var toLength = require('../internals/to-length');
 
 // `LengthOfArrayLike` abstract operation
@@ -35594,11 +35861,83 @@ module.exports = function (obj) {
   return toLength(obj.length);
 };
 
-},{"../internals/to-length":208}],165:[function(require,module,exports){
+},{"../internals/to-length":223}],177:[function(require,module,exports){
+'use strict';
+var uncurryThis = require('../internals/function-uncurry-this');
+var fails = require('../internals/fails');
+var isCallable = require('../internals/is-callable');
+var hasOwn = require('../internals/has-own-property');
+var DESCRIPTORS = require('../internals/descriptors');
+var CONFIGURABLE_FUNCTION_NAME = require('../internals/function-name').CONFIGURABLE;
+var inspectSource = require('../internals/inspect-source');
+var InternalStateModule = require('../internals/internal-state');
+
+var enforceInternalState = InternalStateModule.enforce;
+var getInternalState = InternalStateModule.get;
+var $String = String;
+// eslint-disable-next-line es/no-object-defineproperty -- safe
+var defineProperty = Object.defineProperty;
+var stringSlice = uncurryThis(''.slice);
+var replace = uncurryThis(''.replace);
+var join = uncurryThis([].join);
+
+var CONFIGURABLE_LENGTH = DESCRIPTORS && !fails(function () {
+  return defineProperty(function () { /* empty */ }, 'length', { value: 8 }).length !== 8;
+});
+
+var TEMPLATE = String(String).split('String');
+
+var makeBuiltIn = module.exports = function (value, name, options) {
+  if (stringSlice($String(name), 0, 7) === 'Symbol(') {
+    name = '[' + replace($String(name), /^Symbol\(([^)]*)\)/, '$1') + ']';
+  }
+  if (options && options.getter) name = 'get ' + name;
+  if (options && options.setter) name = 'set ' + name;
+  if (!hasOwn(value, 'name') || (CONFIGURABLE_FUNCTION_NAME && value.name !== name)) {
+    if (DESCRIPTORS) defineProperty(value, 'name', { value: name, configurable: true });
+    else value.name = name;
+  }
+  if (CONFIGURABLE_LENGTH && options && hasOwn(options, 'arity') && value.length !== options.arity) {
+    defineProperty(value, 'length', { value: options.arity });
+  }
+  try {
+    if (options && hasOwn(options, 'constructor') && options.constructor) {
+      if (DESCRIPTORS) defineProperty(value, 'prototype', { writable: false });
+    // in V8 ~ Chrome 53, prototypes of some methods, like `Array.prototype.values`, are non-writable
+    } else if (value.prototype) value.prototype = undefined;
+  } catch (error) { /* empty */ }
+  var state = enforceInternalState(value);
+  if (!hasOwn(state, 'source')) {
+    state.source = join(TEMPLATE, typeof name == 'string' ? name : '');
+  } return value;
+};
+
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+// eslint-disable-next-line no-extend-native -- required
+Function.prototype.toString = makeBuiltIn(function toString() {
+  return isCallable(this) && getInternalState(this).source || inspectSource(this);
+}, 'toString');
+
+},{"../internals/descriptors":113,"../internals/fails":133,"../internals/function-name":139,"../internals/function-uncurry-this":142,"../internals/has-own-property":149,"../internals/inspect-source":156,"../internals/internal-state":159,"../internals/is-callable":162}],178:[function(require,module,exports){
+'use strict';
+var ceil = Math.ceil;
+var floor = Math.floor;
+
+// `Math.trunc` method
+// https://tc39.es/ecma262/#sec-math.trunc
+// eslint-disable-next-line es/no-math-trunc -- safe
+module.exports = Math.trunc || function trunc(x) {
+  var n = +x;
+  return (n > 0 ? floor : ceil)(n);
+};
+
+},{}],179:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var bind = require('../internals/function-bind-context');
 var getOwnPropertyDescriptor = require('../internals/object-get-own-property-descriptor').f;
 var macrotask = require('../internals/task').set;
+var Queue = require('../internals/queue');
 var IS_IOS = require('../internals/engine-is-ios');
 var IS_IOS_PEBBLE = require('../internals/engine-is-ios-pebble');
 var IS_WEBOS_WEBKIT = require('../internals/engine-is-webos-webkit');
@@ -35610,26 +35949,22 @@ var process = global.process;
 var Promise = global.Promise;
 // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
 var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
-var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
-
-var flush, head, last, notify, toggle, node, promise, then;
+var microtask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
+var notify, toggle, node, promise, then;
 
 // modern engines have queueMicrotask method
-if (!queueMicrotask) {
-  flush = function () {
+if (!microtask) {
+  var queue = new Queue();
+
+  var flush = function () {
     var parent, fn;
     if (IS_NODE && (parent = process.domain)) parent.exit();
-    while (head) {
-      fn = head.fn;
-      head = head.next;
-      try {
-        fn();
-      } catch (error) {
-        if (head) notify();
-        else last = undefined;
-        throw error;
-      }
-    } last = undefined;
+    while (fn = queue.get()) try {
+      fn();
+    } catch (error) {
+      if (queue.head) notify();
+      throw error;
+    }
     if (parent) parent.enter();
   };
 
@@ -35660,64 +35995,35 @@ if (!queueMicrotask) {
   // for other environments - macrotask based on:
   // - setImmediate
   // - MessageChannel
-  // - window.postMessag
+  // - window.postMessage
   // - onreadystatechange
   // - setTimeout
   } else {
-    // strange IE + webpack dev server bug - use .bind(global)
+    // `webpack` dev server bug on IE global methods - use bind(fn, global)
     macrotask = bind(macrotask, global);
     notify = function () {
       macrotask(flush);
     };
   }
+
+  microtask = function (fn) {
+    if (!queue.head) notify();
+    queue.add(fn);
+  };
 }
 
-module.exports = queueMicrotask || function (fn) {
-  var task = { fn: fn, next: undefined };
-  if (last) last.next = task;
-  if (!head) {
-    head = task;
-    notify();
-  } last = task;
-};
+module.exports = microtask;
 
-},{"../internals/engine-is-ios":118,"../internals/engine-is-ios-pebble":117,"../internals/engine-is-node":119,"../internals/engine-is-webos-webkit":120,"../internals/function-bind-context":130,"../internals/global":139,"../internals/object-get-own-property-descriptor":175,"../internals/task":204}],166:[function(require,module,exports){
-var global = require('../internals/global');
-
-module.exports = global.Promise;
-
-},{"../internals/global":139}],167:[function(require,module,exports){
-/* eslint-disable es/no-symbol -- required for testing */
-var V8_VERSION = require('../internals/engine-v8-version');
-var fails = require('../internals/fails');
-
-// eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
-  var symbol = Symbol();
-  // Chrome 38 Symbol has incorrect toString conversion
-  // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
-  return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
-    // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
-    !Symbol.sham && V8_VERSION && V8_VERSION < 41;
-});
-
-},{"../internals/engine-v8-version":122,"../internals/fails":127}],168:[function(require,module,exports){
-var global = require('../internals/global');
-var isCallable = require('../internals/is-callable');
-var inspectSource = require('../internals/inspect-source');
-
-var WeakMap = global.WeakMap;
-
-module.exports = isCallable(WeakMap) && /native code/.test(inspectSource(WeakMap));
-
-},{"../internals/global":139,"../internals/inspect-source":147,"../internals/is-callable":153}],169:[function(require,module,exports){
+},{"../internals/engine-is-ios":122,"../internals/engine-is-ios-pebble":121,"../internals/engine-is-node":123,"../internals/engine-is-webos-webkit":124,"../internals/function-bind-context":136,"../internals/global":148,"../internals/object-get-own-property-descriptor":186,"../internals/queue":206,"../internals/task":218}],180:[function(require,module,exports){
 'use strict';
 var aCallable = require('../internals/a-callable');
+
+var $TypeError = TypeError;
 
 var PromiseCapability = function (C) {
   var resolve, reject;
   this.promise = new C(function ($$resolve, $$reject) {
-    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+    if (resolve !== undefined || reject !== undefined) throw new $TypeError('Bad Promise constructor');
     resolve = $$resolve;
     reject = $$reject;
   });
@@ -35731,26 +36037,28 @@ module.exports.f = function (C) {
   return new PromiseCapability(C);
 };
 
-},{"../internals/a-callable":80}],170:[function(require,module,exports){
+},{"../internals/a-callable":80}],181:[function(require,module,exports){
+'use strict';
 var toString = require('../internals/to-string');
 
 module.exports = function (argument, $default) {
   return argument === undefined ? arguments.length < 2 ? '' : $default : toString(argument);
 };
 
-},{"../internals/to-string":213}],171:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/to-string":228}],182:[function(require,module,exports){
+'use strict';
 var isRegExp = require('../internals/is-regexp');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 module.exports = function (it) {
   if (isRegExp(it)) {
-    throw TypeError("The method doesn't accept regular expressions");
+    throw new $TypeError("The method doesn't accept regular expressions");
   } return it;
 };
 
-},{"../internals/global":139,"../internals/is-regexp":158}],172:[function(require,module,exports){
+},{"../internals/is-regexp":168}],183:[function(require,module,exports){
+'use strict';
 /* global ActiveXObject -- old IE, WSH */
 var anObject = require('../internals/an-object');
 var definePropertiesModule = require('../internals/object-define-properties');
@@ -35822,6 +36130,7 @@ hiddenKeys[IE_PROTO] = true;
 
 // `Object.create` method
 // https://tc39.es/ecma262/#sec-object.create
+// eslint-disable-next-line es/no-object-create -- safe
 module.exports = Object.create || function create(O, Properties) {
   var result;
   if (O !== null) {
@@ -35834,7 +36143,8 @@ module.exports = Object.create || function create(O, Properties) {
   return Properties === undefined ? result : definePropertiesModule.f(result, Properties);
 };
 
-},{"../internals/an-object":85,"../internals/document-create-element":113,"../internals/enum-bug-keys":124,"../internals/hidden-keys":141,"../internals/html":143,"../internals/object-define-properties":173,"../internals/shared-key":199}],173:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/document-create-element":115,"../internals/enum-bug-keys":128,"../internals/hidden-keys":150,"../internals/html":152,"../internals/object-define-properties":184,"../internals/shared-key":210}],184:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var V8_PROTOTYPE_DEFINE_BUG = require('../internals/v8-prototype-define-bug');
 var definePropertyModule = require('../internals/object-define-property');
@@ -35856,15 +36166,15 @@ exports.f = DESCRIPTORS && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : 
   return O;
 };
 
-},{"../internals/an-object":85,"../internals/descriptors":112,"../internals/object-define-property":174,"../internals/object-keys":183,"../internals/to-indexed-object":206,"../internals/v8-prototype-define-bug":218}],174:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/an-object":85,"../internals/descriptors":113,"../internals/object-define-property":185,"../internals/object-keys":194,"../internals/to-indexed-object":221,"../internals/v8-prototype-define-bug":233}],185:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var IE8_DOM_DEFINE = require('../internals/ie8-dom-define');
 var V8_PROTOTYPE_DEFINE_BUG = require('../internals/v8-prototype-define-bug');
 var anObject = require('../internals/an-object');
 var toPropertyKey = require('../internals/to-property-key');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 // eslint-disable-next-line es/no-object-defineproperty -- safe
 var $defineProperty = Object.defineProperty;
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -35897,12 +36207,13 @@ exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P
   if (IE8_DOM_DEFINE) try {
     return $defineProperty(O, P, Attributes);
   } catch (error) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
+  if ('get' in Attributes || 'set' in Attributes) throw new $TypeError('Accessors not supported');
   if ('value' in Attributes) O[P] = Attributes.value;
   return O;
 };
 
-},{"../internals/an-object":85,"../internals/descriptors":112,"../internals/global":139,"../internals/ie8-dom-define":144,"../internals/to-property-key":211,"../internals/v8-prototype-define-bug":218}],175:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/descriptors":113,"../internals/ie8-dom-define":153,"../internals/to-property-key":226,"../internals/v8-prototype-define-bug":233}],186:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var call = require('../internals/function-call');
 var propertyIsEnumerableModule = require('../internals/object-property-is-enumerable');
@@ -35926,7 +36237,8 @@ exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDes
   if (hasOwn(O, P)) return createPropertyDescriptor(!call(propertyIsEnumerableModule.f, O, P), O[P]);
 };
 
-},{"../internals/create-property-descriptor":108,"../internals/descriptors":112,"../internals/function-call":132,"../internals/has-own-property":140,"../internals/ie8-dom-define":144,"../internals/object-property-is-enumerable":184,"../internals/to-indexed-object":206,"../internals/to-property-key":211}],176:[function(require,module,exports){
+},{"../internals/create-property-descriptor":107,"../internals/descriptors":113,"../internals/function-call":138,"../internals/has-own-property":149,"../internals/ie8-dom-define":153,"../internals/object-property-is-enumerable":195,"../internals/to-indexed-object":221,"../internals/to-property-key":226}],187:[function(require,module,exports){
+'use strict';
 /* eslint-disable es/no-object-getownpropertynames -- safe */
 var classof = require('../internals/classof-raw');
 var toIndexedObject = require('../internals/to-indexed-object');
@@ -35946,12 +36258,13 @@ var getWindowNames = function (it) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && classof(it) == 'Window'
+  return windowNames && classof(it) === 'Window'
     ? getWindowNames(it)
     : $getOwnPropertyNames(toIndexedObject(it));
 };
 
-},{"../internals/array-slice-simple":93,"../internals/classof-raw":98,"../internals/object-get-own-property-names":177,"../internals/to-indexed-object":206}],177:[function(require,module,exports){
+},{"../internals/array-slice-simple":93,"../internals/classof-raw":98,"../internals/object-get-own-property-names":188,"../internals/to-indexed-object":221}],188:[function(require,module,exports){
+'use strict';
 var internalObjectKeys = require('../internals/object-keys-internal');
 var enumBugKeys = require('../internals/enum-bug-keys');
 
@@ -35964,12 +36277,13 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return internalObjectKeys(O, hiddenKeys);
 };
 
-},{"../internals/enum-bug-keys":124,"../internals/object-keys-internal":182}],178:[function(require,module,exports){
+},{"../internals/enum-bug-keys":128,"../internals/object-keys-internal":193}],189:[function(require,module,exports){
+'use strict';
 // eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
 exports.f = Object.getOwnPropertySymbols;
 
-},{}],179:[function(require,module,exports){
-var global = require('../internals/global');
+},{}],190:[function(require,module,exports){
+'use strict';
 var hasOwn = require('../internals/has-own-property');
 var isCallable = require('../internals/is-callable');
 var toObject = require('../internals/to-object');
@@ -35977,21 +36291,23 @@ var sharedKey = require('../internals/shared-key');
 var CORRECT_PROTOTYPE_GETTER = require('../internals/correct-prototype-getter');
 
 var IE_PROTO = sharedKey('IE_PROTO');
-var Object = global.Object;
-var ObjectPrototype = Object.prototype;
+var $Object = Object;
+var ObjectPrototype = $Object.prototype;
 
 // `Object.getPrototypeOf` method
 // https://tc39.es/ecma262/#sec-object.getprototypeof
-module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
+// eslint-disable-next-line es/no-object-getprototypeof -- safe
+module.exports = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function (O) {
   var object = toObject(O);
   if (hasOwn(object, IE_PROTO)) return object[IE_PROTO];
   var constructor = object.constructor;
   if (isCallable(constructor) && object instanceof constructor) {
     return constructor.prototype;
-  } return object instanceof Object ? ObjectPrototype : null;
+  } return object instanceof $Object ? ObjectPrototype : null;
 };
 
-},{"../internals/correct-prototype-getter":105,"../internals/global":139,"../internals/has-own-property":140,"../internals/is-callable":153,"../internals/shared-key":199,"../internals/to-object":209}],180:[function(require,module,exports){
+},{"../internals/correct-prototype-getter":104,"../internals/has-own-property":149,"../internals/is-callable":162,"../internals/shared-key":210,"../internals/to-object":224}],191:[function(require,module,exports){
+'use strict';
 var fails = require('../internals/fails');
 var isObject = require('../internals/is-object');
 var classof = require('../internals/classof-raw');
@@ -36005,16 +36321,18 @@ var FAILS_ON_PRIMITIVES = fails(function () { $isExtensible(1); });
 // https://tc39.es/ecma262/#sec-object.isextensible
 module.exports = (FAILS_ON_PRIMITIVES || ARRAY_BUFFER_NON_EXTENSIBLE) ? function isExtensible(it) {
   if (!isObject(it)) return false;
-  if (ARRAY_BUFFER_NON_EXTENSIBLE && classof(it) == 'ArrayBuffer') return false;
+  if (ARRAY_BUFFER_NON_EXTENSIBLE && classof(it) === 'ArrayBuffer') return false;
   return $isExtensible ? $isExtensible(it) : true;
 } : $isExtensible;
 
-},{"../internals/array-buffer-non-extensible":87,"../internals/classof-raw":98,"../internals/fails":127,"../internals/is-object":156}],181:[function(require,module,exports){
+},{"../internals/array-buffer-non-extensible":87,"../internals/classof-raw":98,"../internals/fails":133,"../internals/is-object":166}],192:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 
 module.exports = uncurryThis({}.isPrototypeOf);
 
-},{"../internals/function-uncurry-this":134}],182:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142}],193:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var hasOwn = require('../internals/has-own-property');
 var toIndexedObject = require('../internals/to-indexed-object');
@@ -36036,7 +36354,8 @@ module.exports = function (object, names) {
   return result;
 };
 
-},{"../internals/array-includes":90,"../internals/function-uncurry-this":134,"../internals/has-own-property":140,"../internals/hidden-keys":141,"../internals/to-indexed-object":206}],183:[function(require,module,exports){
+},{"../internals/array-includes":90,"../internals/function-uncurry-this":142,"../internals/has-own-property":149,"../internals/hidden-keys":150,"../internals/to-indexed-object":221}],194:[function(require,module,exports){
+'use strict';
 var internalObjectKeys = require('../internals/object-keys-internal');
 var enumBugKeys = require('../internals/enum-bug-keys');
 
@@ -36047,7 +36366,7 @@ module.exports = Object.keys || function keys(O) {
   return internalObjectKeys(O, enumBugKeys);
 };
 
-},{"../internals/enum-bug-keys":124,"../internals/object-keys-internal":182}],184:[function(require,module,exports){
+},{"../internals/enum-bug-keys":128,"../internals/object-keys-internal":193}],195:[function(require,module,exports){
 'use strict';
 var $propertyIsEnumerable = {}.propertyIsEnumerable;
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -36063,9 +36382,10 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
   return !!descriptor && descriptor.enumerable;
 } : $propertyIsEnumerable;
 
-},{}],185:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
+'use strict';
 /* eslint-disable no-proto -- safe */
-var uncurryThis = require('../internals/function-uncurry-this');
+var uncurryThisAccessor = require('../internals/function-uncurry-this-accessor');
 var anObject = require('../internals/an-object');
 var aPossiblePrototype = require('../internals/a-possible-prototype');
 
@@ -36078,8 +36398,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
   var test = {};
   var setter;
   try {
-    // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-    setter = uncurryThis(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
+    setter = uncurryThisAccessor(Object.prototype, '__proto__', 'set');
     setter(test, []);
     CORRECT_SETTER = test instanceof Array;
   } catch (error) { /* empty */ }
@@ -36092,7 +36411,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
   };
 }() : undefined);
 
-},{"../internals/a-possible-prototype":82,"../internals/an-object":85,"../internals/function-uncurry-this":134}],186:[function(require,module,exports){
+},{"../internals/a-possible-prototype":82,"../internals/an-object":85,"../internals/function-uncurry-this-accessor":140}],197:[function(require,module,exports){
 'use strict';
 var TO_STRING_TAG_SUPPORT = require('../internals/to-string-tag-support');
 var classof = require('../internals/classof');
@@ -36103,13 +36422,13 @@ module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
   return '[object ' + classof(this) + ']';
 };
 
-},{"../internals/classof":99,"../internals/to-string-tag-support":212}],187:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/classof":99,"../internals/to-string-tag-support":227}],198:[function(require,module,exports){
+'use strict';
 var call = require('../internals/function-call');
 var isCallable = require('../internals/is-callable');
 var isObject = require('../internals/is-object');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 // `OrdinaryToPrimitive` abstract operation
 // https://tc39.es/ecma262/#sec-ordinarytoprimitive
@@ -36118,10 +36437,11 @@ module.exports = function (input, pref) {
   if (pref === 'string' && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
   if (isCallable(fn = input.valueOf) && !isObject(val = call(fn, input))) return val;
   if (pref !== 'string' && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
-  throw TypeError("Can't convert object to primitive value");
+  throw new $TypeError("Can't convert object to primitive value");
 };
 
-},{"../internals/function-call":132,"../internals/global":139,"../internals/is-callable":153,"../internals/is-object":156}],188:[function(require,module,exports){
+},{"../internals/function-call":138,"../internals/is-callable":162,"../internals/is-object":166}],199:[function(require,module,exports){
+'use strict';
 var getBuiltIn = require('../internals/get-built-in');
 var uncurryThis = require('../internals/function-uncurry-this');
 var getOwnPropertyNamesModule = require('../internals/object-get-own-property-names');
@@ -36137,12 +36457,14 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
   return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
 };
 
-},{"../internals/an-object":85,"../internals/function-uncurry-this":134,"../internals/get-built-in":135,"../internals/object-get-own-property-names":177,"../internals/object-get-own-property-symbols":178}],189:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/function-uncurry-this":142,"../internals/get-built-in":143,"../internals/object-get-own-property-names":188,"../internals/object-get-own-property-symbols":189}],200:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 
 module.exports = global;
 
-},{"../internals/global":139}],190:[function(require,module,exports){
+},{"../internals/global":148}],201:[function(require,module,exports){
+'use strict';
 module.exports = function (exec) {
   try {
     return { error: false, value: exec() };
@@ -36151,7 +36473,64 @@ module.exports = function (exec) {
   }
 };
 
-},{}],191:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
+'use strict';
+var global = require('../internals/global');
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
+var isCallable = require('../internals/is-callable');
+var isForced = require('../internals/is-forced');
+var inspectSource = require('../internals/inspect-source');
+var wellKnownSymbol = require('../internals/well-known-symbol');
+var IS_BROWSER = require('../internals/engine-is-browser');
+var IS_DENO = require('../internals/engine-is-deno');
+var IS_PURE = require('../internals/is-pure');
+var V8_VERSION = require('../internals/engine-v8-version');
+
+var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
+var SPECIES = wellKnownSymbol('species');
+var SUBCLASSING = false;
+var NATIVE_PROMISE_REJECTION_EVENT = isCallable(global.PromiseRejectionEvent);
+
+var FORCED_PROMISE_CONSTRUCTOR = isForced('Promise', function () {
+  var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(NativePromiseConstructor);
+  var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(NativePromiseConstructor);
+  // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+  // We can't detect it synchronously, so just check versions
+  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION === 66) return true;
+  // We need Promise#{ catch, finally } in the pure version for preventing prototype pollution
+  if (IS_PURE && !(NativePromisePrototype['catch'] && NativePromisePrototype['finally'])) return true;
+  // We can't use @@species feature detection in V8 since it causes
+  // deoptimization and performance degradation
+  // https://github.com/zloirock/core-js/issues/679
+  if (!V8_VERSION || V8_VERSION < 51 || !/native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) {
+    // Detect correctness of subclassing with @@species support
+    var promise = new NativePromiseConstructor(function (resolve) { resolve(1); });
+    var FakePromise = function (exec) {
+      exec(function () { /* empty */ }, function () { /* empty */ });
+    };
+    var constructor = promise.constructor = {};
+    constructor[SPECIES] = FakePromise;
+    SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
+    if (!SUBCLASSING) return true;
+  // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+  } return !GLOBAL_CORE_JS_PROMISE && (IS_BROWSER || IS_DENO) && !NATIVE_PROMISE_REJECTION_EVENT;
+});
+
+module.exports = {
+  CONSTRUCTOR: FORCED_PROMISE_CONSTRUCTOR,
+  REJECTION_EVENT: NATIVE_PROMISE_REJECTION_EVENT,
+  SUBCLASSING: SUBCLASSING
+};
+
+},{"../internals/engine-is-browser":119,"../internals/engine-is-deno":120,"../internals/engine-v8-version":126,"../internals/global":148,"../internals/inspect-source":156,"../internals/is-callable":162,"../internals/is-forced":164,"../internals/is-pure":167,"../internals/promise-native-constructor":203,"../internals/well-known-symbol":238}],203:[function(require,module,exports){
+'use strict';
+var global = require('../internals/global');
+
+module.exports = global.Promise;
+
+},{"../internals/global":148}],204:[function(require,module,exports){
+'use strict';
 var anObject = require('../internals/an-object');
 var isObject = require('../internals/is-object');
 var newPromiseCapability = require('../internals/new-promise-capability');
@@ -36165,7 +36544,18 @@ module.exports = function (C, x) {
   return promiseCapability.promise;
 };
 
-},{"../internals/an-object":85,"../internals/is-object":156,"../internals/new-promise-capability":169}],192:[function(require,module,exports){
+},{"../internals/an-object":85,"../internals/is-object":166,"../internals/new-promise-capability":180}],205:[function(require,module,exports){
+'use strict';
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
+var checkCorrectnessOfIteration = require('../internals/check-correctness-of-iteration');
+var FORCED_PROMISE_CONSTRUCTOR = require('../internals/promise-constructor-detection').CONSTRUCTOR;
+
+module.exports = FORCED_PROMISE_CONSTRUCTOR || !checkCorrectnessOfIteration(function (iterable) {
+  NativePromiseConstructor.all(iterable).then(undefined, function () { /* empty */ });
+});
+
+},{"../internals/check-correctness-of-iteration":97,"../internals/promise-constructor-detection":202,"../internals/promise-native-constructor":203}],206:[function(require,module,exports){
+'use strict';
 var Queue = function () {
   this.head = null;
   this.tail = null;
@@ -36174,15 +36564,16 @@ var Queue = function () {
 Queue.prototype = {
   add: function (item) {
     var entry = { item: item, next: null };
-    if (this.head) this.tail.next = entry;
+    var tail = this.tail;
+    if (tail) tail.next = entry;
     else this.head = entry;
     this.tail = entry;
   },
   get: function () {
     var entry = this.head;
     if (entry) {
-      this.head = entry.next;
-      if (this.tail === entry) this.tail = null;
+      var next = this.head = entry.next;
+      if (next === null) this.tail = null;
       return entry.item;
     }
   }
@@ -36190,92 +36581,23 @@ Queue.prototype = {
 
 module.exports = Queue;
 
-},{}],193:[function(require,module,exports){
-var redefine = require('../internals/redefine');
+},{}],207:[function(require,module,exports){
+'use strict';
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 
-module.exports = function (target, src, options) {
-  for (var key in src) redefine(target, key, src[key], options);
-  return target;
-};
-
-},{"../internals/redefine":194}],194:[function(require,module,exports){
-var global = require('../internals/global');
-var isCallable = require('../internals/is-callable');
-var hasOwn = require('../internals/has-own-property');
-var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
-var setGlobal = require('../internals/set-global');
-var inspectSource = require('../internals/inspect-source');
-var InternalStateModule = require('../internals/internal-state');
-var CONFIGURABLE_FUNCTION_NAME = require('../internals/function-name').CONFIGURABLE;
-
-var getInternalState = InternalStateModule.get;
-var enforceInternalState = InternalStateModule.enforce;
-var TEMPLATE = String(String).split('String');
-
-(module.exports = function (O, key, value, options) {
-  var unsafe = options ? !!options.unsafe : false;
-  var simple = options ? !!options.enumerable : false;
-  var noTargetGet = options ? !!options.noTargetGet : false;
-  var name = options && options.name !== undefined ? options.name : key;
-  var state;
-  if (isCallable(value)) {
-    if (String(name).slice(0, 7) === 'Symbol(') {
-      name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
-    }
-    if (!hasOwn(value, 'name') || (CONFIGURABLE_FUNCTION_NAME && value.name !== name)) {
-      createNonEnumerableProperty(value, 'name', name);
-    }
-    state = enforceInternalState(value);
-    if (!state.source) {
-      state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
-    }
-  }
-  if (O === global) {
-    if (simple) O[key] = value;
-    else setGlobal(key, value);
-    return;
-  } else if (!unsafe) {
-    delete O[key];
-  } else if (!noTargetGet && O[key]) {
-    simple = true;
-  }
-  if (simple) O[key] = value;
-  else createNonEnumerableProperty(O, key, value);
-// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-})(Function.prototype, 'toString', function toString() {
-  return isCallable(this) && getInternalState(this).source || inspectSource(this);
-});
-
-},{"../internals/create-non-enumerable-property":107,"../internals/function-name":133,"../internals/global":139,"../internals/has-own-property":140,"../internals/inspect-source":147,"../internals/internal-state":150,"../internals/is-callable":153,"../internals/set-global":196}],195:[function(require,module,exports){
-var global = require('../internals/global');
-
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 
 // `RequireObjectCoercible` abstract operation
 // https://tc39.es/ecma262/#sec-requireobjectcoercible
 module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on " + it);
+  if (isNullOrUndefined(it)) throw new $TypeError("Can't call method on " + it);
   return it;
 };
 
-},{"../internals/global":139}],196:[function(require,module,exports){
-var global = require('../internals/global');
-
-// eslint-disable-next-line es/no-object-defineproperty -- safe
-var defineProperty = Object.defineProperty;
-
-module.exports = function (key, value) {
-  try {
-    defineProperty(global, key, { value: value, configurable: true, writable: true });
-  } catch (error) {
-    global[key] = value;
-  } return value;
-};
-
-},{"../internals/global":139}],197:[function(require,module,exports){
+},{"../internals/is-null-or-undefined":165}],208:[function(require,module,exports){
 'use strict';
 var getBuiltIn = require('../internals/get-built-in');
-var definePropertyModule = require('../internals/object-define-property');
+var defineBuiltInAccessor = require('../internals/define-built-in-accessor');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var DESCRIPTORS = require('../internals/descriptors');
 
@@ -36283,17 +36605,17 @@ var SPECIES = wellKnownSymbol('species');
 
 module.exports = function (CONSTRUCTOR_NAME) {
   var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
-  var defineProperty = definePropertyModule.f;
 
   if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
-    defineProperty(Constructor, SPECIES, {
+    defineBuiltInAccessor(Constructor, SPECIES, {
       configurable: true,
       get: function () { return this; }
     });
   }
 };
 
-},{"../internals/descriptors":112,"../internals/get-built-in":135,"../internals/object-define-property":174,"../internals/well-known-symbol":220}],198:[function(require,module,exports){
+},{"../internals/define-built-in-accessor":109,"../internals/descriptors":113,"../internals/get-built-in":143,"../internals/well-known-symbol":238}],209:[function(require,module,exports){
+'use strict';
 var defineProperty = require('../internals/object-define-property').f;
 var hasOwn = require('../internals/has-own-property');
 var wellKnownSymbol = require('../internals/well-known-symbol');
@@ -36307,7 +36629,8 @@ module.exports = function (target, TAG, STATIC) {
   }
 };
 
-},{"../internals/has-own-property":140,"../internals/object-define-property":174,"../internals/well-known-symbol":220}],199:[function(require,module,exports){
+},{"../internals/has-own-property":149,"../internals/object-define-property":185,"../internals/well-known-symbol":238}],210:[function(require,module,exports){
+'use strict';
 var shared = require('../internals/shared');
 var uid = require('../internals/uid');
 
@@ -36317,32 +36640,36 @@ module.exports = function (key) {
   return keys[key] || (keys[key] = uid(key));
 };
 
-},{"../internals/shared":201,"../internals/uid":216}],200:[function(require,module,exports){
+},{"../internals/shared":212,"../internals/uid":231}],211:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
-var setGlobal = require('../internals/set-global');
+var defineGlobalProperty = require('../internals/define-global-property');
 
 var SHARED = '__core-js_shared__';
-var store = global[SHARED] || setGlobal(SHARED, {});
+var store = global[SHARED] || defineGlobalProperty(SHARED, {});
 
 module.exports = store;
 
-},{"../internals/global":139,"../internals/set-global":196}],201:[function(require,module,exports){
+},{"../internals/define-global-property":112,"../internals/global":148}],212:[function(require,module,exports){
+'use strict';
 var IS_PURE = require('../internals/is-pure');
 var store = require('../internals/shared-store');
 
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.20.3',
+  version: '3.33.2',
   mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2022 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.20.3/LICENSE',
+  copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.33.2/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
-},{"../internals/is-pure":157,"../internals/shared-store":200}],202:[function(require,module,exports){
+},{"../internals/is-pure":167,"../internals/shared-store":211}],213:[function(require,module,exports){
+'use strict';
 var anObject = require('../internals/an-object');
 var aConstructor = require('../internals/a-constructor');
+var isNullOrUndefined = require('../internals/is-null-or-undefined');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var SPECIES = wellKnownSymbol('species');
@@ -36352,10 +36679,11 @@ var SPECIES = wellKnownSymbol('species');
 module.exports = function (O, defaultConstructor) {
   var C = anObject(O).constructor;
   var S;
-  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aConstructor(S);
+  return C === undefined || isNullOrUndefined(S = anObject(C)[SPECIES]) ? defaultConstructor : aConstructor(S);
 };
 
-},{"../internals/a-constructor":81,"../internals/an-object":85,"../internals/well-known-symbol":220}],203:[function(require,module,exports){
+},{"../internals/a-constructor":81,"../internals/an-object":85,"../internals/is-null-or-undefined":165,"../internals/well-known-symbol":238}],214:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 var toIntegerOrInfinity = require('../internals/to-integer-or-infinity');
 var toString = require('../internals/to-string');
@@ -36393,7 +36721,59 @@ module.exports = {
   charAt: createMethod(true)
 };
 
-},{"../internals/function-uncurry-this":134,"../internals/require-object-coercible":195,"../internals/to-integer-or-infinity":207,"../internals/to-string":213}],204:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142,"../internals/require-object-coercible":207,"../internals/to-integer-or-infinity":222,"../internals/to-string":228}],215:[function(require,module,exports){
+'use strict';
+/* eslint-disable es/no-symbol -- required for testing */
+var V8_VERSION = require('../internals/engine-v8-version');
+var fails = require('../internals/fails');
+var global = require('../internals/global');
+
+var $String = global.String;
+
+// eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
+module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
+  var symbol = Symbol('symbol detection');
+  // Chrome 38 Symbol has incorrect toString conversion
+  // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
+  // nb: Do not call `String` directly to avoid this being optimized out to `symbol+''` which will,
+  // of course, fail.
+  return !$String(symbol) || !(Object(symbol) instanceof Symbol) ||
+    // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
+    !Symbol.sham && V8_VERSION && V8_VERSION < 41;
+});
+
+},{"../internals/engine-v8-version":126,"../internals/fails":133,"../internals/global":148}],216:[function(require,module,exports){
+'use strict';
+var call = require('../internals/function-call');
+var getBuiltIn = require('../internals/get-built-in');
+var wellKnownSymbol = require('../internals/well-known-symbol');
+var defineBuiltIn = require('../internals/define-built-in');
+
+module.exports = function () {
+  var Symbol = getBuiltIn('Symbol');
+  var SymbolPrototype = Symbol && Symbol.prototype;
+  var valueOf = SymbolPrototype && SymbolPrototype.valueOf;
+  var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
+
+  if (SymbolPrototype && !SymbolPrototype[TO_PRIMITIVE]) {
+    // `Symbol.prototype[@@toPrimitive]` method
+    // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
+    // eslint-disable-next-line no-unused-vars -- required for .length
+    defineBuiltIn(SymbolPrototype, TO_PRIMITIVE, function (hint) {
+      return call(valueOf, this);
+    }, { arity: 1 });
+  }
+};
+
+},{"../internals/define-built-in":110,"../internals/function-call":138,"../internals/get-built-in":143,"../internals/well-known-symbol":238}],217:[function(require,module,exports){
+'use strict';
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
+
+/* eslint-disable es/no-symbol -- safe */
+module.exports = NATIVE_SYMBOL && !!Symbol['for'] && !!Symbol.keyFor;
+
+},{"../internals/symbol-constructor-detection":215}],218:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var apply = require('../internals/function-apply');
 var bind = require('../internals/function-bind-context');
@@ -36403,6 +36783,7 @@ var fails = require('../internals/fails');
 var html = require('../internals/html');
 var arraySlice = require('../internals/array-slice');
 var createElement = require('../internals/document-create-element');
+var validateArgumentsLength = require('../internals/validate-arguments-length');
 var IS_IOS = require('../internals/engine-is-ios');
 var IS_NODE = require('../internals/engine-is-node');
 
@@ -36416,12 +36797,12 @@ var String = global.String;
 var counter = 0;
 var queue = {};
 var ONREADYSTATECHANGE = 'onreadystatechange';
-var location, defer, channel, port;
+var $location, defer, channel, port;
 
-try {
+fails(function () {
   // Deno throws a ReferenceError on `location` access without `--location` flag
-  location = global.location;
-} catch (error) { /* empty */ }
+  $location = global.location;
+});
 
 var run = function (id) {
   if (hasOwn(queue, id)) {
@@ -36437,21 +36818,23 @@ var runner = function (id) {
   };
 };
 
-var listener = function (event) {
+var eventListener = function (event) {
   run(event.data);
 };
 
-var post = function (id) {
+var globalPostMessageDefer = function (id) {
   // old engines have not location.origin
-  global.postMessage(String(id), location.protocol + '//' + location.host);
+  global.postMessage(String(id), $location.protocol + '//' + $location.host);
 };
 
 // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
 if (!set || !clear) {
-  set = function setImmediate(fn) {
+  set = function setImmediate(handler) {
+    validateArgumentsLength(arguments.length, 1);
+    var fn = isCallable(handler) ? handler : Function(handler);
     var args = arraySlice(arguments, 1);
     queue[++counter] = function () {
-      apply(isCallable(fn) ? fn : Function(fn), undefined, args);
+      apply(fn, undefined, args);
     };
     defer(counter);
     return counter;
@@ -36474,7 +36857,7 @@ if (!set || !clear) {
   } else if (MessageChannel && !IS_IOS) {
     channel = new MessageChannel();
     port = channel.port2;
-    channel.port1.onmessage = listener;
+    channel.port1.onmessage = eventListener;
     defer = bind(port.postMessage, port);
   // Browsers with postMessage, skip WebWorkers
   // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
@@ -36482,11 +36865,11 @@ if (!set || !clear) {
     global.addEventListener &&
     isCallable(global.postMessage) &&
     !global.importScripts &&
-    location && location.protocol !== 'file:' &&
-    !fails(post)
+    $location && $location.protocol !== 'file:' &&
+    !fails(globalPostMessageDefer)
   ) {
-    defer = post;
-    global.addEventListener('message', listener, false);
+    defer = globalPostMessageDefer;
+    global.addEventListener('message', eventListener, false);
   // IE8-
   } else if (ONREADYSTATECHANGE in createElement('script')) {
     defer = function (id) {
@@ -36508,7 +36891,8 @@ module.exports = {
   clear: clear
 };
 
-},{"../internals/array-slice":94,"../internals/document-create-element":113,"../internals/engine-is-ios":118,"../internals/engine-is-node":119,"../internals/fails":127,"../internals/function-apply":129,"../internals/function-bind-context":130,"../internals/global":139,"../internals/has-own-property":140,"../internals/html":143,"../internals/is-callable":153}],205:[function(require,module,exports){
+},{"../internals/array-slice":94,"../internals/document-create-element":115,"../internals/engine-is-ios":122,"../internals/engine-is-node":123,"../internals/fails":133,"../internals/function-apply":135,"../internals/function-bind-context":136,"../internals/global":148,"../internals/has-own-property":149,"../internals/html":152,"../internals/is-callable":162,"../internals/validate-arguments-length":234}],219:[function(require,module,exports){
+'use strict';
 var toIntegerOrInfinity = require('../internals/to-integer-or-infinity');
 
 var max = Math.max;
@@ -36522,7 +36906,23 @@ module.exports = function (index, length) {
   return integer < 0 ? max(integer + length, 0) : min(integer, length);
 };
 
-},{"../internals/to-integer-or-infinity":207}],206:[function(require,module,exports){
+},{"../internals/to-integer-or-infinity":222}],220:[function(require,module,exports){
+'use strict';
+var toPrimitive = require('../internals/to-primitive');
+
+var $TypeError = TypeError;
+
+// `ToBigInt` abstract operation
+// https://tc39.es/ecma262/#sec-tobigint
+module.exports = function (argument) {
+  var prim = toPrimitive(argument, 'number');
+  if (typeof prim == 'number') throw new $TypeError("Can't convert number to bigint");
+  // eslint-disable-next-line es/no-bigint -- safe
+  return BigInt(prim);
+};
+
+},{"../internals/to-primitive":225}],221:[function(require,module,exports){
+'use strict';
 // toObject with fallback for non-array-like ES3 strings
 var IndexedObject = require('../internals/indexed-object');
 var requireObjectCoercible = require('../internals/require-object-coercible');
@@ -36531,19 +36931,20 @@ module.exports = function (it) {
   return IndexedObject(requireObjectCoercible(it));
 };
 
-},{"../internals/indexed-object":145,"../internals/require-object-coercible":195}],207:[function(require,module,exports){
-var ceil = Math.ceil;
-var floor = Math.floor;
+},{"../internals/indexed-object":154,"../internals/require-object-coercible":207}],222:[function(require,module,exports){
+'use strict';
+var trunc = require('../internals/math-trunc');
 
 // `ToIntegerOrInfinity` abstract operation
 // https://tc39.es/ecma262/#sec-tointegerorinfinity
 module.exports = function (argument) {
   var number = +argument;
-  // eslint-disable-next-line no-self-compare -- safe
-  return number !== number || number === 0 ? 0 : (number > 0 ? floor : ceil)(number);
+  // eslint-disable-next-line no-self-compare -- NaN check
+  return number !== number || number === 0 ? 0 : trunc(number);
 };
 
-},{}],208:[function(require,module,exports){
+},{"../internals/math-trunc":178}],223:[function(require,module,exports){
+'use strict';
 var toIntegerOrInfinity = require('../internals/to-integer-or-infinity');
 
 var min = Math.min;
@@ -36554,20 +36955,20 @@ module.exports = function (argument) {
   return argument > 0 ? min(toIntegerOrInfinity(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
 };
 
-},{"../internals/to-integer-or-infinity":207}],209:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/to-integer-or-infinity":222}],224:[function(require,module,exports){
+'use strict';
 var requireObjectCoercible = require('../internals/require-object-coercible');
 
-var Object = global.Object;
+var $Object = Object;
 
 // `ToObject` abstract operation
 // https://tc39.es/ecma262/#sec-toobject
 module.exports = function (argument) {
-  return Object(requireObjectCoercible(argument));
+  return $Object(requireObjectCoercible(argument));
 };
 
-},{"../internals/global":139,"../internals/require-object-coercible":195}],210:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/require-object-coercible":207}],225:[function(require,module,exports){
+'use strict';
 var call = require('../internals/function-call');
 var isObject = require('../internals/is-object');
 var isSymbol = require('../internals/is-symbol');
@@ -36575,7 +36976,7 @@ var getMethod = require('../internals/get-method');
 var ordinaryToPrimitive = require('../internals/ordinary-to-primitive');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
-var TypeError = global.TypeError;
+var $TypeError = TypeError;
 var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
 
 // `ToPrimitive` abstract operation
@@ -36588,13 +36989,14 @@ module.exports = function (input, pref) {
     if (pref === undefined) pref = 'default';
     result = call(exoticToPrim, input, pref);
     if (!isObject(result) || isSymbol(result)) return result;
-    throw TypeError("Can't convert object to primitive value");
+    throw new $TypeError("Can't convert object to primitive value");
   }
   if (pref === undefined) pref = 'number';
   return ordinaryToPrimitive(input, pref);
 };
 
-},{"../internals/function-call":132,"../internals/get-method":138,"../internals/global":139,"../internals/is-object":156,"../internals/is-symbol":159,"../internals/ordinary-to-primitive":187,"../internals/well-known-symbol":220}],211:[function(require,module,exports){
+},{"../internals/function-call":138,"../internals/get-method":147,"../internals/is-object":166,"../internals/is-symbol":169,"../internals/ordinary-to-primitive":198,"../internals/well-known-symbol":238}],226:[function(require,module,exports){
+'use strict';
 var toPrimitive = require('../internals/to-primitive');
 var isSymbol = require('../internals/is-symbol');
 
@@ -36605,7 +37007,8 @@ module.exports = function (argument) {
   return isSymbol(key) ? key : key + '';
 };
 
-},{"../internals/is-symbol":159,"../internals/to-primitive":210}],212:[function(require,module,exports){
+},{"../internals/is-symbol":169,"../internals/to-primitive":225}],227:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
@@ -36615,44 +37018,45 @@ test[TO_STRING_TAG] = 'z';
 
 module.exports = String(test) === '[object z]';
 
-},{"../internals/well-known-symbol":220}],213:[function(require,module,exports){
-var global = require('../internals/global');
+},{"../internals/well-known-symbol":238}],228:[function(require,module,exports){
+'use strict';
 var classof = require('../internals/classof');
 
-var String = global.String;
+var $String = String;
 
 module.exports = function (argument) {
-  if (classof(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
-  return String(argument);
+  if (classof(argument) === 'Symbol') throw new TypeError('Cannot convert a Symbol value to a string');
+  return $String(argument);
 };
 
-},{"../internals/classof":99,"../internals/global":139}],214:[function(require,module,exports){
-var global = require('../internals/global');
-
-var String = global.String;
+},{"../internals/classof":99}],229:[function(require,module,exports){
+'use strict';
+var $String = String;
 
 module.exports = function (argument) {
   try {
-    return String(argument);
+    return $String(argument);
   } catch (error) {
     return 'Object';
   }
 };
 
-},{"../internals/global":139}],215:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
+'use strict';
 var ArrayBufferViewCore = require('../internals/array-buffer-view-core');
 var speciesConstructor = require('../internals/species-constructor');
 
-var TYPED_ARRAY_CONSTRUCTOR = ArrayBufferViewCore.TYPED_ARRAY_CONSTRUCTOR;
 var aTypedArrayConstructor = ArrayBufferViewCore.aTypedArrayConstructor;
+var getTypedArrayConstructor = ArrayBufferViewCore.getTypedArrayConstructor;
 
 // a part of `TypedArraySpeciesCreate` abstract operation
 // https://tc39.es/ecma262/#typedarray-species-create
 module.exports = function (originalArray) {
-  return aTypedArrayConstructor(speciesConstructor(originalArray, originalArray[TYPED_ARRAY_CONSTRUCTOR]));
+  return aTypedArrayConstructor(speciesConstructor(originalArray, getTypedArrayConstructor(originalArray)));
 };
 
-},{"../internals/array-buffer-view-core":88,"../internals/species-constructor":202}],216:[function(require,module,exports){
+},{"../internals/array-buffer-view-core":88,"../internals/species-constructor":213}],231:[function(require,module,exports){
+'use strict';
 var uncurryThis = require('../internals/function-uncurry-this');
 
 var id = 0;
@@ -36663,15 +37067,17 @@ module.exports = function (key) {
   return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString(++id + postfix, 36);
 };
 
-},{"../internals/function-uncurry-this":134}],217:[function(require,module,exports){
+},{"../internals/function-uncurry-this":142}],232:[function(require,module,exports){
+'use strict';
 /* eslint-disable es/no-symbol -- required for testing */
-var NATIVE_SYMBOL = require('../internals/native-symbol');
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
 
 module.exports = NATIVE_SYMBOL
   && !Symbol.sham
   && typeof Symbol.iterator == 'symbol';
 
-},{"../internals/native-symbol":167}],218:[function(require,module,exports){
+},{"../internals/symbol-constructor-detection":215}],233:[function(require,module,exports){
+'use strict';
 var DESCRIPTORS = require('../internals/descriptors');
 var fails = require('../internals/fails');
 
@@ -36682,44 +37088,71 @@ module.exports = DESCRIPTORS && fails(function () {
   return Object.defineProperty(function () { /* empty */ }, 'prototype', {
     value: 42,
     writable: false
-  }).prototype != 42;
+  }).prototype !== 42;
 });
 
-},{"../internals/descriptors":112,"../internals/fails":127}],219:[function(require,module,exports){
+},{"../internals/descriptors":113,"../internals/fails":133}],234:[function(require,module,exports){
+'use strict';
+var $TypeError = TypeError;
+
+module.exports = function (passed, required) {
+  if (passed < required) throw new $TypeError('Not enough arguments');
+  return passed;
+};
+
+},{}],235:[function(require,module,exports){
+'use strict';
+var global = require('../internals/global');
+var isCallable = require('../internals/is-callable');
+
+var WeakMap = global.WeakMap;
+
+module.exports = isCallable(WeakMap) && /native code/.test(String(WeakMap));
+
+},{"../internals/global":148,"../internals/is-callable":162}],236:[function(require,module,exports){
+'use strict';
+var path = require('../internals/path');
+var hasOwn = require('../internals/has-own-property');
+var wrappedWellKnownSymbolModule = require('../internals/well-known-symbol-wrapped');
+var defineProperty = require('../internals/object-define-property').f;
+
+module.exports = function (NAME) {
+  var Symbol = path.Symbol || (path.Symbol = {});
+  if (!hasOwn(Symbol, NAME)) defineProperty(Symbol, NAME, {
+    value: wrappedWellKnownSymbolModule.f(NAME)
+  });
+};
+
+},{"../internals/has-own-property":149,"../internals/object-define-property":185,"../internals/path":200,"../internals/well-known-symbol-wrapped":237}],237:[function(require,module,exports){
+'use strict';
 var wellKnownSymbol = require('../internals/well-known-symbol');
 
 exports.f = wellKnownSymbol;
 
-},{"../internals/well-known-symbol":220}],220:[function(require,module,exports){
+},{"../internals/well-known-symbol":238}],238:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var shared = require('../internals/shared');
 var hasOwn = require('../internals/has-own-property');
 var uid = require('../internals/uid');
-var NATIVE_SYMBOL = require('../internals/native-symbol');
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
 var USE_SYMBOL_AS_UID = require('../internals/use-symbol-as-uid');
 
-var WellKnownSymbolsStore = shared('wks');
 var Symbol = global.Symbol;
-var symbolFor = Symbol && Symbol['for'];
-var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withoutSetter || uid;
+var WellKnownSymbolsStore = shared('wks');
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol['for'] || Symbol : Symbol && Symbol.withoutSetter || uid;
 
 module.exports = function (name) {
-  if (!hasOwn(WellKnownSymbolsStore, name) || !(NATIVE_SYMBOL || typeof WellKnownSymbolsStore[name] == 'string')) {
-    var description = 'Symbol.' + name;
-    if (NATIVE_SYMBOL && hasOwn(Symbol, name)) {
-      WellKnownSymbolsStore[name] = Symbol[name];
-    } else if (USE_SYMBOL_AS_UID && symbolFor) {
-      WellKnownSymbolsStore[name] = symbolFor(description);
-    } else {
-      WellKnownSymbolsStore[name] = createWellKnownSymbol(description);
-    }
+  if (!hasOwn(WellKnownSymbolsStore, name)) {
+    WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn(Symbol, name)
+      ? Symbol[name]
+      : createWellKnownSymbol('Symbol.' + name);
   } return WellKnownSymbolsStore[name];
 };
 
-},{"../internals/global":139,"../internals/has-own-property":140,"../internals/native-symbol":167,"../internals/shared":201,"../internals/uid":216,"../internals/use-symbol-as-uid":217}],221:[function(require,module,exports){
+},{"../internals/global":148,"../internals/has-own-property":149,"../internals/shared":212,"../internals/symbol-constructor-detection":215,"../internals/uid":231,"../internals/use-symbol-as-uid":232}],239:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
-var global = require('../internals/global');
 var isPrototypeOf = require('../internals/object-is-prototype-of');
 var getPrototypeOf = require('../internals/object-get-prototype-of');
 var setPrototypeOf = require('../internals/object-set-prototype-of');
@@ -36727,40 +37160,38 @@ var copyConstructorProperties = require('../internals/copy-constructor-propertie
 var create = require('../internals/object-create');
 var createNonEnumerableProperty = require('../internals/create-non-enumerable-property');
 var createPropertyDescriptor = require('../internals/create-property-descriptor');
-var clearErrorStack = require('../internals/clear-error-stack');
 var installErrorCause = require('../internals/install-error-cause');
+var installErrorStack = require('../internals/error-stack-install');
 var iterate = require('../internals/iterate');
 var normalizeStringArgument = require('../internals/normalize-string-argument');
 var wellKnownSymbol = require('../internals/well-known-symbol');
-var ERROR_STACK_INSTALLABLE = require('../internals/error-stack-installable');
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var Error = global.Error;
+var $Error = Error;
 var push = [].push;
 
 var $AggregateError = function AggregateError(errors, message /* , options */) {
-  var options = arguments.length > 2 ? arguments[2] : undefined;
   var isInstance = isPrototypeOf(AggregateErrorPrototype, this);
   var that;
   if (setPrototypeOf) {
-    that = setPrototypeOf(new Error(), isInstance ? getPrototypeOf(this) : AggregateErrorPrototype);
+    that = setPrototypeOf(new $Error(), isInstance ? getPrototypeOf(this) : AggregateErrorPrototype);
   } else {
     that = isInstance ? this : create(AggregateErrorPrototype);
     createNonEnumerableProperty(that, TO_STRING_TAG, 'Error');
   }
   if (message !== undefined) createNonEnumerableProperty(that, 'message', normalizeStringArgument(message));
-  if (ERROR_STACK_INSTALLABLE) createNonEnumerableProperty(that, 'stack', clearErrorStack(that.stack, 1));
-  installErrorCause(that, options);
+  installErrorStack(that, $AggregateError, that.stack, 1);
+  if (arguments.length > 2) installErrorCause(that, arguments[2]);
   var errorsArray = [];
   iterate(errors, push, { that: errorsArray });
   createNonEnumerableProperty(that, 'errors', errorsArray);
   return that;
 };
 
-if (setPrototypeOf) setPrototypeOf($AggregateError, Error);
-else copyConstructorProperties($AggregateError, Error, { name: true });
+if (setPrototypeOf) setPrototypeOf($AggregateError, $Error);
+else copyConstructorProperties($AggregateError, $Error, { name: true });
 
-var AggregateErrorPrototype = $AggregateError.prototype = create(Error.prototype, {
+var AggregateErrorPrototype = $AggregateError.prototype = create($Error.prototype, {
   constructor: createPropertyDescriptor(1, $AggregateError),
   message: createPropertyDescriptor(1, ''),
   name: createPropertyDescriptor(1, 'AggregateError')
@@ -36768,19 +37199,24 @@ var AggregateErrorPrototype = $AggregateError.prototype = create(Error.prototype
 
 // `AggregateError` constructor
 // https://tc39.es/ecma262/#sec-aggregate-error-constructor
-$({ global: true }, {
+$({ global: true, constructor: true, arity: 2 }, {
   AggregateError: $AggregateError
 });
 
-},{"../internals/clear-error-stack":100,"../internals/copy-constructor-properties":103,"../internals/create-non-enumerable-property":107,"../internals/create-property-descriptor":108,"../internals/error-stack-installable":125,"../internals/export":126,"../internals/global":139,"../internals/install-error-cause":148,"../internals/iterate":160,"../internals/normalize-string-argument":170,"../internals/object-create":172,"../internals/object-get-prototype-of":179,"../internals/object-is-prototype-of":181,"../internals/object-set-prototype-of":185,"../internals/well-known-symbol":220}],222:[function(require,module,exports){
+},{"../internals/copy-constructor-properties":102,"../internals/create-non-enumerable-property":106,"../internals/create-property-descriptor":107,"../internals/error-stack-install":130,"../internals/export":132,"../internals/install-error-cause":157,"../internals/iterate":170,"../internals/normalize-string-argument":181,"../internals/object-create":183,"../internals/object-get-prototype-of":190,"../internals/object-is-prototype-of":192,"../internals/object-set-prototype-of":196,"../internals/well-known-symbol":238}],240:[function(require,module,exports){
+'use strict';
+// TODO: Remove this module from `core-js@4` since it's replaced to module below
+require('../modules/es.aggregate-error.constructor');
+
+},{"../modules/es.aggregate-error.constructor":239}],241:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
-var global = require('../internals/global');
 var fails = require('../internals/fails');
 var isArray = require('../internals/is-array');
 var isObject = require('../internals/is-object');
 var toObject = require('../internals/to-object');
 var lengthOfArrayLike = require('../internals/length-of-array-like');
+var doesNotExceedSafeInteger = require('../internals/does-not-exceed-safe-integer');
 var createProperty = require('../internals/create-property');
 var arraySpeciesCreate = require('../internals/array-species-create');
 var arrayMethodHasSpeciesSupport = require('../internals/array-method-has-species-support');
@@ -36788,9 +37224,6 @@ var wellKnownSymbol = require('../internals/well-known-symbol');
 var V8_VERSION = require('../internals/engine-v8-version');
 
 var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
-var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
-var TypeError = global.TypeError;
 
 // We can't use this feature detection in V8 since it causes
 // deoptimization and serious performance degradation
@@ -36801,20 +37234,18 @@ var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
   return array.concat()[0] !== array;
 });
 
-var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
-
 var isConcatSpreadable = function (O) {
   if (!isObject(O)) return false;
   var spreadable = O[IS_CONCAT_SPREADABLE];
   return spreadable !== undefined ? !!spreadable : isArray(O);
 };
 
-var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !arrayMethodHasSpeciesSupport('concat');
 
 // `Array.prototype.concat` method
 // https://tc39.es/ecma262/#sec-array.prototype.concat
 // with adding support of @@isConcatSpreadable and @@species
-$({ target: 'Array', proto: true, forced: FORCED }, {
+$({ target: 'Array', proto: true, arity: 1, forced: FORCED }, {
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   concat: function concat(arg) {
     var O = toObject(this);
@@ -36825,10 +37256,10 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
       E = i === -1 ? O : arguments[i];
       if (isConcatSpreadable(E)) {
         len = lengthOfArrayLike(E);
-        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        doesNotExceedSafeInteger(n + len);
         for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
       } else {
-        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        doesNotExceedSafeInteger(n + 1);
         createProperty(A, n++, E);
       }
     }
@@ -36837,7 +37268,8 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
   }
 });
 
-},{"../internals/array-method-has-species-support":92,"../internals/array-species-create":96,"../internals/create-property":109,"../internals/engine-v8-version":122,"../internals/export":126,"../internals/fails":127,"../internals/global":139,"../internals/is-array":152,"../internals/is-object":156,"../internals/length-of-array-like":164,"../internals/to-object":209,"../internals/well-known-symbol":220}],223:[function(require,module,exports){
+},{"../internals/array-method-has-species-support":92,"../internals/array-species-create":96,"../internals/create-property":108,"../internals/does-not-exceed-safe-integer":116,"../internals/engine-v8-version":126,"../internals/export":132,"../internals/fails":133,"../internals/is-array":161,"../internals/is-object":166,"../internals/length-of-array-like":176,"../internals/to-object":224,"../internals/well-known-symbol":238}],242:[function(require,module,exports){
+'use strict';
 var $ = require('../internals/export');
 var fill = require('../internals/array-fill');
 var addToUnscopables = require('../internals/add-to-unscopables');
@@ -36851,14 +37283,15 @@ $({ target: 'Array', proto: true }, {
 // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 addToUnscopables('fill');
 
-},{"../internals/add-to-unscopables":83,"../internals/array-fill":89,"../internals/export":126}],224:[function(require,module,exports){
+},{"../internals/add-to-unscopables":83,"../internals/array-fill":89,"../internals/export":132}],243:[function(require,module,exports){
 'use strict';
 var toIndexedObject = require('../internals/to-indexed-object');
 var addToUnscopables = require('../internals/add-to-unscopables');
 var Iterators = require('../internals/iterators');
 var InternalStateModule = require('../internals/internal-state');
 var defineProperty = require('../internals/object-define-property').f;
-var defineIterator = require('../internals/define-iterator');
+var defineIterator = require('../internals/iterator-define');
+var createIterResultObject = require('../internals/create-iter-result-object');
 var IS_PURE = require('../internals/is-pure');
 var DESCRIPTORS = require('../internals/descriptors');
 
@@ -36888,15 +37321,15 @@ module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
 }, function () {
   var state = getInternalState(this);
   var target = state.target;
-  var kind = state.kind;
   var index = state.index++;
   if (!target || index >= target.length) {
     state.target = undefined;
-    return { value: undefined, done: true };
+    return createIterResultObject(undefined, true);
   }
-  if (kind == 'keys') return { value: index, done: false };
-  if (kind == 'values') return { value: target[index], done: false };
-  return { value: [index, target[index]], done: false };
+  switch (state.kind) {
+    case 'keys': return createIterResultObject(index, false);
+    case 'values': return createIterResultObject(target[index], false);
+  } return createIterResultObject([index, target[index]], false);
 }, 'values');
 
 // argumentsList[@@iterator] is %ArrayProto_values%
@@ -36914,7 +37347,83 @@ if (!IS_PURE && DESCRIPTORS && values.name !== 'values') try {
   defineProperty(values, 'name', { value: 'values' });
 } catch (error) { /* empty */ }
 
-},{"../internals/add-to-unscopables":83,"../internals/define-iterator":110,"../internals/descriptors":112,"../internals/internal-state":150,"../internals/is-pure":157,"../internals/iterators":163,"../internals/object-define-property":174,"../internals/to-indexed-object":206}],225:[function(require,module,exports){
+},{"../internals/add-to-unscopables":83,"../internals/create-iter-result-object":105,"../internals/descriptors":113,"../internals/internal-state":159,"../internals/is-pure":167,"../internals/iterator-define":173,"../internals/iterators":175,"../internals/object-define-property":185,"../internals/to-indexed-object":221}],244:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var getBuiltIn = require('../internals/get-built-in');
+var apply = require('../internals/function-apply');
+var call = require('../internals/function-call');
+var uncurryThis = require('../internals/function-uncurry-this');
+var fails = require('../internals/fails');
+var isCallable = require('../internals/is-callable');
+var isSymbol = require('../internals/is-symbol');
+var arraySlice = require('../internals/array-slice');
+var getReplacerFunction = require('../internals/get-json-replacer-function');
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
+
+var $String = String;
+var $stringify = getBuiltIn('JSON', 'stringify');
+var exec = uncurryThis(/./.exec);
+var charAt = uncurryThis(''.charAt);
+var charCodeAt = uncurryThis(''.charCodeAt);
+var replace = uncurryThis(''.replace);
+var numberToString = uncurryThis(1.0.toString);
+
+var tester = /[\uD800-\uDFFF]/g;
+var low = /^[\uD800-\uDBFF]$/;
+var hi = /^[\uDC00-\uDFFF]$/;
+
+var WRONG_SYMBOLS_CONVERSION = !NATIVE_SYMBOL || fails(function () {
+  var symbol = getBuiltIn('Symbol')('stringify detection');
+  // MS Edge converts symbol values to JSON as {}
+  return $stringify([symbol]) !== '[null]'
+    // WebKit converts symbol values to JSON as null
+    || $stringify({ a: symbol }) !== '{}'
+    // V8 throws on boxed symbols
+    || $stringify(Object(symbol)) !== '{}';
+});
+
+// https://github.com/tc39/proposal-well-formed-stringify
+var ILL_FORMED_UNICODE = fails(function () {
+  return $stringify('\uDF06\uD834') !== '"\\udf06\\ud834"'
+    || $stringify('\uDEAD') !== '"\\udead"';
+});
+
+var stringifyWithSymbolsFix = function (it, replacer) {
+  var args = arraySlice(arguments);
+  var $replacer = getReplacerFunction(replacer);
+  if (!isCallable($replacer) && (it === undefined || isSymbol(it))) return; // IE8 returns string on undefined
+  args[1] = function (key, value) {
+    // some old implementations (like WebKit) could pass numbers as keys
+    if (isCallable($replacer)) value = call($replacer, this, $String(key), value);
+    if (!isSymbol(value)) return value;
+  };
+  return apply($stringify, null, args);
+};
+
+var fixIllFormed = function (match, offset, string) {
+  var prev = charAt(string, offset - 1);
+  var next = charAt(string, offset + 1);
+  if ((exec(low, match) && !exec(hi, next)) || (exec(hi, match) && !exec(low, prev))) {
+    return '\\u' + numberToString(charCodeAt(match, 0), 16);
+  } return match;
+};
+
+if ($stringify) {
+  // `JSON.stringify` method
+  // https://tc39.es/ecma262/#sec-json.stringify
+  $({ target: 'JSON', stat: true, arity: 3, forced: WRONG_SYMBOLS_CONVERSION || ILL_FORMED_UNICODE }, {
+    // eslint-disable-next-line no-unused-vars -- required for `.length`
+    stringify: function stringify(it, replacer, space) {
+      var args = arraySlice(arguments);
+      var result = apply(WRONG_SYMBOLS_CONVERSION ? stringifyWithSymbolsFix : $stringify, null, args);
+      return ILL_FORMED_UNICODE && typeof result == 'string' ? replace(result, tester, fixIllFormed) : result;
+    }
+  });
+}
+
+},{"../internals/array-slice":94,"../internals/export":132,"../internals/fails":133,"../internals/function-apply":135,"../internals/function-call":138,"../internals/function-uncurry-this":142,"../internals/get-built-in":143,"../internals/get-json-replacer-function":146,"../internals/is-callable":162,"../internals/is-symbol":169,"../internals/symbol-constructor-detection":215}],245:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var setToStringTag = require('../internals/set-to-string-tag');
 
@@ -36922,7 +37431,7 @@ var setToStringTag = require('../internals/set-to-string-tag');
 // https://tc39.es/ecma262/#sec-json-@@tostringtag
 setToStringTag(global.JSON, 'JSON', true);
 
-},{"../internals/global":139,"../internals/set-to-string-tag":198}],226:[function(require,module,exports){
+},{"../internals/global":148,"../internals/set-to-string-tag":209}],246:[function(require,module,exports){
 'use strict';
 var collection = require('../internals/collection');
 var collectionStrong = require('../internals/collection-strong');
@@ -36933,25 +37442,53 @@ collection('Map', function (init) {
   return function Map() { return init(this, arguments.length ? arguments[0] : undefined); };
 }, collectionStrong);
 
-},{"../internals/collection":102,"../internals/collection-strong":101}],227:[function(require,module,exports){
+},{"../internals/collection":101,"../internals/collection-strong":100}],247:[function(require,module,exports){
+'use strict';
+// TODO: Remove this module from `core-js@4` since it's replaced to module below
+require('../modules/es.map.constructor');
+
+},{"../modules/es.map.constructor":246}],248:[function(require,module,exports){
+'use strict';
 var setToStringTag = require('../internals/set-to-string-tag');
 
 // Math[@@toStringTag] property
 // https://tc39.es/ecma262/#sec-math-@@tostringtag
 setToStringTag(Math, 'Math', true);
 
-},{"../internals/set-to-string-tag":198}],228:[function(require,module,exports){
+},{"../internals/set-to-string-tag":209}],249:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
+var fails = require('../internals/fails');
+var getOwnPropertySymbolsModule = require('../internals/object-get-own-property-symbols');
+var toObject = require('../internals/to-object');
+
+// V8 ~ Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
+// https://bugs.chromium.org/p/v8/issues/detail?id=3443
+var FORCED = !NATIVE_SYMBOL || fails(function () { getOwnPropertySymbolsModule.f(1); });
+
+// `Object.getOwnPropertySymbols` method
+// https://tc39.es/ecma262/#sec-object.getownpropertysymbols
+$({ target: 'Object', stat: true, forced: FORCED }, {
+  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
+    var $getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+    return $getOwnPropertySymbols ? $getOwnPropertySymbols(toObject(it)) : [];
+  }
+});
+
+},{"../internals/export":132,"../internals/fails":133,"../internals/object-get-own-property-symbols":189,"../internals/symbol-constructor-detection":215,"../internals/to-object":224}],250:[function(require,module,exports){
+'use strict';
 var TO_STRING_TAG_SUPPORT = require('../internals/to-string-tag-support');
-var redefine = require('../internals/redefine');
+var defineBuiltIn = require('../internals/define-built-in');
 var toString = require('../internals/object-to-string');
 
 // `Object.prototype.toString` method
 // https://tc39.es/ecma262/#sec-object.prototype.tostring
 if (!TO_STRING_TAG_SUPPORT) {
-  redefine(Object.prototype, 'toString', toString, { unsafe: true });
+  defineBuiltIn(Object.prototype, 'toString', toString, { unsafe: true });
 }
 
-},{"../internals/object-to-string":186,"../internals/redefine":194,"../internals/to-string-tag-support":212}],229:[function(require,module,exports){
+},{"../internals/define-built-in":110,"../internals/object-to-string":197,"../internals/to-string-tag-support":227}],251:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
 var call = require('../internals/function-call');
@@ -36959,10 +37496,11 @@ var aCallable = require('../internals/a-callable');
 var newPromiseCapabilityModule = require('../internals/new-promise-capability');
 var perform = require('../internals/perform');
 var iterate = require('../internals/iterate');
+var PROMISE_STATICS_INCORRECT_ITERATION = require('../internals/promise-statics-incorrect-iteration');
 
 // `Promise.allSettled` method
 // https://tc39.es/ecma262/#sec-promise.allsettled
-$({ target: 'Promise', stat: true }, {
+$({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
   allSettled: function allSettled(iterable) {
     var C = this;
     var capability = newPromiseCapabilityModule.f(C);
@@ -36996,21 +37534,63 @@ $({ target: 'Promise', stat: true }, {
   }
 });
 
-},{"../internals/a-callable":80,"../internals/export":126,"../internals/function-call":132,"../internals/iterate":160,"../internals/new-promise-capability":169,"../internals/perform":190}],230:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/export":132,"../internals/function-call":138,"../internals/iterate":170,"../internals/new-promise-capability":180,"../internals/perform":201,"../internals/promise-statics-incorrect-iteration":205}],252:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
-var aCallable = require('../internals/a-callable');
-var getBuiltIn = require('../internals/get-built-in');
 var call = require('../internals/function-call');
+var aCallable = require('../internals/a-callable');
 var newPromiseCapabilityModule = require('../internals/new-promise-capability');
 var perform = require('../internals/perform');
 var iterate = require('../internals/iterate');
+var PROMISE_STATICS_INCORRECT_ITERATION = require('../internals/promise-statics-incorrect-iteration');
+
+// `Promise.all` method
+// https://tc39.es/ecma262/#sec-promise.all
+$({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
+  all: function all(iterable) {
+    var C = this;
+    var capability = newPromiseCapabilityModule.f(C);
+    var resolve = capability.resolve;
+    var reject = capability.reject;
+    var result = perform(function () {
+      var $promiseResolve = aCallable(C.resolve);
+      var values = [];
+      var counter = 0;
+      var remaining = 1;
+      iterate(iterable, function (promise) {
+        var index = counter++;
+        var alreadyCalled = false;
+        remaining++;
+        call($promiseResolve, C, promise).then(function (value) {
+          if (alreadyCalled) return;
+          alreadyCalled = true;
+          values[index] = value;
+          --remaining || resolve(values);
+        }, reject);
+      });
+      --remaining || resolve(values);
+    });
+    if (result.error) reject(result.value);
+    return capability.promise;
+  }
+});
+
+},{"../internals/a-callable":80,"../internals/export":132,"../internals/function-call":138,"../internals/iterate":170,"../internals/new-promise-capability":180,"../internals/perform":201,"../internals/promise-statics-incorrect-iteration":205}],253:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var call = require('../internals/function-call');
+var aCallable = require('../internals/a-callable');
+var getBuiltIn = require('../internals/get-built-in');
+var newPromiseCapabilityModule = require('../internals/new-promise-capability');
+var perform = require('../internals/perform');
+var iterate = require('../internals/iterate');
+var PROMISE_STATICS_INCORRECT_ITERATION = require('../internals/promise-statics-incorrect-iteration');
 
 var PROMISE_ANY_ERROR = 'No one promise resolved';
 
 // `Promise.any` method
 // https://tc39.es/ecma262/#sec-promise.any
-$({ target: 'Promise', stat: true }, {
+$({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
   any: function any(iterable) {
     var C = this;
     var AggregateError = getBuiltIn('AggregateError');
@@ -37045,59 +37625,42 @@ $({ target: 'Promise', stat: true }, {
   }
 });
 
-},{"../internals/a-callable":80,"../internals/export":126,"../internals/function-call":132,"../internals/get-built-in":135,"../internals/iterate":160,"../internals/new-promise-capability":169,"../internals/perform":190}],231:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/export":132,"../internals/function-call":138,"../internals/get-built-in":143,"../internals/iterate":170,"../internals/new-promise-capability":180,"../internals/perform":201,"../internals/promise-statics-incorrect-iteration":205}],254:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
 var IS_PURE = require('../internals/is-pure');
-var NativePromise = require('../internals/native-promise-constructor');
-var fails = require('../internals/fails');
+var FORCED_PROMISE_CONSTRUCTOR = require('../internals/promise-constructor-detection').CONSTRUCTOR;
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
 var getBuiltIn = require('../internals/get-built-in');
 var isCallable = require('../internals/is-callable');
-var speciesConstructor = require('../internals/species-constructor');
-var promiseResolve = require('../internals/promise-resolve');
-var redefine = require('../internals/redefine');
+var defineBuiltIn = require('../internals/define-built-in');
 
-// Safari bug https://bugs.webkit.org/show_bug.cgi?id=200829
-var NON_GENERIC = !!NativePromise && fails(function () {
-  // eslint-disable-next-line unicorn/no-thenable -- required for testing
-  NativePromise.prototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
-});
+var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
 
-// `Promise.prototype.finally` method
-// https://tc39.es/ecma262/#sec-promise.prototype.finally
-$({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
-  'finally': function (onFinally) {
-    var C = speciesConstructor(this, getBuiltIn('Promise'));
-    var isFunction = isCallable(onFinally);
-    return this.then(
-      isFunction ? function (x) {
-        return promiseResolve(C, onFinally()).then(function () { return x; });
-      } : onFinally,
-      isFunction ? function (e) {
-        return promiseResolve(C, onFinally()).then(function () { throw e; });
-      } : onFinally
-    );
+// `Promise.prototype.catch` method
+// https://tc39.es/ecma262/#sec-promise.prototype.catch
+$({ target: 'Promise', proto: true, forced: FORCED_PROMISE_CONSTRUCTOR, real: true }, {
+  'catch': function (onRejected) {
+    return this.then(undefined, onRejected);
   }
 });
 
-// makes sure that native promise-based APIs `Promise#finally` properly works with patched `Promise#then`
-if (!IS_PURE && isCallable(NativePromise)) {
-  var method = getBuiltIn('Promise').prototype['finally'];
-  if (NativePromise.prototype['finally'] !== method) {
-    redefine(NativePromise.prototype, 'finally', method, { unsafe: true });
+// makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
+if (!IS_PURE && isCallable(NativePromiseConstructor)) {
+  var method = getBuiltIn('Promise').prototype['catch'];
+  if (NativePromisePrototype['catch'] !== method) {
+    defineBuiltIn(NativePromisePrototype, 'catch', method, { unsafe: true });
   }
 }
 
-},{"../internals/export":126,"../internals/fails":127,"../internals/get-built-in":135,"../internals/is-callable":153,"../internals/is-pure":157,"../internals/native-promise-constructor":166,"../internals/promise-resolve":191,"../internals/redefine":194,"../internals/species-constructor":202}],232:[function(require,module,exports){
+},{"../internals/define-built-in":110,"../internals/export":132,"../internals/get-built-in":143,"../internals/is-callable":162,"../internals/is-pure":167,"../internals/promise-constructor-detection":202,"../internals/promise-native-constructor":203}],255:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
 var IS_PURE = require('../internals/is-pure');
+var IS_NODE = require('../internals/engine-is-node');
 var global = require('../internals/global');
-var getBuiltIn = require('../internals/get-built-in');
 var call = require('../internals/function-call');
-var NativePromise = require('../internals/native-promise-constructor');
-var redefine = require('../internals/redefine');
-var redefineAll = require('../internals/redefine-all');
+var defineBuiltIn = require('../internals/define-built-in');
 var setPrototypeOf = require('../internals/object-set-prototype-of');
 var setToStringTag = require('../internals/set-to-string-tag');
 var setSpecies = require('../internals/set-species');
@@ -37105,32 +37668,25 @@ var aCallable = require('../internals/a-callable');
 var isCallable = require('../internals/is-callable');
 var isObject = require('../internals/is-object');
 var anInstance = require('../internals/an-instance');
-var inspectSource = require('../internals/inspect-source');
-var iterate = require('../internals/iterate');
-var checkCorrectnessOfIteration = require('../internals/check-correctness-of-iteration');
 var speciesConstructor = require('../internals/species-constructor');
 var task = require('../internals/task').set;
 var microtask = require('../internals/microtask');
-var promiseResolve = require('../internals/promise-resolve');
 var hostReportErrors = require('../internals/host-report-errors');
-var newPromiseCapabilityModule = require('../internals/new-promise-capability');
 var perform = require('../internals/perform');
 var Queue = require('../internals/queue');
 var InternalStateModule = require('../internals/internal-state');
-var isForced = require('../internals/is-forced');
-var wellKnownSymbol = require('../internals/well-known-symbol');
-var IS_BROWSER = require('../internals/engine-is-browser');
-var IS_NODE = require('../internals/engine-is-node');
-var V8_VERSION = require('../internals/engine-v8-version');
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
+var PromiseConstructorDetection = require('../internals/promise-constructor-detection');
+var newPromiseCapabilityModule = require('../internals/new-promise-capability');
 
-var SPECIES = wellKnownSymbol('species');
 var PROMISE = 'Promise';
-
-var getInternalState = InternalStateModule.getterFor(PROMISE);
-var setInternalState = InternalStateModule.set;
+var FORCED_PROMISE_CONSTRUCTOR = PromiseConstructorDetection.CONSTRUCTOR;
+var NATIVE_PROMISE_REJECTION_EVENT = PromiseConstructorDetection.REJECTION_EVENT;
+var NATIVE_PROMISE_SUBCLASSING = PromiseConstructorDetection.SUBCLASSING;
 var getInternalPromiseState = InternalStateModule.getterFor(PROMISE);
-var NativePromisePrototype = NativePromise && NativePromise.prototype;
-var PromiseConstructor = NativePromise;
+var setInternalState = InternalStateModule.set;
+var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
+var PromiseConstructor = NativePromiseConstructor;
 var PromisePrototype = NativePromisePrototype;
 var TypeError = global.TypeError;
 var document = global.document;
@@ -37139,7 +37695,6 @@ var newPromiseCapability = newPromiseCapabilityModule.f;
 var newGenericPromiseCapability = newPromiseCapability;
 
 var DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent);
-var NATIVE_REJECTION_EVENT = isCallable(global.PromiseRejectionEvent);
 var UNHANDLED_REJECTION = 'unhandledrejection';
 var REJECTION_HANDLED = 'rejectionhandled';
 var PENDING = 0;
@@ -37147,39 +37702,8 @@ var FULFILLED = 1;
 var REJECTED = 2;
 var HANDLED = 1;
 var UNHANDLED = 2;
-var SUBCLASSING = false;
 
 var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
-
-var FORCED = isForced(PROMISE, function () {
-  var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor);
-  var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
-  // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
-  // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
-  // We can't detect it synchronously, so just check versions
-  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION === 66) return true;
-  // We need Promise#finally in the pure version for preventing prototype pollution
-  if (IS_PURE && !PromisePrototype['finally']) return true;
-  // We can't use @@species feature detection in V8 since it causes
-  // deoptimization and performance degradation
-  // https://github.com/zloirock/core-js/issues/679
-  if (V8_VERSION >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
-  // Detect correctness of subclassing with @@species support
-  var promise = new PromiseConstructor(function (resolve) { resolve(1); });
-  var FakePromise = function (exec) {
-    exec(function () { /* empty */ }, function () { /* empty */ });
-  };
-  var constructor = promise.constructor = {};
-  constructor[SPECIES] = FakePromise;
-  SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
-  if (!SUBCLASSING) return true;
-  // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-  return !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
-});
-
-var INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function (iterable) {
-  PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
-});
 
 // helpers
 var isThenable = function (it) {
@@ -37189,7 +37713,7 @@ var isThenable = function (it) {
 
 var callReaction = function (reaction, state) {
   var value = state.value;
-  var ok = state.state == FULFILLED;
+  var ok = state.state === FULFILLED;
   var handler = ok ? reaction.ok : reaction.fail;
   var resolve = reaction.resolve;
   var reject = reaction.reject;
@@ -37211,7 +37735,7 @@ var callReaction = function (reaction, state) {
         }
       }
       if (result === reaction.promise) {
-        reject(TypeError('Promise-chain cycle'));
+        reject(new TypeError('Promise-chain cycle'));
       } else if (then = isThenable(result)) {
         call(then, result, resolve, reject);
       } else resolve(result);
@@ -37245,7 +37769,7 @@ var dispatchEvent = function (name, promise, reason) {
     event.initEvent(name, false, true);
     global.dispatchEvent(event);
   } else event = { promise: promise, reason: reason };
-  if (!NATIVE_REJECTION_EVENT && (handler = global['on' + name])) handler(event);
+  if (!NATIVE_PROMISE_REJECTION_EVENT && (handler = global['on' + name])) handler(event);
   else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
 };
 
@@ -37301,7 +37825,7 @@ var internalResolve = function (state, value, unwrap) {
   state.done = true;
   if (unwrap) state = unwrap;
   try {
-    if (state.facade === value) throw TypeError("Promise can't be resolved itself");
+    if (state.facade === value) throw new TypeError("Promise can't be resolved itself");
     var then = isThenable(value);
     if (then) {
       microtask(function () {
@@ -37326,20 +37850,22 @@ var internalResolve = function (state, value, unwrap) {
 };
 
 // constructor polyfill
-if (FORCED) {
+if (FORCED_PROMISE_CONSTRUCTOR) {
   // 25.4.3.1 Promise(executor)
   PromiseConstructor = function Promise(executor) {
     anInstance(this, PromisePrototype);
     aCallable(executor);
     call(Internal, this);
-    var state = getInternalState(this);
+    var state = getInternalPromiseState(this);
     try {
       executor(bind(internalResolve, state), bind(internalReject, state));
     } catch (error) {
       internalReject(state, error);
     }
   };
+
   PromisePrototype = PromiseConstructor.prototype;
+
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   Internal = function Promise(executor) {
     setInternalState(this, {
@@ -37353,57 +37879,49 @@ if (FORCED) {
       value: undefined
     });
   };
-  Internal.prototype = redefineAll(PromisePrototype, {
-    // `Promise.prototype.then` method
-    // https://tc39.es/ecma262/#sec-promise.prototype.then
-    // eslint-disable-next-line unicorn/no-thenable -- safe
-    then: function then(onFulfilled, onRejected) {
-      var state = getInternalPromiseState(this);
-      var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
-      state.parent = true;
-      reaction.ok = isCallable(onFulfilled) ? onFulfilled : true;
-      reaction.fail = isCallable(onRejected) && onRejected;
-      reaction.domain = IS_NODE ? process.domain : undefined;
-      if (state.state == PENDING) state.reactions.add(reaction);
-      else microtask(function () {
-        callReaction(reaction, state);
-      });
-      return reaction.promise;
-    },
-    // `Promise.prototype.catch` method
-    // https://tc39.es/ecma262/#sec-promise.prototype.catch
-    'catch': function (onRejected) {
-      return this.then(undefined, onRejected);
-    }
+
+  // `Promise.prototype.then` method
+  // https://tc39.es/ecma262/#sec-promise.prototype.then
+  Internal.prototype = defineBuiltIn(PromisePrototype, 'then', function then(onFulfilled, onRejected) {
+    var state = getInternalPromiseState(this);
+    var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
+    state.parent = true;
+    reaction.ok = isCallable(onFulfilled) ? onFulfilled : true;
+    reaction.fail = isCallable(onRejected) && onRejected;
+    reaction.domain = IS_NODE ? process.domain : undefined;
+    if (state.state === PENDING) state.reactions.add(reaction);
+    else microtask(function () {
+      callReaction(reaction, state);
+    });
+    return reaction.promise;
   });
+
   OwnPromiseCapability = function () {
     var promise = new Internal();
-    var state = getInternalState(promise);
+    var state = getInternalPromiseState(promise);
     this.promise = promise;
     this.resolve = bind(internalResolve, state);
     this.reject = bind(internalReject, state);
   };
+
   newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
     return C === PromiseConstructor || C === PromiseWrapper
       ? new OwnPromiseCapability(C)
       : newGenericPromiseCapability(C);
   };
 
-  if (!IS_PURE && isCallable(NativePromise) && NativePromisePrototype !== Object.prototype) {
+  if (!IS_PURE && isCallable(NativePromiseConstructor) && NativePromisePrototype !== Object.prototype) {
     nativeThen = NativePromisePrototype.then;
 
-    if (!SUBCLASSING) {
+    if (!NATIVE_PROMISE_SUBCLASSING) {
       // make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
-      redefine(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
+      defineBuiltIn(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
         var that = this;
         return new PromiseConstructor(function (resolve, reject) {
           call(nativeThen, that, resolve, reject);
         }).then(onFulfilled, onRejected);
       // https://github.com/zloirock/core-js/issues/640
       }, { unsafe: true });
-
-      // makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
-      redefine(NativePromisePrototype, 'catch', PromisePrototype['catch'], { unsafe: true });
     }
 
     // make `.constructor === Promise` work for native promise-based APIs
@@ -37418,68 +37936,84 @@ if (FORCED) {
   }
 }
 
-$({ global: true, wrap: true, forced: FORCED }, {
+$({ global: true, constructor: true, wrap: true, forced: FORCED_PROMISE_CONSTRUCTOR }, {
   Promise: PromiseConstructor
 });
 
 setToStringTag(PromiseConstructor, PROMISE, false, true);
 setSpecies(PROMISE);
 
-PromiseWrapper = getBuiltIn(PROMISE);
+},{"../internals/a-callable":80,"../internals/an-instance":84,"../internals/define-built-in":110,"../internals/engine-is-node":123,"../internals/export":132,"../internals/function-call":138,"../internals/global":148,"../internals/host-report-errors":151,"../internals/internal-state":159,"../internals/is-callable":162,"../internals/is-object":166,"../internals/is-pure":167,"../internals/microtask":179,"../internals/new-promise-capability":180,"../internals/object-set-prototype-of":196,"../internals/perform":201,"../internals/promise-constructor-detection":202,"../internals/promise-native-constructor":203,"../internals/queue":206,"../internals/set-species":208,"../internals/set-to-string-tag":209,"../internals/species-constructor":213,"../internals/task":218}],256:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var IS_PURE = require('../internals/is-pure');
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
+var fails = require('../internals/fails');
+var getBuiltIn = require('../internals/get-built-in');
+var isCallable = require('../internals/is-callable');
+var speciesConstructor = require('../internals/species-constructor');
+var promiseResolve = require('../internals/promise-resolve');
+var defineBuiltIn = require('../internals/define-built-in');
 
-// statics
-$({ target: PROMISE, stat: true, forced: FORCED }, {
-  // `Promise.reject` method
-  // https://tc39.es/ecma262/#sec-promise.reject
-  reject: function reject(r) {
-    var capability = newPromiseCapability(this);
-    call(capability.reject, undefined, r);
-    return capability.promise;
+var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
+
+// Safari bug https://bugs.webkit.org/show_bug.cgi?id=200829
+var NON_GENERIC = !!NativePromiseConstructor && fails(function () {
+  // eslint-disable-next-line unicorn/no-thenable -- required for testing
+  NativePromisePrototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
+});
+
+// `Promise.prototype.finally` method
+// https://tc39.es/ecma262/#sec-promise.prototype.finally
+$({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
+  'finally': function (onFinally) {
+    var C = speciesConstructor(this, getBuiltIn('Promise'));
+    var isFunction = isCallable(onFinally);
+    return this.then(
+      isFunction ? function (x) {
+        return promiseResolve(C, onFinally()).then(function () { return x; });
+      } : onFinally,
+      isFunction ? function (e) {
+        return promiseResolve(C, onFinally()).then(function () { throw e; });
+      } : onFinally
+    );
   }
 });
 
-$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {
-  // `Promise.resolve` method
-  // https://tc39.es/ecma262/#sec-promise.resolve
-  resolve: function resolve(x) {
-    return promiseResolve(IS_PURE && this === PromiseWrapper ? PromiseConstructor : this, x);
+// makes sure that native promise-based APIs `Promise#finally` properly works with patched `Promise#then`
+if (!IS_PURE && isCallable(NativePromiseConstructor)) {
+  var method = getBuiltIn('Promise').prototype['finally'];
+  if (NativePromisePrototype['finally'] !== method) {
+    defineBuiltIn(NativePromisePrototype, 'finally', method, { unsafe: true });
   }
-});
+}
 
-$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
-  // `Promise.all` method
-  // https://tc39.es/ecma262/#sec-promise.all
-  all: function all(iterable) {
-    var C = this;
-    var capability = newPromiseCapability(C);
-    var resolve = capability.resolve;
-    var reject = capability.reject;
-    var result = perform(function () {
-      var $promiseResolve = aCallable(C.resolve);
-      var values = [];
-      var counter = 0;
-      var remaining = 1;
-      iterate(iterable, function (promise) {
-        var index = counter++;
-        var alreadyCalled = false;
-        remaining++;
-        call($promiseResolve, C, promise).then(function (value) {
-          if (alreadyCalled) return;
-          alreadyCalled = true;
-          values[index] = value;
-          --remaining || resolve(values);
-        }, reject);
-      });
-      --remaining || resolve(values);
-    });
-    if (result.error) reject(result.value);
-    return capability.promise;
-  },
-  // `Promise.race` method
-  // https://tc39.es/ecma262/#sec-promise.race
+},{"../internals/define-built-in":110,"../internals/export":132,"../internals/fails":133,"../internals/get-built-in":143,"../internals/is-callable":162,"../internals/is-pure":167,"../internals/promise-native-constructor":203,"../internals/promise-resolve":204,"../internals/species-constructor":213}],257:[function(require,module,exports){
+'use strict';
+// TODO: Remove this module from `core-js@4` since it's split to modules listed below
+require('../modules/es.promise.constructor');
+require('../modules/es.promise.all');
+require('../modules/es.promise.catch');
+require('../modules/es.promise.race');
+require('../modules/es.promise.reject');
+require('../modules/es.promise.resolve');
+
+},{"../modules/es.promise.all":252,"../modules/es.promise.catch":254,"../modules/es.promise.constructor":255,"../modules/es.promise.race":258,"../modules/es.promise.reject":259,"../modules/es.promise.resolve":260}],258:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var call = require('../internals/function-call');
+var aCallable = require('../internals/a-callable');
+var newPromiseCapabilityModule = require('../internals/new-promise-capability');
+var perform = require('../internals/perform');
+var iterate = require('../internals/iterate');
+var PROMISE_STATICS_INCORRECT_ITERATION = require('../internals/promise-statics-incorrect-iteration');
+
+// `Promise.race` method
+// https://tc39.es/ecma262/#sec-promise.race
+$({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
   race: function race(iterable) {
     var C = this;
-    var capability = newPromiseCapability(C);
+    var capability = newPromiseCapabilityModule.f(C);
     var reject = capability.reject;
     var result = perform(function () {
       var $promiseResolve = aCallable(C.resolve);
@@ -37492,7 +38026,45 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
   }
 });
 
-},{"../internals/a-callable":80,"../internals/an-instance":84,"../internals/check-correctness-of-iteration":97,"../internals/engine-is-browser":116,"../internals/engine-is-node":119,"../internals/engine-v8-version":122,"../internals/export":126,"../internals/function-call":132,"../internals/get-built-in":135,"../internals/global":139,"../internals/host-report-errors":142,"../internals/inspect-source":147,"../internals/internal-state":150,"../internals/is-callable":153,"../internals/is-forced":155,"../internals/is-object":156,"../internals/is-pure":157,"../internals/iterate":160,"../internals/microtask":165,"../internals/native-promise-constructor":166,"../internals/new-promise-capability":169,"../internals/object-set-prototype-of":185,"../internals/perform":190,"../internals/promise-resolve":191,"../internals/queue":192,"../internals/redefine":194,"../internals/redefine-all":193,"../internals/set-species":197,"../internals/set-to-string-tag":198,"../internals/species-constructor":202,"../internals/task":204,"../internals/well-known-symbol":220}],233:[function(require,module,exports){
+},{"../internals/a-callable":80,"../internals/export":132,"../internals/function-call":138,"../internals/iterate":170,"../internals/new-promise-capability":180,"../internals/perform":201,"../internals/promise-statics-incorrect-iteration":205}],259:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var call = require('../internals/function-call');
+var newPromiseCapabilityModule = require('../internals/new-promise-capability');
+var FORCED_PROMISE_CONSTRUCTOR = require('../internals/promise-constructor-detection').CONSTRUCTOR;
+
+// `Promise.reject` method
+// https://tc39.es/ecma262/#sec-promise.reject
+$({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR }, {
+  reject: function reject(r) {
+    var capability = newPromiseCapabilityModule.f(this);
+    call(capability.reject, undefined, r);
+    return capability.promise;
+  }
+});
+
+},{"../internals/export":132,"../internals/function-call":138,"../internals/new-promise-capability":180,"../internals/promise-constructor-detection":202}],260:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var getBuiltIn = require('../internals/get-built-in');
+var IS_PURE = require('../internals/is-pure');
+var NativePromiseConstructor = require('../internals/promise-native-constructor');
+var FORCED_PROMISE_CONSTRUCTOR = require('../internals/promise-constructor-detection').CONSTRUCTOR;
+var promiseResolve = require('../internals/promise-resolve');
+
+var PromiseConstructorWrapper = getBuiltIn('Promise');
+var CHECK_WRAPPER = IS_PURE && !FORCED_PROMISE_CONSTRUCTOR;
+
+// `Promise.resolve` method
+// https://tc39.es/ecma262/#sec-promise.resolve
+$({ target: 'Promise', stat: true, forced: IS_PURE || FORCED_PROMISE_CONSTRUCTOR }, {
+  resolve: function resolve(x) {
+    return promiseResolve(CHECK_WRAPPER && this === PromiseConstructorWrapper ? NativePromiseConstructor : this, x);
+  }
+});
+
+},{"../internals/export":132,"../internals/get-built-in":143,"../internals/is-pure":167,"../internals/promise-constructor-detection":202,"../internals/promise-native-constructor":203,"../internals/promise-resolve":204}],261:[function(require,module,exports){
+'use strict';
 var $ = require('../internals/export');
 var global = require('../internals/global');
 var setToStringTag = require('../internals/set-to-string-tag');
@@ -37503,7 +38075,7 @@ $({ global: true }, { Reflect: {} });
 // https://tc39.es/ecma262/#sec-reflect-@@tostringtag
 setToStringTag(global.Reflect, 'Reflect', true);
 
-},{"../internals/export":126,"../internals/global":139,"../internals/set-to-string-tag":198}],234:[function(require,module,exports){
+},{"../internals/export":132,"../internals/global":148,"../internals/set-to-string-tag":209}],262:[function(require,module,exports){
 'use strict';
 var collection = require('../internals/collection');
 var collectionStrong = require('../internals/collection-strong');
@@ -37514,10 +38086,15 @@ collection('Set', function (init) {
   return function Set() { return init(this, arguments.length ? arguments[0] : undefined); };
 }, collectionStrong);
 
-},{"../internals/collection":102,"../internals/collection-strong":101}],235:[function(require,module,exports){
+},{"../internals/collection":101,"../internals/collection-strong":100}],263:[function(require,module,exports){
+'use strict';
+// TODO: Remove this module from `core-js@4` since it's replaced to module below
+require('../modules/es.set.constructor');
+
+},{"../modules/es.set.constructor":262}],264:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
-var uncurryThis = require('../internals/function-uncurry-this');
+var uncurryThis = require('../internals/function-uncurry-this-clause');
 var getOwnPropertyDescriptor = require('../internals/object-get-own-property-descriptor').f;
 var toLength = require('../internals/to-length');
 var toString = require('../internals/to-string');
@@ -37527,7 +38104,7 @@ var correctIsRegExpLogic = require('../internals/correct-is-regexp-logic');
 var IS_PURE = require('../internals/is-pure');
 
 // eslint-disable-next-line es/no-string-prototype-endswith -- safe
-var un$EndsWith = uncurryThis(''.endsWith);
+var nativeEndsWith = uncurryThis(''.endsWith);
 var slice = uncurryThis(''.slice);
 var min = Math.min;
 
@@ -37548,18 +38125,19 @@ $({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGE
     var len = that.length;
     var end = endPosition === undefined ? len : min(toLength(endPosition), len);
     var search = toString(searchString);
-    return un$EndsWith
-      ? un$EndsWith(that, search, end)
+    return nativeEndsWith
+      ? nativeEndsWith(that, search, end)
       : slice(that, end - search.length, end) === search;
   }
 });
 
-},{"../internals/correct-is-regexp-logic":104,"../internals/export":126,"../internals/function-uncurry-this":134,"../internals/is-pure":157,"../internals/not-a-regexp":171,"../internals/object-get-own-property-descriptor":175,"../internals/require-object-coercible":195,"../internals/to-length":208,"../internals/to-string":213}],236:[function(require,module,exports){
+},{"../internals/correct-is-regexp-logic":103,"../internals/export":132,"../internals/function-uncurry-this-clause":141,"../internals/is-pure":167,"../internals/not-a-regexp":182,"../internals/object-get-own-property-descriptor":186,"../internals/require-object-coercible":207,"../internals/to-length":223,"../internals/to-string":228}],265:[function(require,module,exports){
 'use strict';
 var charAt = require('../internals/string-multibyte').charAt;
 var toString = require('../internals/to-string');
 var InternalStateModule = require('../internals/internal-state');
-var defineIterator = require('../internals/define-iterator');
+var defineIterator = require('../internals/iterator-define');
+var createIterResultObject = require('../internals/create-iter-result-object');
 
 var STRING_ITERATOR = 'String Iterator';
 var setInternalState = InternalStateModule.set;
@@ -37580,121 +38158,33 @@ defineIterator(String, 'String', function (iterated) {
   var string = state.string;
   var index = state.index;
   var point;
-  if (index >= string.length) return { value: undefined, done: true };
+  if (index >= string.length) return createIterResultObject(undefined, true);
   point = charAt(string, index);
   state.index += point.length;
-  return { value: point, done: false };
+  return createIterResultObject(point, false);
 });
 
-},{"../internals/define-iterator":110,"../internals/internal-state":150,"../internals/string-multibyte":203,"../internals/to-string":213}],237:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/create-iter-result-object":105,"../internals/internal-state":159,"../internals/iterator-define":173,"../internals/string-multibyte":214,"../internals/to-string":228}],266:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.asyncIterator` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.asynciterator
 defineWellKnownSymbol('asyncIterator');
 
-},{"../internals/define-well-known-symbol":111}],238:[function(require,module,exports){
-// `Symbol.prototype.description` getter
-// https://tc39.es/ecma262/#sec-symbol.prototype.description
-'use strict';
-var $ = require('../internals/export');
-var DESCRIPTORS = require('../internals/descriptors');
-var global = require('../internals/global');
-var uncurryThis = require('../internals/function-uncurry-this');
-var hasOwn = require('../internals/has-own-property');
-var isCallable = require('../internals/is-callable');
-var isPrototypeOf = require('../internals/object-is-prototype-of');
-var toString = require('../internals/to-string');
-var defineProperty = require('../internals/object-define-property').f;
-var copyConstructorProperties = require('../internals/copy-constructor-properties');
-
-var NativeSymbol = global.Symbol;
-var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
-
-if (DESCRIPTORS && isCallable(NativeSymbol) && (!('description' in SymbolPrototype) ||
-  // Safari 12 bug
-  NativeSymbol().description !== undefined
-)) {
-  var EmptyStringDescriptionStore = {};
-  // wrap Symbol constructor for correct work with undefined description
-  var SymbolWrapper = function Symbol() {
-    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : toString(arguments[0]);
-    var result = isPrototypeOf(SymbolPrototype, this)
-      ? new NativeSymbol(description)
-      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
-      : description === undefined ? NativeSymbol() : NativeSymbol(description);
-    if (description === '') EmptyStringDescriptionStore[result] = true;
-    return result;
-  };
-
-  copyConstructorProperties(SymbolWrapper, NativeSymbol);
-  SymbolWrapper.prototype = SymbolPrototype;
-  SymbolPrototype.constructor = SymbolWrapper;
-
-  var NATIVE_SYMBOL = String(NativeSymbol('test')) == 'Symbol(test)';
-  var symbolToString = uncurryThis(SymbolPrototype.toString);
-  var symbolValueOf = uncurryThis(SymbolPrototype.valueOf);
-  var regexp = /^Symbol\((.*)\)[^)]+$/;
-  var replace = uncurryThis(''.replace);
-  var stringSlice = uncurryThis(''.slice);
-
-  defineProperty(SymbolPrototype, 'description', {
-    configurable: true,
-    get: function description() {
-      var symbol = symbolValueOf(this);
-      var string = symbolToString(symbol);
-      if (hasOwn(EmptyStringDescriptionStore, symbol)) return '';
-      var desc = NATIVE_SYMBOL ? stringSlice(string, 7, -1) : replace(string, regexp, '$1');
-      return desc === '' ? undefined : desc;
-    }
-  });
-
-  $({ global: true, forced: true }, {
-    Symbol: SymbolWrapper
-  });
-}
-
-},{"../internals/copy-constructor-properties":103,"../internals/descriptors":112,"../internals/export":126,"../internals/function-uncurry-this":134,"../internals/global":139,"../internals/has-own-property":140,"../internals/is-callable":153,"../internals/object-define-property":174,"../internals/object-is-prototype-of":181,"../internals/to-string":213}],239:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
-
-// `Symbol.hasInstance` well-known symbol
-// https://tc39.es/ecma262/#sec-symbol.hasinstance
-defineWellKnownSymbol('hasInstance');
-
-},{"../internals/define-well-known-symbol":111}],240:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
-
-// `Symbol.isConcatSpreadable` well-known symbol
-// https://tc39.es/ecma262/#sec-symbol.isconcatspreadable
-defineWellKnownSymbol('isConcatSpreadable');
-
-},{"../internals/define-well-known-symbol":111}],241:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
-
-// `Symbol.iterator` well-known symbol
-// https://tc39.es/ecma262/#sec-symbol.iterator
-defineWellKnownSymbol('iterator');
-
-},{"../internals/define-well-known-symbol":111}],242:[function(require,module,exports){
+},{"../internals/well-known-symbol-define":236}],267:[function(require,module,exports){
 'use strict';
 var $ = require('../internals/export');
 var global = require('../internals/global');
-var getBuiltIn = require('../internals/get-built-in');
-var apply = require('../internals/function-apply');
 var call = require('../internals/function-call');
 var uncurryThis = require('../internals/function-uncurry-this');
 var IS_PURE = require('../internals/is-pure');
 var DESCRIPTORS = require('../internals/descriptors');
-var NATIVE_SYMBOL = require('../internals/native-symbol');
+var NATIVE_SYMBOL = require('../internals/symbol-constructor-detection');
 var fails = require('../internals/fails');
 var hasOwn = require('../internals/has-own-property');
-var isArray = require('../internals/is-array');
-var isCallable = require('../internals/is-callable');
-var isObject = require('../internals/is-object');
 var isPrototypeOf = require('../internals/object-is-prototype-of');
-var isSymbol = require('../internals/is-symbol');
 var anObject = require('../internals/an-object');
-var toObject = require('../internals/to-object');
 var toIndexedObject = require('../internals/to-indexed-object');
 var toPropertyKey = require('../internals/to-property-key');
 var $toString = require('../internals/to-string');
@@ -37708,15 +38198,16 @@ var getOwnPropertyDescriptorModule = require('../internals/object-get-own-proper
 var definePropertyModule = require('../internals/object-define-property');
 var definePropertiesModule = require('../internals/object-define-properties');
 var propertyIsEnumerableModule = require('../internals/object-property-is-enumerable');
-var arraySlice = require('../internals/array-slice');
-var redefine = require('../internals/redefine');
+var defineBuiltIn = require('../internals/define-built-in');
+var defineBuiltInAccessor = require('../internals/define-built-in-accessor');
 var shared = require('../internals/shared');
 var sharedKey = require('../internals/shared-key');
 var hiddenKeys = require('../internals/hidden-keys');
 var uid = require('../internals/uid');
 var wellKnownSymbol = require('../internals/well-known-symbol');
 var wrappedWellKnownSymbolModule = require('../internals/well-known-symbol-wrapped');
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+var defineSymbolToPrimitive = require('../internals/symbol-define-to-primitive');
 var setToStringTag = require('../internals/set-to-string-tag');
 var InternalStateModule = require('../internals/internal-state');
 var $forEach = require('../internals/array-iteration').forEach;
@@ -37724,7 +38215,6 @@ var $forEach = require('../internals/array-iteration').forEach;
 var HIDDEN = sharedKey('hidden');
 var SYMBOL = 'Symbol';
 var PROTOTYPE = 'prototype';
-var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
 
 var setInternalState = InternalStateModule.set;
 var getInternalState = InternalStateModule.getterFor(SYMBOL);
@@ -37732,9 +38222,9 @@ var getInternalState = InternalStateModule.getterFor(SYMBOL);
 var ObjectPrototype = Object[PROTOTYPE];
 var $Symbol = global.Symbol;
 var SymbolPrototype = $Symbol && $Symbol[PROTOTYPE];
+var RangeError = global.RangeError;
 var TypeError = global.TypeError;
 var QObject = global.QObject;
-var $stringify = getBuiltIn('JSON', 'stringify');
 var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
 var nativeDefineProperty = definePropertyModule.f;
 var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
@@ -37743,26 +38233,26 @@ var push = uncurryThis([].push);
 
 var AllSymbols = shared('symbols');
 var ObjectPrototypeSymbols = shared('op-symbols');
-var StringToSymbolRegistry = shared('string-to-symbol-registry');
-var SymbolToStringRegistry = shared('symbol-to-string-registry');
 var WellKnownSymbolsStore = shared('wks');
 
 // Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
 var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
 // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDescriptor = DESCRIPTORS && fails(function () {
-  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
-    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
-  })).a != 7;
-}) ? function (O, P, Attributes) {
+var fallbackDefineProperty = function (O, P, Attributes) {
   var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
   if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
   nativeDefineProperty(O, P, Attributes);
   if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
     nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
   }
-} : nativeDefineProperty;
+};
+
+var setSymbolDescriptor = DESCRIPTORS && fails(function () {
+  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
+    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
+  })).a !== 7;
+}) ? fallbackDefineProperty : nativeDefineProperty;
 
 var wrap = function (tag, description) {
   var symbol = AllSymbols[tag] = nativeObjectCreate(SymbolPrototype);
@@ -37833,7 +38323,7 @@ var $getOwnPropertyNames = function getOwnPropertyNames(O) {
   return result;
 };
 
-var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
+var $getOwnPropertySymbols = function (O) {
   var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
   var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject(O));
   var result = [];
@@ -37849,13 +38339,20 @@ var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
 // https://tc39.es/ecma262/#sec-symbol-constructor
 if (!NATIVE_SYMBOL) {
   $Symbol = function Symbol() {
-    if (isPrototypeOf(SymbolPrototype, this)) throw TypeError('Symbol is not a constructor');
+    if (isPrototypeOf(SymbolPrototype, this)) throw new TypeError('Symbol is not a constructor');
     var description = !arguments.length || arguments[0] === undefined ? undefined : $toString(arguments[0]);
     var tag = uid(description);
     var setter = function (value) {
-      if (this === ObjectPrototype) call(setter, ObjectPrototypeSymbols, value);
-      if (hasOwn(this, HIDDEN) && hasOwn(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-      setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
+      var $this = this === undefined ? global : this;
+      if ($this === ObjectPrototype) call(setter, ObjectPrototypeSymbols, value);
+      if (hasOwn($this, HIDDEN) && hasOwn($this[HIDDEN], tag)) $this[HIDDEN][tag] = false;
+      var descriptor = createPropertyDescriptor(1, value);
+      try {
+        setSymbolDescriptor($this, tag, descriptor);
+      } catch (error) {
+        if (!(error instanceof RangeError)) throw error;
+        fallbackDefineProperty($this, tag, descriptor);
+      }
     };
     if (DESCRIPTORS && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
     return wrap(tag, description);
@@ -37863,11 +38360,11 @@ if (!NATIVE_SYMBOL) {
 
   SymbolPrototype = $Symbol[PROTOTYPE];
 
-  redefine(SymbolPrototype, 'toString', function toString() {
+  defineBuiltIn(SymbolPrototype, 'toString', function toString() {
     return getInternalState(this).tag;
   });
 
-  redefine($Symbol, 'withoutSetter', function (description) {
+  defineBuiltIn($Symbol, 'withoutSetter', function (description) {
     return wrap(uid(description), description);
   });
 
@@ -37884,19 +38381,19 @@ if (!NATIVE_SYMBOL) {
 
   if (DESCRIPTORS) {
     // https://github.com/tc39/proposal-Symbol-description
-    nativeDefineProperty(SymbolPrototype, 'description', {
+    defineBuiltInAccessor(SymbolPrototype, 'description', {
       configurable: true,
       get: function description() {
         return getInternalState(this).description;
       }
     });
     if (!IS_PURE) {
-      redefine(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
+      defineBuiltIn(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
     }
   }
 }
 
-$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
+$({ global: true, constructor: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
   Symbol: $Symbol
 });
 
@@ -37905,22 +38402,6 @@ $forEach(objectKeys(WellKnownSymbolsStore), function (name) {
 });
 
 $({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {
-  // `Symbol.for` method
-  // https://tc39.es/ecma262/#sec-symbol.for
-  'for': function (key) {
-    var string = $toString(key);
-    if (hasOwn(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
-    var symbol = $Symbol(string);
-    StringToSymbolRegistry[string] = symbol;
-    SymbolToStringRegistry[symbol] = string;
-    return symbol;
-  },
-  // `Symbol.keyFor` method
-  // https://tc39.es/ecma262/#sec-symbol.keyfor
-  keyFor: function keyFor(sym) {
-    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol');
-    if (hasOwn(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
-  },
   useSetter: function () { USE_SETTER = true; },
   useSimple: function () { USE_SETTER = false; }
 });
@@ -37943,151 +38424,273 @@ $({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, 
 $({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // `Object.getOwnPropertySymbols` method
-  // https://tc39.es/ecma262/#sec-object.getownpropertysymbols
-  getOwnPropertySymbols: $getOwnPropertySymbols
+  getOwnPropertyNames: $getOwnPropertyNames
 });
-
-// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
-// https://bugs.chromium.org/p/v8/issues/detail?id=3443
-$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {
-  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-    return getOwnPropertySymbolsModule.f(toObject(it));
-  }
-});
-
-// `JSON.stringify` method behavior with symbols
-// https://tc39.es/ecma262/#sec-json.stringify
-if ($stringify) {
-  var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL || fails(function () {
-    var symbol = $Symbol();
-    // MS Edge converts symbol values to JSON as {}
-    return $stringify([symbol]) != '[null]'
-      // WebKit converts symbol values to JSON as null
-      || $stringify({ a: symbol }) != '{}'
-      // V8 throws on boxed symbols
-      || $stringify(Object(symbol)) != '{}';
-  });
-
-  $({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
-    // eslint-disable-next-line no-unused-vars -- required for `.length`
-    stringify: function stringify(it, replacer, space) {
-      var args = arraySlice(arguments);
-      var $replacer = replacer;
-      if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-      if (!isArray(replacer)) replacer = function (key, value) {
-        if (isCallable($replacer)) value = call($replacer, this, key, value);
-        if (!isSymbol(value)) return value;
-      };
-      args[1] = replacer;
-      return apply($stringify, null, args);
-    }
-  });
-}
 
 // `Symbol.prototype[@@toPrimitive]` method
 // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
-if (!SymbolPrototype[TO_PRIMITIVE]) {
-  var valueOf = SymbolPrototype.valueOf;
-  // eslint-disable-next-line no-unused-vars -- required for .length
-  redefine(SymbolPrototype, TO_PRIMITIVE, function (hint) {
-    // TODO: improve hint logic
-    return call(valueOf, this);
-  });
-}
+defineSymbolToPrimitive();
+
 // `Symbol.prototype[@@toStringTag]` property
 // https://tc39.es/ecma262/#sec-symbol.prototype-@@tostringtag
 setToStringTag($Symbol, SYMBOL);
 
 hiddenKeys[HIDDEN] = true;
 
-},{"../internals/an-object":85,"../internals/array-iteration":91,"../internals/array-slice":94,"../internals/create-property-descriptor":108,"../internals/define-well-known-symbol":111,"../internals/descriptors":112,"../internals/export":126,"../internals/fails":127,"../internals/function-apply":129,"../internals/function-call":132,"../internals/function-uncurry-this":134,"../internals/get-built-in":135,"../internals/global":139,"../internals/has-own-property":140,"../internals/hidden-keys":141,"../internals/internal-state":150,"../internals/is-array":152,"../internals/is-callable":153,"../internals/is-object":156,"../internals/is-pure":157,"../internals/is-symbol":159,"../internals/native-symbol":167,"../internals/object-create":172,"../internals/object-define-properties":173,"../internals/object-define-property":174,"../internals/object-get-own-property-descriptor":175,"../internals/object-get-own-property-names":177,"../internals/object-get-own-property-names-external":176,"../internals/object-get-own-property-symbols":178,"../internals/object-is-prototype-of":181,"../internals/object-keys":183,"../internals/object-property-is-enumerable":184,"../internals/redefine":194,"../internals/set-to-string-tag":198,"../internals/shared":201,"../internals/shared-key":199,"../internals/to-indexed-object":206,"../internals/to-object":209,"../internals/to-property-key":211,"../internals/to-string":213,"../internals/uid":216,"../internals/well-known-symbol":220,"../internals/well-known-symbol-wrapped":219}],243:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/an-object":85,"../internals/array-iteration":91,"../internals/create-property-descriptor":107,"../internals/define-built-in":110,"../internals/define-built-in-accessor":109,"../internals/descriptors":113,"../internals/export":132,"../internals/fails":133,"../internals/function-call":138,"../internals/function-uncurry-this":142,"../internals/global":148,"../internals/has-own-property":149,"../internals/hidden-keys":150,"../internals/internal-state":159,"../internals/is-pure":167,"../internals/object-create":183,"../internals/object-define-properties":184,"../internals/object-define-property":185,"../internals/object-get-own-property-descriptor":186,"../internals/object-get-own-property-names":188,"../internals/object-get-own-property-names-external":187,"../internals/object-get-own-property-symbols":189,"../internals/object-is-prototype-of":192,"../internals/object-keys":194,"../internals/object-property-is-enumerable":195,"../internals/set-to-string-tag":209,"../internals/shared":212,"../internals/shared-key":210,"../internals/symbol-constructor-detection":215,"../internals/symbol-define-to-primitive":216,"../internals/to-indexed-object":221,"../internals/to-property-key":226,"../internals/to-string":228,"../internals/uid":231,"../internals/well-known-symbol":238,"../internals/well-known-symbol-define":236,"../internals/well-known-symbol-wrapped":237}],268:[function(require,module,exports){
+// `Symbol.prototype.description` getter
+// https://tc39.es/ecma262/#sec-symbol.prototype.description
+'use strict';
+var $ = require('../internals/export');
+var DESCRIPTORS = require('../internals/descriptors');
+var global = require('../internals/global');
+var uncurryThis = require('../internals/function-uncurry-this');
+var hasOwn = require('../internals/has-own-property');
+var isCallable = require('../internals/is-callable');
+var isPrototypeOf = require('../internals/object-is-prototype-of');
+var toString = require('../internals/to-string');
+var defineBuiltInAccessor = require('../internals/define-built-in-accessor');
+var copyConstructorProperties = require('../internals/copy-constructor-properties');
+
+var NativeSymbol = global.Symbol;
+var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
+
+if (DESCRIPTORS && isCallable(NativeSymbol) && (!('description' in SymbolPrototype) ||
+  // Safari 12 bug
+  NativeSymbol().description !== undefined
+)) {
+  var EmptyStringDescriptionStore = {};
+  // wrap Symbol constructor for correct work with undefined description
+  var SymbolWrapper = function Symbol() {
+    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : toString(arguments[0]);
+    var result = isPrototypeOf(SymbolPrototype, this)
+      ? new NativeSymbol(description)
+      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
+      : description === undefined ? NativeSymbol() : NativeSymbol(description);
+    if (description === '') EmptyStringDescriptionStore[result] = true;
+    return result;
+  };
+
+  copyConstructorProperties(SymbolWrapper, NativeSymbol);
+  SymbolWrapper.prototype = SymbolPrototype;
+  SymbolPrototype.constructor = SymbolWrapper;
+
+  var NATIVE_SYMBOL = String(NativeSymbol('description detection')) === 'Symbol(description detection)';
+  var thisSymbolValue = uncurryThis(SymbolPrototype.valueOf);
+  var symbolDescriptiveString = uncurryThis(SymbolPrototype.toString);
+  var regexp = /^Symbol\((.*)\)[^)]+$/;
+  var replace = uncurryThis(''.replace);
+  var stringSlice = uncurryThis(''.slice);
+
+  defineBuiltInAccessor(SymbolPrototype, 'description', {
+    configurable: true,
+    get: function description() {
+      var symbol = thisSymbolValue(this);
+      if (hasOwn(EmptyStringDescriptionStore, symbol)) return '';
+      var string = symbolDescriptiveString(symbol);
+      var desc = NATIVE_SYMBOL ? stringSlice(string, 7, -1) : replace(string, regexp, '$1');
+      return desc === '' ? undefined : desc;
+    }
+  });
+
+  $({ global: true, constructor: true, forced: true }, {
+    Symbol: SymbolWrapper
+  });
+}
+
+},{"../internals/copy-constructor-properties":102,"../internals/define-built-in-accessor":109,"../internals/descriptors":113,"../internals/export":132,"../internals/function-uncurry-this":142,"../internals/global":148,"../internals/has-own-property":149,"../internals/is-callable":162,"../internals/object-is-prototype-of":192,"../internals/to-string":228}],269:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var getBuiltIn = require('../internals/get-built-in');
+var hasOwn = require('../internals/has-own-property');
+var toString = require('../internals/to-string');
+var shared = require('../internals/shared');
+var NATIVE_SYMBOL_REGISTRY = require('../internals/symbol-registry-detection');
+
+var StringToSymbolRegistry = shared('string-to-symbol-registry');
+var SymbolToStringRegistry = shared('symbol-to-string-registry');
+
+// `Symbol.for` method
+// https://tc39.es/ecma262/#sec-symbol.for
+$({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
+  'for': function (key) {
+    var string = toString(key);
+    if (hasOwn(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
+    var symbol = getBuiltIn('Symbol')(string);
+    StringToSymbolRegistry[string] = symbol;
+    SymbolToStringRegistry[symbol] = string;
+    return symbol;
+  }
+});
+
+},{"../internals/export":132,"../internals/get-built-in":143,"../internals/has-own-property":149,"../internals/shared":212,"../internals/symbol-registry-detection":217,"../internals/to-string":228}],270:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+
+// `Symbol.hasInstance` well-known symbol
+// https://tc39.es/ecma262/#sec-symbol.hasinstance
+defineWellKnownSymbol('hasInstance');
+
+},{"../internals/well-known-symbol-define":236}],271:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+
+// `Symbol.isConcatSpreadable` well-known symbol
+// https://tc39.es/ecma262/#sec-symbol.isconcatspreadable
+defineWellKnownSymbol('isConcatSpreadable');
+
+},{"../internals/well-known-symbol-define":236}],272:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+
+// `Symbol.iterator` well-known symbol
+// https://tc39.es/ecma262/#sec-symbol.iterator
+defineWellKnownSymbol('iterator');
+
+},{"../internals/well-known-symbol-define":236}],273:[function(require,module,exports){
+'use strict';
+// TODO: Remove this module from `core-js@4` since it's split to modules listed below
+require('../modules/es.symbol.constructor');
+require('../modules/es.symbol.for');
+require('../modules/es.symbol.key-for');
+require('../modules/es.json.stringify');
+require('../modules/es.object.get-own-property-symbols');
+
+},{"../modules/es.json.stringify":244,"../modules/es.object.get-own-property-symbols":249,"../modules/es.symbol.constructor":267,"../modules/es.symbol.for":269,"../modules/es.symbol.key-for":274}],274:[function(require,module,exports){
+'use strict';
+var $ = require('../internals/export');
+var hasOwn = require('../internals/has-own-property');
+var isSymbol = require('../internals/is-symbol');
+var tryToString = require('../internals/try-to-string');
+var shared = require('../internals/shared');
+var NATIVE_SYMBOL_REGISTRY = require('../internals/symbol-registry-detection');
+
+var SymbolToStringRegistry = shared('symbol-to-string-registry');
+
+// `Symbol.keyFor` method
+// https://tc39.es/ecma262/#sec-symbol.keyfor
+$({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw new TypeError(tryToString(sym) + ' is not a symbol');
+    if (hasOwn(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
+  }
+});
+
+},{"../internals/export":132,"../internals/has-own-property":149,"../internals/is-symbol":169,"../internals/shared":212,"../internals/symbol-registry-detection":217,"../internals/try-to-string":229}],275:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.matchAll` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.matchall
 defineWellKnownSymbol('matchAll');
 
-},{"../internals/define-well-known-symbol":111}],244:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],276:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.match` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.match
 defineWellKnownSymbol('match');
 
-},{"../internals/define-well-known-symbol":111}],245:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],277:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.replace` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.replace
 defineWellKnownSymbol('replace');
 
-},{"../internals/define-well-known-symbol":111}],246:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],278:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.search` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.search
 defineWellKnownSymbol('search');
 
-},{"../internals/define-well-known-symbol":111}],247:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],279:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.species` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.species
 defineWellKnownSymbol('species');
 
-},{"../internals/define-well-known-symbol":111}],248:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],280:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.split` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.split
 defineWellKnownSymbol('split');
 
-},{"../internals/define-well-known-symbol":111}],249:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+},{"../internals/well-known-symbol-define":236}],281:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+var defineSymbolToPrimitive = require('../internals/symbol-define-to-primitive');
 
 // `Symbol.toPrimitive` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.toprimitive
 defineWellKnownSymbol('toPrimitive');
 
-},{"../internals/define-well-known-symbol":111}],250:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+// `Symbol.prototype[@@toPrimitive]` method
+// https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
+defineSymbolToPrimitive();
+
+},{"../internals/symbol-define-to-primitive":216,"../internals/well-known-symbol-define":236}],282:[function(require,module,exports){
+'use strict';
+var getBuiltIn = require('../internals/get-built-in');
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
+var setToStringTag = require('../internals/set-to-string-tag');
 
 // `Symbol.toStringTag` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.tostringtag
 defineWellKnownSymbol('toStringTag');
 
-},{"../internals/define-well-known-symbol":111}],251:[function(require,module,exports){
-var defineWellKnownSymbol = require('../internals/define-well-known-symbol');
+// `Symbol.prototype[@@toStringTag]` property
+// https://tc39.es/ecma262/#sec-symbol.prototype-@@tostringtag
+setToStringTag(getBuiltIn('Symbol'), 'Symbol');
+
+},{"../internals/get-built-in":143,"../internals/set-to-string-tag":209,"../internals/well-known-symbol-define":236}],283:[function(require,module,exports){
+'use strict';
+var defineWellKnownSymbol = require('../internals/well-known-symbol-define');
 
 // `Symbol.unscopables` well-known symbol
 // https://tc39.es/ecma262/#sec-symbol.unscopables
 defineWellKnownSymbol('unscopables');
 
-},{"../internals/define-well-known-symbol":111}],252:[function(require,module,exports){
+},{"../internals/well-known-symbol-define":236}],284:[function(require,module,exports){
 'use strict';
 var ArrayBufferViewCore = require('../internals/array-buffer-view-core');
-var call = require('../internals/function-call');
 var $fill = require('../internals/array-fill');
+var toBigInt = require('../internals/to-big-int');
+var classof = require('../internals/classof');
+var call = require('../internals/function-call');
+var uncurryThis = require('../internals/function-uncurry-this');
+var fails = require('../internals/fails');
 
 var aTypedArray = ArrayBufferViewCore.aTypedArray;
 var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var slice = uncurryThis(''.slice);
+
+// V8 ~ Chrome < 59, Safari < 14.1, FF < 55, Edge <=18
+var CONVERSION_BUG = fails(function () {
+  var count = 0;
+  // eslint-disable-next-line es/no-typed-arrays -- safe
+  new Int8Array(2).fill({ valueOf: function () { return count++; } });
+  return count !== 1;
+});
 
 // `%TypedArray%.prototype.fill` method
 // https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill
 exportTypedArrayMethod('fill', function fill(value /* , start, end */) {
   var length = arguments.length;
-  return call(
-    $fill,
-    aTypedArray(this),
-    value,
-    length > 1 ? arguments[1] : undefined,
-    length > 2 ? arguments[2] : undefined
-  );
-});
+  aTypedArray(this);
+  var actualValue = slice(classof(this), 0, 3) === 'Big' ? toBigInt(value) : +value;
+  return call($fill, this, actualValue, length > 1 ? arguments[1] : undefined, length > 2 ? arguments[2] : undefined);
+}, CONVERSION_BUG);
 
-},{"../internals/array-buffer-view-core":88,"../internals/array-fill":89,"../internals/function-call":132}],253:[function(require,module,exports){
+},{"../internals/array-buffer-view-core":88,"../internals/array-fill":89,"../internals/classof":99,"../internals/fails":133,"../internals/function-call":138,"../internals/function-uncurry-this":142,"../internals/to-big-int":220}],285:[function(require,module,exports){
 'use strict';
 var ArrayBufferViewCore = require('../internals/array-buffer-view-core');
 var typedArraySpeciesConstructor = require('../internals/typed-array-species-constructor');
@@ -38114,7 +38717,8 @@ exportTypedArrayMethod('slice', function slice(start, end) {
   return result;
 }, FORCED);
 
-},{"../internals/array-buffer-view-core":88,"../internals/array-slice":94,"../internals/fails":127,"../internals/typed-array-species-constructor":215}],254:[function(require,module,exports){
+},{"../internals/array-buffer-view-core":88,"../internals/array-slice":94,"../internals/fails":133,"../internals/typed-array-species-constructor":230}],286:[function(require,module,exports){
+'use strict';
 var global = require('../internals/global');
 var DOMIterables = require('../internals/dom-iterables');
 var DOMTokenListPrototype = require('../internals/dom-token-list-prototype');
@@ -38154,72 +38758,81 @@ for (var COLLECTION_NAME in DOMIterables) {
 
 handlePrototype(DOMTokenListPrototype, 'DOMTokenList');
 
-},{"../internals/create-non-enumerable-property":107,"../internals/dom-iterables":114,"../internals/dom-token-list-prototype":115,"../internals/global":139,"../internals/well-known-symbol":220,"../modules/es.array.iterator":224}],255:[function(require,module,exports){
+},{"../internals/create-non-enumerable-property":106,"../internals/dom-iterables":117,"../internals/dom-token-list-prototype":118,"../internals/global":148,"../internals/well-known-symbol":238,"../modules/es.array.iterator":243}],287:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/array/fill');
 
 module.exports = parent;
 
-},{"../../es/array/fill":71}],256:[function(require,module,exports){
+},{"../../es/array/fill":71}],288:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/array/iterator');
 
 module.exports = parent;
 
-},{"../../es/array/iterator":72}],257:[function(require,module,exports){
+},{"../../es/array/iterator":72}],289:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/map');
 require('../../modules/web.dom-collections.iterator');
 
 module.exports = parent;
 
-},{"../../es/map":73,"../../modules/web.dom-collections.iterator":254}],258:[function(require,module,exports){
+},{"../../es/map":73,"../../modules/web.dom-collections.iterator":286}],290:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/promise');
 require('../../modules/web.dom-collections.iterator');
 
 module.exports = parent;
 
-},{"../../es/promise":74,"../../modules/web.dom-collections.iterator":254}],259:[function(require,module,exports){
+},{"../../es/promise":74,"../../modules/web.dom-collections.iterator":286}],291:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/set');
 require('../../modules/web.dom-collections.iterator');
 
 module.exports = parent;
 
-},{"../../es/set":75,"../../modules/web.dom-collections.iterator":254}],260:[function(require,module,exports){
+},{"../../es/set":75,"../../modules/web.dom-collections.iterator":286}],292:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/string/ends-with');
 
 module.exports = parent;
 
-},{"../../es/string/ends-with":76}],261:[function(require,module,exports){
+},{"../../es/string/ends-with":76}],293:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/symbol');
 require('../../modules/web.dom-collections.iterator');
 
 module.exports = parent;
 
-},{"../../es/symbol":77,"../../modules/web.dom-collections.iterator":254}],262:[function(require,module,exports){
+},{"../../es/symbol":77,"../../modules/web.dom-collections.iterator":286}],294:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/typed-array/fill');
 
 module.exports = parent;
 
-},{"../../es/typed-array/fill":78}],263:[function(require,module,exports){
+},{"../../es/typed-array/fill":78}],295:[function(require,module,exports){
+'use strict';
 var parent = require('../../es/typed-array/slice');
 
 module.exports = parent;
 
-},{"../../es/typed-array/slice":79}],264:[function(require,module,exports){
+},{"../../es/typed-array/slice":79}],296:[function(require,module,exports){
 (function (global){(function (){
 (function(a,b){if("function"==typeof define&&define.amd)define([],b);else if("undefined"!=typeof exports)b();else{b(),a.FileSaver={exports:{}}.exports}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(a,b,c){var d=new XMLHttpRequest;d.open("GET",a),d.responseType="blob",d.onload=function(){g(d.response,b,c)},d.onerror=function(){console.error("could not download file")},d.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof global&&global.global===global?global:void 0,a=f.navigator&&/Macintosh/.test(navigator.userAgent)&&/AppleWebKit/.test(navigator.userAgent)&&!/Safari/.test(navigator.userAgent),g=f.saveAs||("object"!=typeof window||window!==f?function(){}:"download"in HTMLAnchorElement.prototype&&!a?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(b,d,e,g){if(g=g||open("","_blank"),g&&(g.document.title=g.document.body.innerText="downloading..."),"string"==typeof b)return c(b,d,e);var h="application/octet-stream"===b.type,i=/constructor/i.test(f.HTMLElement)||f.safari,j=/CriOS\/[\d]+/.test(navigator.userAgent);if((j||h&&i||a)&&"undefined"!=typeof FileReader){var k=new FileReader;k.onloadend=function(){var a=k.result;a=j?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),g?g.location.href=a:location=a,g=null},k.readAsDataURL(b)}else{var l=f.URL||f.webkitURL,m=l.createObjectURL(b);g?g.location=m:location.href=m,g=null,setTimeout(function(){l.revokeObjectURL(m)},4E4)}});f.saveAs=g.saveAs=g,"undefined"!=typeof module&&(module.exports=g)});
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],265:[function(require,module,exports){
+},{}],297:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v3.7.0
+ * jQuery JavaScript Library v3.7.1
  * https://jquery.com/
  *
  * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2023-05-11T18:29Z
+ * Date: 2023-08-28T13:37Z
  */
 ( function( global, factory ) {
 
@@ -38360,7 +38973,7 @@ function toType( obj ) {
 
 
 
-var version = "3.7.0",
+var version = "3.7.1",
 
 	rhtmlSuffix = /HTML$/i,
 
@@ -38624,9 +39237,14 @@ jQuery.extend( {
 				// Do not traverse comment nodes
 				ret += jQuery.text( node );
 			}
-		} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
+		}
+		if ( nodeType === 1 || nodeType === 11 ) {
 			return elem.textContent;
-		} else if ( nodeType === 3 || nodeType === 4 ) {
+		}
+		if ( nodeType === 9 ) {
+			return elem.documentElement.textContent;
+		}
+		if ( nodeType === 3 || nodeType === 4 ) {
 			return elem.nodeValue;
 		}
 
@@ -39339,12 +39957,17 @@ function setDocument( node ) {
 		documentElement.msMatchesSelector;
 
 	// Support: IE 9 - 11+, Edge 12 - 18+
-	// Accessing iframe documents after unload throws "permission denied" errors (see trac-13936)
-	// Support: IE 11+, Edge 17 - 18+
-	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
-	// eslint-disable-next-line eqeqeq
-	if ( preferredDoc != document &&
+	// Accessing iframe documents after unload throws "permission denied" errors
+	// (see trac-13936).
+	// Limit the fix to IE & Edge Legacy; despite Edge 15+ implementing `matches`,
+	// all IE 9+ and Edge Legacy versions implement `msMatchesSelector` as well.
+	if ( documentElement.msMatchesSelector &&
+
+		// Support: IE 11+, Edge 17 - 18+
+		// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+		// two documents; shallow comparisons work.
+		// eslint-disable-next-line eqeqeq
+		preferredDoc != document &&
 		( subWindow = document.defaultView ) && subWindow.top !== subWindow ) {
 
 		// Support: IE 9 - 11+, Edge 12 - 18+
@@ -40907,12 +41530,12 @@ jQuery.find = find;
 jQuery.expr[ ":" ] = jQuery.expr.pseudos;
 jQuery.unique = jQuery.uniqueSort;
 
-// These have always been private, but they used to be documented
-// as part of Sizzle so let's maintain them in the 3.x line
-// for backwards compatibility purposes.
+// These have always been private, but they used to be documented as part of
+// Sizzle so let's maintain them for now for backwards compatibility purposes.
 find.compile = compile;
 find.select = select;
 find.setDocument = setDocument;
+find.tokenize = tokenize;
 
 find.escape = jQuery.escapeSelector;
 find.getText = jQuery.text;
@@ -44126,7 +44749,7 @@ function domManip( collection, args, callback, ignored ) {
 			if ( hasScripts ) {
 				doc = scripts[ scripts.length - 1 ].ownerDocument;
 
-				// Reenable scripts
+				// Re-enable scripts
 				jQuery.map( scripts, restoreScript );
 
 				// Evaluate executable scripts on first document insertion
@@ -44583,7 +45206,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				trChild = document.createElement( "div" );
 
 				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
-				tr.style.cssText = "border:1px solid";
+				tr.style.cssText = "box-sizing:content-box;border:1px solid";
 
 				// Support: Chrome 86+
 				// Height set through cssText does not get applied.
@@ -44595,7 +45218,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				// In our bodyBackground.html iframe,
 				// display for all div elements is set to "inline",
 				// which causes a problem only in Android 8 Chrome 86.
-				// Ensuring the div is display: block
+				// Ensuring the div is `display: block`
 				// gets around this issue.
 				trChild.style.display = "block";
 
@@ -48763,7 +49386,9 @@ jQuery.fn.extend( {
 	},
 
 	hover: function( fnOver, fnOut ) {
-		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
+		return this
+			.on( "mouseenter", fnOver )
+			.on( "mouseleave", fnOut || fnOver );
 	}
 } );
 
@@ -48916,7 +49541,7 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
-},{}],266:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 // Top level file is just a mixin of submodules & constants
 'use strict';
 
@@ -48932,7 +49557,7 @@ assign(pako, deflate, inflate, constants);
 
 module.exports = pako;
 
-},{"./lib/deflate":267,"./lib/inflate":268,"./lib/utils/common":269,"./lib/zlib/constants":272}],267:[function(require,module,exports){
+},{"./lib/deflate":299,"./lib/inflate":300,"./lib/utils/common":301,"./lib/zlib/constants":304}],299:[function(require,module,exports){
 'use strict';
 
 
@@ -49334,7 +49959,7 @@ exports.deflate = deflate;
 exports.deflateRaw = deflateRaw;
 exports.gzip = gzip;
 
-},{"./utils/common":269,"./utils/strings":270,"./zlib/deflate":274,"./zlib/messages":279,"./zlib/zstream":281}],268:[function(require,module,exports){
+},{"./utils/common":301,"./utils/strings":302,"./zlib/deflate":306,"./zlib/messages":311,"./zlib/zstream":313}],300:[function(require,module,exports){
 'use strict';
 
 
@@ -49759,7 +50384,7 @@ exports.inflate = inflate;
 exports.inflateRaw = inflateRaw;
 exports.ungzip  = inflate;
 
-},{"./utils/common":269,"./utils/strings":270,"./zlib/constants":272,"./zlib/gzheader":275,"./zlib/inflate":277,"./zlib/messages":279,"./zlib/zstream":281}],269:[function(require,module,exports){
+},{"./utils/common":301,"./utils/strings":302,"./zlib/constants":304,"./zlib/gzheader":307,"./zlib/inflate":309,"./zlib/messages":311,"./zlib/zstream":313}],301:[function(require,module,exports){
 'use strict';
 
 
@@ -49866,7 +50491,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],270:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 // String encode/decode helpers
 'use strict';
 
@@ -50055,7 +50680,7 @@ exports.utf8border = function (buf, max) {
   return (pos + _utf8len[buf[pos]] > max) ? pos : max;
 };
 
-},{"./common":269}],271:[function(require,module,exports){
+},{"./common":301}],303:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -50108,7 +50733,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],272:[function(require,module,exports){
+},{}],304:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -50178,7 +50803,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],273:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -50239,7 +50864,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],274:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -52115,7 +52740,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":269,"./adler32":271,"./crc32":273,"./messages":279,"./trees":280}],275:[function(require,module,exports){
+},{"../utils/common":301,"./adler32":303,"./crc32":305,"./messages":311,"./trees":312}],307:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -52175,7 +52800,7 @@ function GZheader() {
 
 module.exports = GZheader;
 
-},{}],276:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -52522,7 +53147,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],277:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -54080,7 +54705,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":269,"./adler32":271,"./crc32":273,"./inffast":276,"./inftrees":278}],278:[function(require,module,exports){
+},{"../utils/common":301,"./adler32":303,"./crc32":305,"./inffast":308,"./inftrees":310}],310:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -54425,7 +55050,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":269}],279:[function(require,module,exports){
+},{"../utils/common":301}],311:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -54459,7 +55084,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],280:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -55683,7 +56308,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":269}],281:[function(require,module,exports){
+},{"../utils/common":301}],313:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -55732,7 +56357,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],282:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 /*!
  * PEP v0.4.3 | https://github.com/jquery/PEP
  * Copyright jQuery Foundation and other contributors | http://jquery.org/license
@@ -56584,7 +57209,7 @@ module.exports = ZStream;
 	  // Update buttons state after possible out-of-document mouseup.
 	  if(!button_num.includes(inEvent.button)||!p){ 
 		//   if (inEvent.button === 0 || !p) {
-			e.buttons = 0;
+       e.buttons = 0;
       } else {
         e.buttons = p.buttons;
       }
@@ -57208,7 +57833,7 @@ module.exports = ZStream;
   return pointerevents;
 
 }));
-},{}],283:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 (function (global){(function (){
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
@@ -59837,7 +60462,7 @@ return Popper;
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],284:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 /*!
  * EventEmitter v5.2.9 - git.io/ee
  * Unlicense - http://unlicense.org/
