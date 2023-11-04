@@ -239,10 +239,9 @@ define("DSP_RES", "7");
 define("USE_FONTCOLOR", "0");
 
 
-// 投稿容量制限 KB phpの設定により2M(2048)まで
+// 投稿容量制限 KB
 // Maximum size allowed for the images in the posts (in KB).
-// By php limit, it is allowed up to 2048.
-define("MAX_KB", "1000");
+define("MAX_KB", "2048");
 
 //表示する最大サイズ（これ以上はサムネイルまたは縮小表示
 // Maximum size to display (thumbnails or reduced view.
