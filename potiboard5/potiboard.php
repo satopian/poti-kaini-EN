@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.12.0';
+const POTI_VER = 'v6.12.1';
 const POTI_LOT = 'lot.20231106';
 
 /*
@@ -3042,7 +3042,9 @@ function check_jpeg_exif($dest){
 	list($w,$h) = getimagesize($dest);
 
 	$im_in = imagecreatefromjpeg($dest);
-
+	if(!$im_in){
+		return;
+	}
 	switch ($orientation) {
 		case 3:
 			$im_in = imagerotate($im_in, 180, 0);
@@ -3055,6 +3057,9 @@ function check_jpeg_exif($dest){
 			break;
 		default:
 			break;
+	}
+	if(!$im_in){
+		return;
 	}
 	if ($orientation === 6 || $orientation === 8) {
 		// 90度または270度回転の場合、幅と高さを入れ替える
