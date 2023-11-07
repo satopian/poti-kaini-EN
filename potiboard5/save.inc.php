@@ -2,7 +2,7 @@
 //save.inc.php 2023 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20230930;
+$save_inc_ver=20231106;
 class image_save{
 
 	private $imgfile,$usercode,$en,$count,$errtext; // プロパティとして宣言
@@ -191,6 +191,15 @@ class image_save{
 
 		if(mime_content_type($_FILES['picture']['tmp_name'])!=='image/png'){
 			$this->error_msg($this->en ? "Your picture upload failed!\nPlease try again!" : "投稿に失敗。\n時間を置いて再度投稿してみてください。");
+		}
+
+		if(function_exists("ImageCreateFromPNG")){//PNG画像が壊れていたらエラー
+			$im_in = @ImageCreateFromPNG($_FILES['picture']['tmp_name']);
+			if(!$im_in){
+				$this->error_msg($this->en ? "The image appears to be corrupted.\nPlease consider saving a screenshot to preserve your work." : "破損した画像が検出されました。\nスクリーンショットを撮り作品を保存する事を強くおすすめします。");
+			}else{
+				ImageDestroy($im_in);
+			}
 		}
 
 		$success = move_uploaded_file($_FILES['picture']['tmp_name'], TEMP_DIR.$this->imgfile.'.png');
