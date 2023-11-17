@@ -596,6 +596,10 @@ define("CRYPT_PASS","fbgtK4pj9t8Auek");
 // This is the internal encryption password.
 // This is not the administrator password.
 
+//Use an older version of CheerpJ Yes:1 No:0
+//If there is a problem with the latest version, do this:1
+define("USE_CHEERPJ_OLD_VERSION","0");
+
 /* ------------- トラブルシューティング(trouble shooting) ------------- */
 
 //問題なく動作している時は変更しない。
