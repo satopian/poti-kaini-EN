@@ -272,7 +272,7 @@
 						@if($imgfile)
 						<param name="image_canvas" value="{{$imgfile}}">
 						@endif
-						<param name="send_header" value="usercode={{$usercode}}">
+						<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}">
 						<param name="poo" value="false">
 						<param name="send_advance" value="true">
 						<param name="thumbnail_width" value="100%">
