@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.13.2';
+const POTI_VER = 'v6.13.5';
 const POTI_LOT = 'lot.20231117';
 
 /*
@@ -3004,11 +3004,8 @@ function png2jpg ($src) {
 			$im_out=$im_in;
 		}
 		$dst = $temppath.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
-		ImageDestroy($im_in);// 作成したイメージを破棄
-		if(!$im_out){
-			return;
-		}
 		ImageJPEG($im_out,$dst,98);
+		ImageDestroy($im_in);// 作成したイメージを破棄
 		ImageDestroy($im_out);// 作成したイメージを破棄
 		chmod($dst,PERMISSION_FOR_DEST);
 		if(is_file($dst)){
@@ -3089,14 +3086,10 @@ function check_jpeg_exif($dest){
 		$im_out = ImageCreateTrueColor($out_w, $out_h);
 		ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
 	}
-	// 画像のメモリを解放
-	imagedestroy($im_in);
-	if(!$im_out){
-		return;
-	}
 	// 画像を保存
 	imagejpeg($im_out, $dest,98);
 	// 画像のメモリを解放
+	imagedestroy($im_in);
 	imagedestroy($im_out);
 
 	if(!is_file($dest)){
