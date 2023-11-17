@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.15.1';
+const POTI_VER = 'v6.15.2';
 const POTI_LOT = 'lot.20231117';
 
 /*
@@ -61,6 +61,12 @@ if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
 	die($err);
 }
 
+//設定の読み込み
+if ($err = check_file(__DIR__.'/config.php')) {
+	die($err);
+}
+require(__DIR__.'/config.php');
+
 defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
 
 if(USE_CHEERPJ_OLD_VERSION){//2.3
@@ -72,12 +78,6 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 }
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
-
-//設定の読み込み
-if ($err = check_file(__DIR__.'/config.php')) {
-	die($err);
-}
-require(__DIR__.'/config.php');
 
 //BladeOne
 if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
