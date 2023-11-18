@@ -67,6 +67,7 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_7 = "Failed to create user data. Please try posting again after a while.";
 	$errormsg_8 = "User code mismatch.";
 	$errormsg_9 = "The post has been rejected.";
+	$errormsg_10 = "The image appears to be corrupted.\nPlease consider saving a screenshot to preserve your work.";
 }else{//日本語
 	$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
@@ -77,6 +78,7 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_7 = "ユーザーデータの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_8 = "ユーザーコードが一致しません。";
 	$errormsg_9 = "拒絶されました。";
+	$errormsg_10 = "破損した画像が検出されました。\nスクリーンショットを撮り作品を保存する事を強くおすすめします。";
 }
 
 header('Content-type: text/plain');
@@ -201,7 +203,7 @@ if(!in_array($img_type,["image/png","image/jpeg"])){
 if(($img_type==="image/png") && function_exists("ImageCreateFromPNG")){//PNG画像が壊れていたらエラー
 	$im_in = @ImageCreateFromPNG($full_imgfile);
 	if(!$im_in){
-		$this->error_msg($this->en ? "The image appears to be corrupted.\nPlease consider saving a screenshot to preserve your work." : "破損した画像が検出されました。\nスクリーンショットを撮り作品を保存する事を強くおすすめします。");
+		die("error\n{$errormsg_10}");
 	}else{
 		ImageDestroy($im_in);
 	}
