@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.15.5';
+const POTI_VER = 'v6.15.6';
 const POTI_LOT = 'lot.20231118';
 
 /*
@@ -1106,8 +1106,7 @@ function regist(){
 		}
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
-		$ltime= $logver==="6" ? substr($ltime,0,-3) :
-		(strlen($ltime)>12 ? substr($ltime,-13,-3) : $ltime);
+		$ltime=microtime2time($ltime,$logver);
 		$interval=time()-(int)$ltime;
 		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
 		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $dest){error(MSG021,$dest);}
@@ -3327,13 +3326,19 @@ function getId ($userip) {
 }
 
 // 古いスレッドへの投稿を許可するかどうか
-function check_elapsed_days ($time,$logver=false) {
+function check_elapsed_days ($microtime,$logver=false) {
 
-	$time = ($logver==="6") ? (int)substr($time,0,-3) : (int)substr($time, -13, -3);
+	$time = microtime2time($microtime,$logver);
 
 	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
 		? ((time() - $time)) <= ((int)ELAPSED_DAYS * 86400) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
+}
+//マイクロ秒を秒に戻す
+function microtime2time($microtime,$logver){
+
+	return $logver==="6" ? (int)substr($microtime,0,-3) :
+	(int)(strlen($microtime)>12 ? substr($microtime,-13,-3) : (int)$microtime);
 }
 
 //逆変換テーブル作成
