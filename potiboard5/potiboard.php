@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.15.2';
-const POTI_LOT = 'lot.20231117';
+const POTI_VER = 'v6.15.5';
+const POTI_LOT = 'lot.20231118';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -67,7 +67,7 @@ if ($err = check_file(__DIR__.'/config.php')) {
 }
 require(__DIR__.'/config.php');
 
-defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
+defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"1"); 
 
 if(USE_CHEERPJ_OLD_VERSION){//2.3
 	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/2.3/loader.js');
