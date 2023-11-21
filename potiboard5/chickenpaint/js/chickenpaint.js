@@ -3953,7 +3953,11 @@ function CPArtwork(_width, _height) {
             }
           });
           this.composeCanvas = (0, _Canvas.createCanvas)(that.width, that.height);
-          this.composeCanvasContext = this.composeCanvas.getContext("2d");
+
+          // willReadFrequently オプションを使用して Canvas コンテキストを取得
+          this.composeCanvasContext = this.composeCanvas.getContext("2d", {
+            willReadFrequently: true
+          });
           (0, _CPPolyfill.setCanvasInterpolation)(this.composeCanvasContext, this.interpolation == "smooth");
 
           /* Calling getImageData on the canvas forces Chrome to disable hardware acceleration for it, see
@@ -30907,8 +30911,8 @@ function getKeyCodeFromKey(key) {
     };
 
     Dropdown._clearMenus = function _clearMenus(event) {
-		if (event && (event.button === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
-			return;
+      if (event && (event.button === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.key !== TAB_KEYCODE)) {
+        return;
       }
 
       var toggles = [].slice.call(document.querySelectorAll(SELECTOR_DATA_TOGGLE$2));
