@@ -28713,12 +28713,8 @@ function debounce(delay, at_begin, callback) {
       '.': 190,
       '/': 191,
       '`': 192,
-      '-': function _() {
-        return getBrowserName() == "firefox" ? 173 : 189;
-      },
-      '=': function _() {
-        return getBrowserName() == "firefox" ? 61 : 187;
-      },
+      '-': 189,
+      '=': 187,
       ';': 186,
       '\'': 222,
       '[': 219,
@@ -28769,9 +28765,6 @@ function debounce(delay, at_begin, callback) {
     if (index(_downKeys, key) == -1) {
       _downKeys.push(key);
     }
-
-    // if a modifier key, set the key.<modifierkeyname> property to true and return
-    if (key == 93 || key == 224) key = 91; // right command on webkit, command on Gecko
     if (key in _mods) {
       _mods[key] = true;
       // 'assignKey' from inside this closure is exported to window.key
@@ -28821,7 +28814,6 @@ function debounce(delay, at_begin, callback) {
     if (i >= 0) {
       _downKeys.splice(i, 1);
     }
-    if (key == 93 || key == 224) key = 91;
     if (key in _mods) {
       _mods[key] = false;
       for (k in _MODIFIERS) if (_MODIFIERS[k] == key) assignKey[k] = false;
@@ -29030,7 +29022,13 @@ function getKeyCodeFromKey(key) {
     '-': 189,
     '=': 187,
     '+': 187,
-    ';': 187
+    ';': 187,
+    'LEFTMETA': 91,
+    'RIGHTMETA': 91,
+    'ALT': 18,
+    'ALTGRAPH': 18,
+    'OPTION': 18,
+    'CONTROL': 17
   };
   for (var i = 65; i <= 90; i++) {
     var Alphabet_key = String.fromCharCode(i);
@@ -57209,7 +57207,7 @@ module.exports = ZStream;
 	  // Update buttons state after possible out-of-document mouseup.
 	  if(!button_num.includes(inEvent.button)||!p){ 
 		//   if (inEvent.button === 0 || !p) {
-       e.buttons = 0;
+        e.buttons = 0;
       } else {
         e.buttons = p.buttons;
       }

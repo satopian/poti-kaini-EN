@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.15.6';
-const POTI_LOT = 'lot.20231118';
+const POTI_VER = 'v6.15.7';
+const POTI_LOT = 'lot.20231119';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -22,7 +22,7 @@ const POTI_LOT = 'lot.20231118';
   *   PCHViewer  (test by v1.12)
   *     (C)shi-chan >> http://hp.vector.co.jp/authors/VA016309/
   *
-  * PAINTBBS NEO
+  * PaintBBS NEO
   *     (C)funige >> https://github.com/funige/neo/
   *
   * USE FUNCTION :
