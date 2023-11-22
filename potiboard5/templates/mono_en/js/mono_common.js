@@ -85,6 +85,13 @@
 				new Luminous(elem);
 			}
 		}
+		//画像のファイル名へのリンクの時
+		const luminousElems_Filename = document.querySelectorAll('.luminous_Filename');
+		if( luminousElems_Filename.length > 0 ){
+		for(const elem of luminousElems_Filename)  {
+			new Luminous(elem);
+		}
+	}
 
 		//JavaScriptによるCookie発行
 		const paintform = document.getElementById("paint_form");
