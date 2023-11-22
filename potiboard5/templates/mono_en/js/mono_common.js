@@ -73,17 +73,23 @@
 			}, 500); //0.5秒かけてトップへ移動
 			return false;
 		});
+		// luminous
+		let gallery = typeof luminous_gallery === 'undefined' ? false :luminous_gallery;
 		// https://www.webdesignleaves.com/pr/plugins/luminous-lightbox.html
 		const luminousElems = document.querySelectorAll('.luminous');
-		//取得した要素の数が 0 より大きければ
-		if( luminousElems.length > 0 ) {
+		//画像の枚数が複数で、galleryがtrue時はギャラリーモードで画像を表示
+		if(gallery && luminousElems.length > 1 ){
+			new LuminousGallery(luminousElems);
+		}else if( luminousElems.length > 0 ){
 			for(const elem of luminousElems)  {
 				new Luminous(elem);
-			};
+			}
 		}
+
+		//JavaScriptによるCookie発行
 		const paintform = document.getElementById("paint_form");
 		if(paintform){
-			paintform.onsubmit = function (){
+			paintform.onsubmit = ()=>{
 				if(paintform.picw){
 					SetCookie("picwc",paintform.picw.value);
 				}
@@ -97,7 +103,7 @@
 		};
 		const commentform = document.getElementById("comment_form");
 		if(commentform){
-			commentform.onsubmit = function (){
+			commentform.onsubmit = ()=>{
 				if(commentform.name){
 					SetCookie("namec",commentform.name.value);
 				}
@@ -133,7 +139,6 @@
 			snsWindow = window.open(url, "_blank", windowFeatures); // 新しいウィンドウを開く
 			}
 	}
-
 	//モバイルの時はPC用のメニューを非表示
 	document.addEventListener('DOMContentLoaded',()=> {
 		if (navigator.maxTouchPoints && (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)){
