@@ -19078,10 +19078,10 @@ function CPCanvas(controller) {
       modeStack.push(colorPickerMode, true);
       // Avoid infinite recursion by only delivering the event to the new mode (don't let it bubble back to us!)
       modeStack.peek().mouseDown(e, button, pressure);
-    } else if (button == BUTTON_WHEEL && e.altKey || button == BUTTON_PRIMARY && !_keymaster.default.default.isPressed("alt") && _keymaster.default.default.isPressed("r")) {
+    } else if (button == BUTTON_WHEEL && e.altKey || button == BUTTON_PRIMARY && !_keymaster.default.isPressed("alt") && _keymaster.default.isPressed("r")) {
       modeStack.push(rotateCanvasMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
-    } else {
+    } else if (button == BUTTON_WHEEL || spacePressed && button == BUTTON_PRIMARY) {
       modeStack.push(panMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
     }
