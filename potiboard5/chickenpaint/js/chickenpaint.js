@@ -19078,10 +19078,10 @@ function CPCanvas(controller) {
       modeStack.push(colorPickerMode, true);
       // Avoid infinite recursion by only delivering the event to the new mode (don't let it bubble back to us!)
       modeStack.peek().mouseDown(e, button, pressure);
-    } else if (button == BUTTON_WHEEL && e.altKey || button == BUTTON_PRIMARY && !_keymaster.default.isPressed("alt") && _keymaster.default.isPressed("r")) {
+    } else if (button == BUTTON_WHEEL && e.altKey || !spacePressed && button == BUTTON_PRIMARY && !e.altKey && _keymaster.default.isPressed("r")) {
       modeStack.push(rotateCanvasMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
-    } else if (button == BUTTON_WHEEL || spacePressed && button == BUTTON_PRIMARY) {
+    } else if (button == BUTTON_WHEEL || !e.altKey && spacePressed && button == BUTTON_PRIMARY) {
       modeStack.push(panMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
     } else {
@@ -19090,10 +19090,10 @@ function CPCanvas(controller) {
     }
   };
   CPDefaultMode.prototype.keyDown = function (e) {
-    if (e.key.toLowerCase() === "r") {
+    if (e.key.toLowerCase() === "r" && e.key !== " ") {
       modeStack.push(rotateCanvasMode, true);
       modeStack.peek().keyDown(e);
-    } else if (e.key === " ") {
+    } else if (e.key.toLowerCase() !== "r" && e.key === " " && !e.altKey) {
       // We can start the pan mode before the mouse button is even pressed, so that the "grabbable" cursor appears
       modeStack.push(panMode, true);
       modeStack.peek().keyDown(e);
@@ -20105,7 +20105,7 @@ function CPCanvas(controller) {
     this.mouseDown = function (e, button, pressure) {
       if (this.capture) {
         return true;
-      } else if (!this.transient && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") || e.altKey && button == BUTTON_WHEEL || button == BUTTON_PRIMARY && _keymaster.default.isPressed("r")) {
+      } else if (!this.transient && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") || e.altKey && button == BUTTON_WHEEL || button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && _keymaster.default.isPressed("r")) {
         firstClick = {
           x: mouseX,
           y: mouseY
@@ -26045,6 +26045,7 @@ function CPToolPalette(cpController) {
       className: "chickenpaint-tool-airbrush",
       command: "CPAirbrush",
       toolTip: "Airbrush",
+      shortcut: "a",
       mode: _ChickenPaint.default.M_DRAW,
       tool: _ChickenPaint.default.T_AIRBRUSH
     }, {
@@ -26520,7 +26521,8 @@ var languages = {
 var currentLang = en,
   currentLangName = "en";
 function setLanguage(languageCode) {
-  languageCode = languageCode.replace(/[-_].+$/, "").toLowerCase();
+  //取得した言語がja-jpなら、jaのみにする
+  languageCode = languageCode.split(/[-_]/, 1)[0].toLowerCase();
   if (languageCode in languages) {
     currentLang = languages[languageCode];
     currentLangName = languageCode;
