@@ -19084,6 +19084,9 @@ function CPCanvas(controller) {
     } else if (button == BUTTON_WHEEL || spacePressed && button == BUTTON_PRIMARY) {
       modeStack.push(panMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
+    } else {
+      modeStack.push(rotateCanvasMode, false);
+      modeStack.peek().mouseDown(e, button, pressure);
     }
   };
   CPDefaultMode.prototype.keyDown = function (e) {
