@@ -19078,14 +19078,11 @@ function CPCanvas(controller) {
       modeStack.push(colorPickerMode, true);
       // Avoid infinite recursion by only delivering the event to the new mode (don't let it bubble back to us!)
       modeStack.peek().mouseDown(e, button, pressure);
-    } else if (button == BUTTON_WHEEL && e.altKey || !spacePressed && button == BUTTON_PRIMARY && !e.altKey && _keymaster.default.isPressed("r")) {
+    } else if (!spacePressed && button == BUTTON_PRIMARY && !e.altKey && _keymaster.default.isPressed("r")) {
       modeStack.push(rotateCanvasMode, true);
       modeStack.peek().mouseDown(e, button, pressure);
     } else if (button == BUTTON_WHEEL || !e.altKey && spacePressed && button == BUTTON_PRIMARY) {
       modeStack.push(panMode, true);
-      modeStack.peek().mouseDown(e, button, pressure);
-    } else {
-      modeStack.push(rotateCanvasMode, false);
       modeStack.peek().mouseDown(e, button, pressure);
     }
   };
@@ -20105,7 +20102,7 @@ function CPCanvas(controller) {
     this.mouseDown = function (e, button, pressure) {
       if (this.capture) {
         return true;
-      } else if (!this.transient && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") || e.altKey && button == BUTTON_WHEEL || button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && _keymaster.default.isPressed("r")) {
+      } else if (!this.transient && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") || button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && _keymaster.default.isPressed("r")) {
         firstClick = {
           x: mouseX,
           y: mouseY
@@ -20174,7 +20171,7 @@ function CPCanvas(controller) {
           that.resetRotation();
         }
         this.capture = false;
-        if (this.transient && !(_keymaster.default.isPressed("space") && _keymaster.default.alt)) {
+        if (this.transient && !_keymaster.default.isPressed("r")) {
           modeStack.pop();
         }
         return true;
@@ -20189,7 +20186,7 @@ function CPCanvas(controller) {
       }
     };
     this.keyDown = function (e) {
-      if (e.key === " " && e.altKey) {
+      if (e.key.toLowerCase() === "r") {
         // That's our hotkey, so stay in this mode (don't forward to CPDefaultMode)
         return true;
       }
