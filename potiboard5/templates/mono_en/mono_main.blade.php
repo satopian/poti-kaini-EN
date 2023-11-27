@@ -203,12 +203,8 @@
 				@if ($loop->first)
 				{{-- 最初のループ --}}
 				{{-- レスモードの時 --}}
-				@if($resno)
-				<h2><span class="oyano">[{{$res['no']}}]</span> {{$res['sub']}}</h2>
-				@else
 				<h2><a href="{{$self}}?res={{$res['no']}}"><span class="oyano">[{{$res['no']}}]</span>
 						{{$res['sub']}}</a></h2>
-				@endif
 				{{-- 親記事のヘッダ --}}
 				<h3>
 				@if(!isset($res['not_deleted'])||$res['not_deleted'])
