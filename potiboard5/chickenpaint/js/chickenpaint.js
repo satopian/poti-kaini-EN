@@ -19687,7 +19687,7 @@ function CPCanvas(controller) {
   CPMoveToolMode.prototype = Object.create(CPMode.prototype);
   CPMoveToolMode.prototype.constructor = CPMoveToolMode;
   CPMoveToolMode.prototype.mouseMove = function (e) {
-    if (!_keymaster.default.isPressed("space") && !e.altKey) {
+    if (!_keymaster.default.isPressed("r")) {
       setCursor(CURSOR_MOVE);
       return true;
     }
@@ -31099,7 +31099,7 @@ function getKeyCodeFromKey(key) {
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$2 = '.data-api';
   var JQUERY_NO_CONFLICT$5 = $__default["default"].fn[NAME$5];
-  var ESCAPE_KEYCODE = 27; // Keyboardevent.key value for Escape (Esc) key
+  var ESCAPE_KEYCODE = 'Escape'; // KeyboardEvent.which value for Escape (Esc) key
 
   var CLASS_NAME_SCROLLABLE = 'modal-dialog-scrollable';
   var CLASS_NAME_SCROLLBAR_MEASURER = 'modal-scrollbar-measure';
