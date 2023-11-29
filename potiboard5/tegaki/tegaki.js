@@ -2314,6 +2314,12 @@ var TegakiKeybinds = {
       e.stopPropagation();
       fn[0][fn[1]]();
     }
+	document.addEventListener('keyup', function(e) {
+		// e.key を利用して特定のキーのアップイベントを検知する
+		if (e.key.toLowerCase() === 'alt') {
+			e.preventDefault(); // Alt キーのデフォルトの動作をキャンセル
+		}
+	});
   },
 };
 var TegakiLayers = {
