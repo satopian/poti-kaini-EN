@@ -94,10 +94,10 @@
 		}
 		</style>
 		<script>
-			document.addEventListener('DOMContentLoaded',()=>{
-				document.addEventListener('dblclick', (e)=>{ e.preventDefault()}, { passive: false });
+			document.addEventListener('DOMContentLoaded',function(){
+				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
 				const chicken=document.querySelector('#chickenpaint-parent');
-				chicken.addEventListener('contextmenu', (e)=>{
+				chicken.addEventListener('contextmenu', function(e){
 					e.preventDefault();
 					e.stopPropagation();
 				}, { passive: false });
@@ -112,7 +112,7 @@
 		@if(($paint_mode and !$useneo) or ($pch_mode and !$type_neo))
 	<!-- Javaが使えるかどうか判定 -->
 	<script>
-		document.addEventListener("DOMContentLoaded", ()=> {
+		document.addEventListener("DOMContentLoaded", function() {
 			var jEnabled = navigator.javaEnabled();
 			if(!jEnabled){
 				var sN = document.createElement("script");
@@ -121,7 +121,7 @@
 				sN.crossOrigin="anonymous";
 				var s0 = document.getElementsByTagName("script")[0];
 				s0.parentNode.insertBefore(sN, s0);
-				sN.addEventListener("load", ()=>{ cheerpjInit(); }, false);
+				sN.addEventListener("load", function(){ cheerpjInit(); }, false);
 			}
 		});
 	</script>
@@ -419,7 +419,7 @@
 									}
 									document.watch.count.value = disp+s+"sec";
 									clearTimeout(timerID);
-									timerID = setTimeout(()=>{ SetTimeCount(); }, 250);
+									timerID = setTimeout(function(){ SetTimeCount(); }, 250);
 								};
 								document.addEventListener('DOMContentLoaded',SetTimeCount,false);
 							</script>
