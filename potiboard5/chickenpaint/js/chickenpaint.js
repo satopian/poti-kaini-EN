@@ -26075,12 +26075,14 @@ function CPToolPalette(cpController) {
       className: "chickenpaint-tool-smudge",
       command: "CPSmudge",
       toolTip: "Smudge",
+      shortcut: "d",
       mode: _ChickenPaint.default.M_DRAW,
       tool: _ChickenPaint.default.T_SMUDGE
     }, {
       className: "chickenpaint-tool-blender",
       command: "CPBlender",
       toolTip: "Blender",
+      shortcut: "c",
       mode: _ChickenPaint.default.M_DRAW,
       tool: _ChickenPaint.default.T_BLENDER
     }, {
