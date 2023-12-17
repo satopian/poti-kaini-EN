@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.16.8';
-const POTI_LOT = 'lot.20231211';
+const POTI_VER = 'v6.16.9';
+const POTI_LOT = 'lot.20231217';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -685,12 +685,7 @@ function updatelog(){
 		$dat['logfilename']= $logfilename;
 
 		$buf = htmloutput(MAINFILE,$dat,true);
-		// return htmloutput(MAINFILE,$dat,false);
-
-		$fp = fopen($logfilename, "w");
-		flock($fp, LOCK_EX); //*
-		writeFile($fp, $buf);
-		closeFile($fp);
+		file_put_contents($logfilename,$buf,LOCK_EX);
 		if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 	}
 
