@@ -19169,7 +19169,7 @@ function CPCanvas(controller) {
   CPDrawingMode.prototype.resume = CPDrawingMode.prototype.enter;
   CPDrawingMode.prototype.paint = function () {
 	  
-    if ((navigator.maxTouchPoints && navigator.maxTouchPoints < 2) || this.shouldPaintBrushPreview) {
+    if (!navigator.maxTouchPoints || navigator.maxTouchPoints < 2 || this.shouldPaintBrushPreview) {
       this.shouldPaintBrushPreview = false;
       var r = this.getBrushPreviewOval();
       canvasContext.beginPath();
