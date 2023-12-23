@@ -19192,8 +19192,8 @@ function CPCanvas(controller) {
   CPFreehandMode.prototype = Object.create(CPDrawingMode.prototype);
   CPFreehandMode.prototype.constructor = CPFreehandMode;
   CPFreehandMode.prototype.mouseDown = function (e, button, pressure) {
-    if (!this.capture && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && shouldDrawToThisLayer()) {
-      var pf = coordToDocument({
+	if (!this.capture && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && shouldDrawToThisLayer()) {
+		  var pf = coordToDocument({
         x: mouseX,
         y: mouseY
       });
@@ -19206,7 +19206,10 @@ function CPCanvas(controller) {
     }
   };
   CPFreehandMode.prototype.mouseDrag = function (e, pressure) {
-    if (this.capture) {
+	if(!navigator.maxTouchPoints || navigator.maxTouchPoints < 2){//タッチデバイスでは無い時に
+		CPDrawingMode.prototype.mouseMove.call(this, e, pressure);//円カーソルをmouseDrag時に表示
+	}
+  if (this.capture) {
       var pf = coordToDocument({
           x: mouseX,
           y: mouseY
@@ -19217,8 +19220,8 @@ function CPCanvas(controller) {
       artwork.continueStroke(this.smoothMouse.x, this.smoothMouse.y, pressure);
       return true;
     } else {
-      this.mouseMove(e);
-    }
+		this.mouseMove(e);
+	}
   };
   CPFreehandMode.prototype.mouseUp = function (e, button, pressure) {
     if (this.capture) {
