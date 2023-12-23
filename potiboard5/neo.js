@@ -4812,7 +4812,9 @@ Neo.DrawToolBase.prototype.freeHandDownHandler = function (oe) {
     var rect = oe.getBound(oe.mouseX, oe.mouseY, oe.mouseX, oe.mouseY, r);
     oe.updateDestCanvas(rect[0], rect[1], rect[2], rect[3], true);
   }
-  this.drawCursor(oe);
+  if (navigator.maxTouchPoints < 2){
+	this.drawCursor(oe);
+  }
 };
 
 Neo.DrawToolBase.prototype.freeHandUpHandler = function (oe) {
@@ -4847,7 +4849,9 @@ Neo.DrawToolBase.prototype.freeHandMoveHandler = function (oe) {
   var r = Math.ceil(oe.lineWidth / 2);
   var rect = oe.getBound(oe.mouseX, oe.mouseY, oe.prevMouseX, oe.prevMouseY, r);
   oe.updateDestCanvas(rect[0], rect[1], rect[2], rect[3], true);
-  this.drawCursor(oe);
+  if (navigator.maxTouchPoints < 2){
+	this.drawCursor(oe);
+  }
 };
 
 Neo.DrawToolBase.prototype.freeHandUpMoveHandler = function (oe) {

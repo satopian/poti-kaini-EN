@@ -19168,7 +19168,8 @@ function CPCanvas(controller) {
   CPDrawingMode.prototype.suspend = CPDrawingMode.prototype.leave;
   CPDrawingMode.prototype.resume = CPDrawingMode.prototype.enter;
   CPDrawingMode.prototype.paint = function () {
-    // if (this.shouldPaintBrushPreview) {
+	  
+    if (navigator.maxTouchPoints < 2 || this.shouldPaintBrushPreview) {
       this.shouldPaintBrushPreview = false;
       var r = this.getBrushPreviewOval();
       canvasContext.beginPath();
@@ -19180,7 +19181,7 @@ function CPCanvas(controller) {
       } else {
         this.oldPreviewRect.union(r);
       }
-    // }
+    }
   };
   function CPFreehandMode() {
     CPDrawingMode.call(this);
