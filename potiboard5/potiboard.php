@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.16.17';
+const POTI_VER = 'v6.16.18';
 const POTI_LOT = 'lot.20231226';
 
 /*
@@ -3546,6 +3546,9 @@ function getTranslatedLayerName() {
 		}
 		if (strpos($language, 'zh-cn') === 0) {
 			return "图层";
+		}
+		if (strpos($language, 'ko') === 0) {
+			return "레이어";
 		}
 		if (strpos($language, 'fr') === 0) {
 			return "Calque";
