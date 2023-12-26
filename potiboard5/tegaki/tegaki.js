@@ -3991,7 +3991,9 @@ var Tegaki = {
 	},
 	
 	updateCursorStatus: function() {
-	  if (!Tegaki.tool.noCursor && Tegaki.tool.size > 0) {
+	  if (!Tegaki.tool.noCursor && Tegaki.tool.size > 0
+	  && (!navigator.maxTouchPoints || navigator.maxTouchPoints < 2)) {
+
 		Tegaki.cursor = true;
 		// ブラシサイズが1pxの時は2px相当の円カーソルを表示
 		const size=Tegaki.tool.size
