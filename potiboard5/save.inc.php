@@ -2,7 +2,7 @@
 //save.inc.php 2023 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20231106;
+$save_inc_ver=20231227;
 class image_save{
 
 	private $imgfile,$usercode,$en,$count,$errtext; // プロパティとして宣言
@@ -123,8 +123,13 @@ class image_save{
 
 	private function check_security(){
 
+		session_sta();
+		$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
 		//csrf
-		if(!$this->usercode || $this->usercode !== (string)filter_input(INPUT_COOKIE, 'usercode')){
+		if(!$this->usercode
+		|| ($this->usercode !== (string)filter_input(INPUT_COOKIE, 'usercode'))
+		&& ($this->usercode !== (string)$session_usercode
+		)){
 			$this->error_msg($this->en ? "User code mismatch." : "ユーザーコードが一致しません。");
 		}
 		if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){

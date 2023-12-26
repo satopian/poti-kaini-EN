@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.16.18';
-const POTI_LOT = 'lot.20231226';
+const POTI_VER = 'v6.17.2';
+const POTI_LOT = 'lot.20231227';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -115,7 +115,7 @@ if ($err = check_file(__DIR__.'/save.inc.php')) {
 }
 require(__DIR__.'/save.inc.php');
 
-if($save_inc_ver < 20231106){
+if($save_inc_ver < 20231227){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -257,10 +257,15 @@ $res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
 
 $usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//nullならuser-codeを発行
 
+
 //初期化
 init();	
 //テンポラリ
 deltemp();
+
+session_sta();
+$session_usercode = isset($_SESSION['usercode']) ? (string)$_SESSION['usercode'] : "";
+$usercode = $usercode ? $usercode : $session_usercode;
 
 //user-codeの発行
 if(!$usercode){//user-codeがなければ発行
@@ -270,6 +275,7 @@ if(!$usercode){//user-codeがなければ発行
 	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 }
 setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
+$_SESSION['usercode']=$usercode;
 
 switch($mode){
 	case 'regist':
@@ -414,24 +420,28 @@ function session_sta(){
 function get_csrf_token(){
 	session_sta();
 	$token = hash('sha256', session_id(), false);
-	$_SESSION['token']=$token;
 	return $token;
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
 
 	check_same_origin(true);
-	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
-	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
+	$session_token=get_csrf_token();
 	if(!$session_token||$token!==$session_token){
 		error(MSG006);
 	}
 }
 function check_same_origin($cookie_check=false){
+	global $usercode,$en;
+	session_sta();
+	$c_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//user-codeを取得
+	$session_usercode = isset($_SESSION['usercode']) ? (string)$_SESSION['usercode'] : "";
 
-	$usercode = (string)filter_input(INPUT_COOKIE, 'usercode');
-	if($cookie_check && !$usercode){
+	if($cookie_check && !$c_usercode && $session_usercode){
+		if(!$usercode || ($usercode!==$c_usercode)&&($usercode!==$session_usercode)){
+			return error($en?"User code mismatch.":"ユーザーコードが一致しません。");
+		}
 		error(MSG050);
 	}
 	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST']) && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
@@ -1648,7 +1658,7 @@ function check_dir ($path) {
 function paintform(){
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
-	check_same_origin();
+	check_same_origin(true);
 
 	$admin = (string)filter_input(INPUT_POST, 'admin');
 	$type = (string)newstring(filter_input(INPUT_POST, 'type'));

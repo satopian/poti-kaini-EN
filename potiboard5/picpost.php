@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.231010 for POTI-board
+// picpost.php lot.231226 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2023/12/27 ユーザーコードをSESSIONに格納して、CookieとSESSIONどちらかが一致していれば投稿可能になるようにした。
 // 2023/11/17 Javaプラグインが動作する数少ないブラウザWaterfoxから投稿できなくなっていたのを修正。
 // 2023/10/10 セキュリティ対策。pchデータのmime typeチェックを追加。
 // 2022/12/03 same-originでは無かった時はエラーにする。
@@ -161,7 +162,13 @@ $userdata .= "\n";
 //CSRF
 $c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
 $is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
-if(!$usercode || (!$is_send_java||$c_usercode) && ($usercode !== $c_usercode)){
+session_start();
+$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
+if((!$usercode && !$is_send_java)
+|| (!$is_send_java && !$c_usercode && !$session_usercode)
+&& ($usercode !== $c_usercode)
+&& ($usercode !== $session_usercode)
+ ){
 	die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
