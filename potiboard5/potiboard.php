@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.17.5';
+const POTI_VER = 'v6.17.8';
 const POTI_LOT = 'lot.20231227';
 
 /*
@@ -440,11 +440,13 @@ function check_same_origin($cookie_check=false){
 	$c_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//user-codeを取得
 	$session_usercode = isset($_SESSION['usercode']) ? (string)$_SESSION['usercode'] : "";
 
-	if($cookie_check && !$c_usercode && $session_usercode){
-		if(!$usercode || ($usercode!==$c_usercode)&&($usercode!==$session_usercode)){
-			return error($en?"User code mismatch.":"ユーザーコードが一致しません。");
+	if($cookie_check){
+		if(!$c_usercode){
+			error(MSG050);
 		}
-		error(MSG050);
+		if(!$usercode || ($usercode!==$c_usercode)&&($usercode!==$session_usercode)){
+			error($en?"User code mismatch.":"ユーザーコードが一致しません。");
+		}
 	}
 	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST']) && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
 		error(MSG049);
