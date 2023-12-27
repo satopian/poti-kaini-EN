@@ -164,11 +164,11 @@ $c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではク�
 $is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 session_start();
 $session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
-if((!$usercode && !$is_send_java)
-|| (!$is_send_java && !$c_usercode && !$session_usercode)
-&& ($usercode !== $c_usercode)
-&& ($usercode !== $session_usercode)
- ){
+if(!$is_send_java
+&& (!$usercode
+|| (!$c_usercode && !$session_usercode)
+|| ($usercode !== $c_usercode) && ($usercode !== $session_usercode)
+ )){
 	die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
