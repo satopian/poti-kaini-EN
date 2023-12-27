@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.17.2';
+const POTI_VER = 'v6.17.5';
 const POTI_LOT = 'lot.20231227';
 
 /*
@@ -420,14 +420,16 @@ function session_sta(){
 function get_csrf_token(){
 	session_sta();
 	$token = hash('sha256', session_id(), false);
+	$_SESSION['token']=$token;
 	return $token;
 }
 //csrfトークンをチェック	
 function check_csrf_token(){
 
 	check_same_origin(true);
+	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
-	$session_token=get_csrf_token();
+	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
 	if(!$session_token||$token!==$session_token){
 		error(MSG006);
 	}
