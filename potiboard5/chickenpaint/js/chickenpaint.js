@@ -19169,6 +19169,7 @@ function CPCanvas(controller) {
   CPDrawingMode.prototype.resume = CPDrawingMode.prototype.enter;
   CPDrawingMode.prototype.paint = function () {
     if (this.shouldPaintBrushPreview) {
+      //円カーソルを表示
       this.shouldPaintBrushPreview = false;
       var r = this.getBrushPreviewOval();
       canvasContext.beginPath();
@@ -19192,8 +19193,8 @@ function CPCanvas(controller) {
   CPFreehandMode.prototype = Object.create(CPDrawingMode.prototype);
   CPFreehandMode.prototype.constructor = CPFreehandMode;
   CPFreehandMode.prototype.mouseDown = function (e, button, pressure) {
-	if (!this.capture && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && shouldDrawToThisLayer()) {
-		  var pf = coordToDocument({
+    if (!this.capture && button == BUTTON_PRIMARY && !e.altKey && !_keymaster.default.isPressed("space") && shouldDrawToThisLayer()) {
+      var pf = coordToDocument({
         x: mouseX,
         y: mouseY
       });
@@ -19206,10 +19207,12 @@ function CPCanvas(controller) {
     }
   };
   CPFreehandMode.prototype.mouseDrag = function (e, pressure) {
-	if(!navigator.maxTouchPoints || navigator.maxTouchPoints < 2){//タッチデバイスでは無い時に
-		CPDrawingMode.prototype.mouseMove.call(this, e, pressure);//円カーソルをmouseDrag時に表示
-	}
-  if (this.capture) {
+    if (!navigator.maxTouchPoints || navigator.maxTouchPoints < 2) {
+      //タッチデバイスでは無い時に
+      CPDrawingMode.prototype.mouseMove.call(this, e, pressure); //円カーソルをmouseDrag時に表示
+    }
+
+    if (this.capture) {
       var pf = coordToDocument({
           x: mouseX,
           y: mouseY
@@ -19220,8 +19223,8 @@ function CPCanvas(controller) {
       artwork.continueStroke(this.smoothMouse.x, this.smoothMouse.y, pressure);
       return true;
     } else {
-		this.mouseMove(e);
-	}
+      this.mouseMove(e);
+    }
   };
   CPFreehandMode.prototype.mouseUp = function (e, button, pressure) {
     if (this.capture) {
@@ -21839,17 +21842,21 @@ function CPGridDialog(parent, canvas) {
     gridSizeElem = (0, _jquery.default)(".chickenpaint-grid-size", dialog),
     applyButton = (0, _jquery.default)(".chickenpaint-apply-grid-settings", dialog);
   gridSizeElem.val(canvas.getGridSize());
-  (0, _jquery.default)(".chickenpaint-apply-grid-settings", dialog).on('click', function (e) {
+  function applyButtonClickHandler() {
     var gridSize = parseInt(gridSizeElem.val(), 10);
     canvas.setGridSize(gridSize);
-  });
+    dialog.modal('hide'); // モーダルを手動で閉じる
+  }
+
+  applyButton.on('click', applyButtonClickHandler);
   dialog.modal({
     show: false
   }).on('shown.bs.modal', function () {
     gridSizeElem.trigger('focus');
   }).on('keypress', function (e) {
     if (e.key === "Enter") {
-      applyButton.trigger('click');
+      e.preventDefault(); // デフォルトのフォーム送信を阻止
+      applyButtonClickHandler(); // applyButtonのクリック関数を呼び出す
     }
   });
 
