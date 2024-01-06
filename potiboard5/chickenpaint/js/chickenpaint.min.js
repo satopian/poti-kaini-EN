@@ -1,4 +1,13 @@
 /*
+    ChickenPaint for Petit Note
+    https://github.com/satopian/ChickenPaint_for_Petit_Note
+    by satopian
+    Customized from ChickenPaint by Nicholas Sherlock.
+    GNU GENERAL PUBLIC LICENSE
+    Version 3, 29 June 2007
+    <http://www.gnu.org/licenses/>
+*/
+/*
     ChickenPaint
 
     ChickenPaint is a translation of ChibiPaint from Java to JavaScript
