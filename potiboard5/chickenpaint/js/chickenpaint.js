@@ -75,26 +75,34 @@ var _lang = require("./languages/lang.js");
 var _CPUserPreferences = _interopRequireDefault(require("./gui/CPUserPreferences.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); } /*
-                                                                                                                                                                                                                                                                                                                                   ChickenPaint
-                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                   ChickenPaint is a translation of ChibiPaint from Java to JavaScript
-                                                                                                                                                                                                                                                                                                                                   by Nicholas Sherlock / Chicken Smoothie.
-                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                   ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
-                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                   ChickenPaint is free software: you can redistribute it and/or modify
-                                                                                                                                                                                                                                                                                                                                   it under the terms of the GNU General Public License as published by
-                                                                                                                                                                                                                                                                                                                                   the Free Software Foundation, either version 3 of the License, or
-                                                                                                                                                                                                                                                                                                                                   (at your option) any later version.
-                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                   ChickenPaint is distributed in the hope that it will be useful,
-                                                                                                                                                                                                                                                                                                                                   but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                                                                                                                                                                                                                                                                                                                   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                                                                                                                                                                                                                                                                                                                   GNU General Public License for more details.
-                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                   You should have received a copy of the GNU General Public License
-                                                                                                                                                                                                                                                                                                                                   along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
-                                                                                                                                                                                                                                                                                                                               */ // core-js Polyfills for the features we use
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint for Petit Note
+                                                                                                                                                                                                                                                                                                                                   https://github.com/satopian/ChickenPaint_for_Petit_Note
+                                                                                                                                                                                                                                                                                                                                   by satopian
+                                                                                                                                                                                                                                                                                                                                   Customized from ChickenPaint by Nicholas Sherlock.
+                                                                                                                                                                                                                                                                                                                                   GNU GENERAL PUBLIC LICENSE
+                                                                                                                                                                                                                                                                                                                                   Version 3, 29 June 2007
+                                                                                                                                                                                                                                                                                                                                   <http://www.gnu.org/licenses/>
+                                                                                                                                                                                                                                                                                                                               */ /*
+                                                                                                                                                                                                                                                                                                                                      ChickenPaint
+                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                      ChickenPaint is a translation of ChibiPaint from Java to JavaScript
+                                                                                                                                                                                                                                                                                                                                      by Nicholas Sherlock / Chicken Smoothie.
+                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                      ChibiPaint is Copyright (c) 2006-2008 Marc Schefer
+                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                      ChickenPaint is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                      it under the terms of the GNU General Public License as published by
+                                                                                                                                                                                                                                                                                                                                      the Free Software Foundation, either version 3 of the License, or
+                                                                                                                                                                                                                                                                                                                                      (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                      ChickenPaint is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                      but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                      GNU General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                      You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                      along with ChickenPaint. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                  */ // core-js Polyfills for the features we use
 // import "bootstrap";
 /* Check for native pointer event support before PEP adds its polyfill */
 if (window.PointerEvent) {
@@ -18372,7 +18380,7 @@ function CPBoxBlurDialog(parent, controller) {
   dialog.on('shown.bs.modal', function () {
     blurAmountElem.trigger('focus');
   });
-  (0, _jquery.default)(document).on('keypress', function (e) {
+  (0, _jquery.default)(document).on('keydown', function (e) {
     if (e.key === "Enter" && dialog.hasClass('show')) {
       applyButton.trigger('click');
     }
@@ -21755,14 +21763,22 @@ function CPConfirmTransformDialog(parent, controller) {
     });
     that.emitEvent("reject");
   });
-  // Fix the backdrop location in the DOM by reparenting it to the chickenpaint container
-  parent.appendChild(dialog[0]);
 
   // Bootstrap 5 modal initialization
   var modal = new bootstrap.Modal(dialog[0]);
   this.show = function () {
     modal.show();
   };
+  // Enterキーが押されたときの処理
+  parent.addEventListener("keydown", function keydown_EnterKey(e) {
+    if (e.key === "Enter") {
+      // Enterキーが押されたら非表示にする
+      modal.hide();
+      parent.removeEventListener("keydown", keydown_EnterKey);
+    }
+  });
+
+  // Fix the backdrop location in the DOM by reparenting it to the chickenpaint container
   parent.appendChild(dialog[0]);
 }
 CPConfirmTransformDialog.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
@@ -21892,7 +21908,7 @@ function CPGridDialog(parent, canvas) {
   });
 
   // Enter キーが押されたときの処理を追加
-  dialog.on('keypress', function (e) {
+  dialog.on('keydown', function (e) {
     if (e.key === "Enter") {
       e.preventDefault(); // デフォルトのフォーム送信を阻止
       applyButton.trigger('click');
@@ -23105,7 +23121,7 @@ function CPLayersPalette(controller) {
       // Prevent other keyhandlers (CPCanvas) from getting their grubby hands on the input
       e.stopPropagation();
     });
-    textBox.addEventListener("keypress", function (e) {
+    textBox.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         // Enter
         that.renameAndHide();
