@@ -463,11 +463,11 @@ function ChickenPaint(options) {
         action: function action() {
           var layer = that.artwork.getActiveLayer();
           if (!layer.visible) {
-            that.showLayerNotification(layer, "Whoops! This layer is currently hidden", "layer");
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer is currently hidden"), "layer");
           } else if (layer.alpha == 0) {
-            that.showLayerNotification(layer, "Whoops! This layer's opacity is currently 0%", "opacity");
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer's opacity is currently 0%"), "opacity");
           } else if (that.artwork.transformAffineBegin() == null) {
-            that.showLayerNotification(layer, "Whoops! All of the selected pixels are transparent!", "layer");
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! All of the selected pixels are transparent!"), "layer");
           } else {
             setMode(ChickenPaint.M_TRANSFORM);
           }
@@ -18802,6 +18802,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = CPCanvas;
+var _lang = require("../languages/lang.js");
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
 var _jquery = _interopRequireDefault(require("jquery"));
 var _keymaster = _interopRequireDefault(require("../../lib/keymaster.js"));
@@ -20244,10 +20245,10 @@ function CPCanvas(controller) {
   function checkCurrentLayerIsVisible() {
     var activeLayer = artwork.getActiveLayer();
     if (!(activeLayer.visible && activeLayer.ancestorsAreVisible())) {
-      controller.showLayerNotification(activeLayer, "Whoops! This layer is currently hidden", "layer");
+      controller.showLayerNotification(activeLayer, (0, _lang._)("Whoops! This layer is currently hidden"), "layer");
       return false;
     } else if (activeLayer.alpha == 0) {
-      controller.showLayerNotification(activeLayer, "Whoops! This layer's opacity is currently 0%", "opacity");
+      controller.showLayerNotification(activeLayer, (0, _lang._)("Whoops! This layer's opacity is currently 0%"), "opacity");
       return false;
     }
     return true;
@@ -20262,7 +20263,7 @@ function CPCanvas(controller) {
   function shouldDrawToThisLayer() {
     var activeLayer = artwork.getActiveLayer();
     if (activeLayer instanceof _CPLayerGroup.default && !artwork.isEditingMask()) {
-      controller.showLayerNotification(activeLayer, "Whoops! You can't draw on a group", "layer");
+      controller.showLayerNotification(activeLayer, (0, _lang._)("Whoops! You can't draw on a group"), "layer");
       return false;
     }
     return checkCurrentLayerIsVisible();
@@ -21031,7 +21032,7 @@ CPCanvas.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPCanvas.prototype.constructor = CPCanvas;
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":296,"wolfy87-eventemitter":314}],27:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../languages/lang.js":54,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":296,"wolfy87-eventemitter":314}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21729,7 +21730,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 function CPConfirmTransformDialog(parent, controller) {
-  var dialog = (0, _jquery.default)("<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n\t            <div class=\"modal-dialog\">\n\t                <div class=\"modal-content\">\n\t                    <div class=\"modal-header\">\n\t                        <h5 class=\"modal-title\">Complete transform</h5>\n\t                        <button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"modal\" aria-label=\"btn btn-close\">\n\t                        </button>\n\t                    </div>\n\t                    <div class=\"modal-body\">\n\t                        <p>\n\t                            You need to finish transforming this layer before you can do that. What would you like to do with the transform?\n\t\t\t\t\t\t\t</p>\n\t                    </div>\n\t                    <div class=\"modal-footer\">\n\t                        <button type=\"button\" class=\"btn btn-light\" data-bs-dismiss=\"modal\">".concat((0, _lang._)("Cancel"), "</button>\n\t                        <button type=\"button\" class=\"btn btn-light chickenpaint-reject-transform\" data-bs-dismiss=\"modal\">Undo transform</button>\n\t                        <button type=\"button\" class=\"btn btn-primary chickenpaint-accept-transform\" data-bs-dismiss=\"modal\">Apply transform</button>\n\t                    </div>\n\t                </div>\n\t            </div>\n\t        </div>\n\t    ")),
+  var dialog = (0, _jquery.default)("<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n\t            <div class=\"modal-dialog\">\n\t                <div class=\"modal-content\">\n\t                    <div class=\"modal-header\">\n\t                        <h5 class=\"modal-title\">".concat((0, _lang._)("Complete transform"), "</h5>\n\t                        <button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"modal\" aria-label=\"btn btn-close\">\n\t                        </button>\n\t                    </div>\n\t                    <div class=\"modal-body\">\n\t                        <p>\n\t\t\t\t\t\t\t").concat((0, _lang._)("You need to finish transforming this layer before you can do that. What would you like to do with the transform?"), "\n\t\t\t\t\t\t\t</p>\n\t                    </div>\n\t                    <div class=\"modal-footer\">\n\t                        <button type=\"button\" class=\"btn btn-light\" data-bs-dismiss=\"modal\">").concat((0, _lang._)("Cancel"), "</button>\n\t                        <button type=\"button\" class=\"btn btn-light chickenpaint-reject-transform\" data-bs-dismiss=\"modal\">").concat((0, _lang._)("Undo transform"), "</button>\n\t                        <button type=\"button\" class=\"btn btn-primary chickenpaint-accept-transform\" data-bs-dismiss=\"modal\">").concat((0, _lang._)("Apply transform"), "</button>\n\t                    </div>\n\t                </div>\n\t            </div>\n\t        </div>\n\t    ")),
     that = this,
     applyButton = (0, _jquery.default)(".chickenpaint-accept-transform", dialog),
     rejectButton = (0, _jquery.default)(".chickenpaint-reject-transform", dialog);
@@ -21745,28 +21746,16 @@ function CPConfirmTransformDialog(parent, controller) {
     });
     that.emitEvent("reject");
   });
-  //bootstrap4の処理のためmodalは関数ではないというエラーが発生 コメントアウトしても動作には支障が無い
-  // dialog.modal({
-  // 	show: false
-  // }).on('shown.bs.modal', function () {
-  // 	applyButton.focus();
-  // }).on("hidden.bs.modal", function(e) {
-  // 		// Destroy the modal upon close
-  // 		dialog.remove();
-  // }).on('keydown', function (e) {
-  // 	if (e.key === "Enter") {
-  // 		applyButton.trigger('click');
-  // 	}
-  // });
-
   // Fix the backdrop location in the DOM by reparenting it to the chickenpaint container
   parent.appendChild(dialog[0]);
 
-  // this.show = function() {
-  // 	dialog.modal("show");
-  // };
+  // Bootstrap 5 modal initialization
+  var modal = new bootstrap.Modal(dialog[0]);
+  this.show = function () {
+    modal.show();
+  };
+  parent.appendChild(dialog[0]);
 }
-
 CPConfirmTransformDialog.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPConfirmTransformDialog.prototype.constructor = CPConfirmTransformDialog;
 module.exports = exports.default;
@@ -26549,6 +26538,10 @@ module.exports={
   "Gradient": "グラデーション作成",
   "Transform style": "変形スタイル", 
   "Apply transform": "変形確定",
+  "Complete transform": "変形を完了",
+  "Undo transform": "取り消し",
+  "You need to finish transforming this layer before you can do that. What would you like to do with the transform?":
+   "続行するために変形を完了します。",
   "Smooth": "スムーズ",
   "Sharp": "シャープ",
   "Opacity: ":"不透明度:",
@@ -26560,6 +26553,10 @@ module.exports={
   "Okay": "OK",
   "OK": "OK",
 
+  "Whoops! This layer is currently hidden": "非表示レイヤーです。",
+  "Whoops! This layer's opacity is currently 0%": "レイヤーの不透明度が0%です",
+  "Whoops! You can't draw on a group": "レイヤーグループには描けません",
+  "Whoops! All of the selected pixels are transparent!": "レイヤーが空です",
   "Are you sure you want to send your drawing to the server and finish drawing now?": "お絵かきをサーバーに送信します。終了してもよろしいですか？",
   "Your drawing has unsaved changes! Are you sure to want to navigate away?": "お絵かきに未保存の変更があります。終了してもよろしいですか？",
           
