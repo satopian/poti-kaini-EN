@@ -8404,7 +8404,7 @@ textarea.form-control-lg {
 .btn-sm, .btn-group-sm > .btn {
   --bs-btn-padding-y: 0.25rem;
   --bs-btn-padding-x: 0.5rem;
-  --bs-btn-font-size: 0.875rem;
+  --bs-btn-font-size: 0.7875rem;
   --bs-btn-border-radius: var(--bs-border-radius-sm);
 }
 

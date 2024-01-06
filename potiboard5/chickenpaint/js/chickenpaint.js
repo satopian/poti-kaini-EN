@@ -21774,6 +21774,10 @@ function CPConfirmTransformDialog(parent, controller) {
     if (e.key === "Enter") {
       // Enterキーが押されたら非表示にする
       modal.hide();
+      controller.actionPerformed({
+        action: "CPTransformAccept"
+      }); //変形確定
+      that.emitEvent("accept");
       parent.removeEventListener("keydown", keydown_EnterKey);
     }
   });
