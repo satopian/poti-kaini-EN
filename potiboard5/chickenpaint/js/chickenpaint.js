@@ -1,6 +1,6 @@
 /*
-    ChickenPaint for Petit Note
-    https://github.com/satopian/ChickenPaint_for_Petit_Note
+    ChickenPaint Be
+    https://github.com/satopian/ChickenPaint_Be
     by satopian
     Customized from ChickenPaint by Nicholas Sherlock.
     GNU GENERAL PUBLIC LICENSE
@@ -75,8 +75,8 @@ var _lang = require("./languages/lang.js");
 var _CPUserPreferences = _interopRequireDefault(require("./gui/CPUserPreferences.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); } /*
-                                                                                                                                                                                                                                                                                                                                   ChickenPaint for Petit Note
-                                                                                                                                                                                                                                                                                                                                   https://github.com/satopian/ChickenPaint_for_Petit_Note
+                                                                                                                                                                                                                                                                                                                                   ChickenPaint Be
+                                                                                                                                                                                                                                                                                                                                   https://github.com/satopian/ChickenPaint_Be
                                                                                                                                                                                                                                                                                                                                    by satopian
                                                                                                                                                                                                                                                                                                                                    Customized from ChickenPaint by Nicholas Sherlock.
                                                                                                                                                                                                                                                                                                                                    GNU GENERAL PUBLIC LICENSE
@@ -479,11 +479,7 @@ function ChickenPaint(options) {
       CPTransform: {
         action: function action() {
           var layer = that.artwork.getActiveLayer();
-          if (!layer.visible) {
-            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer is currently hidden"), "layer");
-          } else if (layer.alpha == 0) {
-            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer's opacity is currently 0%"), "opacity");
-          } else if (that.artwork.transformAffineBegin() == null) {
+          if (that.artwork.transformAffineBegin() == null) {
             that.showLayerNotification(layer, (0, _lang._)("Whoops! All of the selected pixels are transparent!"), "layer");
           } else {
             setMode(ChickenPaint.M_TRANSFORM);
@@ -493,7 +489,17 @@ function ChickenPaint(options) {
           mode: true
         },
         allowed: function allowed() {
-          return that.artwork.getActiveLayer().getEffectiveAlpha() != 0;
+          var layer = that.artwork.getActiveLayer();
+          if (!layer.visible) {
+            //非表示レイヤーを変形しようとした時にエラーメッセージを出す
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer is currently hidden"), "layer");
+          } else if (layer.alpha == 0) {
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! This layer's opacity is currently 0%"), "opacity");
+          } else if (that.artwork.transformAffineBegin() == null) {
+            that.showLayerNotification(layer, (0, _lang._)("Whoops! All of the selected pixels are transparent!"), "layer");
+          } else {
+            return layer.getEffectiveAlpha() != 0;
+          }
         }
       },
       CPTransformAccept: {
@@ -18177,12 +18183,13 @@ function CPResourceSaver(options) {
         formData.append("endMarker", marker);
         postDrawing(formData);
       } else {
-        _fileSaver.default.saveAs(flatBlob, "oekaki.png");
+        var saveFilename = 'oekaki_' + new Date().toISOString().split('.')[0].replace(/[^0-9]/g, '_');
+        _fileSaver.default.saveAs(flatBlob, saveFilename + ".png");
         if (chibiResult) {
-          _fileSaver.default.saveAs(chibiResult.bytes, "oekaki.chi");
+          _fileSaver.default.saveAs(chibiResult.bytes, saveFilename + ".chi");
         }
         if (swatchesBlob) {
-          _fileSaver.default.saveAs(swatchesBlob, "oekaki.aco");
+          _fileSaver.default.saveAs(swatchesBlob, saveFilename + ".aco");
         }
       }
     }).catch(function (e) {
@@ -22471,28 +22478,11 @@ function CPLayersPalette(controller) {
     function showContextMenu(e) {
       var displayIndex = getDisplayIndexFromElem(e.target);
       if (displayIndex != -1) {
-        var layer = artwork.getActiveLayer(),
-          facts = computeLayerPredicates(layer);
-        dropdownLayer = layer;
-        dropdownMousePos = {
-          x: e.clientX,
-          y: e.clientY
-        };
-        for (var _i = 0, _arr = ["image-layer", "layer-group", "clipping-mask", "no-clipping-mask", "no-mask"]; _i < _arr.length; _i++) {
-          var requirement = _arr[_i];
-          (0, _jquery.default)(".chickenpaint-action-require-" + requirement, dropdownLayerMenu).toggle(facts[requirement]);
-        }
-        for (var _i2 = 0, _arr2 = ["mask", "mask-enabled", "mask-disabled"]; _i2 < _arr2.length; _i2++) {
-          var _requirement = _arr2[_i2];
-          (0, _jquery.default)(".chickenpaint-action-require-" + _requirement, dropdownLayerMenu).toggle(dropdownOnMask && facts[_requirement]);
-        }
-        (0, _jquery.default)("[data-action]", dropdownLayerMenu).each(function () {
-          var action = this.getAttribute("data-action");
-          (0, _jquery.default)(this).parent().toggleClass("disabled", action !== "CPRenameLayer" && !controller.isActionAllowed(action));
-        });
-        var dropdownElement = (0, _jquery.default)(getElemFromDisplayIndex(displayIndex));
-        var dropdownInstance = new bootstrap.Dropdown(dropdownElement.get(0));
-        dropdownInstance.toggle();
+        //コンテキストメニューのBootstrap5対応ができなかったが
+        //マウス使用時にレイヤー名を変更できないと困るので
+        //右クリックでレイヤー名の変更になるように動作を変更した。
+        showRenameBoxForLayer(getDisplayIndexFromElem(e.target));
+        e.preventDefault();
       }
     }
     function onPointerDown(e) {
@@ -22570,7 +22560,7 @@ function CPLayersPalette(controller) {
               layerContainer.setPointerCapture(e.pointerId);
               layerContainer.addEventListener("pointermove", onPointerDragged);
               layerContainer.addEventListener("pointerup", onPointerUp);
-            } else if (e.button == BUTTON_SECONDARY) {
+            } else if (e.button == BUTTON_SECONDARY && !layerChanged) {
               e.preventDefault();
               showContextMenu(e);
             }
@@ -22845,8 +22835,8 @@ function CPLayersPalette(controller) {
           }
         }];
       menu.className = "dropdown-menu";
-      for (var _i3 = 0, _actions = actions; _i3 < _actions.length; _i3++) {
-        var action = _actions[_i3];
+      for (var _i = 0, _actions = actions; _i < _actions.length; _i++) {
+        var action = _actions[_i];
         var menuItemElem = document.createElement("a");
         menuItemElem.className = "dropdown-item";
         if (action.require) {
@@ -22915,8 +22905,8 @@ function CPLayersPalette(controller) {
     layerContainer.addEventListener("dblclick", onDoubleClick);
     layerContainer.addEventListener("pointerdown", onPointerDown);
     layerContainer.setAttribute("touch-action", "none");
-    for (var _i4 = 0, _arr3 = ["ontouchstart", "ontouchmove", "ontouchend", "ontouchcancel"]; _i4 < _arr3.length; _i4++) {
-      var eventName = _arr3[_i4];
+    for (var _i2 = 0, _arr = ["ontouchstart", "ontouchmove", "ontouchend", "ontouchcancel"]; _i2 < _arr.length; _i2++) {
+      var eventName = _arr[_i2];
       layerContainer.addEventListener(eventName, absorbTouch);
     }
     widgetContainer.appendChild(layerContainer);
@@ -22990,7 +22980,7 @@ function CPLayersPalette(controller) {
       layerButtonsList = document.createElement("ul");
     layerButtonsList.className = 'chickenpaint-layer-buttons list-unstyled';
     var _loop = function _loop() {
-      var button = _buttons[_i5];
+      var button = _buttons[_i3];
       var elem = document.createElement("li");
       elem.setAttribute("data-action", button.action);
       elem.className = 'chickenpaint-small-toolbar-button ' + (button.require ? "chickenpaint-action-require-" + button.require : "");
@@ -23003,7 +22993,7 @@ function CPLayersPalette(controller) {
       });
       layerButtonsList.appendChild(elem);
     };
-    for (var _i5 = 0, _buttons = buttons; _i5 < _buttons.length; _i5++) {
+    for (var _i3 = 0, _buttons = buttons; _i3 < _buttons.length; _i3++) {
       _loop();
     }
     return layerButtonsList;
@@ -23011,8 +23001,8 @@ function CPLayersPalette(controller) {
   function updateActiveLayerActionButtons() {
     var activeLayer = artwork.getActiveLayer(),
       facts = computeLayerPredicates(activeLayer);
-    for (var _i6 = 0, _arr4 = ["clipping-mask", "no-clipping-mask-or-is-group"]; _i6 < _arr4.length; _i6++) {
-      var requirement = _arr4[_i6];
+    for (var _i4 = 0, _arr2 = ["clipping-mask", "no-clipping-mask-or-is-group"]; _i4 < _arr2.length; _i4++) {
+      var requirement = _arr2[_i4];
       (0, _jquery.default)(".chickenpaint-action-require-" + requirement, layerActionButtons).css("display", facts[requirement] ? "inline-block" : "none");
     }
     (0, _jquery.default)("[data-action]", layerActionButtons).each(function () {
@@ -23116,7 +23106,19 @@ function CPLayersPalette(controller) {
       layer = _layer;
       origName = layer.name;
       textBox.value = origName;
-      (0, _jquery.default)(".chickenpaint-layer-name", _layerElem).empty().append(textBox);
+      var layerNameElem = _layerElem.querySelector('.chickenpaint-layer-name');
+      if (layerNameElem) {
+        // 親ノードから削除されている場合にのみ処理を実行
+        if (layerNameElem.parentNode) {
+          // 現在の子ノードを取得
+          var currentChild = layerNameElem.firstChild;
+          // テキストノードが存在する場合にのみ削除
+          if (currentChild && currentChild.nodeType === Node.TEXT_NODE) {
+            layerNameElem.removeChild(currentChild);
+            layerNameElem.appendChild(textBox);
+          }
+        }
+      }
       textBox.select();
     };
     textBox.type = "text";
