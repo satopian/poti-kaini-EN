@@ -25486,11 +25486,8 @@ function CPSwatchesPalette(controller) {
 
       // ドロップダウンメニュー内のクリックを検出して、メニューを閉じる
       document.addEventListener("click", function onDocumentClick(event) {
-        if (!(0, _jquery.default)(swatch).find(event.target).length) {
-          // クリックがドロップダウン内でない場合はドロップダウンを閉じる
-          dropdown.hide();
-          document.removeEventListener("click", onDocumentClick);
-        }
+        dropdown.hide();
+        document.removeEventListener("click", onDocumentClick);
       });
     });
   }
@@ -25549,8 +25546,15 @@ function CPSwatchesPalette(controller) {
           dropdown.hide(); // ドロップダウンを非表示にする
         });
       });
-    });
 
+      document.addEventListener("click", function _onDocumentClick(event) {
+        // 範囲外のクリックが検出されたら、ドロップダウンを非表示にする
+        if (!btnSettings.contains(event.target)) {
+          dropdown.hide();
+          document.removeEventListener("click", _onDocumentClick);
+        }
+      });
+    });
     var onDismissSettingsMenu = function onDismissSettingsMenu(e) {
       // Firefox wrongly fires click events for the right mouse button!
       if (!("button" in e) || e.button === 0) {
