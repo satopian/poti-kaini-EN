@@ -22955,6 +22955,10 @@ function CPLayersPalette(controller) {
         icon: createFontAwesomeIcon("fa-file"),
         action: "CPAddLayer"
       }, {
+        title: "Merge down",
+        icon: createFontAwesomeIcon("fa-arrow-down"),
+        action: "CPLayerMergeDown"
+      }, {
         title: "Add group",
         icon: createFontAwesomeIcon("fa-folder"),
         action: "CPAddGroup"
@@ -23509,10 +23513,12 @@ var MENU_ENTRIES = [{
     name: "Merge group",
     action: "CPGroupMerge",
     mnemonic: "G",
+    shortcut: "shift+ctrl+g",
     title: "Merges the contents of the selected group"
   }, {
     name: "Merge all layers",
     action: "CPLayerMergeAll",
+    shortcut: "shift+ctrl+e",
     mnemonic: "A",
     title: "Merges all the layers"
   }, {
@@ -23528,7 +23534,8 @@ var MENU_ENTRIES = [{
   }, {
     hideIfNotAvailable: true,
     name: "Apply layer mask",
-    action: "CPApplyLayerMask"
+    action: "CPApplyLayerMask",
+    shortcut: "ctrl+m"
   }, {
     name: "-"
   }, {
