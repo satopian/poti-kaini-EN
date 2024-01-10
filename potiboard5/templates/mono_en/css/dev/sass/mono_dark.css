@@ -85,6 +85,10 @@ footer > div.copy {
   text-align: right;
 }
 
+footer > div.copy a {
+  display: inline-block;
+}
+
 input, textarea, select, .se {
   border-style: solid;
   border-color: #003 #66F #66F #003;
