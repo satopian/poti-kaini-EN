@@ -4363,7 +4363,7 @@
 
 .chickenpaint-palette-layers {
   min-height: 250px;
-  min-width: 160px;
+  min-width: 182px;
 }
 
 .chickenpaint-palette-layers .chickenpaint-palette-body {
@@ -5141,10 +5141,10 @@ body.chickenpaint-full-screen {
   --bs-tertiary-bg-rgb: 248, 249, 250;
   --bs-heading-color: inherit;
   --bs-link-color: #0d6efd;
-  --bs-link-color-rgb: 13, 110, 253;
+  --bs-link-color-rgb: 30, 35, 39;
   --bs-link-decoration: underline;
   --bs-link-hover-color: #0a58ca;
-  --bs-link-hover-color-rgb: 10, 88, 202;
+  --bs-link-hover-color-rgb: 30, 35, 39;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
   --bs-border-width: 1px;
