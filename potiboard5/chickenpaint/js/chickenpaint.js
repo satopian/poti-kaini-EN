@@ -832,7 +832,7 @@ function ChickenPaint(options) {
       CPRemoveLayer: {
         action: function action() {
           if (!that.artwork.removeLayer()) {
-            alert("Sorry, you can't remove the last remaining layer in the drawing.");
+            alert((0, _lang._)("Sorry, you can't remove the last remaining layer in the drawing."));
           }
         },
         modifies: {
@@ -26600,6 +26600,9 @@ module.exports={
   "Whoops! This layer's opacity is currently 0%": "レイヤーの不透明度が0%です",
   "Whoops! You can't draw on a group": "レイヤーグループには描けません",
   "Whoops! All of the selected pixels are transparent!": "レイヤーが空です",
+ 
+  "Sorry, you can't remove the last remaining layer in the drawing.": "レイヤーが1つしか残っていないため削除できません。",
+ 
   "Are you sure you want to send your drawing to the server and finish drawing now?": "お絵かきをサーバーに送信します。終了してもよろしいですか？",
   "Your drawing has unsaved changes! Are you sure to want to navigate away?": "お絵かきに未保存の変更があります。終了してもよろしいですか？",
 
