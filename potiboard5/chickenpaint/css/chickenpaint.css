@@ -1458,6 +1458,12 @@
 .chickenpaint .fa-folder:before {
   content: "\f07b";
 }
+.chickenpaint .fa-compress-arrows-alt:before {
+  content: "\f78c";
+}
+.chickenpaint .fa-compress-alt:before {
+  content: "\f422";
+}
 .chickenpaint .fa-folder-open:before {
   content: "\f07c";
 }
@@ -4365,7 +4371,7 @@
 
 .chickenpaint-palette-layers {
   min-height: 250px;
-  min-width: 182px;
+  min-width: 214px;
 }
 
 .chickenpaint-palette-layers .chickenpaint-palette-body {
