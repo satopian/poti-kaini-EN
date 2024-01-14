@@ -3,15 +3,15 @@
   font-family: "Font Awesome 5 Free";
   font-style: normal;
   font-weight: 900;
-  src: url("../fonts/fa-solid-900.eot");
-  src: url("../fonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-solid-900.woff2") format("woff2"), url("../fonts/fa-solid-900.woff") format("woff"), url("../fonts/fa-solid-900.ttf") format("truetype"), url("../fonts/fa-solid-900.svg#fontawesome") format("svg");
+  src: url("../fonts/fa-solid-900.eot?20240114");
+  src: url("../fonts/fa-solid-900.woff2?20240114") format("woff2"), url("../fonts/fa-solid-900.woff?20240114") format("woff"), url("../fonts/fa-solid-900.ttf?20240114") format("truetype"), url("../fonts/fa-solid-900.svg#fontawesome") format("svg");
 }
 @font-face {
   font-family: "Font Awesome 5 Brands";
   font-style: normal;
   font-weight: normal;
-  src: url("../fonts/fa-brands-400.eot");
-  src: url("../fonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-brands-400.woff2") format("woff2"), url("../fonts/fa-brands-400.woff") format("woff"), url("../fonts/fa-brands-400.ttf") format("truetype"), url("../fonts/fa-brands-400.svg#fontawesome") format("svg");
+  src: url("../fonts/fa-brands-400.eot?20240114");
+  src: url("../fonts/fa-brands-400.woff2?20240114") format("woff2"), url("../fonts/fa-brands-400.woff?20240114") format("woff"), url("../fonts/fa-brands-400.ttf?20240114") format("truetype"), url("../fonts/fa-brands-400.svg#fontawesome") format("svg");
 }
 .chickenpaint {
   /*
@@ -3770,7 +3770,6 @@
 .chickenpaint-scrollbar-handle {
   position: relative;
       touch-action: none;
-  
 }
 
 .chickenpaint-scrollbar-handle-inner {
@@ -3903,8 +3902,7 @@
 .chickenpaint-palette-head {
   background-color: #e8e8e8;
   color: #444;
-      touch-action: none;
-  
+  touch-action: none;
   padding-right: 8px;
   padding-left: 6px;
   padding-top: 2px;
@@ -4275,8 +4273,7 @@
 
 .chickenpaint-colorpicker-select,
 .chickenpaint-colorpicker-slider {
-      touch-action: none;
-  
+  touch-action: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
 }
@@ -4363,8 +4360,7 @@
   margin: 1px;
   cursor: pointer;
   border-radius: 2px;
-      touch-action: none;
-  
+  touch-action: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
 }
@@ -4413,8 +4409,7 @@
   margin-bottom: 0;
   min-height: 0;
   overflow-y: auto;
-      touch-action: none;
-  
+  touch-action: none;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -4853,7 +4848,7 @@
 @font-face {
   font-family: "ChickenPaint Symbols";
   src: url("../fonts/ChickenPaint-Symbols.eot");
-  src: url("../fonts/ChickenPaint-Symbols.eot?#iefix") format("embedded-opentype"), url("../fonts/ChickenPaint-Symbols.woff") format("woff"), url("../fonts/ChickenPaint-Symbols.ttf") format("truetype"), url("../fonts/ChickenPaint-Symbols.svg#icons") format("svg");
+  src: url("../fonts/ChickenPaint-Symbols.woff") format("woff"), url("../fonts/ChickenPaint-Symbols.ttf") format("truetype"), url("../fonts/ChickenPaint-Symbols.svg#icons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
