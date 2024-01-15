@@ -22946,9 +22946,9 @@ function CPLayersPalette(controller) {
       layerContainer.addEventListener(eventName, absorbTouch);
     }
     widgetContainer.appendChild(layerContainer);
+
     //ドロップダウンメニュー関連項目のコメントアウト
     // widgetContainer.appendChild(dropdownLayerMenu);
-
     // $(dropdownParent)
     //     .on("show.bs.dropdown", function(e) {
     //         let
@@ -23903,7 +23903,6 @@ function CPMainMenu(controller, mainGUI) {
             (0, _jquery.default)(entryElem).data("checkbox", true).toggleClass("selected", !!entry.checked);
           }
           if (entry.hideIfNotAvailable) {
-            console.log("entry.hideIfNotAvailable", entry.hideIfNotAvailable);
             entryElem.data("hideIfNotAvailable", true);
           }
         }
