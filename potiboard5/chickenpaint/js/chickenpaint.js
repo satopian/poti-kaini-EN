@@ -22146,13 +22146,15 @@ function CPLayersPalette(controller) {
           */
       dropdownOnMask = false,
       longPressTimer = null;
-    function onDismissDropdown(e) {
-      // Firefox wrongly fires click events for the right mouse button!
-      if (!("button" in e) || e.button === BUTTON_PRIMARY) {
-        clearDropDown();
-        (0, _jquery.default)(this).off("click", onDismissDropdown);
-      }
-    }
+
+    // function onDismissDropdown(e) {
+    // 	// Firefox wrongly fires click events for the right mouse button!
+    // 	if (!("button" in e) || e.button === BUTTON_PRIMARY) {
+    // 		clearDropDown();
+
+    // 		$(this).off("click", onDismissDropdown);
+    // 	}
+    // }
 
     /**
         * Get the element that represents the layer with the given display index.
@@ -22785,13 +22787,17 @@ function CPLayersPalette(controller) {
       scrollContainer.scrollTop + layerRect.bottom - containerRect.bottom), scrollContainer.scrollTop + layerRect.top - containerRect.top), 0);
       return layerElem;
     };
-    function clearDropDown() {
-      if ((0, _jquery.default)(dropdownParent).hasClass("show")) {
-        var collapseInstance = new bootstrap.Collapse(dropdownParent);
-        collapseInstance.hide();
-        (0, _jquery.default)(dropdownParent).collapse("hide").off("click");
-      }
-    }
+
+    // function clearDropDown() {
+
+    // 	if ($(dropdownParent).hasClass("show")) {
+    // 		var collapseInstance = new bootstrap.Collapse(dropdownParent);
+    // 		collapseInstance.hide();
+    // 		$(dropdownParent)
+    // 			.collapse("hide")
+    // 			.off("click");
+    // 	}
+    // }
 
     //ドロップダウンメニュー関連項目のコメントアウト
 
