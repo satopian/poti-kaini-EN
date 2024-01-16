@@ -26530,7 +26530,7 @@ module.exports={
   "Help": "ヘルプ",
     "Tablet support":  "タブレットサポート",
     "Shortcuts": "ショートカット",
-    "About": "ChickenPaint beについて",
+    "About": "ChickenPaint Beについて",
   
 	"Removes all undo/redo information to regain memory": "履歴をクリアしてメモリを開放します",
 	"Clears the selected area":	"消去",
