@@ -23875,8 +23875,9 @@ function CPMainMenu(controller, mainGUI) {
       var dropdownToggle = (0, _jquery.default)(".dropdown-toggle", topLevelMenuElem);
       var dropdownMenu = (0, _jquery.default)(".dropdown-menu", topLevelMenuElem);
 
+      //data-bs-toggle="dropdown"を指定ずみのため、初期化不要
       // Bootstrap 5: ドロップダウンを初期化
-      var dropdown = new bootstrap.Dropdown(dropdownToggle[0]);
+      // var dropdown = new bootstrap.Dropdown(dropdownToggle[0]);
       dropdownToggle[0].addEventListener('show.bs.dropdown', function (e) {
         updateMenuStates(topLevelMenuElem);
 
@@ -25416,7 +25417,8 @@ function CPSwatchesPalette(controller) {
     this.setColor(color);
     swatchElem.href = "#";
     swatchElem.className = "chickenpaint-color-swatch dropdown-toggle";
-    swatchElem.setAttribute("data-toggle", "dropdown");
+    //"data-bs-toggle"に設定 bs5
+    swatchElem.setAttribute("data-bs-toggle", "dropdown");
     mnuRemove.className = "dropdown-item";
     mnuRemove.href = "#";
     mnuRemove.innerHTML = (0, _lang._)("Remove");
@@ -25509,13 +25511,16 @@ function CPSwatchesPalette(controller) {
     for (var i = 0; i < INIT_COLORS.length; i++) {
       swatchPanel.appendChild(new CPColorSwatch(INIT_COLORS[i]).getElement());
     }
-    var dropdown;
     swatchPanel.addEventListener("click", function (e) {
       var swatch = e.target;
       if (!/^<a data-color=/i.test(swatch.outerHTML) || !/chickenpaint-color-swatch/.test(swatch.className)) {
         return; //<a data-color=で始まらない場合もreturn
       }
-
+      //コンテキストメニューを閉じる
+      var dropdown = new bootstrap.Dropdown((0, _jquery.default)(swatch), {
+        autoClose: false
+      }); // Bootstrap 5: ドロップダウンを初期化
+      dropdown.hide();
       if (e.button == 0 /* Left */ && swatch.getAttribute("data-color") !== undefined) {
         controller.setCurColor(new _CPColor.default(parseInt(swatch.getAttribute("data-color"), 10)));
         e.stopPropagation();
@@ -25559,7 +25564,8 @@ function CPSwatchesPalette(controller) {
     btnAdd.appendChild(createIcon("plus"));
     btnSettings.type = "button";
     btnSettings.className = "btn dropdown-toggle chickenpaint-small-toolbar-button chickenpaint-color-swatch-settings";
-    btnSettings.setAttribute("data-toggle", "dropdown");
+    //"data-bs-toggle"に設定 bs5
+    btnSettings.setAttribute("data-bs-toggle", "dropdown");
     btnSettings.appendChild(createIcon("cog"));
     mnuSave.className = "dropdown-item";
     mnuSave.href = "#";
@@ -25582,40 +25588,6 @@ function CPSwatchesPalette(controller) {
     btnSettingsContainer.className = "btn-group dropright";
     btnSettingsContainer.appendChild(btnSettings);
     btnSettingsContainer.appendChild(settingsMenu);
-    var dropdown = new bootstrap.Dropdown((0, _jquery.default)(btnSettings)); // Bootstrap 5: ドロップダウンを初期化
-
-    btnSettings.addEventListener("click", function () {
-      // ドロップダウンが表示されている場合の処理
-      dropdown.toggle(); // Bootstrap 5: ドロップダウンの表示/非表示を切り替える
-    });
-
-    btnSettings.addEventListener('show.bs.dropdown', function (event) {
-      //ドロップダウンメニューが表示されてたら
-      // ドロップダウンメニュー内のクリックを検出して、メニューを閉じる
-      Array.from(btnSettingsContainer.querySelectorAll(".dropdown-item")).forEach(function (item) {
-        item.addEventListener("click", function () {
-          dropdown.hide(); // ドロップダウンを非表示にする
-        });
-      });
-
-      document.addEventListener("click", function _onDocumentClick(event) {
-        // 範囲外のクリックが検出されたら、ドロップダウンを非表示にする
-        if (!btnSettings.contains(event.target)) {
-          dropdown.hide();
-          document.removeEventListener("click", _onDocumentClick);
-        }
-      });
-    });
-    var onDismissSettingsMenu = function onDismissSettingsMenu(e) {
-      // Firefox wrongly fires click events for the right mouse button!
-      if (!("button" in e) || e.button === 0) {
-        if ((0, _jquery.default)(btnSettingsContainer).hasClass("show")) {
-          dropdown.toggle(); // Bootstrap 5: ドロップダウンの表示/非表示を切り替える
-        }
-
-        (0, _jquery.default)(this).off("click", onDismissSettingsMenu);
-      }
-    };
     btnAdd.addEventListener("click", function (e) {
       addSwatch(controller.getCurColor().getRgb());
       modified = true;
