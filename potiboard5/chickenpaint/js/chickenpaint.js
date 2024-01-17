@@ -22457,8 +22457,9 @@ function CPLayersPalette(controller) {
       statusDiv.className = "chickenpaint-layer-status";
       layerDiv.appendChild(statusDiv);
       layerDiv.setAttribute("data-display-index", "" + index);
-      layerDiv.setAttribute("data-toggle", "dropdown");
-      layerDiv.setAttribute("data-target", "#chickenpaint-layer-pop");
+      // layerDiv.setAttribute("data-toggle", "dropdown");
+      // layerDiv.setAttribute("data-target", "#chickenpaint-layer-pop");
+
       return layerDiv;
     }
     function showRenameBoxForLayer(displayIndex) {
