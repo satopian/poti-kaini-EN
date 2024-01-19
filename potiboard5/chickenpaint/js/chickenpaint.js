@@ -20531,13 +20531,20 @@ function CPCanvas(controller) {
   function zoomOnCenter(zoom) {
     var width = (0, _jquery.default)(canvas).width(),
       height = (0, _jquery.default)(canvas).height();
+    // 拡大を1.41、縮小を0.7092にした関係で、zoomが浮動小数点になるため、1倍2倍に近い時は値をまるめる
+    var roundedZoom = parseFloat(zoom);
+    if (Math.abs(roundedZoom - 1) < 0.2) {
+      zoom = 1;
+    } else if (Math.abs(roundedZoom - 2) < 0.2) {
+      zoom = 2;
+    }
     zoomOnPoint(zoom, width / 2, height / 2);
   }
   this.zoomIn = function () {
-    zoomOnCenter(this.getZoom() * 2);
+    zoomOnCenter(this.getZoom() * 1.41);
   };
   this.zoomOut = function () {
-    zoomOnCenter(this.getZoom() * 0.5);
+    zoomOnCenter(this.getZoom() * 0.7092);
   };
   this.zoom100 = function () {
     zoomOnCenter(1);
@@ -21039,7 +21046,9 @@ function CPCanvas(controller) {
     var p = that.getOffset();
     that.setOffset(p.x, -value);
   });
-  this.setInterpolation(false);
+
+  //初期状態で、ズームのアンチエイリアスをOnに
+  this.setInterpolation(true);
   var canvasSpacingWrapper = document.createElement("div");
   canvasSpacingWrapper.className = 'chickenpaint-canvas-container-wrapper';
   canvasSpacingWrapper.appendChild(canvas);
@@ -23694,7 +23703,8 @@ var MENU_ENTRIES = [{
     action: "CPLinearInterpolation",
     mnemonic: "L",
     title: (0, _lang._)("Linear interpolation is used to give a smoothed looked to the picture when zoomed in"),
-    checkbox: true
+    checkbox: true,
+    checked: true //初期状態でズームのアンチエイリアスをOnに
   }, {
     name: "-"
   }, {
