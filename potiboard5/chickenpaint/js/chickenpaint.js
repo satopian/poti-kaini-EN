@@ -20537,7 +20537,7 @@ function CPCanvas(controller) {
       zoom = 1;
     } else if (Math.abs(roundedZoom - 2) < 0.2) {
       zoom = 2;
-    } else if (Math.abs(roundedZoom - 0.5) < 0.001) {
+    } else if (Math.abs(roundedZoom - 0.5) < 0.08) {
       zoom = 0.5;
     }
     // console.log("Math.abs(roundedZoom - 1)",Math.abs(roundedZoom - 1));
