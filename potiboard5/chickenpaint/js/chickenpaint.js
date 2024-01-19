@@ -23822,7 +23822,7 @@ var MENU_ENTRIES = [{
  * @constructor
  */
 function CPMainMenu(controller, mainGUI) {
-  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<a class="navbar-brand" href="#">ChickenPaint Be</a>' + '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<ul class="navbar-nav mr-auto">' + '</ul>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"></div>' + '</nav>'),
+  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<a class="navbar-brand" href="#">ChickenPaint Be</a>' + '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<div class="navbar-nav mr-auto">' + '</div>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"></div>' + '</nav>'),
     macPlatform = /^Mac/i.test(navigator.platform);
   function menuItemClicked(target) {
     var action = target.data('action'),
@@ -23889,7 +23889,7 @@ function CPMainMenu(controller, mainGUI) {
   }
   function fillMenu(menuElem, entries) {
     menuElem.append(entries.map(function (topLevelMenuEntry) {
-      var topLevelMenuElem = (0, _jquery.default)('<li class="nav-item dropdown">' + '<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + (0, _lang._)(topLevelMenuEntry.name) + '</a>' + '<div class="dropdown-menu">' + '</div>' + '</li>');
+      var topLevelMenuElem = (0, _jquery.default)('<div class="nav-item dropdown">' + '<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + (0, _lang._)(topLevelMenuEntry.name) + '</a>' + '<ul class="dropdown-menu">' + '</ul>' + '</div>');
       var dropdownToggle = (0, _jquery.default)(".dropdown-toggle", topLevelMenuElem);
       var dropdownMenu = (0, _jquery.default)(".dropdown-menu", topLevelMenuElem);
 
@@ -23954,6 +23954,8 @@ function CPMainMenu(controller, mainGUI) {
             return false;
           });
         }
+        // entryElemをliタグで囲う
+        entryElem = (0, _jquery.default)('<li>').append(entryElem);
         return entryElem;
       }));
       return topLevelMenuElem;
