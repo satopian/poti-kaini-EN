@@ -20533,11 +20533,18 @@ function CPCanvas(controller) {
       height = (0, _jquery.default)(canvas).height();
     // 拡大を1.41、縮小を0.7092にした関係で、zoomが浮動小数点になるため、1倍2倍に近い時は値をまるめる
     var roundedZoom = parseFloat(zoom);
-    if (Math.abs(roundedZoom - 1) < 0.2) {
+    if (Math.abs(roundedZoom - 1) < 0.01) {
       zoom = 1;
     } else if (Math.abs(roundedZoom - 2) < 0.2) {
       zoom = 2;
+    } else if (Math.abs(roundedZoom - 0.5) < 0.001) {
+      zoom = 0.5;
     }
+    // console.log("Math.abs(roundedZoom - 1)",Math.abs(roundedZoom - 1));
+    // console.log("Math.abs(roundedZoom - 2)",Math.abs(roundedZoom - 2));
+    // console.log("Math.abs(roundedZoom - 0.5)",Math.abs(roundedZoom - 0.5));
+    // console.log("zoom",zoom);
+
     zoomOnPoint(zoom, width / 2, height / 2);
   }
   this.zoomIn = function () {
