@@ -23849,7 +23849,7 @@ function CPMainMenu(controller, mainGUI) {
     shortcut = shortcut.replace(/(,.+)$/, "");
 
     // Although the keycode for zoom in is "=", we'll present it to the user as "+"
-    shortcut = shortcut.replace("ctrl+=", "ctrl++");
+    shortcut = shortcut.replace("CTRL+=", "CTRL++");
     shortcut = shortcut.replace("⌘+=", "⌘++");
     if (macPlatform) {
       shortcut = shortcut.replace(/([^+])\+/g, "$1");
@@ -23945,7 +23945,7 @@ function CPMainMenu(controller, mainGUI) {
             entry.shortcut = entry.shortcut.replace(/CTRL/im, "⌘");
           }
           shortcutDesc.className = "chickenpaint-shortcut";
-          shortcutDesc.innerHTML = presentShortcutText(entry.shortcut);
+          shortcutDesc.textContent = presentShortcutText(entry.shortcut);
           menuLink.append(shortcutDesc);
           (0, _keymaster.default)(entry.shortcut, function (e) {
             menuItemClicked(menuLink);
