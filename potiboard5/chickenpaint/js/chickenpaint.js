@@ -25423,12 +25423,9 @@ function CPSwatchesPalette(controller) {
   function CPColorSwatch(color) {
     var wrapper = document.createElement("div"),
       swatchElem = document.createElement("a"),
-      swatchMenu = document.createElement("div"),
+      swatchMenu = document.createElement("ul"),
       mnuRemove = document.createElement("a"),
       mnuSetToCurrent = document.createElement("a"),
-      //DOMの操作が可能ならBootstrap5形式のul li a
-      //現時点ではdiv、a
-
       that = this;
     this.getElement = function () {
       return wrapper;
@@ -25460,8 +25457,12 @@ function CPSwatchesPalette(controller) {
       modified = true;
     });
     swatchMenu.className = "dropdown-menu";
-    swatchMenu.appendChild(mnuRemove);
-    swatchMenu.appendChild(mnuSetToCurrent);
+    var liRemove = document.createElement("li");
+    var liSetToCurrent = document.createElement("li");
+    liRemove.appendChild(mnuRemove); //liで囲う
+    liSetToCurrent.appendChild(mnuSetToCurrent); //liで囲う
+    swatchMenu.appendChild(liRemove);
+    swatchMenu.appendChild(liSetToCurrent);
     wrapper.className = "chickenpaint-color-swatch-wrapper";
     wrapper.appendChild(swatchElem);
     wrapper.appendChild(swatchMenu);
@@ -25569,7 +25570,7 @@ function CPSwatchesPalette(controller) {
   function initButtonsPanel() {
     var btnSettings = document.createElement("button"),
       btnAdd = document.createElement("button"),
-      settingsMenu = document.createElement("div"),
+      settingsMenu = document.createElement("ul"),
       mnuSave = document.createElement("a"),
       mnuLoad = document.createElement("a");
     btnAdd.type = "button";
@@ -25596,8 +25597,12 @@ function CPSwatchesPalette(controller) {
       loadSwatches();
     });
     settingsMenu.className = "dropdown-menu";
-    settingsMenu.appendChild(mnuSave);
-    settingsMenu.appendChild(mnuLoad);
+    var limnuSave = document.createElement("li");
+    var limnuLoad = document.createElement("li");
+    limnuSave.appendChild(mnuSave); //liで囲う
+    limnuLoad.appendChild(mnuLoad); //liで囲う
+    settingsMenu.appendChild(limnuSave);
+    settingsMenu.appendChild(limnuLoad);
     var btnSettingsContainer = document.createElement("div");
     btnSettingsContainer.className = "btn-group dropright";
     btnSettingsContainer.appendChild(btnSettings);
