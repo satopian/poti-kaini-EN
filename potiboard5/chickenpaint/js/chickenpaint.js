@@ -18609,6 +18609,7 @@ function CPBrushPanel(controller) {
     controller.getBrushInfo().tip = parseInt(tipCombo.value, 10);
   });
   tipCombo.className = "form-control form-control-sm";
+  tipCombo.tabIndex = -1;
   fillCombobox(tipCombo, TIP_NAMES);
   panel.appendChild(tipCombo);
   panel.appendChild(brushPreview.getElement());
@@ -22009,6 +22010,8 @@ function createChickenPaintIcon(iconName) {
 function wrapBootstrapCheckbox(checkbox, title) {
   var div = document.createElement("div"),
     label = document.createElement("label");
+  label.tabIndex = -1;
+  checkbox.tabIndex = -1;
   div.className = "form-check";
   checkbox.className = "form-check-input";
   label.className = "form-check-label";
@@ -23303,6 +23306,7 @@ function CPLayersPalette(controller) {
     }, Math.max(Math.round(message.length * NOTIFICATION_HIDE_DELAY_MS_PER_CHAR), NOTIFICATION_HIDE_DELAY_MIN));
   };
   blendCombo.className = "form-control form-control-sm";
+  blendCombo.tabIndex = -1;
   blendCombo.title = (0, _lang._)("Layer blending mode");
   blendCombo.addEventListener("change", function (e) {
     controller.actionPerformed({
@@ -24372,6 +24376,7 @@ function CPPalette(cpController, className, title, options) {
   closeButton.type = "button";
   closeButton.className = "btn btn-close";
   closeButton.innerHTML = "";
+  closeButton.tabIndex = -1;
   containerElement.className = "chickenpaint-palette chickenpaint-palette-" + className;
   headElement.className = "chickenpaint-palette-head";
   headElement.setAttribute("touch-action", "none");
