@@ -110,7 +110,9 @@ if (window.PointerEvent) {
 }
 //ブラウザデフォルトのキー操作をキャンセル
 document.addEventListener("keydown", function (e) {
-  e.preventDefault();
+  if (e.key === "+" || e.key === ";" || e.key === "=" || e.key === "-" || e.key === "s" || e.key === "S") {
+    e.preventDefault();
+  }
 });
 require("pepjs"); // Needs to use require() instead of import so we can run code before it
 function checkBrowserSupport() {
@@ -18611,6 +18613,7 @@ function CPBrushPanel(controller) {
   });
   tipCombo.addEventListener("change", function (e) {
     controller.getBrushInfo().tip = parseInt(tipCombo.value, 10);
+    document.activeElement.blur();
   });
   tipCombo.className = "form-control form-control-sm";
   tipCombo.tabIndex = -1;
@@ -23317,6 +23320,7 @@ function CPLayersPalette(controller) {
       action: "CPSetLayerBlendMode",
       blendMode: parseInt(blendCombo.value, 10)
     });
+    document.activeElement.blur();
   });
   body.appendChild(blendCombo);
   alphaSlider.title = function (value) {
@@ -23333,6 +23337,7 @@ function CPLayersPalette(controller) {
   cbSampleAllLayers.type = "checkbox";
   cbSampleAllLayers.addEventListener("click", function (e) {
     artwork.setSampleAllLayers(cbSampleAllLayers.checked);
+    document.activeElement.blur();
   });
   body.appendChild(wrapBootstrapCheckbox(cbSampleAllLayers, (0, _lang._)("Sample all layers")));
   cbLockAlpha.id = "chickenpaint-chk-lock-alpha";
@@ -23342,6 +23347,7 @@ function CPLayersPalette(controller) {
       action: "CPSetLayerLockAlpha",
       lock: cbLockAlpha.checked
     });
+    document.activeElement.blur();
   });
   body.appendChild(wrapBootstrapCheckbox(cbLockAlpha, (0, _lang._)("Lock transparency")));
   body.appendChild(layerWidget.getElement());
