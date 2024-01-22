@@ -108,6 +108,10 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 if (window.PointerEvent) {
   window.hasNativePointerEvents = true;
 }
+//ブラウザデフォルトのキー操作をキャンセル
+document.addEventListener("keydown", function (e) {
+  e.preventDefault();
+});
 require("pepjs"); // Needs to use require() instead of import so we can run code before it
 function checkBrowserSupport() {
   var supportsAPIs = (0, _CPPolyfill.isCanvasSupported)() && "Uint8Array" in window;
