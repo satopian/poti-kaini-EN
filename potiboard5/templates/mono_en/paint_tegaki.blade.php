@@ -83,7 +83,7 @@ Tegaki.open({
 
     Tegaki.flatten().toBlob(
       function(blob) {
-        console.log(blob);
+        // console.log(blob);
 		var tgkr = Tegaki.replayRecorder ? Tegaki.replayRecorder.toBlob() : null;
 		var formData = new FormData();
 		if(tgkr){
