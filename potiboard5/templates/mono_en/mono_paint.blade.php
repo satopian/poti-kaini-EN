@@ -76,17 +76,6 @@
 					}
 				});
 			</script>
-			<script>
-				// ブラウザデフォルトのキー操作をキャンセル
-				document.addEventListener("keydown", function (e) {
-					const keys = ["+", ";", "=", "-", "s", "h", "r"];
-					// IEではincludesがサポートされていないのでindexOfを使用
-					if (keys.indexOf(e.key.toLowerCase()) !== -1) {
-						// console.log("e.key", e.key);
-						e.preventDefault();
-					}
-				});
-			</script>
 			@endif
 		@endif
 		@if($pch_mode)
