@@ -15,6 +15,16 @@
 		user-select: none;
 		}
 	</style>
+	<script>
+		//ブラウザデフォルトのキー操作をキャンセル
+		document.addEventListener("keydown",(e)=>{
+			const keys = ["+", ";", "=","-","s","h","r"];
+			if (keys.includes(e.key.toLowerCase())) {
+				// console.log("e.key",e.key);
+				e.preventDefault();
+			}
+		});
+	</script>
 </head>
 <body>
 
