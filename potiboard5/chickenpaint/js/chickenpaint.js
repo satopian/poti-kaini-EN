@@ -110,7 +110,9 @@ if (window.PointerEvent) {
 }
 //ブラウザデフォルトのキー操作をキャンセル
 document.addEventListener("keydown", function (e) {
-  if (e.key === "+" || e.key === ";" || e.key === "=" || e.key === "-" || e.key === "s" || e.key === "S") {
+  var keys = ["+", ";", "=", "-", "s", "h", "r"];
+  if (keys.includes(e.key.toLowerCase())) {
+    // console.log("e.key",e.key);
     e.preventDefault();
   }
 });
@@ -23554,7 +23556,7 @@ var MENU_ENTRIES = [{
     name: "Redo",
     action: "CPRedo",
     mnemonic: "R",
-    shortcut: "shift+ctrl+z"
+    shortcut: "ctrl+y"
   }, {
     name: "Clear history",
     action: "CPClearHistory",
@@ -23600,7 +23602,7 @@ var MENU_ENTRIES = [{
     name: "Transform",
     action: "CPTransform",
     mnemonic: "T",
-    shortcut: "ctrl+y"
+    shortcut: "ctrl+h"
   }]
 }, {
   name: "Layers",
