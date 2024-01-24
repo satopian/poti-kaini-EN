@@ -18762,7 +18762,7 @@ function CPGradientPanel(controller) {
   gradientEndSwatch.on("alphaChange", updateGradient);
   var title, colorsGroup, colorGroup;
   title = document.createElement("p");
-  title.innerHTML = (0, _lang._)("Gradient");
+  title.textContent = (0, _lang._)("Gradient");
   gradientPanel.appendChild(title);
   gradientPanel.appendChild(gradientPreview.getElement());
   colorsGroup = document.createElement("div");
@@ -18795,8 +18795,8 @@ function CPTransformPanel(controller) {
   rejectButton.type = "button";
   acceptButton.className = "btn btn-primary btn-block";
   rejectButton.className = "btn btn-light btn-block";
-  acceptButton.innerHTML = (0, _lang._)("Apply transform");
-  rejectButton.innerHTML = (0, _lang._)("Cancel");
+  acceptButton.textContent = (0, _lang._)("Apply transform");
+  rejectButton.textContent = (0, _lang._)("Cancel");
   interpCombo.addEventListener("change", function (e) {
     controller.setTransformInterpolation(this.value);
   });
@@ -18805,7 +18805,7 @@ function CPTransformPanel(controller) {
   if ((0, _CPPolyfill.isCanvasInterpolationSupported)()) {
     var interpGroup = document.createElement("div"),
       interpLabel = document.createElement("label");
-    interpLabel.innerHTML = (0, _lang._)("Transform style");
+    interpLabel.textContent = (0, _lang._)("Transform style");
     interpGroup.className = "form-group";
     interpGroup.appendChild(interpLabel);
     interpGroup.appendChild(interpCombo);
@@ -24396,7 +24396,7 @@ function CPPalette(cpController, className, title, options) {
   collapseIcon.className = "collapse-icon fas icon-angle-down";
   closeButton.type = "button";
   closeButton.className = "btn btn-close";
-  closeButton.innerHTML = "";
+  closeButton.textContent = "";
   closeButton.tabIndex = -1;
   containerElement.className = "chickenpaint-palette chickenpaint-palette-" + className;
   headElement.className = "chickenpaint-palette-head";
@@ -25471,7 +25471,7 @@ function CPSwatchesPalette(controller) {
 
     mnuRemove.className = "dropdown-item";
     mnuRemove.href = "#";
-    mnuRemove.innerHTML = (0, _lang._)("Remove");
+    mnuRemove.textContent = (0, _lang._)("Remove");
     mnuRemove.addEventListener("click", function (e) {
       e.preventDefault();
       (0, _jquery.default)(wrapper).remove();
@@ -25479,7 +25479,7 @@ function CPSwatchesPalette(controller) {
     });
     mnuSetToCurrent.className = "dropdown-item";
     mnuSetToCurrent.href = "#";
-    mnuSetToCurrent.innerHTML = (0, _lang._)("Replace with current color");
+    mnuSetToCurrent.textContent = (0, _lang._)("Replace with current color");
     mnuSetToCurrent.addEventListener("click", function (e) {
       e.preventDefault();
       that.setColor(controller.getCurColor().getRgb());
@@ -25613,14 +25613,14 @@ function CPSwatchesPalette(controller) {
     btnSettings.appendChild(createIcon("cog"));
     mnuSave.className = "dropdown-item";
     mnuSave.href = "#";
-    mnuSave.innerHTML = (0, _lang._)("Save swatches to your computer...");
+    mnuSave.textContent = (0, _lang._)("Save swatches to your computer...");
     mnuSave.addEventListener("click", function (e) {
       e.preventDefault();
       saveSwatches();
     });
     mnuLoad.className = "dropdown-item";
     mnuLoad.href = "#";
-    mnuLoad.innerHTML = (0, _lang._)("Load swatches from your computer...");
+    mnuLoad.textContent = (0, _lang._)("Load swatches from your computer...");
     mnuLoad.addEventListener("click", function (e) {
       e.preventDefault();
       loadSwatches();
@@ -26071,7 +26071,7 @@ function CPTexturePalette(controller) {
     btnCustomize.className = "btn btn-light btn-sm";
     btnCustomize.setAttribute("data-bs-toggle", "popover");
     btnCustomize.setAttribute("data-bs-placement", "right");
-    btnCustomize.innerHTML = (0, _lang._)("Customize");
+    btnCustomize.textContent = (0, _lang._)("Customize");
     textureControlsPanel = buildTextureControlsPanel();
     btnCustomize.addEventListener("click", function () {
       bootstrapPopover.toggle();
