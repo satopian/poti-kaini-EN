@@ -29290,6 +29290,7 @@ function getKeyCodeFromKey(key) {
     '=': 187,
     '+': 187,
     ';': 187,
+    'META': 91,
     'LEFTMETA': 91,
     'RIGHTMETA': 91,
     'ALT': 18,
