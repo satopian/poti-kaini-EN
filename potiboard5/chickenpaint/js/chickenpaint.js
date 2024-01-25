@@ -18381,22 +18381,30 @@ function CPBoxBlurDialog(parent, controller) {
     blurAmountElem = (0, _jquery.default)(".chickenpaint-blur-amount", dialog),
     blurIterationsElem = (0, _jquery.default)(".chickenpaint-blur-iterations", dialog),
     applyButton = (0, _jquery.default)(".chickenpaint-apply-box-blur", dialog);
+
+  // Bootstrap 5: Modalコンストラクタを使用してmodalを初期化
+  var modal = new bootstrap.Modal(dialog[0]);
   this.show = function () {
-    // Bootstrap 5: Modalコンストラクタを使用してmodalを初期化
-    var modal = new bootstrap.Modal(dialog[0]);
     modal.show();
   };
-  applyButton.on('click', function (e) {
+  applyButton[0].addEventListener('click', function (e) {
     var blur = Math.max(parseInt(blurAmountElem.val(), 10), 1),
       iterations = Math.min(Math.max(parseInt(blurIterationsElem.val(), 10), 1), 8);
     controller.getArtwork().boxBlur(blur, blur, iterations);
+    // modal.hide();
+  });
+
+  dialog[0].addEventListener('hidden.bs.modal', function (e) {
+    dialog.remove();
   });
   dialog[0].addEventListener('shown.bs.modal', function (e) {
     blurAmountElem.trigger('focus');
   });
-  (0, _jquery.default)(document).on('keydown', function (e) {
+  parent.addEventListener("keydown", function keydown_EnterKey(e) {
     if (e.key === "Enter" && dialog.hasClass('show')) {
       applyButton.trigger('click');
+      e.preventDefault(); // デフォルトのフォーム送信を阻止
+      parent.removeEventListener("keydown", keydown_EnterKey);
     }
   });
   parent.appendChild(dialog[0]);
@@ -21804,6 +21812,9 @@ function CPConfirmTransformDialog(parent, controller) {
   this.show = function () {
     modal.show();
   };
+  dialog[0].addEventListener('hidden.bs.modal', function (e) {
+    dialog.remove();
+  });
   // Enterキーが押されたときの処理
   parent.addEventListener("keydown", function keydown_EnterKey(e) {
     if (e.key === "Enter") {
@@ -21929,28 +21940,35 @@ function CPGridDialog(parent, canvas) {
   var dialog = (0, _jquery.default)("<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n                <div class=\"modal-dialog\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <h5 class=\"modal-title\">".concat((0, _lang._)("Grid options"), "</h5>\n                            <button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"modal\" aria-label=\"btn btn-close\">\n                            </button>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form>\n                                <div class=\"form-group\">\n                                    <label>").concat((0, _lang._)("Grid size"), "</label>\n                                    <input type=\"number\" class=\"form-control chickenpaint-grid-size\" value=\"\" autofocus>\n                                </div>\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <button type=\"button\" class=\"btn btn-light\" data-bs-dismiss=\"modal\">").concat((0, _lang._)("Cancel"), "</button>\n                            <button type=\"button\" class=\"btn btn-primary chickenpaint-apply-grid-settings\" data-bs-dismiss=\"modal\">").concat((0, _lang._)("Ok"), "</button>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        ")),
     gridSizeElem = (0, _jquery.default)(".chickenpaint-grid-size", dialog),
     applyButton = (0, _jquery.default)(".chickenpaint-apply-grid-settings", dialog);
+
+  // Bootstrap 5: Modal コンストラクタを使用して modal を初期化
+  var modal = new bootstrap.Modal(dialog[0]);
   this.show = function () {
-    // Bootstrap 5: Modal コンストラクタを使用して modal を初期化
-    var modal = new bootstrap.Modal(dialog[0]);
     modal.show();
   };
   gridSizeElem.val(canvas.getGridSize());
-  applyButton.on('click', function (e) {
+
+  // Destroy the modal upon close
+  dialog[0].addEventListener('hidden.bs.modal', function (e) {
+    dialog.remove();
+  });
+  applyButton[0].addEventListener('click', function (e) {
     var gridSize = parseInt(gridSizeElem.val(), 10);
     canvas.setGridSize(gridSize);
     var modal = bootstrap.Modal.getInstance(dialog[0]); // インスタンスを取得
     modal.hide(); // モーダルを手動で閉じる
   });
 
-  dialog.on('shown.bs.modal', function () {
+  dialog[0].addEventListener('shown.bs.modal', function (e) {
     gridSizeElem.trigger('focus');
   });
 
   // Enter キーが押されたときの処理を追加
-  dialog.on('keydown', function (e) {
+  dialog[0].addEventListener('keydown', function keydown_EnterKey(e) {
     if (e.key === "Enter") {
       e.preventDefault(); // デフォルトのフォーム送信を阻止
       applyButton.trigger('click');
+      dialog[0].removeEventListener("keydown", keydown_EnterKey);
     }
   });
   parent.appendChild(dialog[0]);
