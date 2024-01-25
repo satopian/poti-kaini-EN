@@ -111,7 +111,7 @@ if (window.PointerEvent) {
 //ブラウザデフォルトのキー操作をキャンセル
 document.addEventListener("keydown", function (e) {
   var keys = ["+", ";", "=", "-", "s", "h", "r"];
-  if (keys.includes(e.key.toLowerCase())) {
+  if ((e.ctrlKey || e.metaKey) && keys.includes(e.key.toLowerCase()) || e.key === "Enter") {
     // console.log("e.key",e.key);
     e.preventDefault();
   }
@@ -18400,13 +18400,13 @@ function CPBoxBlurDialog(parent, controller) {
   dialog[0].addEventListener('shown.bs.modal', function (e) {
     blurAmountElem.trigger('focus');
   });
-  parent.addEventListener("keydown", function keydown_EnterKey(e) {
+  dialog[0].addEventListener("keydown", function (e) {
     if (e.key === "Enter" && dialog.hasClass('show')) {
       applyButton.trigger('click');
       e.preventDefault(); // デフォルトのフォーム送信を阻止
-      parent.removeEventListener("keydown", keydown_EnterKey);
     }
   });
+
   parent.appendChild(dialog[0]);
 }
 module.exports = exports.default;
@@ -21964,11 +21964,10 @@ function CPGridDialog(parent, canvas) {
   });
 
   // Enter キーが押されたときの処理を追加
-  dialog[0].addEventListener('keydown', function keydown_EnterKey(e) {
+  dialog[0].addEventListener('keydown', function (e) {
     if (e.key === "Enter") {
       e.preventDefault(); // デフォルトのフォーム送信を阻止
       applyButton.trigger('click');
-      dialog[0].removeEventListener("keydown", keydown_EnterKey);
     }
   });
   parent.appendChild(dialog[0]);
