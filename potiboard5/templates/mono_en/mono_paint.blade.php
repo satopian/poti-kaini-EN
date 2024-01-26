@@ -95,7 +95,7 @@
 		</style>
 		<script>
 			document.addEventListener('DOMContentLoaded',function(){
-				document.addEventListener('dblclick', function(e){ e.preventDefault()}, { passive: false });
+				document.addEventListener('dblclick', function (e){ e.preventDefault()}, { passive: false });
 				const chicken=document.querySelector('#chickenpaint-parent');
 				chicken.addEventListener('contextmenu', function(e){
 					e.preventDefault();
@@ -235,21 +235,21 @@
 					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
 					@endif
 					@endif
-					<!--(========== Shi-Painter個別設定 ==========)-->
+					<!--しぃペインター個別設定-->
 					@if($normal)
 					<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" WIDTH="{{$w}}" HEIGHT="{{$h}}" mayscript>
 						<param name=dir_resource value="./">
 						<param name="tt.zip" value="tt_def.zip">
 						<param name="res.zip" value="res.zip">
-						<!--(Shi-Painterv1.05_9以前を使うなら res_normal.zip に変更)-->
+						{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
 						<param name=tools value="normal">
 						<param name=layer_count value="{{$layer_count}}">
 						@if($quality) 
 						<param name=quality value="{{$quality}}">
 						@endif
 						@endif
-						<!--(========== Shi-PainterPro個別設定 ==========)-->
-					@if($pro)
+						<!--しぃペインターPro個別設定-->
+						@if($pro)
 					<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
 						<param name=dir_resource value="./">
 						<param name="tt.zip" value="tt_def.zip">
@@ -260,7 +260,7 @@
 						<param name=quality value="{{$quality}}">
 						@endif
 						@endif
-						<!--(========== 共通設定(変更不可) ==========)-->
+						<!--共通設定(変更不可)-->
 						<param name="send_header_count" value="true">
 						<param name="send_header_timer" value="true">
 						<param name="image_width" value="{{$picw}}">
@@ -271,9 +271,9 @@
 						<param name="undo" value="{{$undo}}">
 						<param name="undo_in_mg" value="{{$undo_in_mg}}">
 						@if($useneo)
-						<param name="url_save" value="{{$self}}?mode=saveimage&tool=neo">
+						<param name="url_save" value="{{$self}}?mode=saveimage&amp;tool=neo&amp;usercode={{$usercode}}">
 						@else
-						<param name="url_save" value="picpost.php">
+						<param name="url_save" value="picpost.php?usercode={{$usercode}}&amp;tool={{$tool}}">
 						@endif
 						<param name="url_exit" value="{{$self}}?mode={{$mode}}&amp;stime={{$stime}}">
 						@if($anime)

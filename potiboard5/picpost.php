@@ -142,21 +142,21 @@ if($imgh=="PNG\r\n"){
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 // 拡張ヘッダーを取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
-$usercode='';
+$usercode = (string)filter_input(INPUT_GET, 'usercode');
+$repcode = (string)filter_input(INPUT_GET, 'repcode');
+$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
+$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
+$tool = (string)filter_input(INPUT_GET, 'tool',FILTER_VALIDATE_INT);
+$tool=is_paint_tool_name($tool);
+
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
-	$usercode = isset($u['usercode']) ? $u['usercode'] : '';
-	$tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
-	$tool=is_paint_tool_name($tool);
-	$resto = isset($u['resto']) ? $u['resto'] : '';
-	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
-	$stime = isset($u['stime']) ? $u['stime'] : '';
 	$count = isset($u['count']) ? $u['count'] : 0;
 	$timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
-	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 }
+//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
+$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 $userdata .= "\n";
 
 //CSRF
