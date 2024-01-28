@@ -67,7 +67,7 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_5 = "There was an illegal image. The drawng image is not saved.";
 	$errormsg_6 = "Failed to open PCH file. Please try posting again after a while.";
 	$errormsg_7 = "Failed to create user data. Please try posting again after a while.";
-	$errormsg_8 = "User code mismatch.";
+	$errormsg_8 = "User code has been reissued.\nPlease try again.";
 	$errormsg_9 = "The post has been rejected.";
 	$errormsg_10 = "The image appears to be corrupted.\nPlease consider saving a screenshot to preserve your work.";
 }else{//日本語
@@ -78,7 +78,7 @@ $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_
 	$errormsg_5 = "不正な画像を検出しました。お絵かき画像は保存されません。";
 	$errormsg_6 = "PCHファイルの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
 	$errormsg_7 = "ユーザーデータの作成に失敗しました。時間を置いて再度投稿してみて下さい。";
-	$errormsg_8 = "ユーザーコードが一致しません。";
+	$errormsg_8 = "ユーザーコードを再発行しました。\n再度投稿してみてください。";
 	$errormsg_9 = "拒絶されました。";
 	$errormsg_10 = "破損した画像が検出されました。\nスクリーンショットを撮り作品を保存する事を強くおすすめします。";
 }
@@ -168,6 +168,16 @@ if(!$is_send_java
 && (!$c_usercode || !$session_usercode)
 || ($c_usercode !== $session_usercode)
 ){
+//user-codeの発行
+if(!$usercode){//user-codeがなければ発行
+	$userip = get_uip();
+	$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
+	//念の為にエスケープ文字があればアルファベットに変換
+	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
+}
+setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
+$_SESSION['usercode']=$usercode;
+
 	die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){

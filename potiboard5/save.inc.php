@@ -122,11 +122,8 @@ class image_save{
 		session_sta();
 		$this->session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
 		$cookie_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');
-		if(!$this->session_usercode || !$cookie_usercode){
-			$this->error_msg($this->en ? "The cookie has been reissued.\nPlease try again." : "Cookieを再発行しました。\n再度投稿してみてください。");
-		}
-		if($this->session_usercode !== $cookie_usercode){
-			$this->error_msg($this->en ? "User code mismatch." : "ユーザーコードが一致しません。");
+		if(!$this->session_usercode || !$cookie_usercode || ($this->session_usercode !== $cookie_usercode)){
+			$this->error_msg($this->en ? "User code has been reissued.\nPlease try again." : "ユーザーコードを再発行しました。\n再度投稿してみてください。");
 		}
 		if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
 			$this->error_msg($this->en ? "Your browser is not supported." : "お使いのブラウザはサポートされていません。");
