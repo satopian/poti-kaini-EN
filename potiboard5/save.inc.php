@@ -1,17 +1,16 @@
 <?php
-//save.inc.php 2023 (c)satopian MIT Licence
+//save.inc.php 2024 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20231227;
+$save_inc_ver=20240127;
 class image_save{
 
-	private $imgfile,$usercode,$en,$count,$errtext; // プロパティとして宣言
+	private $imgfile,$en,$count,$errtext,$session_usercode; // プロパティとして宣言
 	private $tool,$repcode,$stime,$resto,$timer,$error_type,$hide_animation,$pmax_w,$pmax_h;
 	
 	function __construct(){
 
 		global $pmax_w,$pmax_h;
-
 
 	defined('SECURITY_TIMER') or define('SECURITY_TIMER', 0); //config.phpで未定義なら0
 
@@ -42,14 +41,13 @@ class image_save{
 		$this->error_type="klecks";
 
 		$this->tool = (string)filter_input(INPUT_POST, 'tool');
-		$this->usercode = (string)filter_input(INPUT_POST, 'usercode');
+		$this->repcode = (string)(filter_input(INPUT_POST, 'repcode'));
 		$this->repcode = (string)filter_input(INPUT_POST, 'repcode');
 		$this->resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 		$this->stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
 		$this->timer=time()-(int)$this->stime;
 		$this->hide_animation = (string)filter_input(INPUT_POST, 'hide_animation');
 
-		$this->check_async_request();
 		$this->check_security();
 		$this->move_uploaded_image();
 		$this->move_uploaded_psd();
@@ -68,16 +66,13 @@ class image_save{
 		parse_str($sendheader, $u);
 		$this->tool = 'PaintBBS NEO';
 
-		$this->usercode = (string)filter_input(INPUT_GET, 'usercode');
 		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
 		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 		$this->hide_animation = (string)filter_input(INPUT_GET, 'hide_animation');
 		
 		$this->count = isset($u['count']) ? $u['count'] : 0;
-		$this->timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
 
-		$this->check_async_request();
 		$this->check_security();
 
 		if(((int)SECURITY_CLICK && !$this->repcode && $this->count) && ($this->count<(int)SECURITY_CLICK)){
@@ -102,11 +97,9 @@ class image_save{
 
 		$this->error_type="chi";
 		$this->tool = 'ChickenPaint';
-		$this->usercode = (string)filter_input(INPUT_GET, 'usercode');
 		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
 		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
-		$this->timer=time()-(int)$this->stime;
 
 		$this->check_security();
 		$this->move_uploaded_image();
@@ -124,13 +117,15 @@ class image_save{
 
 	private function check_security(){
 
+		$this->check_async_request();
+
 		session_sta();
-		$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
-		//csrf
-		if(!$this->usercode
-		|| ($this->usercode !== (string)filter_input(INPUT_COOKIE, 'usercode'))
-		&& ($this->usercode !== (string)$session_usercode
-		)){
+		$this->session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
+		$cookie_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');
+		if(!$this->session_usercode || !$cookie_usercode){
+			$this->error_msg($this->en ? "The cookie has been reissued.\nPlease try again." : "Cookieを再発行しました。\n再度投稿してみてください。");
+		}
+		if($this->session_usercode !== $cookie_usercode){
 			$this->error_msg($this->en ? "User code mismatch." : "ユーザーコードが一致しません。");
 		}
 		if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
@@ -140,6 +135,7 @@ class image_save{
 			$this->error_msg($this->en ? "The post has been rejected." : "拒絶されました。");
 		}
 
+		$this->timer=time()-(int)$this->stime;
 		if((bool)SECURITY_TIMER && !$this->repcode && ((int)$this->timer<(int)SECURITY_TIMER)){
 
 			$psec=(int)SECURITY_TIMER-(int)$this->timer;
@@ -161,7 +157,7 @@ class image_save{
 		$u_agent = trim($_SERVER["HTTP_USER_AGENT"]);
 		$u_agent = str_replace("\t", "", $u_agent);
 		$imgext='.png';
-		$this->usercode = trim($this->usercode);
+		$this->session_usercode = trim($this->session_usercode);
 		$this->repcode = trim($this->repcode);
 		$this->stime = trim($this->stime);
 		$this->resto = trim($this->resto);
@@ -172,7 +168,7 @@ class image_save{
 		/* ---------- 投稿者情報記録 ---------- */
 		$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 		//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-		$userdata .= "\t$this->usercode\t$this->repcode\t$this->stime\t$time\t$this->resto\t$this->tool\t$this->hide_animation";
+		$userdata .= "\t$this->session_usercode\t$this->repcode\t$this->stime\t$time\t$this->resto\t$this->tool\t$this->hide_animation";
 		$userdata .= "\n";
 		
 		// 情報データをファイルに書き込む

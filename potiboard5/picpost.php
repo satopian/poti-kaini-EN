@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.231226 for POTI-board
+// picpost.php lot.20240128 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2024/01/28 拡張ヘッダーからGETによる取得に変更。ユーザーコードはCookieとSESSIONの比較のみに。
 // 2023/12/27 ユーザーコードをSESSIONに格納して、CookieとSESSIONどちらかが一致していれば投稿可能になるようにした。
 // 2023/11/17 Javaプラグインが動作する数少ないブラウザWaterfoxから投稿できなくなっていたのを修正。
 // 2023/10/10 セキュリティ対策。pchデータのmime typeチェックを追加。
@@ -146,29 +147,27 @@ $usercode = (string)filter_input(INPUT_GET, 'usercode');
 $repcode = (string)filter_input(INPUT_GET, 'repcode');
 $resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 $stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
-$tool = (string)filter_input(INPUT_GET, 'tool',FILTER_VALIDATE_INT);
+$tool = (string)filter_input(INPUT_GET, 'tool');
 $tool=is_paint_tool_name($tool);
-
+$timer = $time -$stime;
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
 	$count = isset($u['count']) ? $u['count'] : 0;
-	$timer = isset($u['timer']) ? ($u['timer']/1000) : 0;
 }
 //usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
-$userdata .= "\n";
-
-//CSRF
-$c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
-$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 session_start();
 $session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
+
+$userdata .= "\t$session_usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
+$userdata .= "\n";
+
+$c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
+$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 if(!$is_send_java
-&& (!$usercode
-|| (!$c_usercode && !$session_usercode)
-|| ($usercode !== $c_usercode) && ($usercode !== $session_usercode)
- )){
+&& (!$c_usercode || !$session_usercode)
+|| ($c_usercode !== $session_usercode)
+){
 	die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
@@ -180,7 +179,6 @@ if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECU
 	}else{
 		die("error\n描画時間が短すぎます。あと{$waiting_time}。");
 	}
-
 }
 if(((int)SECURITY_CLICK && !$repcode && $count) && ($count<(int)SECURITY_CLICK)){
 	$nokori=(int)SECURITY_CLICK-$count;
@@ -190,7 +188,6 @@ if(((int)SECURITY_CLICK && !$repcode && $count) && ($count<(int)SECURITY_CLICK))
 	}else{
 		die("error\n工程数が少なすぎます。あと{$nokori}工程。");
 	}
-
 }
 $imgfile = time().substr(microtime(),2,6);//画像ファイル名
 $imgfile = is_file(TEMP_DIR.$imgfile.$imgext) ? ((time()+1).substr(microtime(),2,6)) : $imgfile;
