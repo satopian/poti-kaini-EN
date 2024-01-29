@@ -70,7 +70,12 @@ class image_save{
 		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 		$this->hide_animation = (string)filter_input(INPUT_GET, 'hide_animation');
-		
+		//GETで取得できなかった時は、拡張ヘッダから取得		
+		$this->repcode = $this->repcode ? $this->repcode: (isset($u['repcode']) ? (string)$u['repcode'] : '');
+		$this->resto = $this->resto ? $this->resto : (isset($u['resto']) ? (string)$u['resto'] : '');
+		$this->stime = $this->stime ? $this->stime : (isset($u['stime']) ? (string)$u['stime'] : '');
+		$this->hide_animation = $this->hide_animation ? $this->hide_animation : (isset($u['hide_animation']) ? (string)$u['hide_animation'] : '');
+
 		$this->count = isset($u['count']) ? $u['count'] : 0;
 
 		$this->check_security();

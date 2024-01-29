@@ -141,20 +141,27 @@ if($imgh=="PNG\r\n"){
 }
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
+//GETで取得
+$tool = (string)filter_input(INPUT_GET, 'tool');
+$tool= is_paint_tool_name($tool);
+$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
+$repcode = (string)filter_input(INPUT_GET, 'repcode');
+$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
+
 // 拡張ヘッダーを取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
-$usercode = (string)filter_input(INPUT_GET, 'usercode');
-$repcode = (string)filter_input(INPUT_GET, 'repcode');
-$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
-$tool = (string)filter_input(INPUT_GET, 'tool');
-$tool=is_paint_tool_name($tool);
-$timer = $time -$stime;
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
+	//GETで取得できなかった時は、拡張ヘッダから取得		
+	$_tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
+	$tool= $tool ? $tool : is_paint_tool_name($_tool);
+	$resto = $resto ? $resto : (isset($u['resto']) ? $u['resto'] : '');
+	$repcode = $repcode ? $repcode : (isset($u['repcode']) ? $u['repcode'] : '');
+	$stime = $stime ? $stime : (isset($u['stime']) ? $u['stime'] : '');
 	$count = isset($u['count']) ? $u['count'] : 0;
 }
+$timer = $time -$stime;
 //usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
 session_start();
 $session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
@@ -169,7 +176,7 @@ if(!$is_send_java
 || ($c_usercode !== $session_usercode)
 ){
 //user-codeの発行
-if(!$usercode){//user-codeがなければ発行
+if(!$c_usercode){//user-codeがなければ発行
 	$userip = get_uip();
 	$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
 	//念の為にエスケープ文字があればアルファベットに変換
