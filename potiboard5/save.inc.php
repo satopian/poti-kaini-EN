@@ -63,7 +63,6 @@ class image_save{
 		$sendheader = (string)filter_input(INPUT_POST,'header');
 
 		$sendheader = str_replace("&amp;", "&", $sendheader);
-		parse_str($sendheader, $u);
 		$this->tool = 'PaintBBS NEO';
 
 		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
@@ -71,6 +70,7 @@ class image_save{
 		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 		$this->hide_animation = (string)filter_input(INPUT_GET, 'hide_animation');
 		//GETで取得できなかった時は、拡張ヘッダから取得		
+		parse_str($sendheader, $u);
 		$this->repcode = $this->repcode ? $this->repcode: (isset($u['repcode']) ? (string)$u['repcode'] : '');
 		$this->resto = $this->resto ? $this->resto : (isset($u['resto']) ? (string)$u['resto'] : '');
 		$this->stime = $this->stime ? $this->stime : (isset($u['stime']) ? (string)$u['stime'] : '');

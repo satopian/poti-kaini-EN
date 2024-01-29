@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.21.0';
-const POTI_LOT = 'lot.20240126';
+const POTI_VER = 'v6.21.1';
+const POTI_LOT = 'lot.20240129';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -115,7 +115,7 @@ if ($err = check_file(__DIR__.'/save.inc.php')) {
 }
 require(__DIR__.'/save.inc.php');
 
-if($save_inc_ver < 20231227){
+if($save_inc_ver < 20240127){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
