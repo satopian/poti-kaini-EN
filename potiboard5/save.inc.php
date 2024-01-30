@@ -41,7 +41,6 @@ class image_save{
 		$this->error_type="klecks";
 
 		$this->tool = (string)filter_input(INPUT_POST, 'tool');
-		$this->repcode = (string)(filter_input(INPUT_POST, 'repcode'));
 		$this->repcode = (string)filter_input(INPUT_POST, 'repcode');
 		$this->resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
 		$this->stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
