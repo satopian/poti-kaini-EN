@@ -42,6 +42,221 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+# Serious bugs in older versions
+- POTI-board v2.26.0 and earlier all versions is vulnerable to XSS.  
+Malicious JavaScript can be executed.
+
+- POTI-board v3.09.x and earlier all versions have a serious bug.  
+**You may lose all  log files**.
+
+- POTI-board v3.x gives a deprecated error in PHP8.1 It will not work with future versions of PHP.
+
+Please update to v5.x or higher.
+
+## POTI board EVO EN v6.22.0 released
+## 2024/02/03 v6.22.0
+### Use "Lightbox" for pop-up displays
+"Luminous" which was used to display popup images, The LICENSE file has been removed from the repository, so LICENSE is now unknown.
+To resolve this issue, use a "Lightbox" to display the popup.
+I'm customizing the "Lightbox" to create a "luminous" like popup.
+- Make transparent PNG transparent
+Since the background color of the "Lightbox" is white, I made the background part transparent so that the background of the transparent PNG image can be seen through.
+- Long press on image to save
+In "Lightbox", you cannot save an image by long-pressing it, so I adjusted the CSS so that you can save it by long-pressing the image.
+- Reposition the forward and backward navigation bars.
+The arrows that display the previous and next images that were displayed above the image have been repositioned to match the left and right width, and if there is space on the left and right, the navigation arrows will be displayed on the left and right.  
+- Close button
+Images now close when pressed anywhere other than the fo prev / next navigation arrows.
+As a result, the close button is no longer needed.
+- Image loading image
+Change the loading circle GIF to two large and small circles created with transparent PNG. Rotate the image using CSS3.
+
+## 2024/01/30 v6.21.1
+### Fixed an issue where it would become impossible to post if cookies disappeared while drawing
+The system that matches the cookie value set in HTML with the actual cookie value has been abolished.
+Even if the cookie does not exist at the time of posting, it is now possible to reissue the user code cookie and post.
+I believe that this not only addresses the issue of cookies disappearing from the user's browser, but also the issue of cookies not being able to be verified due to the server's WAF settings.
+Also, information was packed in the extension header of Shi-Painter and PaintBBS NEO, but we have switched to a method of obtaining it with GET parameters instead of via the extension header.
+To maintain compatibility, if it is not possible to obtain with GET, it is now possible to obtain with extension header.
+
+## 2024/01/24 v6.20.2.5
+### Updated the ChickenPaint.
+- This ChickenPaint is a customized from original [ChickenPaint](https://github.com/thenickdude/chickenpaint).  
+[satopian/ChickenPaint_Be Customized ChickenPaint working with Bootstrap5](https://github.com/satopian/ChickenPaint_Be)  
+
+#### Fixed an issue where shortcut keys would not work when operating a check box or select box on a palette.  
+
+#### ChickenPaint shortcut keys have been changed.
+- Redo is "ctrl+y".
+- Transform is "ctrl+h".
+
+
+### Changed Template
+- templates/mono_en/paint_klecks.blade.php
+
+## 2024/01/22 v6.19.5
+### Updated the ChickenPaint.
+- This ChickenPaint is a customized from original [ChickenPaint](https://github.com/thenickdude/chickenpaint).
+[satopian/ChickenPaint_Be Customized ChickenPaint working with Bootstrap5](https://github.com/satopian/ChickenPaint_Be)
+
+Using icomoon, the file size required to load fontawesome fonts was reduced to 1/18.
+The HTML of the dropdown menu has been unified to Bootstrap 5.3 format.
+
+
+## 2024/01/14 v6.19.0
+### Fixed bug
+- Fixed a bug that caused "Cookie check failed" when painting.
+
+## 2023/01/07 v6.18.5
+### Updated the ChickenPaint.
+- The code has been significantly updated to work with Bootstrap5 instead of the older Bootstrap4.
+- Fixed minor bugs.
+- This ChickenPaint is a customized from original [ChickenPaint](https://github.com/thenickdude/chickenpaint).
+[satopian/ChickenPaint_Be Customized ChickenPaint working with Bootstrap5](https://github.com/satopian/ChickenPaint_Be)
+
+## 2023/12/30 v6.17.9
+### Fixed a bug in ChickenPaint's grid settings
+Fixed a bug where when pressing the enter key to confirm numerical input in ChickenPaint's grid settings, the screen would move to the top of the bulletin board and the drawn picture would disappear.
+
+## 2023/12/27 v6.17.8
+### Fixed so that you can post even if the user code cookie disappears for some reason
+- Fixed an issue where an error "User code mismatch" occurred and posts that were supposed to be able to post failed.
+Set a user code in both the cookie and SESSION data so that it can be posted if either the cookie or the SESSION matches the user code.
+- Performs a cookie check when starting drawing mode, and checks in advance whether the user code matches the user code stored in Cookie or SESSION.
+Checks for problems and displays error messages before you start drawing.
+This fixes an issue where drawing work is lost.
+
+
+## 2023/11/30 v6.16.7
+### Add shortcut key for ChickenPaint
+
+- Press the “D” key to switch to Smudge tool.
+- Press the “C” key to switch to Blender tool.
+
+
+## 2023/11/30 v6.16.6
+### PaintBBS NEO Shortcut Keys Fixed an issue where the Firefox menu bar would show/hide when the Alt key was released.
+
+## 2023/11/29 v6.16.2
+### Updated tegaki.js.
+- Fixed an issue where keyboard shortcut keys would stop working immediately after pressing the alt key.
+
+
+## 2023/11/28 v6.16.1
+### Fixed bug in customized version of ChickenPaint
+
+## 2023/11/27 v6.15.9.3
+### Fixed bug in customized version of ChickenPaint
+### Add shortcut key for ChickenPaint
+
+- Press the “A” key to switch to airbrush tool.
+
+
+## 2023/11/26 v6.15.9.2
+### Fixed bug in customized version of ChickenPaint
+
+## 2023/11/25 v6.15.9.1
+### Fixed syntax error in customized version of ChickenPaint
+
+## 2023/11/25 v6.15.9
+### Add shortcut key for ChickenPaint
+
+- Rotate the canvas with "R" key + left click.
+- Press the "H" key to flip horizontally.
+- Press the “W” key to switch to watercolor brush tool.
+- Press the "S" key to switch to soft eraser tool.
+
+https://github.com/satopian/Petit_Note/assets/44894014/2075f812-19d4-4409-9478-9bf0a49a3c59
+
+## 2023/11/23 v6.15.8
+### ChickenPaint has been updated
+- ChickenPaint has been updated.
+
+### Switch the image popup display to gallery mode when there are multiple images in the individual thread display.
+- When displaying Luminous' image popup display in a separate thread, if there are multiple images, they will be displayed in gallery mode.
+View previous and next images Use the arrows to view images in sequence.
+
+
+## 2023/11/18 v6.15.6
+### Fixd bug
+Fixed an issue in "Waterfox Classic" and "Pale Moon" where an error would occur during POST from Shi-Painter started using the Java plugin.
+
+### Improvement
+- Added a corruption check function for images sent from Shi-Painter.
+Added a check for image corruption that is already implemented in drawing apps other than Shi-Painter.
+
+### Klecks Update
+- Updated Klecks.
+
+
+## 2023/11/07 v6.12.1
+If the PNG image sent from the drawing app is corrupted, the drawing screen will not switch to the posting screen. You will then receive an error message asking you to take a screenshot.
+
+![image](https://github.com/satopian/poti-kaini-EN/assets/44894014/9e667664-1bce-44de-99af-8e392e551f21)
+
+
+## 2023/11/04 v6.11.11
+### Updated Paint app
+- Updated ChickenPaint.
+- Updated Klecks.
+
+## 2023/11/02 v6.11.10
+### improvement
+- Improved processing when JPEG images are rotated or have location information added.
+Previously, when rotation or position information was detected, a JPEG image of the same size was output.
+With this update, it is now scaled down to the value specified by `MAX_W_PX` and `MAX_H_PX` (for example, 1024px).
+This eliminates the need to process the image a second time if the width and height exceed the specified values.
+This eliminates the wasteful processing of creating a JPEG image and then creating the JPEG image again, as well as the deterioration of image quality.
+### updated Klecks.
+- updated Klecks
+
+## 2023/10/29 v6.11.5
+### Added the ability to reduce the size of images that exceed the specified width and height range.
+This isn't about creating thumbnail images.
+Reduces the size of the uploaded image itself. so, just like Discord.
+
+### New setting items have been added to config.php
+
+```
+// The maximum size for width and height during upload, any larger will be resized.
+define("MAX_W_PX", "1024"); //幅(width)
+define("MAX_H_PX", "1024"); //高さ(height)
+
+```
+### Analyze the Exif
+Analyze the Exif and if the image is rotated, correct it to the correct orientation.
+If location information is included, it will be deleted.
+
+## 2023/10/25 v6.10.8
+JavaScript for mobile judgment processing has been externalized.
+Removed unused code.
+
+## 2023/10/23 v6.10.7
+### Bug fix
+The bug preventing Shi Painter from starting in version 6.10.6 has been fixed.
+
+## 2023/10/23 v6.10.6
+### The conversion conditions from PNG to JPEG have changed.
+
+Previously, both the drawn image and the uploaded image were converted from PNG to JPEG when the `IMAGE_SIZE` setting was exceeded, but now only the uploaded image is affected by the setting.
+
+If an error occurs and you cannot post because the posting capacity limit of `MAX_KB` is exceeded, both the drawn image and the uploaded image will be converted from PNG to JPEG.
+After conversion, if the file size is reduced to a size that can be posted, it will be posted in JPEG format.
+
+
+## 2023/10/21 v6.10.2
+### It is now possible to configure the minimum width and height for drawing.
+New setting items have been added to config.php.
+```
+// If a drawing size smaller than this is input, it will be the minimum value set here.
+define("PMIN_W", "300");	//幅 (width)
+define("PMIN_H", "300");	//高さ (height)
+
+```
+### Fixed an issue where the layout was broken when the width of PaintBBS NEO was less than 300px.
+
+![20231021_NEOキャンバスサイズ50px](https://github.com/satopian/poti-kaini-EN/assets/44894014/31e9d039-252b-4d74-b05e-434d3c7e843a)
+
 ## 2023/10/17 v6.09.0
 
 ### improvement
