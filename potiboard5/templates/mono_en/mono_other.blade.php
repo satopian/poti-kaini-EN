@@ -285,7 +285,7 @@
 							<td>{{$del['com']}}</td>
 							<td>{{$del['host']}}</td>
 							<td>@if($del['src'])
-								<a href="{{$del['src']}}" target="_blank" rel="noopener" data-lightbox="{{$del['no']}}">{{$del['srcname']}}</a>
+								<a href="{{$del['src']}}" target="_blank" rel="noopener" title="{{$del['no']}}" data-lightbox="{{$del['no']}}">{{$del['srcname']}}</a>
 								({{$del['size_kb']}})KB @endif</td>
 							<td>@if($del['src']){{$del['chk']}}@endif</td>
 						</tr>

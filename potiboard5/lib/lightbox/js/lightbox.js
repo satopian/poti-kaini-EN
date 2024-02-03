@@ -14,7 +14,21 @@
 
 // Uses Node, AMD or browser globals to create a module.
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
+
+	//IE
+	const ua = window.navigator.userAgent;
+	const msie = ua.indexOf('MSIE ');
+	const trident = ua.indexOf('Trident/');
+	if( msie > 0 || trident > 0||'-ms-scroll-limit' in document.documentElement.style && '-ms-ime-align' in document.documentElement.style){
+		return;
+	}
+	//preload
+	const link = document.createElement('link');
+	if(!link.relList || !link.relList.supports || !link.relList.supports('preload')){
+		return;
+	}
+
+	if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['jquery'], factory);
     } else if (typeof exports === 'object') {
