@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.21.1';
-const POTI_LOT = 'lot.20240129';
+const POTI_VER = 'v6.22.0';
+const POTI_LOT = 'lot.20240205';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -53,11 +53,11 @@ const JQUERY ='jquery-3.7.0.min.js';
 if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
 	die($err);
 }
-// luminous
-if ($err = check_file(__DIR__.'/lib/luminous/luminous.min.js')) {
+// Lightbox
+if ($err = check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js')) {
 	die($err);
 }
-if ($err = check_file(__DIR__.'/lib/luminous/luminous-basic.min.css')) {
+if ($err = check_file(__DIR__.'/lib/lightbox/css/lightbox.min.css')) {
 	die($err);
 }
 

@@ -7,8 +7,8 @@
 	@include('parts.style-switcher')
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
-	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
+	<link rel="preload" as="style" href="lib/lightbox/css/lightbox.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href=href="lib/lightbox/js/lightbox.min.js">
 	<link rel="preload" as="script" href="loadcookie.js">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
@@ -245,7 +245,7 @@
 					{{-- 親子共通 --}}
 					@if($res['src'])
 					<div class="img_info_wrap">
-						<a href="{{$res['src']}}" title="{{$res['sub']}}" target="_blank" class="luminous_Filename">{{$res['srcname']}}</a>
+						<a href="{{$res['src']}}" title="{{$res['sub']}}" target="_blank" data-lightbox="filename_{{$res['no']}}">{{$res['srcname']}}</a>
 						({{$res['size_kb']}} KB)
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
@@ -259,7 +259,7 @@
 							@if($res['spch'])</span>@endif
 					</div>
 					<figure @if($res['w']>=750) style="float:none;margin-right:0"@endif>
-						<a href="{{$res['src']}}" target="_blank" rel="noopener" class="luminous">
+						<a href="{{$res['src']}}" target="_blank" rel="noopener" data-lightbox="{{$ress[0]['no']}}">
 							<img src="{{$res['imgsrc']}}" alt="{{$res['sub']}} by {{$res['name']}}"
 								title="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}"
 								height="{{$res['h']}}" @if($i>4)loading="lazy"@endif>
@@ -371,11 +371,8 @@
 	<script>
 	document.addEventListener('DOMContentLoaded',l,false);
 	</script>
-	@if($resno)	{{-- レス返信画面の画像はギャラリーモードで開く --}}
-	<script>const luminous_gallery = true;</script>
-	@endif
 	<script src="lib/{{$jquery}}"></script>
-	<script src="lib/luminous/luminous.min.js"></script>
+	<script src="lib/lightbox/js/lightbox.min.js"></script>
 	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 

@@ -73,26 +73,15 @@
 			}, 500); //0.5秒かけてトップへ移動
 			return false;
 		});
-		// luminous
-		let gallery = typeof luminous_gallery === 'undefined' ? false :luminous_gallery;
-		// https://www.webdesignleaves.com/pr/plugins/luminous-lightbox.html
-		const luminousElems = document.querySelectorAll('.luminous');
-		//画像の枚数が複数で、galleryがtrue時はギャラリーモードで画像を表示
-		if(gallery && luminousElems.length > 1 ){
-			new LuminousGallery(luminousElems);
-		}else if( luminousElems.length > 0 ){
-			for(const elem of luminousElems)  {
-				new Luminous(elem);
-			}
-		}
-		//画像のファイル名へのリンクの時
-		const luminousElems_Filename = document.querySelectorAll('.luminous_Filename');
-		if( luminousElems_Filename.length > 0 ){
-		for(const elem of luminousElems_Filename)  {
-			new Luminous(elem);
-		}
-	}
-
+		//Lightbox
+		lightbox.option({
+			'alwaysShowNavOnTouchDevices': true,
+			'disableScrolling': true,
+			'fadeDuration': 0,
+			'resizeDuration': 500,
+			'imageFadeDuration': 500,
+			'wrapAround': true
+		});
 		//JavaScriptによるCookie発行
 		const paintform = document.getElementById("paint_form");
 		if(paintform){

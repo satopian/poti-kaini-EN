@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	@include('parts.style-switcher')
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="style" href="lib/luminous/luminous-basic.min.css" onload="this.rel='stylesheet'">
-	<link rel="preload" as="script" href="lib/luminous/luminous.min.js">
+	<link rel="preload" as="style" href="lib/lightbox/css/lightbox.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="script" href=href="lib/lightbox/js/lightbox.min.js">
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="loadcookie.js">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
@@ -285,7 +285,7 @@
 							<td>{{$del['com']}}</td>
 							<td>{{$del['host']}}</td>
 							<td>@if($del['src'])
-								<a href="{{$del['src']}}" target="_blank" rel="noopener" class="luminous">{{$del['srcname']}}</a>
+								<a href="{{$del['src']}}" target="_blank" rel="noopener" data-lightbox="{{$del['no']}}">{{$del['srcname']}}</a>
 								({{$del['size_kb']}})KB @endif</td>
 							<td>@if($del['src']){{$del['chk']}}@endif</td>
 						</tr>
@@ -335,7 +335,7 @@
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
 	<script src="lib/{{$jquery}}"></script>
-	<script src="lib/luminous/luminous.min.js"></script>
+	<script src="lib/lightbox/js/lightbox.min.js"></script>
 	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 </body>
 
