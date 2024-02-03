@@ -42,18 +42,6 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
-# Serious bugs in older versions
-- POTI-board v2.26.0 and earlier all versions is vulnerable to XSS.  
-Malicious JavaScript can be executed.
-
-- POTI-board v3.09.x and earlier all versions have a serious bug.  
-**You may lose all  log files**.
-
-- POTI-board v3.x gives a deprecated error in PHP8.1 It will not work with future versions of PHP.
-
-Please update to v5.x or higher.
-
-## POTI board EVO EN v6.22.0 released
 ## 2024/02/03 v6.22.0
 ### Use "Lightbox" for pop-up displays
 "Luminous" which was used to display popup images, The LICENSE file has been removed from the repository, so LICENSE is now unknown.
@@ -279,16 +267,9 @@ Fixed a bug where the canvas size value was not displayed on the Paint form when
 
 To simplify the work, we externalized the paint form so that it can be used as a common component.
 
-## 2023/10/11 v6.07.11
-Updated ChickenPaint.
-
 ## 2023/10/10 v6.07.10
 ### Security Update
 Added mime type check for pch files of Java's Shi-Painter and PaintBBS.
-
-## 2023/10/09 v6.07.9
-- updated Klecks.
-- updated ChickenPaint.
 
 ## 2023/10/03 v6.07.8
 ### Reduce memory consumption by 50%
