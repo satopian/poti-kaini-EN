@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.22.1';
+const POTI_VER = 'v6.23.0';
 const POTI_LOT = 'lot.20240205';
 
 /*
@@ -67,14 +67,14 @@ if ($err = check_file(__DIR__.'/config.php')) {
 }
 require(__DIR__.'/config.php');
 
-defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"1"); 
+defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
 
 if(USE_CHEERPJ_OLD_VERSION){//2.3
 	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/2.3/loader.js');
 	define('CHEERPJ_HASH','sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE');
 }else{//cj3
-	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/3_20231116_296/cj3loader.js');
-	define('CHEERPJ_HASH','sha384-3n3kvrYMpzHCXBmGKdDxBRXElXGWgc79N49R1ARvHPUTbfCVHpUbfyL5Fy20BL2Z');
+	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/3.0/cj3loader.js');
+	define('CHEERPJ_HASH','sha384-zxn5sOtWozhsJfbopWclD7aUkzP0qGXSXtzofowFsMtFL4N9EOXRTcCgbCcxk+Aw');
 }
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
@@ -3223,7 +3223,7 @@ function create_res ($line, $options = []) {
 	$res['encoded_name'] = urlencode($res['name']);
 	$res['share_name'] = encode_for_share($res['name']);
 	$res['share_sub'] = encode_for_share($res['sub']);
-	$res['encoded_t'] = encode_for_share('['.$no.']'.$res['sub'].($res['name'] ? ' by '.$res['name'] : '').' - '.TITLE);
+	$res['encoded_t'] = encode_for_share('['.$res['no'].']'.$res['sub'].($res['name'] ? ' by '.$res['name'] : '').' - '.TITLE);
 	$res['encoded_u'] = urlencode(ROOT_URL.PHP_SELF.'?res='.$res['no']);
 	 
 
