@@ -16,7 +16,7 @@
 		OekakiApp - <a href="http://hp.vector.co.jp/authors/VA016309/" target="_blank" rel="noopener noreferrer" title="by しぃちゃん">Shi-Painter</a>
 		<a href="https://github.com/funige/neo/" target="_blank" rel="noopener noreferrer" title="by funige">PaintBBS NEO</a>
 		<a href="https://github.com/desuwa/tegaki" target="_blank" rel="noopener noreferrer" title="by Maxime Youdine">Tegaki</a> 
-		<a href="https://github.com/bitbof/klecks"  target="_blank" rel="noopener noreferrer" title="by bitbof">klecks</a>
+		<a href="https://github.com/bitbof/klecks"  target="_blank" rel="noopener noreferrer" title="by bitbof">Klecks</a>
 		<a href="https://github.com/satopian/ChickenPaint_Be" target="_blank" rel="noopener noreferrer" title="by satopian">ChickenPaint Be</a>
 	</p>
 	@endif
