@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.23.0';
+const POTI_VER = 'v6.23.1';
 const POTI_LOT = 'lot.20240205';
 
 /*
@@ -2038,6 +2038,7 @@ function openpch(){
 	$dat['pch_mode'] = true;
 	$dat['speed'] = PCH_SPEED;
 	$dat['stime'] = time();
+	$dat = array_merge($dat,form());
 
 	if($ext==='.tgkr'){
 		htmloutput(TGKR_VIEW,$dat);
