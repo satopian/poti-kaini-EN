@@ -228,6 +228,9 @@
 					@if($paintbbs)
 					@if($useneo)
 					<applet-dummy code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
+					@if(isset($max_pch))
+						<param name="neo_max_pch" value="{{$max_pch}}">
+					@endif
 						<param name="neo_send_with_formdata" value="true">
 						<param name="neo_confirm_unload" value="true">
 						<param name="neo_show_right_button" value="true">
