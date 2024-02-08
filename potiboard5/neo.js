@@ -1164,6 +1164,8 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     }
   }
 
+  let pchFileNotAppended=false;
+
   if (Neo.config.neo_send_with_formdata == "true") {
 	var formData = new FormData();
 	formData.append('header', headerString);
@@ -1176,6 +1178,8 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 	if (thumbnail2) {
 	  if (!Neo.config.neo_max_pch || isNaN(parseInt(Neo.config.neo_max_pch)) || ((parseInt(Neo.config.neo_max_pch)*1024*1024) > (headerString.length+blob.size+thumbnail_size+thumbnail2.size))) {
 		formData.append('pch',thumbnail2,blob);
+		}else{
+			pchFileNotAppended = true;
 		}
 	  }
   }
@@ -1273,9 +1277,18 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 				Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
 		})
 	}
-
 	if (Neo.config.neo_send_with_formdata == "true") {
-		postData(url, formData);
+
+		if(pchFileNotAppended){
+			if (window.confirm(Neo.translate("画像のみが送信されます。\nレイヤー情報は保持されません。"))) {
+				postData(url, formData);
+			} else {
+				console.log("中止しました。");
+			}
+		}else{
+			postData(url, formData);
+		}
+
 	}else{
 		postData(url, body);
 	}
@@ -1518,6 +1531,7 @@ Neo.dictionary = {
     "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
       "It may be a WAF false positive.\nTry to draw a little more.",
     "ファイルが見当たりません。":"File not found",
+	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Only image will be sent.\nLayer information will not be retained.",
   },
   enx: {
     やり直し: "Redo",
@@ -1579,6 +1593,7 @@ Neo.dictionary = {
     "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
       "It may be a WAF false positive.\nTry to draw a little more.",
     "ファイルが見当たりません。":"File not found.",
+	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Only image will be sent.\nLayer information will not be retained.",
  },
   es: {
     やり直し: "Rehacer",
@@ -1640,7 +1655,8 @@ Neo.dictionary = {
     "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。":
 	  "Puede ser un falso positivo de WAF.\nIntenta dibujar un poco más.",
     "ファイルが見当たりません。":"Archivo no encontrado.",
-  },
+	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Sólo se enviará la imagen.\nNo se conservará la información de la capa.",
+},
 };
 
 Neo.translate = (function () {
