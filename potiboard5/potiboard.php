@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.25.0';
-const POTI_LOT = 'lot.20240207';
+const POTI_VER = 'v6.25.1';
+const POTI_LOT = 'lot.20240208';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1687,6 +1687,11 @@ function paintform(){
 	
 	if(strlen($pwd) > 72) error(MSG015);
 
+	$picw = ($picw < PMIN_W) ? PMIN_W : $picw;//最低の幅チェック
+	$pich = ($pich < PMIN_H) ? PMIN_H : $pich;//最低の高さチェック
+	$picw = ($picw > PMAX_W) ? PMAX_W : $picw;//最大の幅チェック
+	$pich = ($pich > PMAX_H) ? PMAX_H : $pich;//最大の高さチェック
+
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
 	// 初期化
@@ -1805,11 +1810,6 @@ function paintform(){
 	
 		$dat['newpaint'] = true;
 	}
-
-	$picw = ($picw < PMIN_W) ? PMIN_W : $picw;//最低の幅チェック
-	$pich = ($pich < PMIN_H) ? PMIN_H : $pich;//最低の高さチェック
-	$picw = ($picw > PMAX_W) ? PMAX_W : $picw;//最大の幅チェック
-	$pich = ($pich > PMAX_H) ? PMAX_H : $pich;//最大の高さチェック
 
 	if($shi==1||$shi==2){
 	$w = $picw + 510;//しぃぺの時の幅
