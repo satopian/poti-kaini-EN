@@ -84,18 +84,24 @@ Tegaki.open({
     Tegaki.flatten().toBlob(
       function(blob) {
         // console.log(blob);
-		var tgkr = Tegaki.replayRecorder ? Tegaki.replayRecorder.toBlob() : null;
-		var formData = new FormData();
+		const tgkr = Tegaki.replayRecorder ? Tegaki.replayRecorder.toBlob() : null;
+		const formData = new FormData();
+		let DataSize = 1000;
+		let max_pch = {{$max_pch}};
+		max_pch = parseInt(max_pch)*1024*1024;
 		if(tgkr){
-			formData.append("tgkr",tgkr,'blob');
+			DataSize = DataSize + blob.size + tgkr.size;
+			if(!max_pch||isNaN(max_pch)||(DataSize<max_pch)){
+				formData.append("tgkr",tgkr,'blob');
+			}
 		}
 		formData.append("picture",blob,'blob');
 		formData.append("usercode", "{{$klecksusercode}}");
 		 <?php if($rep):?>formData.append("repcode", "{{$repcode}}");<?php endif;?>
 		formData.append("tool", "tegaki");
 		formData.append("stime", <?=time();?>);
-		formData.append("tool", "Tegaki");
 		formData.append("resto", "{{$resto}}");
+		formData.append("tool", "Tegaki");
 		postData("?mode=saveimage&tool=tegaki", formData);
       },
       'image/png'

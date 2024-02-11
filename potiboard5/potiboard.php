@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.25.2';
-const POTI_LOT = 'lot.20240209';
+const POTI_VER = 'v6.25.3';
+const POTI_LOT = 'lot.20240211';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1910,6 +1910,12 @@ function paintform(){
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
 	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
+
+	$dat['max_pch']=0;
+	if (function_exists('ini_get')){
+		$dat['max_pch'] = min((int)ini_get('post_max_size'),(int)ini_get('upload_max_filesize'));
+	} 
+
 	switch($shi){
 		case 'tegaki':
 			return htmloutput(PAINT_TEGAKI,$dat);
@@ -1918,11 +1924,6 @@ function paintform(){
 			return htmloutput(PAINT_KLECKS,$dat);
 		}
 		default:
-
-		$dat['max_pch']=0;
-		if (function_exists('ini_get')){
-			$dat['max_pch'] = min((int)ini_get('post_max_size'),(int)ini_get('upload_max_filesize'));
-		} 
 
 		if($dat['normal'] || $dat['pro']){
 			$dat['tool']="Shi-Painter";
