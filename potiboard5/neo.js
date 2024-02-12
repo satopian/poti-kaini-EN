@@ -2204,7 +2204,7 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
 	}
 	//text入力と、入力フォーム以外はすべてのキーボードイベントを無効化
 	if(document.activeElement != this.inputText){
-		if (!(document.activeElement.tagName.toLocaleUpperCase() == "INPUT" || document.activeElement.tagName.toLocaleUpperCase() === "TEXTAREA")) {
+		if (!(document.activeElement.tagName.toLocaleUpperCase() === "INPUT" || document.activeElement.tagName.toLocaleUpperCase() === "TEXTAREA")) {
 		e.preventDefault();
 		}
 	}
