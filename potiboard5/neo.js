@@ -2193,17 +2193,22 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
     this.tool.keyDownHandler(e);
   }
 
-  //スペース・Shift+スペースででスクロールしないように
-  // if (document.activeElement != this.inputText) e.preventDefault();
-  // console.log(document.activeElement.tagName)
-  if (
-    document.activeElement != this.inputText &&
-    !(document.activeElement.tagName == "INPUT")
-  ) {
-    e.preventDefault();
-  }
-};
-
+	//スペース・Shift+スペースででスクロールしないように
+	// if (document.activeElement != this.inputText) e.preventDefault();
+	// console.log(document.activeElement.tagName)
+	//ctrlキーとの組み合わせのブラウザデフォルトのショートカットキーを無効化
+	//但しctrl+v,ctrl+x,ctrl+aは使用可能
+	const keys = ["+", ";", "=","-","s","h","r","y","z","u"];
+	if ((e.ctrlKey||e.metaKey) && keys.includes(e.key.toLowerCase())){
+		e.preventDefault();
+	}
+	//text入力と、入力フォーム以外はすべてのキーボードイベントを無効化
+	if(document.activeElement != this.inputText){
+		if (!(document.activeElement.tagName.toLocaleUpperCase() == "INPUT" || document.activeElement.tagName.toLocaleUpperCase() === "TEXTAREA")) {
+		e.preventDefault();
+		}
+	}
+} 
 Neo.Painter.prototype._keyUpHandler = function (e) {
   this.isShiftDown = e.shiftKey;
   this.isCtrlDown = e.ctrlKey;
