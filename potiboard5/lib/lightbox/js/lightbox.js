@@ -254,8 +254,17 @@
     var dataLightboxValue = $link.attr('data-lightbox');
     var $links;
 
-    if (dataLightboxValue) {
-      $links = $($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
+	function escapeHtml(unsafe) {
+		return unsafe
+			 .replace(/&/g, "&amp;")
+			 .replace(/</g, "&lt;")
+			 .replace(/>/g, "&gt;")
+			 .replace(/"/g, "&quot;")
+			 .replace(/'/g, "&#039;");
+	}
+
+	if (dataLightboxValue) {
+      $links = $($link.prop('tagName') + '[data-lightbox="' + escapeHtml(dataLightboxValue) + '"]');
       for (var i = 0; i < $links.length; i = ++i) {
         addToAlbum($($links[i]));
         if ($links[i] === $link[0]) {
