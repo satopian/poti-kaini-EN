@@ -8,7 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
-// 2024/01/28 拡張ヘッダーからGETによる取得に変更。ユーザーコードはCookieとSESSIONの比較のみに。
+// 2024/01/28 ユーザーコードはCookieとSESSIONの比較のみに。
 // 2023/12/27 ユーザーコードをSESSIONに格納して、CookieとSESSIONどちらかが一致していれば投稿可能になるようにした。
 // 2023/11/17 Javaプラグインが動作する数少ないブラウザWaterfoxから投稿できなくなっていたのを修正。
 // 2023/10/10 セキュリティ対策。pchデータのmime typeチェックを追加。
@@ -141,14 +141,8 @@ if($imgh=="PNG\r\n"){
 }
 /* ---------- 投稿者情報記録 ---------- */
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
-//GETで取得
-$tool = (string)filter_input(INPUT_GET, 'tool');
-$tool= is_paint_tool_name($tool);
-$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-$repcode = (string)filter_input(INPUT_GET, 'repcode');
-$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 
-// 拡張ヘッダーを取り出す
+// 拡張ヘッダーから情報を取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
 if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
@@ -156,12 +150,12 @@ if($sendheader){
 	//GETで取得できなかった時は、拡張ヘッダから取得		
 	$_tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
 	$tool= $tool ? $tool : is_paint_tool_name($_tool);
-	$resto = $resto ? $resto : (isset($u['resto']) ? $u['resto'] : '');
-	$repcode = $repcode ? $repcode : (isset($u['repcode']) ? $u['repcode'] : '');
-	$stime = $stime ? $stime : (isset($u['stime']) ? $u['stime'] : '');
+	$resto = isset($u['resto']) ? $u['resto'] : '';
+	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
+	$stime = isset($u['stime']) ? $u['stime'] : '';
 	$count = isset($u['count']) ? $u['count'] : 0;
 }
-$timer = $time -$stime;
+$timer = $time - $stime;
 //usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
 session_start();
 $session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";

@@ -2,7 +2,7 @@
 //save.inc.php 2024 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20240127;
+$save_inc_ver=20240217;
 class image_save{
 
 	private $imgfile,$en,$count,$errtext,$session_usercode; // プロパティとして宣言
@@ -64,16 +64,12 @@ class image_save{
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		$this->tool = 'PaintBBS NEO';
 
-		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
-		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
-		$this->hide_animation = (string)filter_input(INPUT_GET, 'hide_animation');
 		//GETで取得できなかった時は、拡張ヘッダから取得		
 		parse_str($sendheader, $u);
-		$this->repcode = $this->repcode ? $this->repcode: (isset($u['repcode']) ? (string)$u['repcode'] : '');
-		$this->resto = $this->resto ? $this->resto : (isset($u['resto']) ? (string)$u['resto'] : '');
-		$this->stime = $this->stime ? $this->stime : (isset($u['stime']) ? (string)$u['stime'] : '');
-		$this->hide_animation = $this->hide_animation ? $this->hide_animation : (isset($u['hide_animation']) ? (string)$u['hide_animation'] : '');
+		$this->repcode = isset($u['repcode']) ? (string)$u['repcode'] : '';
+		$this->resto = isset($u['resto']) ? (string)$u['resto'] : '';
+		$this->stime = isset($u['stime']) ? (string)$u['stime'] : '';
+		$this->hide_animation = isset($u['hide_animation']) ? (string)$u['hide_animation'] : '';
 
 		$this->count = isset($u['count']) ? $u['count'] : 0;
 
