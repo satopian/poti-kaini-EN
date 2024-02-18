@@ -148,8 +148,8 @@ if($sendheader){
 	$sendheader = str_replace("&amp;", "&", $sendheader);
 	parse_str($sendheader, $u);
 	//GETで取得できなかった時は、拡張ヘッダから取得		
-	$_tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
-	$tool= $tool ? $tool : is_paint_tool_name($_tool);
+	$tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
+	$tool= is_paint_tool_name($tool);
 	$resto = isset($u['resto']) ? $u['resto'] : '';
 	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 	$stime = isset($u['stime']) ? $u['stime'] : '';
