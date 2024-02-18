@@ -64,7 +64,7 @@ class image_save{
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		$this->tool = 'PaintBBS NEO';
 
-		//GETで取得できなかった時は、拡張ヘッダから取得		
+		//拡張ヘッダから情報を取得
 		parse_str($sendheader, $u);
 		$this->repcode = isset($u['repcode']) ? (string)$u['repcode'] : '';
 		$this->resto = isset($u['resto']) ? (string)$u['resto'] : '';
