@@ -82,7 +82,7 @@ define('ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS', '1');
 
 //Allow all apps to continue drawing regardless of the setting
 // (1: Enabled, 0: Disabled) 
-define('ALLOW_ALL_APPS_TO_CONTINUE_DRAWING', '1');
+define('ALLOW_ALL_APPS_TO_CONTINUE_DRAWING', '0');
 
 /*----------絶対に設定が必要な項目はここまでです。ここから下は必要に応じて。----------*/
 /* That's all the necessary settings. From here on as needed. */
