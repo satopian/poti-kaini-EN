@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.25.7';
-const POTI_LOT = 'lot.20240218';
+const POTI_VER = 'v6.26.0';
+const POTI_LOT = 'lot.20240220';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -248,7 +248,6 @@ $pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 $type = (string)newstring(filter_input(INPUT_POST, 'type'));
 $admin = (string)filter_input(INPUT_POST, 'admin');
 $pass = (string)newstring(filter_input(INPUT_POST, 'pass'));
-
 //INPUT_GETから変数を取得
 
 $res = (string)filter_input(INPUT_GET, 'res',FILTER_VALIDATE_INT);
@@ -875,6 +874,11 @@ function error($mes,$dest=''){
 	safe_unlink($dest);
 	$dat['err_mode'] = true;
 	$mes=preg_replace("#<br( *)/?>#i","\n", $mes);
+	if((bool)(isset($_SERVER['HTTP_X_REQUESTED_WITH']))){
+		header('Content-type: text/plain');
+		return die(h("error\n{$mes}"));
+	}
+
 	$dat['mes'] = nl2br(h($mes));
 		htmloutput(OTHERFILE,$dat);
 	exit;
@@ -1882,13 +1886,15 @@ function paintform(){
 	$dat['rep']=false;//klecks
 	$dat['repcode']='';
 	if($type==='rep'){
-		$dat['rep']=true;//klecks
 		$time=time();
 		$userip = get_uip();
 		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-12);
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
-		$dat['repcode']=$repcode;//klecks
+		$dat['rep']=true;
+		$dat['no']=$no;
+		$dat['pwd']=$pwd;
+		$dat['repcode']=$repcode;
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
 	}
@@ -2439,10 +2445,12 @@ global $ADMIN_PASS;
 function replace(){
 	global $path,$temppath;
 
-	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	$pwd = (string)newstring(filter_input(INPUT_GET, 'pwd'));
-	$repcode = (string)newstring(filter_input(INPUT_GET, 'repcode'));
-	$message="";
+	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$no = $no ? $no : (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwd = $pwd ? $pwd : (string)newstring(filter_input(INPUT_GET, 'pwd'));
+	$repcode = (string)newstring(filter_input(INPUT_POST, 'repcode'));
+	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_GET, 'repcode'));
 	$tool = "";
 	$userip = get_uip();
 	//ホスト取得
@@ -2467,7 +2475,7 @@ function replace(){
 	}
 	closedir($handle);
 	if(!$find){//見つからなかった時は
-		return paintcom();//通常のお絵かきコメント画面へ。
+		return location_paintcom();//通常のお絵かきコメント画面へ。
 	}
 
 	// 時間
@@ -2528,7 +2536,7 @@ function replace(){
 
 			if(!check_elapsed_days($etim,$logver)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
 				closeFile($fp);
-				return paintcom();
+				return location_paintcom();
 			}
 
 			$upfile = $temppath.$file_name.$imgext;
@@ -2599,7 +2607,7 @@ function replace(){
 	}
 	if(!$flag){
 		closeFile($fp);
-		return error(MSG028);
+		return location_paintcom();
 	}
 
 	writeFile($fp, implode("\n", $line));
@@ -2616,13 +2624,11 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-	redirect(
-		//$oyanoがFalseの時は新規投稿になるので分岐不要
-		PHP_SELF.'?res='.h($oyano) . '#'.$time,
-		1,
-		$message,
-		THE_SCREEN_CHANGES
-	);
+	return header("Location: ./?resno={$oyano}&resid={$time}#{$time}");
+}
+//非同期通信の時にpaintcom()を呼び出すためのリダイレクト
+function location_paintcom(){
+	header('Location:'.PHP_SELF.'?mode=piccom');
 }
 
 // カタログ
@@ -2866,15 +2872,8 @@ function htmloutput($template,$dat,$buf_flag=''){
 }
 
 function redirect ($url, $wait = 0, $message1 = '',$message2 = '') {
-	header("Content-type: text/html; charset=UTF-8");
-	echo '<!DOCTYPE html>'
-		. '<html lang="ja"><head>'
-		. '<meta http-equiv="refresh" content="' . (int)h($wait) . '; URL=' . h($url) . '">'
-		. '<meta name="robots" content="noindex,nofollow">'
-		. '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">'
-		. '<meta charset="UTF-8"><title></title></head>'
-		. '<body>' . h($message1).($message1 ? '<br><br>':'').h($message2). '</body></html>';
-	exit;
+
+	return header("Location: {$url}");
 }
 
 function getImgType ($dest) {

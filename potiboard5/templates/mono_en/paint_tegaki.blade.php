@@ -24,8 +24,6 @@
 </script>
 </head>
 <body>
-
-<!-- embed start -->
 <script>
 function showAlert(text) {
   if (Tegaki.saveReplay) {
@@ -37,7 +35,7 @@ Tegaki.open({
 // when the user clicks on Finish
   onDone: function() {
 	
-	//2022-2023 (c)satopian MIT Licence
+	//2022-2024 (c)satopian MIT Licence
 	//この箇所はさとぴあが作成したMIT Licenceのコードです。
 
 	if (Tegaki.saveReplay) {
@@ -59,8 +57,12 @@ Tegaki.open({
 				response.text().then((text) => {
 				console.log(text)
 					if(text==='ok'){
+						@if($rep)
+						return repData();
+						@endif
 						Tegaki.hide();//｢このサイトを離れますか?｣を解除
-						return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
+						return window.location.href = "?mode=piccom&stime={{$stime}}";
+
 					}
 					return showAlert(text);
 				})
@@ -80,6 +82,47 @@ Tegaki.open({
 				return showAlert(@if($en)'Server or line is unstable.\nPlease try again!'@else'サーバまたは回線が不安定です。\n時間をおいて再度投稿してみてください。'@endif);	
 		})
 	}
+	@if($rep)
+	const repData = () => {
+    // 画像差し換えに必要なフォームデータをセット
+    const formData = new FormData();
+    formData.append("mode", "picrep"); 
+    formData.append("no", "{{$no}}"); 
+    formData.append("pwd", "{{$pwd}}"); 
+	formData.append("repcode", "{{$repcode}}");
+
+    // 画像差し換え
+	fetch("{{$self}}", {
+        method: 'POST',
+		mode: 'same-origin',
+		headers: {
+			'X-Requested-With': 'tegaki'
+			,
+		},
+       body: formData
+    })
+    .then(response => {
+		if (response.ok) {
+			if (response.redirected) {
+				Tegaki.hide();//｢このサイトを離れますか?｣を解除
+				return window.location.href = response.url;
+				}
+			response.text().then((text) => {
+				if (text.startsWith("error\n")) {
+						console.log(text);
+						Tegaki.hide();//｢このサイトを離れますか?｣を解除
+						return window.location.href = "?mode=piccom&stime={{$stime}}";
+				}
+			})
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+		Tegaki.hide();//｢このサイトを離れますか?｣を解除
+		return window.location.href = "?mode=piccom&stime={{$stime}}";
+    });
+	}
+	@endif
 
     Tegaki.flatten().toBlob(
       function(blob) {

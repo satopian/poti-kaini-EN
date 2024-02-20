@@ -18,7 +18,7 @@
 	<script>
 		//ブラウザデフォルトのキー操作をキャンセル
 		document.addEventListener("keydown",(e)=>{
-			const keys = ["+", ";", "=","-","s","h","r"];
+			const keys = ["+",";","=","-","s","h","r"];
 			if ((e.ctrlKey||e.metaKey) && keys.includes(e.key.toLowerCase())) {
 				// console.log("e.key",e.key);
 				e.preventDefault();
@@ -70,7 +70,7 @@
 
 			setTimeout(() => {
 			onSuccess();
-			//2022-2023 (c)satopian MIT Licence
+			//2022-2024 (c)satopian MIT Licence
 			//この箇所はさとぴあが作成したMIT Licenceのコードです。
 				const postData = (path, data) => {
 					fetch(path, {
@@ -87,7 +87,10 @@
 							response.text().then((text) => {
 							console.log(text)
 							if(text==='ok'){
-								return window.location.href="?mode={!!$mode!!}&stime={{$stime}}";
+								@if($rep)
+									return repData();
+								@endif
+								return window.location.href = "?mode=piccom&stime={{$stime}}";
 							}
 								return alert(text);
 							})
@@ -114,15 +117,58 @@
 					formData.append("usercode", "{{$klecksusercode}}");
 					@if($rep)formData.append("repcode", "{{$repcode}}");@endif
 					formData.append("stime", <?=time();?>);
-					formData.append("tool", "Klecks");
 					formData.append("resto", "{{$resto}}");
+					formData.append("tool", "Klecks");
 					postData("?mode=saveimage&tool=klecks", formData);
+
 				});
 				// (c)satopian MIT Licence ここまで
 				// location.reload();
 			}, 500);
 		}
 	});
+	//2022-2024 (c)satopian MIT Licence
+	//この箇所はさとぴあが作成したMIT Licenceのコードです。
+	@if($rep)
+	const repData = () => {
+    // 画像差し換えに必要なフォームデータをセット
+    const formData = new FormData();
+    formData.append("mode", "picrep"); 
+    formData.append("no", "{{$no}}"); 
+    formData.append("pwd", "{{$pwd}}"); 
+	formData.append("repcode", "{{$repcode}}");
+
+    // 画像差し換え
+
+	fetch("{{$self}}", {
+        method: 'POST',
+		mode: 'same-origin',
+		headers: {
+			'X-Requested-With': 'klecks'
+			,
+		},
+       body: formData
+    })
+    .then(response => {
+		if (response.ok) {
+			if (response.redirected) {
+				return window.location.href = response.url;
+				}
+			response.text().then((text) => {
+				if (text.startsWith("error\n")) {
+						console.log(text);
+						return window.location.href = "?mode=piccom&stime={{$stime}}";
+				}
+			})
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+		return window.location.href = "?mode=piccom&stime={{$stime}}";
+    });
+	}
+	@endif
+	// (c)satopian MIT Licence ここまで
 	if (psdURL) {
 		fetch(new Request(psdURL)).then(response => {
 			return response.arrayBuffer();
