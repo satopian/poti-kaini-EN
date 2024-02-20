@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.26.2';
+const POTI_VER = 'v6.26.7';
 const POTI_LOT = 'lot.20240220';
 
 /*
@@ -189,6 +189,8 @@ defined("X_FRAME_OPTIONS_DENY") or define("X_FRAME_OPTIONS_DENY", "1");
 defined("CHECK_PASSWORD_INPUT_ERROR_COUNT") or define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
 //管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
 defined("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS") or define("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS", "1");
+//管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
+defined("ALLOW_ALL_APPS_TO_CONTINUE_DRAWING") or define("ALLOW_ALL_APPS_TO_CONTINUE_DRAWING", "1");
 //URL入力欄を使用する する:1 しない:0
 defined("USE_URL_INPUT_FIELD") or define("USE_URL_INPUT_FIELD", "1");
 defined("SWITCH_SNS") or define("SWITCH_SNS", "1");
@@ -594,6 +596,7 @@ function form_admin_in($adminin=""){
 		$dat['select_app'] = true;
 		$dat['app_to_use'] = false;
 		$dat['use_neo'] = true;
+		$dat['use_tegaki'] = true;
 		$dat['use_shi_painter'] = true; 
 		$dat['use_chickenpaint'] = true;
 		$dat['use_klecks'] = true;
@@ -2090,7 +2093,7 @@ function incontinue(){
 	$dat['pch_mode'] = false;
 	$dat['useneo'] = false;
 	$dat['chickenpaint'] = false;
-	
+
 	$name='';
 	$sub='';
 	$cext='';
@@ -2172,9 +2175,17 @@ function incontinue(){
 	}
 
 	$dat = array_merge($dat,form());
+
+	if(ALLOW_ALL_APPS_TO_CONTINUE_DRAWING){
+		$dat['use_neo'] = true;
+		$dat['use_tegaki'] = true;
+		$dat['use_shi_painter'] = true; 
+		$dat['use_chickenpaint'] = true;
+		$dat['use_klecks'] = true;
+	}
 	$arr_apps=app_to_use();
 
-	$dat['select_app']= $select_app ? $dat['select_app'] : false;
+	$dat['select_app']= $select_app ? ($dat['select_app']||ALLOW_ALL_APPS_TO_CONTINUE_DRAWING) : false;
 	$dat['app_to_use']=($dat['paint'] && !$dat['select_app'] && !$app_to_use) ? $arr_apps[0]: $app_to_use;
 
 	if(mime_content_type(IMG_DIR.$ctim.$cext)==='image/webp'){
