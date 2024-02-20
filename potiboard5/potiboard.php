@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.26.7';
+const POTI_VER = 'v6.26.8';
 const POTI_LOT = 'lot.20240220';
 
 /*
@@ -189,7 +189,7 @@ defined("X_FRAME_OPTIONS_DENY") or define("X_FRAME_OPTIONS_DENY", "1");
 defined("CHECK_PASSWORD_INPUT_ERROR_COUNT") or define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
 //管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
 defined("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS") or define("ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS", "1");
-//管理者は設定に関わらすべてのアプリを使用できるようにする する:1 しない:0
+//続きを描く時は設定に関わらずすべてのアプリが使用できるようにする する:1 しない:0
 defined("ALLOW_ALL_APPS_TO_CONTINUE_DRAWING") or define("ALLOW_ALL_APPS_TO_CONTINUE_DRAWING", "1");
 //URL入力欄を使用する する:1 しない:0
 defined("USE_URL_INPUT_FIELD") or define("USE_URL_INPUT_FIELD", "1");
