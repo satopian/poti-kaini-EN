@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.26.0';
+const POTI_VER = 'v6.26.2';
 const POTI_LOT = 'lot.20240220';
 
 /*
@@ -2624,7 +2624,7 @@ function replace(){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 
-	return header("Location: ./?resno={$oyano}&resid={$time}#{$time}");
+	return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$time}#{$time}");
 }
 //非同期通信の時にpaintcom()を呼び出すためのリダイレクト
 function location_paintcom(){

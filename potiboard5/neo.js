@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.2";
+Neo.version = "1.6.3";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1254,6 +1254,10 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 				exitURL = responseURL.replace(/^URL:/, "");
 				}
 				Neo.uploaded = true;
+				//画面移動の関数が定義されている時はユーザーが定義した関数で画面移動
+				if (typeof Neo.handleExit === 'function') {
+					return Neo.handleExit();
+				}
 				return location.href = exitURL;
 				})
 			}else{
