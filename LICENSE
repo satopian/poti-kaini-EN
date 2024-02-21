@@ -7,7 +7,7 @@ http://php.loglog.jp/waar.php
 
 Each module is subject to its own license
 
-picpost.php  - Copyright (C)SakaQ 2005 >> http://www.punyu.net/php/
+picpost.inc.php  - Copyright (C)SakaQ 2005 >> http://www.punyu.net/php/
 thumbnail_gd.php - Copyright (C)SakaQ 2005 >> http://www.punyu.net/php/
 save.inc.php - Copyright (C) 2023 satopian
 search.inc.php - Copyright (C) 2020-2023 satopian
