@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.27.3';
+const POTI_VER = 'v6.27.5';
 const POTI_LOT = 'lot.20240221';
 
 /*
@@ -1360,7 +1360,7 @@ function regist(){
 		noticemail::send($data);
 	}
 	redirect(
-		PHP_SELF."?res={$resno}#{$resno}"
+		PHP_SELF."?res={$resno}#{$no}"
 		,
 		1,
 		$message,
@@ -2656,7 +2656,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 	if(!$java){
-		return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$oyano}#{$oyano}");
+		return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$no}#{$no}");
 	}
 }
 //非同期通信の時にpaintcom()を呼び出すためのリダイレクト
