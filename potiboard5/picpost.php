@@ -56,10 +56,10 @@ if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
 include(__DIR__.'/config.php');
 
 $lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
-  ? explode( ',', $http_langs )[0] : '';
-  $en= (stripos($lang,'ja')!==0) ? true : false;
- 
-  if($en){//ブラウザの言語が日本語以外の時
+? explode( ',', $http_langs )[0] : '';
+$en= (stripos($lang,'ja')!==0) ? true : false;
+
+if($en){//ブラウザの言語が日本語以外の時
 	$errormsg_1 = "Failed to get data. Please try posting again after a while.";
 	$errormsg_2 = "The size of the picture is too big. The drawing image is not saved.";
 	$errormsg_3 = "Failed to create the image file. Please try posting again after a while.";
@@ -140,7 +140,10 @@ if($imgh=="PNG\r\n"){
 	$imgext = '.jpg';	// JPEG
 }
 /* ---------- 投稿者情報記録 ---------- */
+$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 $userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
+session_start();
+$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
 
 // 拡張ヘッダーから情報を取り出す
 $sendheader = substr($buffer, 1 + 8, $headerLength);
@@ -151,23 +154,22 @@ if($sendheader){
 	$tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
 	$tool= is_paint_tool_name($tool);
 	$resto = isset($u['resto']) ? $u['resto'] : '';
+	$usercode = !$is_send_java ? $session_usercode : (isset($u['usercode']) ? $u['usercode'] : '');
 	$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 	$stime = isset($u['stime']) ? $u['stime'] : '';
 	$count = isset($u['count']) ? $u['count'] : 0;
 }
 $timer = $time - $stime;
 //usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加
-session_start();
-$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
 
-$userdata .= "\t$session_usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
+$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 $userdata .= "\n";
 
 $c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
-$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 if(!$is_send_java
-&& (!$c_usercode || !$session_usercode)
-|| ($c_usercode !== $session_usercode)
+&&
+((!$c_usercode || !$session_usercode)
+|| ($c_usercode !== $session_usercode))
 ){
 //user-codeの発行
 if(!$c_usercode){//user-codeがなければ発行
@@ -179,7 +181,7 @@ if(!$c_usercode){//user-codeがなければ発行
 setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
 $_SESSION['usercode']=$usercode;
 
-	die("error\n{$errormsg_8}");
+die("error\n{$errormsg_8}");
 }
 if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
 
