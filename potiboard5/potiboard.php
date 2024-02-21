@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.26.10';
+const POTI_VER = 'v6.27.2';
 const POTI_LOT = 'lot.20240221';
 
 /*
@@ -117,6 +117,11 @@ require(__DIR__.'/save.inc.php');
 
 if($save_inc_ver < 20240127){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
+}
+require(__DIR__.'/picpost.inc.php');
+
+if($picpost_inc_ver < 20240221){
+die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
@@ -352,6 +357,8 @@ switch($mode){
 		return sns_share::post_share_server();
 	case 'saveimage':
 		return saveimage();
+	case 'picpost':
+		return picpost::saveimage();
 	default:
 		if($res){
 			return res($res);
@@ -1770,19 +1777,21 @@ function paintform(){
 
 		$cont_paint_same_thread=(bool)filter_input(INPUT_POST, 'cont_paint_same_thread',FILTER_VALIDATE_BOOLEAN);
 
+		
+		$tp=fopen(TREEFILE,"r");
+		while($tree = fgets($tp)){
+			if(!trim($tree)){
+				continue;
+			}	
+			if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
+				list($oyano,) = explode(',', trim($tree));
+				break;
+			}
+		}
+		closeFile($tp);
+		$dat['oyano']=$oyano;
 		if($type!=='rep'){
 
-			$tp=fopen(TREEFILE,"r");
-			while($tree = fgets($tp)){
-				if(!trim($tree)){
-					continue;
-				}	
-				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-					list($oyano,) = explode(',', trim($tree));
-					break;
-				}
-			}
-			closeFile($tp);
 			$resto = ($cont_paint_same_thread && $oyano) ? $oyano : '';
 
 			// $resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
@@ -2451,14 +2460,19 @@ global $ADMIN_PASS;
 	);
 }
 // 画像差し換え
-function replace(){
-	global $path,$temppath;
+function replace($no="",$pwd="",$repcode="",$java=""){
+	
+	global $path,$temppath,$en;
 
-	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$replace_error_msg = $en ? 
+	"Image replacement failed.\nIt may be left in [Recover Images]."
+	:"画像の差し換えに失敗しました。\n未投稿画像に残っている可能性があります。";
+
+	$no = $no ? $no : (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
 	$no = $no ? $no : (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
-	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
+	$pwd = $pwd ? $pwd : (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$pwd = $pwd ? $pwd : (string)newstring(filter_input(INPUT_GET, 'pwd'));
-	$repcode = (string)newstring(filter_input(INPUT_POST, 'repcode'));
+	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_POST, 'repcode'));
 	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_GET, 'repcode'));
 	$tool = "";
 	$userip = get_uip();
@@ -2484,6 +2498,9 @@ function replace(){
 	}
 	closedir($handle);
 	if(!$find){//見つからなかった時は
+		if($java){
+			die("error\n{$replace_error_msg}");
+		}
 		return location_paintcom();//通常のお絵かきコメント画面へ。
 	}
 
@@ -2545,6 +2562,9 @@ function replace(){
 
 			if(!check_elapsed_days($etim,$logver)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
 				closeFile($fp);
+				if($java){
+					die("error\n{$replace_error_msg}");
+				}
 				return location_paintcom();
 			}
 
@@ -2616,6 +2636,9 @@ function replace(){
 	}
 	if(!$flag){
 		closeFile($fp);
+		if($java){
+			die("error\n{$replace_error_msg}");
+		}
 		return location_paintcom();
 	}
 
@@ -2632,8 +2655,9 @@ function replace(){
 	safe_unlink($src);
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
-
-	return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$time}#{$time}");
+	if(!$java){
+		return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$time}#{$time}");
+	}
 }
 //非同期通信の時にpaintcom()を呼び出すためのリダイレクト
 function location_paintcom(){
