@@ -364,11 +364,20 @@
 						<param name="undo" value="{{$undo}}">
 						<param name="undo_in_mg" value="{{$undo_in_mg}}">
 						@if($useneo)
+						{{-- neo --}}
 						<param name="url_save" value="{{$self}}?mode=saveimage&amp;tool=neo">
-						@else
-						<param name="url_save" value="picpost.php">
-						@endif
+						<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}">
 						<param name="url_exit" value="{{$self}}?mode={{$mode}}&amp;stime={{$stime}}">
+						@else
+						{{-- しぃペインター --}}
+						<param name="url_save" value="{{$self}}?mode=picpost">
+						<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}&amp;rep={{$rep}}&amp;no={{$no}}&amp;pwd={{$pwd}}">
+							@if($rep)
+							<param name="url_exit" value="{{$self}}?res={{$oyano}}">
+							@else
+							<param name="url_exit" value="{{$self}}?mode=piccom&amp;stime={{$stime}}">
+							@endif
+						@endif
 						@if($anime)
 						<param name="thumbnail_type" value="animation">
 						@endif
@@ -378,7 +387,6 @@
 						@if($imgfile)
 						<param name="image_canvas" value="{{$imgfile}}">
 						@endif
-						<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}">
 						<param name="poo" value="false">
 						<param name="send_advance" value="true">
 						<param name="thumbnail_width" value="100%">
