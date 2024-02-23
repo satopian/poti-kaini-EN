@@ -47,7 +47,7 @@
 // 2003/09/01 PHP風(?)に整理
 // 2003/08/28 perl -> php 移植  by TakeponG >> https://chomstudio.com/
 // 2003/07/11 perl版初公開
-$picpost_inc_ver=20240221;
+$picpost_inc_ver=20240223;
 class picpost{
 	Public static function saveimage(){
 
@@ -144,9 +144,7 @@ class picpost{
 	$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
 	$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 	
-	if(!$is_send_java){
-		session_start();
-	}
+	session_sta();
 	$session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
 
 	// 拡張ヘッダーから情報を取り出す
