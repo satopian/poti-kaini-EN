@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.27.7';
-const POTI_LOT = 'lot.20240223';
+const POTI_VER = 'v6.27.8';
+const POTI_LOT = 'lot.20240224';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1354,7 +1354,7 @@ function regist(){
 		}else{
 			$data['subject'] = '['.TITLE.'] '.NOTICE_MAIL_NEWPOST;
 		}
-		$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF."?res={$resno}#{$time}";
+		$data['option'][] = NOTICE_MAIL_URL.','.ROOT_URL.PHP_SELF."?res={$resno}#{$no}";
 		$data['comment'] = SEND_COM ? preg_replace("#<br( *)/?>#i","\n", $com) : '';
 
 		noticemail::send($data);
