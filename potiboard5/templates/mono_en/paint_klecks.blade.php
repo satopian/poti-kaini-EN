@@ -18,7 +18,7 @@
 	<script>
 		//ブラウザデフォルトのキー操作をキャンセル
 		document.addEventListener("keydown",(e)=>{
-			const keys = ["+",";","=","-","s","h","r"];
+			const keys = ["+",";","=","-","s","h","r","o"];
 			if ((e.ctrlKey||e.metaKey) && keys.includes(e.key.toLowerCase())) {
 				// console.log("e.key",e.key);
 				e.preventDefault();

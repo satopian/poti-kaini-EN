@@ -2205,7 +2205,7 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
 	// console.log(document.activeElement.tagName)
 	//ctrlキーとの組み合わせのブラウザデフォルトのショートカットキーを無効化
 	//但しctrl+v,ctrl+x,ctrl+aは使用可能
-	const keys = ["+",";","=","-","s","h","r","y","z","u"];
+	const keys = ["+",";","=","-","s","h","r","y","z","u","o"];
 	if ((e.ctrlKey||e.metaKey) && keys.includes(e.key.toLowerCase())){
 		e.preventDefault();
 	}

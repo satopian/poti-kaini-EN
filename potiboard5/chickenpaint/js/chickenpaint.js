@@ -110,7 +110,7 @@ if (window.PointerEvent) {
 }
 //ブラウザデフォルトのキー操作をキャンセル
 document.addEventListener("keydown", function (e) {
-  var keys = ["+", ";", "=", "-", "s", "h", "r"];
+  var keys = ["+", ";", "=", "-", "s", "h", "r", "o"];
   if ((e.ctrlKey || e.metaKey) && keys.includes(e.key.toLowerCase()) || e.key === "Enter") {
     // console.log("e.key",e.key);
     e.preventDefault();
