@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.27.9';
-const POTI_LOT = 'lot.20240226';
+const POTI_VER = 'v6.28.0';
+const POTI_LOT = 'lot.20240301';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -286,7 +286,7 @@ $_SESSION['usercode']=$usercode;
 switch($mode){
 	case 'regist':
 		if(DIARY && !$resto){
-			if($pwd && ($pwd !== $ADMIN_PASS)){
+			if(!$pwd||($pwd !== $ADMIN_PASS)){
 				return error(MSG029);
 			}
 			$admin=$pwd;
@@ -300,7 +300,7 @@ switch($mode){
 		}
 		check_same_origin(true);
 		check_password_input_error_count();
-		if($pass && ($pass !== $ADMIN_PASS)) 
+		if(!$pass || ($pass !== $ADMIN_PASS)) 
 		return error(MSG029);
 	
 		if($admin==="del") return admindel($pass);
