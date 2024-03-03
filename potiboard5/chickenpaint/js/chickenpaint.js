@@ -18630,12 +18630,13 @@ function CPBrushPanel(controller) {
   });
   tipCombo.addEventListener("change", function (e) {
     controller.getBrushInfo().tip = parseInt(tipCombo.value, 10);
+    tipCombo.blur();
   });
-  tipCombo.onfocus = function () {
-    //フォーカスを検出したら
-    document.activeElement.blur(); //フォーカスを外す
-    // console.log(document.activeElement);
-  };
+  // tipCombo.onfocus = ()=>{//フォーカスを検出したら
+  // 	document.activeElement.blur();//フォーカスを外す
+  // 	// console.log(document.activeElement);
+
+  // }; 
 
   tipCombo.className = "form-control form-control-sm";
   tipCombo.tabIndex = -1;
@@ -23353,12 +23354,12 @@ function CPLayersPalette(controller) {
       action: "CPSetLayerBlendMode",
       blendMode: parseInt(blendCombo.value, 10)
     });
+    blendCombo.blur();
   });
-  blendCombo.onfocus = function () {
-    //フォーカスを検出したら
-    document.activeElement.blur(); //フォーカスを外す
-    // console.log(document.activeElement);
-  };
+  // blendCombo.onfocus = ()=>{//フォーカスを検出したら
+  // 	document.activeElement.blur();//フォーカスを外す
+  // 	// console.log(document.activeElement);
+  // }; 
 
   body.appendChild(blendCombo);
   alphaSlider.title = function (value) {
