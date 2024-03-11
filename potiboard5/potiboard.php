@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.28.0';
-const POTI_LOT = 'lot.20240301';
+const POTI_VER = 'v6.29.0';
+const POTI_LOT = 'lot.20240311';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -43,9 +43,9 @@ const POTI_LOT = 'lot.20240301';
 ご質問は、<https://paintbbs.sakura.ne.jp/poti/>までどうぞ。
 */
 $en=lang_en();
-if (version_compare(PHP_VERSION, '7.2.5', '<')) {
-	die($en? "Error. PHP version 7.2.5 or higher is required for this program to work. <br>\n(Current PHP version:".PHP_VERSION.")":
-		"エラー。本プログラムの動作には PHPバージョン 7.2.5 以上が必要です。<br>\n(現在のPHPバージョン：".PHP_VERSION.")"
+if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+	die($en? "Error. PHP version 7.4.0 or higher is required for this program to work. <br>\n(Current PHP version:".PHP_VERSION.")":
+		"エラー。本プログラムの動作には PHPバージョン 7.4.0 以上が必要です。<br>\n(現在のPHPバージョン：".PHP_VERSION.")"
 	);
 }
 
