@@ -3352,13 +3352,20 @@ var Tegaki = {
 	},
 	
 	onPaletteColorClick: function(e) {
-	  if (e.button === 2) {
-		this.style.backgroundColor = Tegaki.toolColor;
-		this.setAttribute('data-color', Tegaki.toolColor);
-	  }
-	  else if (e.button === 0) {
+	//   if (e.button === 2) {
+	// 	this.style.backgroundColor = Tegaki.toolColor;
+	// 	this.setAttribute('data-color', Tegaki.toolColor);
+	//   }
+	//   else
+	if (e.button === 0) {
 		Tegaki.setToolColor(this.getAttribute('data-color'));
 	  }
+	},
+	//パレットに色を登録
+	onPaletteColorContextmenu: function(e) {
+		this.style.backgroundColor = Tegaki.toolColor;
+		this.setAttribute('data-color', Tegaki.toolColor);
+		e.preventDefault();
 	},
 	
 	onColorPicked: function(e) {
@@ -6140,6 +6147,8 @@ var TegakiUI = {
 		  btn.setAttribute('data-color', color);
 		  btn.style.backgroundColor = color;
 		  $T.on(btn, 'mousedown', Tegaki.onPaletteColorClick);
+		  //パレットに色を登録
+		  $T.on(btn, 'contextmenu', Tegaki.onPaletteColorContextmenu);
 		  el.appendChild(btn);
 		}
 		

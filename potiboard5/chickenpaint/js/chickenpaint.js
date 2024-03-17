@@ -23709,6 +23709,7 @@ var MENU_ENTRIES = [{
     name: "Invert",
     action: "CPFXInvert",
     mnemonic: "I",
+    shortcut: "ctrl+i",
     title: (0, _lang._)("Invert the image colors")
   }, {
     name: "-"
