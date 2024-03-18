@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.30.2';
+const POTI_VER = 'v6.30.3';
 const POTI_LOT = 'lot.20240318';
 
 /*
@@ -992,7 +992,7 @@ function regist(){
 		$userdata = fread($fp, 1024);
 		fclose($fp);
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
-		if(($ucode != $usercode) && (!$uip || ($uip != $userip))){
+		if((!$ucode||$ucode != $usercode) && (!$uip || ($uip != $userip) && (!$uhost || ($uhost != $host)))){
 			return error(MSG007);
 		}
 		//描画時間を$userdataをもとに計算
@@ -1996,7 +1996,7 @@ function paintcom(){
 			$imgext=basename($imgext);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
 			//Javaから送信されるIPアドレスはIPv4形式になるのでホスト名でもチェック
-			if(($ucode == $usercode)||($uip && ($uip == $userip))||($uhost && ($uhost == $host))){
+			if(($ucode && ($ucode == $usercode))||($uip && ($uip == $userip))||($uhost && ($uhost == $host))){
 				$tmp[$file_name] = $file_name.$imgext;
 			}
 		}
@@ -2496,7 +2496,10 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
 			//画像があり、認識コードがhitすれば抜ける
-			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $urepcode === $repcode){$find=true;break;}
+			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $urepcode && ($urepcode === $repcode)){
+				$find=true;
+				break;
+			}
 		}
 	}
 	closedir($handle);
