@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.30.0';
-const POTI_LOT = 'lot.20240316';
+const POTI_VER = 'v6.30.2';
+const POTI_LOT = 'lot.20240318';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1959,6 +1959,8 @@ function paintform(){
 function paintcom(){
 	global $usercode;
 	$userip = get_uip();
+	$host = $userip ? gethostbyaddr($userip) : '';
+
 	$resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
 	$stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
 	//描画時間
@@ -1993,7 +1995,8 @@ function paintcom(){
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			$imgext=basename($imgext);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
-			if($ucode == $usercode||($uip && ($uip == $userip))){
+			//Javaから送信されるIPアドレスはIPv4形式になるのでホスト名でもチェック
+			if(($ucode == $usercode)||($uip && ($uip == $userip))||($uhost && ($uhost == $host))){
 				$tmp[$file_name] = $file_name.$imgext;
 			}
 		}
