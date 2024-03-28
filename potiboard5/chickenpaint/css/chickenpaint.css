@@ -1545,6 +1545,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-color: white;
   z-index: 1000;
   -webkit-touch-callout: initial;
@@ -8462,6 +8463,7 @@ display:none;
   z-index: 1040;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-color: #000;
 }
 .offcanvas-backdrop.fade {
