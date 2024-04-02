@@ -3627,7 +3627,7 @@ function create_line_from_treenumber ($fp,$trees){
 
 	rewind($fp);
 	$line=[];
-	$treeSet = array_flip($trees);//配列とキーを反転
+	$treeSet = array_flip($trees);//配列のキーと値を反転
 	while($lines = fgets($fp)){
 		if(!trim($lines)){
 			continue;
