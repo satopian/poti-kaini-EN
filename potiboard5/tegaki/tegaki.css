@@ -114,7 +114,6 @@
   grid-area: 2 / 2 / 3 / 3;
   overflow: auto;
   display: flex;
-  touch-action: none;
 }
 
 #tegaki-ctrl-cnt {
@@ -143,8 +142,8 @@
 }
 
 #tegaki-status-version {
-  color: #a3b1bf;
-  font-size: 11px;
+ color: #adbdcc;
+ font-size: 11px;
   margin-left: auto;
 }
 
@@ -241,10 +240,6 @@
   image-rendering: -webkit-optimize-contrast;
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
-}
-
-#tegaki .tegaki-smooth-layers #tegaki-cursor-layer {
-  image-rendering: auto;
 }
 
 .tegaki-tool-active {
@@ -354,6 +349,7 @@
 #tegaki-layers-wrap {
   margin: auto;
   padding: 50px;
+  pointer-events: none;
 }
 
 #tegaki-layers canvas {
@@ -366,6 +362,12 @@
   font-weight: bold;
 }
 
+#tegaki-cursor-layer {
+	position: absolute;
+	mix-blend-mode: difference;
+	touch-action: none;
+  }
+  
 /* generic ui */
 .tegaki-alpha-bg,
 .tegaki-alpha-bg-xs {
