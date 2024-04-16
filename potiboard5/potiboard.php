@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.30.6';
-const POTI_LOT = 'lot.20240409';
+const POTI_VER = 'v6.30.7';
+const POTI_LOT = 'lot.20240416';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -857,14 +857,14 @@ function res($resno = 0){
 
 //マークダウン記法のリンクをHTMLに変換
 function md_link($str){
-	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+)\)}",'<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
+	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)\)}",'<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
 	return $str;
 }
 
 // 自動リンク
 function auto_link($str){
 	if(strpos($str,'<a')===false){//マークダウン記法がなかった時
-		$str= preg_replace("{(https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+)}",'<a href="$1" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
+		$str= preg_replace("{(https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)}",'<a href="$1" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
 	}
 	return $str;
 }
