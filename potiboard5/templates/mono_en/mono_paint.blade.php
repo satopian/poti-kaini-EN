@@ -768,32 +768,32 @@
 			<script>
 				// 新規投稿時にのみ、同じスレッドに投稿するボタンを表示
 				document.getElementById('select_post').addEventListener('change', function() {
-					var idx=document.getElementById('select_post').selectedIndex;
+					const idx=document.getElementById('select_post').selectedIndex;
 					console.log(idx);
-					var obj2style_1=document.getElementById('span_cont_paint_same_thread');
-					var obj2style_2=document.getElementById('span_cont_pass');
+					const cont_paint_same_thread=document.getElementById('span_cont_paint_same_thread');
+					const cont_pass=document.getElementById('span_cont_pass');
 					if(idx === 1){
-						if(obj2style_1){
-							obj2style_1.style.display = "inline-block";
+						if(cont_paint_same_thread){
+							cont_paint_same_thread.style.display = "inline-block";
 						}
 						@if($newpost_nopassword) 
-						if(obj2style_2){
-						obj2style_2.style.display = "none";
+						if(cont_pass){
+						cont_pass.style.display = "none";
 						}
 						@endif
 					}else{
-						if(obj2style_1){
-							obj2style_1.style.display = "none";
+						if(cont_paint_same_thread){
+							cont_paint_same_thread.style.display = "none";
 						}
 						@if($newpost_nopassword) 
-						if(obj2style_2){
-							obj2style_2.style.display = "inline-block";
+						if(cont_pass){
+							cont_pass.style.display = "inline-block";
 						}
 						@endif
 					}
 				});
 			</script>
-
+			
 			{{-- (========== CONTINUE MODE(コンティニューモード) end ==========) --}}
 			@endif
 		</main>

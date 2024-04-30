@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.30.8';
-const POTI_LOT = 'lot.20240420';
+const POTI_VER = 'v6.30.10';
+const POTI_LOT = 'lot.20240430';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -992,7 +992,7 @@ function regist(){
 		$userdata = fread($fp, 1024);
 		fclose($fp);
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
-		if((!$ucode||$ucode != $usercode) && (!$uip || ($uip != $userip) && (!$uhost || ($uhost != $host)))){
+		if((!$ucode||$ucode != $usercode) && (!$uip || ($uip != $userip)) && (!$uhost || ($uhost != $host))){
 			return error(MSG007);
 		}
 		//描画時間を$userdataをもとに計算
