@@ -528,7 +528,7 @@ $servers =
 [
 
 	["Twitter","https://twitter.com"],
-	["mstdn.jp","https://mstdn.jp"],
+	["Bluesky","https://bsky.app"],
 	["pawoo.net","https://pawoo.net"],
 	["fedibird.com","https://fedibird.com"],
 	["misskey.io","https://misskey.io"],
