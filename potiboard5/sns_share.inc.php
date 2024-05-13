@@ -14,7 +14,6 @@ class sns_share{
 		
 			["Twitter","https://twitter.com"],
 			["Bluesky","https://bsky.app"],
-			["mstdn.jp","https://mstdn.jp"],
 			["pawoo.net","https://pawoo.net"],
 			["fedibird.com","https://fedibird.com"],
 			["misskey.io","https://misskey.io"],
