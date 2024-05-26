@@ -646,14 +646,9 @@
 .chickenpaint-toolbar-button-icon {
   width: 32px;
   height: 32px;
-  background-image: url(../gfx/icons-dark-32.png);
-  background-size: 256px 160px;
+  background-image: url(../gfx/icons-dark-32.png?20240527);
+  background-size: 256px 192px;
   background-repeat: no-repeat;
-}
-
-.chickenpaint-toolbar-style-old .chickenpaint-toolbar-button-icon {
-  background-image: url(../gfx/icons-old.png);
-  background-size: 32px 1024px;
 }
 
 .chickenpaint .chickenpaint-small-toolbar-button {
@@ -781,8 +776,12 @@
   background-position: -160px -128px;
 }
 
+.chickenpaint-tool-flip-horizontal .chickenpaint-toolbar-button-icon {
+	background-position: 0 -160px;
+  }
+
 .chickenpaint-tool-undo {
-  margin-left: 8px;
+  margin-left: 3px;
 }
 
 .chickenpaint-tool-undo .chickenpaint-toolbar-button-icon {
@@ -790,7 +789,7 @@
 }
 
 .chickenpaint-tool-redo {
-  margin-right: 8px;
+  margin-right: 3px;
 }
 
 .chickenpaint-tool-redo .chickenpaint-toolbar-button-icon {
@@ -819,97 +818,6 @@
 
 .chickenpaint-tool-bezier .chickenpaint-toolbar-button-icon {
   background-position: -64px 0px;
-}
-
-.chickenpaint-toolbar-style-old .chickenpaint-tool-rect-selection .chickenpaint-toolbar-button-icon {
-  background-position: 0 0;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-move .chickenpaint-toolbar-button-icon {
-  background-position: 0 -32px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-flood-fill .chickenpaint-toolbar-button-icon {
-  background-position: 0 -64px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-gradient-fill .chickenpaint-toolbar-button-icon {
-  background-position: 0 -96px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-rotate-canvas .chickenpaint-toolbar-button-icon {
-  background-position: 0 -928px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-pan-canvas .chickenpaint-toolbar-button-icon {
-  background-position: 0 -672px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-pencil .chickenpaint-toolbar-button-icon {
-  background-position: 0 -160px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-pen .chickenpaint-toolbar-button-icon {
-  background-position: 0 -192px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-airbrush .chickenpaint-toolbar-button-icon {
-  background-position: 0 -224px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-water .chickenpaint-toolbar-button-icon {
-  background-position: 0 -576px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-eraser .chickenpaint-toolbar-button-icon {
-  background-position: 0 -256px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-soft-eraser .chickenpaint-toolbar-button-icon {
-  background-position: 0 -288px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-smudge .chickenpaint-toolbar-button-icon {
-  background-position: 0 -768px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-blender .chickenpaint-toolbar-button-icon {
-  background-position: 0 -896px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-dodge .chickenpaint-toolbar-button-icon {
-  background-position: 0 -512px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-burn .chickenpaint-toolbar-button-icon {
-  background-position: 0 -544px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-blur .chickenpaint-toolbar-button-icon {
-  background-position: 0 -736px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-color-picker .chickenpaint-toolbar-button-icon {
-  background-position: 0 -960px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-zoom-in .chickenpaint-toolbar-button-icon {
-  background-position: 0 -416px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-zoom-out .chickenpaint-toolbar-button-icon {
-  background-position: 0 -448px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-zoom-100 .chickenpaint-toolbar-button-icon {
-  background-position: 0 -480px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-undo {
-  margin-left: 8px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-undo .chickenpaint-toolbar-button-icon {
-  background-position: 0 -320px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-redo {
-  margin-right: 8px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-redo .chickenpaint-toolbar-button-icon {
-  background-position: 0 -352px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-send .chickenpaint-toolbar-button-icon {
-  background-position: 0 -384px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-send-and-end .chickenpaint-toolbar-button-icon {
-  background-position: 0 -992px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-freehand .chickenpaint-toolbar-button-icon {
-  background-position: 0 -608px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-line .chickenpaint-toolbar-button-icon {
-  background-position: 0 -640px;
-}
-.chickenpaint-toolbar-style-old .chickenpaint-tool-bezier .chickenpaint-toolbar-button-icon {
-  background-position: 0 -704px;
 }
 
 .chickenpaint-colorpicker-show {
@@ -1627,17 +1535,11 @@ body.chickenpaint-full-screen {
 /* High resolution alternatives */
 @media only screen and (min-device-pixel-ratio: 1.3), only screen and (-webkit-min-device-pixel-ratio: 1.25), only screen and (min-resolution: 120dpi) {
   .chickenpaint-toolbar-button-icon {
-    background-image: url(../gfx/icons-dark-64.png);
+    background-image: url(../gfx/icons-dark-64.png?20240527);
   }
   .chickenpaint-layer-thumbnail {
     background-image: url(../gfx/trans-grid-4px.png);
     background-size: 4px 4px;
-  }
-  .chickenpaint-toolbar-style-old .chickenpaint-toolbar-button-icon {
-    background-image: url(../gfx/icons-old-2x.png);
-  }
-  .chickenpaint-toolbar-style-old.chickenpaint-lang-ja .chickenpaint-toolbar-button-icon {
-    background-image: url(../gfx/icons-old-ja-2x.png);
   }
 }
 /* Support for Firefox 16 (and other non-IE browsers with no/prefixed Flexbox) */
