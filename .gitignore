@@ -11,4 +11,4 @@ src/
 thumb/
 tmp/
 cache/
-.afphoto~lock~
+*.afphoto~lock~
