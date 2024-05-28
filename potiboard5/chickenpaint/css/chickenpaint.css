@@ -924,7 +924,7 @@
 
 .chickenpaint-palette-layers {
   min-height: 250px;
-  min-width: 214px;
+  min-width: 218px;
 }
 
 .chickenpaint-palette-layers .chickenpaint-palette-body {
@@ -1127,9 +1127,14 @@
 }
 
 .chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 4.8px;
+  padding-right: 4.8px;
   margin-right: 6px;
+}
+/* ゴミ箱アイコンの右のマージンを0にする */
+
+.chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button[data-action="CPRemoveLayer"] {
+	margin-right: 0;
 }
 
 .chickenpaint-palette-layers .chickenpaint-slider {
