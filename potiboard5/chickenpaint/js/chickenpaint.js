@@ -23521,15 +23521,15 @@ function CPMainGUI(controller, uiElem) {
   //リサイズ時にパレットの配置を初期化
   window.addEventListener("resize", function () {
     _this.resize();
-    controller.actionPerformed({
-      action: "CPArrangePalettes"
-    });
-    setTimeout(function () {
-      //非同期による2度目のパレット初期化
+    Promise.resolve().then(function () {
       controller.actionPerformed({
         action: "CPArrangePalettes"
       });
-    }, 0);
+    });
+    // controller.actionPerformed({action: "CPArrangePalettes"});
+    // setTimeout(() => {//非同期による2度目のパレット初期化
+    // 	controller.actionPerformed({action: "CPArrangePalettes"});
+    // }, 0);
   });
   //Bootstrap5のコラプスでメニューバーが閉じる時にリサイズする
   document.addEventListener('hidden.bs.collapse', this.resize.bind(this));
