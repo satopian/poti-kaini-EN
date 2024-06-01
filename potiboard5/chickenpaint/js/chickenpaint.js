@@ -23518,6 +23518,8 @@ function CPMainGUI(controller, uiElem) {
     paletteManager.palettes.layers.setRotation90(newAngle);
   });
   window.addEventListener("resize", this.resize.bind(this));
+  //Bootstrap5のコラプスでメニューバーが閉じる時にリサイズする
+  document.addEventListener('hidden.bs.collapse', this.resize.bind(this));
   controller.on("fullScreen", function (fullscreen) {
     return _this.setFullScreenMode(fullscreen);
   });
