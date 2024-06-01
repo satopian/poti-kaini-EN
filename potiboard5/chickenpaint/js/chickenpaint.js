@@ -23517,7 +23517,20 @@ function CPMainGUI(controller, uiElem) {
   canvas.on("canvasRotated90", function (newAngle) {
     paletteManager.palettes.layers.setRotation90(newAngle);
   });
-  window.addEventListener("resize", this.resize.bind(this));
+
+  //リサイズ時にパレットの配置を初期化
+  window.addEventListener("resize", function () {
+    _this.resize();
+    controller.actionPerformed({
+      action: "CPArrangePalettes"
+    });
+    setTimeout(function () {
+      //非同期による2度目のパレット初期化
+      controller.actionPerformed({
+        action: "CPArrangePalettes"
+      });
+    }, 0);
+  });
   //Bootstrap5のコラプスでメニューバーが閉じる時にリサイズする
   document.addEventListener('hidden.bs.collapse', this.resize.bind(this));
   controller.on("fullScreen", function (fullscreen) {
