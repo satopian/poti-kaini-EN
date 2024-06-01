@@ -23518,18 +23518,22 @@ function CPMainGUI(controller, uiElem) {
     paletteManager.palettes.layers.setRotation90(newAngle);
   });
 
-  //リサイズ時にパレットの配置を初期化
+  // リサイズ時にパレットの配置を初期化
   window.addEventListener("resize", function () {
+    // 最初にリサイズ
     _this.resize();
+    // パレット初期化
+    controller.actionPerformed({
+      action: "CPArrangePalettes"
+    });
+    // 非同期的に2度目のリサイズとパレット初期化
     Promise.resolve().then(function () {
+      _this.resize();
+    }).then(function () {
       controller.actionPerformed({
         action: "CPArrangePalettes"
       });
     });
-    // controller.actionPerformed({action: "CPArrangePalettes"});
-    // setTimeout(() => {//非同期による2度目のパレット初期化
-    // 	controller.actionPerformed({action: "CPArrangePalettes"});
-    // }, 0);
   });
   //Bootstrap5のコラプスでメニューバーが閉じる時にリサイズする
   document.addEventListener('hidden.bs.collapse', this.resize.bind(this));
