@@ -18396,6 +18396,17 @@ function CPBoxBlurDialog(parent, controller) {
   var modal = new bootstrap.Modal(dialog[0]);
   this.show = function () {
     modal.show();
+
+    // ハンバガーメニューとモーダルの二重表示防止
+    // chickenpaint-main-menu-contentのIDを持つcollapse要素を閉じる
+    var collapseElement = document.getElementById('chickenpaint-main-menu-content');
+    if (collapseElement && collapseElement.classList.contains('show')) {
+      var bsCollapse = new bootstrap.Collapse(collapseElement, {
+        toggle: false // すでに閉じている場合のエラーを防ぐ
+      });
+
+      bsCollapse.hide();
+    }
   };
   applyButton[0].addEventListener('click', function (e) {
     var blur = Math.max(parseInt(blurAmountElem.val(), 10), 1),
@@ -21958,6 +21969,16 @@ function CPGridDialog(parent, canvas) {
   var modal = new bootstrap.Modal(dialog[0]);
   this.show = function () {
     modal.show();
+    // ハンバガーメニューとモーダルの二重表示防止
+    // chickenpaint-main-menu-contentのIDを持つcollapse要素を閉じる
+    var collapseElement = document.getElementById('chickenpaint-main-menu-content');
+    if (collapseElement && collapseElement.classList.contains('show')) {
+      var bsCollapse = new bootstrap.Collapse(collapseElement, {
+        toggle: false // すでに閉じている場合のエラーを防ぐ
+      });
+
+      bsCollapse.hide();
+    }
   };
   gridSizeElem.val(canvas.getGridSize());
 
@@ -23534,6 +23555,19 @@ function CPMainGUI(controller, uiElem) {
         action: "CPArrangePalettes"
       });
     });
+  });
+
+  // ハンバガーメニューとモーダルの二重表示防止
+  document.addEventListener('show.bs.modal', function () {
+    // chickenpaint-main-menu-contentのIDを持つcollapse要素を閉じる
+    var collapseElement = document.getElementById('chickenpaint-main-menu-content');
+    if (collapseElement && collapseElement.classList.contains('show')) {
+      var bsCollapse = new bootstrap.Collapse(collapseElement, {
+        toggle: false // すでに閉じている場合のエラーを防ぐ
+      });
+
+      bsCollapse.hide();
+    }
   });
   //Bootstrap5のコラプスでメニューバーが閉じる時にリサイズする
   document.addEventListener('hidden.bs.collapse', this.resize.bind(this));
