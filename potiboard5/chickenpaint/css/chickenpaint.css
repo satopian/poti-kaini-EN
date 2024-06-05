@@ -1485,7 +1485,7 @@ body.chickenpaint-full-screen {
 }
 
 /* More compact styles for small screens */
-@media (max-height: 768px), (max-width: 400px) {
+@media (max-height: 768px), (max-width: 768px) {/* iPhone 14 Pro Max  */
   .chickenpaint .navbar {
     min-height: 20px;
     padding: 0.1rem;
