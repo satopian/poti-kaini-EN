@@ -26430,9 +26430,11 @@ function CPToolPalette(cpController) {
       cpController.actionPerformed({
         action: button.command
       });
-      that.userIsDoneWithUs();
+      // that.userIsDoneWithUs();
+      //ツールのボタンをクリックするとツールパレットの折りたたみになる機能を停止
     }
   }
+
   function buildButtons() {
     var body = that.getBodyElement();
     listElem.className = "chickenpaint-tools list-unstyled";
