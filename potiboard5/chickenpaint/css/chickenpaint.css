@@ -380,8 +380,10 @@
   margin-left: 1em;
   text-align: right;
 }
+
 .chickenpaint .navbar .dropdown-item.hidden,
-.chickenpaint .navbar .dropdown-divider.hidden {
+.chickenpaint .navbar .dropdown-divider.hidden,
+.chickenpaint .widget-nav.hidden {
   display: none;
 }
 
