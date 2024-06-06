@@ -1489,7 +1489,7 @@ body.chickenpaint-full-screen {
 }
 
 /* More compact styles for small screens */
-@media (max-height: 767px), (max-width: 767px) {/* iPad miniより画面が小さな時  */
+@media (max-height: 767px), (max-width: 789px) {
   .chickenpaint .navbar {
     min-height: 20px;
     padding: 0.1rem;
@@ -5747,7 +5747,7 @@ textarea.form-control-lg {
     overflow-y: visible;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 790px) {
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
