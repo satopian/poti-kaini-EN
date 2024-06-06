@@ -108,14 +108,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 if (window.PointerEvent) {
   window.hasNativePointerEvents = true;
 }
-//ブラウザデフォルトのキー操作をキャンセル
-document.addEventListener("keydown", function (e) {
-  var keys = ["+", ";", "=", "-", "s", "h", "r", "o"];
-  if ((e.ctrlKey || e.metaKey) && keys.includes(e.key.toLowerCase()) || e.key === "Enter") {
-    // console.log("e.key",e.key);
-    e.preventDefault();
-  }
-});
 require("pepjs"); // Needs to use require() instead of import so we can run code before it
 function checkBrowserSupport() {
   var supportsAPIs = (0, _CPPolyfill.isCanvasSupported)() && "Uint8Array" in window;
@@ -356,8 +348,24 @@ function ChickenPaint(options) {
   if (options.language) {
     (0, _lang.setLanguage)(options.language);
   }
+  var uiElem = options.uiElem;
+
+  //ブラウザデフォルトのキー操作をキャンセル
+  document.addEventListener("keydown", function (e) {
+    var keys = ["+", ";", "=", "-", "s", "h", "r", "o"];
+    if ((e.ctrlKey || e.metaKey) && keys.includes(e.key.toLowerCase()) || e.key === "Enter") {
+      // console.log("e.key",e.key);
+      e.preventDefault();
+    }
+  });
+  //長押しでコンテキストメニューを開かない
+  uiElem.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }, {
+    passive: false
+  });
   var that = this,
-    uiElem = options.uiElem,
     /**
         * @type {CPCanvas}
         */
