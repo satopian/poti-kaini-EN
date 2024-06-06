@@ -1489,7 +1489,7 @@ body.chickenpaint-full-screen {
 }
 
 /* More compact styles for small screens */
-@media (max-height: 767px), (max-width: 789px) {
+@media (max-height: 767px), (max-width: 799px) {
   .chickenpaint .navbar {
     min-height: 20px;
     padding: 0.1rem;
@@ -5747,7 +5747,7 @@ textarea.form-control-lg {
     overflow-y: visible;
   }
 }
-@media (min-width: 790px) {
+@media (min-width: 800px) {
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
