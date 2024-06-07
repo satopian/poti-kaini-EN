@@ -124,7 +124,7 @@ function checkBrowserSupport() {
   return true;
 }
 function isSmallScreen() {
-  return (0, _jquery.default)(window).width() < 430 || (0, _jquery.default)(window).height() < 430;
+  return window.innerWidth <= 450 || window.innerHeight <= 450;
 }
 function createDrawingTools() {
   var tools = new Array(ChickenPaint.T_MAX);
