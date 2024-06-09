@@ -542,8 +542,8 @@
 }
 
 .chickenpaint-palette.collapsed {
-  min-height: 27px;
-  max-height: 27px;
+  min-height: 37px;
+  max-height: 37px;
 }
 
 .chickenpaint-palette.collapsed > .chickenpaint-palette-body {
@@ -1485,6 +1485,12 @@ body.chickenpaint-full-screen {
 .chickenpaint-small-screen .chickenpaint-palette-head .collapse-icon {
   display: inline-block;
 }
+.chickenpaint-small-screen .chickenpaint-palette-head .modal-header {
+	padding: 6px 0;
+}
+.chickenpaint-small-screen .chickenpaint-palette-head .btn-close {
+	display: none;
+}
 
 /* More compact styles for small screens */
 @media (max-width: 767px) {
@@ -1560,7 +1566,6 @@ body.chickenpaint-full-screen {
 	margin: 0;
 	}
 }
-
 /* High resolution alternatives */
 @media only screen and (min-device-pixel-ratio: 1.3), only screen and (-webkit-min-device-pixel-ratio: 1.25), only screen and (min-resolution: 120dpi) {
   .chickenpaint-toolbar-button-icon {
