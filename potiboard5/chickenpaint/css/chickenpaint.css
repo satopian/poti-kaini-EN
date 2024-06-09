@@ -565,7 +565,7 @@
 }
 
 .chickenpaint .chickenpaint-palette-head .modal-header {
-	padding: 0;
+  padding: 0;
 }
 
 .chickenpaint .modal-header .close {
@@ -1558,12 +1558,6 @@ body.chickenpaint-full-screen {
 	}
 	.chickenpaint .widget-nav .widget-toggler {
 	margin: 0;
-	}
-}
-/* スマホ用の折りたたみ可能なパレットヘッドの高さを追加 */
-@media (max-width: 449px) {
-	.chickenpaint .chickenpaint-palette-head .modal-header {
-		padding: 6px 0;
 	}
 }
 
