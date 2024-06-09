@@ -494,7 +494,7 @@
 						<form class="watch" action="index.html" name="watch">
 							<p>
 								PaintTime :
-								<input type="text" size="24" name="count">
+								<input type="text" size="24" name="count" readonly>
 							</p>
 							<script>
 								timerID = 10;
