@@ -1546,9 +1546,9 @@ body.chickenpaint-full-screen {
     padding: 0;
     padding-left: 12px;
   }
-  .chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button {
+  /* .chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button {
     margin-right: 4px;
-  }
+  } */
   .chickenpaint-palette-brush {
     min-width: 160px;
   }
