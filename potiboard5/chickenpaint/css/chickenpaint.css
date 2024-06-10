@@ -1491,6 +1491,17 @@ body.chickenpaint-full-screen {
 .chickenpaint-small-screen .chickenpaint-palette-head .btn-close {
 	display: none;
 }
+/* カラーセット */
+.chickenpaint-small-screen .chickenpaint-color-swatches {
+	width: 196px;
+}
+.chickenpaint-small-screen .chickenpaint-color-swatch-wrapper {
+	margin: 8px;
+}
+.chickenpaint-small-screen .chickenpaint-color-swatches-buttons .chickenpaint-small-toolbar-button {
+	padding: 8px;
+}
+
 
 /* More compact styles for small screens */
 @media (max-width: 767px) {
