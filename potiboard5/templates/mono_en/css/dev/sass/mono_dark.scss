@@ -166,7 +166,11 @@
   .name:hover {
 	background-color: val.$name_hover;
   }
-  
+  //Paintフォームの行の高さ
+  .epost form {
+    line-height: 2;
+  }
+
   h1 a {
 	text-decoration: none;
   }
@@ -437,7 +441,6 @@
 	margin: auto;
 	text-align: center
 }
-
 
 //以下レスポンシブ対応
   .pcdisp{

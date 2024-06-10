@@ -187,6 +187,10 @@ em.thispage {
   background-color: #222;
 }
 
+.epost form {
+  line-height: 2;
+}
+
 h1 a {
   text-decoration: none;
 }
