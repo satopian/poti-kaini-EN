@@ -1491,6 +1491,10 @@ body.chickenpaint-full-screen {
 .chickenpaint-small-screen .chickenpaint-palette-head .btn-close {
 	display: none;
 }
+.chickenpaint-small-screen select.form-control {
+	margin: 6px 0;
+}
+
 /* カラーセット */
 .chickenpaint-small-screen .chickenpaint-color-swatches {
 	width: 196px;
@@ -4025,7 +4029,8 @@ textarea.form-control-lg {
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5em;
-  margin-bottom: 0.125rem;
+  /* margin-bottom: 0.125rem; */
+  margin-top: 0.125rem;
 }
 .form-check .form-check-input {
   float: left;
