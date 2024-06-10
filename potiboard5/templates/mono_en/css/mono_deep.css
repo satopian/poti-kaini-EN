@@ -79,6 +79,7 @@ header, main > section > .thread, main > div#catalog, footer > div, footer > div
 
 footer > div form {
   text-align: right;
+  line-height: 2;
 }
 
 footer > div.copy {
