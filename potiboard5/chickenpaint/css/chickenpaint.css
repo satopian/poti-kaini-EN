@@ -1509,7 +1509,11 @@ body.chickenpaint-full-screen {
 .chickenpaint-small-screen .chickenpaint-color-swatches-buttons .chickenpaint-small-toolbar-button {
 	padding: 8px;
 }
-
+/* ツールオプション */
+.chickenpaint-small-screen canvas.chickenpaint-checkbox,
+.chickenpaint-small-screen canvas.chickenpaint-slider{
+	margin-top: 3px;
+}
 
 /* More compact styles for small screens */
 @media (max-width: 767px) {
