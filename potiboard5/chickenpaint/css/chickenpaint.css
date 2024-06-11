@@ -1495,6 +1495,10 @@ body.chickenpaint-full-screen {
 	margin: 6px 0;
 }
 
+.chickenpaint-small-screen .form-check {
+	margin: 0.12rem 0;
+}
+
 /* カラーセット */
 .chickenpaint-small-screen .chickenpaint-color-swatches {
 	width: 196px;
@@ -4029,8 +4033,7 @@ textarea.form-control-lg {
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5em;
-  /* margin-bottom: 0.125rem; */
-  margin-top: 0.125rem;
+  margin: 0 0 0.125rem 0;
 }
 .form-check .form-check-input {
   float: left;
@@ -4052,7 +4055,8 @@ textarea.form-control-lg {
   --bs-form-check-bg: var(--bs-body-bg);
   width: 1em;
   height: 1em;
-  margin-top: 0.25em;
+  /* margin-top: 0.35em; */
+  margin: 0.35em 0;
   vertical-align: top;
   background-color: var(--bs-form-check-bg);
   background-image: var(--bs-form-check-bg-image);
