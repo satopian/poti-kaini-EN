@@ -24725,7 +24725,9 @@ function CPPaletteManager(cpController) {
       var layersY = 330;
       palettes.textures.setWidth(windowDim.width - palettes.textures.getX());
       palettes.layers.setLocation(palettes.brush.getX() + palettes.brush.getWidth() - palettes.layers.getWidth(), palettes.textures.getY() - palettes.layers.getHeight());
-      palettes.layers.setHeight(palettes.textures.getY() - layersY - 1);
+      var layerPaletteHeight = Math.max(palettes.textures.getY() - layersY - 1, 370);
+      palettes.layers.setHeight(layerPaletteHeight);
+      // palettes.layers.setHeight(palettes.textures.getY() - layersY - 1);
       palettes.layers.setWidth(218);
       palettes.stroke.setLocation(palettes.misc.getX(), palettes.misc.getY() + palettes.misc.getHeight() + 1);
       palettes.swatches.setLocation(palettes.stroke.getX(), palettes.stroke.getY() + palettes.stroke.getHeight() + 1);

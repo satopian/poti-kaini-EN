@@ -925,7 +925,7 @@
 }
 
 .chickenpaint-palette-layers {
-  min-height: 250px;
+  min-height: 370px;
   min-width: 218px;
 }
 
@@ -1492,11 +1492,11 @@ body.chickenpaint-full-screen {
 	display: none;
 }
 .chickenpaint-small-screen select.form-control {
-	margin: 6px 0;
+	margin: 6.5px 0;
 }
 
 .chickenpaint-small-screen .form-check {
-	margin: 0.12rem 0;
+	margin: 0.125rem 0;
 }
 
 /* カラーセット */
