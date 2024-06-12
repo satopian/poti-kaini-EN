@@ -22130,7 +22130,7 @@ function CPLayersPalette(controller) {
     // This element will be responsible for positioning the BS dropdown
     dropdownParent = positionRoot,
     layerWidget = new CPLayerWidget(),
-    alphaSlider = new _CPSlider.default(0, 100),
+    alphaSlider = new _CPSlider.default(0, 100, false, false, 206),
     blendCombo = document.createElement("select"),
     renameField = new CPRenameField(),
     cbSampleAllLayers = document.createElement("input"),
@@ -24726,6 +24726,7 @@ function CPPaletteManager(cpController) {
       palettes.textures.setWidth(windowDim.width - palettes.textures.getX());
       palettes.layers.setLocation(palettes.brush.getX() + palettes.brush.getWidth() - palettes.layers.getWidth(), palettes.textures.getY() - palettes.layers.getHeight());
       palettes.layers.setHeight(palettes.textures.getY() - layersY - 1);
+      palettes.layers.setWidth(218);
       palettes.stroke.setLocation(palettes.misc.getX(), palettes.misc.getY() + palettes.misc.getHeight() + 1);
       palettes.swatches.setLocation(palettes.stroke.getX(), palettes.stroke.getY() + palettes.stroke.getHeight() + 1);
     } else {
@@ -25114,6 +25115,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A simple slider control.
  */
 function CPSlider(minValue, maxValue, centerMode, expMode) {
+  var defaultWidth = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 150;
   var PRECISE_DRAG_SCALE = 4,
     EXP_MODE_FACTOR = 1.5,
     DRAG_MODE_IDLE = 0,
@@ -25138,11 +25140,11 @@ function CPSlider(minValue, maxValue, centerMode, expMode) {
   this.title = "";
   centerMode = centerMode || false;
   function paint() {
-    var width = canvas.width,
-      height = canvas.height,
-      title = typeof that.title === "string" ? (0, _lang._)(that.title) : that.title(that.value),
-      textX = 3 * window.devicePixelRatio,
-      textY = canvas.height * 0.75;
+    var width = canvas.width || defaultWidth;
+    var height = canvas.height;
+    var title = typeof that.title === "string" ? (0, _lang._)(that.title) : that.title(that.value);
+    var textX = 3 * window.devicePixelRatio;
+    var textY = canvas.height * 0.75;
     if (centerMode) {
       canvasContext.save();
       canvasContext.fillStyle = 'white';
@@ -25271,7 +25273,7 @@ function CPSlider(minValue, maxValue, centerMode, expMode) {
     return canvas;
   };
   this.resize = function () {
-    canvas.width = (0, _jquery.default)(canvas).width() || 150;
+    canvas.width = (0, _jquery.default)(canvas).width() || defaultWidth;
     canvas.height = (0, _jquery.default)(canvas).height() || 20;
     if (window.devicePixelRatio > 1) {
       // Assume our width is set to 100% or similar, so we only need to the fix the height
