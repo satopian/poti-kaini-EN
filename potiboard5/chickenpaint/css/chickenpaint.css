@@ -1516,6 +1516,11 @@ body.chickenpaint-full-screen {
 }
 
 /* More compact styles for small screens */
+@media (max-width: 599px) {
+  .chickenpaint-palette-brush {
+    min-width: 160px;
+  }
+}
 @media (max-width: 767px) {
   .chickenpaint .navbar {
     min-height: 18px;
@@ -1572,9 +1577,6 @@ body.chickenpaint-full-screen {
   /* .chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button {
     margin-right: 4px;
   } */
-  .chickenpaint-palette-brush {
-    min-width: 160px;
-  }
   .chickenpaint-texture-swatches {
     max-height: 200px;
   }
