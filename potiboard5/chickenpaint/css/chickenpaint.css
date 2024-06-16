@@ -1516,11 +1516,6 @@ body.chickenpaint-full-screen {
 }
 
 /* More compact styles for small screens */
-@media (max-width: 599px) {
-  .chickenpaint-palette-brush {
-    min-width: 160px;
-  }
-}
 @media (max-width: 767px) {
   .chickenpaint .navbar {
     min-height: 18px;
@@ -1581,6 +1576,12 @@ body.chickenpaint-full-screen {
     max-height: 200px;
   }
 }
+/* ツールオプションパレットの幅 */
+@media (max-width: 599px) {
+	.chickenpaint-palette-brush {
+	  min-width: 160px;
+	}
+  }
 /* パレット表示非表示のショートカットメニュー */
 @media (max-width: 519px) {
 
