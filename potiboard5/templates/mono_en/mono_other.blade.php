@@ -188,7 +188,7 @@
 						@endif
 						@if($regist)
 						<tr>
-							<td>Pass</td>
+							<td>Password</td>
 							<td><input class="form" type="password" name="pwd" value="" autocomplete="current-password">
 								<small>(For editing and deleting)</small></td>
 						</tr>
