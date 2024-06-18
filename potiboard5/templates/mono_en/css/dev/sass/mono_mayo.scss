@@ -146,6 +146,12 @@
 	font-weight: bold;
 	font-style: normal;
   }
+
+  #comment_form td {
+    padding: 0 4px 0 0;
+    overflow-wrap: break-word;
+  }
+
   .se {
 		  color: val.$form_txt;
 		  background-color: val.$form_txt_bk;
@@ -479,9 +485,15 @@
 	  }
   }
   
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 500px) {
+	form#comment_form{
+		display: grid;
+	}
 	textarea, input[name="upfile"] {
-	  width: 15em;
+	  width: 98%;
+	}
+	#comment_form td {
+		display: block;
 	}
 	#appstage {
 	  display: block;
