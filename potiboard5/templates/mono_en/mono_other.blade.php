@@ -109,7 +109,7 @@
 									value="{{$name}}" @endif></td>
 						</tr>
 						<tr>
-							<td>Mail</td>
+							<td>Email</td>
 							<td><input class="form" type="text" name="email" size="28" autocomplete="email" @if($email)
 									value="{{$email}}" @endif></td>
 						</tr>
@@ -122,7 +122,7 @@
 						</tr>
 						@endif
 						<tr>
-							<td>Sub @if($usesub){{$usesub}}@endif</td>
+							<td>Subject @if($usesub){{$usesub}}@endif</td>
 							<td>
 								<input class="form" type="text" name="sub" size="20" autocomplete="section-sub"
 									@if($sub) value="{{$sub}}" @endif>
@@ -161,13 +161,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td>com @if($usecom){{$usecom}}@endif</td>
+							<td>Comment @if($usecom){{$usecom}}@endif</td>
 							<td><textarea class="form" name="com" cols="48" rows="4"
 									wrap="soft">@if($com){{$com}}@endif</textarea></td>
 						</tr>
 						@if($upfile)
 						<tr>
-							<td>UpFile</td>
+							<td>File</td>
 							<td><input class="form" type="file" name="upfile" size="35" accept="image/*">
 							</td>
 						</tr>

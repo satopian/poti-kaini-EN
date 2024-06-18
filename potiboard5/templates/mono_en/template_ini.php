@@ -7,14 +7,14 @@
 */
 
 //theme version
-define('TEMPLATE_VER', "v5.33.1 lot.221025");
+define('TEMPLATE_VER', "v6.32.2 lot.240618");
 
 //General message
 
 //Honorific title when quoting the poster name
 define('HONORIFIC_SUFFIX', '-san');
 //Name of uploaded image
-define('UPLOADED_OBJECT_NAME', 'The image');
+define('UPLOADED_OBJECT_NAME', 'The image ');
 //Message when upload is successful
 define('UPLOAD_SUCCESSFUL', 'uploaded successfully');
 //Message when the screen is changeed after posting is completed

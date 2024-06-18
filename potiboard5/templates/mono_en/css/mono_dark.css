@@ -165,6 +165,11 @@ em.thispage {
   font-style: normal;
 }
 
+#comment_form td {
+  padding: 0 4px 0 0;
+  overflow-wrap: break-word;
+}
+
 .se {
   color: #000;
   background-color: #EEEEEE;
@@ -545,9 +550,15 @@ div#appstage, div#chickenpaint-parent {
     line-height: 1.8;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 500px) {
+  form#comment_form {
+    display: grid;
+  }
   textarea, input[name=upfile] {
-    width: 15em;
+    width: 98%;
+  }
+  #comment_form td {
+    display: block;
   }
   #appstage {
     display: block;
