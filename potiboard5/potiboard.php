@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.32.3';
-const POTI_LOT = 'lot.20240618';
+const POTI_VER = 'v6.32.5';
+const POTI_LOT = 'lot.20240619';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -118,8 +118,10 @@ require(__DIR__.'/save.inc.php');
 if($save_inc_ver < 20240127){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
+if ($err = check_file(__DIR__.'/picpost.inc.php')) {
+	die($err);
+}
 require(__DIR__.'/picpost.inc.php');
-
 if($picpost_inc_ver < 20240223){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
