@@ -5,7 +5,11 @@
 		Header set Expires "Thu, 01 Dec 1994 16:00:00 GMT"
 	</IfModule>
 </Files>
-<files ~ "(^config\.php$|\.(ini|log|dat|json)$)">
-	order allow,deny
-	deny from all
+<files ~ "(^config\.php$|\.(ini|log|dat|json|inc)$)">
+	Order allow,deny
+	Deny from all
 </files>
+<Files "manifest.json">
+	Order allow,deny
+	Allow from all
+</Files>
