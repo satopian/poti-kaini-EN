@@ -124,7 +124,7 @@ function checkBrowserSupport() {
   return true;
 }
 function isSmallScreen() {
-  return window.innerWidth <= 820 || window.innerHeight <= 768;
+  return window.screen.width <= 820 || window.screen.height <= 820;
 }
 function createDrawingTools() {
   var tools = new Array(ChickenPaint.T_MAX);
@@ -23528,8 +23528,8 @@ function CPMainGUI(controller, uiElem) {
   };
   this.resize = function () {
     var newHeight;
-    var windowHeight = (0, _jquery.default)(window).height(),
-      menuBarHeight = (0, _jquery.default)(menuBar.getElement()).outerHeight();
+    var windowHeight = window.innerHeight,
+      menuBarHeight = menuBar.getElement().getBoundingClientRect().height;
     if (fullScreenMode) {
       newHeight = windowHeight - menuBarHeight;
     } else {
