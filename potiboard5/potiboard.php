@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.32.6';
-const POTI_LOT = 'lot.20240703';
+const POTI_VER = 'v6.32.7';
+const POTI_LOT = 'lot.20240705';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -3027,9 +3027,7 @@ function is_ngword ($ngwords, $strs) {
 	if (empty($ngwords)||empty($strs)) {
 		return false;
 	}
-	if (!is_array($strs)) {
-		$strs = [$strs];
-	}
+	$strs = (array)$strs;//配列に変換
 	foreach($ngwords as $i => $ngword){//拒絶する文字列
 		$ngwords[$i]  = str_replace([" ", "　"], "", $ngword);
 		$ngwords[$i]  = str_replace("/", "\/", $ngwords[$i]);
