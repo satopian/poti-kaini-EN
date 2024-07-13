@@ -1460,6 +1460,8 @@ function ChickenPaint(options) {
     } else {
       this.artwork = new _CPArtwork.default(options.canvasWidth || 800, options.canvasHeight || 600);
       this.artwork.addBackgroundLayer();
+      //起動時に透明なレイヤーを1枚追加
+      this.artwork.addDefaultLayer();
     }
     startMainGUI();
     if (options.onLoaded) {
@@ -2358,11 +2360,19 @@ function CPArtwork(_width, _height) {
     blendTree.buildTree();
   }
   this.addBackgroundLayer = function () {
+    //背景レイヤーを追加
     var layer = new _CPImageLayer.default(that.width, that.height, this.getDefaultLayerName(false));
     layer.image.clearAll(EMPTY_BACKGROUND_COLOR);
     this.addLayerObject(this.getLayersRoot(), layer);
   };
-
+  this.addDefaultLayer = function () {
+    //起動時に透明なレイヤーを1枚追加
+    var layer = new _CPImageLayer.default(that.width, that.height, this.getDefaultLayerName(false));
+    layer.image.clearAll();
+    this.addLayerObject(this.getLayersRoot(), layer);
+    //アクティブレイヤーにセット
+    this.setActiveLayer(layer, false);
+  };
   /**
    * Merge together the visible layers and return the resulting image for display to the screen.
    * 
