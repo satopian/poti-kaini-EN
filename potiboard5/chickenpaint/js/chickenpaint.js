@@ -124,7 +124,7 @@ function checkBrowserSupport() {
   return true;
 }
 function isSmallScreen() {
-  return Boolean(typeof navigator.maxTouchPoints !== "undefined" && navigator.maxTouchPoints > 2 && (window.screen.width <= 820 || window.screen.height <= 820));
+  return Boolean(typeof navigator.maxTouchPoints === "number" && navigator.maxTouchPoints > 2 && (window.screen.width <= 820 || window.screen.height <= 820));
 }
 function createDrawingTools() {
   var tools = new Array(ChickenPaint.T_MAX);
@@ -19316,7 +19316,7 @@ function CPCanvas(controller) {
     }
   };
   CPFreehandMode.prototype.mouseDrag = function (e, pressure) {
-    if (typeof navigator.maxTouchPoints === "undefined" || navigator.maxTouchPoints < 3) {
+    if (typeof navigator.maxTouchPoints !== "number" || navigator.maxTouchPoints < 3) {
       //タッチデバイスでは無い時に
       CPDrawingMode.prototype.mouseMove.call(this, e, pressure); //円カーソルをmouseDrag時に表示
     }
@@ -22140,7 +22140,7 @@ function CPLayersPalette(controller) {
     // This element will be responsible for positioning the BS dropdown
     dropdownParent = positionRoot,
     layerWidget = new CPLayerWidget(),
-    alphaSlider = new _CPSlider.default(0, 100, false, false, 206),
+    alphaSlider = new _CPSlider.default(0, 100, false, false, 208),
     blendCombo = document.createElement("select"),
     renameField = new CPRenameField(),
     cbSampleAllLayers = document.createElement("input"),
@@ -23114,18 +23114,14 @@ function CPLayersPalette(controller) {
         action: "CPAddLayer"
       }, {
         title: "Merge down",
-        icon: createFontAwesomeIcon("icon-arrow-down"),
-        action: "CPLayerMergeDown"
+        icon: createFontAwesomeIcon("icon-sign-in-alt fa-rotate-90"),
+        action: "CPLayerMergeDown",
+        require: ["image-layer"]
       }, {
-        title: "Add layer mask",
-        icon: createChickenPaintIcon("mask"),
-        action: "CPAddLayerMask",
-        require: ["no-mask"]
-      }, {
-        title: "Apply mask",
-        icon: createChickenPaintIcon("mask"),
-        action: "CPApplyLayerMask",
-        require: ["mask"]
+        title: "Merge group",
+        icon: createFontAwesomeIcon("icon-compress-arrows-alt"),
+        action: "CPGroupMerge",
+        require: ["layer-group"]
       }, {
         title: "Clip to the layer below",
         icon: createFontAwesomeIcon("icon-level-down-alt fa-flip-horizontal"),
@@ -23137,13 +23133,23 @@ function CPLayersPalette(controller) {
         action: "CPReleaseClippingMask",
         require: "clipping-mask"
       }, {
+        title: "Add layer mask",
+        icon: createChickenPaintIcon("mask"),
+        action: "CPAddLayerMask",
+        require: ["no-mask"]
+      }, {
+        title: "Apply mask",
+        icon: createChickenPaintIcon("mask"),
+        action: "CPApplyLayerMask",
+        require: ["mask"]
+      }, {
+        title: "Duplicate",
+        icon: createFontAwesomeIcon("icon-clone"),
+        action: "CPLayerDuplicate"
+      }, {
         title: "Add group",
         icon: createFontAwesomeIcon("icon-folder"),
         action: "CPAddGroup"
-      }, {
-        title: "Merge group",
-        icon: createFontAwesomeIcon("icon-compress-arrows-alt"),
-        action: "CPGroupMerge"
       }, {
         title: "Delete layer",
         icon: createFontAwesomeIcon("icon-trash"),
@@ -23173,7 +23179,7 @@ function CPLayersPalette(controller) {
   function updateActiveLayerActionButtons() {
     var activeLayer = artwork.getActiveLayer(),
       facts = computeLayerPredicates(activeLayer);
-    for (var _i3 = 0, _arr2 = ["mask", "no-mask", "clipping-mask", "no-clipping-mask-or-is-group"]; _i3 < _arr2.length; _i3++) {
+    for (var _i3 = 0, _arr2 = ["mask", "no-mask", "clipping-mask", "no-clipping-mask-or-is-group", "image-layer", "layer-group"]; _i3 < _arr2.length; _i3++) {
       var requirement = _arr2[_i3];
       var elements = layerActionButtons.getElementsByClassName("chickenpaint-action-require-" + requirement);
       var _iterator = _createForOfIteratorHelper(elements),
