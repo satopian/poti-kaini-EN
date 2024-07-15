@@ -1,16 +1,17 @@
 @charset "UTF-8";
-@font-face {
-  font-family: 'icomoon';
-  src:  url('../fonts/fontawesome/fonts/icomoon.eot?8zr967');
-  src:  url('../fonts/fontawesome/fonts/icomoon.eot?8zr967#iefix') format('embedded-opentype'),
-    url('../fonts/fontawesome/fonts/icomoon.ttf?8zr967') format('truetype'),
-    url('../fonts/fontawesome/fonts/icomoon.woff?8zr967') format('woff'),
-    url('../fonts/fontawesome/fonts/icomoon.svg?8zr967#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
 
+  @font-face {
+	font-family: 'icomoon';
+	src:  url('../fonts/icomoon/fonts/icomoon.eot?oy79hq');
+	src:  url('../fonts/icomoon/fonts/icomoon.eot?oy79hq#iefix') format('embedded-opentype'),
+	  url('../fonts/icomoon/fonts/icomoon.ttf?oy79hq') format('truetype'),
+	  url('../fonts/icomoon/fonts/icomoon.woff?oy79hq') format('woff'),
+	  url('../fonts/icomoon/fonts/icomoon.svg?oy79hq#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+  }
+  
   [class^="icon-"], [class*=" icon-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
 	font-family: 'icomoon' !important;
@@ -24,28 +25,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
   }
-
-  .icon-github:before {
-	content: "\f09b";
-  }
-  .icon-safari:before {
-	content: "\f267";
-  }
-  .icon-chrome:before {
-	content: "\f268";
-  }
-  .icon-firefox:before {
-	content: "\f269";
-  }
-  .icon-opera:before {
-	content: "\f26a";
-  }
-  .icon-internet-explorer:before {
-	content: "\f26b";
-  }
-  .icon-edge:before {
-	content: "\f282";
-  }
+  
   .icon-check:before {
 	content: "\f00c";
   }
@@ -55,7 +35,7 @@
   .icon-arrow-up:before {
 	content: "\f062";
   }
-  .icon-arrow-down:before {
+  .icon-arrow-down1:before {
 	content: "\f063";
   }
   .icon-plus:before {
@@ -82,6 +62,9 @@
   .icon-folder-open:before {
 	content: "\f07c";
   }
+  .icon-github:before {
+	content: "\f09b";
+  }
   .icon-angle-up:before {
 	content: "\f106";
   }
@@ -97,6 +80,33 @@
   .icon-mouse-pointer:before {
 	content: "\f245";
   }
+  .icon-clone:before {
+	content: "\f24d";
+  }
+  .icon-safari:before {
+	content: "\f267";
+  }
+  .icon-chrome:before {
+	content: "\f268";
+  }
+  .icon-firefox:before {
+	content: "\f269";
+  }
+  .icon-opera:before {
+	content: "\f26a";
+  }
+  .icon-internet-explorer:before {
+	content: "\f26b";
+  }
+  .icon-edge:before {
+	content: "\f282";
+  }
+  .icon-sign-in-alt:before {
+	content: "\f2f6";
+  }
+  .icon-long-arrow-alt-down:before {
+	content: "\f309";
+  }
   .icon-external-link-alt:before {
 	content: "\f35d";
   }
@@ -106,16 +116,13 @@
   .icon-compress-arrows-alt:before {
 	content: "\f78c";
   }
-  .icon-clone:before {
-	content: "\f24d";
+  .icon-download:before {
+	content: "\e960";
   }
-  .icon-sign-in-alt:before {
-	content: "\f2f6";
+  .icon-arrow-down:before {
+	content: "\ea36";
   }
-  .icon-long-arrow-alt-down:before {
-	content: "\f309";
-  }
-	
+	  
   .chickenpaint {
   /*
    * Importing these rules from bootstrap since our namespaced version of bootstrap won't be able to access
