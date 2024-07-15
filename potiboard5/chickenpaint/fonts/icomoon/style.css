@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?oy79hq');
-  src:  url('fonts/icomoon.eot?oy79hq#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?oy79hq') format('truetype'),
-    url('fonts/icomoon.woff?oy79hq') format('woff'),
-    url('fonts/icomoon.svg?oy79hq#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?bwek3c');
+  src:  url('fonts/icomoon.eot?bwek3c#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?bwek3c') format('truetype'),
+    url('fonts/icomoon.woff?bwek3c') format('woff'),
+    url('fonts/icomoon.svg?bwek3c#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-download_FILL:before {
+  content: "\e900";
+}
 .icon-check:before {
   content: "\f00c";
 }
@@ -34,7 +37,7 @@
 .icon-arrow-up:before {
   content: "\f062";
 }
-.icon-arrow-down1:before {
+.icon-arrow-down:before {
   content: "\f063";
 }
 .icon-plus:before {
@@ -100,12 +103,6 @@
 .icon-edge:before {
   content: "\f282";
 }
-.icon-sign-in-alt:before {
-  content: "\f2f6";
-}
-.icon-long-arrow-alt-down:before {
-  content: "\f309";
-}
 .icon-external-link-alt:before {
   content: "\f35d";
 }
@@ -114,10 +111,4 @@
 }
 .icon-compress-arrows-alt:before {
   content: "\f78c";
-}
-.icon-download:before {
-  content: "\e960";
-}
-.icon-arrow-down:before {
-  content: "\ea36";
 }
