@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?bwek3c');
-  src:  url('fonts/icomoon.eot?bwek3c#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?bwek3c') format('truetype'),
-    url('fonts/icomoon.woff?bwek3c') format('woff'),
-    url('fonts/icomoon.svg?bwek3c#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?s28o2v');
+  src:  url('fonts/icomoon.eot?s28o2v#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?s28o2v') format('truetype'),
+    url('fonts/icomoon.woff?s28o2v') format('woff'),
+    url('fonts/icomoon.svg?s28o2v#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,7 +13,6 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -25,8 +24,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-download_FILL:before {
+.icon-collapse_all_FILL:before {
   content: "\e900";
+}
+.icon-download_FILL:before {
+  content: "\e901";
 }
 .icon-check:before {
   content: "\f00c";
