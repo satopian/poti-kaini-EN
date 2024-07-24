@@ -18431,18 +18431,20 @@ function CPBoxBlurDialog(parent, controller) {
     var blur = Math.max(parseInt(blurAmountElem.val(), 10), 1),
       iterations = Math.min(Math.max(parseInt(blurIterationsElem.val(), 10), 1), 8);
     controller.getArtwork().boxBlur(blur, blur, iterations);
-    // modal.hide();
+    modal.hide();
   });
-
   dialog[0].addEventListener('hidden.bs.modal', function (e) {
-    dialog.remove();
+    dialog[0].remove();
   });
   dialog[0].addEventListener('shown.bs.modal', function (e) {
-    blurAmountElem.trigger('focus');
+    blurAmountElem[0].focus();
+    // blurAmountElem.trigger('focus');
   });
+
   dialog[0].addEventListener("keydown", function (e) {
     if (e.key === "Enter" && dialog.hasClass('show')) {
-      applyButton.trigger('click');
+      // applyButton.trigger('click');
+      applyButton[0].click();
       e.preventDefault(); // デフォルトのフォーム送信を阻止
     }
   });
@@ -22004,7 +22006,7 @@ function CPGridDialog(parent, canvas) {
 
   // Destroy the modal upon close
   dialog[0].addEventListener('hidden.bs.modal', function (e) {
-    dialog.remove();
+    dialog[0].remove();
   });
   applyButton[0].addEventListener('click', function (e) {
     var gridSize = parseInt(gridSizeElem.val(), 10);
@@ -22014,14 +22016,16 @@ function CPGridDialog(parent, canvas) {
   });
 
   dialog[0].addEventListener('shown.bs.modal', function (e) {
-    gridSizeElem.trigger('focus');
+    // gridSizeElem.trigger('focus');
+    gridSizeElem[0].focus();
   });
 
   // Enter キーが押されたときの処理を追加
   dialog[0].addEventListener('keydown', function (e) {
     if (e.key === "Enter") {
       e.preventDefault(); // デフォルトのフォーム送信を阻止
-      applyButton.trigger('click');
+      // applyButton.trigger('click');
+      applyButton[0].click();
     }
   });
   parent.appendChild(dialog[0]);

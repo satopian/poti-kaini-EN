@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.32.11';
-const POTI_LOT = 'lot.20240719';
+const POTI_VER = 'v6.33.2';
+const POTI_LOT = 'lot.20240724';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -2095,6 +2095,17 @@ function deltemp(){
 	}
 	
 	closedir($handle);
+
+	$_file=__DIR__.'/templates/errorlog/error.log';
+	if(!CHECK_PASSWORD_INPUT_ERROR_COUNT){
+		safe_unlink($_file);
+	}
+	if(is_file($_file)){
+		$lapse = time() - filemtime($_file);
+		if($lapse > (3*24*3600)){//3日
+			safe_unlink($_file);
+		}
+	}
 }
 
 // コンティニュー前画面
@@ -3549,21 +3560,22 @@ function get_log($logfile) {
 //パスワードを5回連続して間違えた時は拒絶
 function check_password_input_error_count(){
 	global $ADMIN_PASS;
+	$file=__DIR__.'/templates/errorlog/error.log';
 	if(!CHECK_PASSWORD_INPUT_ERROR_COUNT){
 		return;
 	}
 	$userip = get_uip();
 	check_dir(__DIR__.'/templates/errorlog/');
-	$arr_err=is_file(__DIR__.'/templates/errorlog/error.log') ? file(__DIR__.'/templates/errorlog/error.log'):[];
+	$arr_err=is_file($file) ? file($file):[];
 	if(count($arr_err)>=5){
 		error(MSG049);
 	}
 if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 	$errlog=$userip."\n";
-	file_put_contents(__DIR__.'/templates/errorlog/error.log',$errlog,FILE_APPEND);
-	chmod(__DIR__.'/templates/errorlog/error.log',0600);
+	file_put_contents($file,$errlog,FILE_APPEND);
+	chmod($file,0600);
 	}else{
-		safe_unlink(__DIR__.'/templates/errorlog/error.log');
+		safe_unlink($file);
 	}
 }
 
