@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.33.5';
-const POTI_LOT = 'lot.20240727';
+const POTI_VER = 'v6.33.6';
+const POTI_LOT = 'lot.20240728';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -234,6 +234,7 @@ defined("MSG047") or define("MSG047", "画像の幅と高さが大きすぎる�
 defined("MSG048") or define("MSG048", "不適切なURLがあります。");
 defined("MSG049") or define("MSG049", "拒絶されました。");
 defined("MSG050") or define("MSG050", "Cookieが確認できません。");
+defined("MSG051") or define("MSG051", "連続したパスワードの誤入力を検知したためロックしています。");
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -3568,7 +3569,7 @@ function check_password_input_error_count(){
 	check_dir(__DIR__.'/templates/errorlog/');
 	$arr_err=is_file($file) ? file($file):[];
 	if(count($arr_err)>=5){
-		error(MSG049);
+		error(MSG051);
 	}
 if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 	$errlog=$userip."\n";
