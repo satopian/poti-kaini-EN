@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.33.3';
+const POTI_VER = 'v6.33.5';
 const POTI_LOT = 'lot.20240727';
 
 /*
@@ -458,15 +458,7 @@ function check_same_origin($cookie_check=false){
 			error($en?"User code mismatch.":"ユーザーコードが一致しません。");
 		}
 	}
-	$origin_host = isset($_SERVER['HTTP_ORIGIN']) ? parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) : "";
-	if(!$origin_host){
-		return;
-	}
-	$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ""; 
-	if(!$http_host) {
-		return;
-	}
-	if($origin_host!==$http_host){
+	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST']) && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
 		error(MSG049);
 	}
 }
