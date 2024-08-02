@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.33.6';
-const POTI_LOT = 'lot.20240728';
+const POTI_VER = 'v6.33.7';
+const POTI_LOT = 'lot.20240802';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -2232,19 +2232,17 @@ function check_cont_pass(){
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-
-			list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
-			= explode(",", trim($line).",,,,,,,,");
-
-			if($cno == $no && check_password($pwd, $cpwd)
-			&& check_elapsed_days($ctime,$logver)
-			){
-				closeFile($fp);
-				return true;
-			}
+			break;
 		}
 	}
 	closeFile($fp);
+
+	list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
+	= explode(",", trim($line).",,,,,,,,");
+
+	if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
+		return true;
+	}
 	error(MSG028);
 }
 function download_app_dat(){
