@@ -709,11 +709,11 @@
 }
 
 .chickenpaint-tool-flood-fill .chickenpaint-toolbar-button-icon {
-  background-position: -192px 0px;
+  background-position: -192px 0;
 }
 
 .chickenpaint-tool-gradient-fill .chickenpaint-toolbar-button-icon {
-  background-position: 0px 0px;
+  background-position: 0 0;
 }
 
 .chickenpaint-tool-rotate-canvas .chickenpaint-toolbar-button-icon {
@@ -733,7 +733,7 @@
 }
 
 .chickenpaint-tool-airbrush .chickenpaint-toolbar-button-icon {
-  background-position: -32px 0px;
+  background-position: -32px 0;
 }
 
 .chickenpaint-tool-water .chickenpaint-toolbar-button-icon {
@@ -749,11 +749,11 @@
 }
 
 .chickenpaint-tool-smudge .chickenpaint-toolbar-button-icon {
-  background-position: 0px -128px;
+  background-position: 0 -128px;
 }
 
 .chickenpaint-tool-blender .chickenpaint-toolbar-button-icon {
-  background-position: -96px 0px;
+  background-position: -96px 0;
 }
 
 .chickenpaint-tool-dodge .chickenpaint-toolbar-button-icon {
@@ -761,11 +761,11 @@
 }
 
 .chickenpaint-tool-burn .chickenpaint-toolbar-button-icon {
-  background-position: -224px 0px;
+  background-position: -224px 0;
 }
 
 .chickenpaint-tool-blur .chickenpaint-toolbar-button-icon {
-  background-position: -128px 0px;
+  background-position: -128px 0;
 }
 
 .chickenpaint-tool-color-picker .chickenpaint-toolbar-button-icon {
@@ -829,7 +829,7 @@
 }
 
 .chickenpaint-tool-bezier .chickenpaint-toolbar-button-icon {
-  background-position: -64px 0px;
+  background-position: -64px 0;
 }
 
 .chickenpaint-colorpicker-show {
@@ -1003,7 +1003,7 @@
   margin-top: 1px;
   margin-bottom: 1px;
   padding: 0;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   cursor: pointer;
   display: -ms-flexbox;
   display: flex;
@@ -1159,7 +1159,7 @@
 
 .chickenpaint-palette-layers .chickenpaint-layer-new-name {
   position: absolute;
-  padding: 0px 10px;
+  padding: 0 10px;
   width: auto;
   height: 27px;
   font-size: 14px !important;
@@ -1668,6 +1668,22 @@ body.chickenpaint-full-screen {
   left: 4px;
   right: 4px;
   height: 24px;
+}
+
+.chickenpaint .form-group {
+	margin-bottom: 1rem;
+}
+.chickenpaint .btn-block {
+	display: block;
+	width: 100%;
+}
+.chickenpaint .btn-block + .btn-block {
+	margin-top: 0.5rem;
+}
+.chickenpaint input[type=submit].btn-block,
+.chickenpaint input[type=reset].btn-block,
+.chickenpaint input[type=button].btn-block {
+  width: 100%;
 }
 
 /*!
