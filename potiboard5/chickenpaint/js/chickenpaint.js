@@ -26378,6 +26378,7 @@ function CPToolPalette(cpController) {
       className: "chickenpaint-tool-blur",
       command: "CPBlur",
       toolTip: "Blur",
+      shortcut: "u",
       mode: _ChickenPaint.default.M_DRAW,
       tool: _ChickenPaint.default.T_BLUR
     }, {
