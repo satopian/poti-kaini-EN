@@ -14,7 +14,9 @@ search.inc.php - Copyright (C) 2020-2023 satopian
 sns_share.inc.php- Copyright (C) 2023 satopian
 DynamicPalette - Copyright (C) 2003 noraneko
 PaintBBS, Shi-Painter, PCH Viewer - Copyright (C) 2004 shi-chan
-PaintBBS NEO - Copyright (C) 2016-2022 funige https://github.com/funige/neo
+PaintBBS NEO - Copyright (C) 2016-2024 funige https://github.com/funige/neo
+tegaki.js - Copyright (c) 2015 Maxime Youdine https://github.com/desuwa/tegaki
+AXNOS Paint - (c) 2022 「悪の巣」部屋番号13番：「趣味の悪い大衆酒場[Mad end dance hall]」https://github.com/axnospaint/axnospaint-lib
 Klecks - Copyright (C) 2024 bitbof https://bitbof.com/
 ChickenPaint - Copyright GNU GENERAL PUBLIC LICENSE Version 3 by Nicholas Sherlock. https://github.com/thenickdude/chickenpaint
 ChickenPaint Be - Customized from ChickenPaint Copyright (C) GNU GENERAL PUBLIC LICENSE Version 3 by satopian https://github.com/satopian/ChickenPaint_Be
