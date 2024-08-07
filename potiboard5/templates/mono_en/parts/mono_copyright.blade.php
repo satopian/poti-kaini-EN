@@ -17,6 +17,7 @@
 		<a href="https://github.com/funige/neo/" target="_blank" rel="noopener noreferrer" title="by funige">PaintBBS NEO</a>
 		<a href="https://github.com/desuwa/tegaki" target="_blank" rel="noopener noreferrer" title="by Maxime Youdine">Tegaki</a> 
 		<a href="https://github.com/bitbof/klecks"  target="_blank" rel="noopener noreferrer" title="by bitbof">Klecks</a>
+		<a href="https://github.com/axnospaint/axnospaint-lib" target="_blank" rel="noopener noreferrer" title="by Axnos Paint">Axnos Paint</a>
 		<a href="https://github.com/satopian/ChickenPaint_Be" target="_blank" rel="noopener noreferrer" title="by satopian">ChickenPaint Be</a>
 	</p>
 	@endif
