@@ -730,11 +730,12 @@
 						@if($select_app)
 
 						<select name="shi">
-							@if ($use_neo)<option value="neo">PaintBBS NEO</option>@endif
-							@if ($use_tegaki)<option value="tegaki">Tegaki</option>@endif
+							@if($use_neo)<option value="neo">PaintBBS NEO</option>@endif
+							@if($use_tegaki)<option value="tegaki">Tegaki</option>@endif
+							@if($use_axnos)<option value="axnos">Axnos Paint</option>@endif
 							@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
 							@if($use_chickenpaint)<option value="chicken">ChickenPaint</option>@endif
-							@if ($use_klecks)<option value="klecks">Klecks</option>@endif
+							@if($use_klecks)<option value="klecks">Klecks</option>@endif
 						</select>
 						@endif
 						@if($app_to_use)
@@ -742,7 +743,7 @@
 						@endif
 
 						@if($use_select_palettes)
-						Palettes <select name="selected_palette_no" title="パレット" class="form">{!!$palette_select_tags!!}</select>
+						Palettes <select name="selected_palette_no" title="Palettes" class="form">{!!$palette_select_tags!!}</select>
 							@endif
 
 						<span class="input_disp_none"><input type="text" value="" autocomplete="username"></span>
@@ -798,7 +799,7 @@
 			@endif
 		</main>
 		<footer>
-		{{--  著作権表示 削除しないでください --}}
+		{{-- 著作権表示 削除しないでください --}}
 		@include('parts.mono_copyright')
 
 			</footer>

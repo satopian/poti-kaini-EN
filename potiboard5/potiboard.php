@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.33.8';
-const POTI_LOT = 'lot.20240803';
+const POTI_VER = 'v6.35.0';
+const POTI_LOT = 'lot.20240807';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -181,7 +181,9 @@ defined("USE_KLECKS") or define("USE_KLECKS", "1");
 defined("PAINT_KLECKS") or define("PAINT_KLECKS", "paint_klecks");
 //Klecksを使う 使う:1 使わない:0
 defined("USE_TEGAKI") or define("USE_TEGAKI", "1");
+defined("USE_AXNOS") or define("USE_AXNOS", "1");
 defined("PAINT_TEGAKI") or define("PAINT_TEGAKI", "paint_tegaki");
+defined("PAINT_AXNOS") or define("PAINT_AXNOS", "paint_axnos");
 defined("TGKR_VIEW") or define("TGKR_VIEW", "tgkr_view");
 defined("SET_SHARE_SERVER") or define("SET_SHARE_SERVER", "set_share_server");
 
@@ -546,6 +548,7 @@ function form($resno="",$tmp=""){
 	$dat['use_chickenpaint'] =(USE_CHICKENPAINT ? true : false);
 	$dat['use_klecks'] = (USE_KLECKS ? true : false);
 	$dat['use_tegaki'] = (USE_TEGAKI ? true : false);
+	$dat['use_axnos'] = (USE_AXNOS ? true : false);
 	$dat['pdefw'] = PDEF_W;
 	$dat['pdefh'] = PDEF_H;
 	$dat['maxw_px'] = MAX_W_PX;
@@ -1714,6 +1717,7 @@ function paintform(){
 	// 初期化
 	$dat['image_jpeg'] = 'false';
 	$dat['image_size'] = 0;
+	$dat['oekaki_id']='';
 	$keys=['type_neo','pinchin','pch_mode','continue_mode','imgfile','img_chi','img_klecks','paintbbs','quality','pro','normal','undo','undo_in_mg','pchfile','security','security_click','security_timer','security_url','speed','picfile','painttime','no','pch','ext','ctype_pch','newpost_nopassword'];
 
 	foreach($keys as $key){
@@ -1816,6 +1820,8 @@ function paintform(){
 			$dat['pchfile'] = './'.PCH_DIR.$pch.$_pch_ext;
 		}
 		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
+
+			$dat['oekaki_id']=$pch.$ext;
 
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
@@ -1940,6 +1946,8 @@ function paintform(){
 	switch($shi){
 		case 'tegaki':
 			return htmloutput(PAINT_TEGAKI,$dat);
+		case 'axnos':
+			return htmloutput(PAINT_AXNOS,$dat);
 		case 'klecks':{
 		$dat['TranslatedLayerName'] = getTranslatedLayerName();
 			return htmloutput(PAINT_KLECKS,$dat);
@@ -2203,6 +2211,7 @@ function incontinue(){
 	if(ALLOW_ALL_APPS_TO_CONTINUE_DRAWING){
 		$dat['use_neo'] = true;
 		$dat['use_tegaki'] = true;
+		$dat['use_axnos'] = true;
 		$dat['use_shi_painter'] = true; 
 		$dat['use_chickenpaint'] = true;
 		$dat['use_klecks'] = true;
@@ -3444,6 +3453,9 @@ function app_to_use(){
 		if(USE_TEGAKI){
 			$arr_apps[]='tegaki';
 		}
+		if(USE_AXNOS){
+			$arr_apps[]='axnos';
+		}
 		if(USE_SHI_PAINTER){
 			$arr_apps[]='1';
 		}
@@ -3631,7 +3643,7 @@ function getTranslatedLayerName() {
 	return "Layer";
 }
 function is_paint_tool_name($tool){
-	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint"]) ? $tool :'';
+	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","Axnos Paint"]) ? $tool :'';
 }
 //ツリーnoと一致する行の配列を作成
 function create_line_from_treenumber ($fp,$trees){
