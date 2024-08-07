@@ -1,8 +1,10 @@
 <!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 	<style>canvas#axp_post_canvas_postingImage{max-width:100%}</style>
 
-	<title>{{$title}}</title><script>// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
-			const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
+	<title>{{$title}}</title>
+	<script>
+		// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
+		const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
         // ページ遷移を防止する場合アンコメントする
         window.onbeforeunload = function (event) {
             event.preventDefault();
@@ -46,8 +48,9 @@
 		function axnospaint_post(postObj) {
 			const BlobPng = toBlob(postObj.strEncodeImg)
 			// console.log(BlobPng);
+			//2022-2024 (c)satopian MIT Licence
 			//この箇所はさとぴあが作成したMIT Licenceのコードです。
-				const postData = (path, data) => {
+			const postData = (path, data) => {
 					fetch(path, {
 						method: 'post',
 						mode: 'same-origin',
