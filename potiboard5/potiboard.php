@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.35.0';
+const POTI_VER = 'v6.35.1';
 const POTI_LOT = 'lot.20240807';
 
 /*
@@ -179,12 +179,13 @@ defined("USE_CHICKENPAINT") or define("USE_CHICKENPAINT", "1");
 //Klecksを使う 使う:1 使わない:0
 defined("USE_KLECKS") or define("USE_KLECKS", "1");
 defined("PAINT_KLECKS") or define("PAINT_KLECKS", "paint_klecks");
-//Klecksを使う 使う:1 使わない:0
+//Tegakiを使う 使う:1 使わない:0
 defined("USE_TEGAKI") or define("USE_TEGAKI", "1");
-defined("USE_AXNOS") or define("USE_AXNOS", "1");
 defined("PAINT_TEGAKI") or define("PAINT_TEGAKI", "paint_tegaki");
-defined("PAINT_AXNOS") or define("PAINT_AXNOS", "paint_axnos");
 defined("TGKR_VIEW") or define("TGKR_VIEW", "tgkr_view");
+//AXNOS Paintを使う 使う:1 使わない:0
+defined("USE_AXNOS") or define("USE_AXNOS", "1");
+defined("PAINT_AXNOS") or define("PAINT_AXNOS", "paint_axnos");
 defined("SET_SHARE_SERVER") or define("SET_SHARE_SERVER", "set_share_server");
 
 //レス画像から新規投稿で続きを描いた画像はレスにする する:1 しない:0
