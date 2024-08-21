@@ -3561,6 +3561,12 @@ var Tegaki = {
 	// 通信失敗時の時のためにhideしない
     // Tegaki.hide();
 	Tegaki.onDoneCb();
+	const span = document.getElementById("tegaki-finish-btn");
+    span.style.pointerEvents = 'none';  // クリックを無効化
+
+    setTimeout(() => {
+        span.style.pointerEvents = 'auto';  // 2秒後に再びクリック可能に
+    }, 2000);
 	},
 	
 	onCancelClick: function() {

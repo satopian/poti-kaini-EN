@@ -3,7 +3,7 @@
 
 	<title>{{$title}}</title>
 	<script>
-		// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
+	// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
 		const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
         // ページ遷移を防止する場合アンコメントする
         window.onbeforeunload = function (event) {
@@ -18,10 +18,11 @@
                 headerText: HEADER_TEXT,
 				width: {{$picw}},
 				height: {{$pich}},
-                //     name: 'ヘルプ',
-                //     msg: '説明書（ニコニコ大百科のAXNOS Paint:ヘルプの記事）を別タブで開きます。',
-                //     link: 'https://dic.nicovideo.jp/id/5703111',
-                // },
+                expansionTab: {
+                    name: 'ヘルプ',
+                    msg: '説明書（ニコニコ大百科のAXNOS Paint:ヘルプの記事）を別タブで開きます。',
+                    link: 'https://dic.nicovideo.jp/id/5703111',
+                },
                 post: axnospaint_post,
             });
 
@@ -46,7 +47,8 @@
 		}
 
 		function axnospaint_post(postObj) {
-			const BlobPng = toBlob(postObj.strEncodeImg)
+			return new Promise(resolve => {
+				const BlobPng = toBlob(postObj.strEncodeImg)
 			// console.log(BlobPng);
 			//2022-2024 (c)satopian MIT Licence
 			//この箇所はさとぴあが作成したMIT Licenceのコードです。
@@ -55,7 +57,7 @@
 						method: 'post',
 						mode: 'same-origin',
 						headers: {
-							'X-Requested-With': 'klecks'
+							'X-Requested-With': 'axnos'
 							,
 						},
 						body: data,
@@ -71,22 +73,26 @@
 								@endif
 								return window.location.href = "?mode=piccom&stime={{$stime}}";
 							}
-							console.log("text:",text)
+								resolve(false);
 								return alert(text);
 							})
 						}else{
 							let response_status = response.status; 
 
 							if(response_status===403){
+								resolve(false);
 								return alert(@if($en)'It may be a WAF false positive.\nTry to draw a little more.'@else'投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。'@endif);
 							}
 							if(response_status===404){
+								resolve(false);
 								return alert(@if($en)'404 not found\nsave.inc.php'@else'エラー404\nsave.inc.phpがありません。'@endif);	
 							}
+							resolve(false);
 							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
 						}
 					})
 					.catch((error) => {
+						resolve(false);
 						return alert(@if($en)'Server or line is unstable.\nPlease try again!'@else'サーバまたは回線が不安定です。\n時間をおいて再度投稿してみてください。'@endif);	
 					})
 				}
@@ -100,6 +106,7 @@
 					
 				// (c)satopian MIT Licence ここまで
 				// location.reload();
+			})
 		}
 	});
 	//2022-2024 (c)satopian MIT Licence
