@@ -24,7 +24,11 @@
 				e.preventDefault();
 			}
 		});
-	</script>
+		//ブラウザデフォルトのコンテキストメニューをキャンセル
+		document.addEventListener("contextmenu",(e)=>{
+			e.preventDefault();
+		});
+</script>
 </head>
 <body>
 
