@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.35.5';
-const POTI_LOT = 'lot.20240826';
+const POTI_VER = 'v6.35.3';
+const POTI_LOT = 'lot.20240821';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1712,12 +1712,6 @@ function paintform(){
 	$pich = ($pich < PMIN_H) ? PMIN_H : $pich;//最低の高さチェック
 	$picw = ($picw > PMAX_W) ? PMAX_W : $picw;//最大の幅チェック
 	$pich = ($pich > PMAX_H) ? PMAX_H : $pich;//最大の高さチェック
-
-	//AXNOSPaintの起動Optionの最小幅と最大幅
-	$dat['pmaxw'] = PMAX_W;
-	$dat['pmaxh'] = PMAX_H;
-	$dat['pminw'] = PMIN_W;
-	$dat['pminh'] = PMIN_H;
 
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
