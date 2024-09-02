@@ -6,9 +6,18 @@
 	// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
 		const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
 		// ページ遷移を防止する場合アンコメントする
-		window.onbeforeunload = (event) => {
-			event.preventDefault();
+		window.onbeforeunload = (e) => {
+			e.preventDefault();
 		}
+
+		document.addEventListener("keydown",(e) => {
+			const keys = ["+",";","=","-","s","h","r","o"];
+			if ((e.ctrlKey||e.metaKey) && keys.includes(e.key.toLowerCase())) {
+				// console.log("e.key",e.key);
+				e.preventDefault();
+			}
+		});
+
 		document.addEventListener("DOMContentLoaded", () => {
 
 			var axp = new AXNOSPaint({
