@@ -5,28 +5,33 @@
 	<script>
 	// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
 		const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
-        // ページ遷移を防止する場合アンコメントする
-        window.onbeforeunload = function (event) {
-            event.preventDefault();
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            var axp = new AXNOSPaint({
-                bodyId: 'axnospaint_body',
-                checkSameBBS: true,
-                oekakiURL: './src/',
-				oekaki_id:'{{$oekaki_id}}',
-                headerText: HEADER_TEXT,
+		// ページ遷移を防止する場合アンコメントする
+		window.onbeforeunload = (event) => {
+			event.preventDefault();
+		}
+		document.addEventListener("DOMContentLoaded", () => {
+
+			var axp = new AXNOSPaint({
+				bodyId: 'axnospaint_body',
+				minWidth:{{$pminw}},
+				minHeight:{{$pminh}},
+				maxWidth:{{$pmaxw}},
+				maxHeight:{{$pmaxh}},
+				checkSameBBS: true,
+				draftImageFile:'{{$imgfile}}',
+				headerText: HEADER_TEXT,
 				width: {{$picw}},
 				height: {{$pich}},
-                expansionTab: {
-                    name: 'ヘルプ',
-                    msg: '説明書（ニコニコ大百科のAXNOS Paint:ヘルプの記事）を別タブで開きます。',
-                    link: 'https://dic.nicovideo.jp/id/5703111',
-                },
-                post: axnospaint_post,
-            });
+				expansionTab: {
+					name: @if($en)'Help'@else'ヘルプ'@endif,
+					msg: '説明書（ニコニコ大百科のAXNOS Paint:ヘルプの記事）を別タブで開きます。',
+					link: 'https://dic.nicovideo.jp/id/5703111',
+				},
+				dictionary:@if($en) './axnos/en.txt?{{$parameter_day}}&{{$ver}}' @else null @endif ,
+				post: axnospaint_post,
+			});
 
-        // 投稿処理
+		// 投稿処理
 
 		//Base64からBlob
 		const toBlob = (base64) => {
@@ -47,7 +52,9 @@
 		}
 
 		function axnospaint_post(postObj) {
+
 			return new Promise(resolve => {
+
 				const BlobPng = toBlob(postObj.strEncodeImg)
 			// console.log(BlobPng);
 			//2022-2024 (c)satopian MIT Licence
