@@ -56,7 +56,7 @@
     "@PENNAME.MOVE_TOOL": "Move Tool",
     "@SWATCHES.COLUMNS": "Columns",
     "@SWATCHES.EDIT": "Edit",
-    "@SWATCHES.SET": "Set",
+    "@SWATCHES.SET": "Add",
     "@SWATCHES.DEL": "Del",
     "@LAYER.NEWLAYER_TEMPLATE": "Layer ",
     "@LAYER.OPTION_NORMAL": "Normal",
