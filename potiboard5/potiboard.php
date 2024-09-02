@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.35.5';
-const POTI_LOT = 'lot.20240902';
+const POTI_VER = 'v6.35.6';
+const POTI_LOT = 'lot.20240903';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1708,10 +1708,10 @@ function paintform(){
 	
 	if(strlen($pwd) > 72) error(MSG015);
 
-	$picw = ($picw < PMIN_W) ? PMIN_W : $picw;//最低の幅チェック
-	$pich = ($pich < PMIN_H) ? PMIN_H : $pich;//最低の高さチェック
-	$picw = ($picw > PMAX_W) ? PMAX_W : $picw;//最大の幅チェック
-	$pich = ($pich > PMAX_H) ? PMAX_H : $pich;//最大の高さチェック
+	$picw = max($picw,PMIN_W);//最低の幅チェック
+	$pich = max($pich,PMIN_H);//最低の高さチェック
+	$picw = min($picw,PMAX_W);//最大の幅チェック
+	$pich = min($pich,PMAX_H);//最大の高さチェック
 
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
@@ -1810,7 +1810,10 @@ function paintform(){
 			error(MSG001);
 		}
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
-	
+		//AXNOS Paint用
+		$dat['pmaxw'] = max($picw,PMAX_W);//許容する最大の幅
+		$dat['pmaxh'] = max($pich,PMAX_H);//許容する最大の高さ
+		
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
 
 		if($ctype=='pch'&& $_pch_ext){
