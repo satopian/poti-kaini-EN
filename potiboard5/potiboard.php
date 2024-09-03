@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.35.8';
+const POTI_VER = 'v6.35.9';
 const POTI_LOT = 'lot.20240903';
 
 /*
@@ -1850,8 +1850,8 @@ function paintform(){
 		$h = $pich + 172;//PaintBBSの時の高さ
 	}
 
-	$w = ($w < 450) ? 450 : $w;//最低幅
-	$h = ($h < 560) ? 560 : $h;//最低高
+	$w = max($w,450);//最低幅
+	$h = max($h,560);//最低高
 
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
