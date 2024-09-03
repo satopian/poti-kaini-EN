@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.35.6';
+const POTI_VER = 'v6.35.8';
 const POTI_LOT = 'lot.20240903';
 
 /*
@@ -1713,6 +1713,11 @@ function paintform(){
 	$picw = min($picw,PMAX_W);//最大の幅チェック
 	$pich = min($pich,PMAX_H);//最大の高さチェック
 
+	//Cookie保存
+	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
+	setcookie("picw", $picw , time()+(86400*SAVE_COOKIE));//幅
+	setcookie("pich", $pich , time()+(86400*SAVE_COOKIE));//高さ
+
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
 	// 初期化
@@ -1810,9 +1815,6 @@ function paintform(){
 			error(MSG001);
 		}
 		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
-		//AXNOS Paint用
-		$dat['pmaxw'] = max($picw,PMAX_W);//許容する最大の幅
-		$dat['pmaxh'] = max($pich,PMAX_H);//許容する最大の高さ
 		
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
 
@@ -1937,16 +1939,20 @@ function paintform(){
 
 	$dat['usercode'] = $usercode;
 
-	//Cookie保存
-	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
-	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
-	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	$dat['max_pch']=0;
 	if (function_exists('ini_get')){
 		$dat['max_pch'] = min((int)ini_get('post_max_size'),(int)ini_get('upload_max_filesize'));
 	} 
 
+	//AXNOS Paint用
+	$pmax_w = max($picw,PMAX_W);//許容する最大の幅
+	$pmax_h = max($pich,PMAX_H);//許容する最大の高さ
+	$dat['pmaxw'] = min($pmax_w,1800); // 1800px以上にはならない
+	$dat['pmaxh'] = min($pmax_h,1800); // 1800px以上にはならない
+
+
+	
 	switch($shi){
 		case 'tegaki':
 			return htmloutput(PAINT_TEGAKI,$dat);
