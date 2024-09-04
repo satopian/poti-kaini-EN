@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<style>canvas#axp_post_canvas_postingImage{max-width:100%}</style>
+<style>body{overscroll-behavior-x: none !important; }</style>
 
 <title>{{$title}}</title>
 <script>
