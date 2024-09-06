@@ -212,8 +212,6 @@ if (psdURL) {
 		ctx.drawImage(img, 0, 0);
 		} catch (error) {
 		console.error(error);
-		// 画像の読み込みに失敗した場合の処理
-		klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
 		}
 		@endif
 
