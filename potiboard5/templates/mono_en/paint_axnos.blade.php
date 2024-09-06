@@ -112,7 +112,7 @@
 							}
 							if(response_status===404){
 								resolve(false);
-								return alert(@if($en)'404 not found\nsave.inc.php'@else'エラー404\nsave.inc.phpがありません。'@endif);	
+								return alert(@if($en)'404 not found\nThe PHP file to save the image does not exist.'@else'エラー404\n画像を保存するPHPファイルがありません。'@endif);	
 							}
 							resolve(false);
 							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
