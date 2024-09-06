@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!-- mocked drawing page -->
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<title>{{$title}}</title> 
 	<!-- this is important -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 
 	<style>
 		:not(input){
@@ -28,7 +28,7 @@
 		document.addEventListener("contextmenu",(e)=>{
 			e.preventDefault();
 		});
-</script>
+	</script>
 </head>
 <body>
 
@@ -60,9 +60,9 @@
 	}());
 
 	const klecks = new Klecks({
-		
+
 		disableAutoFit: true,
-		
+
 		onSubmit: (onSuccess, onError) => {
 			// download png
 			// saveData(klecks.getPNG(), 'drawing.png');
@@ -76,7 +76,7 @@
 			onSuccess();
 			//2022-2024 (c)satopian MIT Licence
 			//この箇所はさとぴあが作成したMIT Licenceのコードです。
-				const postData = (path, data) => {
+			const postData = (path, data) => {
 					fetch(path, {
 						method: 'post',
 						mode: 'same-origin',
@@ -89,13 +89,13 @@
 					.then((response) => {
 						if (response.ok) {
 							response.text().then((text) => {
-							console.log(text)
-							if(text==='ok'){
-								@if($rep)
+								console.log(text)
+								if(text==='ok'){
+									@if($rep)
 									return repData();
-								@endif
-								return window.location.href = "?mode=piccom&stime={{$stime}}";
-							}
+									@endif
+									return window.location.href = "?mode=piccom&stime={{$stime}}";
+								}
 								return alert(text);
 							})
 						}else{
@@ -124,7 +124,7 @@
 					formData.append("resto", "{{$resto}}");
 					formData.append("tool", "Klecks");
 					postData("?mode=saveimage&tool=klecks", formData);
-
+					
 				});
 				// (c)satopian MIT Licence ここまで
 				// location.reload();
@@ -133,7 +133,7 @@
 	});
 	//2022-2024 (c)satopian MIT Licence
 	//この箇所はさとぴあが作成したMIT Licenceのコードです。
-	@if($rep)
+@if($rep)
 	const repData = () => {
     // 画像差し換えに必要なフォームデータをセット
     const formData = new FormData();
@@ -171,62 +171,77 @@
 		return window.location.href = "?mode=piccom&stime={{$stime}}";
     });
 	}
-	@endif
+@endif
 	// (c)satopian MIT Licence ここまで
-	if (psdURL) {
-		fetch(new Request(psdURL)).then(response => {
-			return response.arrayBuffer();
-		}).then(buffer => {
-			return klecks.readPSD(buffer); // resolves to Klecks project
-		}).then(project => {
-			klecks.openProject(project);
-		}).catch(e => {
-			klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
+if (psdURL) {
+	fetch(new Request(psdURL)).then(response => {
+		return response.arrayBuffer();
+	}).then(buffer => {
+		return klecks.readPSD(buffer); // resolves to Klecks project
+	}).then(project => {
+		klecks.openProject(project);
+	}).catch(e => {
+		klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
+	});
+
+} else {
+	const loadImage = (src) => {
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.onload = () => resolve(img);
+			img.onerror = () => klecks.initError(<?php if($en):?>'failed to read image'<?php else:?>'画像の読み込みに失敗しました。'<?php endif;?>);
+			img.src = src;
 		});
+	};
 
-	} else {
+	(async () => {
+	const createCanvasWithImage = async () => {
+		const canvas = document.createElement('canvas');
+		canvas.width = {{$picw}};
+		canvas.height = {{$picw}};
+		const ctx = canvas.getContext('2d');
 
-		klecks.openProject({
-			width: {{$picw}},
-			height: {{$pich}},
+		ctx.save();
+		ctx.fillStyle = '#fff';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.restore();
 
-			layers: [{
-				name: 'Background',
-				opacity: 1,
-				mixModeStr: 'source-over',
+		@if($imgfile)
+		try {
+		const img = await loadImage("{{$imgfile}}");
+		ctx.drawImage(img, 0, 0);
+		} catch (error) {
+		console.error(error);
+		// 画像の読み込みに失敗した場合の処理
+		klecks.initError(@if($en)'failed to read image'@else'画像の読み込みに失敗しました。'@endif);
+		}
+		@endif
 
-				image: (() => {
-					const canvas = document.createElement('canvas');
-					canvas.width = {{$picw}};
-					canvas.height = {{$pich}};
-					const ctx = canvas.getContext('2d');
-					//PSDがなくて画像がある時はcanvasに読み込む
-					@if($imgfile)
-						var img = new Image();
-						img.src = "{{$imgfile}}";
-						img.onload = function(){
-							ctx.drawImage(img, 0, 0);
-						}
-					@endif
-					ctx.save();
-					ctx.fillStyle = '#fff';
-					ctx.fillRect(0, 0, canvas.width, canvas.height);
-					ctx.restore();
-					return canvas;
-				})(),
-			},{
+		return canvas;
+	};
+
+	const backgroundCanvas = await createCanvasWithImage();
+	const emptyCanvas = document.createElement('canvas');
+	emptyCanvas.width = {{$picw}};
+	emptyCanvas.height = {{$picw}};
+
+	klecks.openProject({
+		width: {{$picw}},
+		height: {{$picw}},
+		layers: [{
+			name: @if($en)'Background'@else'背景'@endif,
+			opacity: 1,
+			mixModeStr: 'source-over',
+			image: backgroundCanvas
+			}, {
 				name: '{{$TranslatedLayerName}} 1',
 				opacity: 1,
 				mixModeStr: 'source-over',
-				image: (() => {
-					const canvas = document.createElement('canvas');
-					canvas.width = {{$picw}};
-					canvas.height = {{$pich}};
-					return canvas;
-				})()
-			}
-		]});
-	}
+				image: emptyCanvas
+			}]
+		});
+	})();
+}
 </script>
 <!-- embed end -->
 </body>
