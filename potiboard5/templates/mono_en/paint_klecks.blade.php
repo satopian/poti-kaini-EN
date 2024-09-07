@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{$title}}</title> 
+	<title>お絵かきモード - {{$title}}</title> 
 	<!-- this is important -->
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 
@@ -201,11 +201,6 @@ if (psdURL) {
 		canvas.height = {{$pich}};
 		const ctx = canvas.getContext('2d');
 
-		ctx.save();
-		ctx.fillStyle = '#fff';
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		ctx.restore();
-
 		@if($imgfile)
 		try {
 		const img = await loadImage("{{$imgfile}}");
@@ -213,6 +208,11 @@ if (psdURL) {
 		} catch (error) {
 		console.error(error);
 		}
+		@else
+		ctx.save();
+		ctx.fillStyle = '#fff';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.restore();
 		@endif
 
 		return canvas;
