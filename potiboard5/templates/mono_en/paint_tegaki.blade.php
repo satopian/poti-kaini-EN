@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- mocked drawing page -->
-<html lang="ja">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>{{$title}}</title> 
