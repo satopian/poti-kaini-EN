@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.20240128 for POTI-board
+// picpost.php lot.20240916 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -160,7 +160,6 @@ class picpost{
 		$rep = isset($u['rep']) ? $u['rep'] : '';
 		$no = isset($u['no']) ? $u['no'] : '';
 		$pwd = isset($u['pwd']) ? $u['pwd'] : '';
-		$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 		$repcode = isset($u['repcode']) ? $u['repcode'] : '';
 		$stime = isset($u['stime']) ? $u['stime'] : '';
 		$count = isset($u['count']) ? $u['count'] : 0;
