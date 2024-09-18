@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.36.2';
+const POTI_VER = 'v6.36.3';
 const POTI_LOT = 'lot.20240918';
 
 /*
@@ -319,7 +319,7 @@ switch($mode){
 		}
 		if($admin==="update"){
 			updatelog();
-			return redirect(h(PHP_SELF2), 0);
+			return redirect(h(PHP_SELF2));
 		}
 		return;
 
@@ -369,7 +369,7 @@ switch($mode){
 		if($res){
 			return res($res);
 		}
-		return redirect(h(PHP_SELF2), 0);
+		return redirect(h(PHP_SELF2));
 }
 
 exit;
@@ -726,7 +726,7 @@ function updatelog(){
 function res($resno = 0){
 
 	if(!$resno){
-		return redirect(h(PHP_SELF2), 0);
+		return redirect(h(PHP_SELF2));
 	}
 	$trees=get_log(TREEFILE);
 
@@ -1366,13 +1366,7 @@ function regist(){
 
 		noticemail::send($data);
 	}
-	redirect(
-		PHP_SELF."?res={$resno}#{$no}"
-		,
-		1,
-		$message,
-		THE_SCREEN_CHANGES
-	);
+	redirect(h(PHP_SELF)."?res={$resno}#{$no}");
 }
 
 function h_decode($str){
@@ -1495,7 +1489,7 @@ function userdel(){
 	$destination = ($thread_no&&$thread_exists) ? PHP_SELF.'?res='.h($thread_no) :($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
 	updatelog();
-	return redirect($destination, 0);
+	return redirect($destination);
 
 }
 
@@ -2490,11 +2484,7 @@ global $ADMIN_PASS;
 
 	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
-	redirect(
-		$destination . (URL_PARAMETER ? "?".time() : ''),
-		1,
-		THE_SCREEN_CHANGES
-	);
+	redirect($destination . (URL_PARAMETER ? "?".time() : ''));
 }
 // 画像差し換え
 function replace($no="",$pwd="",$repcode="",$java=""){
@@ -2944,7 +2934,7 @@ function htmloutput($template,$dat,$buf_flag=''){
 
 }
 
-function redirect ($url, $wait = 0, $message1 = '',$message2 = '') {
+function redirect ($url) {
 
 	return header("Location: {$url}");
 }
