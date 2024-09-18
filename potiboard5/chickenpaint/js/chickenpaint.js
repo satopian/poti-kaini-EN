@@ -23053,7 +23053,7 @@ function CPLayersPalette(controller) {
     // }
 
     dropdownParent.id = "chickenpaint-layer-pop";
-    widgetContainer.className = "chickenpaint-layers-widget well";
+    widgetContainer.className = "chickenpaint-layers-widget";
     widgetContainer.addEventListener("contextmenu", function (e) {
       return e.preventDefault();
     }, true /* Capture phase, prevent context menu on all children */);
