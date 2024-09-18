@@ -1470,6 +1470,9 @@ function ChickenPaint(options) {
     }
   }
 }
+//Parcelでビルドする時はChickenPaintをGlobalオブジェクトに設定
+// window.ChickenPaint = ChickenPaint;
+
 ChickenPaint.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 ChickenPaint.prototype.constructor = ChickenPaint;
 ChickenPaint.UnsupportedBrowserException = function (message) {
@@ -18471,7 +18474,7 @@ var _CPColor = _interopRequireDefault(require("../util/CPColor.js"));
 var _CPPolyfill = require("../util/CPPolyfill.js");
 var _jquery = _interopRequireDefault(require("jquery"));
 var _keymaster = _interopRequireDefault(require("../../lib/keymaster.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -18882,7 +18885,7 @@ function CPTransformPanel(controller) {
 }
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPColorBmp.js":13,"../languages/lang":54,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"./CPCheckbox.js":27,"./CPColorSwatch.js":31,"./CPGUIUtils.js":33,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":296}],26:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPColorBmp.js":13,"../languages/lang.js":54,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"./CPCheckbox.js":27,"./CPColorSwatch.js":31,"./CPGUIUtils.js":33,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":296}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18897,7 +18900,7 @@ var _CPRect = _interopRequireDefault(require("../util/CPRect.js"));
 var _CPTransform = _interopRequireDefault(require("../util/CPTransform.js"));
 var _CPWacomTablet = _interopRequireDefault(require("../util/CPWacomTablet.js"));
 var _CPBezier = _interopRequireDefault(require("../util/CPBezier.js"));
-var _throttleDebounce = require("../util/throttle-debounce");
+var _throttleDebounce = require("../util/throttle-debounce.js");
 var _CPPolygon = _interopRequireDefault(require("../util/CPPolygon.js"));
 var _CPPolyfill = require("../util/CPPolyfill.js");
 var _CPVector = _interopRequireDefault(require("../util/CPVector.js"));
@@ -21137,7 +21140,7 @@ CPCanvas.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPCanvas.prototype.constructor = CPCanvas;
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../languages/lang.js":54,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":296,"wolfy87-eventemitter":314}],27:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../engine/CPBrushInfo.js":8,"../engine/CPLayerGroup.js":17,"../engine/CPMaskView.js":19,"../languages/lang.js":54,"../util/CPBezier.js":57,"../util/CPColor.js":58,"../util/CPPolyfill.js":60,"../util/CPPolygon.js":61,"../util/CPRect.js":63,"../util/CPTransform.js":64,"../util/CPVector.js":65,"../util/CPWacomTablet.js":66,"../util/throttle-debounce.js":67,"./CPGUIUtils.js":33,"./CPScrollbar.js":41,"jquery":296,"wolfy87-eventemitter":314}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21222,7 +21225,7 @@ var _CPPalette = _interopRequireDefault(require("./CPPalette.js"));
 var _CPColorSelect = _interopRequireDefault(require("./CPColorSelect.js"));
 var _CPColorSlider = _interopRequireDefault(require("./CPColorSlider.js"));
 var _CPColor = _interopRequireDefault(require("../util/CPColor.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -21300,7 +21303,7 @@ CPColorPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPColorPalette.prototype.constructor = CPColorPalette;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"../util/CPColor.js":58,"./CPColorSelect.js":29,"./CPColorSlider.js":30,"./CPPalette.js":39}],29:[function(require,module,exports){
+},{"../languages/lang.js":54,"../util/CPColor.js":58,"./CPColorSelect.js":29,"./CPColorSlider.js":30,"./CPPalette.js":39}],29:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24001,7 +24004,7 @@ var MENU_ENTRIES = [{
  * @constructor
  */
 function CPMainMenu(controller, mainGUI) {
-  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md navbar-light bg-light">' + '<div class="navbar-upper"><a class="navbar-brand" href="#">ChickenPaint Be</a>' + '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button></div>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<div class="navbar-nav mr-auto">' + '</div>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"></div>' + '</nav>');
+  var bar = (0, _jquery.default)('<nav class="navbar navbar-expand-md bg-light">' + '<div class="navbar-upper"><a class="navbar-brand" href="#">ChickenPaint Be</a>' + '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#chickenpaint-main-menu-content" aria-controls="chickenpaint-main-menu-content" aria-expanded="false" aria-label="Toggle main menu">' + '<span class="navbar-toggler-icon"></span>' + '</button></div>' + '<div class="collapse navbar-collapse" id="chickenpaint-main-menu-content">' + '<div class="navbar-nav">' + '</div>' + '</div>' + '<div class="widget-nav" id="chickenpaint-palette-toggler-content"></div>' + '</nav>');
   // macPlatform = /^Mac/i.test(navigator.platform),
 
   var macPlatform = navigator.userAgent.toLowerCase().includes('mac os');
@@ -24304,7 +24307,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = CPPalette;
 var _jquery = _interopRequireDefault(require("jquery"));
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -24589,7 +24592,7 @@ CPPalette.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPPalette.prototype.constructor = _wolfy87Eventemitter.default;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"jquery":296,"wolfy87-eventemitter":314}],40:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":296,"wolfy87-eventemitter":314}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25114,7 +25117,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = CPSlider;
 var _jquery = _interopRequireDefault(require("jquery"));
 var _wolfy87Eventemitter = _interopRequireDefault(require("wolfy87-eventemitter"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -25338,7 +25341,7 @@ CPSlider.prototype = Object.create(_wolfy87Eventemitter.default.prototype);
 CPSlider.prototype.constructor = CPSlider;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"jquery":296,"wolfy87-eventemitter":314}],45:[function(require,module,exports){
+},{"../languages/lang.js":54,"jquery":296,"wolfy87-eventemitter":314}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25485,7 +25488,7 @@ exports.default = CPStrokePalette;
 var _jquery = _interopRequireDefault(require("jquery"));
 var _CPPalette = _interopRequireDefault(require("./CPPalette.js"));
 var _CPBrushInfo = _interopRequireDefault(require("../engine/CPBrushInfo.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -25568,7 +25571,7 @@ CPStrokePalette.prototype = Object.create(_CPPalette.default.prototype);
 CPStrokePalette.prototype.constructor = CPStrokePalette;
 module.exports = exports.default;
 
-},{"../engine/CPBrushInfo.js":8,"../languages/lang":54,"./CPPalette.js":39,"jquery":296}],47:[function(require,module,exports){
+},{"../engine/CPBrushInfo.js":8,"../languages/lang.js":54,"./CPPalette.js":39,"jquery":296}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25580,7 +25583,7 @@ var _fileSaver = _interopRequireDefault(require("file-saver"));
 var _CPPalette = _interopRequireDefault(require("./CPPalette.js"));
 var _CPColor = _interopRequireDefault(require("../util/CPColor.js"));
 var _AdobeColorTable = _interopRequireDefault(require("../util/AdobeColorTable.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -25807,7 +25810,7 @@ function CPSwatchesPalette(controller) {
     settingsMenu.appendChild(limnuSave);
     settingsMenu.appendChild(limnuLoad);
     var btnSettingsContainer = document.createElement("div");
-    btnSettingsContainer.className = "btn-group dropright";
+    btnSettingsContainer.className = "btn-group";
     btnSettingsContainer.appendChild(btnSettings);
     btnSettingsContainer.appendChild(settingsMenu);
     btnAdd.addEventListener("click", function (e) {
@@ -25836,7 +25839,7 @@ CPSwatchesPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPSwatchesPalette.prototype.constructor = CPSwatchesPalette;
 module.exports = exports.default;
 
-},{"../languages/lang":54,"../util/AdobeColorTable.js":55,"../util/CPColor.js":58,"./CPPalette.js":39,"file-saver":295,"jquery":296}],48:[function(require,module,exports){
+},{"../languages/lang.js":54,"../util/AdobeColorTable.js":55,"../util/CPColor.js":58,"./CPPalette.js":39,"file-saver":295,"jquery":296}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25924,7 +25927,7 @@ var _CPGreyBmp = _interopRequireDefault(require("../engine/CPGreyBmp.js"));
 var _CPLookUpTable = _interopRequireDefault(require("../engine/CPLookUpTable.js"));
 var _CPPalette = _interopRequireDefault(require("./CPPalette.js"));
 var _CPSlider = _interopRequireDefault(require("./CPSlider.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -26306,7 +26309,7 @@ CPTexturePalette.prototype = Object.create(_CPPalette.default.prototype);
 CPTexturePalette.prototype.constructor = CPTexturePalette;
 module.exports = exports.default;
 
-},{"../engine/CPGreyBmp.js":14,"../engine/CPLookUpTable.js":18,"../languages/lang":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":296,"wolfy87-eventemitter":314}],50:[function(require,module,exports){
+},{"../engine/CPGreyBmp.js":14,"../engine/CPLookUpTable.js":18,"../languages/lang.js":54,"./CPPalette.js":39,"./CPSlider.js":44,"jquery":296,"wolfy87-eventemitter":314}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26317,7 +26320,7 @@ var _jquery = _interopRequireDefault(require("jquery"));
 var _keymaster = _interopRequireDefault(require("../../lib/keymaster.js"));
 var _CPPalette = _interopRequireDefault(require("./CPPalette.js"));
 var _ChickenPaint = _interopRequireDefault(require("../ChickenPaint.js"));
-var _lang = require("../languages/lang");
+var _lang = require("../languages/lang.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
     ChickenPaint
@@ -26539,7 +26542,7 @@ CPToolPalette.prototype = Object.create(_CPPalette.default.prototype);
 CPToolPalette.prototype.constructor = CPToolPalette;
 module.exports = exports.default;
 
-},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../languages/lang":54,"./CPPalette.js":39,"jquery":296}],51:[function(require,module,exports){
+},{"../../lib/keymaster.js":68,"../ChickenPaint.js":1,"../languages/lang.js":54,"./CPPalette.js":39,"jquery":296}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
