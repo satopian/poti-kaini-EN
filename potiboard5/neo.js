@@ -553,9 +553,9 @@ Neo.backgroundImage = function () {
   var bgCanvas = document.createElement("canvas");
   bgCanvas.width = 16;
   bgCanvas.height = 16;
-  var ctx = bgCanvas.getContext("2d",{
-		willReadFrequently: true,
-	});
+  var ctx = bgCanvas.getContext("2d", {
+    willReadFrequently: true,
+  });
   var imageData = ctx.getImageData(0, 0, 16, 16);
   var buf32 = new Uint32Array(imageData.data.buffer);
   var buf8 = new Uint8ClampedArray(imageData.data.buffer);
@@ -571,9 +571,9 @@ Neo.backgroundImage = function () {
 };
 
 Neo.multColor = function (c, scale) {
-  var r = Math.round(parseInt(c.substring(1, 3), 16) * scale);
-  var g = Math.round(parseInt(c.substring(3, 5), 16) * scale);
-  var b = Math.round(parseInt(c.substring(5, 7), 16) * scale);
+  var r = Math.round(parseInt(c.slice(1, 3), 16) * scale);
+  var g = Math.round(parseInt(c.slice(3, 5), 16) * scale);
+  var b = Math.round(parseInt(c.slice(5, 7), 16) * scale);
   r = ("0" + Math.min(Math.max(r, 0), 255).toString(16)).slice(-2);
   g = ("0" + Math.min(Math.max(g, 0), 255).toString(16)).slice(-2);
   b = ("0" + Math.min(Math.max(b, 0), 255).toString(16)).slice(-2);
@@ -1046,9 +1046,9 @@ Neo.resizeCanvas = function () {
 
   Neo.painter.destCanvas.width = width;
   Neo.painter.destCanvas.height = height;
-  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d",{
-		willReadFrequently: true,
-	});
+  Neo.painter.destCanvasCtx = Neo.painter.destCanvas.getContext("2d", {
+    willReadFrequently: true,
+  });
   Neo.painter.destCanvasCtx.imageSmoothingEnabled = false;
   //Neo.painter.destCanvasCtx.mozImageSmoothingEnabled = false;
 
@@ -1103,12 +1103,12 @@ Neo.openURL = function (url) {
 };
 
 Neo.getAbsoluteURL = function (board, url) {
-  if (url && (url.indexOf('://') > 0 || url.indexOf('//') === 0)) {
+  if (url && (url.indexOf("://") > 0 || url.indexOf("//") === 0)) {
     return url;
   } else {
     return board + url;
   }
-}
+};
 
 Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   var url = Neo.getAbsoluteURL(board, Neo.config.url_save);
@@ -1140,7 +1140,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   if (Neo.config.send_header_timer == "true") {
     headerString = "timer=" + timer + "&" + headerString;
   }
-//console.log("header: " + headerString);
+  //   console.log("header: " + headerString);
 
   if (Neo.config.neo_emulate_security_error == "true") {
     var securityError = false;
@@ -1164,24 +1164,29 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     }
   }
 
-  let pchFileNotAppended=false;
+  let pchFileNotAppended = false;
 
   if (Neo.config.neo_send_with_formdata == "true") {
-	var formData = new FormData();
-	formData.append('header', headerString);
-	formData.append('picture',blob,blob);
-	let thumbnail_size = 0;
-	if (thumbnail) {
-		formData.append('thumbnail',thumbnail,blob);
-		thumbnail_size=thumbnail.size;
-	}
-	if (thumbnail2) {
-	  if (!Neo.config.neo_max_pch || isNaN(parseInt(Neo.config.neo_max_pch)) || ((parseInt(Neo.config.neo_max_pch)*1024*1024) > (headerString.length+blob.size+thumbnail_size+thumbnail2.size))) {
-		formData.append('pch',thumbnail2,blob);
-		}else{
-			pchFileNotAppended = true;
-		}
-	  }
+    var formData = new FormData();
+    formData.append("header", headerString);
+    formData.append("picture", blob, blob);
+    let thumbnail_size = 0;
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail, blob);
+      thumbnail_size = thumbnail.size;
+    }
+    if (thumbnail2) {
+      if (
+        !Neo.config.neo_max_pch ||
+        isNaN(parseInt(Neo.config.neo_max_pch)) ||
+        parseInt(Neo.config.neo_max_pch) * 1024 * 1024 >
+          headerString.length + blob.size + thumbnail_size + thumbnail2.size
+      ) {
+        formData.append("pch", thumbnail2, blob);
+      } else {
+        pchFileNotAppended = true;
+      }
+    }
   }
 
   //console.log("submit url=" + url + " header=" + headerString);
@@ -1208,94 +1213,104 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     array.push(thumbnail2Length, thumbnail2);
   }
 
-	var futaba = location.hostname.match(/2chan.net/i);
-	var subtype = futaba ? "octet-binary" : "octet-stream"; // 念のため
-	var body = new Blob(array, { type: "application/" + subtype });
+  var futaba = location.hostname.match(/2chan.net/i);
+  var subtype = futaba ? "octet-binary" : "octet-stream"; // 念のため
+  var body = new Blob(array, { type: "application/" + subtype });
 
-	const postData = (path, data) => {
-		var errorMessage=path+"\n";
+  const postData = (path, data) => {
+    var errorMessage = path + "\n";
 
-		const requestOptions = {
-			method: 'post',
-			body: data,
-		};
-		
-		if (!futaba) {//ふたばの時は、'X-Requested-With'を追加しない
-			requestOptions.mode = 'same-origin';
-			requestOptions.headers = {
-			'X-Requested-With': 'PaintBBS'
-			};
-		}
+    const requestOptions = {
+      method: "post",
+      body: data,
+    };
 
-		fetch(path, requestOptions)
-		.then((response) => {
-			if (response.ok) {
-				response.text().then((text) => {
-				console.log(text)
-				if (text.match(/^error\n/m)) {
-					Neo.submitButton.enable();
-					return alert(text.replace(/^error\n/m, ''));
-				}
-				if (text!=="ok") {
-					Neo.submitButton.enable();
-					return alert(errorMessage + 
-					Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
-				}
+    if (!futaba) {
+      //ふたばの時は、'X-Requested-With'を追加しない
+      requestOptions.mode = "same-origin";
+      requestOptions.headers = {
+        "X-Requested-With": "PaintBBS",
+      };
+    }
 
-				var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
-				var responseURL = text.replace(/&amp;/g, "&");
-			
-				// ふたばではresponseの文字列をそのままURLとして解釈する
-				if (responseURL.match(/painttmp=/)) {
-				exitURL = responseURL;
-				}
-				// responseが "URL:〜" の形だった場合はそのURLへ
-				if (responseURL.match(/^URL:/)) {
-				exitURL = responseURL.replace(/^URL:/, "");
-				}
-				Neo.uploaded = true;
-				//画面移動の関数が定義されている時はユーザーが定義した関数で画面移動
-				if (typeof Neo.handleExit === 'function') {
-					return Neo.handleExit();
-				}
-				return location.href = exitURL;
-				})
-			}else{
-				Neo.submitButton.enable();
-				let response_status = response.status; 
-				if (response_status == 403) {
+    fetch(path, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          response.text().then((text) => {
+            console.log(text);
+            if (text.match(/^error\n/m)) {
+              Neo.submitButton.enable();
+              return alert(text.replace(/^error\n/m, ""));
+            }
+            var exitURL = Neo.getAbsoluteURL(board, Neo.config.url_exit);
+            var responseURL = text.replace(/&amp;/g, "&");
 
-					return alert(errorMessage + Neo.translate("投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。"));
-				}
-				if(response_status===404) {
-				return alert(errorMessage + Neo.translate("ファイルが見当たりません。"));
-				}
-				return alert(errorMessage + 
-				Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
-
-			}
-		})
-		.catch((error) => {
-			Neo.submitButton.enable();
-			return alert(errorMessage + 
-				Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。"));
-		})
-	}
-	if (Neo.config.neo_send_with_formdata == "true") {
-
-		if(pchFileNotAppended){
-			if (window.confirm(Neo.translate("画像のみが送信されます。\nレイヤー情報は保持されません。"))) {
-				postData(url, formData);
-			} else {
-				console.log("中止しました。");
-			}
-		}else{
-			postData(url, formData);
-		}
-
-	}else{
-		postData(url, body);
-	}
+            // ふたばではresponseの文字列をそのままURLとして解釈する
+            if (responseURL.match(/painttmp=/)) {
+              exitURL = responseURL;
+            }
+            // responseが "URL:〜" の形だった場合はそのURLへ
+            if (responseURL.match(/^URL:/)) {
+              exitURL = responseURL.replace(/^URL:/, "");
+            }
+            Neo.uploaded = true;
+            //画面移動の関数が定義されている時はユーザーが定義した関数で画面移動
+            if (typeof Neo.handleExit === "function") {
+              return Neo.handleExit();
+            }
+            return (location.href = exitURL);
+          });
+        } else {
+          Neo.submitButton.enable();
+          let response_status = response.status;
+          if (response_status == 403) {
+            return alert(
+              errorMessage +
+                Neo.translate(
+                  "投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。"
+                )
+            );
+          }
+          if (response_status === 404) {
+            return alert(
+              errorMessage + Neo.translate("ファイルが見当たりません。")
+            );
+          }
+          return alert(
+            errorMessage +
+              Neo.translate(
+                "投稿に失敗。時間を置いて再度投稿してみてください。"
+              )
+          );
+        }
+      })
+      .catch((error) => {
+        Neo.submitButton.enable();
+        return alert(
+          errorMessage +
+            Neo.translate("投稿に失敗。時間を置いて再度投稿してみてください。")
+        );
+      });
+  };
+  if (Neo.config.neo_send_with_formdata == "true") {
+    if (pchFileNotAppended) {
+      if (
+        window.confirm(
+          Neo.translate(
+            "画像のみが送信されます。\nレイヤー情報は保持されません。"
+          )
+        )
+      ) {
+        postData(url, formData);
+      } else {
+        console.log("中止しました。");
+      }
+    } else {
+      postData(url, formData);
+    }
+  } else {
+    postData(url, body);
+  }
 };
 
 /*
@@ -1536,7 +1551,7 @@ Neo.dictionary = {
       "It may be a WAF false positive.\nTry to draw a little more.",
     "ファイルが見当たりません。":"File not found",
 	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Only image will be sent.\nLayer information will not be retained.",
-  },
+},
   enx: {
     やり直し: "Redo",
     元に戻す: "Undo",
@@ -1598,7 +1613,7 @@ Neo.dictionary = {
       "It may be a WAF false positive.\nTry to draw a little more.",
     "ファイルが見当たりません。":"File not found.",
 	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Only image will be sent.\nLayer information will not be retained.",
- },
+},
   es: {
     やり直し: "Rehacer",
     元に戻す: "Deshacer",
@@ -1660,7 +1675,7 @@ Neo.dictionary = {
 	  "Puede ser un falso positivo de WAF.\nIntenta dibujar un poco más.",
     "ファイルが見当たりません。":"Archivo no encontrado.",
 	"画像のみが送信されます。\nレイヤー情報は保持されません。":"Sólo se enviará la imagen.\nNo se conservará la información de la capa.",
-},
+  },
 };
 
 Neo.translate = (function () {
@@ -2029,7 +2044,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
       },
 	  { passive: false,
 		capture: false }
-		);
+    );
     container.addEventListener(
       "touchmove",
       function (e) {
@@ -2037,7 +2052,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
       },
 	  { passive: false,
 		capture: false }
-	  );
+    );
     container.addEventListener(
       "touchend",
       function (e) {
@@ -2045,7 +2060,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
       },
 	  { passive: false,
 		capture: false }
-	  );
+    );
 
     document.onkeydown = function (e) {
       ref._keyDownHandler(e);
@@ -2200,9 +2215,9 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
     this.tool.keyDownHandler(e);
   }
 
-	//スペース・Shift+スペースででスクロールしないように
-	// if (document.activeElement != this.inputText) e.preventDefault();
-	// console.log(document.activeElement.tagName)
+  //スペース・Shift+スペースででスクロールしないように
+  // if (document.activeElement != this.inputText) e.preventDefault();
+  // console.log(document.activeElement.tagName)
 	//ctrlキーとの組み合わせのブラウザデフォルトのショートカットキーを無効化
 	//但しctrl+v,ctrl+x,ctrl+aは使用可能
 	const keys = ["+",";","=","-","s","h","r","y","z","u","o"];
@@ -2215,7 +2230,7 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
 		e.preventDefault();
 		}
 	}
-} 
+}
 Neo.Painter.prototype._keyUpHandler = function (e) {
   this.isShiftDown = e.shiftKey;
   this.isCtrlDown = e.ctrlKey;
@@ -2906,9 +2921,9 @@ Neo.Painter.prototype.getBound = function (x0, y0, x1, y1, r) {
 
 Neo.Painter.prototype.getColor = function (c) {
   if (!c) c = this.foregroundColor;
-  var r = parseInt(c.substring(1, 3), 16);
-  var g = parseInt(c.substring(3, 5), 16);
-  var b = parseInt(c.substring(5, 7), 16);
+  var r = parseInt(c.slice(1, 3), 16);
+  var g = parseInt(c.slice(3, 5), 16);
+  var b = parseInt(c.slice(5, 7), 16);
   var a = Math.floor(this.alpha * 255);
   return (a << 24) | (b << 16) | (g << 8) | r;
 };
@@ -2962,14 +2977,14 @@ Neo.Painter.prototype.getAlpha = function (type) {
 };
 
 Neo.Painter.prototype.prepareDrawing = function () {
-  var r = parseInt(this.foregroundColor.substring(1, 3), 16);
-  var g = parseInt(this.foregroundColor.substring(3, 5), 16);
-  var b = parseInt(this.foregroundColor.substring(5, 7), 16);
+  var r = parseInt(this.foregroundColor.slice(1, 3), 16);
+  var g = parseInt(this.foregroundColor.slice(3, 5), 16);
+  var b = parseInt(this.foregroundColor.slice(5, 7), 16);
   var a = Math.floor(this.alpha * 255);
 
-  var maskR = parseInt(this.maskColor.substring(1, 3), 16);
-  var maskG = parseInt(this.maskColor.substring(3, 5), 16);
-  var maskB = parseInt(this.maskColor.substring(5, 7), 16);
+  var maskR = parseInt(this.maskColor.slice(1, 3), 16);
+  var maskG = parseInt(this.maskColor.slice(3, 5), 16);
+  var maskB = parseInt(this.maskColor.slice(5, 7), 16);
 
   this._currentColor = [r, g, b, a];
   this._currentMask = [maskR, maskG, maskB];
@@ -4904,11 +4919,11 @@ Neo.DrawToolBase.prototype.freeHandUpMoveHandler = function (oe) {
 };
 
 Neo.DrawToolBase.prototype.drawCursor = function (oe) {
-// if (oe.lineWidth <= 8) return;//オリジナルは8px以下のときは円カーソルを出さない
-var mx = oe.mouseX;
+  if (oe.lineWidth <= 8) return;
+  var mx = oe.mouseX;
   var my = oe.mouseY;
   var d = oe.lineWidth;
-  d = (d==1) ? 2 : d;//1pxの時は2px相当の円カーソルを表示
+
   var x = (mx - oe.zoomX + (oe.destCanvas.width * 0.5) / oe.zoom) * oe.zoom;
   var y = (my - oe.zoomY + (oe.destCanvas.height * 0.5) / oe.zoom) * oe.zoom;
   var r = d * 0.5 * oe.zoom;
@@ -7233,15 +7248,15 @@ Neo.Button.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
-	);
+		capture: true }
+	  );
   this.element.addEventListener(
     "touchend",
     function (e) {
       ref._mouseUpHandler(e);
     },
 	{ passive: false,
-	capture: true }
+		capture: true }
 	  );
 
   this.element.className = !this.params.type == "fill" ? "button" : "buttonOff";
@@ -7401,7 +7416,7 @@ Neo.ColorTip.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
+		capture: true }
 	  );
   this.element.addEventListener(
     "touchend",
@@ -7537,8 +7552,8 @@ Neo.ToolTip.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
-  );
+		capture: true }
+	  );
   this.element.addEventListener(
     "touchend",
     function (e) {
@@ -8398,7 +8413,7 @@ Neo.LayerControl.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
+		capture: true }
   );
 
   this.element.className = "layerControl";
@@ -8480,7 +8495,7 @@ Neo.ReserveControl.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
+		capture: true }
   );
 
   this.element.className = "reserve";
@@ -8685,7 +8700,7 @@ Neo.ViewerBar.prototype.init = function (name, params) {
       e.preventDefault();
     },
 	{ passive: false,
-	capture: true }
+		capture: true }
   );
 
   this.update();
