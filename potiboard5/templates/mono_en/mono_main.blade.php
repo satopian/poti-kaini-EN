@@ -280,7 +280,7 @@
 					<div class="article_skipres">
 						{{$res['skipres']}} 
 						@if($res['skipres']>1) posts @else post @endif
-						 Omitted.
+						 omitted.
 					</div>
 					@endif
 					@endif
