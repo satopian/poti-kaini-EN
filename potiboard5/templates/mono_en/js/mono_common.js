@@ -99,7 +99,7 @@ jQuery(function () {
   //JavaScriptによるCookie発行
   const paintform = document.getElementById("paint_form");
   if (paintform) {
-    paintform.onsubmit = () => {
+    paintform.onsubmit = function () {
       if (paintform.picw) {
         SetCookie("picwc", paintform.picw.value);
       }
@@ -113,7 +113,7 @@ jQuery(function () {
   }
   const commentform = document.getElementById("comment_form");
   if (commentform) {
-    commentform.onsubmit = () => {
+    commentform.onsubmit = function () {
       if (commentform.name) {
         SetCookie("namec", commentform.name.value);
       }
@@ -149,14 +149,14 @@ function open_sns_server_window(event, width = 350, height = 490) {
     snsWindow = window.open(url, "_blank", windowFeatures); // 新しいウィンドウを開く
   }
   // ウィンドウがフォーカスを失った時の処理
-  snsWindow.addEventListener("blur", () => {
+  snsWindow.addEventListener("blur", function () {
     if (snsWindow.location.href === url) {
       snsWindow.close(); // URLが変更されていない場合はウィンドウを閉じる
     }
   });
 }
 //モバイルの時はPC用のメニューを非表示
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
   if (
     navigator.maxTouchPoints &&
     window.matchMedia &&
