@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.3";
+Neo.version = "1.6.5";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -108,7 +108,7 @@ Neo.init2 = function () {
   Neo.animation = Neo.config.thumbnail_type == "animation";
 
   // 続きから描く
-  Neo.storage = localStorage;
+  Neo.storage = localStorage; //PCの時にもlocalStorageを使用
 
   var filename = Neo.getFilename();
   var message =
@@ -116,7 +116,18 @@ Neo.init2 = function () {
       ? "描きかけの画像があります。復元しますか？"
       : "描きかけの画像があります。動画の読み込みを中止して復元しますか？";
 
-  if (Neo.storage.getItem("timestamp") && confirm(Neo.translate(message))) {
+  let storageTimestamp = Neo.storage.getItem("timestamp");
+  const nowTimestamp = new Date().getTime();
+
+  if (
+    Number.isInteger(storageTimestamp) &&
+    nowTimestamp - storageTimestamp > 3 * 86400 * 1000
+  ) {
+    //3日経過した復元データは破棄
+    Neo.painter.clearSession();
+    storageTimestamp = null;
+  }
+  if (storageTimestamp && confirm(Neo.translate(message))) {
     var oe = Neo.painter;
     setTimeout(function () {
       oe.loadSession(function () {
@@ -2289,6 +2300,10 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
   this.prevMouseX = this.mouseX;
   this.prevMouseY = this.mouseY;
   this.securityCount++;
+  let autosaveCount = this.securityCount;
+  if (autosaveCount % 10 === 0 && Neo.painter.isDirty()) {
+    Neo.painter.saveSession(); //10ストロークごとに自動バックアップ
+  }
 
   if (this.isMouseDownRight) {
     this.isMouseDownRight = false;
@@ -4434,7 +4449,7 @@ Neo.Painter.prototype.loadSession = function (callback) {
 
 Neo.Painter.prototype.saveSession = function () {
   if (Neo.storage) {
-    Neo.storage.setItem("timestamp", +new Date());
+    Neo.storage.setItem("timestamp", new Date().getTime());
     Neo.storage.setItem("layer0", this.canvas[0].toDataURL("image/png"));
     Neo.storage.setItem("layer1", this.canvas[1].toDataURL("image/png"));
   }
