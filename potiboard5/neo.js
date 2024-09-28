@@ -120,7 +120,7 @@ Neo.init2 = function () {
   const nowTimestamp = new Date().getTime();
 
   if (
-    Number.isInteger(storageTimestamp) &&
+    Number.isInteger(Number(storageTimestamp)) &&
     nowTimestamp - storageTimestamp > 3 * 86400 * 1000
   ) {
     //3日経過した復元データは破棄
