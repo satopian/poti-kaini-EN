@@ -144,7 +144,8 @@ Neo.init2 = function () {
   }
 
   window.addEventListener(
-    "pagehide",
+    // "pagehide",
+    "beforeunload", //ブラウザを終了した時にも復元データを保存
     function (e) {
       if (!Neo.uploaded && Neo.painter.isDirty()) {
         Neo.painter.saveSession();
