@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.5";
+Neo.version = "1.6.6";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -133,23 +133,30 @@ Neo.init2 = function () {
       oe.loadSession(function () {
         oe._pushUndo();
         oe._actionMgr.restore();
+        //復元時にサイズが違うキャンバスで開き直した時に画像が切り取られないようにするため
+        //復元処理の直後はデータが変更されていない事にする
+        oe.dirty = false;
       });
     }, 1);
-  } else if (filename) {
-    if (filename.slice(-4).toLowerCase() == ".pch") {
-      Neo.painter.loadAnimation(filename);
-    } else {
-      Neo.painter.loadImage(filename);
+  } else {
+    //復元しないを選択した時
+    Neo.painter.clearSession();
+    if (filename) {
+      if (filename.slice(-4).toLowerCase() == ".pch") {
+        Neo.painter.loadAnimation(filename);
+      } else {
+        Neo.painter.loadImage(filename);
+      }
     }
   }
-
   window.addEventListener(
     // "pagehide",
     "beforeunload", //ブラウザを終了した時にも復元データを保存
     function (e) {
       if (!Neo.uploaded && Neo.painter.isDirty()) {
         Neo.painter.saveSession();
-      } else {
+      } else if (Neo.uploaded) {
+        //投稿完了時にクリア
         Neo.painter.clearSession();
       }
     },
