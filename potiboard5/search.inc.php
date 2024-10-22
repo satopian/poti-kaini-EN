@@ -1,7 +1,7 @@
 <?php
-//POTI-board plugin search(C)2020-2023 さとぴあ(@satopian)
+//POTI-board plugin search(C)2020-2024 さとぴあ(@satopian)
 //MIT License
-//v6.0.0 lot.20230828
+//v6.37.8 lot.2024.10.22
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -12,6 +12,7 @@
 
 //更新履歴
 
+//v6.37.8 2024.10.22 コード整理。
 //v6.0.0 2023.08.28 POTI-board v6.0に対応。
 //v5.5.1 2023.07.07 jQuery。
 //v5.5.0 2022.09.30 翻訳の改善。記事の並び方が最新順になっていなかったのを修正。
@@ -42,242 +43,238 @@
 //v0.1 2020.07.13 GitHubに公開
 
 class processsearch {
-    public static function search() {
-//設定
-// How many cases can you search?
-// Initial value 120 Do not make it too large.
-defined("MAX_SEARCH") or define("MAX_SEARCH","120");
-//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
+	public static function search() {
+	//設定の読み込み
+	//設定
 
-//filter_input
+	defined("MAX_SEARCH") or define("MAX_SEARCH","120");
+	//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
-$imgsearch=(bool)filter_input(INPUT_GET,'imgsearch',FILTER_VALIDATE_BOOLEAN);
-$page=(int)filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
-$page= $page ? $page : 1;
-$query=(string)filter_input(INPUT_GET,'query');
-$query=urldecode($query);
-$check_query=mb_convert_kana($query, 'rn', 'UTF-8');
-$check_query=str_replace(array(" ", "　"), "", $check_query);
-$check_query=str_replace("〜","～",$check_query);//波ダッシュを全角チルダに
-$check_query=strtolower($check_query);//すべて小文字に
-$radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
+	$imgsearch=(bool)filter_input(INPUT_GET,'imgsearch',FILTER_VALIDATE_BOOLEAN);
+	$page=(int)filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
+	$page= $page ? $page : 1;
+	$query=(string)filter_input(INPUT_GET,'query');
+	$query=urldecode($query);
+	$check_query = self::create_formatted_text_for_search($query);
+	$radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
 
-if($imgsearch){
-	$disp_count_of_page=20;//画像検索の時の1ページあたりの表示件数
-}
-else{
-	$disp_count_of_page=30;//通常検索の時の1ページあたりの表示件数
-}
-
-//ログの読み込み
-$i=0;$j=0;
-$arr=[];
-$oya = [];
-$tp = fopen(TREEFILE, "r");
-while ($line = fgets($tp)) {
-	$tree_nos = explode(',', trim($line));
-	foreach ($tree_nos as $tree_no) {
-		$oya[$tree_no] = $tree_nos[0]; //キーにres no、値にoya no
+	if($imgsearch){
+		$disp_count_of_page=20;//画像検索の時の1ページあたりの表示件数
 	}
-}
-fclose($tp);
-
-$fp = fopen(LOGFILE, "r");
-while ($line = fgets($fp)) {
-	if(!trim($line)){
-		continue;
-	}
-	list($no,,$name,$email,$sub,$com,$url,,,$ext,$w,$h,$time,,,,,,,$logver) = explode(",", rtrim($line).",,,,,,");
-	if(!isset($oya[$no])||(!$name && !$email && !$url && !$com && !$ext)){
-		continue;
+	else{
+		$disp_count_of_page=30;//通常検索の時の1ページあたりの表示件数
 	}
 
-	$key_time= ($logver==="6") ? $time : (strlen($time)>12 ? substr($time,-13) : $time);
-
-	$continue_to_search=true;
-	if($imgsearch){//画像検索の場合
-		$continue_to_search=($ext&&is_file(IMG_DIR.$time.$ext));//画像があったら
-	}
-
-	if($continue_to_search){
-		if($radio===1||$radio===2||$radio===0){
-			list($name,) = separateNameAndTrip($name);
-			$s_name=mb_convert_kana($name, 'rn', 'UTF-8');//全角英数を半角に
-			$s_name=str_replace(array(" ", "　"), "", $s_name);
-			$s_name=str_replace("〜","～", $s_name);//波ダッシュを全角チルダに
-			$s_name=strtolower($s_name);//すべて小文字に
+	//ログの読み込み
+	$i=0;$j=0;
+	$arr=[];
+	$oya = [];
+	$tp = fopen(TREEFILE, "r");
+	while ($line = fgets($tp)) {
+		$tree_nos = explode(',', trim($line));
+		foreach ($tree_nos as $tree_no) {
+			$oya[$tree_no] = $tree_nos[0]; //キーにres no、値にoya no
 		}
-		else{
-			$s_sub=mb_convert_kana($sub, 'rn', 'UTF-8');//全角英数を半角に
-			$s_sub=str_replace(array(" ", "　"), "", $s_sub);
-			$s_sub=str_replace("〜","～", $s_sub);//波ダッシュを全角チルダに
-			$s_sub=strtolower($s_sub);//すべて小文字に
-			$s_com=mb_convert_kana($com, 'rn', 'UTF-8');//全角英数を半角に
-			$s_com=str_replace(array(" ", "　"), "", $s_com);
-			$s_com=str_replace("〜","～", $s_com);//波ダッシュを全角チルダに
-			$s_com=strtolower($s_com);//すべて小文字に
-		}
-		
-		//ログとクエリを照合
-		if($query===''||//空白なら
-		$check_query!==''&&$radio===3&&stripos($s_com,$check_query)!==false||//本文を検索
-		$check_query!==''&&$radio===3&&stripos($s_sub,$check_query)!==false||//題名を検索
-		$check_query!==''&&($radio===1||$radio===null)&&stripos($s_name,$check_query)===0||//作者名が含まれる
-		$check_query!==''&&($radio===2&&$s_name===$check_query)//作者名完全一致
-		){
-			$link='';
-			$link=PHP_SELF."?res={$oya[$no]}#{$time}";
-			$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver];
-			++$i;
-			if($i>=MAX_SEARCH){break;}//1掲示板あたりの最大検索数
-		}
-		
 	}
+	fclose($tp);
 
-	++$j;
-	if($j>=5000){break;}//1掲示板あたりの最大行数
+	$fp = fopen(LOGFILE, "r");
+	while ($line = fgets($fp)) {
+		if(!trim($line)){
+			continue;
+		}
+		list($no,,$name,$email,$sub,$com,$url,,,$ext,$w,$h,$time,,,,,,,$logver) = explode(",", rtrim($line).",,,,,,");
+		if(!isset($oya[$no])||(!$name && !$email && !$url && !$com && !$ext)){
+			continue;
+		}
 
-}
-	fclose($fp);
-//検索結果の出力
-$j=0;
-$dat['comments']=[];
-if(!empty($arr)){
-	
-	krsort($arr);
-	
-	$articles=array_slice($arr,((int)$page-1),$disp_count_of_page,false);
-	$articles = array_values($articles);
+		$key_time= ($logver==="6") ? $time : (strlen($time)>12 ? substr($time,-13) : $time);
 
-	foreach($articles as $i => $val){
-		list($no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver)=$val;
-		$img='';
-		if($ext){
-			if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
-				$img=THUMB_DIR.$time.'s.jpg';
+		$continue_to_search=true;
+		if($imgsearch){//画像検索の場合
+			$continue_to_search=($ext&&is_file(IMG_DIR.$time.$ext));//画像があったら
+		}
+
+		if($continue_to_search){
+			if($radio===1||$radio===2||$radio===0){
+				list($name,) = separateNameAndTrip($name);
+				$s_name = self::create_formatted_text_for_search($name);
 			}
-			elseif($imgsearch||is_file(IMG_DIR.$time.$ext)){
-				$img=IMG_DIR.$time.$ext;
+			else{
+				$s_sub = self::create_formatted_text_for_search($sub);
+				$s_com = self::create_formatted_text_for_search($com);
+			}
+			
+			//ログとクエリを照合
+			if($query===''||//空白なら
+			$check_query!==''&&$radio===3&&stripos($s_com,$check_query)!==false||//本文を検索
+			$check_query!==''&&$radio===3&&stripos($s_sub,$check_query)!==false||//題名を検索
+			$check_query!==''&&($radio===1||$radio===null)&&stripos($s_name,$check_query)===0||//作者名が含まれる
+			$check_query!==''&&($radio===2&&$s_name===$check_query)//作者名完全一致
+			){
+				$link='';
+				$link=PHP_SELF."?res={$oya[$no]}#{$time}";
+				$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver];
+				++$i;
+				if($i>=MAX_SEARCH){break;}//1掲示板あたりの最大検索数
+			}
+			
+		}
+
+		++$j;
+		if($j>=5000){break;}//1掲示板あたりの最大行数
+	}
+		fclose($fp);
+	//検索結果の出力
+	$j=0;
+	$dat['comments']=[];
+	if(!empty($arr)){
+		
+		krsort($arr);
+		
+		$articles=array_slice($arr,((int)$page-1),$disp_count_of_page,false);
+		$articles = array_values($articles);
+
+		foreach($articles as $i => $val){
+			list($no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver)=$val;
+			$img='';
+			if($ext){
+				if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？
+					$img=THUMB_DIR.$time.'s.jpg';
 				}
-			}
+				elseif($imgsearch||is_file(IMG_DIR.$time.$ext)){
+					$img=IMG_DIR.$time.$ext;
+					}
+				}
 
 			$time=microtime2time($time,$logver);
+
 			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
-		$sub=h($sub);
-		$com=str_replace('<br />',' ',$com);
-		if(MD_LINK){
-			$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
+			$sub=h($sub);
+			$com=str_replace('<br />',' ',$com);
+			if(MD_LINK){
+				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
+			}
+			$com=h(strip_tags($com));
+			$com=mb_strcut($com,0,180);
+			$name=h($name);
+			$encoded_name=urlencode($name);
+			//変数格納
+			$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
+
 		}
-		$com=h(strip_tags($com));
-		$com=mb_strcut($com,0,180);
-		$name=h($name);
-		$encoded_name=urlencode($name);
-		//変数格納
-		$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
-
+		$j=$page+$i;//表示件数
 	}
-	$j=$page+$i;//表示件数
-}
-unset($sub,$name,$no,$boardname);
-unset($i,$val);
+	unset($sub,$name,$no,$boardname);
+	unset($i,$val);
 
-$search_type='';
-if($imgsearch){
-	$search_type='&imgsearch=on';
-	$img_or_com='images';
-	$mai_or_ken=' ';
-}
-else{
-	$img_or_com='comments';
-	$mai_or_ken=' ';
-}
-$dat['imgsearch']= $imgsearch ? true : false;
+	$search_type='';
+	if($imgsearch){
+		$search_type='&imgsearch=on';
+		$img_or_com='イラスト';
+		$mai_or_ken='枚';
+	}
+	else{
+		$img_or_com='コメント';
+		$mai_or_ken='件';
+	}
+	$dat['imgsearch']= $imgsearch ? true : false;
+	//クエリを検索窓に入ったままにする
+	$dat['query']=h($query);
+	//ラジオボタンのチェック
+	$dat['radio_chk1']=false;//作者名
+	$dat['radio_chk2']=false;//完全一致
+	$dat['radio_chk3']=false;//本文題名	
+	$query_l='&query='.urlencode(h($query));//クエリを次ページにgetで渡す
+	if($query!==''&&$radio===3){//本文題名
+		$query_l.='&radio=3';
+		$dat['radio_chk3']=true;
+	}
+	elseif($query!==''&&$radio===2){//完全一致
+		$query_l.='&radio=2';
+		$dat['radio_chk2']=true;	
+	}
+	elseif($query!==''&&($radio===null||$radio===1)){//作者名
+		$query_l.='&radio=1';
+		$dat['radio_chk1']=true;
+	}
+	else{//作者名	
+		$query_l='';
+		$dat['radio_chk1']=true;
+	}
+	$dat['query_l']=$query_l;
 
-//クエリを検索窓に入ったままにする
-$dat['query']=h($query);
-//ラジオボタンのチェック
-$dat['radio_chk1']=false;//作者名
-$dat['radio_chk2']=false;//完全一致
-$dat['radio_chk3']=false;//本文題名	
-$query_l='&query='.urlencode(h($query));//クエリを次ページにgetで渡す
-if($query!==''&&$radio===3){//本文題名
-	$query_l.='&radio=3';
-	$dat['radio_chk3']=true;
-}
-elseif($query!==''&&$radio===2){//完全一致
-	$query_l.='&radio=2';
-	$dat['radio_chk2']=true;	
-}
-elseif($query!==''&&($radio===null||$radio===1)){//作者名
-	$query_l.='&radio=1';
-	$dat['radio_chk1']=true;
-}
-else{//作者名	
-	$query_l='';
-	$dat['radio_chk1']=true;
-}
-$dat['query_l']=$query_l;
+	$dat['page']=(int)$page;
 
-$dat['page']=(int)$page;
-
-$dat['img_or_com']=$img_or_com;
-$pageno=0;
-if($j&&$page>=2){
-	$pageno = $page.'-'.$j.$mai_or_ken;
-}else{
-	$pageno = $j.$mai_or_ken;
-}
-if($check_query!==''&&$radio===3){
-	$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
-	$dat['h1']=$pageno.' '.$img_or_com.' of '.$query;//h1タグに入る
-}
-elseif($check_query!==''){
-	$dat['title']=$pageno.' Posts by '.$query;
-	$dat['h1']=$pageno.' Posts by '.$query;
-}
-else{
-	$dat['title']='Recent '.$pageno.' Posts';
-	$dat['h1']='Recent '.$pageno.' Posts';
-}
-$dat['pageno']=$pageno;
-//ページング
-
-$nxetpage=$page+$disp_count_of_page;//次ページ
-$prevpage=$page-$disp_count_of_page;//前のページ
-$countarr=count($arr);//配列の数
-$dat['prev']=false;
-$dat['nxet']=false;
-
-if($page<=$disp_count_of_page){
-	$dat['prev']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';//前のページ
-if($countarr>=$nxetpage){
-	$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
-}
-}
-
-elseif($page>=$disp_count_of_page+1){
-	$dat['prev']= '<a href="'.h(PHP_SELF).'?mode=search&page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
-	if($countarr>=$nxetpage){
-		$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
+	$dat['img_or_com']=$img_or_com;
+	$pageno=0;
+	if($j&&$page>=2){
+		$pageno = $page.'-'.$j.$mai_or_ken;
 	}else{
-		$dat['nxet']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';
+		$pageno = $j.$mai_or_ken;
 	}
-}
-//最終更新日時を取得
-$postedtime='';
-$dat['lastmodified']='';
-if(!empty($arr)){
+	if($check_query!==''&&$radio===3){
+		$dat['title']=$query.'の'.$img_or_com;//titleタグに入る
+		$dat['h1']=$query.'の';//h1タグに入る
+	}
+	elseif($check_query!==''){
+		$dat['title']=$query.'さんの'.$img_or_com;
+		$dat['h1']=$query.	'さんの';
+	}
+	else{
+		$dat['title']='掲示板に投稿された最新の'.$img_or_com;
+		$dat['h1']='掲示板に投稿された最新の';
+	}
+	$dat['pageno']=$pageno;
+	//ページング
 
-	$postedtime= key($arr);
-	$postedtime=(int)substr($postedtime,0,-3);
-	$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
-}
+	$nxetpage=$page+$disp_count_of_page;//次ページ
+	$prevpage=$page-$disp_count_of_page;//前のページ
+	$countarr=count($arr);//配列の数
+	$dat['prev']=false;
+	$dat['nxet']=false;
 
-unset($arr);
+	if($page<=$disp_count_of_page){
+		$dat['prev']='<a href="./'.h(PHP_SELF2).'">掲示板にもどる</a>';//前のページ
+	if($countarr>=$nxetpage){
+		$dat['nxet']='<a href="?mode=search&page='.h($nxetpage.$search_type.$query_l).'">次の'.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
+	}
+	}
 
-$dat['self2']=PHP_SELF2;
-//HTML出力
-htmloutput('search',$dat);
+	elseif($page>=$disp_count_of_page+1){
+		$dat['prev']= '<a href="'.h(PHP_SELF).'?mode=search&page='.h($prevpage.$search_type.$query_l).'">≪前の'.h($disp_count_of_page.$mai_or_ken).'</a>'; 
+		if($countarr>=$nxetpage){
+			$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">次の'.h($disp_count_of_page.$mai_or_ken).'≫</a>';
+		}else{
+			$dat['nxet']='<a href="./'.h(PHP_SELF2).'">掲示板にもどる</a>';
+		}
+	}
+	//最終更新日時を取得
+	$postedtime='';
+	$dat['lastmodified']='';
+	if(!empty($arr)){
 
-}
+		$postedtime= key($arr);
+		$postedtime=(int)substr($postedtime,0,-3);
+		$dat['lastmodified']=date("Y/m/d G:i", $postedtime);
+	}
+
+	unset($arr);
+
+	$dat['self2']=PHP_SELF2;
+
+	//HTML出力
+	htmloutput('search',$dat);
+
+	}
+	//検索文字列をフォーマット
+	Private static function create_formatted_text_for_search($str){
+
+		$s_str=mb_convert_kana($str, 'rn', 'UTF-8');//全角英数を半角に
+		$s_str=str_replace([" ", "　"], "", $s_str);
+		$s_str=str_replace("〜","～", $s_str);//波ダッシュを全角チルダに
+		$s_str=strtolower($s_str);//小文字に
+
+		return $s_str; 
+	}
 }
