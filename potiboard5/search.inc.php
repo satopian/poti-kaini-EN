@@ -153,7 +153,7 @@ class processsearch {
 			$sub=h($sub);
 			$com=str_replace('<br />',' ',$com);
 			if(MD_LINK){
-				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)\)}","\\1",$com);
+				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)\)}","\\1",$com);
 			}
 			$com=h(strip_tags($com));
 			$com=mb_strcut($com,0,180);
