@@ -44,9 +44,9 @@
 
 class processsearch {
 	public static function search() {
-	//設定の読み込み
 	//設定
-
+// How many cases can you search?
+// Initial value 120 Do not make it too large.
 	defined("MAX_SEARCH") or define("MAX_SEARCH","120");
 	//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
@@ -123,6 +123,7 @@ class processsearch {
 
 		++$j;
 		if($j>=5000){break;}//1掲示板あたりの最大行数
+
 	}
 		fclose($fp);
 	//検索結果の出力
@@ -148,7 +149,6 @@ class processsearch {
 				}
 
 			$time=microtime2time($time,$logver);
-
 			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
 			$sub=h($sub);
 			$com=str_replace('<br />',' ',$com);
@@ -171,14 +171,15 @@ class processsearch {
 	$search_type='';
 	if($imgsearch){
 		$search_type='&imgsearch=on';
-		$img_or_com='イラスト';
-		$mai_or_ken='枚';
-	}
+		$img_or_com='images';
+		$mai_or_ken=' ';
+		}
 	else{
-		$img_or_com='コメント';
-		$mai_or_ken='件';
-	}
+		$img_or_com='comments';
+		$mai_or_ken=' ';
+		}
 	$dat['imgsearch']= $imgsearch ? true : false;
+
 	//クエリを検索窓に入ったままにする
 	$dat['query']=h($query);
 	//ラジオボタンのチェック
@@ -214,17 +215,17 @@ class processsearch {
 		$pageno = $j.$mai_or_ken;
 	}
 	if($check_query!==''&&$radio===3){
-		$dat['title']=$query.'の'.$img_or_com;//titleタグに入る
-		$dat['h1']=$query.'の';//h1タグに入る
-	}
+		$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
+		$dat['h1']=$pageno.' '.$img_or_com.' of '.$query;//h1タグに入る
+		}
 	elseif($check_query!==''){
-		$dat['title']=$query.'さんの'.$img_or_com;
-		$dat['h1']=$query.	'さんの';
-	}
+		$dat['title']=$pageno.' Posts by '.$query;
+		$dat['h1']=$pageno.' Posts by '.$query;
+		}
 	else{
-		$dat['title']='掲示板に投稿された最新の'.$img_or_com;
-		$dat['h1']='掲示板に投稿された最新の';
-	}
+		$dat['title']='Recent '.$pageno.' Posts';
+		$dat['h1']='Recent '.$pageno.' Posts';
+		}
 	$dat['pageno']=$pageno;
 	//ページング
 
@@ -235,18 +236,18 @@ class processsearch {
 	$dat['nxet']=false;
 
 	if($page<=$disp_count_of_page){
-		$dat['prev']='<a href="./'.h(PHP_SELF2).'">掲示板にもどる</a>';//前のページ
-	if($countarr>=$nxetpage){
-		$dat['nxet']='<a href="?mode=search&page='.h($nxetpage.$search_type.$query_l).'">次の'.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
-	}
+		$dat['prev']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';//前のページ
+		if($countarr>=$nxetpage){
+			$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';//次のページ
+			}
 	}
 
 	elseif($page>=$disp_count_of_page+1){
-		$dat['prev']= '<a href="'.h(PHP_SELF).'?mode=search&page='.h($prevpage.$search_type.$query_l).'">≪前の'.h($disp_count_of_page.$mai_or_ken).'</a>'; 
+		$dat['prev']= '<a href="'.h(PHP_SELF).'?mode=search&page='.h($prevpage.$search_type.$query_l).'">≪prev '.h($disp_count_of_page.$mai_or_ken).'</a>'; 
 		if($countarr>=$nxetpage){
-			$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">次の'.h($disp_count_of_page.$mai_or_ken).'≫</a>';
+			$dat['nxet']='<a href="'.h(PHP_SELF).'?mode=search&page='.h($nxetpage.$search_type.$query_l).'">next '.h($disp_count_of_page.$mai_or_ken).'≫</a>';
 		}else{
-			$dat['nxet']='<a href="./'.h(PHP_SELF2).'">掲示板にもどる</a>';
+			$dat['nxet']='<a href="./'.h(PHP_SELF2).'">Return to bulletin board</a>';
 		}
 	}
 	//最終更新日時を取得
@@ -262,7 +263,6 @@ class processsearch {
 	unset($arr);
 
 	$dat['self2']=PHP_SELF2;
-
 	//HTML出力
 	htmloutput('search',$dat);
 
