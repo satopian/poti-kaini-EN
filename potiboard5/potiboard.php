@@ -3071,7 +3071,7 @@ $dest=$path.$time.$ext;
 	clearstatcache();
 	$fsize_dest=filesize($dest);
 	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
-		$im_jpg = thumb($path,$time,$ext,null,null,['png2jpeg'=>1]);//実体データを縮小
+		$im_jpg = thumb($path,$time,$ext,null,null,['png2jpeg'=>1]);//実体データの変換
 
 		if($im_jpg) {
 			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
