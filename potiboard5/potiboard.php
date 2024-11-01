@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.39.3';
-const POTI_LOT = 'lot.20241101';
+const POTI_VER = 'v6.39.6';
+const POTI_LOT = 'lot.20241102';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -95,12 +95,12 @@ if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
 require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 
 //サムネイルfunction
-if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
+if ($err = check_file(__DIR__.'/thumbnail_gd.inc.php')) {
 	die($err);
 }
-require(__DIR__.'/thumbnail_gd.php');
-if($thumbnail_gd_ver < 20241101){
-	die($en ? "Please update thumbnail_gd.php" : "thumbnail_gd.phpを更新してください。");
+require(__DIR__.'/thumbnail_gd.inc.php');
+if($thumbnail_gd_ver < 20241102){
+	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
 if ($err = check_file(__DIR__.'/sns_share.inc.php')) {
@@ -1173,7 +1173,10 @@ function regist(){
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
-		thumb($temppath,$time,".tmp",MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
+		if($is_upload){
+			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
+		}
+
 		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 		convert_andsave_if_smaller_png2jpeg($temppath,$time,".tmp",$is_upload);
 
@@ -1231,7 +1234,7 @@ function regist(){
 		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
 
 		if(USE_THUMB){
-			if(thumb($path,$time,$ext,$max_w,$max_h)){
+			if(thumbnail_gd::thumb($path,$time.$ext,$time,$max_w,$max_h)){
 				$thumbnail="thumbnail";
 			}
 		}
@@ -2633,8 +2636,8 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	
 			//サムネイル作成
 			if(USE_THUMB){
-				if(thumb($path,$time,$imgext,$max_w,$max_h)){
-				$thumbnail="thumbnail";
+				if(thumbnail_gd::thumb($path,$time.$imgext,$time,$max_w,$max_h)){
+					$thumbnail="thumbnail";
 				}
 			}
 			//PCHファイルアップロード
@@ -3071,7 +3074,8 @@ $dest=$path.$time.$ext;
 	clearstatcache();
 	$fsize_dest=filesize($dest);
 	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
-		$im_jpg = thumb($path,$time,$ext,null,null,['png2jpeg'=>1]);//実体データの変換
+
+		$im_jpg = thumbnail_gd::thumb($path,$time.$ext,$time,null,null,['png2jpeg'=>1]);//実体データの変換
 
 		if($im_jpg) {
 			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
