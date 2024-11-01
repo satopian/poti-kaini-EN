@@ -36,7 +36,7 @@ function thumb($path,$time,$ext,$max_w,$max_h,$options=[]){
 		$out_w = $w_h_size_over ? ceil($w * $ratio):$w;//端数の切り上げ
 		$out_h = $w_h_size_over ? ceil($h * $ratio):$h;
 	}
-	
+
 	switch ($mime_type = mime_content_type($fname)) {
 		case "image/gif";
 			if(!function_exists("ImageCreateFromGIF")){//gif
@@ -71,15 +71,14 @@ function thumb($path,$time,$ext,$max_w,$max_h,$options=[]){
 	if(function_exists("ImageCreateTrueColor")&&get_gd_ver()=="2"){
 		$im_out = ImageCreateTrueColor($out_w, $out_h);
 		if((isset($options['toolarge'])||
-		isset($options['webp']))&&
-		in_array($mime_type,["image/png","image/gif","image/webp"])){//透明度がある
-			if(function_exists("imagealphablending") && function_exists("imagesavealpha")){
+		isset($options['webp']))&&//透明度を扱うオプションが設定されている時
+		in_array($mime_type,["image/png","image/gif","image/webp"])&&//透明度を扱うフォーマット
+		function_exists("imagealphablending") && function_exists("imagesavealpha")){//透明度のための機能はあるか?
 				imagealphablending($im_out, false);
 				imagesavealpha($im_out, true);//透明
-			}
-		}else{//透明度が無い
+		}else{//透明度を扱わない時
 			if(function_exists("ImageColorAlLocate") && function_exists("imagefill")){
-				$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色が透明の時は白で塗りつぶす
+				$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
 				imagefill($im_out, 0, 0, $background);
 			}
 		}
