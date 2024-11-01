@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.38.1';
-const POTI_LOT = 'lot.20241026';
+const POTI_VER = 'v6.39.3';
+const POTI_LOT = 'lot.20241101';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -99,6 +99,9 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.php')) {
 	die($err);
 }
 require(__DIR__.'/thumbnail_gd.php');
+if($thumbnail_gd_ver < 20241101){
+	die($en ? "Please update thumbnail_gd.php" : "thumbnail_gd.phpを更新してください。");
+}
 //SNS共有Class
 if ($err = check_file(__DIR__.'/sns_share.inc.php')) {
 	die($err);
@@ -114,7 +117,6 @@ if ($err = check_file(__DIR__.'/save.inc.php')) {
 	die($err);
 }
 require(__DIR__.'/save.inc.php');
-
 if($save_inc_ver < 20240127){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
@@ -1173,10 +1175,10 @@ function regist(){
 
 		thumb($temppath,$time,".tmp",MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
 		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-		convert_andsave_if_smaller_png2jpg($dest,$is_upload);
+		convert_andsave_if_smaller_png2jpeg($temppath,$time,".tmp",$is_upload);
 
 		clearstatcache();
-		if(filesize($dest) > MAX_KB * 1024){//ファイルサイズ再チェック
+		if($is_upload && (filesize($dest) > MAX_KB * 1024)){//ファイルサイズ再チェック
 		error(MSG034,$dest);
 		}
 		//サポートしていないフォーマットならエラーが返る
@@ -2609,7 +2611,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			chmod($dest,PERMISSION_FOR_DEST);
 
 			//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-			convert_andsave_if_smaller_png2jpg($dest);
+			convert_andsave_if_smaller_png2jpeg($temppath,$time,'.tmp');
 		
 			//サポートしていないフォーマットならエラーが返る
 			$imgext = getImgType($dest);
@@ -3063,44 +3065,15 @@ function is_ngword ($ngwords, $strs) {
 	}
 	return false;
 }
-
-//png2jpg
-function png2jpg ($src) {
-	global $temppath;
-	if(mime_content_type($src)!=="image/png" || !gd_check() ||!function_exists("ImageCreateFromPNG")){
-		return;
-	}
-	//pngならJPEGに変換
-	if($im_in=ImageCreateFromPNG($src)){
-		if(function_exists("ImageCreateTrueColor") && function_exists("ImageColorAlLocate") &&
-		function_exists("imagefill") && function_exists("ImageCopyResampled")){
-			list($out_w, $out_h)=getimagesize($src);
-			$im_out = ImageCreateTrueColor($out_w, $out_h);
-			$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
-			imagefill($im_out, 0, 0, $background);
-			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $out_w, $out_h);
-		}else{
-			$im_out=$im_in;
-		}
-		$dst = $temppath.pathinfo($src, PATHINFO_FILENAME ).'.jpg.tmp';
-		ImageJPEG($im_out,$dst,98);
-		ImageDestroy($im_in);// 作成したイメージを破棄
-		ImageDestroy($im_out);// 作成したイメージを破棄
-		chmod($dst,PERMISSION_FOR_DEST);
-		if(is_file($dst)){
-			return $dst;
-		}
-	}
-	return;
-}
-
 //pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-function convert_andsave_if_smaller_png2jpg($dest,$is_upload=false){
+function convert_andsave_if_smaller_png2jpeg($path,$time,$ext,$is_upload=false){
+$dest=$path.$time.$ext;
 	clearstatcache();
 	$fsize_dest=filesize($dest);
 	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
+		$im_jpg = thumb($path,$time,$ext,null,null,['png2jpeg'=>1]);//実体データを縮小
 
-		if ($im_jpg = png2jpg($dest)) {
+		if($im_jpg) {
 			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
 				rename($im_jpg,$dest);//JPEGで保存
 				chmod($dest,PERMISSION_FOR_DEST);
