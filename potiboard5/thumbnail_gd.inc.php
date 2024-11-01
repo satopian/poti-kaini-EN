@@ -28,7 +28,7 @@ class thumbnail_gd {
 		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['png2webp']) && !isset($options['png2jpeg'])){
 			return;
 		}
-		if(isset($options['png2webp'])||!$max_w||!$max_h){//リサイズしない
+		if(isset($options['png2jpeg'])||isset($options['png2webp'])||!$max_w||!$max_h){//リサイズしない
 			$out_w = $w;
 			$out_h = $h;
 		}else{// リサイズ
@@ -68,7 +68,7 @@ class thumbnail_gd {
 			// コピー＆縮小
 			if(!$exists_ImageCopyResampled){
 				ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);//"ImageCopyResampled"が無効の時
-			} 
+			}
 			if(isset($options['toolarge'])){
 				if(!$outfile = self::overwriteResizedImage($im_out, $fname, $mime_type)){
 					return;
@@ -184,13 +184,13 @@ class thumbnail_gd {
 
 		} elseif(isset($options['png2webp'])){
 
-				if(function_exists("ImageWEBP")&& version_compare(PHP_VERSION, '7.0.0', '>=')){
-					$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
-					ImageWEBP($im_out, $outfile,98);
-				}else{
-					$outfile=TEMP_DIR.$time.'.jpg.tmp';//一時ファイル
-					ImageJPEG($im_out, $outfile,98);
-				}
+			if(function_exists("ImageWEBP")&& version_compare(PHP_VERSION, '7.0.0', '>=')){
+				$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
+				ImageWEBP($im_out, $outfile,98);
+			}else{
+				$outfile=TEMP_DIR.$time.'.jpg.tmp';//一時ファイル
+				ImageJPEG($im_out, $outfile,98);
+			}
 		
 		} elseif(isset($options['webp'])){
 
