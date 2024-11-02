@@ -228,7 +228,7 @@
 				<div class="res">
 					{{-- 子レスヘッダ --}}
 					<h4>
-					<span class="oyaresno">[{{$res['no']}}]</span>
+					<span class="oyaresno" id="{{$res['no']}}">[{{$res['no']}}]</span>
 					@if(!isset($res['not_deleted'])||$res['not_deleted'])
 						<span class="rsub">{{$res['sub']}}</span> :
 						<span class="name"><a
