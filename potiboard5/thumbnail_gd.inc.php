@@ -18,7 +18,7 @@ class thumbnail_gd {
 		if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
 			return;
 		}
-		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && (!function_exists("ImageWEBP")||version_compare(PHP_VERSION, '7.0.0', '<'))){
+		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && (!function_exists("ImageWEBP") || version_compare(PHP_VERSION, '7.0.0', '<'))){
 			return;
 		}
 
