@@ -373,7 +373,7 @@
 						<param name="url_save" value="{{$self}}?mode=picpost">
 						<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}&amp;rep={{$rep}}&amp;no={{$no}}&amp;pwd={{$pwd}}">
 							@if($rep)
-							<param name="url_exit" value="{{$self}}?res={{$oyano}}">
+							<param name="url_exit" value="{{$self}}?res={{$oyano}}&amp;resid={{$no}}">
 							@else
 							<param name="url_exit" value="{{$self}}?mode=piccom&amp;stime={{$stime}}">
 							@endif

@@ -2584,7 +2584,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			continue;
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-	//画像差し替えに管理パスは使っていない
+	//画像差し換えに管理パスは使っていない
 		if($eno === $no && check_password($pwd, $epwd)){
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
