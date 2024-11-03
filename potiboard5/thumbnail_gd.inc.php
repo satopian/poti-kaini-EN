@@ -24,20 +24,20 @@ class thumbnail_gd {
 
 		$fsize = filesize($fname); // ファイルサイズを取得
 		list($w,$h) = GetImageSize($fname); // 画像の幅と高さを取得
-		$w_h_size_over=$max_w && $max_h && ($w > $max_w || $h > $max_h);
-		$f_size_over=!isset($options['toolarge']) ? ($fsize>1024*1024) : false;
+		$w_h_size_over = $max_w && $max_h && ($w > $max_w || $h > $max_h);
+		$f_size_over = !isset($options['toolarge']) ? ($fsize>1024*1024) : false;
 		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['png2webp']) && !isset($options['png2jpeg'])){
 			return;
 		}
-		if(isset($options['png2jpeg'])||isset($options['png2webp'])||!$max_w||!$max_h){//リサイズしない
+		if(!$w_h_size_over || isset($options['png2jpeg']) || isset($options['png2webp']) || !$max_w || !$max_h){//リサイズしない
 			$out_w = $w;
 			$out_h = $h;
 		}else{// リサイズ
 			$w_ratio = $max_w / $w;
 			$h_ratio = $max_h / $h;
 			$ratio = min($w_ratio, $h_ratio);
-			$out_w = $w_h_size_over ? ceil($w * $ratio):$w;//端数の切り上げ
-			$out_h = $w_h_size_over ? ceil($h * $ratio):$h;
+			$out_w = ceil($w * $ratio);//端数の切り上げ
+			$out_h = ceil($h * $ratio);
 		}
 
 		$mime_type = mime_content_type($fname);
