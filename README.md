@@ -43,6 +43,98 @@ However, an environment that can handle SCSS is required.
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
 
+## 2024/11/03 v6.39.8
+### ChickenPaint Be has been updated
+- Fixed an issue where the ChickenPaint Be texture palette could not be scrolled.  
+(Scrolling the texture palette is necessary on devices with small screens such as smartphones.)  
+
+
+## 2024/11/03 v6.39.7
+### Classify the series of GD processes for thumbnail creation to make the source code more readable
+- As a result of cramming functions into `thumbnail_gd.php`, the readability of the source code significantly decreased, so we reorganized it into a static class.  
+`thumbnail_gd.php` has been deleted.  
+Use `thumbnail_gd.inc.php` instead.  
+`thumbnail_gd.php` is no longer necessary, but there is no problem if it remains on the server.  
+Please be careful when deleting, as you may delete a necessary file when trying to delete an unnecessary file.
+thumbnail_gd.inc.php` is now a common class with [Petit Note](https://github.com/satopian/Petit_Note).  
+There is no longer a need to maintain two types of files, one for Petit Note and one for POTI-board.  
+### Fixed a bug that reduced the actual size of drawing images.
+```
+// The maximum size for width and height during upload, any larger will be resized.  
+define("MAX_W_PX", "1024"); //Width  
+define("MAX_H_PX", "1024"); //Height  
+```
+Fixed a bug that reduced the image size when the size set with `MAX_W_PX` or `MAX_H_PX` was smaller than the maximum size that can be drawn.  
+The image size limit for drawing images should have been specified as the maximum size that can be drawn, and it was unintended that the image would become smaller than the initial image after posting.  
+
+### When posting, the screen now scrolls to the posted reply
+- Because there is an input field at the top, previously the top of the reply screen was displayed once posting was completed.  
+However, this could make it difficult to tell if the reply comment was posted, so we've made it so that the screen scrolls to a position where the reply comment is visible.  
+
+## 2024/11/01 v6.39.3
+- I have improved the function to convert PNG images to JPEG when they exceed MAX_KB, and moved the GD processing that was processed in potiboard.php to thumbnail_gd.php.  
+By utilizing the existing GD processing, the code in potiboard.php has been shortened.  
+
+- When drawing, even if the image file size exceeds the value specified in MAX_KB, the post will be completed without an error.  
+As before, images attached from the posting form will result in an error when they exceed MAX_KB.  
+This specification has existed until now, but even if the original file size is very large, it will be reduced due to the vertical and horizontal limitations, and if the file size is larger than MAX_KB, PNG will be converted to JPEG, and if the final file size is within the MAX_KB range, the post will be successful.  
+
+## 2024/10/26 v6.38.1
+### ChickenPaint Be has been updated.
+#### You can now change the brush size by dragging the circle in the brush preview screen with the pen
+
+![2024-10-26-Brush Palette](https://github.com/user-attachments/assets/aa5747a9-6102-45fd-8fcd-05139e8894b4)  
+
+- The process that was optimized for the mouse has been rewritten as PointerEvent so that it can be operated with the pen.  
+In addition, to prevent malfunctions, the default behavior of touchmoveEvent for each palette and the main menu has been canceled.  
+Fixed an issue where a dragged object would continue to move even if the pen was removed from the screen.  
+
+
+## 2024/10/25 v6.38.0
+### ChickenPaint Be has been updated.
+#### Added noise texture to texture palette
+![Image](https://github.com/user-attachments/assets/7799d25c-2783-44a5-bae0-9185a3c628b2)
+- Added "Noise Texture" to "Texture Palette".
+Previously, you could add noise by using the "Monochrome Noise" option in the Effects menu in combination with layer effects, but the addition of "Noise Texture" allows you to create a slightly different type of noise.  
+By using it in combination with a pen or pencil, you can draw more pencil-like lines.  
+It is also effective when applying thick paint with a watercolor brush.  
+
+#### Disable texture when using eraser
+
+- Added a process to disable texture when using eraser.  
+You can now erase with the eraser even if a texture is selected.  
+Previously, if you selected a texture and used the eraser, you could not erase it completely.  
+- Textures are applied when using the soft eraser. Please use the soft eraser when creating patterns by combining textures with the eraser.
+
+## 2024/10/23 v6.37.8
+### Search code optimization
+- To improve code readability, the same process was made into a function.
+By making it a function, 16 lines that repeated the same process were reduced to 4 lines.  
+### ChickenPaint Be updated
+- Bootstrap is no longer declared globally, but is imported where necessary.  
+In addition, processes that can be reduced were deleted.  
+The build date is now listed in "About ChickenPaint Be".  
+This makes it possible to see at a glance when ChickenPaint Be was built.  
+
+![image](https://github.com/user-attachments/assets/79592935-e77b-4907-a4e3-05dc8dbe663a)
+
+
+## 2024/10/15 v6.37.7
+### ChickenPaint Be has been updated.
+- The shortcut keys for zooming in and out in ChickenPaint Be have been changed to "+" and "-", the same as Klecks and AXNOS Paint.  
+Previously, it was necessary to press the "ctrl key" at the same time, such as "ctrl + +" or "ctrl + -".  
+
+- The file size of ChickenPaint Be has been reduced by 23.7%.  
+By changing the build tool and removing the polyfill package used for IE compatibility, the file size, which was 779KB, has been reduced to 594KB.  
+This weight reduction has made startup faster.  
+
+
+## 2024/10/04 v6.37.6
+### Lightbox Updated
+- Lightbox updated to v2.11.5 and changed to a drawing board.
+### AXNOS Paint Updated
+- The background of the layer thumbnail images has been changed from a solid gray to a checkerboard pattern.  
+This is a change in the unofficial version of AXNOS Paint. The original AXNOS Paint developer is not responsible for any issues caused by this change, so please do not contact the original AXNOS Paint developer.  
 
 ## 2024/09/30 v6.37.3
 ### PaintBBS NEO has been updated
