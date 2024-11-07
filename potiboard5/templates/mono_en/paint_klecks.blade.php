@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>お絵かきモード - {{$title}}</title> 
+	<title>{{$title}}</title> 
 	<!-- this is important -->
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 
@@ -115,8 +115,13 @@
 					})
 				}
 				klecks.getPSD().then((psd)=>{
-					var formData = new FormData();
-					formData.append("picture", klecks.getPNG(),'blob');
+					const png = klecks.getPNG();
+					const	TotalSiz=((png.size+psd.size)/1024/1024).toFixed(3);
+					if(TotalSiz>{{$max_pch}}){
+						return alert(`<?php if($en):?>File size is too large.<?php else:?>ファイルサイズが大きすぎます。<?php endif;?>\n<?php if($en):?>limit size<?php else:?>制限値<?php endif;?>:{{$max_pch}}MB\n<?php if($en):?>Current size<?php else:?>現在値<?php endif;?>:${TotalSiz}MB`);
+					}
+					const formData = new FormData();
+					formData.append("picture", png,'blob');
 					formData.append("psd", psd,'blob');
 					formData.append("usercode", "{{$klecksusercode}}");
 					@if($rep)formData.append("repcode", "{{$repcode}}");@endif
