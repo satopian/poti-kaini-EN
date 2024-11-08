@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.39.10';
+const POTI_VER = 'v6.39.11';
 const POTI_LOT = 'lot.20241108';
 
 /*
@@ -1714,8 +1714,8 @@ function paintform(){
 
 	//Cookie保存
 	setcookie("appletc", $shi , time()+(86400*SAVE_COOKIE));//アプレット選択
-	setcookie("picw", $picw , time()+(86400*SAVE_COOKIE));//幅
-	setcookie("pich", $pich , time()+(86400*SAVE_COOKIE));//高さ
+	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
+	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	$dat['klecksusercode']=$usercode;//klecks
 	$dat['resto']=$resto;//klecks
