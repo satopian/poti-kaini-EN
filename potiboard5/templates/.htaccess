@@ -1,0 +1,4 @@
+<Files ~ "\.(html?|blade\.php|bladec|ini|log|dat|json|inc)$">
+	Require all denied
+</Files>
+

@@ -6,10 +6,8 @@
 	</IfModule>
 </Files>
 <files ~ "(^config\.php$|\.(ini|log|dat|json|inc)$)">
-	Order allow,deny
-	Deny from all
+	Require all denied
 </files>
 <Files "manifest.json">
-	Order allow,deny
-	Allow from all
+	Require all granted
 </Files>
