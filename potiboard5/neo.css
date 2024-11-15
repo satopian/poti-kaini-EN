@@ -38,6 +38,7 @@
     position: absolute;
     top: 0;
     right: -3px;
+    z-index: 100;
 }
 
 .NEO #tools {
@@ -57,18 +58,16 @@
     padding: 0 55px 0 0;
     position: relative;
 
-    float: right;
-    /* なぜかChrome55でずれるので対策 */
+    float: right; /* なぜかChrome55でずれるので対策 */
 }
 
 .NEO #upper {
     position: absolute;
     right: 0;
-
     height: 30px;
     padding-right: 75px; /* 20px; */
     text-align: right;
-    width: max-content;	/* コンテンツを折り返さない */
+    width: max-content; /* コンテンツを折り返さない */
 }
 
 .NEO #lower {
@@ -93,6 +92,7 @@
     position: absolute;
     top: 5px;
     left: 5px;
+    z-index: 100;
 }
 
 .NEO #footerButtons {
@@ -194,7 +194,6 @@
 }
 
 /* .NEO #scrollH div:hover {} */
-
 /* .NEO #scrollV div:hover {} */
 
 .NEO #neoWarning {
@@ -221,7 +220,7 @@
     height: 16px;
     font-size: 15px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     margin-right: 4px;
 
@@ -233,7 +232,6 @@
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
     margin: 1px;
-
 }
 
 /* .NEO .buttonOff:hover {} */
@@ -246,7 +244,7 @@
     height: 16px;
     font-size: 15px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     margin-right: 4px;
 
@@ -259,7 +257,7 @@
 }
 
 .NEO #right {
-    display: inline-block;
+    display: block;
     float: right;
     margin-left: 10px;
 }
@@ -295,8 +293,6 @@
     border-bottom: 1px solid #ffffff;
 }
 
-
-
 .NEO .toolTipOff canvas,
 .NEO .toolTipOn canvas,
 .NEO .toolTipFixed canvas {
@@ -313,7 +309,7 @@
     left: 1px;
     font-size: 12px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: -1px;
     overflow: hidden !important;
 }
@@ -374,7 +370,7 @@
     bottom: -3px;
     font-size: 12px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     vertical-align: middle;
 }
@@ -411,7 +407,7 @@
     bottom: -3px;
     font-size: 12px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     vertical-align: middle;
 }
@@ -473,7 +469,15 @@
 
     top: 0px;
     left: -1px;
-    background-image: linear-gradient(to top right, transparent, transparent 47%, red 47%, red 53%, transparent 53%, transparent);
+    background-image: linear-gradient(
+        to top right,
+        transparent,
+        transparent 47%,
+        red 47%,
+        red 53%,
+        transparent 53%,
+        transparent
+    );
 }
 
 .NEO .layerControl .line0 {
@@ -485,16 +489,24 @@
 
     top: 10px;
     left: -1px;
-    background-image: linear-gradient(to top right, transparent, transparent 47%, red 47%, red 53%, transparent 53%, transparent);
+    background-image: linear-gradient(
+        to top right,
+        transparent,
+        transparent 47%,
+        red 47%,
+        red 53%,
+        transparent 53%,
+        transparent
+    );
 }
 
 .NEO .layerControl .label1 {
     position: absolute;
     left: 2px;
-    Top: -4px;
+    top: -4px;
     font-size: 11px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     vertical-align: baseline;
 }
@@ -502,10 +514,10 @@
 .NEO .layerControl .label0 {
     position: absolute;
     left: 2px;
-    Top: 6px;
+    top: 6px;
     font-size: 11px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     vertical-align: baseline;
 }
@@ -524,7 +536,7 @@
     white-space: nowrap;
     color: #0000ff;
 
-    font-family: 'Arial';
+    font-family: "Arial";
     padding: 1px 5px 1px 5px;
     font-size: 32px;
 
@@ -588,7 +600,7 @@
     overflow: hidden;
 }
 
-.NEO #viewerButtons>div {
+.NEO #viewerButtons > div {
     margin: 0;
     padding: 0;
     width: 18px;
@@ -599,13 +611,13 @@
 
     font-size: 14px;
     font-weight: 100;
-    font-family: 'Arial';
+    font-family: "Arial";
     letter-spacing: 0;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
 }
 
-.NEO #viewerButtons>div.buttonOff {
+.NEO #viewerButtons > div.buttonOff {
     display: inline-block;
     border: 1px solid black;
     width: 18px;
@@ -618,10 +630,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 1);
 }
 
-/* .NEO #viewerButtons>div.buttonOff:hover {} */
+/* .NEO #viewerButtons >div.buttonOff:hover {} */
 
-.NEO #viewerButtons>div.buttonOff:active,
-.NEO #viewerButtons>div.buttonOn {
+.NEO #viewerButtons > div.buttonOff:active,
+.NEO #viewerButtons > div.buttonOn {
     display: inline-block;
     border: 1px solid black;
     width: 18px;

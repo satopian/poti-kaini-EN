@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.39.12';
-const POTI_LOT = 'lot.20241111';
+const POTI_VER = 'v6.39.15';
+const POTI_LOT = 'lot.20241115';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -997,9 +997,9 @@ function regist(){
 		if (!$picfile || !is_file($temppath.$picfile.".dat")) {
 			return error(MSG007);
 		}
-		$fp = fopen($temppath.$picfile.".dat", "r");
-		$userdata = fread($fp, 1024);
-		fclose($fp);
+
+		$userdata=file_get_contents($temppath.$picfile.".dat");
+
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
 		if((!$ucode||$ucode != $usercode) && (!$uip || ($uip != $userip)) && (!$uhost || ($uhost != $host))){
 			return error(MSG007);
@@ -2518,9 +2518,8 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	while ($file = readdir($handle)) {
 		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
 			$file=basename($file);
-			$fp = fopen(TEMP_DIR.$file, "r");
-			$userdata = fread($fp, 1024);
-			fclose($fp);
+			$userdata=file_get_contents(TEMP_DIR.$file);
+
 			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool) = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
