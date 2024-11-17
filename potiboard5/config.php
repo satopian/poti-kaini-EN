@@ -176,9 +176,10 @@ define("USE_URL_INPUT_FIELD", "1");
 // Set to 0 to disable.
 define("ELAPSED_DAYS","365");
 
-// 拒絶するファイルのmd5
-// Reject files with following MD5 hashes.
-$badfile = array("dummy","dummy2");
+// 拒絶する画像のハッシュ値
+// Reject files with the following image hashes.
+$badfile = array("dummyhash","dummyhash2");
+
 
 // 拒絶するホスト
 // Block following IPs

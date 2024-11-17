@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.50.1';
-const POTI_LOT = 'lot.20241117';
+const POTI_VER = 'v6.50.2';
+const POTI_LOT = 'lot.20241118';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -1187,7 +1187,7 @@ function regist(){
 		//サポートしていないフォーマットならエラーが返る
 		getImgType($dest);
 
-		$chk = md5_file($dest);
+		$chk = substr(hash_file('sha256', $dest), 0, 32);
 		check_badfile($chk, $dest); // 拒絶画像チェック
 
 		$upfile_name=newstring($upfile_name);
@@ -1561,7 +1561,7 @@ function admindel($pass){
 			$res['size'] = h($filesize);
 			$res['size_kb'] = h(($filesize-($filesize % 1024)) / 1024);
 			$all += $res['size'];	//ファイルサイズ加算
-			$res['chk']= h(substr($chk,0,10));//md5
+			$res['chk']= h(substr($chk,0,10));//画像のハッシュ値
 			$res['src'] = h(IMG_DIR.$time.$ext);
 			$res['srcname'] = h($time.$ext);
 			$res['clip'] = '<a href="'.h(IMG_DIR.$time.$ext).'" target="_blank" rel="noopener">'.h($time.$ext).'</a>';
@@ -2619,7 +2619,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			//サポートしていないフォーマットならエラーが返る
 			$imgext = getImgType($dest);
 
-			$chk = md5_file($dest);
+			$chk = substr(hash_file('sha256', $dest), 0, 32);
 			check_badfile($chk, $dest); // 拒絶画像チェック
 
 			list($w, $h) = getimagesize($dest);
@@ -3414,7 +3414,6 @@ function check_password ($pwd, $hash, $adminPass = false) {
 	global $ADMIN_PASS;
 	return
 		($pwd && (password_verify($pwd, $hash)))
-		|| ($pwd && ($hash === substr(md5($pwd), 2, 8)))
 		|| ($adminPass && $ADMIN_PASS && ($adminPass === $ADMIN_PASS)); // 管理パスを許可する場合
 }
 function is_neo($src) {//neoのPCHかどうか調べる
