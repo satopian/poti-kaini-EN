@@ -3,7 +3,7 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20241102;
+$thumbnail_gd_ver=20241117;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
@@ -18,7 +18,7 @@ class thumbnail_gd {
 		if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
 			return;
 		}
-		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && (!function_exists("ImageWEBP") || version_compare(PHP_VERSION, '7.0.0', '<'))){
+		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && !function_exists("ImageWEBP")){
 			return;
 		}
 
@@ -129,7 +129,7 @@ class thumbnail_gd {
 					if(!$im_in)return;
 				break;
 			case "image/webp";
-				if(!function_exists("ImageCreateFromWEBP")||version_compare(PHP_VERSION, '7.0.0', '<')){//webp
+				if(!function_exists("ImageCreateFromWEBP")){//webp
 					return;
 				}
 					$im_in = @ImageCreateFromWEBP($fname);
@@ -164,7 +164,7 @@ class thumbnail_gd {
 				}
 					break;
 			case "image/webp";
-				if(function_exists("ImageWEBP")&&version_compare(PHP_VERSION, '7.0.0', '>=')){
+				if(function_exists("ImageWEBP")){
 					ImageWEBP($im_out, $outfile,98);
 				}else{
 					ImageJPEG($im_out, $outfile,98);
@@ -185,7 +185,7 @@ class thumbnail_gd {
 
 		} elseif(isset($options['png2webp'])){
 
-			if(function_exists("ImageWEBP")&& version_compare(PHP_VERSION, '7.0.0', '>=')){
+			if(function_exists("ImageWEBP")){
 				$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
 				ImageWEBP($im_out, $outfile,98);
 			}else{

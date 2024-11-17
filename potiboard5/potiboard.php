@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.39.15';
-const POTI_LOT = 'lot.20241115';
+const POTI_VER = 'v6.50.1';
+const POTI_LOT = 'lot.20241117';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -284,7 +284,8 @@ $usercode = $usercode ? $usercode : $session_usercode;
 //user-codeの発行
 if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
-	$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
+	$usercode = substr(hash('sha256', $userip.ID_SEED.random_bytes(16)), 0, 32);
+
 	//念の為にエスケープ文字があればアルファベットに変換
 	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 }
@@ -945,8 +946,7 @@ function regist(){
 			$pwd=newstring($pwdc);
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
-			srand();
-			$pwd = substr(md5(uniqid(rand(),true)),2,15);
+			$pwd = substr(hash('sha256', $userip.random_bytes(16)), 2, 15);
 			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 			$c_pass=$pwd;
 		}
@@ -1914,7 +1914,8 @@ function paintform(){
 	if($type==='rep'){
 		$time=time();
 		$userip = get_uip();
-		$repcode = substr(crypt(md5($no.$userip.$pwd.uniqid()),'id'),-12);
+		$repcode = substr(hash('sha256', $no.$userip.$pwd.random_bytes(16)), 0, 32);
+
 		//念の為にエスケープ文字があればアルファベットに変換
 		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 		$dat['rep']=true;

@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.20240916 for POTI-board
+// picpost.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2024/11/17 potiboard.phpでユーザーコードを再発行。
 // 2024/01/28 ユーザーコードはCookieとSESSIONの比較のみに。
 // 2023/12/27 ユーザーコードをSESSIONに格納して、CookieとSESSIONどちらかが一致していれば投稿可能になるようにした。
 // 2023/11/17 Javaプラグインが動作する数少ないブラウザWaterfoxから投稿できなくなっていたのを修正。
@@ -176,16 +177,7 @@ class picpost{
 	((!$c_usercode || !$session_usercode)
 	|| ($c_usercode !== $session_usercode))
 	){
-	//user-codeの発行
-	if(!$c_usercode){//user-codeがなければ発行
-		$userip = get_uip();
-		$usercode = (string)substr(crypt(md5($userip.ID_SEED.uniqid()),'id'),-12);
-		//念の為にエスケープ文字があればアルファベットに変換
-		$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
-	}
-	setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
-	$_SESSION['usercode']=$usercode;
-
+	//user-code再発行
 		die("error\n{$errormsg_8}");
 	}
 	if(((bool)SECURITY_TIMER && !$repcode && (bool)$timer) && ((int)$timer<(int)SECURITY_TIMER)){
