@@ -8,6 +8,7 @@
 // このスクリプトはPaintBBS（藍珠CGI）のPNG保存ルーチンを参考に
 // PHP用に作成したものです。
 //----------------------------------------------------------------------
+// 2024/11/18 不正画像検出はpotiboard.phpで。
 // 2024/11/17 potiboard.phpでユーザーコードを再発行。
 // 2024/01/28 ユーザーコードはCookieとSESSIONの比較のみに。
 // 2023/12/27 ユーザーコードをSESSIONに格納して、CookieとSESSIONどちらかが一致していれば投稿可能になるようにした。
@@ -224,18 +225,6 @@ class picpost{
 	}
 
 	chmod($full_imgfile,PERMISSION_FOR_DEST);
-
-	// 不正画像チェック(検出したら削除)
-		$chk = md5_file($full_imgfile);
-		if(isset($badfile)&&is_array($badfile)){
-			foreach($badfile as $value){
-				if(preg_match("/\A$value/",$chk)){
-					unlink($full_imgfile);
-					// 不正な画像を検出しました。画像は保存されません。
-					die("error\n{$errormsg_5}");
-				}
-			}
-		}
 
 	// PCHファイルの長さを取り出す
 	$pchLength = substr($buffer, 1 + 8 + $headerLength + 8 + 2 + $imgLength, 8);
