@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.50.3';
-const POTI_LOT = 'lot.20241119';
+const POTI_VER = 'v6.51.1';
+const POTI_LOT = 'lot.20241120';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -967,8 +967,6 @@ function regist(){
 		error(MSG034);//容量オーバー
 	}
 
-	$message="";
-
 	//記事管理用 ユニックスタイム10桁+3桁
 	$time = (string)(time().substr(microtime(),2,3));	//投稿時刻
 
@@ -1071,7 +1069,7 @@ function regist(){
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019,$dest);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
@@ -1187,7 +1185,6 @@ function regist(){
 		check_badfile($chk, $dest); // 拒絶画像チェック
 
 		$upfile_name=newstring($upfile_name);
-		$message = UPLOADED_OBJECT_NAME." $upfile_name ".UPLOAD_SUCCESSFUL;
 
 		//重複チェック
 		$chkline=200;//チェックする最大行数
@@ -1261,7 +1258,7 @@ function regist(){
 	$tp=fopen(TREEFILE,"r+");
 	stream_set_write_buffer($tp, 0);
 	flock($tp, LOCK_EX); //*
-	$buf=fread($tp,5242880);
+	$buf = get_buffer_from_fp($tp);
 	if(!$buf){error(MSG023);}
 	$line = explode("\n", trim($buf));
 	foreach($line as $i => $value){
@@ -1379,9 +1376,8 @@ function h_decode($str){
 function treedel($delno){
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(TREEFILE,"r+");
-	stream_set_write_buffer($fp, 0);
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG024);}
 	$line = explode("\n", trim($buf));
 	$find=false;
@@ -1451,9 +1447,8 @@ function userdel(){
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	stream_set_write_buffer($fp, 0);
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG027);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
@@ -1575,9 +1570,8 @@ function admindel($pass){
 		reset($del);
 		chmod(LOGFILE,PERMISSION_FOR_LOG);
 		$fp=fopen(LOGFILE,"r+");
-		stream_set_write_buffer($fp, 0);
 		flock($fp, LOCK_EX);
-		$buf=fread($fp,5242880);
+		$buf = get_buffer_from_fp($fp);
 		if(!$buf){error(MSG030);}
 		$buf = charconvert($buf);
 		$line = explode("\n", trim($buf));
@@ -2329,7 +2323,7 @@ function editform(){
 	$pwd = $pwd ? $pwd : $pwdc;
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
@@ -2442,7 +2436,7 @@ global $ADMIN_PASS;
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
@@ -2481,7 +2475,7 @@ global $ADMIN_PASS;
 
 	updatelog();
 
-	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no) : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
+	$destination = $thread_no ? PHP_SELF.'?res='.h($thread_no).'#'.$no : ($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
 	redirect($destination . (URL_PARAMETER ? "?".time() : ''));
 }
@@ -2558,7 +2552,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	flock($fp, LOCK_EX);
-	$buf=fread($fp,5242880);
+	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
 	$line = explode("\n", trim($buf));
@@ -2576,7 +2570,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			continue;
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-		//画像差し換えに管理パスは使っていない
+	//画像差し換えに管理パスは使っていない
 		if($eno === $no && check_password($pwd, $epwd)){
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
@@ -2618,8 +2612,6 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	
 			chmod($dest,PERMISSION_FOR_DEST);
 			rename($dest,$path.$time.$imgext);
-
-			$message = UPLOADED_OBJECT_NAME.UPLOAD_SUCCESSFUL;
 
 			$oya=($oyano===$no);
 			$max_w = $oya ? MAX_W : MAX_RESW ;
@@ -3537,6 +3529,23 @@ function get_log($logfile) {
 		return error(MSG019);
 	}
 	return $lines;
+}
+
+//fpからバッファを取得
+function get_buffer_from_fp($fp) {
+
+	rewind($fp);//ファイルポインタを先頭に戻す
+
+	$lines = [];
+	
+	// 1行ずつ読み込む
+	while ($line = fgets($fp)) {
+		if (!trim($line)) {
+				continue; // 空行はスキップ
+		}
+		$lines[] = $line;
+	}
+	return implode("", $lines);  // 行を1つのバッファにまとめて返す
 }
 
 //パスワードを5回連続して間違えた時は拒絶
