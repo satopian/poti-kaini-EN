@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.50.2';
-const POTI_LOT = 'lot.20241118';
+const POTI_VER = 'v6.50.3';
+const POTI_LOT = 'lot.20241119';
 
 /*
   (C) 2018-2023 POTI改 POTI-board redevelopment team
@@ -285,9 +285,6 @@ $usercode = $usercode ? $usercode : $session_usercode;
 if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
 	$usercode = substr(hash('sha256', $userip.ID_SEED.random_bytes(16)), 0, 32);
-
-	//念の為にエスケープ文字があればアルファベットに変換
-	$usercode = strtr($usercode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 }
 setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
 $_SESSION['usercode']=$usercode;
@@ -1915,9 +1912,6 @@ function paintform(){
 		$time=time();
 		$userip = get_uip();
 		$repcode = substr(hash('sha256', $no.$userip.$pwd.random_bytes(16)), 0, 32);
-
-		//念の為にエスケープ文字があればアルファベットに変換
-		$repcode = strtr($repcode,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 		$dat['rep']=true;
 		$dat['no']=$no;
 		$dat['pwd']=$pwd;
