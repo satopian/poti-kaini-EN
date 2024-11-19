@@ -7,7 +7,7 @@ const POTI_VER = 'v6.50.3';
 const POTI_LOT = 'lot.20241119';
 
 /*
-  (C) 2018-2023 POTI改 POTI-board redevelopment team
+  (C) 2018-2024 POTI改 POTI-board redevelopment team
   >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
@@ -944,7 +944,6 @@ function regist(){
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
 			$pwd = substr(hash('sha256', $userip.random_bytes(16)), 2, 15);
-			$pwd = strtr($pwd,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
 			$c_pass=$pwd;
 		}
 	}
@@ -2514,7 +2513,6 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
 			$file=basename($file);
 			$userdata=file_get_contents(TEMP_DIR.$file);
-
 			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool) = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
@@ -2578,7 +2576,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			continue;
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-	//画像差し換えに管理パスは使っていない
+		//画像差し換えに管理パスは使っていない
 		if($eno === $no && check_password($pwd, $epwd)){
 			$tp=fopen(TREEFILE,"r");
 			while($tree=fgets($tp)){
