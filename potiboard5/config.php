@@ -471,8 +471,6 @@ define("IMAGE_SIZE", "512");
 //大きな値を設定すると動作が不安定になる可能性があります。
 // Maximum file size limit for the log file (in MB)
 // Setting a large value may cause instability.
-// 日誌檔案的最大檔案大小限制（單位：MB）
-// 設定過大的值可能會導致不穩定。
 define("MAX_LOG_FILESIZE", "15");
 
 // フォーム下の追加お知らせ
