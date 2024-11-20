@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.51.1';
+const POTI_VER = 'v6.51.3';
 const POTI_LOT = 'lot.20241120';
 
 /*
@@ -216,6 +216,8 @@ defined("PMIN_H") or define("PMIN_H", "300"); //高さ
 //アップロード時の幅と高さの最大サイズ これ以上は縮小
 defined("MAX_W_PX") or define("MAX_W_PX", "1024"); //高さ
 defined("MAX_H_PX") or define("MAX_H_PX", "1024"); //高さ
+//ログファイルのファイルサイズの制限値(単位MB)
+defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
 
 $badurl= isset($badurl) ? $badurl : [];//拒絶するurl
 
@@ -240,6 +242,7 @@ defined("MSG048") or define("MSG048", "不適切なURLがあります。");
 defined("MSG049") or define("MSG049", "拒絶されました。");
 defined("MSG050") or define("MSG050", "Cookieが確認できません。");
 defined("MSG051") or define("MSG051", "連続したパスワードの誤入力を検知したためロックしています。");
+defined("MSG052") or define("MSG052", "ログファイルのファイルサイズが制限値を超過したため処理を停止しました。");
 
 $ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
 if(!$ADMIN_PASS){
@@ -911,6 +914,7 @@ function similar_str($str1,$str2){
 function regist(){
 	global $path,$temppath,$usercode,$ADMIN_PASS;
 	
+	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	//CSRFトークンをチェック
 	check_csrf_token();
 
@@ -1672,6 +1676,7 @@ function check_dir ($path) {
 function paintform(){
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
+	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	check_same_origin();
 
 	$admin = (string)filter_input(INPUT_POST, 'admin');
@@ -3163,7 +3168,7 @@ function check_badfile ($chk, $dest = '') {
 	global $badfile;
 	foreach($badfile as $value){
 		if(preg_match("/\A$value/",$chk)){
-			error(MSG005,$dest); //拒絶画像
+			error(MSG049,$dest); //拒絶画像
 		}
 	}
 }
@@ -3547,6 +3552,13 @@ function get_buffer_from_fp($fp) {
 	}
 	return implode("", $lines);  // 行を1つのバッファにまとめて返す
 }
+//ログファイルサイズが大きすぎる時はエラーにする
+function check_log_size_limit(){
+	if(filesize(LOGFILE)>(int)MAX_LOG_FILESIZE*1024*1024){//15MB
+		error(MSG052);
+	}
+}
+
 
 //パスワードを5回連続して間違えた時は拒絶
 function check_password_input_error_count(){
