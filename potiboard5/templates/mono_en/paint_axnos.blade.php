@@ -18,6 +18,13 @@
 		}
 	});
 
+	document.addEventListener('keyup', (e)=> {
+		// e.key を利用して特定のキーのアップイベントを検知する
+		if (e.key.toLowerCase() === 'alt') {
+			e.preventDefault(); // Alt キーのデフォルトの動作をキャンセル
+		}
+	});
+
 	document.addEventListener("DOMContentLoaded", () => {
 
 		var axp = new AXNOSPaint({
