@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.51.5';
+const POTI_VER = 'v6.51.6';
 const POTI_LOT = 'lot.20241121';
 
 /*
@@ -2245,20 +2245,21 @@ function check_cont_pass(){
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){
+		if(!trim($line)){
+			continue;
+		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
+			list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
+			= explode(",", trim($line).",,,,,,,,");
+		
+			if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
+				closeFile($fp);
+				return true;
+			}
 			break;
 		}
 	}
 	closeFile($fp);
-	if(!trim($line)){
-		error(MSG028);
-	}
-	list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
-	= explode(",", trim($line).",,,,,,,,");
-
-	if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
-		return true;
-	}
 	error(MSG028);
 }
 function download_app_dat(){
@@ -3560,7 +3561,6 @@ function check_log_size_limit(){
 		error(MSG052);
 	}
 }
-
 
 //パスワードを5回連続して間違えた時は拒絶
 function check_password_input_error_count(){
