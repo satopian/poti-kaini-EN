@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.51.3';
-const POTI_LOT = 'lot.20241120';
+const POTI_VER = 'v6.51.5';
+const POTI_LOT = 'lot.20241121';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -2250,7 +2250,9 @@ function check_cont_pass(){
 		}
 	}
 	closeFile($fp);
-
+	if(!trim($line)){
+		error(MSG028);
+	}
 	list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
 	= explode(",", trim($line).",,,,,,,,");
 
