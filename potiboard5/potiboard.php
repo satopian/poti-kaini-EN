@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.51.6';
-const POTI_LOT = 'lot.20241121';
+const POTI_VER = 'v6.51.7';
+const POTI_LOT = 'lot.20241122';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -1746,7 +1746,6 @@ function paintform(){
 
 			if(move_uploaded_file($pchtmp, $pchup)){//アップロード成功なら続行
 
-				$pchup=TEMP_DIR.basename($pchup);//ファイルを開くディレクトリを固定
 				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip","image/vnd.adobe.photoshop"])){
 					error(MSG045,$pchup);
 				}
