@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.53.0';
+const POTI_VER = 'v6.53.1';
 const POTI_LOT = 'lot.20241124';
 
 /*
@@ -577,7 +577,7 @@ function form_admin_in($adminin=""){
 	global $ADMIN_PASS;
 
 	if(($adminin !== 'valid')){
-		return;
+		return [];
 	}
 	if(ALLOW_ADMINS_TO_USE_ALL_APPS_REGARDLESS_OF_SETTINGS){
 		$dat['paint'] = true; 
@@ -1965,7 +1965,6 @@ function paintcom(){
 	}
 
 	//テンポラリ画像リスト作成
-	$tmplist = array();
 	$handle = opendir(TEMP_DIR);
 	$tmp = [];
 	while ($file = readdir($handle)) {
