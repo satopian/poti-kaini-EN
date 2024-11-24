@@ -3,7 +3,7 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20241117;
+$thumbnail_gd_ver=20241124;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
@@ -15,7 +15,7 @@ class thumbnail_gd {
 		if(!is_file($fname)){
 			return;
 		}
-		if(!gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
+		if(!self::gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
 			return;
 		}
 		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && !function_exists("ImageWEBP")){
@@ -46,7 +46,7 @@ class thumbnail_gd {
 		};
 		// 出力画像（サムネイル）のイメージを作成
 		$exists_ImageCopyResampled = false;
-		if(function_exists("ImageCreateTrueColor") && get_gd_ver()=="2"){
+		if(function_exists("ImageCreateTrueColor")){
 			$im_out = ImageCreateTrueColor($out_w, $out_h);
 
 				if(self::isTransparencyEnabled($options, $mime_type)){//透明度を扱う時
@@ -93,6 +93,26 @@ class thumbnail_gd {
 		}
 		return false;
 
+	}
+	//GD版が使えるかチェック
+	private static function gd_check() {
+		// GDモジュールが有効化されているか
+		if (!extension_loaded('gd')) {
+				return false;
+		}
+		// GDモジュールが動作可能か
+		if (!function_exists('gd_info')) {
+				return false;
+		}
+		// JPEGのサポートを確認
+		if (!(ImageTypes() & IMG_JPG)) {
+				return false;
+		}
+		// JPEG出力関数の存在を確認
+		if (!function_exists('ImageJPEG')) {
+				return false;
+		}
+		return true;
 	}
 	// 透明度の処理を行う必要があるかを判断
 	private static function isTransparencyEnabled($options, $mime_type) {

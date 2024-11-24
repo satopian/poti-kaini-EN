@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.51.7';
-const POTI_LOT = 'lot.20241122';
+const POTI_VER = 'v6.53.0';
+const POTI_LOT = 'lot.20241124';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -99,7 +99,7 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.inc.php')) {
 	die($err);
 }
 require(__DIR__.'/thumbnail_gd.inc.php');
-if($thumbnail_gd_ver < 20241102){
+if($thumbnail_gd_ver < 20241124){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -375,37 +375,8 @@ switch($mode){
 		return redirect(h(PHP_SELF2));
 }
 
-exit;
+exit();
 
-//GD版が使えるかチェック
-function gd_check(){
-	$check = array("ImageCreate","ImageCopyResized","ImageCreateFromJPEG","ImageJPEG","ImageDestroy");
-
-	//最低限のGD関数が使えるかチェック
-	if(!(get_gd_ver() && (ImageTypes() & IMG_JPG))){
-		return false;
-	}
-	foreach ( $check as $cmd ) {
-		if(!function_exists($cmd)){
-			return false;
-		}
-	}
-	return true;
-}
-
-//gdのバージョンを調べる
-function get_gd_ver(){
-	if(function_exists("gd_info")){
-	$gdver=gd_info();
-	$phpinfo=(string)$gdver["GD Version"];
-	$end=strpos($phpinfo,".");
-	$phpinfo=substr($phpinfo,0,$end);
-	$length = strlen($phpinfo)-1;
-	$phpinfo=substr($phpinfo,$length);
-	return $phpinfo;
-	} 
-	return false;
-}
 
 //ユーザーip
 function get_uip(){
@@ -901,7 +872,7 @@ function error($mes,$dest=''){
 
 	$dat['mes'] = nl2br(h($mes));
 		htmloutput(OTHERFILE,$dat);
-	exit;
+	exit();
 }
 
 // 文字列の類似性
@@ -1229,12 +1200,7 @@ function regist(){
 		$max_w = $resto ? MAX_RESW : MAX_W;
 		$max_h = $resto ? MAX_RESH : MAX_H;
 		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
-
-		if(USE_THUMB){
-			if(thumbnail_gd::thumb($path,$time.$ext,$time,$max_w,$max_h)){
-				$thumbnail="thumbnail";
-			}
-		}
+		$thumbnail = make_thumbnail($time.$ext,$time,$max_w,$max_h);
 	}
 	// 最大ログ数を超過した行と画像を削除
 	$logmax=(LOG_MAX>=1000) ? LOG_MAX : 1000;
@@ -2548,8 +2514,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	//描画時間を$userdataをもとに計算
 	$psec='';
 	$_ptime = '';
-	$thumbnail="";
-
+	
 	if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
 		$psec=(int)$postedtime-(int)$starttime;
 		$_ptime = calcPtime($psec);
@@ -2577,86 +2542,9 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			continue;
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-	//画像差し換えに管理パスは使っていない
+		//画像差し換えに管理パスは使っていない
 		if($eno === $no && check_password($pwd, $epwd)){
-			$tp=fopen(TREEFILE,"r");
-			while($tree=fgets($tp)){
-				if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-					list($oyano,) = explode(',', trim($tree));
-					break;
-				}
-			}
-			fclose($tp);
-
-			if(!check_elapsed_days($etim,$logver)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
-				closeFile($fp);
-				if($java){
-					die("error\n{$replace_error_msg}");
-				}
-				return location_paintcom();
-			}
-
-			$upfile = $temppath.$file_name.$imgext;
-			$dest = $temppath.$time.'.tmp';
-			
-			//サポートしていないフォーマットならエラーが返る
-			getImgType($upfile);
-			copy($upfile, $dest);
-			
-			if(!is_file($dest)) error(MSG003);
-			chmod($dest,PERMISSION_FOR_DEST);
-
-			//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-			convert_andsave_if_smaller_png2jpeg($temppath,$time,'.tmp');
-		
-			//サポートしていないフォーマットならエラーが返る
-			$imgext = getImgType($dest);
-
-			$chk = substr(hash_file('sha256', $dest), 0, 32);
-			check_badfile($chk, $dest); // 拒絶画像チェック
-
-			list($w, $h) = getimagesize($dest);
-	
-			chmod($dest,PERMISSION_FOR_DEST);
-			rename($dest,$path.$time.$imgext);
-
-			$oya=($oyano===$no);
-			$max_w = $oya ? MAX_W : MAX_RESW ;
-			$max_h = $oya ? MAX_H : MAX_RESH ;
-			list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
-	
-			//サムネイル作成
-			if(USE_THUMB){
-				if(thumbnail_gd::thumb($path,$time.$imgext,$time,$max_w,$max_h)){
-					$thumbnail="thumbnail";
-				}
-			}
-			//PCHファイルアップロード
-			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-			if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
-				$src = $temppath . $file_name . $pchext;
-				$dst = PCH_DIR . $time . $pchext;
-				if(copy($src, $dst)){
-					chmod($dst, PERMISSION_FOR_DEST);
-				}
-			}
-			
-			//ID付加
-			if(DISP_ID){
-				$date .= " ID:" . getId($userip);
-			}
-			//描画時間追加
-			if($ptime && $_ptime){
-				$ptime = is_numeric($ptime) ? ($ptime+$psec) : $ptime.'+'.$_ptime;
-			}
-			//カンマをエスケープ
-			$date = str_replace(",", "&#44;", $date);
-			$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
-			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
-			$tool = is_paint_tool_name($tool); 
-			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,";
 			$flag = true;
-
 			break;
 		}
 	}
@@ -2667,6 +2555,80 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		}
 		return location_paintcom();
 	}
+
+	$tp=fopen(TREEFILE,"r");
+	while($tree=fgets($tp)){
+		if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
+			list($oyano,) = explode(',', trim($tree));
+			break;
+		}
+	}
+	fclose($tp);
+
+	if(!check_elapsed_days($etim,$logver)||!$oyano){//指定日数より古い画像差し換えは新規投稿にする
+		closeFile($fp);
+		if($java){
+			die("error\n{$replace_error_msg}");
+		}
+		return location_paintcom();
+	}
+
+	$upfile = $temppath.$file_name.$imgext;
+	$dest = $temppath.$time.'.tmp';
+	
+	//サポートしていないフォーマットならエラーが返る
+	getImgType($upfile);
+	copy($upfile, $dest);
+	
+	if(!is_file($dest)) error(MSG003);
+	chmod($dest,PERMISSION_FOR_DEST);
+
+	//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
+	convert_andsave_if_smaller_png2jpeg($temppath,$time,'.tmp');
+
+	//サポートしていないフォーマットならエラーが返る
+	$imgext = getImgType($dest);
+
+	$chk = substr(hash_file('sha256', $dest), 0, 32);
+	check_badfile($chk, $dest); // 拒絶画像チェック
+
+	list($w, $h) = getimagesize($dest);
+
+	chmod($dest,PERMISSION_FOR_DEST);
+	rename($dest,$path.$time.$imgext);
+
+	$oya=($oyano===$no);
+	$max_w = $oya ? MAX_W : MAX_RESW ;
+	$max_h = $oya ? MAX_H : MAX_RESH ;
+	list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
+
+	//サムネイル作成
+	$thumbnail = make_thumbnail($time.$imgext,$time,$max_w,$max_h);
+
+	//PCHファイルアップロード
+	// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
+	if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
+		$src = $temppath . $file_name . $pchext;
+		$dst = PCH_DIR . $time . $pchext;
+		if(copy($src, $dst)){
+			chmod($dst, PERMISSION_FOR_DEST);
+		}
+	}
+	
+	//ID付加
+	if(DISP_ID){
+		$date .= " ID:" . getId($userip);
+	}
+	//描画時間追加
+	if($ptime && $_ptime){
+		$ptime = is_numeric($ptime) ? ($ptime+$psec) : $ptime.'+'.$_ptime;
+	}
+	//カンマをエスケープ
+	$date = str_replace(",", "&#44;", $date);
+	$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
+	$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
+	$tool = is_paint_tool_name($tool); 
+	$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,";
 
 	writeFile($fp, implode("\n", $line));
 
@@ -3654,4 +3616,14 @@ function create_line_from_treenumber ($fp,$trees){
 		}
 	}
 	return $line;
+}
+function make_thumbnail($imgfile,$time,$max_w,$max_h){
+	$thumbnail='';
+	if(USE_THUMB){//スレッドの画像のサムネイルを使う時
+		if(thumbnail_gd::thumb(IMG_DIR,$imgfile,$time,$max_w,$max_h)){
+			$thumbnail='thumbnail';
+		}
+	}
+
+	return $thumbnail;
 }
