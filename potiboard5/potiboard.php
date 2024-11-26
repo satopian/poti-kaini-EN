@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.53.5';
+const POTI_VER = 'v6.53.6';
 const POTI_LOT = 'lot.20241126';
 
 /*
@@ -536,7 +536,7 @@ function form($resno="",$tmp=[]){
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
 	$dat['resno'] = $resno ? $resno :'';
 	$dat['notres'] = $resno ? false : true;
-	$dat['paintform'] = (!empty($count_arr_apps)) ? (!$resno && USE_PAINT || $resno && RES_UPLOAD) : false;
+	$dat['paintform'] = (USE_PAINT && !empty($count_arr_apps)) ? (!$resno || $resno && RES_UPLOAD) : false;
 	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
