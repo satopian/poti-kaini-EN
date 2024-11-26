@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.53.6';
+const POTI_VER = 'v6.53.7';
 const POTI_LOT = 'lot.20241126';
 
 /*
@@ -792,8 +792,7 @@ function res($resno = 0){
 	$next=(isset($next_tree[0])&&$next_tree[0]) ? $next_tree[0] :'';
 	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
 
-	$last_prev_tree = $prev_tree;
-	$last_prev_tree = end($last_prev_tree);
+	$last_prev_tree = end($prev_tree);
 	$prev=$last_prev_tree ? $last_prev_tree :'';
 
 	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
