@@ -201,6 +201,7 @@
 						<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
 						<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be thumbnailed.</li>
 						<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
+						{!!$addinfo!!}
 						@endif
 						@if($rewrite)
 						<li>Cookies are not saved in edit mode. The position does not change even if sage is added.</li>
