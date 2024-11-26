@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.53.7';
+const POTI_VER = 'v6.53.8';
 const POTI_LOT = 'lot.20241126';
 
 /*
@@ -725,7 +725,6 @@ function res($resno = 0){
 	if (empty($treeline)) {
 		error(MSG001);
 	}
-
 
 	$fp=fopen(LOGFILE,"r");
 	$line=create_line_from_treenumber ($fp,$treeline);
