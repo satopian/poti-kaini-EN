@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.55.0';
+const POTI_VER = 'v6.55.1';
 const POTI_LOT = 'lot.20241130';
 
 /*
@@ -287,7 +287,7 @@ $usercode = $usercode ? $usercode : $session_usercode;
 //user-codeの発行
 if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
-	$usercode = hash('sha256', $userip.ID_SEED.random_bytes(16));
+	$usercode = hash('sha256', $userip.random_bytes(16));
 }
 setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
 $_SESSION['usercode']=$usercode;
@@ -913,7 +913,7 @@ function regist(){
 			$pwd=newstring($pwdc);
 			$c_pass=$pwdc;//エスケープ前の値
 		}else{
-			$pwd = substr(hash('sha256', $userip.random_bytes(16)), 2, 15);
+			$pwd = substr(hash('sha256', random_bytes(16)), 2, 15);
 			$c_pass=$pwd;
 		}
 	}
