@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.53.8';
-const POTI_LOT = 'lot.20241126';
+const POTI_VER = 'v6.55.0';
+const POTI_LOT = 'lot.20241130';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -287,7 +287,7 @@ $usercode = $usercode ? $usercode : $session_usercode;
 //user-codeの発行
 if(!$usercode){//user-codeがなければ発行
 	$userip = get_uip();
-	$usercode = substr(hash('sha256', $userip.ID_SEED.random_bytes(16)), 0, 32);
+	$usercode = hash('sha256', $userip.ID_SEED.random_bytes(16));
 }
 setcookie("usercode", $usercode, time()+(86400*365),"","",false,true);//1年間
 $_SESSION['usercode']=$usercode;
@@ -965,7 +965,10 @@ function regist(){
 		$userdata=file_get_contents($temppath.$picfile.".dat");
 
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
-		if((!$ucode||$ucode != $usercode) && (!$uip || ($uip != $userip)) && (!$uhost || ($uhost != $host))){
+		
+		//ユーザーコードまたはipアドレスは一致しているか?
+		$valid_poster_found = (($ucode && $ucode == $usercode)||($uip && $uip == $userip)||($uhost && $uhost == $host));
+		if(!$valid_poster_found){
 			return error(MSG007);
 		}
 		//描画時間を$userdataをもとに計算
@@ -1869,7 +1872,7 @@ function paintform(){
 	if($type==='rep'){
 		$time=time();
 		$userip = get_uip();
-		$repcode = substr(hash('sha256', $no.$userip.$pwd.random_bytes(16)), 0, 32);
+		$repcode = $no.'-'.hash('sha256', $userip.random_bytes(16));
 		$dat['rep']=true;
 		$dat['no']=$no;
 		$dat['pwd']=$pwd;
@@ -2449,7 +2452,7 @@ global $ADMIN_PASS;
 // 画像差し換え
 function replace($no="",$pwd="",$repcode="",$java=""){
 	
-	global $path,$temppath,$en;
+	global $path,$temppath,$usercode,$en;
 
 	$replace_error_msg = $en ? 
 	"Image replacement failed.\nIt may be left in [Recover Images]."
@@ -2477,8 +2480,10 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool) = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
+			//ユーザーコードまたはipアドレスは一致しているか?
+			$valid_poster_found = (($ucode && $ucode == $usercode)||($uip && $uip == $userip)||($uhost && $uhost == $host));
 			//画像があり、認識コードがhitすれば抜ける
-			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $urepcode && ($urepcode === $repcode)){
+			if($file_name && is_file(TEMP_DIR.$file_name.$imgext) && $valid_poster_found && $urepcode && ($urepcode === $repcode)){
 				$find=true;
 				break;
 			}
