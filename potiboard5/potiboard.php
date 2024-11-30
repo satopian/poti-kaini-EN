@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.56.0';
+const POTI_VER = 'v6.56.1';
 const POTI_LOT = 'lot.20241130';
 
 /*
@@ -1872,6 +1872,8 @@ function paintform(){
 	if($type==='rep'){
 		$time=time();
 		$userip = get_uip();
+		//画像差し換え時に使用する識別情報
+		//`|`で分割して、元の記事のNoとUNIXタイムを取り出せるようにしておく
 		$repcode = $no.'|'.$pch.'|'.substr(hash('sha256', $userip.random_bytes(16)),0,12);
 		$dat['rep']=true;
 		$dat['no']=$no;
@@ -2465,9 +2467,10 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_POST, 'repcode'));
 	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_GET, 'repcode'));
 	$repno="";
-	$retime="";
+	$reptime="";
 	if (strpos($repcode, "|") !== false) {
-    // $repcodeに、記事Noと元の記事のUNIXタイムが`|`で区分けされて含まれている時
+	// $repcodeに、記事Noと元の記事のUNIXタイムが`|`で区分けされて含まれている時
+	// 含まれていない時は、記事No、UNIXタイムによる識別を行わない
 		list($repno,$reptime)=explode("|","$repcode");
 	}
 	$repno = $repno && is_numeric($repno) ? $repno :"";
