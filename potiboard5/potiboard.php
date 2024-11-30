@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.55.1';
+const POTI_VER = 'v6.56.0';
 const POTI_LOT = 'lot.20241130';
 
 /*
@@ -1872,7 +1872,7 @@ function paintform(){
 	if($type==='rep'){
 		$time=time();
 		$userip = get_uip();
-		$repcode = $no.'-'.hash('sha256', $userip.random_bytes(16));
+		$repcode = $no.'|'.$pch.'|'.substr(hash('sha256', $userip.random_bytes(16)),0,12);
 		$dat['rep']=true;
 		$dat['no']=$no;
 		$dat['pwd']=$pwd;
@@ -2464,6 +2464,14 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	$pwd = $pwd ? $pwd : (string)newstring(filter_input(INPUT_GET, 'pwd'));
 	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_POST, 'repcode'));
 	$repcode = $repcode ? $repcode : (string)newstring(filter_input(INPUT_GET, 'repcode'));
+	$repno="";
+	$retime="";
+	if (strpos($repcode, "|") !== false) {
+    // $repcodeに、記事Noと元の記事のUNIXタイムが`|`で区分けされて含まれている時
+		list($repno,$reptime)=explode("|","$repcode");
+	}
+	$repno = $repno && is_numeric($repno) ? $repno :"";
+	$reptime = $reptime && is_numeric($reptime) ? $reptime :"";
 	$tool = "";
 	$userip = get_uip();
 	//ホスト取得
@@ -2542,7 +2550,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		}
 		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
 		//画像差し換えに管理パスは使っていない
-		if($eno === $no && check_password($pwd, $epwd)){
+		if((!$reptime || ($reptime === $etim)) &&  ($eno === $no) && check_password($pwd, $epwd)){
 			$flag = true;
 			break;
 		}
