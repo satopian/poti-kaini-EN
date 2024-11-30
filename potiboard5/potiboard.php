@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.56.1';
+const POTI_VER = 'v6.56.2';
 const POTI_LOT = 'lot.20241130';
 
 /*
@@ -2317,6 +2317,8 @@ function editform(){
 			error(MSG028);
 	}
 
+	$dat['time'] = h($time);
+
 	$dat['usename'] = USE_NAME ? ' *' : '';
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	$dat['usecom'] = USE_COM ? ' *' :'';
@@ -2377,6 +2379,7 @@ global $ADMIN_PASS;
 	$sub = (string)filter_input(INPUT_POST, 'sub');
 	$fcolor = (string)filter_input(INPUT_POST, 'fcolor');
 	$no = (string)filter_input(INPUT_POST, 'no',FILTER_VALIDATE_INT);
+	$edittime = (string)filter_input(INPUT_POST, 'edittime',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$admin = (string)filter_input(INPUT_POST, 'admin');
 
@@ -2420,7 +2423,7 @@ global $ADMIN_PASS;
 			continue;
 		}
 		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-		if($eno == $no && check_password($pwd, $epwd, $admin)){
+		if((!$edittime || $edittime == $time) && $eno == $no && check_password($pwd, $epwd, $admin)){
 			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 			if(!$name) $name = $ename;
 			if(!$sub)  $sub  = $esub;
