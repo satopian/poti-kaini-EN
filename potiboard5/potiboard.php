@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.56.6';
-const POTI_LOT = 'lot.20241208';
+const POTI_VER = 'v6.57.0';
+const POTI_LOT = 'lot.20241209';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -832,8 +832,26 @@ function res($resno = 0){
 }
 
 //マークダウン記法のリンクをHTMLに変換
-function md_link($str){
-	$str= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)\)}",'<a href="$2" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
+function md_link($str) {
+	$rel = 'rel="nofollow noopener noreferrer"';
+
+	// 正規表現パターンを使用してマークダウンリンクを検出
+	$pattern = "{\[((?:[^\[\]\\\\]|\\\\.)+?)\]\((https?://[^\s\)]+)\)}";
+
+	// 変換処理
+	$str = preg_replace_callback($pattern, function($matches) use ($rel) {
+			// エスケープされたバックスラッシュを特定の文字だけ解除
+			$text = str_replace(['\\[', '\\]', '\\(', '\\)'], ['[', ']', '(', ')'], $matches[1]);
+			$url = filter_var($matches[2], FILTER_VALIDATE_URL) ? $matches[2] : '';
+			// 変換されたHTMLリンクを返す
+			if(!$url){
+				 // URLが無効ならテキストだけ返す
+				return $text;
+			}
+			// URLが有効ならHTMLリンクを返す
+			return '<a href="'.$url.'" target="_blank" '.$rel.'>'.$text.'</a>';
+	}, $str);
+
 	return $str;
 }
 

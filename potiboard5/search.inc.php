@@ -123,7 +123,6 @@ class processsearch {
 
 		++$j;
 		if($j>=5000){break;}//1掲示板あたりの最大行数
-
 	}
 		fclose($fp);
 	//検索結果の出力
@@ -149,11 +148,17 @@ class processsearch {
 				}
 
 			$time=microtime2time($time,$logver);
+
 			$postedtime =$time ? (date("Y/m/d G:i", $time)) : '';
 			$sub=h($sub);
 			$com=str_replace('<br />',' ',$com);
 			if(MD_LINK){
-				$com= preg_replace("{\[([^\[\]\(\)]+?)\]\((https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)\)}","\\1",$com);
+				// 変換処理
+				$pattern = "{\[((?:[^\[\]\\\\]|\\\\.)+?)\]\((https?://[^\s\)]+)\)}";
+				$com = preg_replace_callback($pattern, function($matches){
+					// エスケープされたバックスラッシュを特定の文字だけ解除
+					return str_replace(['\\[', '\\]', '\\(', '\\)'], ['[', ']', '(', ')'], $matches[1]);
+				}, $com);
 			}
 			$com=h(strip_tags($com));
 			$com=mb_strcut($com,0,180);
