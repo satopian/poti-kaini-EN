@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.9";
+Neo.version = "1.6.10";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1183,8 +1183,17 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     }
   }
 
-  let pchFileNotAppended = false;
-
+  if (thumbnail2) {
+    const thumbnailSize = thumbnail2.size;
+    // 動画容量を制限するオリジナルのPaintBBSのパラメータ
+    // 単位KB
+    if (!isNaN(Neo.config.animation_max) && Number(Neo.config.animation_max)) {
+      const maxSize = Number(Neo.config.animation_max)*1024;
+      if (maxSize < thumbnailSize) {
+        thumbnail2 = null;
+      }
+    }
+  }
   if (Neo.config.neo_send_with_formdata == "true") {
     var formData = new FormData();
     formData.append("header", headerString);
@@ -1195,15 +1204,17 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
       thumbnail_size = thumbnail.size;
     }
     if (thumbnail2) {
-      if (
+    // 動画容量を制限するNEO独自のパラメータ
+    // 単位MB
+    if (
         !Neo.config.neo_max_pch ||
-        isNaN(parseInt(Neo.config.neo_max_pch)) ||
-        parseInt(Neo.config.neo_max_pch) * 1024 * 1024 >
+        isNaN(Neo.config.neo_max_pch) ||
+        Number(Neo.config.neo_max_pch) * 1024 * 1024 >
           headerString.length + blob.size + thumbnail_size + thumbnail2.size
       ) {
         formData.append("pch", thumbnail2, blob);
       } else {
-        pchFileNotAppended = true;
+        thumbnail2 = null;
       }
     }
   }
@@ -1321,7 +1332,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
       });
   };
 
-  if (Neo.config.neo_confirm_layer_info_notsaved && (!thumbnail2 || pchFileNotAppended)) {
+  if (Neo.config.neo_confirm_layer_info_notsaved && !thumbnail2) {
     const isConfirmed = window.confirm(
       Neo.translate("レイヤー情報は保存されません。\n続行してよろしいですか?")
     );
@@ -1333,11 +1344,9 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
     }
   }
 
-  if (Neo.config.neo_send_with_formdata == "true") {
-    postData(url, formData);
-  } else {
-    postData(url, body);
-  }
+  // データ送信処理
+  const data = Neo.config.neo_send_with_formdata === "true" ? formData : body;
+  postData(url, data);
 };
 
 /*
