@@ -840,16 +840,16 @@ function md_link($str) {
 
 	// 変換処理
 	$str = preg_replace_callback($pattern, function($matches) use ($rel) {
-			// エスケープされたバックスラッシュを特定の文字だけ解除
-			$text = str_replace(['\\[', '\\]', '\\(', '\\)'], ['[', ']', '(', ')'], $matches[1]);
-			$url = filter_var($matches[2], FILTER_VALIDATE_URL) ? $matches[2] : '';
-			// 変換されたHTMLリンクを返す
-			if(!$url){
-				 // URLが無効ならテキストだけ返す
-				return $text;
-			}
-			// URLが有効ならHTMLリンクを返す
-			return '<a href="'.$url.'" target="_blank" '.$rel.'>'.$text.'</a>';
+		// エスケープされたバックスラッシュを特定の文字だけ解除
+		$text = str_replace(['\\[', '\\]', '\\(', '\\)'], ['[', ']', '(', ')'], $matches[1]);
+		$url = filter_var($matches[2], FILTER_VALIDATE_URL) ? $matches[2] : '';
+		// 変換されたHTMLリンクを返す
+		if(!$url){
+				// URLが無効ならテキストだけ返す
+			return $text;
+		}
+		// URLが有効ならHTMLリンクを返す
+		return '<a href="'.$url.'" target="_blank" '.$rel.'>'.$text.'</a>';
 	}, $str);
 
 	return $str;
