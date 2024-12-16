@@ -61,13 +61,13 @@ class sns_share{
 			// $share_url="https://x.com/intent/post?text=";
 			$share_url="https://twitter.com/intent/tweet?text=";
 		}
-		if($sns_server_radio === "https://bsky.app"||!$sns_server_radio && ($sns_server_direct_input === "https://bsky.app")){
+		if(in_array("https://bsky.app",[$sns_server_radio,$sns_server_direct_input])){
 			$share_url="https://bsky.app/intent/compose?text=";
 		}
-		if($sns_server_radio === "https://www.threads.net"||!$sns_server_radio && ($sns_server_direct_input === "https://www.threads.net")){
+		if(in_array("https://www.threads.net",[$sns_server_radio,$sns_server_direct_input])){
 			$share_url="https://www.threads.net/intent/post?text=";
 		}
-		$share_url.=$encoded_t.'%20'.$encoded_u;
+			$share_url.=$encoded_t.'%20'.$encoded_u;
 		$share_url = filter_var($share_url, FILTER_VALIDATE_URL) ? $share_url : ''; 
 		if(!$share_url){
 			error($en ? "Please select an SNS sharing destination.":"SNSの共有先を選択してください。");
