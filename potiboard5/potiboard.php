@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.57.1';
-const POTI_LOT = 'lot.20241211';
+const POTI_VER = 'v6.58.0';
+const POTI_LOT = 'lot.20241216';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -206,8 +206,8 @@ defined("ALLOW_ALL_APPS_TO_CONTINUE_DRAWING") or define("ALLOW_ALL_APPS_TO_CONTI
 //URL入力欄を使用する する:1 しない:0
 defined("USE_URL_INPUT_FIELD") or define("USE_URL_INPUT_FIELD", "1");
 defined("SWITCH_SNS") or define("SWITCH_SNS", "1");
-defined("SNS_WINDOW_WIDTH") or define("SNS_WINDOW_WIDTH","350");
-defined("SNS_WINDOW_HEIGHT") or define("SNS_WINDOW_HEIGHT","490");
+defined("SNS_WINDOW_WIDTH") or define("SNS_WINDOW_WIDTH","600");
+defined("SNS_WINDOW_HEIGHT") or define("SNS_WINDOW_HEIGHT","600");
 defined("USE_ADMIN_LINK") or define("USE_ADMIN_LINK","1");
 defined("CATALOG_PAGE_DEF") or define("CATALOG_PAGE_DEF",30);
 //お絵かきできる最小の幅と高さ

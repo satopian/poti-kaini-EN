@@ -540,6 +540,7 @@ $servers =
 
 	["X","https://x.com"],
 	["Bluesky","https://bsky.app"],
+	["Threads","https://www.threads.net"],
 	["pawoo.net","https://pawoo.net"],
 	["fedibird.com","https://fedibird.com"],
 	["misskey.io","https://misskey.io"],
@@ -551,10 +552,10 @@ $servers =
 
 // Width and height of window to open when SNS sharing
 
-//window width initial value 350
-define("SNS_WINDOW_WIDTH","350"); 
-//window height initial value 490 
-define("SNS_WINDOW_HEIGHT","490");
+//window width initial value 600
+define("SNS_WINDOW_WIDTH","600"); 
+//window height initial value 600 
+define("SNS_WINDOW_HEIGHT","600");
 
 /* ---------- お絵かき詳細設定(Advanced Setting for OEKAKI) ---------- */
 
