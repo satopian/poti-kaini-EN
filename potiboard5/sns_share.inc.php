@@ -67,7 +67,7 @@ class sns_share{
 		if(in_array("https://www.threads.net",[$sns_server_radio,$sns_server_direct_input])){
 			$share_url="https://www.threads.net/intent/post?text=";
 		}
-			$share_url.=$encoded_t.'%20'.$encoded_u;
+		$share_url.=$encoded_t.'%20'.$encoded_u;
 		$share_url = filter_var($share_url, FILTER_VALIDATE_URL) ? $share_url : ''; 
 		if(!$share_url){
 			error($en ? "Please select an SNS sharing destination.":"SNSの共有先を選択してください。");
