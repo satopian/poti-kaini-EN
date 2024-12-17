@@ -42,7 +42,199 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+## 2024/12/17 v6.58.0
+### "Share on SNS" Now Support Meta "Threads"
+  
+![241216_Threads対応](https://github.com/user-attachments/assets/a07cb6fc-1df9-4a87-9ad7-fb54d372727f)
+  
+- You can now create shared links for Meta's SNS "Threads."
+The number of files to be changed is small, but you will need to reconfigure `config.php` to make it compatible with "Threads."
+If you do not need to make it compatible with "Threads," there is no need to reconfigure `config.php`.
+```
+$servers =
+[
 
+	["X","https://x.com"],
+	["Bluesky","https://bsky.app"],
+	["Threads","https://www.threads.net"],
+	["pawoo.net","https://pawoo.net"],
+	["fedibird.com","https://fedibird.com"],
+	["misskey.io","https://misskey.io"],
+	["misskey.design","https://misskey.design"],
+	["nijimiss.moe","https://nijimiss.moe"],
+	["sushi.ski","https://sushi.ski"],
+
+];
+
+// Width and height of window to open when SNS sharing
+
+//window width initial value 600
+define("SNS_WINDOW_WIDTH","600"); 
+//window height initial value 600 
+define("SNS_WINDOW_HEIGHT","600");
+
+```
+ 
+## 2024/12/12 v6.57.1
+### Issue a warning if layer information has not been saved in PaintBBS NEO
+- If time-lapse data has not been saved in PaintBBS NEO, a confirmation dialog will now be displayed saying "Layer information will not be saved.Are you sure you want to continue?".
+### Improved Markdown link function
+- Improved Markdown link `[string](URL)`.
+If there is a `[]` within a `[]` that specifies a string, escape it with a backslash.
+When escaped, it will become a link like this
+[\[12345\] Petit Note](https://example.com)
+Example)
+```
+[\[12345\] Petit Note](https://example.com)
+```
+## 2024/12/08 v6.56.6
+### AXNOS Paint has been updated
+- The UI is now easier to use even on devices with small screens.
+
+## 2024/12/04 v6.56.5
+### ChickenPaint Be has been updated.
+- Displays the HTTP status code more clearly when the network response was not ok.
+  
+![image](https://github.com/user-attachments/assets/e2ec8c70-1d30-44cf-ac15-e3f031cef32b)
+
+![image](https://github.com/user-attachments/assets/0942b769-d474-4504-a76f-fa6dec23d2a2)
+
+## 2024/12/03 v6.56.3
+### Review of user authentication code
+- The user code has been expanded to 64 characters.
+- The password is no longer used as a seed for the hash value of the authentication code when replacing an image.
+- To improve the reliability of authentication, the authentication code when replacing an image now includes the article number and article ID as is.
+- Added identity verification for posted images when replacing an image, and the image is posted only if the user code or IP address matches.
+### Fixed an issue that occurred when replacing an image/editing an article after deleting an article.
+- An issue occurs when someone deletes an article while an article is continuing, and the password of a new post posted afterwards is the same.
+This is because the "article number" and "password" of the newly posted article are the same.
+In this case, The new post is overwritten by the "continuation" post.
+The same issue occurs if you delete an article you are editing and then post a new post with the same "article number" and "password" as the article you are editing.
+- To avoid this issue, the UNIX time of the article is now used to check whether the article you are overwriting when "continuing" or editing is the same as the original article.
+
+### ChickenPaint Be Update
+
+[Feature request/proposal: converting brightness to opacity · Issue #4 · satopian/ChickenPaint_Be](https://github.com/satopian/ChickenPaint_Be/issues/4)
+
+- Added a function to convert brightness to transparency.
+
+- Based on the prototype created by [@SuzuSuzu-HaruHaru](https://github.com/SuzuSuzu-HaruHaru), we adjusted the method of calculating opacity and implemented it as a function equivalent to that of general paint software.
+
+![image](https://github.com/user-attachments/assets/e90861fd-3edd-4e97-a50a-3f0889e37fad)
+
+## 2024/11/26 v6.53.8
+### Code cleanup
+- The long foreach nest for image replacement has been shortened.
+- Unnecessary basename() has been removed.
+- The function that checked whether GD was available has been simplified and consolidated into a class method in thumbnail_gd.inc.php.
+
+- In PHP8.4, exit() has become a function instead of a language structure, so `exit;` without parentheses has been changed to `exit();`.
+`exit;` without parentheses may be deprecated in future versions of PHP.
+### Bug fix
+- Fixed a problem where explode() would fail and cause a PHP error if a non-existent article number was intentionally specified during password authentication processing when drawing a continuation.
+(This did not occur in normal use, but was recorded as a PHP error in the server error log when an invalid process was performed.)
+
+- Fixed a bug where additional explanations for the bulletin board were not displayed in the new post form even if they were specified in $addinfo in config.php;.
+(Additional explanations were displayed when drawing and replying, but not in the new post form)
+
+## 2024/11/21 v6.51.3
+### 5MB limit on log file size removed
+When the log file exceeded 5MB, the file was cut off in a way that required items were cut off in the middle of the log file.  
+Therefore, the 5MB limit when acquiring a log file has been removed.  
+Instead, a check on the log file size has been added.  
+If the log file exceeds 15MB, an error message will be displayed. (When writing and pressing the paint button)  
+However, by the time the log file size reaches 15MB, the bulletin board should be quite heavy.  
+It has been proven that it works up to about 8,000 posts, but if it exceeds that, it is likely to become unstable.  
+
+If you want to store more posts, consider using.  
+satopian/Petit_Note_EN: Petit Note English ver. PHP script for PaintBBS NEO, tegaki.js,AXNOS Paint,ChickenPaint and Klecks. (PHP5.6 - PHP8.4)
+https://github.com/satopian/Petit_Note_EN
+
+This is a one thread, one log file format, so you can operate up to 8000 threads instead of 8000 comments.
+With 200 posts per thread, you can have 8000x200=1.6 million posts.
+
+### Added new configuration item to config.php
+The limit value for the log file size check could be set to 15MB uniformly, but now it is configurable.
+If you don't have any particular preference, there is no need to add a configuration item.
+If the configuration item does not exist, the default limit value of 15MB will be applied.
+
+```
+// Maximum file size limit for the log file (in MB)
+// Setting a large value may cause instability.
+define("MAX_LOG_FILESIZE", "15");
+
+```
+
+## 2024/11/19 v6.50.3
+### Replacing Functions Marked for Removal in the PHP 8.4 RFC with New Functions  
+
+POTI Board EVO previously used functions that were proposed for removal in the PHP 8.4 RFC. Although these functions were not deprecated due to a slightly higher number of votes against their removal, I have decided to replace them proactively to ensure future compatibility.  
+
+#### New Functions for Cryptographic Operations  
+**Deprecation of `uniqid()`**  
+I will stop using `uniqid()` and replace it with `random_bytes()`.  
+
+#### Changing the Hash Algorithm for Duplicate Image Detection from `md5` to `sha256`  
+**Deprecation of `md5()`**  
+Since the deprecation of `md5()` was proposed in the PHP 8.4 RFC, the method for generating image hash values to prevent duplicate image posts has been changed from `md5` to `sha256`.  
+
+```
+// Reject files with the following image hashes.
+$badfile = array("dummyhash","dummyhash2");
+```
+If you have specified images to reject, you must reconfigure this setting.
+
+
+## 2024/11/11 v6.39.12
+### The .htaccess description method has been changed to Apache 2.4 format
+- Official support for Apache 2.2 ended in 2017, so the Apache 2.2 format .htaccess files has been rewritten to Apache 2.4 format.
+
+## 2024/11/08 v6.39.11
+### Display detailed error message when file size is too large in Klecks
+- Display error message in format like "File size is too large. Limit size: 20MB Current size:30MB".
+When the total size of PNG format image file and PSD format layer information output by Klecks exceeds the server's allowable size, it displays detailed information on why posting is not possible.
+Until now, it only displayed "Your picture upload failed!\nPlease try again!"
+Since the file size includes layer information, the more layers there are, the easier it is to exceed the limit.
+The file size will be smaller if you combine layers.
+
+![image](https://github.com/user-attachments/assets/967c4189-b32b-47e6-883a-2cfd9634b1e8)
+
+When displaying Japanese.
+
+![image](https://github.com/user-attachments/assets/5ab0a273-619c-4206-a24e-f2451aded124)
+
+When displayed in English.
+
+## 2024/11/06 v6.39.9
+### ChickenPaint Be has been updated
+- Displays a more detailed error message when the file size exceeds the server's allowable value.
+Displays the current file size and displays the error message "The file size exceeds the server limit."
+Previously, it only displayed "Sorry, your drawing could not be saved, please try again later."
+If you merge and organize ChickenPaint Be's layers, the file size at the time of posting will be smaller. If you are unable to post because this error message appears, merging the layers may enable posting.
+  
+![image](https://github.com/user-attachments/assets/bc71e714-dde6-458e-bd57-e0d69859e2da)
+  
+If you have a rental server that has a default limit of 5MB and you want to allow file sizes larger than that, edit php.ini.
+POTI-board looks at both post_max_size and upload_max_filesize and  ​​uses the smaller of them as the limit value, so you need to adjust the following two upper limits.
+Please check the server manual for instructions on how to edit php.ini.
+
+The units in the following setting examples are MB.
+Please note that if you set the limit too high, you may be more vulnerable to DDoS attacks.
+Considering the stability of JavaScript apps, I think a maximum of 25MB is appropriate.
+#### Example settings
+
+```
+; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; https://php.net/post-max-size
+post_max_size = 20M
+
+; Maximum allowed size for uploaded files.
+; https://php.net/upload-max-filesize
+upload_max_filesize = 20M
+
+```  
 ## 2024/11/03 v6.39.8
 ### ChickenPaint Be has been updated
 - Fixed an issue where the ChickenPaint Be texture palette could not be scrolled.  
