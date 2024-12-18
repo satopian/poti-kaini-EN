@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.58.0';
-const POTI_LOT = 'lot.20241216';
+const POTI_VER = 'v6.58.2';
+const POTI_LOT = 'lot.20241218';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -1427,9 +1427,6 @@ function userdel(){
 	if(!is_array($del)){
 		return;
 	}
-
-	sort($del);
-	reset($del);
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
@@ -1446,7 +1443,7 @@ function userdel(){
 			continue;
 		}
 		list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",trim($value));
-		if(in_array($no,$del) && check_password($pwd, $pass, $pwd)){
+		if(is_numeric($no) && in_array($no,$del) && check_password($pwd, $pass, $pwd)){
 			if(!$onlyimgdel){	//記事削除
 				$thread_exists=treedel($no);
 				if(USER_DELETES > 2){
@@ -1552,35 +1549,33 @@ function admindel($pass){
 	$dat['all'] = h(($all - ($all % 1024)) / 1024);
 
 	if(is_array($del)){
-		sort($del);
-		reset($del);
-		chmod(LOGFILE,PERMISSION_FOR_LOG);
-		$fp=fopen(LOGFILE,"r+");
-		flock($fp, LOCK_EX);
-		$buf = get_buffer_from_fp($fp);
-		if(!$buf){error(MSG030);}
-		$buf = charconvert($buf);
-		$line = explode("\n", trim($buf));
-		$find = false;
-		foreach($line as $i => $value){
-			if(!trim($value)){
-				continue;
-			}
-			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
-			if(in_array($no,$del)){
-				if(!$onlyimgdel){	//記事削除
-					treedel($no);
-					unset($line[$i]);
-					$find = true;
-				}
-				delete_files($path, $time, $ext);
-			}
+	chmod(LOGFILE,PERMISSION_FOR_LOG);
+	$fp=fopen(LOGFILE,"r+");
+	flock($fp, LOCK_EX);
+	$buf = get_buffer_from_fp($fp);
+	if(!$buf){error(MSG030);}
+	$buf = charconvert($buf);
+	$line = explode("\n", trim($buf));
+	$find = false;
+	foreach($line as $i => $value){
+		if(!trim($value)){
+			continue;
 		}
-		if($find){//ログ更新
-			writeFile($fp, implode("\n", $line));
+		list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
+		if(is_numeric($no) && in_array($no,$del)){
+			if(!$onlyimgdel){	//記事削除
+				treedel($no);
+				unset($line[$i]);
+				$find = true;
+			}
+			delete_files($path, $time, $ext);
 		}
-		closeFile($fp);
 	}
+	if($find){//ログ更新
+		writeFile($fp, implode("\n", $line));
+	}
+	closeFile($fp);
+}
 
 	return htmloutput(OTHERFILE,$dat);
 }
@@ -2308,8 +2303,6 @@ function editform(){
 		error(MSG031);
 	}
 
-	sort($del);
-	reset($del);
 	$pwd = $pwd ? $pwd : $pwdc;
 	$fp=fopen(LOGFILE,"r");
 	flock($fp, LOCK_EX);
