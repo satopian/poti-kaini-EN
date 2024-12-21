@@ -326,6 +326,7 @@
 						<param name="neo_confirm_layer_info_notsaved" value="true">
 						<param name="neo_confirm_unload" value="true">
 						<param name="neo_show_right_button" value="true">
+						<param name="neo_animation_skip" value="true">
 					@else 
 					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
 					@endif
