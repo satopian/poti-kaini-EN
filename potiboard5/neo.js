@@ -6300,7 +6300,14 @@ Neo.ActionManager.prototype.play = function () {
     //console.log("play", item[0], this._head + 1, this._items.length);
   }
 
-  var func = item[0] && this[item[0]] ? item[0] : "dummy";
+  var func;
+  if (Neo.painter.busySkipped) {
+    //アニメーションをスキップする時はrestoreのみを関数として扱う
+    func = item[0] && this[item[0]] && item[0] == "restore" ? item[0] : "dummy";
+  } else {
+    func = item[0] && this[item[0]] ? item[0] : "dummy";
+  }
+
   var that = this;
   var wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
 
