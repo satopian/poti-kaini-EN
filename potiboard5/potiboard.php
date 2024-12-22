@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.59.0';
-const POTI_LOT = 'lot.20241221';
+const POTI_VER = 'v6.59.1';
+const POTI_LOT = 'lot.20241222';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -1549,33 +1549,33 @@ function admindel($pass){
 	$dat['all'] = h(($all - ($all % 1024)) / 1024);
 
 	if(is_array($del)){
-	chmod(LOGFILE,PERMISSION_FOR_LOG);
-	$fp=fopen(LOGFILE,"r+");
-	flock($fp, LOCK_EX);
-	$buf = get_buffer_from_fp($fp);
-	if(!$buf){error(MSG030);}
-	$buf = charconvert($buf);
-	$line = explode("\n", trim($buf));
-	$find = false;
-	foreach($line as $i => $value){
-		if(!trim($value)){
-			continue;
-		}
-		list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
-		if(is_numeric($no) && in_array($no,$del)){
-			if(!$onlyimgdel){	//記事削除
-				treedel($no);
-				unset($line[$i]);
-				$find = true;
+		chmod(LOGFILE,PERMISSION_FOR_LOG);
+		$fp=fopen(LOGFILE,"r+");
+		flock($fp, LOCK_EX);
+		$buf = get_buffer_from_fp($fp);
+		if(!$buf){error(MSG030);}
+		$buf = charconvert($buf);
+		$line = explode("\n", trim($buf));
+		$find = false;
+		foreach($line as $i => $value){
+			if(!trim($value)){
+				continue;
 			}
-			delete_files($path, $time, $ext);
+			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
+			if(is_numeric($no) && in_array($no,$del)){
+				if(!$onlyimgdel){	//記事削除
+					treedel($no);
+					unset($line[$i]);
+					$find = true;
+				}
+				delete_files($path, $time, $ext);
+			}
 		}
+		if($find){//ログ更新
+			writeFile($fp, implode("\n", $line));
+		}
+		closeFile($fp);
 	}
-	if($find){//ログ更新
-		writeFile($fp, implode("\n", $line));
-	}
-	closeFile($fp);
-}
 
 	return htmloutput(OTHERFILE,$dat);
 }
