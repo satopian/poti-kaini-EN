@@ -6301,10 +6301,15 @@ Neo.ActionManager.prototype.play = function () {
   }
 
   var func;
-  if (Neo.painter.busySkipped) {
-    //アニメーションをスキップする時はrestoreのみを関数として扱う
-    func = item[0] && this[item[0]] && item[0] == "restore" ? item[0] : "dummy";
+  // restoreが存在するかどうか判定
+  //古いPCHファイルにはrestoreが存在しないためアニメーションをスキップできない
+  const hasRestore = this._items.some((item) => item[0] === "restore");
+  if (Neo.painter.busySkipped && hasRestore) {
+    // アニメーションをスキップする時はrestoreのみを関数として扱う
+    func =
+      item[0] && this[item[0]] && item[0] === "restore" ? item[0] : "dummy";
   } else {
+    // アニメーションを再生する時は全ての関数を実行する
     func = item[0] && this[item[0]] ? item[0] : "dummy";
   }
 
