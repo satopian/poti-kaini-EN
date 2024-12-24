@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.59.1';
-const POTI_LOT = 'lot.20241222';
+const POTI_VER = 'v6.60.1';
+const POTI_LOT = 'lot.20241224';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -2034,6 +2034,11 @@ function openpch(){
 
 	$pch = (string)newstring(filter_input(INPUT_GET, 'pch'));
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
+	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	$resno = (string)filter_input(INPUT_GET, 'resno',FILTER_VALIDATE_INT);
+
+	$dat['no'] = $no;
+	$dat['oyano'] = $resno;
 
 	$ext = check_pch_ext(PCH_DIR . $_pch);
 	if(!$ext||!is_file(IMG_DIR.$pch)){
@@ -2115,6 +2120,7 @@ function incontinue(){
 	$cptime='';
 
 	$no = (string)filter_input(INPUT_GET, 'no',FILTER_VALIDATE_INT);
+	$resno = (string)filter_input(INPUT_GET, 'resno',FILTER_VALIDATE_INT);
 	$flag = FALSE;
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){//記事ナンバーのログを取得
@@ -2146,6 +2152,7 @@ function incontinue(){
 
 	list($dat['picw'], $dat['pich']) = getimagesize($dat['picfile']);
 	$dat['no'] = h($no);
+	$dat['oyano'] = h($resno);
 	$dat['pch'] = h($ctim);
 	$dat['ext'] = h($cext);
 	//描画時間

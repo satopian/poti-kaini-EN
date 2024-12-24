@@ -11,4 +11,5 @@ src/
 thumb/
 tmp/
 cache/
+errorlog/
 *.afphoto~lock~

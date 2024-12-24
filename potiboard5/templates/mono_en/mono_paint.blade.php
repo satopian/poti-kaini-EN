@@ -193,7 +193,11 @@
 			<hr>
 			<div>
 				<p class="menu">
+					@if($continue_mode||$pch_mode)
+					<a href="{{$self}}?res={{$oyano}}#{{$no}}">[Back]</a>
+					@else
 					<a href="{{$self2}}">[Back]</a>
+					@endif
 				</p>
 			</div>
 			<hr>
