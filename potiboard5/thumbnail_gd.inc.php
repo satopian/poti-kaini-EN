@@ -3,23 +3,23 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20241124;
+$thumbnail_gd_ver=20241226;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
-	public static function thumb($path,$fname,$time,$max_w,$max_h,$options=[]){
+	public static function thumb($path,$fname,$time,$max_w,$max_h,$options=[]): ?string {
 		$path=basename($path).'/';
 		$fname=basename($fname);
 		$time=basename($time);
 		$fname=$path.$fname;
 		if(!is_file($fname)){
-			return;
+			return null;
 		}
 		if(!self::gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
-			return;
+			return null;
 		}
 		if((isset($options['webp'])||isset($options['thumbnail_webp'])) && !function_exists("ImageWEBP")){
-			return;
+			return null;
 		}
 
 		$fsize = filesize($fname); // ファイルサイズを取得
@@ -27,7 +27,7 @@ class thumbnail_gd {
 		$w_h_size_over = $max_w && $max_h && ($w > $max_w || $h > $max_h);
 		$f_size_over = !isset($options['toolarge']) ? ($fsize>1024*1024) : false;
 		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['png2webp']) && !isset($options['png2jpeg'])){
-			return;
+			return null;
 		}
 		if(!$w_h_size_over || isset($options['png2jpeg']) || isset($options['png2webp']) || !$max_w || !$max_h){//リサイズしない
 			$out_w = $w;
@@ -42,7 +42,7 @@ class thumbnail_gd {
 
 		$mime_type = mime_content_type($fname);
 		if(!$im_in = self::createImageResource($fname,$mime_type)){
-			return;
+			return null;
 		};
 		// 出力画像（サムネイル）のイメージを作成
 		$exists_ImageCopyResampled = false;
@@ -72,11 +72,11 @@ class thumbnail_gd {
 			}
 			if(isset($options['toolarge'])){
 				if(!$outfile = self::overwriteResizedImage($im_out, $fname, $mime_type)){
-					return;
+					return null;
 				}
 			}else{
 				if(!$outfile = self::createThumbnailImage($im_out, $time, $options)){
-					return;
+					return null;
 			}
 		}
 		
@@ -85,17 +85,17 @@ class thumbnail_gd {
 		ImageDestroy($im_out);
 
 		if(!chmod($outfile,PERMISSION_FOR_DEST)){
-			return;
+			return null;
 		}
 
 		if(is_file($outfile)){
 			return $outfile;
 		}
-		return false;
+		return null;
 
 	}
 	//GD版が使えるかチェック
-	private static function gd_check() {
+	private static function gd_check(): bool {
 		// GDモジュールが有効化されているか
 		if (!extension_loaded('gd')) {
 				return false;
@@ -115,7 +115,7 @@ class thumbnail_gd {
 		return true;
 	}
 	// 透明度の処理を行う必要があるかを判断
-	private static function isTransparencyEnabled($options, $mime_type) {
+	private static function isTransparencyEnabled($options, $mime_type): bool {
 		// 透明度を扱うオプションが設定されているか確認
 		$transparencyOptionsSet = isset($options['toolarge']) || isset($options['webp']) || isset($options['thumbnail_webp']) || isset($options['png2webp']);
 		
@@ -132,38 +132,38 @@ class thumbnail_gd {
 		switch ($mime_type) {
 			case "image/gif";
 				if(!function_exists("ImageCreateFromGIF")){//gif
-					return;
+					return null;
 				}
 					$im_in = @ImageCreateFromGIF($fname);
-					if(!$im_in)return;
+					if(!$im_in)return null;
 				break;
 			case "image/jpeg";
 				$im_in = @ImageCreateFromJPEG($fname);//jpg
-					if(!$im_in)return;
+					if(!$im_in)return null;
 				break;
 			case "image/png";
 				if(!function_exists("ImageCreateFromPNG")){//png
-					return;
+					return null;
 				}
 				$im_in = @ImageCreateFromPNG($fname);
-					if(!$im_in)return;
+					if(!$im_in)return null;
 				break;
 			case "image/webp";
 				if(!function_exists("ImageCreateFromWEBP")){//webp
-					return;
+					return null;
 				}
 					$im_in = @ImageCreateFromWEBP($fname);
-					if(!$im_in)return;
+					if(!$im_in)return null;
 				break;
 
-			default : return;
+			default : return null;
 		}
 		return $im_in;
 	}
 
 	//縮小した画像で上書き
-	private static function overwriteResizedImage($im_out, $fname, $mime_type) {
-		$outfile=$fname;
+	private static function overwriteResizedImage($im_out, $fname, $mime_type): ?string {
+		$outfile=(string)$fname;
 		//本体画像を縮小
 		switch ($mime_type) {
 			case "image/gif";
@@ -172,31 +172,31 @@ class thumbnail_gd {
 				}else{
 					ImageJPEG($im_out, $outfile,98);
 				}
-					break;
+				return $outfile;
 			case "image/jpeg";
 				ImageJPEG($im_out, $outfile,98);
-				break;
+				return $outfile;
 			case "image/png";
 				if(function_exists("ImagePNG")){
 					ImagePNG($im_out, $outfile,3);
 				}else{
 					ImageJPEG($im_out, $outfile,98);
 				}
-					break;
+				return $outfile;
 			case "image/webp";
 				if(function_exists("ImageWEBP")){
 					ImageWEBP($im_out, $outfile,98);
 				}else{
 					ImageJPEG($im_out, $outfile,98);
 				}
-					break;
+				return $outfile;
 
-				default : return;
-			return $outfile;
+				default : return null;
+
 		}
 	}
 	//サムネイル作成
-	private static function createThumbnailImage($im_out, $time, $options) {
+	private static function createThumbnailImage($im_out, $time, $options): ?string {
 
 		if(isset($options['png2jpeg'])){
 
@@ -208,9 +208,11 @@ class thumbnail_gd {
 			if(function_exists("ImageWEBP")){
 				$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
 				ImageWEBP($im_out, $outfile,98);
+
 			}else{
 				$outfile=TEMP_DIR.$time.'.jpg.tmp';//一時ファイル
 				ImageJPEG($im_out, $outfile,98);
+
 			}
 		
 		} elseif(isset($options['webp'])){

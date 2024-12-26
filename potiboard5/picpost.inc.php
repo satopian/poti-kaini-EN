@@ -51,12 +51,10 @@
 // 2003/07/11 perl版初公開
 $picpost_inc_ver=20240223;
 class picpost{
-	Public static function saveimage(){
-
+	Public static function saveimage(): void {
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
-		return header( "Location: ./ ") ;
+		header( "Location: ./ ") ;
 	}
-
 	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
 	? explode( ',', $http_langs )[0] : '';
 	$en= (stripos($lang,'ja')!==0) ? true : false;
@@ -195,9 +193,9 @@ class picpost{
 		$nokori=(int)SECURITY_CLICK-$count;
 
 		if($en){
-			return die("error\nPlease draw more. Further {$nokori} steps.");
+			die("error\nPlease draw more. Further {$nokori} steps.");
 		}else{
-			return die("error\n工程数が少なすぎます。あと{$nokori}工程。");
+			die("error\n工程数が少なすぎます。あと{$nokori}工程。");
 		}
 	}
 	$imgfile = time().substr(microtime(),2,6);//画像ファイル名

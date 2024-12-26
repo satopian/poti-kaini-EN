@@ -4,7 +4,7 @@
 class sns_share{
 
 //シェアするserverの選択画面
-	public static function set_share_server(){
+	public static function set_share_server(): void {
 		global $en,$skindir,$servers,$petit_lot;
 		
 		//ShareするServerの一覧
@@ -38,7 +38,7 @@ class sns_share{
 	}
 
 	//SNSへ共有リンクを送信
-	public static function post_share_server(){
+	public static function post_share_server(): void {
 		global $en;
 
 		$sns_server_radio=(string)filter_input(INPUT_POST,"sns_server_radio",FILTER_VALIDATE_URL);
@@ -72,6 +72,6 @@ class sns_share{
 		if(!$share_url){
 			error($en ? "Please select an SNS sharing destination.":"SNSの共有先を選択してください。");
 		}
-		return header('Location:'.$share_url);
+		header('Location:'.$share_url);
 	}
 }

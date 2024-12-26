@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.60.1';
-const POTI_LOT = 'lot.20241224';
+const POTI_VER = 'v6.61.1';
+const POTI_LOT = 'lot.20241226';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -99,7 +99,7 @@ if ($err = check_file(__DIR__.'/thumbnail_gd.inc.php')) {
 	die($err);
 }
 require(__DIR__.'/thumbnail_gd.inc.php');
-if($thumbnail_gd_ver < 20241124){
+if($thumbnail_gd_ver < 20241126){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -296,7 +296,7 @@ switch($mode){
 	case 'regist':
 		if(DIARY && !$resto){
 			if(!$pwd||($pwd !== $ADMIN_PASS)){
-				return error(MSG029);
+				error(MSG029);
 			}
 			$admin=$pwd;
 		}
@@ -310,7 +310,7 @@ switch($mode){
 		check_same_origin(true);
 		check_password_input_error_count();
 		if(!$pass || ($pass !== $ADMIN_PASS)) 
-		return error(MSG029);
+		error(MSG029);
 	
 		if($admin==="del") return admindel($pass);
 		if($admin==="post"){
@@ -322,13 +322,13 @@ switch($mode){
 		}
 		if($admin==="update"){
 			updatelog();
-			return redirect(h(PHP_SELF2));
+			redirect(h(PHP_SELF2));
 		}
 		return;
 
 	case 'usrdel':
 		if (!USER_DELETES) {
-			return error(MSG033);
+			error(MSG033);
 		}
 		userdel();
 	case 'paint':
@@ -372,14 +372,14 @@ switch($mode){
 		if($res){
 			return res($res);
 		}
-		return redirect(h(PHP_SELF2));
+		redirect(h(PHP_SELF2));
 }
 
 exit();
 
 
 //ユーザーip
-function get_uip(){
+function get_uip(): string {
 	$ip = isset($_SERVER["HTTP_CLIENT_IP"]) ? $_SERVER["HTTP_CLIENT_IP"] :'';
 	$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
 	$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
@@ -405,14 +405,14 @@ function session_sta(){
 }
 
 //csrfトークンを作成
-function get_csrf_token(){
+function get_csrf_token(): string {
 	session_sta();
 	$token = hash('sha256', session_id(), false);
 	$_SESSION['token']=$token;
 	return $token;
 }
 //csrfトークンをチェック	
-function check_csrf_token(){
+function check_csrf_token(): void {
 
 	check_same_origin(true);
 	session_sta();
@@ -422,7 +422,7 @@ function check_csrf_token(){
 		error(MSG006);
 	}
 }
-function check_same_origin($cookie_check=false){
+function check_same_origin($cookie_check=false): void {
 	global $usercode,$en;
 	session_sta();
 	$c_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//user-codeを取得
@@ -442,7 +442,7 @@ function check_same_origin($cookie_check=false){
 }
 
 // ベース
-function basicpart(){
+function basicpart(): array {
 	global $pallets_dat,$resno;
 	
 	$dat['title'] = TITLE;
@@ -500,7 +500,7 @@ function basicpart(){
 }
 
 // 投稿フォーム 
-function form($resno="",$tmp=[]){
+function form($resno="",$tmp=[]): array {
 	global $addinfo;
 	global $fontcolors,$qualitys;
 	global $ADMIN_PASS;
@@ -570,7 +570,7 @@ function form($resno="",$tmp=[]){
 
 	return $dat;
 }
-function form_admin_in($adminin=""){
+function form_admin_in($adminin=""): array {
 	global $ADMIN_PASS;
 
 	if(($adminin !== 'valid')){
@@ -592,7 +592,7 @@ function form_admin_in($adminin=""){
 }
 
 // 記事表示 
-function updatelog(){
+function updatelog(): void {
 
 	$line=get_log(LOGFILE);
 	$trees=get_log(TREEFILE);
@@ -694,10 +694,10 @@ function updatelog(){
 }
 
 //レス画面を表示
-function res($resno = 0){
+function res($resno = 0): void {
 
 	if(!$resno){
-		return redirect(h(PHP_SELF2));
+		redirect(h(PHP_SELF2));
 	}
 	$trees=get_log(TREEFILE);
 
@@ -832,7 +832,7 @@ function res($resno = 0){
 }
 
 //マークダウン記法のリンクをHTMLに変換
-function md_link($str) {
+function md_link($str): string {
 	$rel = 'rel="nofollow noopener noreferrer"';
 
 	// 正規表現パターンを使用してマークダウンリンクを検出
@@ -856,7 +856,7 @@ function md_link($str) {
 }
 
 // 自動リンク
-function auto_link($str){
+function auto_link($str): string {
 	if(strpos($str,'<a')===false){//マークダウン記法がなかった時
 		$str= preg_replace("{(https?://[\w!\?/\+\-_~=;:\.,\*&@#\$%\(\)'\[\]]+)}",'<a href="$1" target="_blank" rel="nofollow noopener noreferrer">$1</a>',$str);
 	}
@@ -864,7 +864,7 @@ function auto_link($str){
 }
 
 // 日付
-function now_date($time){
+function now_date($time): string {
 	$youbi = array('日','月','火','水','木','金','土');
 	$yd = $youbi[date("w", $time)] ;
 	$date = date(DATE_FORMAT, $time);
@@ -874,13 +874,13 @@ function now_date($time){
 }
 
 // エラー画面
-function error($mes,$dest=''){
+function error($mes,$dest=''): void {
 	safe_unlink($dest);
 	$dat['err_mode'] = true;
 	$mes=preg_replace("#<br( *)/?>#i","\n", $mes);
 	if((bool)(isset($_SERVER['HTTP_X_REQUESTED_WITH']))){
 		header('Content-type: text/plain');
-		return die(h("error\n{$mes}"));
+		die(h("error\n{$mes}"));
 	}
 
 	$dat['mes'] = nl2br(h($mes));
@@ -889,13 +889,13 @@ function error($mes,$dest=''){
 }
 
 // 文字列の類似性
-function similar_str($str1,$str2){
+function similar_str($str1,$str2): int {
 	similar_text($str1, $str2, $p);
-	return $p;
+	return (int)$p;
 }
 
 // 記事書き込み
-function regist(){
+function regist(): void {
 	global $path,$temppath,$usercode,$ADMIN_PASS;
 	
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
@@ -977,7 +977,7 @@ function regist(){
 		$picfile=pathinfo($picfile, PATHINFO_FILENAME );//拡張子除去
 		//選択された絵が投稿者の絵か再チェック
 		if (!$picfile || !is_file($temppath.$picfile.".dat")) {
-			return error(MSG007);
+			error(MSG007);
 		}
 
 		$userdata=file_get_contents($temppath.$picfile.".dat");
@@ -987,7 +987,7 @@ function regist(){
 		//ユーザーコードまたはipアドレスは一致しているか?
 		$valid_poster_found = (($ucode && $ucode == $usercode)||($uip && $uip == $userip)||($uhost && $uhost == $host));
 		if(!$valid_poster_found){
-			return error(MSG007);
+			error(MSG007);
 		}
 		//描画時間を$userdataをもとに計算
 		if($starttime && is_numeric($starttime) && $postedtime && is_numeric($postedtime)){
@@ -1353,13 +1353,13 @@ function regist(){
 	redirect(h(PHP_SELF)."?res={$resno}#{$no}");
 }
 
-function h_decode($str){
+function h_decode($str): string {
 	$str = str_replace("&#44;", ",", $str);
 	return htmlspecialchars_decode((string)$str, ENT_QUOTES);
 }
 
 //ツリー削除
-function treedel($delno){
+function treedel($delno): bool {
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(TREEFILE,"r+");
 	flock($fp, LOCK_EX);
@@ -1402,14 +1402,14 @@ function treedel($delno){
 }
 
 // HTMLの特殊文字をエスケープ
-function newstring($str){
+function newstring($str): string {
 	$str = trim((string)$str);
 	$str = htmlspecialchars((string)$str,ENT_QUOTES,'utf-8');
 	return str_replace(",", "&#44;", $str);//カンマをエスケープ
 }
 
 // ユーザー削除
-function userdel(){
+function userdel(): void {
 	global $path;
 
 	check_same_origin();
@@ -1425,7 +1425,7 @@ function userdel(){
 	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 	
 	if(!is_array($del)){
-		return;
+		error(MSG028);
 	}
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
@@ -1468,12 +1468,12 @@ function userdel(){
 	$destination = ($thread_no&&$thread_exists) ? PHP_SELF.'?res='.h($thread_no) :($logfilename ? './'.h($logfilename) : ($mode_catalog ? PHP_SELF.'?mode=catalog&page='.h($catalog_pageno) : h(PHP_SELF2)));
 
 	updatelog();
-	return redirect($destination);
+	redirect($destination);
 
 }
 
 // 管理者削除
-function admindel($pass){
+function admindel($pass): void {
 	global $path;
 
 	check_same_origin(true);
@@ -1577,10 +1577,10 @@ function admindel($pass){
 		closeFile($fp);
 	}
 
-	return htmloutput(OTHERFILE,$dat);
+	htmloutput(OTHERFILE,$dat);
 }
 
-function init(){
+function init(): void {
 	$err='';
 	$en=lang_en();
 
@@ -1608,16 +1608,16 @@ function init(){
 	$err .= check_dir(__DIR__.'/'.PCH_DIR);
 	$err .= check_dir(__DIR__.'/'.THUMB_DIR);
 	$err .= check_dir(__DIR__.'/'.TEMP_DIR);
-	if($err) return error($err);
+	if($err) error($err);
 	if(!is_file(__DIR__.'/'.PHP_SELF2))updatelog();
 }
 
-function lang_en(){//言語が日本語以外ならtrue。
+function lang_en() : bool {//言語が日本語以外ならtrue。
 	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
 	? explode( ',', $http_langs )[0] : '';
   return (stripos($lang,'ja')!==0);
 }
-function initial_error_message(){
+function initial_error_message(): array {
 	$en=lang_en();
 	$msg['041']=$en ? ' does not exist.':'がありません。'; 
 	$msg['042']=$en ? ' is not readable.':'を読めません。'; 
@@ -1626,7 +1626,7 @@ return $msg;
 }
 
 // ファイル存在チェック
-function check_file ($path,$check_writable='') {
+function check_file ($path,$check_writable=''): string {
 	$msg=initial_error_message();
 	if (!is_file($path)) return $path . $msg['041']."<br>";
 	if (!is_readable($path)) return $path . $msg['042']."<br>";
@@ -1636,7 +1636,7 @@ function check_file ($path,$check_writable='') {
 	return '';
 }
 // ディレクトリ存在チェック なければ作る
-function check_dir ($path) {
+function check_dir ($path): string {
 	$msg=initial_error_message();
 
 	if (!is_dir($path)) {
@@ -1650,7 +1650,7 @@ function check_dir ($path) {
 }
 
 // お絵かき画面
-function paintform(){
+function paintform(): void {
 	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
 
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
@@ -1928,12 +1928,15 @@ function paintform(){
 	
 	switch($shi){
 		case 'tegaki':
-			return htmloutput(PAINT_TEGAKI,$dat);
+			htmloutput(PAINT_TEGAKI,$dat);
+			exit();
 		case 'axnos':
-			return htmloutput(PAINT_AXNOS,$dat);
+			htmloutput(PAINT_AXNOS,$dat);
+			exit();
 		case 'klecks':{
 		$dat['TranslatedLayerName'] = getTranslatedLayerName();
-			return htmloutput(PAINT_KLECKS,$dat);
+			htmloutput(PAINT_KLECKS,$dat);
+			exit();
 		}
 		default:
 
@@ -1945,12 +1948,12 @@ function paintform(){
 			$dat['tool']="ChickenPaint";
 		}
 		
-		return htmloutput(PAINTFILE,$dat);
+		htmloutput(PAINTFILE,$dat);
 	}
 }
 
 // お絵かきコメント 
-function paintcom(){
+function paintcom(): void {
 	global $usercode;
 	$userip = get_uip();
 	$host = $userip ? gethostbyaddr($userip) : '';
@@ -2019,7 +2022,7 @@ function paintcom(){
 }
 
 // 動画表示
-function openpch(){
+function openpch(): void {
 
 	$dat['paint_mode'] = false;
 	$dat['continue_mode'] = false;
@@ -2071,7 +2074,7 @@ function openpch(){
 }
 
 // テンポラリ内のゴミ除去 
-function deltemp(){
+function deltemp(): void {
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
 		$file=basename($file);
@@ -2105,7 +2108,7 @@ function deltemp(){
 }
 
 // コンティニュー前画面
-function incontinue(){
+function incontinue(): void {
 	global $addinfo;
 
 	$dat['paint_mode'] = false;
@@ -2219,7 +2222,7 @@ function incontinue(){
 }
 
 // コンティニュー認証
-function check_cont_pass(){
+function check_cont_pass(): bool {
 
 	check_same_origin(true);
 
@@ -2246,7 +2249,7 @@ function check_cont_pass(){
 	closeFile($fp);
 	error(MSG028);
 }
-function download_app_dat(){
+function download_app_dat(): void {
 
 	check_same_origin(true);
 
@@ -2274,7 +2277,7 @@ function download_app_dat(){
 	closeFile($fp);
 	if(!$flag) error(MSG001);
 	if(!(($no===$cno)&&check_password($pwd,$cpwd,$pwd))){
-		return error(MSG029);
+		error(MSG029);
 	}
 	$ctime=basename($ctime);
 	$pchext = check_pch_ext(PCH_DIR.$ctime,['upfile'=>true]);
@@ -2290,7 +2293,7 @@ function download_app_dat(){
  
 }
 // 編集画面
-function editform(){
+function editform(): void {
 	global $addinfo,$fontcolors,$ADMIN_PASS;
 
 	check_same_origin();
@@ -2379,7 +2382,7 @@ function editform(){
 }
 
 // 記事上書き
-function rewrite(){
+function rewrite(): void {
 global $ADMIN_PASS;
 
 	//CSRFトークンをチェック
@@ -2473,7 +2476,7 @@ global $ADMIN_PASS;
 	redirect($destination . (URL_PARAMETER ? "?".time() : ''));
 }
 // 画像差し換え
-function replace($no="",$pwd="",$repcode="",$java=""){
+function replace($no="",$pwd="",$repcode="",$java=""): void {
 	
 	global $path,$temppath,$usercode,$en;
 
@@ -2526,7 +2529,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		if($java){
 			die("error\n{$replace_error_msg}");
 		}
-		return location_paintcom();//通常のお絵かきコメント画面へ。
+		location_paintcom();//通常のお絵かきコメント画面へ。
 	}
 
 	// 時間
@@ -2584,7 +2587,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		if($java){
 			die("error\n{$replace_error_msg}");
 		}
-		return location_paintcom();
+		location_paintcom();
 	}
 
 	$tp=fopen(TREEFILE,"r");
@@ -2601,7 +2604,7 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 		if($java){
 			die("error\n{$replace_error_msg}");
 		}
-		return location_paintcom();
+		location_paintcom();
 	}
 
 	$upfile = $temppath.$file_name.$imgext;
@@ -2675,16 +2678,17 @@ function replace($no="",$pwd="",$repcode="",$java=""){
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 	if(!$java){
-		return header("Location: ./".PHP_SELF."?res={$oyano}&resid={$no}#{$no}");
+		redirect(h(PHP_SELF)."?res={$oyano}&resid={$no}#{$no}");
 	}
 }
 //非同期通信の時にpaintcom()を呼び出すためのリダイレクト
-function location_paintcom(){
-	header('Location:'.PHP_SELF.'?mode=piccom');
+function location_paintcom(): void {
+	header('Location:'.h(PHP_SELF).'?mode=piccom');
+	exit();
 }
 
 // カタログ
-function catalog(){
+function catalog(): void {
 
 	$page = (int)filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 
@@ -2780,13 +2784,13 @@ function catalog(){
 }
 
 // 文字コード変換 
-function charconvert($str){
+function charconvert($str): string {
 	mb_language(LANG);
 		return mb_convert_encoding($str, "UTF-8", "auto");
 }
 
 // NGワードがあれば拒絶
-function Reject_if_NGword_exists_in_the_post(){
+function Reject_if_NGword_exists_in_the_post(): void {
 	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
 
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
@@ -2855,7 +2859,7 @@ function Reject_if_NGword_exists_in_the_post(){
 }
 
 //POSTされた入力をチェックしてログファイルに格納する書式にフォーマット
-function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest=''){
+function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$dest=''): array {
 
 	//入力チェック
 	if(!$com||preg_match("/\A\s*\z/u",$com)) $com="";
@@ -2907,7 +2911,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 }
 
 // HTML出力
-function htmloutput($template,$dat,$buf_flag=''){
+function htmloutput($template,$dat,$buf_flag=''):?string {
 
 	$views = __DIR__ . '/templates/'.SKIN_DIR;
 	$cache = $views.'cache';
@@ -2920,15 +2924,16 @@ function htmloutput($template,$dat,$buf_flag=''){
 		return $buf;
 	}
 	echo $blade->run($template,$dat);
-
+	return null;
 }
 
-function redirect ($url) {
+function redirect ($url): void {
 
-	return header("Location: {$url}");
+	header("Location: {$url}");
+	exit();
 }
 
-function getImgType ($dest) {
+function getImgType ($dest) : string {
 
 	$img_type=mime_content_type($dest);
 
@@ -2937,12 +2942,12 @@ function getImgType ($dest) {
 		case "image/jpeg" : return ".jpg";
 		case "image/png" : return ".png";
 		case "image/webp" : return ".webp";
-		default : return error(MSG004, $dest);
+		default : error(MSG004, $dest);
 	}
 	
 }
 //縮小表示
-function image_reduction_display($w,$h,$max_w,$max_h){
+function image_reduction_display($w,$h,$max_w,$max_h): array {
 	$reduced_size=[];
 	if($w > $max_w || $h > $max_h){
 		$key_w = $max_w / $w;
@@ -2961,7 +2966,7 @@ function image_reduction_display($w,$h,$max_w,$max_h){
  * @param $starttime
  * @return string
  */
-function calcPtime ($psec) {
+function calcPtime ($psec): string {
 
 	$D = floor($psec / 86400);
 	$H = floor($psec % 86400 / 3600);
@@ -2980,7 +2985,7 @@ function calcPtime ($psec) {
  * @param $filepath
  * @return string
  */
-function check_pch_ext ($filepath,$options = []) {
+function check_pch_ext ($filepath,$options = []): string {
 	
 	$exts=[".pch",".spch",".tgkr",".chi",".psd"];
 
@@ -3004,7 +3009,7 @@ function check_pch_ext ($filepath,$options = []) {
  * @param $path
  * @return bool
  */
-function safe_unlink ($path) {
+function safe_unlink ($path): bool {
 	if ($path && is_file($path)) {
 		chmod($path,PERMISSION_FOR_DEST);
 		return unlink($path);
@@ -3018,7 +3023,7 @@ function safe_unlink ($path) {
  * @param $filename
  * @param $ext
  */
-function delete_files ($path, $filename, $ext) {
+function delete_files ($path, $filename, $ext): void {
 	safe_unlink($path.$filename.$ext);
 	safe_unlink(THUMB_DIR.$filename.'s.jpg');
 	safe_unlink(PCH_DIR.$filename.'.pch');
@@ -3034,7 +3039,7 @@ function delete_files ($path, $filename, $ext) {
  * @param string|array $strs
  * @return bool
  */
-function is_ngword ($ngwords, $strs) {
+function is_ngword ($ngwords, $strs): bool {
 	if (empty($ngwords)||empty($strs)) {
 		return false;
 	}
@@ -3053,7 +3058,7 @@ function is_ngword ($ngwords, $strs) {
 	return false;
 }
 //pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-function convert_andsave_if_smaller_png2jpeg($path,$time,$ext,$is_upload=false){
+function convert_andsave_if_smaller_png2jpeg($path,$time,$ext,$is_upload=false): void {
 $dest=$path.$time.$ext;
 	clearstatcache();
 	$fsize_dest=filesize($dest);
@@ -3072,7 +3077,7 @@ $dest=$path.$time.$ext;
 	}
 }
 //Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
-function check_jpeg_exif($dest){
+function check_jpeg_exif($dest): void {
 
 	if((exif_imagetype($dest) !== IMAGETYPE_JPEG ) || !function_exists("imagecreatefromjpeg")){
 		return;
@@ -3137,7 +3142,7 @@ function check_jpeg_exif($dest){
 	}
 }
 
-function check_badhost () {
+function check_badhost (): void {
 	global $badip;
 	$userip = get_uip();
 	$host = $userip ? gethostbyaddr($userip) :'';
@@ -3145,21 +3150,19 @@ function check_badhost () {
 	if($host === $userip){//ホスト名がipアドレスになる場合は
 		foreach($badip as $value){
 			if (preg_match("/\A$value/i",$host)) {//前方一致
-			return error(MSG016);
+			error(MSG016);
 			}
 		}
-		return false;
 	}else{
 		foreach($badip as $value){
 			if (preg_match("/$value\z/i",$host)) {
-			return error(MSG016);
+			error(MSG016);
 			}
 		}
-		return false;
 	}
 }
 
-function check_badfile ($chk, $dest = '') {
+function check_badfile ($chk, $dest = ''): void {
 	global $badfile;
 	foreach($badfile as $value){
 		if(preg_match("/\A$value/",$chk)){
@@ -3167,7 +3170,7 @@ function check_badfile ($chk, $dest = '') {
 		}
 	}
 }
-function h($str){//出力のエスケープ
+function h($str): string {//出力のエスケープ
 	if($str===0 || $str==='0'){
 		return '0';
 	}
@@ -3177,7 +3180,7 @@ function h($str){//出力のエスケープ
 	return htmlspecialchars((string)$str,ENT_QUOTES,'utf-8',false);
 }
 
-function create_res ($line, $options = []) {
+function create_res ($line, $options = []): array {
 	global $path;
 
 	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver)
@@ -3273,13 +3276,13 @@ function create_res ($line, $options = []) {
 	return $res;
 }
 //Tweet
-function encode_for_share($str){
+function encode_for_share($str): string {
 	$str = str_replace("&#44;",",", $str);
 	$str = htmlspecialchars_decode((string)$str, ENT_QUOTES);
 	return h(urlencode($str));
 }
 
-function saveimage(){
+function saveimage(): void {
 	
 	$tool=filter_input(INPUT_GET,"tool");
 
@@ -3310,7 +3313,7 @@ function saveimage(){
  * @param $date
  * @return array
  */
-function separateDatetimeAndId ($date) {
+function separateDatetimeAndId ($date): array {
 	if (preg_match("/( ID:)(.*)/", $date, $regs)){
 		return [$regs[2], preg_replace("/( ID:.*)/","",$date)];
 	}
@@ -3322,7 +3325,7 @@ function separateDatetimeAndId ($date) {
  * @param $name
  * @return array
  */
-function separateNameAndTrip ($name) {
+function separateNameAndTrip ($name): array {
 	$name=strip_tags($name);//タグ除去
 	if(preg_match("/(◆.*)/", $name, $regs)){
 		return [preg_replace("/(◆.*)/","",$name), $regs[1]];
@@ -3335,7 +3338,7 @@ function separateNameAndTrip ($name) {
  * @param $date
  * @return array
  */
-function separateDatetimeAndUpdatemark ($date) {
+function separateDatetimeAndUpdatemark ($date): array {
 	if (UPDATE_MARK && strpos($date, UPDATE_MARK) !== false){
 		return [str_replace(UPDATE_MARK,"",$date), UPDATE_MARK];
 	}
@@ -3343,14 +3346,14 @@ function separateDatetimeAndUpdatemark ($date) {
 }
 
 // 一括書き込み（上書き）
-function writeFile ($fp, $data) {
+function writeFile ($fp, $data): void {
 	ftruncate($fp,0);
 	rewind($fp);
 	stream_set_write_buffer($fp, 0);
 	fwrite($fp, $data);
 }
 
-function closeFile ($fp) {
+function closeFile ($fp): void {
 	if($fp){
 		fflush($fp);
 		flock($fp, LOCK_UN);
@@ -3358,12 +3361,12 @@ function closeFile ($fp) {
 	}
 }
 
-function getId ($userip) {
+function getId ($userip): string {
 	return substr(hash('sha256', $userip.ID_SEED, false),-8);
 }
 
 // 古いスレッドへの投稿を許可するかどうか
-function check_elapsed_days ($microtime,$logver=false) {
+function check_elapsed_days ($microtime,$logver=false): bool {
 
 	$time = microtime2time($microtime,$logver);
 
@@ -3372,14 +3375,14 @@ function check_elapsed_days ($microtime,$logver=false) {
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 //マイクロ秒を秒に戻す
-function microtime2time($microtime,$logver){
+function microtime2time($microtime,$logver): int {
 
 	return $logver==="6" ? (int)substr($microtime,0,-3) :
 	(int)(strlen($microtime)>12 ? substr($microtime,-13,-3) : (int)$microtime);
 }
 
 //逆変換テーブル作成
-function get_lineindex ($line){
+function get_lineindex ($line): array {
 	$lineindex = [];
 	foreach($line as $i =>$value){
 		if(!trim($value)){
@@ -3394,20 +3397,23 @@ function get_lineindex ($line){
 	return $lineindex;
 }
 
-function check_password ($pwd, $hash, $adminPass = false) {
+function check_password ($pwd, $hash, $adminPass = false): bool {
 	global $ADMIN_PASS;
 	return
 		($pwd && (password_verify($pwd, $hash)))
 		|| ($adminPass && $ADMIN_PASS && ($adminPass === $ADMIN_PASS)); // 管理パスを許可する場合
 }
-function is_neo($src) {//neoのPCHかどうか調べる
+function is_neo($src):bool {//neoのPCHかどうか調べる
 	$fp = fopen("$src", "rb");
+	if (!$fp) {
+		return false; // ファイルが開けなかった場合は false を返す
+	}
 	$is_neo=(fread($fp,3)==="NEO");
 	fclose($fp);
 	return $is_neo;
 }
 //使用するペイントアプリの配列化
-function app_to_use(){
+function app_to_use(): array {
 
 	$arr_apps=[];
 		if(USE_PAINTBBS_NEO){
@@ -3433,16 +3439,16 @@ function app_to_use(){
 
 //pchデータの幅と高さ
 get_pch_size($pch);
-function get_pch_size($src) {
+function get_pch_size($src): ?array {
 	if(!$src){
-		return;
+		return null;
 	}
 	$fp = fopen("$src", "rb");
 	$is_neo=(fread($fp,3)==="NEO");//ファイルポインタが3byte移動
 	$pch_data=bin2hex(fread($fp,8));
 	fclose($fp);
 	if(!$pch_data){
-		return;
+		return null;
 	}
 	$width=null;
 	$height=null;
@@ -3453,7 +3459,7 @@ function get_pch_size($src) {
 		$h1=hexdec(substr($pch_data,8,2));
 	}else{
 		if(mime_content_type($src)!=="application/gzip"){
-			return;
+			return null;
 		}
 		$w0=hexdec(substr($pch_data,6,2));
 		$w1=hexdec(substr($pch_data,8,2));
@@ -3461,22 +3467,22 @@ function get_pch_size($src) {
 		$h1=hexdec(substr($pch_data,12,2));
 	}
 	if(!is_numeric($w0)||!is_numeric($w1)||!is_numeric($h0)||!is_numeric($h1)){
-		return;
+		return null;
 	}
 	$width=(int)$w0+((int)$w1*256);
 	$height=(int)$h0+((int)$h1*256);
 	if(!$width||!$height){
-		return;
+		return null;
 	}
 	return[(int)$width,(int)$height];
 }
 //spchデータの幅と高さ
-function get_spch_size($src) {
+function get_spch_size($src): ?array {
 	if(!$src){
-		return;
+		return null;
 	}
 	if(mime_content_type($src)!=="application/octet-stream"){
-		return;
+		return null;
 	}
 	$lines=[];
 	$width=null;
@@ -3503,20 +3509,23 @@ function get_spch_size($src) {
 	}
 	}
 	if(!is_numeric($width)||!is_numeric($height)){
-		return;
+		return null;
 	}
 	if(!$width||!$height){
-		return;
+		return null;;
 	}
 	return[(int)$width,(int)$height];
 }
 //表示用のログファイルを取得
-function get_log($logfile) {
+function get_log($logfile): array {
 	if(!$logfile){
-		return error(MSG019);
+		error(MSG019);
 	}
 	$lines=[];
 	$fp=fopen($logfile,"r");
+	if(!$fp){
+		error(MSG019);
+	}
 	while($line = fgets($fp)){
 		if(!trim($line)){
 			continue;
@@ -3526,13 +3535,13 @@ function get_log($logfile) {
 	closeFile($fp);
 	
 	if(empty($lines)){
-		return error(MSG019);
+		error(MSG019);
 	}
 	return $lines;
 }
 
 //fpからバッファを取得
-function get_buffer_from_fp($fp) {
+function get_buffer_from_fp($fp): string {
 
 	rewind($fp);//ファイルポインタを先頭に戻す
 
@@ -3548,14 +3557,14 @@ function get_buffer_from_fp($fp) {
 	return implode("", $lines);  // 行を1つのバッファにまとめて返す
 }
 //ログファイルサイズが大きすぎる時はエラーにする
-function check_log_size_limit(){
+function check_log_size_limit(): void {
 	if(filesize(LOGFILE)>(int)MAX_LOG_FILESIZE*1024*1024){//15MB
 		error(MSG052);
 	}
 }
 
 //パスワードを5回連続して間違えた時は拒絶
-function check_password_input_error_count(){
+function check_password_input_error_count(): void {
 	global $ADMIN_PASS;
 	$file=__DIR__.'/templates/errorlog/error.log';
 	if(!CHECK_PASSWORD_INPUT_ERROR_COUNT){
@@ -3576,11 +3585,11 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 	}
 }
 
-function isIE() {
+function isIE(): bool {
 	$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
     return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
 }
-function not_support_async_await(){
+function not_support_async_await(): bool {
 
 	if(isIE()){
 		return true;
@@ -3597,7 +3606,7 @@ function not_support_async_await(){
 }
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
-function getTranslatedLayerName() {
+function getTranslatedLayerName(): string {
 	$acceptedLanguages = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 	$languageList = explode(',', $acceptedLanguages);
 
@@ -3628,11 +3637,11 @@ function getTranslatedLayerName() {
 
 	return "Layer";
 }
-function is_paint_tool_name($tool){
+function is_paint_tool_name($tool): string {
 	return in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","Axnos Paint"]) ? $tool :'';
 }
 //ツリーnoと一致する行の配列を作成
-function create_line_from_treenumber ($fp,$trees){
+function create_line_from_treenumber ($fp,$trees): array {
 
 	rewind($fp);
 	$line=[];
@@ -3648,7 +3657,7 @@ function create_line_from_treenumber ($fp,$trees){
 	}
 	return $line;
 }
-function make_thumbnail($imgfile,$time,$max_w,$max_h){
+function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 	$thumbnail='';
 	if(USE_THUMB){//スレッドの画像のサムネイルを使う時
 		if(thumbnail_gd::thumb(IMG_DIR,$imgfile,$time,$max_w,$max_h)){
