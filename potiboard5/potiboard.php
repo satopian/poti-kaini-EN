@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.61.1';
-const POTI_LOT = 'lot.20241226';
+const POTI_VER = 'v6.61.2';
+const POTI_LOT = 'lot.20241227';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -392,7 +392,7 @@ function get_uip(): string {
 }
 
 //session開始
-function session_sta(){
+function session_sta(): void {
 	if(!isset($_SESSION)){
 		session_set_cookie_params(
 			0,"","",false,true
@@ -547,9 +547,9 @@ function form($resno="",$tmp=[]): array {
 	$dat['upfile'] = false;
 
 	if(!$tmp && USE_IMG_UPLOAD && (!$resno || RES_UPLOAD && $resno)){
-			$dat['upfile'] = true;
+		$dat['upfile'] = true;
 	}
-			
+
 	$dat['maxkb']   = MAX_KB;//実際にアップロードできるファイルサイズ
 	$dat['maxw']    = $resno ? MAX_RESW : MAX_W;
 	$dat['maxh']    = $resno ? MAX_RESH : MAX_H;
@@ -983,7 +983,7 @@ function regist(): void {
 		$userdata=file_get_contents($temppath.$picfile.".dat");
 
 		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
-		
+
 		//ユーザーコードまたはipアドレスは一致しているか?
 		$valid_poster_found = (($ucode && $ucode == $usercode)||($uip && $uip == $userip)||($uhost && $uhost == $host));
 		if(!$valid_poster_found){
@@ -1161,7 +1161,6 @@ function regist(): void {
 		if($is_upload){
 			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
 		}
-
 		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 		convert_andsave_if_smaller_png2jpeg($temppath,$time,".tmp",$is_upload);
 
@@ -2383,7 +2382,7 @@ function editform(): void {
 
 // 記事上書き
 function rewrite(): void {
-global $ADMIN_PASS;
+	global $ADMIN_PASS;
 
 	//CSRFトークンをチェック
 	check_csrf_token();
@@ -2683,8 +2682,7 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 }
 //非同期通信の時にpaintcom()を呼び出すためのリダイレクト
 function location_paintcom(): void {
-	header('Location:'.h(PHP_SELF).'?mode=piccom');
-	exit();
+	redirect(h(PHP_SELF).'?mode=piccom');
 }
 
 // カタログ
@@ -2924,7 +2922,7 @@ function htmloutput($template,$dat,$buf_flag=''):?string {
 		return $buf;
 	}
 	echo $blade->run($template,$dat);
-	return null;
+	exit();
 }
 
 function redirect ($url): void {
@@ -3059,7 +3057,7 @@ function is_ngword ($ngwords, $strs): bool {
 }
 //pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
 function convert_andsave_if_smaller_png2jpeg($path,$time,$ext,$is_upload=false): void {
-$dest=$path.$time.$ext;
+	$dest=$path.$time.$ext;
 	clearstatcache();
 	$fsize_dest=filesize($dest);
 	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
@@ -3512,7 +3510,7 @@ function get_spch_size($src): ?array {
 		return null;
 	}
 	if(!$width||!$height){
-		return null;;
+		return null;
 	}
 	return[(int)$width,(int)$height];
 }
@@ -3657,6 +3655,7 @@ function create_line_from_treenumber ($fp,$trees): array {
 	}
 	return $line;
 }
+//サムネイル作成
 function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 	$thumbnail='';
 	if(USE_THUMB){//スレッドの画像のサムネイルを使う時
