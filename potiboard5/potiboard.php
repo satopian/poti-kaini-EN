@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.62.1';
-const POTI_LOT = 'lot.20241229';
+const POTI_VER = 'v6.62.3';
+const POTI_LOT = 'lot.20241230';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -2833,7 +2833,7 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	if(!$name||preg_match("/\A\s*\z/u",$name)) $name="";
 	if(!$sub||preg_match("/\A\s*\z/u",$sub))   $sub="";
 	if(!$url||!filter_var($url,FILTER_VALIDATE_URL)||!preg_match('{\Ahttps?://}', $url)) $url="";
-		$name = str_replace("◆", "◇", $name);
+	$name = str_replace("◆", "◇", $name);
 	$sage=(stripos($email,'sage')!==false);//メールをバリデートする前にsage判定
 	$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 	if(USE_NAME&&!$name) error(MSG009,$dest);
