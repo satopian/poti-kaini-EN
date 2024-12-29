@@ -1,6 +1,6 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
-//(c)satopian 2023 MIT License
+//(c)satopian 2023-2024 MIT License
 class sns_share{
 
 //シェアするserverの選択画面
