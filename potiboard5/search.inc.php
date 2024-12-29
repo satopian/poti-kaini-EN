@@ -1,7 +1,7 @@
 <?php
 //POTI-board plugin search(C)2020-2024 さとぴあ(@satopian)
 //MIT License
-//v6.37.8 lot.2024.10.22
+//v6.61.2 lot.20241227
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -12,6 +12,7 @@
 
 //更新履歴
 
+//v6.61.2 2024.12.27 戻り値の型宣言を追加。
 //v6.37.8 2024.10.22 コード整理。
 //v6.0.0 2023.08.28 POTI-board v6.0に対応。
 //v5.5.1 2023.07.07 jQuery。
@@ -43,7 +44,7 @@
 //v0.1 2020.07.13 GitHubに公開
 
 class processsearch {
-	public static function search() {
+	public static function search(): void {
 	//設定
 // How many cases can you search?
 // Initial value 120 Do not make it too large.
@@ -273,7 +274,7 @@ class processsearch {
 
 	}
 	//検索文字列をフォーマット
-	Private static function create_formatted_text_for_search($str){
+	Private static function create_formatted_text_for_search($str): string {
 
 		$s_str=mb_convert_kana($str, 'rn', 'UTF-8');//全角英数を半角に
 		$s_str=str_replace([" ", "　"], "", $s_str);
