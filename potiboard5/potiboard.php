@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.61.2';
-const POTI_LOT = 'lot.20241227';
+const POTI_VER = 'v6.62.1';
+const POTI_LOT = 'lot.20241229';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -50,22 +50,12 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
 }
 
 const JQUERY ='jquery-3.7.0.min.js';
-if ($err = check_file(__DIR__.'/lib/'.JQUERY)) {
-	die($err);
-}
+check_file(__DIR__.'/lib/'.JQUERY);
 // Lightbox
-if ($err = check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js')) {
-	die($err);
-}
-if ($err = check_file(__DIR__.'/lib/lightbox/css/lightbox.min.css')) {
-	die($err);
-}
-
-//設定の読み込み
-if ($err = check_file(__DIR__.'/config.php')) {
-	die($err);
-}
-require(__DIR__.'/config.php');
+check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js');
+check_file(__DIR__.'/lib/lightbox/css/lightbox.min.css');
+check_file(__DIR__.'/config.php');
+require_once(__DIR__.'/config.php');
 
 defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
 
@@ -80,50 +70,34 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
 
 //BladeOne
-if ($err = check_file(__DIR__.'/BladeOne/lib/BladeOne.php')) {
-	die($err);
-}
-
-require_once __DIR__.'/BladeOne/lib/BladeOne.php';
-
+check_file(__DIR__.'/BladeOne/lib/BladeOne.php');
+require_once(__DIR__.'/BladeOne/lib/BladeOne.php');
 Use eftec\bladeone\BladeOne;
 
 //Template設定ファイル
-if ($err = check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php')) {
-	die($err);
-}
-require(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
+check_file(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
+require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 
 //サムネイルfunction
-if ($err = check_file(__DIR__.'/thumbnail_gd.inc.php')) {
-	die($err);
-}
-require(__DIR__.'/thumbnail_gd.inc.php');
+check_file(__DIR__.'/thumbnail_gd.inc.php');
+require_once(__DIR__.'/thumbnail_gd.inc.php');
 if($thumbnail_gd_ver < 20241126){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
-if ($err = check_file(__DIR__.'/sns_share.inc.php')) {
-	die($err);
-}
-require(__DIR__.'/sns_share.inc.php');
+check_file(__DIR__.'/sns_share.inc.php');
+require_once(__DIR__.'/sns_share.inc.php');
 //検索Class
-if ($err = check_file(__DIR__.'/search.inc.php')) {
-	die($err);
-}
-require(__DIR__.'/search.inc.php');
+check_file(__DIR__.'/search.inc.php');
+require_once(__DIR__.'/search.inc.php');
 //画像保存Class
-if ($err = check_file(__DIR__.'/save.inc.php')) {
-	die($err);
-}
-require(__DIR__.'/save.inc.php');
+check_file(__DIR__.'/save.inc.php');
+require_once(__DIR__.'/save.inc.php');
 if($save_inc_ver < 20240127){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
-if ($err = check_file(__DIR__.'/picpost.inc.php')) {
-	die($err);
-}
-require(__DIR__.'/picpost.inc.php');
+check_file(__DIR__.'/picpost.inc.php');
+require_once(__DIR__.'/picpost.inc.php');
 if($picpost_inc_ver < 20240223){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
@@ -1584,9 +1558,9 @@ function init(): void {
 	$en=lang_en();
 
 	if(!is_writable(__DIR__.'/'))die($en ? "Unable to write to current directory." : "カレントディレクトリに書けません。");
-	if($err=check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache')){
-		die($err);
-	}
+
+	check_dir(__DIR__.'/templates/'.SKIN_DIR.'cache');
+
 	if (!is_file(__DIR__.'/'.LOGFILE)) {
 		$date = now_date(time());//日付取得
 		if(DISP_ID) $date .= " ID:???";
@@ -1595,20 +1569,21 @@ function init(): void {
 		file_put_contents(LOGFILE, $testmes,LOCK_EX);
 		chmod(LOGFILE, PERMISSION_FOR_LOG);
 	}
-	$err .= check_file(__DIR__.'/'.LOGFILE,true);
+	check_file(__DIR__.'/'.LOGFILE,true);
 
 	if (!is_file(__DIR__.'/'.TREEFILE)) {
 		file_put_contents(TREEFILE, "1\n",LOCK_EX);
 		chmod(TREEFILE, PERMISSION_FOR_LOG);
 	}
-	$err .= check_file(__DIR__.'/'.TREEFILE,true);
+	check_file(__DIR__.'/'.TREEFILE,true);
 
-	$err .= check_dir(__DIR__.'/'.IMG_DIR);
-	$err .= check_dir(__DIR__.'/'.PCH_DIR);
-	$err .= check_dir(__DIR__.'/'.THUMB_DIR);
-	$err .= check_dir(__DIR__.'/'.TEMP_DIR);
-	if($err) error($err);
+	check_dir(__DIR__.'/'.IMG_DIR);
+	check_dir(__DIR__.'/'.PCH_DIR);
+	check_dir(__DIR__.'/'.THUMB_DIR);
+	check_dir(__DIR__.'/'.TEMP_DIR);
+
 	if(!is_file(__DIR__.'/'.PHP_SELF2))updatelog();
+
 }
 
 function lang_en() : bool {//言語が日本語以外ならtrue。
@@ -1625,27 +1600,25 @@ return $msg;
 }
 
 // ファイル存在チェック
-function check_file ($path,$check_writable=''): string {
+function check_file ($path,$check_writable=''): void {
 	$msg=initial_error_message();
-	if (!is_file($path)) return $path . $msg['041']."<br>";
-	if (!is_readable($path)) return $path . $msg['042']."<br>";
+	if (!is_file($path)) die($path . $msg['041']);
+	if (!is_readable($path)) die($path . $msg['042']);
 	if($check_writable){//書き込みが必要なファイルのチェック
-		if (!is_writable($path)) return $path . $msg['043']."<br>";
+		if (!is_writable($path)) die($path . $msg['043']);
 	}
-	return '';
 }
 // ディレクトリ存在チェック なければ作る
-function check_dir ($path): string {
+function check_dir ($path): void {
 	$msg=initial_error_message();
 
 	if (!is_dir($path)) {
 			mkdir($path, PERMISSION_FOR_DIR);
 			chmod($path, PERMISSION_FOR_DIR);
 	}
-	if (!is_dir($path)) return $path . $msg['041']."<br>";
-	if (!is_readable($path)) return $path . $msg['042']."<br>";
-	if (!is_writable($path)) return $path . $msg['043']."<br>";
-	return '';
+	if (!is_dir($path)) die($path . $msg['041']);
+	if (!is_readable($path)) die($path . $msg['042']);
+	if (!is_writable($path)) die($path . $msg['043']);
 }
 
 // お絵かき画面
@@ -1832,9 +1805,7 @@ function paintform(): void {
 				setcookie("palettec", $i, time()+(86400*SAVE_COOKIE));//Cookie保存
 				if(is_array($value)){
 					list($p_name,$p_dat)=$value;
-					if ($err = check_file(__DIR__.'/'.$p_dat)) {
-						error($err);
-					}
+					check_file(__DIR__.'/'.$p_dat);
 					$lines=file($p_dat);
 				}else{
 					$lines=file($value);
@@ -1843,9 +1814,7 @@ function paintform(): void {
 			}
 		}
 	}else{
-		if ($err = check_file(__DIR__.'/'.PALETTEFILE)) {
-			error($err);
-		}
+		check_file(__DIR__.'/'.PALETTEFILE);
 		$lines=file(PALETTEFILE);//初期パレット
 	}
 
