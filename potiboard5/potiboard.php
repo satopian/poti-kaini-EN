@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.62.3';
-const POTI_LOT = 'lot.20241230';
+const POTI_VER = 'v6.62.5';
+const POTI_LOT = 'lot.20250103';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -1615,6 +1615,9 @@ function check_dir ($path): void {
 	if (!is_dir($path)) {
 			mkdir($path, PERMISSION_FOR_DIR);
 			chmod($path, PERMISSION_FOR_DIR);
+	}
+	if (!is_readable($path) || !is_writable($path)){
+		chmod($path, PERMISSION_FOR_DIR);
 	}
 	if (!is_dir($path)) die($path . $msg['041']);
 	if (!is_readable($path)) die($path . $msg['042']);
