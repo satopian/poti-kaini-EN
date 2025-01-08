@@ -173,10 +173,14 @@
   .name:hover {
 	background-color: val.$name_hover;
   }
-  //Paintフォームの行の高さ
-  .epost form {
-    line-height: 2;
-  }
+	//Paintフォームの行の高さ
+	.epost form {
+		line-height: 2;
+	}
+
+	label#save_playback {
+		padding: 0 5px;
+	}
 
   h1 a {
 	text-decoration: none;
