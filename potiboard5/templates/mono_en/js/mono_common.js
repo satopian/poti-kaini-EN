@@ -163,3 +163,25 @@ document.addEventListener("DOMContentLoaded", function () {
             ".for_pc{display: none;}";
     }
 });
+//動画保存するアプリと保存しないアプリの時の表示切り替え
+const select_app = document.getElementById("select_app");
+const save_playback = document.getElementById("save_playback");
+
+const toggleHideAnimation = (usePlayback) => {
+    if (save_playback) {
+        save_playback.style.display = usePlayback ? "inline-block" : "none";
+    }
+};
+document.addEventListener("DOMContentLoaded", () => {
+    // セレクトメニューの変更イベント
+    if (select_app) {
+        const usePlaybackApps = ["neo", "tegaki", "1", "2"];
+
+        select_app.addEventListener("change", (e) => {
+            toggleHideAnimation(usePlaybackApps.includes(e.target.value));
+        });
+
+        // 初期値の設定を反映
+        toggleHideAnimation(usePlaybackApps.includes(select_app.value));
+    }
+});
