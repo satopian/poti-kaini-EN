@@ -65,12 +65,22 @@ hr.hr {
   clear: both;
 }
 
-header, main > section > .thread, main > div#catalog, footer > div, footer > div.copy, main > section > .thread, footer > div {
+header,
+main > section > .thread,
+main > div#catalog,
+footer > div,
+footer > div.copy,
+main > section > .thread,
+footer > div {
   background-color: #333333;
   padding: 8px;
 }
 
-header, main > section > .thread, main > div#catalog, footer > div, footer > div.copy {
+header,
+main > section > .thread,
+main > div#catalog,
+footer > div,
+footer > div.copy {
   margin: 0px auto;
   display: block;
   max-width: 1350px;
@@ -90,7 +100,10 @@ footer > div.copy a {
   display: inline-block;
 }
 
-input, textarea, select, .se {
+input,
+textarea,
+select,
+.se {
   border-style: solid;
   border-color: #063 #50a57a #50a57a #063;
   border-width: 1px;
@@ -104,7 +117,9 @@ textarea {
   height: 5em;
 }
 
-button, button.copy_button, .button {
+button,
+button.copy_button,
+.button {
   border-style: solid;
   border-color: #50a57a #063 #063 #50a57a;
   border-width: 1px;
@@ -121,7 +136,8 @@ select {
   vertical-align: middle;
 }
 
-select[name=picw], select[name=pich] {
+select[name=picw],
+select[name=pich] {
   width: 4em;
 }
 
@@ -129,24 +145,42 @@ select[name=shi] {
   width: initial;
 }
 
-input[name="del[]"], textarea[name="del[]"], select[name="del[]"], .se[name="del[]"] {
+input[name="del[]"],
+textarea[name="del[]"],
+select[name="del[]"],
+.se[name="del[]"] {
   width: 4em;
 }
 
-input[name=pwd], textarea[name=pwd], select[name=pwd], .se[name=pwd], input[name=pass] {
+input[name=pwd],
+textarea[name=pwd],
+select[name=pwd],
+.se[name=pwd],
+input[name=pass] {
   width: 6em;
 }
 
-input[value=お絵かき], textarea[value=お絵かき], select[value=お絵かき], button.copy_button, .se[value=お絵かき], .button {
+input[value=お絵かき],
+textarea[value=お絵かき],
+select[value=お絵かき],
+button.copy_button,
+.se[value=お絵かき],
+.button {
   background-color: #4e9979;
   color: #FFF;
 }
 
-input[name=upfile], textarea[name=upfile], select[name=upfile], .se[name=upfile] {
+input[name=upfile],
+textarea[name=upfile],
+select[name=upfile],
+.se[name=upfile] {
   width: 25em;
 }
 
-input.copy_txt, textarea.copy_txt, select.copy_txt, .copy_txt.se {
+input.copy_txt,
+textarea.copy_txt,
+select.copy_txt,
+.copy_txt.se {
   width: 1px;
   height: 1px;
   position: relative;
@@ -155,7 +189,8 @@ input.copy_txt, textarea.copy_txt, select.copy_txt, .copy_txt.se {
   z-index: -1;
 }
 
-button.copy_button, .copy_button.button {
+button.copy_button,
+.copy_button.button {
   padding: 3px 1ex 3px 1ex;
   display: inline-block;
 }
@@ -259,7 +294,8 @@ ul.menu {
 .res section {
   display: table;
 }
-.res h3, .res h4 {
+.res h3,
+.res h4 {
   font-size: 100%;
   margin-bottom: 1ex;
 }
@@ -296,7 +332,8 @@ ul.menu {
   padding-left: 5px;
 }
 
-.oyano, .oyaresno {
+.oyano,
+.oyaresno {
   font-weight: bold;
 }
 
@@ -326,18 +363,20 @@ form.adminin {
   margin: 15px 0;
 }
 
-div#appstage, div#chickenpaint-parent {
+div#appstage,
+div#chickenpaint-parent {
   letter-spacing: initial;
   word-break: initial;
   overflow-wrap: initial;
 }
 
 #appstage {
-  display: block;
-  text-align: center;
+  display: table;
+  margin: 0 auto;
 }
-#appstage > * {
-  display: inline-block;
+
+#appstage > div {
+  display: table-cell;
   vertical-align: middle;
 }
 
@@ -392,18 +431,21 @@ div#appstage, div#chickenpaint-parent {
 
 .palette {
   width: 180px;
+  margin: 0 0 0 12px;
 }
+
+.palette textarea.form {
+  width: 150px;
+  height: 2em;
+}
+
 .palette fieldset {
   text-align: center;
-}
-.palette fieldset textarea {
-  width: 120px;
-  height: 1.2em;
 }
 
 .palette_select {
   max-width: 100%;
-  min-width: 78%;
+  min-width: 80%;
 }
 
 .c {
@@ -439,7 +481,8 @@ div#appstage, div#chickenpaint-parent {
 .delfo {
   font-size: smaller;
 }
-.delfo th, .delfo td {
+.delfo th,
+.delfo td {
   border: 1px solid #111111;
 }
 .delfo tr:nth-child(odd) {
@@ -452,7 +495,8 @@ div#appstage, div#chickenpaint-parent {
   line-height: 2.2;
 }
 
-.page a, .page .thispage {
+.page a,
+.page .thispage {
   margin: 0 3px;
 }
 
@@ -558,7 +602,8 @@ div#appstage, div#chickenpaint-parent {
   form#comment_form {
     display: grid;
   }
-  textarea, input[name=upfile] {
+  textarea,
+input[name=upfile] {
     width: 98%;
   }
   #comment_form td {
@@ -761,7 +806,10 @@ div#appstage, div#chickenpaint-parent {
   #search .newimg li:nth-of-type(4n) {
     margin-right: 0;
   }
-  #search input, #search textarea, #search select, #search .se {
+  #search input,
+#search textarea,
+#search select,
+#search .se {
     margin: 5px 3px;
   }
 }
