@@ -14,6 +14,22 @@
 			@include('parts.style-switcher')
 			<link rel="preload" as="script" href="lib/{{$jquery}}">
 			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
+		{{-- アプレットの幅がmax-widthを超える時はmax-widthにアプレット+パレットの幅を設定する --}}
+
+			@if(($w+192)>1350)
+			<style>	
+			header,
+			main > section > .thread,
+			main > div#catalog,
+			footer > div,
+			footer > div.copy {
+			margin: 0px auto;
+			display: block;
+			max-width: calc({{$w}}px + 192px);
+			}
+			</style>
+			@endif
+
 		@endif
 
 		@if($paint_mode)
