@@ -405,7 +405,8 @@
 					</applet>
 					@endif
 				</div>
-				<div class="palette">
+				<div class="palette_wrap">
+					<div class="palette">
 					<form name="Palette">
 						@if($useneo)
 						<fieldset>
@@ -493,7 +494,8 @@
 					</form>
 				</div>
 			</div>
-			@if($paint_mode)
+		</div>
+		@if($paint_mode)
 			<section>
 				<div class="thread">
 					<hr>
