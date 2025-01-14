@@ -6342,6 +6342,7 @@ Neo.ActionManager.prototype.play = function () {
 
     if (Neo.painter.busySkipped) {
       Neo.painter.busySkipped = false;
+      Neo.painter.dirty = true;
       console.log("animation skipped");
     } else {
       console.log("animation finished");
@@ -6351,7 +6352,7 @@ Neo.ActionManager.prototype.play = function () {
 
   var item = this._items[this._head];
 
-  if (!Neo.viewer) {
+  if (!Neo.viewer && !Neo.painter.busySkipped) {
     Neo.painter._pushUndo(
       0,
       0,
