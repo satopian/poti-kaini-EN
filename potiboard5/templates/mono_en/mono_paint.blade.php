@@ -49,37 +49,6 @@
 			<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
 			<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
 		<script>
-			// https://qiita.com/tsmd/items/cfb5dcbec8433b87dc36
-			function isPinchZooming () {//ピンチズームを検知
-				if ('visualViewport' in window) {
-					return window.visualViewport.scale > 1
-				} else {
-					return document.documentElement.clientWidth > window.innerWidth
-				}
-			}
-		
-			function neo_disable_touch_move (e) {//NEOの網目でスワイプしない
-				let screenwidth = Number(screen.width);
-				let appw = Number({{$w}});
-				if((screenwidth-appw)>100){
-					if (typeof e.cancelable !== 'boolean' || e.cancelable) {
-					e.preventDefault();
-					e.stopPropagation();
-					}
-				}
-			}
-		
-			function neo_add_disable_touch_move() {
-				document.getElementById('NEO').addEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
-			}
-			document.addEventListener('touchmove', function(e) {
-				neo_add_disable_touch_move();
-				if(isPinchZooming ()){//ピンチズーム使用時はNEOの網目でスワイプする
-					document.getElementById('NEO').removeEventListener('touchmove', neo_disable_touch_move ,{ passive: false });
-				}
-			});
-			window.addEventListener('DOMContentLoaded',neo_add_disable_touch_move,false);
-
 			Neo.handleExit=()=>{
 			@if($rep)
 			// 画像差し換えに必要なフォームデータをセット
@@ -347,6 +316,7 @@
 						<param name="neo_confirm_unload" value="true">
 						<param name="neo_show_right_button" value="true">
 						<param name="neo_animation_skip" value="true">
+						<param name="neo_disable_grid_touch_move" value="true">
 					@else 
 					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
 					@endif

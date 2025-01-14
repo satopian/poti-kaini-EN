@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.11";
+Neo.version = "1.6.12";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -247,6 +247,64 @@ Neo.initConfig = function (applet) {
   Neo.reservePen = Neo.clone(Neo.config.reserves[0]);
   Neo.reserveEraser = Neo.clone(Neo.config.reserves[1]);
 };
+document.addEventListener("DOMContentLoaded", () => {
+  // ピンチズーム検出
+  Neo.isPinchZooming = function () {
+    if ("visualViewport" in window) {
+      return window.visualViewport.scale > 1;
+    } else {
+      return document.documentElement.clientWidth > window.innerWidth;
+    }
+  };
+
+  // グリッド部分の touchmove イベントのデフォルトの動作をキャンセル
+  Neo.touch_move_grid_control = function (e) {
+    if (Neo.config.neo_disable_grid_touch_move) {
+      let screenwidth = Number(screen.width);
+      if (screenwidth - Neo.config.applet_width > 100) {
+        if (typeof e.cancelable !== "boolean" || e.cancelable) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+    }
+  };
+
+  // グリッド部分の touchmove イベントをキャンセルする関数をイベントリスナーに追加
+  Neo.add_touch_move_grid_control = function () {
+    if (Neo.config.neo_disable_grid_touch_move) {
+      // すでにリスナーが追加されていない場合のみ追加
+      const elementNeo = document.getElementById("NEO");
+      if (!elementNeo._touchMoveListenerAdded) {
+        elementNeo.addEventListener("touchmove", Neo.touch_move_grid_control, {
+          passive: false,
+        });
+        elementNeo._touchMoveListenerAdded = true; // リスナーが追加されたことを記録
+      }
+    }
+  };
+
+  // グリッド部分の touchmove イベントをキャンセルする関数の追加とリムーブ
+  document.getElementById("NEO").addEventListener("touchmove", function (e) {
+    if (Neo.config.neo_disable_grid_touch_move) {
+      Neo.add_touch_move_grid_control();
+      if (Neo.isPinchZooming()) {
+        const elementNeo = document.getElementById("NEO");
+        elementNeo.removeEventListener(
+          "touchmove",
+          Neo.touch_move_grid_control,
+          {
+            passive: false,
+          },
+        );
+        elementNeo._touchMoveListenerAdded = false; // リスナーが削除されたことを記録
+      }
+    }
+  });
+
+  // 初期化
+  Neo.add_touch_move_grid_control();
+});
 
 Neo.fixConfig = function (value) {
   // javaでは"#12345"を色として解釈するがjavascriptでは"#012345"に変換しないとだめ
@@ -2246,6 +2304,14 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
   if ((e.ctrlKey || e.metaKey) && keys.includes(e.key.toLowerCase())) {
     e.preventDefault();
   }
+  //FirefoxのメニューがAltキーで開閉しないようにする
+  document.addEventListener("keyup", (e) => {
+    // e.key を利用して特定のキーのアップイベントを検知する
+    if (e.key.toLowerCase() === "alt") {
+      e.preventDefault(); // Altキーのデフォルトの動作をキャンセル
+    }
+  });
+
   //text入力と、入力フォーム以外はすべてのキーボードイベントを無効化
   if (document.activeElement != this.inputText) {
     if (
