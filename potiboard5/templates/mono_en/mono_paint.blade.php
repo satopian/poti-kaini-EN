@@ -16,6 +16,7 @@
 			<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 		{{-- アプレットの幅がmax-widthを超える時はmax-widthにアプレット+パレットの幅を設定する --}}
 
+		@isset($w)
 			@if(($w+192)>1350)
 			<style>	
 			header,
@@ -29,6 +30,7 @@
 			}
 			</style>
 			@endif
+		@endisset
 
 		@endif
 
