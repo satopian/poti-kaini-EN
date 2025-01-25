@@ -1,7 +1,7 @@
 <?php
-//POTI-board plugin search(C)2020-2024 さとぴあ(@satopian)
+//POTI-board plugin search(C)2020-2025 さとぴあ(@satopian)
 //MIT License
-//v6.61.2 lot.20241227
+//v6.63.0 lot.20250125
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -12,6 +12,7 @@
 
 //更新履歴
 
+//v6.63.0 2025.01.25 ページ番号が負の値の時はトップページにリダイレクト。
 //v6.61.2 2024.12.27 戻り値の型宣言を追加。
 //v6.37.8 2024.10.22 コード整理。
 //v6.0.0 2023.08.28 POTI-board v6.0に対応。
@@ -54,6 +55,11 @@ class processsearch {
 	$imgsearch=(bool)filter_input(INPUT_GET,'imgsearch',FILTER_VALIDATE_BOOLEAN);
 	$page=(int)filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
 	$page= $page ? $page : 1;
+
+	if($page<0){
+		redirect(h(PHP_SELF2));
+	}
+
 	$query=(string)filter_input(INPUT_GET,'query');
 	$query=urldecode($query);
 	$check_query = self::create_formatted_text_for_search($query);

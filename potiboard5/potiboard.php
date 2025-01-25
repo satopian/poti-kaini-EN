@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.62.9';
-const POTI_LOT = 'lot.20250115';
+const POTI_VER = 'v6.63.1';
+const POTI_LOT = 'lot.20250125';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -670,7 +670,7 @@ function updatelog(): void {
 //レス画面を表示
 function res($resno = 0): void {
 
-	if(!$resno){
+	if($resno<0){
 		redirect(h(PHP_SELF2));
 	}
 	$trees=get_log(TREEFILE);
@@ -2661,6 +2661,10 @@ function location_paintcom(): void {
 function catalog(): void {
 
 	$page = (int)filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
+
+	if($page<0){
+		redirect(h(PHP_SELF2));
+	}
 
 	$trees=get_log(TREEFILE);
 
