@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.63.1';
-const POTI_LOT = 'lot.20250125';
+const POTI_VER = 'v6.63.2';
+const POTI_LOT = 'lot.20250131';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -2662,10 +2662,8 @@ function catalog(): void {
 
 	$page = (int)filter_input(INPUT_GET, 'page',FILTER_VALIDATE_INT);
 
-	if($page<0){
-		redirect(h(PHP_SELF2));
-	}
-
+	$page=$page<0 ? 0 : $page;
+	
 	$trees=get_log(TREEFILE);
 
 	$counttree = count($trees);
