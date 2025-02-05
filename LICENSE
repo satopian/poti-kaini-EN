@@ -1,6 +1,6 @@
 License
 
-main program - Copyright (C) 2018-2024 POTI-board redevelopment team.
+main program - Copyright (C) 2018-2025 POTI-board redevelopment team.
 original script Copyright (C) 2003-2008 SakaQ http://www.punyu.net/php/
 Distribution conditions are based on "Let's PHP!". 
 http://php.loglog.jp/waar.php
@@ -10,18 +10,18 @@ Each module is subject to its own license
 picpost.inc.php  - Copyright (C)SakaQ 2005 http://www.punyu.net/php/
 noticemail.inc Copyright (C)SakaQ 2004-2007 http://www.punyu.net/php/
 thumbnail_gd.inc.php - Copyright (C) 2024 satopian 
-save.inc.php - Copyright (C) 2023 satopian
-search.inc.php - Copyright (C) 2020-2023 satopian
-sns_share.inc.php- Copyright (C) 2023 satopian
+save.inc.php - Copyright (C) 2023-2024 satopian
+search.inc.php - Copyright (C) 2020-2025 satopian
+sns_share.inc.php- Copyright (C) 2023-2024 satopian
 DynamicPalette - Copyright (C) 2003 noraneko
 PaintBBS, Shi-Painter, PCH Viewer - Copyright (C) 2004 shi-chan
-PaintBBS NEO - Copyright (C) 2016-2024 funige https://github.com/funige/neo
+PaintBBS NEO - Copyright (C) 2016-2025 funige https://github.com/funige/neo
 tegaki.js - Copyright (c) 2015 Maxime Youdine https://github.com/desuwa/tegaki
 AXNOS Paint - Copyright (c) 2022 「悪の巣」部屋番号13番：「趣味の悪い大衆酒場[Mad end dance hall]」https://github.com/axnospaint/axnospaint-lib
-Klecks - Copyright (C) 2024 bitbof https://bitbof.com/
+Klecks - Copyright (C) 2025 bitbof https://bitbof.com/
 ChickenPaint - Copyright GNU GENERAL PUBLIC LICENSE Version 3 by Nicholas Sherlock. https://github.com/thenickdude/chickenpaint
 ChickenPaint Be - Customized from ChickenPaint Copyright (C) GNU GENERAL PUBLIC LICENSE Version 3 by satopian https://github.com/satopian/ChickenPaint_Be
 IcoMoon-Free - CC BY 4.0 or GPL. by Keyamoon https://github.com/Keyamoon/IcoMoon-Free
 Font Awesome - CC BY 4.0 by Fonticons, Inc. https://fontawesome.com/
-BladeOne - Copyright (C) 2016-2023 Jorge Patricio Castro Castillo https://github.com/EFTEC/BladeOne/
+BladeOne - Copyright (C) 2016-2024 Jorge Patricio Castro Castillo https://github.com/EFTEC/BladeOne/
 Lightbox Copyright (c) 2015 Lokesh Dhakar https://github.com/lokesh/lightbox2/blob/master/LICENSE
