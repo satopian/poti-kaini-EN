@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.63.2';
-const POTI_LOT = 'lot.20250131';
+const POTI_VER = 'v6.63.3';
+const POTI_LOT = 'lot.20250205';
 
 /*
   (C) 2018-2024 POTI改 POTI-board redevelopment team
@@ -2049,7 +2049,7 @@ function deltemp(): void {
 	$handle = opendir(TEMP_DIR);
 	while ($file = readdir($handle)) {
 		$file=basename($file);
-		if(!is_dir($file)) {
+		if(!is_dir(TEMP_DIR.$file) && is_file(TEMP_DIR.$file)){
 			//pchアップロードペイントファイル削除
 			$lapse = time() - filemtime(TEMP_DIR.$file);
 			if(strpos($file,'pchup-')===0) {
