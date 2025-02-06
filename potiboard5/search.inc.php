@@ -1,7 +1,7 @@
 <?php
 //POTI-board plugin search(C)2020-2025 さとぴあ(@satopian)
 //MIT License
-//v6.63.0 lot.20250125
+//v6.65.0 lot.20250206
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -120,7 +120,7 @@ class processsearch {
 			$check_query!==''&&($radio===2&&$s_name===$check_query)//作者名完全一致
 			){
 				$link='';
-				$link=PHP_SELF."?res={$oya[$no]}#{$time}";
+				$link=PHP_SELF."?res={$oya[$no]}#{$no}";
 				$arr[$key_time]=[$no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver];
 				++$i;
 				if($i>=MAX_SEARCH){break;}//1掲示板あたりの最大検索数
