@@ -3,11 +3,11 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.63.3';
+const POTI_VER = 'v6.65.0';
 const POTI_LOT = 'lot.20250205';
 
 /*
-  (C) 2018-2024 POTI改 POTI-board redevelopment team
+  (C) 2018-2025 POTI改 POTI-board redevelopment team
   >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
@@ -63,8 +63,8 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/2.3/loader.js');
 	define('CHEERPJ_HASH','sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE');
 }else{//cj3
-	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/3.0/cj3loader.js');
-	define('CHEERPJ_HASH','sha384-zxn5sOtWozhsJfbopWclD7aUkzP0qGXSXtzofowFsMtFL4N9EOXRTcCgbCcxk+Aw');
+	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/3.1/cj3loader.js');
+	define('CHEERPJ_HASH','sha384-Gktch8f4Bz1CImPunwHa96WmqMngIXVkCnlyJCQtPldjKqLpIlwGiuLXaTq9hfYN');
 }
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
