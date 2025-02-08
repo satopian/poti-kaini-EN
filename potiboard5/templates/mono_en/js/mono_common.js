@@ -158,7 +158,7 @@ function open_sns_server_window(event, width = 350, height = 490) {
 }
 //スマホの時はPC用のメニューを非表示
 document.addEventListener("DOMContentLoaded", function () {
-    if (navigator.maxTouchPoints && screen.width < 768) {
+    if (navigator.maxTouchPoints && screen.width < 600) {
         document.getElementById("for_mobile").textContent =
             ".for_pc{display: none;}";
     }
