@@ -20,7 +20,7 @@
 	@if($notres)
 	{{-- I would be happy if you could change this area.
 	Please ask google for the detailed meaning. --}}
-	<meta name="twitter:card" content="summary">
+	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="">
 	<meta property="og:site_name" content="">
 	<meta property="og:title" content="{{$title}}">
@@ -33,7 +33,7 @@
 	<meta name="description" content="">
 	@endif
 	@if($resno)
-	<meta name="twitter:card" content="summary">
+	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="">
 	<meta property="og:site_name" content="">
 	<meta property="og:title"
