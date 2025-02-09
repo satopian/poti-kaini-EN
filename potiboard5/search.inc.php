@@ -1,7 +1,7 @@
 <?php
 //POTI-board plugin search(C)2020-2025 さとぴあ(@satopian)
 //MIT License
-//v6.65.0 lot.20250206
+//v6.65.1 lot.20250209
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -12,6 +12,7 @@
 
 //更新履歴
 
+//V6.65.1 2025.02.09 検索可能行数を10000行に拡大。長過ぎる検索語句を無視するようにした。
 //v6.63.0 2025.01.25 ページ番号が負の値の時はトップページにリダイレクト。
 //v6.61.2 2024.12.27 戻り値の型宣言を追加。
 //v6.37.8 2024.10.22 コード整理。
@@ -62,6 +63,9 @@ class processsearch {
 
 	$query=(string)filter_input(INPUT_GET,'query');
 	$query=urldecode($query);
+	$q_len=strlen((string)$query);
+	$query=1000<$q_len ? "" :$query; 
+
 	$check_query = self::create_formatted_text_for_search($query);
 	$radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
 
@@ -129,7 +133,7 @@ class processsearch {
 		}
 
 		++$j;
-		if($j>=5000){break;}//1掲示板あたりの最大行数
+		if($j>=10000){break;}//1掲示板あたりの最大行数
 	}
 		fclose($fp);
 	//検索結果の出力
