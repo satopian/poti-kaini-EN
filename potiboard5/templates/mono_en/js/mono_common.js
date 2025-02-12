@@ -131,16 +131,15 @@ jQuery(function () {
 //shareするSNSのserver一覧を開く
 var snsWindow = null; // グローバル変数としてウィンドウオブジェクトを保存する
 
-function open_sns_server_window(event, width = 350, height = 490) {
+function open_sns_server_window(event, width = 600, height = 600) {
     event.preventDefault(); // デフォルトのリンクの挙動を中断
 
     // 幅と高さが数値であることを確認
     // 幅と高さが正の値であることを確認
-    if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
-        width = 350; // デフォルト値
-        height = 490; // デフォルト値
+    if (isNaN(width) || width <= 350 || isNaN(height) || height <= 400) {
+        width = 350; //デフォルト値
+        height = 400; //デフォルト値
     }
-
     var url = event.currentTarget.href;
     var windowFeatures = "width=" + width + ",height=" + height; // ウィンドウのサイズを指定
 
