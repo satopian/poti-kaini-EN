@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.65.1';
-const POTI_LOT = 'lot.20250209';
+const POTI_VER = 'v6.65.2';
+const POTI_LOT = 'lot.20250212';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -193,7 +193,7 @@ defined("MAX_H_PX") or define("MAX_H_PX", "1024"); //高さ
 //ログファイルのファイルサイズの制限値(単位MB)
 defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
 
-$badurl= isset($badurl) ? $badurl : [];//拒絶するurl
+$badurl= $badurl ?? [];//拒絶するurl
 
 //パーミッション
 
@@ -218,7 +218,7 @@ defined("MSG050") or define("MSG050", "Cookieが確認できません。");
 defined("MSG051") or define("MSG051", "連続したパスワードの誤入力を検知したためロックしています。");
 defined("MSG052") or define("MSG052", "ログファイルのファイルサイズが制限値を超過したため処理を停止しました。");
 
-$ADMIN_PASS=isset($ADMIN_PASS) ? $ADMIN_PASS : false; 
+$ADMIN_PASS= $ADMIN_PASS ?? false;
 if(!$ADMIN_PASS){
 	error(MSG040);
 }
@@ -255,7 +255,8 @@ init();
 deltemp();
 
 session_sta();
-$session_usercode = isset($_SESSION['usercode']) ? (string)$_SESSION['usercode'] : "";
+$session_usercode = $_SESSION['usercode'] ?? "";
+$session_usercode = (string)$session_usercode;
 $usercode = $usercode ? $usercode : $session_usercode;
 
 //user-codeの発行
@@ -354,10 +355,10 @@ exit();
 
 //ユーザーip
 function get_uip(): string {
-	$ip = isset($_SERVER["HTTP_CLIENT_IP"]) ? $_SERVER["HTTP_CLIENT_IP"] :'';
-	$ip = $ip ? $ip : (isset($_SERVER["HTTP_INCAP_CLIENT_IP"]) ? $_SERVER["HTTP_INCAP_CLIENT_IP"] : '');
-	$ip = $ip ? $ip : (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : '');
-	$ip = $ip ? $ip : (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '');
+	$ip = $_SERVER["HTTP_CLIENT_IP"] ?? '';
+	$ip = $ip ? $ip : ($_SERVER["HTTP_INCAP_CLIENT_IP"] ?? '');
+	$ip = $ip ? $ip : ($_SERVER["HTTP_X_FORWARDED_FOR"] ?? '');
+	$ip = $ip ? $ip : ($_SERVER["REMOTE_ADDR"] ?? '');
 	if (strstr($ip, ', ')) {
 		$ips = explode(', ', $ip);
 		$ip = $ips[0];
@@ -391,7 +392,7 @@ function check_csrf_token(): void {
 	check_same_origin(true);
 	session_sta();
 	$token=(string)filter_input(INPUT_POST,'token');
-	$session_token=isset($_SESSION['token']) ? $_SESSION['token'] : '';
+	$session_token= $_SESSION['token'] ?? '';
 	if(!$session_token||$token!==$session_token){
 		error(MSG006);
 	}
@@ -400,7 +401,8 @@ function check_same_origin($cookie_check=false): void {
 	global $usercode,$en;
 	session_sta();
 	$c_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');//user-codeを取得
-	$session_usercode = isset($_SESSION['usercode']) ? (string)$_SESSION['usercode'] : "";
+	$session_usercode = $_SESSION['usercode'] ?? "";
+	$session_usercode = (string)$session_usercode;
 
 	if($cookie_check){
 		if(!$c_usercode){
@@ -913,18 +915,19 @@ function regist(): void {
 	if(strlen((string)$pwd) < 6) error(MSG046);
 
 	//画像アップロード
-	$upfile_name = isset($_FILES["upfile"]["name"]) ? basename($_FILES["upfile"]["name"]) : "";
+	$upfile_name = $_FILES["upfile"]["name"] ?? "";
+	$upfile_name = basename($upfile_name);
 	if(strlen((string)$upfile_name)>256){
 		error(MSG015);
 	}
-	$upfile = isset($_FILES["upfile"]["tmp_name"]) ? $_FILES["upfile"]["tmp_name"] : "";
+	$upfile = $_FILES["upfile"]["tmp_name"] ?? "";
 
 	if(isset($_FILES["upfile"]["error"])){//エラーチェック
 		if(in_array($_FILES["upfile"]["error"],[1,2])){
 			error(MSG034);//容量オーバー
 		} 
 	}
-	$filesize = isset($_FILES["upfile"]['size']) ? $_FILES["upfile"]['size'] :'';
+	$filesize = $_FILES["upfile"]['size'] ?? 0;
 	if($filesize > MAX_KB*1024*2){//png→jpegで容量が減るかもしれないので2倍
 		error(MSG034);//容量オーバー
 	}
@@ -1587,7 +1590,7 @@ function init(): void {
 }
 
 function lang_en() : bool {//言語が日本語以外ならtrue。
-	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
+	$lang = ($http_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '')
 	? explode( ',', $http_langs )[0] : '';
   return (stripos($lang,'ja')!==0);
 }
@@ -1680,12 +1683,13 @@ function paintform(): void {
 	//pchファイルアップロードペイント
 	if($admin&&($admin===$ADMIN_PASS)){
 		
-		$pchtmp= isset($_FILES['pch_upload']['tmp_name']) ? $_FILES['pch_upload']['tmp_name'] :'';
+		$pchtmp= $_FILES['pch_upload']['tmp_name'] ?? '';
 		if(isset($_FILES['pch_upload']['error']) && in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
 			error(MSG034);
 		} 
 		if ($pchtmp && $_FILES['pch_upload']['error'] === UPLOAD_ERR_OK){
-			$pchfilename = isset($_FILES['pch_upload']['name']) ? newstring(basename($_FILES['pch_upload']['name'])) : '';
+			$pchfilename = $_FILES['pch_upload']['name'] ?? '';
+			$pchfilename = newstring(basename($pchfilename));
 
 			$time = (string)(time().substr(microtime(),2,6));
 			$pchext=pathinfo($pchfilename, PATHINFO_EXTENSION);
@@ -3056,7 +3060,7 @@ function check_jpeg_exif($dest): void {
 	}
 	//画像回転の検出
 	$exif = exif_read_data($dest);
-	$orientation = isset($exif["Orientation"]) ? $exif["Orientation"] : 1;
+	$orientation = $exif["Orientation"] ?? 1;
 	//位置情報はあるか?
 	$gpsdata_exists =(isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])); 
 
@@ -3558,7 +3562,7 @@ if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input(INPUT_POST,'pass')){
 }
 
 function isIE(): bool {
-	$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
+	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
     return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
 }
 function not_support_async_await(): bool {
@@ -3579,7 +3583,7 @@ function not_support_async_await(): bool {
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
 function getTranslatedLayerName(): string {
-	$acceptedLanguages = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+	$acceptedLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
 	$languageList = explode(',', $acceptedLanguages);
 
 	foreach ($languageList as $language) {
