@@ -1,6 +1,6 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
-//(c)satopian 2023-2024 MIT License
+//(c)satopian 2023-2025 MIT License
 class sns_share{
 
 //シェアするserverの選択画面
@@ -9,7 +9,7 @@ class sns_share{
 		
 		//ShareするServerの一覧
 		//｢"ラジオボタンに表示するServer名","snsのserverのurl"｣
-		$dat['servers']=isset($servers)?$servers:
+		$dat['servers']=$servers ??
 		[
 		
 			["X","https://x.com"],
@@ -56,15 +56,21 @@ class sns_share{
 			$share_url=$sns_server_radio."/share?text=";
 		}elseif($sns_server_direct_input){
 			$share_url=$sns_server_direct_input."/share?text=";
+			if($sns_server_direct_input==="https://bsky.app"){
+				$share_url="https://bsky.app/intent/compose?text=";
+			}
+			elseif($sns_server_direct_input==="https://www.threads.net"){
+				$share_url="https://www.threads.net/intent/post?text=";
+			}
 		}
 		if(in_array($sns_server_radio,["https://x.com","https://twitter.com"])){
 			// $share_url="https://x.com/intent/post?text=";
 			$share_url="https://twitter.com/intent/tweet?text=";
 		}
-		if(in_array("https://bsky.app",[$sns_server_radio,$sns_server_direct_input])){
+		elseif($sns_server_radio === "https://bsky.app"){
 			$share_url="https://bsky.app/intent/compose?text=";
 		}
-		if(in_array("https://www.threads.net",[$sns_server_radio,$sns_server_direct_input])){
+		elseif($sns_server_radio === "https://www.threads.net"){
 			$share_url="https://www.threads.net/intent/post?text=";
 		}
 		$share_url.=$encoded_t.'%20'.$encoded_u;
