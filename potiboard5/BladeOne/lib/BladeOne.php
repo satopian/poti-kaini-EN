@@ -32,16 +32,16 @@ use InvalidArgumentException;
  *
  * @package   BladeOne
  * @author    Jorge Patricio Castro Castillo <jcastro arroba eftec dot cl>
- * @copyright Copyright (c) 2016-2024 Jorge Patricio Castro Castillo MIT License.
+ * @copyright Copyright (c) 2016-2025 Jorge Patricio Castro Castillo MIT License.
  *            Don't delete this comment, its part of the license.
  *            Part of this code is based in the work of Laravel PHP Components.
- * @version   4.17.1
+ * @version   4.18
  * @link      https://github.com/EFTEC/BladeOne
  */
 class BladeOne
 {
     //<editor-fold desc="fields">
-    public const VERSION = '4.17.1';
+    public const VERSION = '4.18';
     /** @var int BladeOne reads if the compiled file has changed. If it has changed,then the file is replaced. */
     public const MODE_AUTO = 0;
     /** @var int Then compiled file is always replaced. It's slow and it's useful for development. */
@@ -180,6 +180,7 @@ class BladeOne
     protected int $uidCounter = 0;
     /** @var string The main url of the system. Don't use raw $_SERVER values unless the value is sanitized */
     protected string $baseUrl = '.';
+    protected string $cdnUrl = '.';
     /** @var string|null The base domain of the system */
     protected ?string $baseDomain;
     /** @var string|null It stores the current canonical url. */
@@ -190,6 +191,7 @@ class BladeOne
     protected string $relativePath = '';
     /** @var string[] Dictionary of assets */
     protected array $assetDict = [];
+    protected array $assetDictCDN = [];
     /** @var bool if true then it removes tabs and unneeded spaces */
     protected bool $optimize = true;
     /** @var bool if false, then the template is not compiled (but executed on memory). */
@@ -879,6 +881,14 @@ class BladeOne
             $this->assetDict = \array_merge($this->assetDict, $name);
         } else {
             $this->assetDict[$name] = $url;
+        }
+    }
+    public function addAssetDictCDN($name, $url = ''): void
+    {
+        if (\is_array($name)) {
+            $this->assetDictCDN = \array_merge($this->assetDictCDN, $name);
+        } else {
+            $this->assetDictCDN[$name] = $url;
         }
     }
 
@@ -2448,7 +2458,7 @@ class BladeOne
      * @param string $baseUrl Example http://www.web.com/folder  https://www.web.com/folder/anotherfolder
      * @return BladeOne
      */
-    public function setBaseUrl($baseUrl): BladeOne
+    public function setBaseUrl(string $baseUrl): BladeOne
     {
         $this->baseUrl = \rtrim($baseUrl, '/'); // base with the url trimmed
         $this->baseDomain = @parse_url($this->baseUrl)['host'];
@@ -2465,6 +2475,22 @@ class BladeOne
         } else {
             $this->relativePath = '';
         }
+        return $this;
+    }
+
+    /**
+     * It sets a CDN Url used by @assetcdn("someresource.jpg")<br>
+     * **Example:**
+     * ```
+     * $this->setCDNUrl('http://domain.dom/myblog');
+     * ```
+     *
+     * @param string $cdnurl the full path url without the trailing slash
+     * @return $this
+     */
+    public function setCDNUrl(string $cdnurl): BladeOne
+    {
+        $this->cdnUrl = $cdnurl;
         return $this;
     }
 
@@ -4268,6 +4294,10 @@ class BladeOne
     protected function compileAsset($expression): string
     {
         return $this->phpTagEcho . "(isset(\$this->assetDict[$expression]))?\$this->assetDict[$expression]:\$this->baseUrl.'/'.$expression; ?>";
+    }
+    protected function compileAssetCDN($expression): string
+    {
+        return $this->phpTagEcho . "(isset(\$this->assetDictCDN[$expression]))?\$this->assetDictCDN[$expression]:\$this->cdnUrl.'/'.$expression; ?>";
     }
 
     protected function compileJSon($expression): string
