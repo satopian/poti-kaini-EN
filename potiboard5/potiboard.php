@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.65.5';
-const POTI_LOT = 'lot.20250222';
+const POTI_VER = 'v6.65.6';
+const POTI_LOT = 'lot.20250223';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -2298,10 +2298,12 @@ function editform(): void {
 	$flag = FALSE;
 	foreach($line as $value){
 		if($value){
-			list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver) = explode(",", rtrim($value).",,,,,,,,");
-			if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
-				$flag = TRUE;
-				break;
+			if(strpos($value . ',',$del[0]. ',') === 0){
+				list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver) = explode(",", rtrim($value).",,,,,,,,");
+				if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
+					$flag = TRUE;
+					break;
+				}
 			}
 		}
 	}
@@ -2418,17 +2420,19 @@ function rewrite(): void {
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-		if((!$edittime || $edittime == $time) && $eno == $no && check_password($pwd, $epwd, $admin)){
-			$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
-			if(!$name) $name = $ename;
-			if(!$sub)  $sub  = $esub;
-			if(!$com)  $com  = $ecom;
-			if(!$fcolor) $fcolor = $efcolor;
-			$tool=is_paint_tool_name($tool);
-			$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver,";
-			$flag = TRUE;
-			break;
+		if(strpos($value . ',', $no . ',') === 0){
+			list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver,) = explode(",", rtrim($value).',,,,,,,');
+			if((!$edittime || $edittime == $time) && $eno == $no && check_password($pwd, $epwd, $admin)){
+				$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
+				if(!$name) $name = $ename;
+				if(!$sub)  $sub  = $esub;
+				if(!$com)  $com  = $ecom;
+				if(!$fcolor) $fcolor = $efcolor;
+				$tool=is_paint_tool_name($tool);
+				$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver,";
+				$flag = TRUE;
+				break;
+			}
 		}
 	}
 	if(!$flag){
@@ -2550,11 +2554,13 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 		if(!trim($value)){
 			continue;
 		}
-		list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
-		//画像差し換えに管理パスは使っていない
-		if((!$reptime || ($reptime === $etim)) &&  ($eno === $no) && check_password($pwd, $epwd)){
-			$flag = true;
-			break;
+			if(strpos($value . ',', $no . ',') === 0){
+			list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
+			//画像差し換えに管理パスは使っていない
+			if((!$reptime || ($reptime === $etim)) &&  ($eno === $no) && check_password($pwd, $epwd)){
+				$flag = true;
+				break;
+			}
 		}
 	}
 	if(!$flag){
