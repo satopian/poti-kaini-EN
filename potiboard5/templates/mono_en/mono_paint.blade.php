@@ -153,7 +153,7 @@
 				sN.crossOrigin="anonymous";
 				var s0 = document.getElementsByTagName("script")[0];
 				s0.parentNode.insertBefore(sN, s0);
-				sN.addEventListener("load", function(){ cheerpjInit(); }, false);
+				sN.addEventListener("load", function(){ cheerpjInit({!!htmlspecialchars($cheerpj_preload,ENT_NOQUOTES)!!}); }, false);
 			}
 		});
 	</script>
@@ -279,7 +279,7 @@
 				var Palettes = new Array();
 				// パレット配列作成
 				@if($palettes) 
-				{!!$palettes!!}
+				{!!htmlspecialchars($palettes,ENT_NOQUOTES)!!}
 				@endif
 				function setPalette(){d=document;d.paintbbs.setColors(Palettes[d.Palette.select.selectedIndex]);d.grad.view.checked&&GetPalette()}{{$async}} function PaletteSave(){Palettes[0]=String({{$await}} document.paintbbs.getColors())}var cutomP=0;
 				{{$async}} function PaletteNew(){d=document;p=String({{$await}} d.paintbbs.getColors());s=d.Palette.select;Palettes[s.length]=p;cutomP++;str=prompt("Palette name","Palette "+cutomP);null==str||""==str?cutomP--:(s.options[s.length]=new Option(str),30>s.length&&(s.size=s.length),PaletteListSetColor())}{{$async}} function PaletteRenew(){d=document;Palettes[d.Palette.select.selectedIndex]=String({{$await}} d.paintbbs.getColors());PaletteListSetColor()}
