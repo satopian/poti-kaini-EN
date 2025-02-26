@@ -43,7 +43,7 @@ jQuery(function () {
     //URLクエリからresidを取得して指定idへページ内を移動
     const urlParams = new URLSearchParams(window.location.search);
     const resid = urlParams.get("resid");
-    const document_resid = document.getElementById(resid);
+    const document_resid = resid ? document.getElementById(resid) : null;
     if (document_resid) {
         document_resid.scrollIntoView();
     }
@@ -99,30 +99,38 @@ jQuery(function () {
     }
     //JavaScriptによるCookie発行
     const paintform = document.getElementById("paint_form");
-    if (paintform) {
+    if (paintform instanceof HTMLFormElement) {
         paintform.onsubmit = function () {
-            if (paintform.picw) {
-                SetCookie("picwc", paintform.picw.value);
+            const picwInput = paintform.elements.namedItem("picw");
+            const pichInput = paintform.elements.namedItem("pich");
+            const shiInput = paintform.elements.namedItem("shi");
+
+            if (picwInput instanceof HTMLInputElement) {
+                SetCookie("picwc", picwInput.value);
             }
-            if (paintform.pich) {
-                SetCookie("pichc", paintform.pich.value);
+            if (pichInput instanceof HTMLInputElement) {
+                SetCookie("pichc", pichInput.value);
             }
-            if (paintform.shi) {
-                SetCookie("appletc", paintform.shi.value);
+            if (shiInput instanceof HTMLInputElement) {
+                SetCookie("appletc", shiInput.value);
             }
         };
     }
     const commentform = document.getElementById("comment_form");
-    if (commentform) {
+    if (commentform instanceof HTMLFormElement) {
         commentform.onsubmit = function () {
-            if (commentform.name) {
-                SetCookie("namec", commentform.name.value);
+            const nameInput = commentform.elements.namedItem("name");
+            const urlInput = commentform.elements.namedItem("url");
+            const pwdInput = commentform.elements.namedItem("pwd");
+
+            if (nameInput instanceof HTMLInputElement) {
+                SetCookie("namec", nameInput.value);
             }
-            if (commentform.url) {
-                SetCookie("urlc", commentform.url.value);
+            if (urlInput instanceof HTMLInputElement) {
+                SetCookie("urlc", urlInput.value);
             }
-            if (commentform.pwd) {
-                SetCookie("pwdc", commentform.pwd.value);
+            if (pwdInput instanceof HTMLInputElement) {
+                SetCookie("pwdc", pwdInput.value);
             }
         };
     }
@@ -163,15 +171,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 //動画保存するアプリと保存しないアプリの時の表示切り替え
-const select_app = document.getElementById("select_app");
-const save_playback = document.getElementById("save_playback");
 
 const toggleHideAnimation = (usePlayback) => {
+    const save_playback = document.getElementById("save_playback");
     if (save_playback) {
         save_playback.style.display = usePlayback ? "inline-block" : "none";
     }
 };
 document.addEventListener("DOMContentLoaded", () => {
+    const select_app = document.getElementById("select_app");
     // セレクトメニューの変更イベント
     if (select_app) {
         const usePlaybackApps = ["neo", "tegaki", "1", "2"];
