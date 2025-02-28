@@ -111,7 +111,7 @@ jQuery(function () {
             if (pichInput instanceof HTMLInputElement) {
                 SetCookie("pichc", pichInput.value);
             }
-            if (shiInput instanceof HTMLInputElement) {
+            if (shiInput instanceof HTMLSelectElement) {
                 SetCookie("appletc", shiInput.value);
             }
         };
