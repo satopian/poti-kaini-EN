@@ -1,6 +1,6 @@
 <?php
 //----------------------------------------------------------------------
-// picpost.php lot.20241117 for POTI-board
+// picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
 // originalscript (c)SakaQ 2005 >> http://www.punyu.net/php/
 // しぃからPOSTされたお絵かき画像をTEMPに保存
