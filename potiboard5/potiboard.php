@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.66.6';
-const POTI_LOT = 'lot.20250228';
+const POTI_VER = 'v6.67.2';
+const POTI_LOT = 'lot.20250301';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -66,8 +66,11 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 }else{//cj3
 	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/3.1/cj3loader.js');
 	define('CHEERPJ_HASH','sha384-Gktch8f4Bz1CImPunwHa96WmqMngIXVkCnlyJCQtPldjKqLpIlwGiuLXaTq9hfYN');
-	define('CHEERPJ_PRELOAD','{preloadResources:{"/lt/8/jre/lib/rt.jar":[0,131072,9699328,10878976,11272192,11534336,11665408,12189696,12320768,12451840,15204352,15335424,15466496,15597568,15990784,16384000,16777216,16908288,17039360,17563648,17694720,17825792,18087936,18612224,18743296,18874368,19005440,19136512,19529728,19660800,20185088,20316160,20840448,21757952,21889024,26869760],"/lt/8/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/etc/passwd":[0,131072],"/lt/etc/localtime":[],"/lt/8/lib/ext/meta-index":[0,131072],"/lt/8/lib/ext":[],"/lt/8/lib/ext/index.list":[],"/lt/8/lib/ext/localedata.jar":[],"/lt/8/jre/lib/jsse.jar":[0,131072,786432,917504],"/lt/8/jre/lib/jce.jar":[0,131072],"/lt/8/jre/lib/charsets.jar":[0,131072,1703936,1835008],"/lt/8/jre/lib/resources.jar":[0,131072,917504,1179648],"/lt/8/jre/lib/javaws.jar":[0,131072,1441792,1703936],"/lt/8/lib/ext/sunjce_provider.jar":[],"/lt/8/jre/lib/meta-index":[0,131072],"/lt/8/jre/lib":[],"/lt/8/lib/accessibility.properties":[],"/lt/8/lib/security/java.security":[0,131072],"/lt/8/lib/fonts/LucidaSansRegular.ttf":[],"/lt/8/lib/security/java.policy":[0,131072],"/lt/8/lib/ext/*":[],"/lt/etc/hosts":[],"/lt/etc/resolv.conf":[0,131072],"/lt/8/lib/fonts/badfonts.txt":[],"/lt/8/lib/fonts":[],"/lt/8/lib/fonts/fallback":[],"/lt/fc/fonts/fonts.conf":[0,131072],"/lt/fc/ttf":[],"/lt/fc/cache/e21edda6a7db77f35ca341e0c3cb2a22-le32d8.cache-7":[0,131072],"/lt/fc/ttf/LiberationSans-Regular.ttf":[0,131072,262144,393216]}}');
+	define('CHEERPJ_PRELOAD','{preloadResources:{"/lt/fc/ttf/LiberationSans-Regular.ttf":[0,131072,262144,393216],"/lt/8/jre/lib/rt.jar":[0,131072,9699328,10878976,11272192,11534336,11665408,12189696,12320768,12451840,15204352,15335424,15466496,15597568,15990784,16384000,16777216,16908288,17039360,17563648,17694720,17825792,18087936,18612224,18743296,18874368,19005440,19136512,19529728,19660800,20185088,20316160,20840448,21757952,21889024,26869760],"/lt/fc/cache/e21edda6a7db77f35ca341e0c3cb2a22-le32d8.cache-7":[0,131072],"/lt/fc/fonts/fonts.conf":[0,131072],"/lt/etc/resolv.conf":[0,131072],"/lt/8/lib/security/java.policy":[0,131072],"/lt/8/lib/security/java.security":[0,131072],"/lt/8/jre/lib/meta-index":[0,131072],"/lt/8/jre/lib/javaws.jar":[0,131072,1441792,1703936],"/lt/8/jre/lib/resources.jar":[0,131072,917504,1179648],"/lt/8/jre/lib/charsets.jar":[0,131072,1703936,1835008],"/lt/8/jre/lib/jce.jar":[0,131072],"/lt/8/jre/lib/jsse.jar":[0,131072,786432,917504],"/lt/8/lib/ext/meta-index":[0,131072],"/lt/etc/passwd":[0,131072],"/lt/8/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/etc/localtime":[],"/lt/8/lib/ext":[],"/lt/8/lib/ext/index.list":[],"/lt/8/lib/ext/localedata.jar":[],"/lt/8/lib/ext/sunjce_provider.jar":[],"/lt/8/jre/lib":[],"/lt/8/lib/accessibility.properties":[],"/lt/8/lib/fonts/LucidaSansRegular.ttf":[],"/lt/8/lib/ext/*":[],"/lt/etc/hosts":[],"/lt/8/lib/fonts/badfonts.txt":[],"/lt/8/lib/fonts":[],"/lt/8/lib/fonts/fallback":[],"/lt/fc/ttf":[]}}');
 }
+define('CHEERPJ_DEBUG','{ enableDebug: true }');
+define('CHEERPJ_DEBUG_MODE',0);
+
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
 
@@ -465,7 +468,7 @@ function basicpart(): array {
 	$dat['jquery']=JQUERY;
 	$dat['cheerpj_url']=CHEERPJ_URL;
 	$dat['cheerpj_hash']=CHEERPJ_HASH;
-	$dat['cheerpj_preload']=CHEERPJ_PRELOAD;
+	$dat['cheerpj_preload']=CHEERPJ_DEBUG_MODE ? CHEERPJ_DEBUG : CHEERPJ_PRELOAD;
 	$dat['n']=false;//コメント行
 	//言語
 	$dat['en']=lang_en();
@@ -2200,7 +2203,7 @@ function incontinue(): void {
 }
 
 // コンティニュー認証
-function check_cont_pass(): bool {
+function check_cont_pass(): void {
 
 	check_same_origin(true);
 
@@ -2208,6 +2211,7 @@ function check_cont_pass(): bool {
 	$pwd = (string)newstring(filter_input(INPUT_POST, 'pwd'));
 	$pwdc = (string)filter_input(INPUT_COOKIE, 'pwdc');
 	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$flag = false;
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){
 		if(!trim($line)){
@@ -2218,14 +2222,14 @@ function check_cont_pass(): bool {
 			= explode(",", trim($line).",,,,,,,,");
 		
 			if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
-				closeFile($fp);
-				return true;
+				$flag = true;
+				break;
 			}
 			break;
 		}
 	}
 	closeFile($fp);
-	error(MSG028);
+	if(!$flag) error(MSG028);
 }
 function download_app_dat(): void {
 
@@ -2812,9 +2816,8 @@ function Reject_if_NGword_exists_in_the_post(): void {
 	//本文に日本語がなければ拒絶
 	if (USE_JAPANESEFILTER) {
 		mb_regex_encoding("UTF-8");
-		if ($com_len && !preg_match("/[ぁ-んァ-ヶー一-龠]+/u",$chk_com)) error(MSG035);
+		if ($com_len && !preg_match("/[ぁ-んァ-ヶｧ-ﾝー一-龠]+/u",$chk_com)) error(MSG035);
 	}
-
 	//本文へのURLの書き込みを禁止
 	if(!(($pwd&&$pwd===$ADMIN_PASS)||($admin&&($admin===$ADMIN_PASS)))){//どちらも一致しなければ
 		if(DENY_COMMENTS_URL && preg_match('/:\/\/|\.co|\.ly|\.gl|\.net|\.org|\.cc|\.ru|\.su|\.ua|\.gd/i', $com)) error(MSG036);
@@ -2918,7 +2921,7 @@ function redirect ($url): void {
 	exit();
 }
 
-function getImgType ($dest) : string {
+function getImgType ($dest) {
 
 	$img_type=mime_content_type($dest);
 
