@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.67.2';
-const POTI_LOT = 'lot.20250302';
+const POTI_VER = 'v6.67.5';
+const POTI_LOT = 'lot.20250303';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -324,6 +324,9 @@ switch($mode){
 		if(CONTINUE_PASS||$type==='rep') check_cont_pass();
 		return paintform();
 	case 'newpost':
+		if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY){
+			redirect(h(PHP_SELF2));
+		}
 		$dat['post_mode'] = true;
 		$dat['regist'] = true;
 		$dat = array_merge($dat,form());
