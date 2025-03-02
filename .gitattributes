@@ -1,3 +1,4 @@
+* text=auto eol=lf
 # Omit during export
 /.github export-ignore
 /tests/ export-ignore
