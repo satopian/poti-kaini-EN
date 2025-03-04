@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.67.5';
-const POTI_LOT = 'lot.20250303';
+const POTI_VER = 'v6.67.6';
+const POTI_LOT = 'lot.20250304';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -604,10 +604,10 @@ function updatelog(): void {
 			foreach($treeline as $k => $disptree){
 				if(!isset($lineindex[$disptree])) continue;
 				$j=$lineindex[$disptree];
-				$res = create_res($line[$j], ['pch' => 1]);
 				if(DSP_RES && $k!==0 && $k<=$skipres){//レス表示件数
 					continue;
 				}
+				$res = create_res($line[$j], ['pch' => 1]);
 				$res['skipres']=false;
 				if($k===0){//スレッドの親の時
 					$res['disp_resbutton'] = check_elapsed_days($res['time'],$res['logver']); //返信ボタン表示有無
