@@ -27,10 +27,10 @@ class sns_share{
 
 		$dat['servers'][]=[($en?"Direct input":"直接入力"),"direct"];//直接入力の箇所はそのまま。
 
-		$dat['encoded_t']=filter_input(INPUT_GET,"encoded_t");
-		$dat['encoded_u']=filter_input(INPUT_GET,"encoded_u");
-		$dat['sns_server_radio_cookie']=(string)filter_input(INPUT_COOKIE,"sns_server_radio_cookie");
-		$dat['sns_server_direct_input_cookie']=(string)filter_input(INPUT_COOKIE,"sns_server_direct_input_cookie");
+		$dat['encoded_t']=filter_input_data('GET',"encoded_t");
+		$dat['encoded_u']=filter_input_data('GET',"encoded_u");
+		$dat['sns_server_radio_cookie']=(string)filter_input_data('COOKIE',"sns_server_radio_cookie");
+		$dat['sns_server_direct_input_cookie']=(string)filter_input_data('COOKIE',"sns_server_direct_input_cookie");
 		
 		//HTML出力
 		htmloutput(SET_SHARE_SERVER,$dat);
@@ -41,13 +41,13 @@ class sns_share{
 	public static function post_share_server(): void {
 		global $en;
 
-		$sns_server_radio=(string)filter_input(INPUT_POST,"sns_server_radio",FILTER_VALIDATE_URL);
-		$sns_server_radio_for_cookie=(string)filter_input(INPUT_POST,"sns_server_radio");//directを判定するためurlでバリデーションしていない
+		$sns_server_radio=(string)filter_input_data('POST',"sns_server_radio",FILTER_VALIDATE_URL);
+		$sns_server_radio_for_cookie=(string)filter_input_data('POST',"sns_server_radio");//directを判定するためurlでバリデーションしていない
 		$sns_server_radio_for_cookie=($sns_server_radio_for_cookie === 'direct') ? 'direct' : $sns_server_radio;
-		$sns_server_direct_input=(string)filter_input(INPUT_POST,"sns_server_direct_input",FILTER_VALIDATE_URL);
-		$encoded_t=(string)filter_input(INPUT_POST,"encoded_t");
+		$sns_server_direct_input=(string)filter_input_data('POST',"sns_server_direct_input",FILTER_VALIDATE_URL);
+		$encoded_t=(string)filter_input_data('POST',"encoded_t");
 		$encoded_t=urlencode($encoded_t);
-		$encoded_u=(string)filter_input(INPUT_POST,"encoded_u");
+		$encoded_u=(string)filter_input_data('POST',"encoded_u");
 		$encoded_u=urlencode($encoded_u);
 		setcookie("sns_server_radio_cookie",$sns_server_radio_for_cookie, time()+(86400*30),"","",false,true);
 		setcookie("sns_server_direct_input_cookie",$sns_server_direct_input, time()+(86400*30),"","",false,true);

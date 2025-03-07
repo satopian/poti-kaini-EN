@@ -53,21 +53,21 @@ class processsearch {
 	defined("MAX_SEARCH") or define("MAX_SEARCH","120");
 	//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
 
-	$imgsearch=(bool)filter_input(INPUT_GET,'imgsearch',FILTER_VALIDATE_BOOLEAN);
-	$page=(int)filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
+	$imgsearch=(bool)filter_input_data('GET','imgsearch',FILTER_VALIDATE_BOOLEAN);
+	$page=(int)filter_input_data('GET','page',FILTER_VALIDATE_INT);
 	$page= $page ? $page : 1;
 
 	if($page<0){
 		redirect(h(PHP_SELF2));
 	}
 
-	$query=(string)filter_input(INPUT_GET,'query');
+	$query=(string)filter_input_data('GET','query');
 	$query=urldecode($query);
 	$q_len=strlen((string)$query);
 	$query=1000<$q_len ? "" :$query; 
 
 	$check_query = self::create_formatted_text_for_search($query);
-	$radio =(int)filter_input(INPUT_GET,'radio',FILTER_VALIDATE_INT);
+	$radio =(int)filter_input_data('GET','radio',FILTER_VALIDATE_INT);
 
 	if($imgsearch){
 		$disp_count_of_page=20;//画像検索の時の1ページあたりの表示件数

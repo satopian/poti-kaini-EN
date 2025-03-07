@@ -170,7 +170,7 @@ class picpost{
 	$userdata .= "\t$usercode\t$repcode\t$stime\t$time\t$resto\t$tool";
 	$userdata .= "\n";
 
-	$c_usercode=(string)filter_input(INPUT_COOKIE, 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
+	$c_usercode=(string)filter_input_data('COOKIE', 'usercode');//Waterfoxではクロスオリジン制約でCookieが取得できない
 	if(!$is_send_java
 	&&
 	((!$c_usercode || !$session_usercode)

@@ -40,12 +40,12 @@ class image_save{
 
 		$this->error_type="klecks";
 
-		$this->tool = (string)filter_input(INPUT_POST, 'tool');
-		$this->repcode = (string)filter_input(INPUT_POST, 'repcode');
-		$this->resto = (string)filter_input(INPUT_POST, 'resto',FILTER_VALIDATE_INT);
-		$this->stime = (string)filter_input(INPUT_POST, 'stime',FILTER_VALIDATE_INT);
+		$this->tool = (string)filter_input_data('POST', 'tool');
+		$this->repcode = (string)filter_input_data('POST', 'repcode');
+		$this->resto = (string)filter_input_data('POST', 'resto',FILTER_VALIDATE_INT);
+		$this->stime = (string)filter_input_data('POST', 'stime',FILTER_VALIDATE_INT);
 		$this->timer=time()-(int)$this->stime;
-		$this->hide_animation = (string)filter_input(INPUT_POST, 'hide_animation');
+		$this->hide_animation = (string)filter_input_data('POST', 'hide_animation');
 
 		$this->check_security();
 		$this->move_uploaded_image();
@@ -59,7 +59,7 @@ class image_save{
 
 		$this->error_type="neo";
 
-		$sendheader = (string)filter_input(INPUT_POST,'header');
+		$sendheader = (string)filter_input_data('POST','header');
 
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		$this->tool = 'PaintBBS NEO';
@@ -97,9 +97,9 @@ class image_save{
 
 		$this->error_type="chi";
 		$this->tool = 'ChickenPaint';
-		$this->repcode = (string)filter_input(INPUT_GET, 'repcode');
-		$this->resto = (string)filter_input(INPUT_GET, 'resto',FILTER_VALIDATE_INT);
-		$this->stime = (string)filter_input(INPUT_GET, 'stime',FILTER_VALIDATE_INT);
+		$this->repcode = (string)filter_input_data('GET', 'repcode');
+		$this->resto = (string)filter_input_data('GET', 'resto',FILTER_VALIDATE_INT);
+		$this->stime = (string)filter_input_data('GET', 'stime',FILTER_VALIDATE_INT);
 
 		$this->check_security();
 		$this->move_uploaded_image();
@@ -121,7 +121,7 @@ class image_save{
 
 		session_sta();
 		$this->session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
-		$cookie_usercode = (string)filter_input(INPUT_COOKIE, 'usercode');
+		$cookie_usercode = (string)filter_input_data('COOKIE', 'usercode');
 		if(!$this->session_usercode || !$cookie_usercode || ($this->session_usercode !== $cookie_usercode)){
 			$this->error_msg($this->en ? "User code has been reissued.\nPlease try again." : "ユーザーコードを再発行しました。\n再度投稿してみてください。");
 		}
