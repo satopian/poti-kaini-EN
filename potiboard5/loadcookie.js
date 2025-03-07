@@ -30,22 +30,18 @@ function l() {
             checkd_if_formval_equal_cookieval(form.fcolor, FC);
         }
         if (form.shi) {
-            checkd_if_formval_equal_cookieval(form.shi, AP);
+            form.shi.value = AP;
         }
         if (form.picw) {
             if (PW != "") {
                 form.picw.value = PW;
             }
-
-            checkd_if_formval_equal_cookieval(form.picw, PW);
         }
 
         if (form.pich) {
             if (PH != "") {
                 form.pich.value = PH;
             }
-
-            checkd_if_formval_equal_cookieval(form.pich, PH);
         }
 
         if (form.selected_palette_no) {
@@ -54,13 +50,14 @@ function l() {
     }
 }
 
-//Cookieと一致したらcheckd
+// Cookieと一致したらチェック
 function checkd_if_formval_equal_cookieval(docformsname, cookieval) {
-    var j;
-    for (j = 0; docformsname.length > j; j++) {
-        if (docformsname[j].value == cookieval) {
-            docformsname[j].checked = true; //チェックボックス
-            docformsname.selectedIndex = j; //プルダウンメニュー
+    if (docformsname.length) {
+        // ラジオボタンやチェックボックス（NodeList）をループでチェック
+        for (let j = 0; j < docformsname.length; j++) {
+            if (docformsname[j].value == cookieval) {
+                docformsname[j].checked = true;
+            }
         }
     }
 }

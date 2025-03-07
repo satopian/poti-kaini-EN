@@ -1,4 +1,4 @@
-var colorIdx = GetCookie("colorIdx");
+const colorIdx = GetCookie("colorIdx");
 switch (Number(colorIdx)) {
     case 1:
         document.getElementById("css1").removeAttribute("disabled");
@@ -12,9 +12,11 @@ switch (Number(colorIdx)) {
 }
 
 function SetCss(obj) {
-    var idx = obj.selectedIndex;
-    SetCookie("colorIdx", idx);
-    window.location.reload();
+    if (obj instanceof HTMLSelectElement) {
+        const idx = obj.selectedIndex;
+        SetCookie("colorIdx", idx);
+        window.location.reload();
+    }
 }
 
 function GetCookie(key) {
@@ -33,10 +35,10 @@ function SetCookie(key, val) {
     document.cookie =
         key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 }
-colorIdx = GetCookie("colorIdx");
-var select_mystyle = document.getElementById("mystyle");
-if (select_mystyle) {
-    document.getElementById("mystyle").selectedIndex = colorIdx;
+
+const select_mystyle = document.getElementById("mystyle");
+if (select_mystyle instanceof HTMLSelectElement) {
+    select_mystyle.selectedIndex = Number(colorIdx);
 }
 
 jQuery(function () {
@@ -145,8 +147,8 @@ function open_sns_server_window(event, width = 600, height = 600) {
     // 幅と高さが数値であることを確認
     // 幅と高さが正の値であることを確認
     if (isNaN(width) || width <= 350 || isNaN(height) || height <= 400) {
-        width = 350; //デフォルト値
-        height = 400; //デフォルト値
+        width = 350; // デフォルト値
+        height = 400; // デフォルト値
     }
     var url = event.currentTarget.href;
     var windowFeatures = "width=" + width + ",height=" + height; // ウィンドウのサイズを指定
