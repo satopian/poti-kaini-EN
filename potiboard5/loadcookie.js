@@ -1,6 +1,6 @@
 "usestrict";
 function l() {
-    const P = loadCookie("pwdc"),
+    let P = loadCookie("pwdc"),
         N = loadCookie("namec"),
         E = loadCookie("emailc"),
         U = loadCookie("urlc"),
