@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.68.0';
-const POTI_LOT = 'lot.20250307';
+const POTI_VER = 'v6.68.3';
+const POTI_LOT = 'lot.20250308';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -98,12 +98,12 @@ require_once(__DIR__.'/search.inc.php');
 //画像保存Class
 check_file(__DIR__.'/save.inc.php');
 require_once(__DIR__.'/save.inc.php');
-if($save_inc_ver < 20240127){
+if($save_inc_ver < 20250308){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 check_file(__DIR__.'/picpost.inc.php');
 require_once(__DIR__.'/picpost.inc.php');
-if($picpost_inc_ver < 20240223){
+if($picpost_inc_ver < 20250308){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -493,7 +493,7 @@ function form($resno="",$tmp=[]): array {
 	//csrfトークンをセット
 	$dat['token']= get_csrf_token();
 
-	$quality = filter_input_data('POST', 'quality',FILTER_VALIDATE_INT);
+	$quality = (int)filter_input_data('POST', 'quality',FILTER_VALIDATE_INT);
 
 	$dat['form'] = $resno ? true : false;
 
@@ -1814,10 +1814,11 @@ function paintform(): void {
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
 	if($shi) $dat['quality'] = $quality ? $quality : $qualitys[0];
+	$selected_palette_no = (int)filter_input_data('POST', 'selected_palette_no',FILTER_VALIDATE_INT);
 	//NEOを使う時はPaintBBSの設定
 	if(USE_SELECT_PALETTES){//パレット切り替え機能を使う時
 		foreach($pallets_dat as $i=>$value){
-			if($i==filter_input_data('POST', 'selected_palette_no',FILTER_VALIDATE_INT)){//キーと入力された数字が同じなら
+			if($i===$selected_palette_no){//キーと入力された数字が同じなら
 				setcookie("palettec", $i, time()+(86400*SAVE_COOKIE));//Cookie保存
 				if(is_array($value)){
 					list($p_name,$p_dat)=$value;
@@ -3658,7 +3659,7 @@ function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 
 	return $thumbnail;
 }
-//filter_inputのラッパー関数
+//filter_input のラッパー関数
 function filter_input_data(string $input, string $key, int $filter=0) {
 	// $_GETまたは$_POSTからデータを取得
 	$value = null;
@@ -3666,6 +3667,8 @@ function filter_input_data(string $input, string $key, int $filter=0) {
 			$value = $_GET[$key] ?? null;
 	} elseif ($input === 'POST') {
 			$value = $_POST[$key] ?? null;
+	} elseif ($input === 'COOKIE') {
+			$value = $_COOKIE[$key] ?? null;
 	}
 
 	// データが存在しない場合はnullを返す
@@ -3680,7 +3683,7 @@ function filter_input_data(string $input, string $key, int $filter=0) {
 					return ($result === null || $result === false) ? null : $result;
 			case FILTER_VALIDATE_INT:
 					$result = filter_var($value, FILTER_VALIDATE_INT);
-					return ($result === false) ? null : $result;
+					return ($result === false) ? null : (int)$result;
 			case FILTER_VALIDATE_URL:
 					$result = filter_var($value, FILTER_VALIDATE_URL);
 					return ($result === false) ? null : $result;
