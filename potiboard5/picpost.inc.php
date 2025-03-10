@@ -1,4 +1,5 @@
 <?php
+$picpost_inc_ver=20250308;
 //----------------------------------------------------------------------
 // picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
@@ -49,7 +50,6 @@
 // 2003/09/01 PHP風(?)に整理
 // 2003/08/28 perl -> php 移植  by TakeponG >> https://chomstudio.com/
 // 2003/07/11 perl版初公開
-$picpost_inc_ver=20240223;
 class picpost{
 	Public static function saveimage(): void {
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST"){
@@ -152,7 +152,7 @@ class picpost{
 	if($sendheader){
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		parse_str($sendheader, $u);
-		//GETで取得できなかった時は、拡張ヘッダから取得		
+		//拡張ヘッダから取得		
 		$tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
 		$tool= is_paint_tool_name($tool);
 		$resto = isset($u['resto']) ? $u['resto'] : '';
