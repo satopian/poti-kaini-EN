@@ -1,7 +1,8 @@
 <?php
+$search_inc_ver = 20250308;
 //POTI-board plugin search(C)2020-2025 さとぴあ(@satopian)
 //MIT License
-//v6.65.1 lot.20250209
+//v6.68.3 lot.20250308
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
