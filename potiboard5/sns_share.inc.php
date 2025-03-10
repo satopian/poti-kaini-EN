@@ -1,6 +1,7 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
 //(c)satopian 2023-2025 MIT License
+$sns_share_inc_ver = 20250308;
 class sns_share{
 
 //シェアするserverの選択画面

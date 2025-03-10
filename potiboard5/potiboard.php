@@ -86,24 +86,30 @@ require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 //サムネイルfunction
 check_file(__DIR__.'/thumbnail_gd.inc.php');
 require_once(__DIR__.'/thumbnail_gd.inc.php');
-if($thumbnail_gd_ver < 20241126){
+if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20241126){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
 check_file(__DIR__.'/sns_share.inc.php');
 require_once(__DIR__.'/sns_share.inc.php');
-//検索Class
+if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20250308){
+	die($en ? "Please update sns_share.inc.php" : "sns_share.inc.phpを更新してください。");
+}
+	//検索Class
 check_file(__DIR__.'/search.inc.php');
 require_once(__DIR__.'/search.inc.php');
+if(!isset($search_inc_ver) || $search_inc_ver < 20250308){
+	die($en ? "Please update search.inc.php" : "search.inc.phpを更新してください。");
+}
 //画像保存Class
 check_file(__DIR__.'/save.inc.php');
 require_once(__DIR__.'/save.inc.php');
-if($save_inc_ver < 20250308){
+if(!isset($save_inc_ver) || $save_inc_ver < 20250308){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 check_file(__DIR__.'/picpost.inc.php');
 require_once(__DIR__.'/picpost.inc.php');
-if($picpost_inc_ver < 20250308){
+if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20250308){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -3678,16 +3684,13 @@ function filter_input_data(string $input, string $key, int $filter=0) {
 
 	// フィルタリング処理
 	switch ($filter) {
-			case FILTER_VALIDATE_BOOLEAN:
-					$result = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-					return ($result === null || $result === false) ? null : $result;
-			case FILTER_VALIDATE_INT:
-					$result = filter_var($value, FILTER_VALIDATE_INT);
-					return ($result === false) ? null : (int)$result;
-			case FILTER_VALIDATE_URL:
-					$result = filter_var($value, FILTER_VALIDATE_URL);
-					return ($result === false) ? null : $result;
-			default:
-					return $value;  // 他のフィルタはそのまま返す
+		case FILTER_VALIDATE_BOOLEAN:
+			return  filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+		case FILTER_VALIDATE_INT:
+			return filter_var($value, FILTER_VALIDATE_INT);
+		case FILTER_VALIDATE_URL:
+			return filter_var($value, FILTER_VALIDATE_URL);
+		default:
+			return $value;  // 他のフィルタはそのまま返す
 	}
 }
