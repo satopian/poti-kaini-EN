@@ -430,7 +430,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 						@endif
 						<fieldset>
 							<legend>PALETTE</legend>
-							<select class="form palette_select" name="select" size="13" onchange="setPalette()">
+							<select class="form palette_select" name="select" size="{{$palsize}}" onchange="setPalette()">
 								<option>saved palette</option>
 								@if($dynp)
 								@foreach ($dynp as $p)
