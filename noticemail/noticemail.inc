@@ -1,13 +1,12 @@
 <?php
 /*
-** メール通知クラス(UTF-8) lot.231020
+** メール通知クラス(UTF-8) lot.20250314
 **
 ** https://paintbbs.sakura.ne.jp/poti/
 ** by POTI改
 ** originalscript (C)SakaQ 2004-2007
 ** http://www.punyu.net/php/
 **
-** 2023/10/20 Subjectのダブルクオートをエスケープ。
 ** 2022/12/19 コード整理。
 ** 2022/09/18 多国語対応。mb_language( 'uni' )。
 ** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。
@@ -88,47 +87,53 @@ noticemail::send($data);
 ・著作権は放棄しませんが、改造・再配布は自由にどうぞ。
 */
 
-class noticemail{
+class noticemail
+{
 
-	public static function send($data){
-	mb_language( 'uni' );
-	mb_internal_encoding("UTF-8");
+	public static function send($data): void
+	{
+		mb_language('uni');
+		mb_internal_encoding("UTF-8");
 
-	$name = isset($data['name']) ? $data['name'] : '';
-	// 明らかにメールアドレスじゃない物は除外
-	$from = isset($data['email']) ? filter_var($data['email']) : '';
-	$subject = isset($data['subject']) ? $data['subject'] : '';
-	$comment = isset($data['comment']) ? $data['comment'] : '';
-	$option = isset($data['option']) ? $data['option'] : [];
-
-	$line = "---------------------------------------------------------------------\n";
-
-	// ヘッダを指定
-	
-	$MailHeaders = 'Mime-Version: 1.0'."\n";
-	$MailHeaders .= 'Content-Type: text/plain; charset=utf-8'."\n";
-	$MailHeaders .= 'Content-Transfer-Encoding: 8bit'."\n";
-
-	// メール本文作成
-	$Message = '■'.$subject."\n";
-	$Message .= 'Date: '.date("Y/m/d H:i:s",time())."\n";
-	//ユーザーip
-	$userip = get_uip();
-	$host= $userip ? gethostbyaddr($userip) :'';
-	$Message .= 'Host: '.$host."\n";
-	$Message .= 'UserAgent: '.$_SERVER["HTTP_USER_AGENT"]."\n";
-	$Message .= $line;
-	$Message .= $name ? ('Name: '.$name."\n") :'';
-	$Message .= $from ? ('e-Mail:'.$from."\n") : '';
-	if(is_array($option)){
-		foreach($option as $value){
-			list($optitle,$opvalue)=explode(",", rtrim($value));
-			$Message .=$optitle.': '.$opvalue." \n"; 
+		$name = $data['name'] ?? '';
+		// 明らかにメールアドレスじゃない物は除外
+		$from = filter_var(($data['email'] ?? ""), FILTER_VALIDATE_EMAIL);
+		$subject = $data['subject'] ?? '';
+		$comment = $data['comment'] ?? '';
+		$option = $data['option'] ?? [];
+		$to = filter_var(($data['to'] ?? ""), FILTER_VALIDATE_EMAIL);
+		if (!$to) {
+			return;
 		}
-	}
+
+		$line = "---------------------------------------------------------------------\n";
+
+		// ヘッダを指定
+
+		$MailHeaders = 'Mime-Version: 1.0' . "\n";
+		$MailHeaders .= 'Content-Type: text/plain; charset=utf-8' . "\n";
+		$MailHeaders .= 'Content-Transfer-Encoding: 8bit' . "\n";
+
+		// メール本文作成
+		$Message = '■' . $subject . "\n";
+		$Message .= 'Date: ' . date("Y/m/d H:i:s", time()) . "\n";
+		//ユーザーip
+		$userip = get_uip();
+		$host = $userip ? gethostbyaddr($userip) : '';
+		$Message .= 'Host: ' . $host . "\n";
+		$Message .= 'UserAgent: ' . $_SERVER["HTTP_USER_AGENT"] . "\n";
 		$Message .= $line;
-		if($comment){
-			$com = str_replace(["\r\n","\r"], "\n", $comment);// 改行文字の統一
+		$Message .= $name ? ('Name: ' . $name . "\n") : '';
+		$Message .= $from ? ('e-Mail:' . $from . "\n") : '';
+		if (is_array($option)) {
+			foreach ($option as $value) {
+				list($optitle, $opvalue) = explode(",", rtrim($value));
+				$Message .= $optitle . ': ' . $opvalue . " \n";
+			}
+		}
+		$Message .= $line;
+		if ($comment) {
+			$com = str_replace(["\r\n", "\r"], "\n", $comment); // 改行文字の統一
 			$com = preg_replace("/^(\n)+|(\n)+$/i", "", $com);	// 連続改行を消す
 			$Message .= $com;
 		}
@@ -136,19 +141,24 @@ class noticemail{
 		// 半角対応
 		$Message = mb_convert_kana($Message);
 		$name = mb_convert_kana($name);
+		$name = str_replace('"', "", $name); //ダブルクオートを除去
 		$from = mb_convert_kana($from);
-	
-		// メールアドレスがなければ代替え
-		if(!$from) $from = 'nomail@'.$_SERVER["HTTP_HOST"];
-		$name = mb_encode_mimeheader($name);
-		// ヘッダにFrom追加
-		$MailHeaders .= 'From: '.$name.' <'.$from.'>'."\n";
-		$subject = str_replace('"', '\"', $subject);//ダブルクオートをエスケープ
-		// メール送信
-		mb_send_mail($data['to'],
-		$subject,
-			$Message,$MailHeaders);
 
-			return true;
+		// メールアドレスがなければ代替え
+		if (!$from) $from = 'nomail@' . $_SERVER["HTTP_HOST"];
+		$name = str_replace(["\r", "\n"], '', $name); // 改行コードを除去
+		$name = mb_encode_mimeheader($name);
+
+		$subject = str_replace(["\r", "\n"], '', $subject); // 改行コードを除去
+
+		// ヘッダにFrom追加
+		$MailHeaders .= 'From: ' . $name . ' <' . $from . '>' . "\n";
+		// メール送信
+		mb_send_mail(
+			$to,
+			$subject,
+			$Message,
+			$MailHeaders
+		);
 	}
 }
