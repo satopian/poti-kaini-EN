@@ -340,9 +340,14 @@ div#chickenpaint-parent {
     display: table;
     margin: 0 auto;
 }
-#appstage >  div {
-        display: table-cell;
-        vertical-align: middle;
+#appstage > div {
+    display: table-cell;
+}
+#appstage > div.app {
+    vertical-align: top;
+}
+#appstage > div.palette_wrap {
+    vertical-align: middle;
 }
 .siihelp dd {
     margin: 0 0 12px;
@@ -397,7 +402,7 @@ div#chickenpaint-parent {
     width: 180px;
     margin: 0 0 0 12px;
 }
-.palette textarea.form{
+.palette textarea.form {
     width: 150px;
     height: 2em;
 }

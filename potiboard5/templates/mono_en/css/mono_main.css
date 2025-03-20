@@ -377,6 +377,13 @@ div#chickenpaint-parent {
 
 #appstage > div {
   display: table-cell;
+}
+
+#appstage > div.app {
+  vertical-align: top;
+}
+
+#appstage > div.palette_wrap {
   vertical-align: middle;
 }
 
