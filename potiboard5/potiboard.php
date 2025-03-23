@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.69.0';
-const POTI_LOT = 'lot.20250322';
+const POTI_VER = 'v6.69.1';
+const POTI_LOT = 'lot.20250323';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -703,13 +703,13 @@ function res($resno = 0): void {
 	$next_tree=[];
 	foreach($trees as $j => $value){
 		if (($i<$j)&&($i+20)>=$j) {//現在のスレッドより後ろの20スレッドのツリーを取得
-			$next_tree[]=explode(",", trim($value))[0];
+			$next_tree[]=explode(",", trim($value),2)[0];
 		}
 	}
 	$prev_tree=[];
 	foreach($trees as $j => $value){
 		if (($i-20)<=$j && $i>$j) {//現在のスレッドより手前の20スレッドのツリーを取得
-			$prev_tree[]=explode(",", trim($value))[0];
+			$prev_tree[]=explode(",", trim($value),2)[0];
 		}
 	}
 
@@ -2697,7 +2697,7 @@ function catalog(): void {
 	$disp_threads = array_slice($trees,(int)$page,CATALOG_PAGE_DEF,false);
 	$treeline=[];
 	foreach($disp_threads as $val){
-		$treeline[]=explode(",", trim($val))[0];
+		$treeline[]=explode(",", trim($val),2)[0];
 	}
 	$fp=fopen(LOGFILE,"r");
 	$line = create_line_from_treenumber ($fp,$treeline);
@@ -3385,8 +3385,8 @@ function get_lineindex ($line): array {
 		if(!trim($value)){
 		continue;
 		}
-		list($no,) = explode(",", $value);
-		if(!is_numeric($no)){//記事Noが正しく読み込まれたかどうかチェック
+		list($no,) = explode(",", $value,2);
+		if(!ctype_digit($no)){//記事Noが正しく読み込まれたかどうかチェック
 			error(MSG019);
 		};
 		$lineindex[$no] = $i; // 値にkey keyに記事no
@@ -3647,7 +3647,7 @@ function create_line_from_treenumber ($fp,$trees): array {
 		if(!trim($lines)){
 			continue;
 		}
-		list($no,) = explode(",", $lines);
+		list($no,) = explode(",", $lines,2);
 		if(isset($treeSet[$no])) {//$treesに含まれている記事番号なら定義ずみ
 			$line[]=trim($lines);
 		}
