@@ -983,8 +983,8 @@ Neo.isMobile = function () {
 };
 
 Neo.showWarning = function () {
-  var futaba = location.hostname.match(/2chan.net/i);
-  var samplebbs = location.hostname.match(/neo.websozai.jp/i);
+  var futaba = location.hostname.match(/^(?:.+\.)?2chan\.net$/i);//サブドメインありなし両方に対応
+  var samplebbs = location.hostname.match(/^(?:.+\.)?neo\.websozai\.jp$/i);
 
   var chrome = navigator.userAgent.match(/Chrome\/(\d+)/i);
   if (chrome && chrome.length > 1) chrome = chrome[1];
