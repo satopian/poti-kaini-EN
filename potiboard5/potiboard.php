@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.70.1';
+const POTI_VER = 'v6.70.2';
 const POTI_LOT = 'lot.20250325';
 
 /*
@@ -2883,11 +2883,14 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 		$cap=strtr($cap,"&amp;", "&");
 		$cap=strtr($cap,"&#44;", ",");
 		$name = $regs[1];
-		$salt=substr($cap."H.",1,2);
-		$salt=preg_replace("/[^\.-z]/",".",$salt);
-		$salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef");
-		$trip="◆".substr(crypt($cap,$salt),-10);
-		$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
+		$trip = "";
+		if($cap){
+			$salt=substr($cap."H.",1,2);
+			$salt=preg_replace("/[^\.-z]/",".",$salt);
+			$salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef");
+			$trip="◆".substr(crypt($cap,$salt),-10);
+			$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
+		}
 		if(!$name) $name=DEF_NAME;
 		$name.=$trip;
 	}
