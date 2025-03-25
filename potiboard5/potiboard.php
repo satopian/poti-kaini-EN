@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.69.2';
-const POTI_LOT = 'lot.20250324';
+const POTI_VER = 'v6.70.1';
+const POTI_LOT = 'lot.20250325';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1506,7 +1506,7 @@ function admindel($pass): void {
 			'srcname' => "",
 		] ;
 		list($name,) = separateNameAndTrip($name);
-		$res['now']  = preg_replace("/( ID:.*)/","",$date);//ID以降除去
+		$res['now']  = preg_replace("/ ID:.*/","",$date);//ID以降除去
 		$res['name'] = strip_tags($name);//タグ除去
 		$res['sub'] = strip_tags($sub);
 		if(strlen($res['name']) > 10) $res['name'] = mb_strcut($res['name'],0,9).".";
@@ -2878,16 +2878,17 @@ function create_formatted_text_from_post($com,$name,$email,$url,$sub,$fcolor,$de
 	$url = str_replace(",", "", $url);
 
 	//トリップ(名前の後ろの#と文字列をもとに生成)
-	if(preg_match("/(#|＃)(.*)/",$name,$regs)){
-		$cap = $regs[2];
+	if(preg_match("/(.*?)(#|＃)(.*)/",$name,$regs)){
+		$cap = $regs[3];
 		$cap=strtr($cap,"&amp;", "&");
 		$cap=strtr($cap,"&#44;", ",");
-		$name=preg_replace("/(#|＃)(.*)/","",$name);
+		$name = $regs[1];
 		$salt=substr($cap."H.",1,2);
 		$salt=preg_replace("/[^\.-z]/",".",$salt);
 		$salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef");
 		$trip="◆".substr(crypt($cap,$salt),-10);
 		$trip = strtr($trip,"!\"#$%&'()+,/:;<=>?@[\\]^`/{|}~\t","ABCDEFGHIJKLMNOabcdefghijklmno");
+		if(!$name) $name=DEF_NAME;
 		$name.=$trip;
 	}
 
@@ -3311,8 +3312,8 @@ function saveimage(): void {
  * @return array
  */
 function separateDatetimeAndId ($date): array {
-	if (preg_match("/( ID:)(.*)/", $date, $regs)){
-		return [$regs[2], preg_replace("/( ID:.*)/","",$date)];
+	if (preg_match("/(.+) ID:(.*)/", $date, $regs)){
+		return [$regs[2],$regs[1]];
 	}
 	return ['', $date];
 }
@@ -3324,8 +3325,8 @@ function separateDatetimeAndId ($date): array {
  */
 function separateNameAndTrip ($name): array {
 	$name=strip_tags($name);//タグ除去
-	if(preg_match("/(◆.*)/", $name, $regs)){
-		return [preg_replace("/(◆.*)/","",$name), $regs[1]];
+	if(preg_match("/(.*)(◆.*)/", $name, $regs)){
+		return [$regs[1], $regs[2]];
 	}
 	return [$name, ''];
 }
