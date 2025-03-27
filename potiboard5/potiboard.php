@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.70.2';
-const POTI_LOT = 'lot.20250325';
+const POTI_VER = 'v6.71.0';
+const POTI_LOT = 'lot.20250327';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1051,7 +1051,7 @@ function regist(): void {
 	//ログ読み込み
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019,$dest);}
 	$buf = charconvert($buf);
@@ -1234,7 +1234,7 @@ function regist(): void {
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$tp=fopen(TREEFILE,"r+");
 	stream_set_write_buffer($tp, 0);
-	flock($tp, LOCK_EX); //*
+	file_lock($tp, LOCK_EX);
 	$buf = get_buffer_from_fp($tp);
 	if(!$buf){error(MSG023);}
 	$line = explode("\n", trim($buf));
@@ -1353,7 +1353,7 @@ function h_decode($str): string {
 function treedel($delno): bool {
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(TREEFILE,"r+");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG024);}
 	$line = explode("\n", trim($buf));
@@ -1421,7 +1421,7 @@ function userdel(): void {
 	$pwd = $pwd ? $pwd : newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG027);}
 	$buf = charconvert($buf);
@@ -1542,7 +1542,7 @@ function admindel($pass): void {
 	if(is_array($del)){
 		chmod(LOGFILE,PERMISSION_FOR_LOG);
 		$fp=fopen(LOGFILE,"r+");
-		flock($fp, LOCK_EX);
+		file_lock($fp, LOCK_EX);
 		$buf = get_buffer_from_fp($fp);
 		if(!$buf){error(MSG030);}
 		$buf = charconvert($buf);
@@ -2306,7 +2306,7 @@ function editform(): void {
 
 	$pwd = $pwd ? $pwd : $pwdc;
 	$fp=fopen(LOGFILE,"r");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
@@ -2424,7 +2424,7 @@ function rewrite(): void {
 	//ログ読み込み
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
@@ -2552,7 +2552,7 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	//ログ読み込み
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
-	flock($fp, LOCK_EX);
+	file_lock($fp, LOCK_EX,['paintcom'=>true]);
 	$buf = get_buffer_from_fp($fp);
 	if(!$buf){error(MSG019);}
 	$buf = charconvert($buf);
@@ -3357,7 +3357,7 @@ function writeFile ($fp, $data): void {
 function closeFile ($fp): void {
 	if($fp){
 		fflush($fp);
-		flock($fp, LOCK_UN);
+		file_lock($fp, LOCK_UN);
 		fclose($fp);
 	}
 }
@@ -3669,6 +3669,22 @@ function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 
 	return $thumbnail;
 }
+
+//flockのラッパー関数
+function file_lock($fp, int $lock, array $options=[]): void {
+
+	global $en;
+	$flock=flock($fp, $lock);
+	if (!$flock) {
+			if($lock !== LOCK_UN){
+				if(isset($options['paintcom'])){
+					location_paintcom();//未投稿画像の投稿フォームへ
+				}
+				error($en ? 'Failed to lock the file.' : 'ファイルのロックに失敗しました。');
+		}
+	}
+}
+
 //filter_input のラッパー関数
 function filter_input_data(string $input, string $key, int $filter=0) {
 	// $_GETまたは$_POSTからデータを取得
