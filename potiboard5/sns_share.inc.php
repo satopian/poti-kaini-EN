@@ -1,7 +1,7 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
 //(c)satopian 2023-2025 MIT License
-$sns_share_inc_ver = 20250308;
+$sns_share_inc_ver = 20250328;
 class sns_share{
 
 //シェアするserverの選択画面
@@ -19,6 +19,7 @@ class sns_share{
 			["pawoo.net","https://pawoo.net"],
 			["fedibird.com","https://fedibird.com"],
 			["misskey.io","https://misskey.io"],
+			["xissmie.xfolio.jp","https://xissmie.xfolio.jp"],
 			["misskey.design","https://misskey.design"],
 			["nijimiss.moe","https://nijimiss.moe"],
 			["sushi.ski","https://sushi.ski"],
