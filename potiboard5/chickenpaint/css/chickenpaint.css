@@ -1147,8 +1147,9 @@
   margin-right: 6px;
 }
 /* ゴミ箱アイコンの右のマージンを0にする */
-
-.chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button[data-action="CPRemoveLayer"] {
+.chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button[data-action="CPRemoveLayer"],
+.chickenpaint .chickenpaint-layer-buttons .chickenpaint-small-toolbar-button[data-action="CPRemoveLayerMask"] 
+{
 	margin-right: 0;
 }
 
