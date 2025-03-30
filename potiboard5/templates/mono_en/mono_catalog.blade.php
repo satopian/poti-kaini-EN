@@ -7,7 +7,7 @@
 	@include('parts.style-switcher')
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/{{$jquery}}">
-	<link rel="preload" as="script" href="loadcookie.js">
+	<link rel="preload" as="script" href="loadcookie.js?{{$ver}}">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
 		.input_disp_none {
@@ -80,7 +80,7 @@
 				@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
-	<script src="loadcookie.js"></script>
+	<script src="loadcookie.js?{{$ver}}"></script>
 	<script>
 	document.addEventListener('DOMContentLoaded',l,false);
 	</script>

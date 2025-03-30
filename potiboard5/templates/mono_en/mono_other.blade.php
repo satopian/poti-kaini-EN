@@ -9,7 +9,7 @@
 	<link rel="preload" as="style" href="lib/lightbox/css/lightbox.min.css" onload="this.rel='stylesheet'">
 	<link rel="preload" as="script" href="lib/lightbox/js/lightbox.min.js">
 	<link rel="preload" as="style" href="{{$skindir}}icomoon/style.css" onload="this.rel='stylesheet'">
-	<link rel="preload" as="script" href="loadcookie.js">
+	<link rel="preload" as="script" href="loadcookie.js?{{$ver}}">
 	<link rel="preload" as="script" href="{{$skindir}}js/mono_common.js?{{$ver}}">
 	<style>
 		.del_page form {
@@ -54,7 +54,7 @@
 		{{-- <!-- 変則的に管理者お絵かきモードをここにも挿入 --> --}}
 		@if($post_mode)
 		@if($regist)
-		<script src="loadcookie.js"></script>
+		<script src="loadcookie.js?{{$ver}}"></script>
 		@endif
 		@if($admin)@if($rewrite)@else
 		@if($paint)

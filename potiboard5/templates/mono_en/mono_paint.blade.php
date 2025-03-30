@@ -723,7 +723,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 		@if($continue_mode)
 		<!-- (========== CONTINUE MODE start ==========) -->
 		<section>
-			<script src="loadcookie.js"></script>
+			<script src="loadcookie.js?{{$ver}}"></script>
 			<div class="thread">
 				<figure>
 					<img src="{{$picfile}}" width="{{$picw}}" height="{{$pich}}"

@@ -30,7 +30,7 @@ function l() {
             checkd_if_formval_equal_cookieval(form.fcolor, FC);
         }
         if (form.shi) {
-            form.shi.value = AP;
+            checkd_if_formval_equal_cookieval(form.shi, AP);
         }
         if (form.picw) {
             if (PW != "") {
@@ -56,7 +56,8 @@ function checkd_if_formval_equal_cookieval(docformsname, cookieval) {
         // ラジオボタンやチェックボックス（NodeList）をループでチェック
         for (let j = 0; j < docformsname.length; j++) {
             if (docformsname[j].value == cookieval) {
-                docformsname[j].checked = true;
+                docformsname[j].checked = true; //チェックボックス
+                docformsname.selectedIndex = j; //プルダウンメニュー
             }
         }
     }

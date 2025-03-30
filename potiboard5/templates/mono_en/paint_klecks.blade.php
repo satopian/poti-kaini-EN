@@ -37,6 +37,28 @@
 	<!-- embed start -->
 	<script src="klecks/embed.js?{{$parameter_day}}&{{$ver}}"></script>
 	<script>
+		const getHttpStatusMessage = (response_status) => {
+			// HTTP ステータスコードに基づいてメッセージを返す関数
+			switch (response_status) {
+				case 400:
+					return "Bad Request";
+				case 401:
+					return "Unauthorized";
+				case 403:
+					return "Forbidden";
+				case 404:
+					return "Not Found";
+				case 500:
+					return "Internal Server Error";
+				case 502:
+					return "Bad gateway";
+				case 503:
+					return "Service Unavailable";
+				default:
+					return "Unknown Error";
+			}
+		}
+
 		/*
 	Using Klecks in a drawing community:
 	- on first time opening, start with a manually created project (klecks.openProject)
@@ -76,7 +98,7 @@
 
 			setTimeout(() => {
 			onSuccess();
-			//2022-2024 (c)satopian MIT Licence
+			//2022-2025 (c)satopian MIT Licence
 			//この箇所はさとぴあが作成したMIT Licenceのコードです。
 			const postData = (path, data) => {
 					fetch(path, {
@@ -101,15 +123,11 @@
 								return alert(text);
 							})
 						}else{
-							let response_status = response.status; 
+							const HttpStatusMessage = getHttpStatusMessage(response.status);
 
-							if(response_status===403){
-								return alert(@if($en)'It may be a WAF false positive.\nTry to draw a little more.'@else'投稿に失敗。\nWAFの誤検知かもしれません。\nもう少し描いてみてください。'@endif);
-							}
-							if(response_status===404){
-								return alert(@if($en)'404 not found\nThe PHP file to save the image does not exist.'@else'エラー404\n画像を保存するPHPファイルがありません。'@endif);	
-							}
-							return alert(@if($en)'Your picture upload failed!\nPlease try again!'@else'投稿に失敗\n時間をおいて再度投稿してみてください。'@endif);
+							return alert(@if($en)`Your picture upload failed!\nPlease try again!\n( HTTP status code ${response.status} : ${HttpStatusMessage} )`
+								@else`投稿に失敗。\n時間を置いて再度投稿してみてください。\n( HTTPステータスコード ${response.status} : ${HttpStatusMessage} )`
+								@endif);
 						}
 					})
 					.catch((error) => {
@@ -140,42 +158,42 @@
 	//2022-2025 (c)satopian MIT Licence
 	//この箇所はさとぴあが作成したMIT Licenceのコードです。
 @if($rep)
-	const repData = () => {
-    // 画像差し換えに必要なフォームデータをセット
-    const formData = new FormData();
-    formData.append("mode", "picrep"); 
-    formData.append("no", "{{$no}}"); 
-    formData.append("pwd", "{{$pwd}}"); 
+const repData = () => {
+	// 画像差し換えに必要なフォームデータをセット
+	const formData = new FormData();
+	formData.append("mode", "picrep"); 
+	formData.append("no", "{{$no}}"); 
+	formData.append("pwd", "{{$pwd}}"); 
 	formData.append("repcode", "{{$repcode}}");
 
-    // 画像差し換え
+	// 画像差し換え
 
-	fetch("{{$self}}", {
-        method: 'POST',
+fetch("{{$self}}", {
+		method: 'POST',
 		mode: 'same-origin',
 		headers: {
 			'X-Requested-With': 'klecks'
 			,
 		},
-       body: formData
-    })
-    .then(response => {
-		if (response.ok) {
-			if (response.redirected) {
-				return window.location.href = response.url;
-				}
-			response.text().then((text) => {
-				if (text.startsWith("error\n")) {
-						console.log(text);
-						return window.location.href = "?mode=piccom&stime={{$stime}}";
-				}
-			})
-        }
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
+			body: formData
+		})
+		.then(response => {
+			if (response.ok) {
+				if (response.redirected) {
+					return window.location.href = response.url;
+					}
+				response.text().then((text) => {
+					if (text.startsWith("error\n")) {
+							console.log(text);
+							return window.location.href = "?mode=piccom&stime={{$stime}}";
+					}
+				})
+			}
+		})
+		.catch(error => {
+				console.error('There was a problem with the fetch operation:', error);
 		return window.location.href = "?mode=piccom&stime={{$stime}}";
-    });
+		});
 	}
 @endif
 	// (c)satopian MIT Licence ここまで
@@ -249,4 +267,5 @@ if (psdURL) {
 	</script>
 	<!-- embed end -->
 </body>
+
 </html>
