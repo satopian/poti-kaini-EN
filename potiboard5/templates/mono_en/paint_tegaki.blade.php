@@ -162,7 +162,6 @@
 		formData.append("picture",blob,'blob');
 		formData.append("usercode", "{{$klecksusercode}}");
 		@if($rep)formData.append("repcode", "{{$repcode}}");@endif
-		formData.append("tool", "tegaki");
 		formData.append("stime", <?=time();?>);
 		formData.append("resto", "{{$resto}}");
 		formData.append("tool", "Tegaki");
