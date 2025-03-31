@@ -44,7 +44,7 @@
 			case 500:
 				return "Internal Server Error";
 			case 502:
-				return "Bad gateway";
+				return "Bad Gateway";
 			case 503:
 				return "Service Unavailable";
 			default:
