@@ -68,7 +68,35 @@ function open_sns_server_window(event, width = 600, height = 600) {
         }
     });
 }
+window.addEventListener("pageshow", function () {
+    // すべてのsubmitボタンを取得
+    const submitButtons = document.querySelectorAll('[type="submit"]');
 
+    submitButtons.forEach(function (btn) {
+        // ボタンを有効化
+        btn.disabled = false;
+
+        const form = btn.closest("form");
+        if (!form) return;
+
+        // paint_form または comment_form はボタン無効化と送信の処理をしない
+        // Cookie発行時にボタンを無効化処理を行う
+        if (form.id === "paint_form" || form.id === "comment_form") {
+            return; // 処理をスキップして次のボタンに進む
+        }
+
+        const isTargetBlank = form.target === "_blank";
+        // ボタンが target="_blank" の場合は無効化しない
+        if (isTargetBlank) {
+            return;
+        }
+        btn.addEventListener("click", function () {
+            // ボタンをクリックすると
+            btn.disabled = true; // ボタンを無効化して
+            form.submit(); // 送信する
+        });
+    });
+});
 addEventListener("DOMContentLoaded", () => {
     //URLクエリからresidを取得して指定idへページ内を移動
     const urlParams = new URLSearchParams(window.location.search);
@@ -80,35 +108,6 @@ addEventListener("DOMContentLoaded", () => {
 
     document.documentElement.style.visibility = "visible";
 
-    window.addEventListener("pageshow", function () {
-        // すべてのsubmitボタンを取得
-        const submitButtons = document.querySelectorAll('[type="submit"]');
-
-        submitButtons.forEach(function (btn) {
-            // ボタンを有効化
-            btn.disabled = false;
-
-            const form = btn.closest("form");
-            if (!form) return;
-
-            // paint_form または comment_form はボタン無効化と送信の処理をしない
-            // Cookie発行時にボタンを無効化処理を行う
-            if (form.id === "paint_form" || form.id === "comment_form") {
-                return; // 処理をスキップして次のボタンに進む
-            }
-
-            const isTargetBlank = form.target === "_blank";
-            // ボタンが target="_blank" の場合は無効化しない
-            if (isTargetBlank) {
-                return;
-            }
-            btn.addEventListener("click", function () {
-                // ボタンをクリックすると
-                btn.disabled = true; // ボタンを無効化して
-                form.submit(); // 送信する
-            });
-        });
-    });
     //JavaScriptによるCookie発行
     const paintform = document.getElementById("paint_form");
     if (paintform instanceof HTMLFormElement) {
