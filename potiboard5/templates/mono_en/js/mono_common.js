@@ -75,26 +75,6 @@ window.addEventListener("pageshow", function () {
     submitButtons.forEach(function (btn) {
         // ボタンを有効化
         btn.disabled = false;
-
-        const form = btn.closest("form");
-        if (!form) return;
-
-        // paint_form または comment_form はボタン無効化と送信の処理をしない
-        // Cookie発行時にボタンを無効化処理を行う
-        if (form.id === "paint_form" || form.id === "comment_form") {
-            return; // 処理をスキップして次のボタンに進む
-        }
-
-        const isTargetBlank = form.target === "_blank";
-        // ボタンが target="_blank" の場合は無効化しない
-        if (isTargetBlank) {
-            return;
-        }
-        btn.addEventListener("click", function () {
-            // ボタンをクリックすると
-            btn.disabled = true; // ボタンを無効化して
-            form.submit(); // 送信する
-        });
     });
 });
 addEventListener("DOMContentLoaded", () => {
