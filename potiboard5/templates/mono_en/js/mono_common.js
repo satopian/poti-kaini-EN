@@ -163,6 +163,8 @@ addEventListener("DOMContentLoaded", () => {
         toggleHideAnimation(usePlaybackApps.includes(select_app.value));
     }
 });
+
+//スクロールすると出てくるトップに戻るボタン
 document.addEventListener("DOMContentLoaded", () => {
     const pagetop = document.getElementById("page_top");
     let scrollTimeout; // スクロールが停止したタイミングをキャッチするタイマー
@@ -170,11 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return; // pagetopが存在しない場合は処理を終了
     }
     // 初期状態で非表示
-    pagetop.style.visibility = "hidden"; // 初期状態で非表示
-    pagetop.style.opacity = getComputedStyle(pagetop).opacity; // 初期opacityをCSSの設定値に設定
-
+    const cssOpacity = getComputedStyle(pagetop).opacity; // CSSから最大opacity取得
     // CSSで設定されているopacityの値を動的に取得（上限として使用）
-    const maxOpacity = parseFloat(getComputedStyle(pagetop).opacity);
+    const maxOpacity = parseFloat(cssOpacity);
+    pagetop.style.visibility = "hidden"; // 初期状態で非表示
+    pagetop.style.opacity = "0"; // 初期opacityを0に設定
 
     // フェードイン/フェードアウトを管理する関数
     const fade = (el, to, duration = 500) => {
