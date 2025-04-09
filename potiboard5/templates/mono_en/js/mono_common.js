@@ -163,28 +163,97 @@ addEventListener("DOMContentLoaded", () => {
         toggleHideAnimation(usePlaybackApps.includes(select_app.value));
     }
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const pagetop = document.getElementById("page_top");
+    let scrollTimeout; // スクロールが停止したタイミングをキャッチするタイマー
+    if (!pagetop) {
+        return; // pagetopが存在しない場合は処理を終了
+    }
+    // 初期状態で非表示
+    pagetop.style.visibility = "hidden"; // 初期状態で非表示
+    pagetop.style.opacity = getComputedStyle(pagetop).opacity; // 初期opacityをCSSの設定値に設定
+
+    // CSSで設定されているopacityの値を動的に取得（上限として使用）
+    const maxOpacity = parseFloat(getComputedStyle(pagetop).opacity);
+
+    // フェードイン/フェードアウトを管理する関数
+    const fade = (el, to, duration = 500) => {
+        const startOpacity = parseFloat(el.style.opacity);
+        let startTime = performance.now();
+
+        function fadeStep(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            let opacity = startOpacity + (to - startOpacity) * progress;
+
+            // opacityの上限をmaxOpacity（CSSで指定された値）に設定
+            opacity = opacity > maxOpacity ? maxOpacity : opacity; // 上限を超えないようにする
+
+            el.style.opacity = opacity.toFixed(2);
+
+            if (progress < 1) {
+                requestAnimationFrame(fadeStep);
+            } else {
+                if (to === 0) {
+                    el.style.visibility = "hidden"; // 完全にフェードアウトしたら非表示
+                }
+            }
+        }
+
+        if (to === 1) {
+            el.style.visibility = "visible"; // フェードインで表示
+        }
+
+        requestAnimationFrame(fadeStep);
+    };
+
+    // スクロール時の処理
+    window.addEventListener("scroll", () => {
+        // スクロール開始後に表示
+        if (window.scrollY > 100 && pagetop?.style.visibility === "hidden") {
+            fade(pagetop, 1, 500); // 0.5秒でフェードイン
+        }
+
+        // スクロール停止後に非表示
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (window.scrollY <= 100) {
+                fade(pagetop, 0, 200); // 0.2秒でフェードアウト
+            }
+        }, 200); // 200msの遅延で非表示
+    });
+
+    // スムーススクロール
+    function smoothScrollToTop(duration = 500) {
+        // 0.5秒かけてスクロール
+        const start = window.scrollY;
+        const startTime = performance.now();
+
+        function scrollStep(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 3); // ease-out効果
+
+            window.scrollTo(0, start * (1 - ease));
+
+            if (progress < 1) {
+                requestAnimationFrame(scrollStep);
+            } else {
+                fade(pagetop, 0, 500); // スクロール完了後にフェードアウト
+            }
+        }
+
+        requestAnimationFrame(scrollStep);
+    }
+
+    // トップに戻るボタンがクリックされたとき
+    pagetop?.addEventListener("click", (e) => {
+        e.preventDefault();
+        smoothScrollToTop(500); // 0.5秒でスクロール
+    });
+});
 
 jQuery(function () {
-    // https://cotodama.co/pagetop/
-    var pagetop = $("#page_top");
-    pagetop.hide();
-    $(window).on("scroll", function () {
-        if ($(this).scrollTop() > 100) {
-            //100pxスクロールしたら表示
-            pagetop.fadeIn();
-        } else {
-            pagetop.fadeOut();
-        }
-    });
-    pagetop.on("click", function () {
-        $("body,html").animate(
-            {
-                scrollTop: 0,
-            },
-            500
-        ); //0.5秒かけてトップへ移動
-        return false;
-    });
     //Lightbox
     if (typeof lightbox !== "undefined") {
         lightbox.option({
