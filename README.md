@@ -42,6 +42,215 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+### 2025/04/12 v6.73.2
+### Made the PaintBBS NEO's Viewer Compatible with Smartphones and Tablets  
+- The timelapse playback controls in PaintBBS NEO’s viewer have been updated for smartphone, tablet, and pen tablet (with Windows Ink enabled) compatibility.  
+- Previously optimized for mouse control, the animetion progress bar now allows playback pause and rewind actions to be performed on touch devices as well.  
+- Image scrolling while zoomed in on the animetion player was originally optimized for mouse use but has now been adapted for touch devices, making it possible to operate on smartphones and tablets.  
+
+![Smartphone-Compatible Viewer Controls](https://github.com/user-attachments/assets/001e4a2d-cde4-4349-aa2d-adb9011990a9)
+
+### 2025/04/09 v6.73.0
+
+### Gradual Reduction of jQuery Usage  
+- jQuery in ChickenPaint Be has been completely replaced with JavaScript.  
+However, the "Back to top" link that appears when scrolling was still using jQuery.  
+This "Back to top" link has now been replaced with JavaScript.  
+As a result, the only remaining usage of jQuery is for the Lightbox2 image popup display.  
+Even if jQuery development were to be discontinued, alternative solutions for image popups are available.
+
+
+For those who have customized CSS, please add the following to any part of the CSS file:  
+```
+#page_top {
+ visibility: hidden;
+}
+```
+Alternatively, while it's not required, without this change, the "Back to top" button may briefly appear when the board is displayed.
+
+### 2025/04/07 v6.72.3
+### Refactored JavaScript for Submission Handling  
+- Streamlined the flow of form data submission processing.  
+- Replaced jQuery-based re-enabling of disabled buttons with vanilla JavaScript.
+
+### Refactored Dynamic Palette Script  
+- Removed legacy code that is no longer recommended in modern browsers (as of 2025).
+
+
+### 2025/04/05 v6.72.2
+### Removed jQuery Dependency
+- All remaining jQuery usage in ChickenPaint has been completely replaced with vanilla JavaScript.  
+The `chickenpaint.js` file size has been reduced to just **501 KB**.  
+By removing the dependency on jQuery, ChickenPaint is now fully independent of future jQuery development.  
+Even if jQuery development ends, **ChickenPaint will remain unaffected**.
+
+
+## 2025/04/02 v6.72.1  
+### Bug Fixes  
+- Fixed a minor error that occurred during the playback of PaintBBS NEO's drawing process.  
+  - This bug was introduced in **v1.6.15**, but it only caused an error message in the console and did not affect functionality.  
+"The content has been updated, but the version number remains **v1.6.15**.
+### Gradual Reduction of jQuery in ChickenPaint  
+- We are gradually reducing the use of jQuery in ChickenPaint.  
+  - While it's unclear how much we can eliminate, we are replacing jQuery with JavaScript wherever possible.  
+
+
+## 2025/03/31 v6.72.0
+### Bug Fixes
+- A bug was found in `loadcookie.js`.
+- A bug was found where **Cookies overwrites the paint tool that should be launched** when application-specific files for **Klecks, NEO, ChickenPaint** are present and the tool selection menu is not visible. Instead of the correct tool, the previously used paint tool is launched.
+- This issue was introduced in **v6.68.3 (2025/03/10)** and fixed in **v6.72.0**.
+- As part of the fix, a **version number query parameter** was added to all places where `loadcookie.js` is used. However, updating all the necessary templates is overkill. Instead, **update `loadcookie.js` and do a hard reload in your browser**.
+
+**AXNOS Paint, Klecks, Tegaki** templates have also been updated to improve error messages for communication failures, but **you don't need to update all templates**. So at least update **`loadcookie.js`**.
+
+
+## 2025/03/30 v6.71.1
+
+### ChickenPaint Be Update
+- Layer masks can now be deleted using the trash icon in the layer palette.  
+Previously, tapping the trash icon would delete the entire layer.  
+Until now, deleting a layer mask required selecting **Menu → Layer → Delete Layer Mask**.  
+
+![レイヤーマスクをゴミ箱アイコンで削除en](https://github.com/user-attachments/assets/588c1ef3-a242-4390-8c5f-1488afa129be)
+
+- Fixed an issue where undeclared variables were mixed in.  
+- Corrected incorrect function arguments.  
+- Improved error messages for communication failures.  
+
+![image](https://github.com/user-attachments/assets/367b68a4-d0e9-4427-9d32-4363464bf054)
+
+
+## 2025/03/27 v6.71.0
+
+### Preparation for PHP 8.5 Support
+### Created a Wrapper Function to Handle Mandatory flock() Return Value Check
+> [PHP: rfc:marking_return_value_as_important](https://wiki.php.net/rfc/marking_return_value_as_important)
+
+- In PHP 8.5, scheduled for release in Fall 2025, checking the return value of `flock()` will become mandatory. A wrapper function has been created to ensure that file lock failures result in an error.  
+- When "Continue Drawing" → "Replace Image" fails to acquire a file lock, it will switch to a new post instead, preventing the loss of illustrations.  
+
+
+## 2025/03/26 v6.70.2
+
+### PaintBBS NEO Update
+- Fixed a potential malfunction that could occur when a specific site's hostname was included in the host name.  
+- This issue was resolved by verifying that the domain name and subdomain match the intended site.
+
+### Refactoring of Regular Expressions
+- Consolidated multiple similar regular expressions into a single line.
+
+### Minimizing explode() Splitting
+- Added a third argument (`limit`) to restrict splitting to just two parts where applicable. Previously, the process split based on the number of commas, even when only two splits were needed.
+
+## 2025/03/22 v6.69.0  
+### PaintBBS v1.6.15  
+- Updated PaintBBS NEO. Now it displays more detailed error messages.  
+![Screen-2025-03-22_15-36-25](https://github.com/user-attachments/assets/a8977aea-72c7-4e62-92c4-a36d21549e8c)
+- Added features that were previously available only in the NEO-derived version used in Petit Note and POTI-board in v1.6.15.  
+Additionally, configuration options have been added to prevent compatibility issues.  
+This eliminates the need to use the derived version.
+
+
+### 2025/03/20 v6.68.6
+### The popup menu in Shi-Painter is now operable on iPads
+- With CheerpJ v3.1, posting with Shi-Painter became possible on iPads and smartphones. However, actions such as creating/deleting/reordering layers and changing blending modes were still limited to PC mouse operations, making these functions unavailable on mobile devices.  
+- After reporting this issue to the developers of CheerpJ, a fixed version was provided in just two days.  
+- This updated version is now supported in POTI-board, enabling Shi-Painter to be fully operational on iPads and smartphones.
+
+![image](https://github.com/user-attachments/assets/a7a72d62-92d9-4181-86fc-d3b82dd24a24)
+
+### Refactoring of the Mail Notification Class
+- Incorrect escape processing that should not have existed was removed, and additional handling to delete unnecessary newlines was added.
+
+### Issue Fixed: Shi-Painter Failing to Launch
+- The issue where Shi-Painter failed to start on mobile devices using CheerpJ was reported to the developers. It was determined that corrupted CDN cache was the cause. As of March 19, 2025, the cache issue has been resolved, and the problem is fixed.
+
+
+## 2025/03/10 v6.68.3
+### Stopped using the `filter_input()` function, which is proposed for removal in PHP 8.5, and replaced it with a user-defined function
+- The following RFC proposes the removal of the `filter_input()` function:  
+  [PHP: rfc:deprecations_php_8_5](https://wiki.php.net/rfc/deprecations_php_8_5).
+- If the proposal does not receive more than two-thirds approval, it will not be deprecated. However, by the time PHP 8.5 is released, there may be less time available for updates, so i decided to implement the changes while possible.
+- Replaced all 125 occurrences of the `filter_input()` function with a user-defined function.
+
+### Refactored old JavaScript
+- Rewrote `loadcookie.js` using ES6 syntax and enabled strict mode (`"use strict"`).
+- Added type checks to JavaSc
+
+## 2025/03/05 v6.67.6
+### JavaScript Type Checking
+- Refactored a 22-year-old script, a dynamic palette script.
+- Introduced TypeScript type checking to specify types, updated the code to ES6, and made it compliant with strict mode.
+- Added type checking to JavaScript files handling cookie issuance to ensure more reliable value retrieval.
+
+### Improvements
+- Fixed inconsistencies in return type declarations for PHP functions.
+- Optimized processing by skipping the calculation of the 20 omitted posts in the "20 posts omitted" message.
+- Referencing CheerpJ documentation, specified the necessary files as startup options when launching Shi-Painter to reduce startup time.
+
+## 2025/02/24 v6.65.6
+## Bug Fix  
+- Fixed an issue where other SNS platforms could not be selected when a Bluesky or Threads link was entered in the direct SNS sharing input.  
+
+## 2025/02/14 v6.65.3 
+#### Klecks Update
+- Added "Scattering Parameter" to the Pen Brush.  
+- Fixed a bug where the undo process for the Line Tool did not work correctly when rotating the canvas.
+
+## 2025/02/14 v6.65.2  
+- With CheerpJ v3.1, posting from smartphones and tablets is now possible. If the device screen width is 600px or more, Shi-Painter can be used.  
+- Changed Twitter cards to Large size.
+- Code cleanup: Reduced code size by using the nullish coalescing operator.
+
+ 
+## 2025/02/06 v6.65.0  
+### Updated CheerpJ to v3.1 for Running Shi-Painter on Modern Browsers (Chrome/Safari)  
+- Updated CheerpJ to version 3.1, released on February 5, 2025.  
+- With CheerpJ v3.1, the final "Yes" button in Shi-Painter's posting process can now be pressed using a pen on a pen tablet or a mobile device.  
+
+## 2025/01/15 v6.62.9
+### PaintBBS NEO Has Been Updated
+- PaintBBS NEO has been updated to move the scroll control processing when touching the grid area around the canvas to NEO itself.
+- Previously, external JavaScript was used to prevent scrolling when touching the grid area of PaintBBS NEO.
+- In v6.62.7, a feature to skip the drawing timelapse when continuing a drawing was added, but undoing immediately after fetching the image caused the canvas to become blank.
+- To solve this issue, the undo history from before skipping the timelapse is not saved when you continue drawing.
+
+### Bug Fixes
+- Fixed an undefined variable issue in the MONO template.
+- Resolved an issue where an undefined variable error could occur due to the processing added in v6.62.7.
+
+## 2025/01/13 v6.62.8
+### Function Return Type Checking Implemented
+- Using features introduced in PHP 7.1, function return types are now specified, and a fatal error will occur if a function does not return the expected type.  
+Previously, the application would continue to operate even if the returned type was not as expected.  
+This change makes it easier to detect bugs.  
+### Hide "Save Playback" Checkbox for Tools Without Save Animation Functionality
+![2025_01_08_save_Playback](https://github.com/user-attachments/assets/c1b91979-a72d-48f0-992a-3b24fad5f1a2)
+- Previously, the "Save Playback" checkbox was displayed even when using paint tools like ChickenPaint that do not support Save Animation .
+- The "Save Playback" checkbox will now only be displayed if the selected paint tool is PaintBBS NEO, Shi-Painter, or Tegaki.
+### Layout Changes for Wide Canvas in Template MONO with Shi-Painter and NEO
+- When opening a wide canvas with tools like Shi-Painter, the header and footer will now adjust to the canvas width.
+- Previously, only the applet would extend horizontally.
+- The dynamic palette placement for NEO and Shi-Painter in the MONO template will now always be aligned to the right.
+- Previously, when the browser window was narrow, the palette would wrap beneath the applet.
+### Return Destination from "Continue Drawing" and "Replay" Now Individual Posts
+-  The "Back" link from "Continue Drawing" and "Replay" now leads to the individual post.
+- Previously, it would return to the top of the board.
+
+### ChickenPaint Has Been Updated
+
+![2025_01_12_Maintain Clipping State When Merging with Lower Layer](https://github.com/user-attachments/assets/5e330ee9-9aad-4cf2-92ac-bcc0ca9a6f43)
+- It is now possible to merge layers while maintaining the clipping mask.
+- Previously, merging a clipping layer with the lower layer would disable the clipping mask, causing the paint to spill outside the intended area.
+
+## 2024/12/24 v6.59.1.1
+### Animation is no longer played on the PaintBBS NEO continue drawing screen
+- Previously, when continuing to draw with NEO, the drawing animation of the steps taken was played, and you had to wait for the playback to finish or tap the screen to skip the playback.
+- With this update, the drawing animation will no longer be played on the continue drawing screen, and only the layer information will be obtained from the animation data and output as a still image on the screen.
+- This eliminates the need to tap to skip when the animation starts playing.
+- This behavior is closer to the original PaintBBS.
+
 ## 2024/12/17 v6.58.0
 ### "Share on SNS" Now Support Meta "Threads"
   
