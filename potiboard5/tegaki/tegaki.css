@@ -679,7 +679,7 @@ input[type="number"] {
 	appearance:textfield; 
 }
 /* スマホ対応  */
-@media screen and (max-width: 670px){
+@media screen and (max-width: 767px){
     #tegaki {
         grid-template-columns: 40px 1fr 0px;
         grid-template-rows: 24px 1fr 280px;
