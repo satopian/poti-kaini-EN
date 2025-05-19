@@ -120,6 +120,7 @@
   grid-area: 2 / 3 / 4 / 4;
   padding: 6px;
   overflow: hidden auto;
+  z-index: 1000;
 }
 
 #tegaki-status-cnt {
@@ -676,4 +677,25 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] { 
 	-moz-appearance:textfield; 
 	appearance:textfield; 
-} 
+}
+/* スマホ対応  */
+@media screen and (max-width: 767px){
+    #tegaki {
+        grid-template-columns: 40px 1fr 0px;
+        grid-template-rows: 24px 1fr 250px;
+    }
+    #tegaki-ctrl-cnt {
+      grid-area: 3 / 2 / 4 / 3; /* 3行目2列目に配置 */
+    }
+    #tegaki-layers-wrap {
+        padding: 10px;
+    }
+    .tegaki-ctrlgrp {
+        margin-top: 12px;
+    }
+}
+@media screen and (max-width: 767px) and (min-height: 900px) {
+    #tegaki {
+        grid-template-rows: 24px 1fr 380px;
+    }
+}
