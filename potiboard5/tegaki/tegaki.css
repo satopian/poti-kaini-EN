@@ -349,7 +349,7 @@
 
 #tegaki-layers-wrap {
   margin: auto;
-  padding: 10px;
+  padding: 20px;
   pointer-events: none;
 }
 
@@ -686,5 +686,8 @@ input[type="number"] {
     }
     #tegaki-ctrl-cnt {
       grid-area: 3 / 2 / 4 / 3; /* 3行目2列目に配置 */
+    }
+    #tegaki-layers-wrap {
+      padding: 10px;
     }
 }
