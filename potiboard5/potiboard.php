@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.73.9';
-const POTI_LOT = 'lot.20250519';
+const POTI_VER = 'v6.75.1';
+const POTI_LOT = 'lot.20250522';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -283,7 +283,7 @@ $_SESSION['usercode']=$usercode;
 switch($mode){
 	case 'regist':
 		if(DIARY && !$resto){
-			if(!$pwd||($pwd !== $ADMIN_PASS)){
+			if(!$pwd||!is_adminpass($pwd)){
 				error(MSG029);
 			}
 			$admin=$pwd;
@@ -297,8 +297,9 @@ switch($mode){
 		}
 		check_same_origin(true);
 		check_password_input_error_count();
-		if(!$pass || ($pass !== $ADMIN_PASS)) 
-		error(MSG029);
+		if(!$pass || !is_adminpass($pass)){ 
+			error(MSG029);
+		}
 	
 		if($admin==="del") return admindel($pass);
 		if($admin==="post"){
@@ -409,7 +410,7 @@ function check_csrf_token(): void {
 	session_sta();
 	$token=(string)filter_input_data('POST','token');
 	$session_token= $_SESSION['token'] ?? '';
-	if(!$session_token||$token!==$session_token){
+	if(!$token||!$session_token||!hash_equals($token,$session_token)){
 		error(MSG006);
 	}
 }
@@ -496,7 +497,6 @@ function basicpart(): array {
 function form($resno="",$tmp=[]): array {
 	global $addinfo;
 	global $fontcolors,$qualitys;
-	global $ADMIN_PASS;
 
 	//csrfトークンをセット
 	$dat['token']= get_csrf_token();
@@ -889,7 +889,7 @@ function similar_str($str1,$str2): int {
 
 // 記事書き込み
 function regist(): void {
-	global $path,$temppath,$usercode,$ADMIN_PASS;
+	global $path,$temppath,$usercode;
 	
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	//CSRFトークンをチェック
@@ -1002,7 +1002,7 @@ function regist(): void {
 	if($pictmp2){
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
-			if(!USE_IMG_UPLOAD && (!$admin||$admin!==$ADMIN_PASS)){//アップロード禁止で管理画面からの投稿ではない時
+			if(!USE_IMG_UPLOAD && !is_adminpass($admin)){//アップロード禁止で管理画面からの投稿ではない時
 				error(MSG006,$upfile);
 			}
 			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
@@ -1035,7 +1035,7 @@ function regist(): void {
 	$date = str_replace(",", "&#44;", $date);
 	$ptime = str_replace(",", "&#44;", $ptime);
 
-	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&&(!$admin||$admin!==$ADMIN_PASS)) error(MSG039,$dest);
+	if(!$resto&&DENY_COMMENTS_ONLY&&!$is_file_dest&& !is_adminpass($admin)) error(MSG039,$dest);
 	if(strlen($resto) > 10) error(MSG015,$dest);
 
 	//フォーマット
@@ -1321,7 +1321,7 @@ function regist(): void {
 	defined('NOTICE_MAIL_NEWPOST') or define('NOTICE_MAIL_NEWPOST', '新規投稿がありました');
 
 	if(is_file(NOTICEMAIL_FILE)	//メール通知クラスがある場合
-	&& !(NOTICE_NOADMIN && $pwd && ($pwd === $ADMIN_PASS))){//管理者の投稿の場合メール出さない
+	&& !(NOTICE_NOADMIN && is_adminpass($pwd))){//管理者の投稿の場合メール出さない
 		require(__DIR__.'/'.NOTICEMAIL_FILE);
 		$name = h_decode($name);
 		$sub = h_decode($sub);
@@ -1646,7 +1646,7 @@ function check_dir ($path): void {
 
 // お絵かき画面
 function paintform(): void {
-	global $qualitys,$usercode,$ADMIN_PASS,$pallets_dat;
+	global $qualitys,$usercode,$pallets_dat;
 
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	check_same_origin();
@@ -1698,7 +1698,7 @@ function paintform(): void {
 
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
 	//pchファイルアップロードペイント
-	if($admin&&($admin===$ADMIN_PASS)){
+	if(is_adminpass($admin)){
 		
 		$pchtmp= $_FILES['pch_upload']['tmp_name'] ?? '';
 		if(isset($_FILES['pch_upload']['error']) && in_array($_FILES['pch_upload']['error'],[1,2])){//容量オーバー
@@ -2329,7 +2329,7 @@ function editform(): void {
 	if(!$flag) {
 		error(MSG028);
 	}
-	if((!$pwd || $pwd!==$ADMIN_PASS) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
+	if((!$pwd || !is_adminpass($pwd)) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 			error(MSG028);
 	}
 
@@ -2342,7 +2342,7 @@ function editform(): void {
 	
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
-	$dat['admin'] =($pwd && ($pwd===$ADMIN_PASS)) ? h($ADMIN_PASS):'';
+	$dat['admin'] = is_adminpass($pwd) ? h($ADMIN_PASS):'';
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;
@@ -2378,7 +2378,6 @@ function editform(): void {
 
 // 記事上書き
 function rewrite(): void {
-	global $ADMIN_PASS;
 
 	//CSRFトークンをチェック
 	check_csrf_token();
@@ -2457,7 +2456,7 @@ function rewrite(): void {
 		closeFile($fp);
 		error(MSG028);
 	}
-	if((!$admin || $admin!==$ADMIN_PASS) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
+	if((!$admin || !is_adminpass($admin)) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 		closeFile($fp);
 		error(MSG028);
 	}
@@ -2791,7 +2790,7 @@ function charconvert($str): string {
 
 // NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post(): void {
-	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$ADMIN_PASS,$admin;
+	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$admin;
 
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
 
@@ -2830,7 +2829,7 @@ function Reject_if_NGword_exists_in_the_post(): void {
 		if ($com_len && !preg_match("/[ぁ-んァ-ヶｧ-ﾝー一-龠]+/u",$chk_com)) error(MSG035);
 	}
 	//本文へのURLの書き込みを禁止
-	if(!(($pwd&&$pwd===$ADMIN_PASS)||($admin&&($admin===$ADMIN_PASS)))){//どちらも一致しなければ
+	if(!(is_adminpass($pwd)||is_adminpass($admin))){//どちらも一致しなければ
 		if(DENY_COMMENTS_URL && preg_match('/:\/\/|\.co|\.ly|\.gl|\.net|\.org|\.cc|\.ru|\.su|\.ua|\.gd/i', $com)) error(MSG036);
 	}
 
@@ -3401,10 +3400,9 @@ function get_lineindex ($line): array {
 }
 
 function check_password ($pwd, $hash, $adminPass = false): bool {
-	global $ADMIN_PASS;
 	return
 		($pwd && (password_verify($pwd, $hash)))
-		|| ($adminPass && $ADMIN_PASS && ($adminPass === $ADMIN_PASS)); // 管理パスを許可する場合
+		|| ($adminPass && is_adminpass($adminPass)); // 管理パスを許可する場合
 }
 function is_neo($src):bool {//neoのPCHかどうか調べる
 	$fp = fopen("$src", "rb");
@@ -3568,7 +3566,6 @@ function check_log_size_limit(): void {
 
 //パスワードを5回連続して間違えた時は拒絶
 function check_password_input_error_count(): void {
-	global $ADMIN_PASS;
 	$file=__DIR__.'/templates/errorlog/error.log';
 	if(!CHECK_PASSWORD_INPUT_ERROR_COUNT){
 		return;
@@ -3579,7 +3576,7 @@ function check_password_input_error_count(): void {
 	if(count($arr_err)>=5){
 		error(MSG051);
 	}
-if(!$ADMIN_PASS || $ADMIN_PASS!==filter_input_data('POST','pass')){
+if(!is_adminpass(filter_input_data('POST','pass'))){
 	$errlog=$userip."\n";
 	file_put_contents($file,$errlog,FILE_APPEND);
 	chmod($file,0600);
@@ -3670,6 +3667,15 @@ function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 	}
 
 	return $thumbnail;
+}
+
+function is_adminpass($pwd):bool {
+	global $ADMIN_PASS;
+	if($ADMIN_PASS && $pwd && hash_equals($pwd,$ADMIN_PASS)){
+		return true;
+	}
+	return false;
+
 }
 
 //flockのラッパー関数
