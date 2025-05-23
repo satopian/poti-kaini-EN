@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.75.1';
+const POTI_VER = 'v6.75.3';
 const POTI_LOT = 'lot.20250522';
 
 /*
@@ -283,7 +283,7 @@ $_SESSION['usercode']=$usercode;
 switch($mode){
 	case 'regist':
 		if(DIARY && !$resto){
-			if(!$pwd||!is_adminpass($pwd)){
+			if(!is_adminpass($pwd)){
 				error(MSG029);
 			}
 			$admin=$pwd;
@@ -297,7 +297,7 @@ switch($mode){
 		}
 		check_same_origin(true);
 		check_password_input_error_count();
-		if(!$pass || !is_adminpass($pass)){ 
+		if(!is_adminpass($pass)){ 
 			error(MSG029);
 		}
 	
@@ -1003,7 +1003,7 @@ function regist(): void {
 			copy($upfile, $dest);
 		} else{//フォームからのアップロード
 			if(!USE_IMG_UPLOAD && !is_adminpass($admin)){//アップロード禁止で管理画面からの投稿ではない時
-				error(MSG006,$upfile);
+				error(MSG049,$upfile);
 			}
 			if(!preg_match('/\A(jpe?g|jfif|gif|png|webp)\z/i', pathinfo($upfile_name, PATHINFO_EXTENSION))){//もとのファイル名の拡張子
 				error(MSG004,$upfile);
@@ -2329,7 +2329,7 @@ function editform(): void {
 	if(!$flag) {
 		error(MSG028);
 	}
-	if((!$pwd || !is_adminpass($pwd)) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
+	if(!is_adminpass($pwd) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 			error(MSG028);
 	}
 
@@ -2456,7 +2456,7 @@ function rewrite(): void {
 		closeFile($fp);
 		error(MSG028);
 	}
-	if((!$admin || !is_adminpass($admin)) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
+	if(!is_adminpass($admin) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 		closeFile($fp);
 		error(MSG028);
 	}
@@ -2792,7 +2792,7 @@ function charconvert($str): string {
 function Reject_if_NGword_exists_in_the_post(): void {
 	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$admin;
 
-	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG006);
+	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
 
 	$com = (string)filter_input_data('POST', 'com');
 	$name = (string)filter_input_data('POST', 'name');
@@ -3402,7 +3402,7 @@ function get_lineindex ($line): array {
 function check_password ($pwd, $hash, $adminPass = false): bool {
 	return
 		($pwd && (password_verify($pwd, $hash)))
-		|| ($adminPass && is_adminpass($adminPass)); // 管理パスを許可する場合
+		|| is_adminpass($adminPass); // 管理パスを許可する場合
 }
 function is_neo($src):bool {//neoのPCHかどうか調べる
 	$fp = fopen("$src", "rb");
