@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.75.3';
+const POTI_VER = 'v6.75.6';
 const POTI_LOT = 'lot.20250522';
 
 /*
@@ -410,7 +410,7 @@ function check_csrf_token(): void {
 	session_sta();
 	$token=(string)filter_input_data('POST','token');
 	$session_token= $_SESSION['token'] ?? '';
-	if(!$token||!$session_token||!hash_equals($token,$session_token)){
+	if(!$token||!$session_token||!hash_equals($session_token,$token)){
 		error(MSG006);
 	}
 }
@@ -2790,7 +2790,7 @@ function charconvert($str): string {
 
 // NGワードがあれば拒絶
 function Reject_if_NGword_exists_in_the_post(): void {
-	global $badstring,$badname,$badurl,$badstr_A,$badstr_B,$pwd,$admin;
+	global $badstring,$badname,$badurl,$badstr_A,$badstr_B;
 
 	if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
 
@@ -2800,6 +2800,7 @@ function Reject_if_NGword_exists_in_the_post(): void {
 	$url = (string)filter_input_data('POST', 'url',FILTER_VALIDATE_URL);
 	$sub = (string)filter_input_data('POST', 'sub');
 	$pwd = (string)filter_input_data('POST', 'pwd');
+	$admin = (string)filter_input_data('POST', 'admin');
 
 	$com_len=strlen((string)$com);
 	$name_len=strlen((string)$name);
@@ -3671,7 +3672,7 @@ function make_thumbnail($imgfile,$time,$max_w,$max_h): string {
 
 function is_adminpass($pwd):bool {
 	global $ADMIN_PASS;
-	if($ADMIN_PASS && $pwd && hash_equals($pwd,$ADMIN_PASS)){
+	if($ADMIN_PASS && $pwd && hash_equals($ADMIN_PASS,$pwd)){
 		return true;
 	}
 	return false;
