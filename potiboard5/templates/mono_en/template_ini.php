@@ -80,6 +80,8 @@ define('MSG049', "[Rejected.]");
 define('MSG050', "[Cookie check failed.]");
 define("MSG051", "[Locked due to incorrect password attempts.]");
 define("MSG052", "[The log file size has exceeded the limit, so the process has been stopped.]");
+define('MSG053', "[Please wait a little.]");
+
 //Text color table 'value[,name]'
 $fontcolors = array('white,White'
 ,'lime,Green'

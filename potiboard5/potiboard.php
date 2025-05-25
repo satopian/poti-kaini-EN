@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.75.6';
-const POTI_LOT = 'lot.20250522';
+const POTI_VER = 'v6.76.3';
+const POTI_LOT = 'lot.20250525';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -230,6 +230,7 @@ defined("MSG049") or define("MSG049", "拒絶されました。");
 defined("MSG050") or define("MSG050", "Cookieが確認できません。");
 defined("MSG051") or define("MSG051", "連続したパスワードの誤入力を検知したためロックしています。");
 defined("MSG052") or define("MSG052", "ログファイルのファイルサイズが制限値を超過したため処理を停止しました。");
+defined("MSG053") or define("MSG053", "少し待ってください。");
 
 $ADMIN_PASS= $ADMIN_PASS ?? false;
 if(!$ADMIN_PASS){
@@ -241,7 +242,7 @@ if(!defined('LOG_MAX')|| !LOG_MAX || !is_numeric(LOG_MAX)){
 }
 
 if(X_FRAME_OPTIONS_DENY){
-	header('X-Frame-Options: DENY');//フレーム内への表示を拒否
+	header("Content-Security-Policy: frame-ancestors 'none';");//フレーム内への表示を拒否
 }
 
 //POSTから変数を取得
@@ -293,9 +294,17 @@ switch($mode){
 
 		if(!$pass){
 			$dat['admin_in'] = true;
+
+			//フォームの表示時刻をセット
+			set_form_display_time();
+
 			return htmloutput(OTHERFILE,$dat);
 		}
 		check_same_origin(true);
+
+		//投稿間隔をチェック
+		check_submission_interval();
+
 		check_password_input_error_count();
 		if(!is_adminpass($pass)){ 
 			error(MSG029);
@@ -307,6 +316,10 @@ switch($mode){
 			$dat['regist'] = true;
 			$dat = array_merge($dat,form($res));
 			$dat = array_merge($dat,form_admin_in('valid'));
+
+			//フォームの表示時刻をセット
+			set_form_display_time();
+
 			return htmloutput(OTHERFILE,$dat);
 		}
 		if($admin==="update"){
@@ -339,6 +352,10 @@ switch($mode){
 		$dat['post_mode'] = true;
 		$dat['regist'] = true;
 		$dat = array_merge($dat,form());
+
+		//フォームの表示時刻をセット
+		set_form_display_time();
+
 		return htmloutput(OTHERFILE,$dat);
 	case 'edit':
 		return editform();
@@ -821,6 +838,9 @@ function res($resno = 0): void {
 		}
 		$dat['view_other_works']=$view_other_works;
 	}
+	//フォームの表示時刻をセット
+	set_form_display_time();
+
 	htmloutput(RESFILE,$dat);
 }
 
@@ -894,6 +914,8 @@ function regist(): void {
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	//CSRFトークンをチェック
 	check_csrf_token();
+	//投稿間隔をチェック
+	check_submission_interval(3);//投稿間隔を3秒に設定
 
 	$admin = (string)filter_input_data('POST', 'admin');
 	$resto = (string)filter_input_data('POST', 'resto',FILTER_VALIDATE_INT);
@@ -1948,6 +1970,7 @@ function paintform(): void {
 // お絵かきコメント 
 function paintcom(): void {
 	global $usercode;
+	
 	$userip = get_uip();
 	$host = $userip ? gethostbyaddr($userip) : '';
 
@@ -2010,6 +2033,9 @@ function paintcom(): void {
 	}
 
 	$dat = array_merge($dat,form($resto,$tmp));
+
+	//フォームの表示時刻をセット
+	set_form_display_time();
 
 	htmloutput(OTHERFILE,$dat);
 }
@@ -2211,6 +2237,9 @@ function incontinue(): void {
 	}
 	$dat['addinfo'] = $addinfo;
 
+	//フォームの表示時刻をセット
+	set_form_display_time();
+
 	htmloutput(PAINTFILE,$dat);
 }
 
@@ -2218,6 +2247,8 @@ function incontinue(): void {
 function check_cont_pass(): void {
 
 	check_same_origin(true);
+	//投稿間隔をチェック
+	check_submission_interval();
 
 	$no = (string)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
@@ -3721,5 +3752,26 @@ function filter_input_data(string $input, string $key, int $filter=0) {
 			return filter_var($value, FILTER_VALIDATE_URL);
 		default:
 			return $value;  // 他のフィルタはそのまま返す
+	}
+}
+
+//フォームの表示時刻をセット
+function set_form_display_time(): void {
+	session_sta();
+	$_SESSION['form_display_time'] = time();
+}
+//投稿間隔をチェック
+function check_submission_interval($min_interval=2): void {
+	// デフォルトで最低2秒の間隔を設ける
+	session_sta();
+	if (!isset($_SESSION['form_display_time'])) {
+		error(MSG049);
+	}
+	$form_display_time = $_SESSION['form_display_time'];
+	$now = time();
+
+	if (($now - $form_display_time) < $min_interval) {
+		set_form_display_time();
+		error(MSG053);
 	}
 }
