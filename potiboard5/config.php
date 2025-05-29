@@ -663,3 +663,9 @@ define("CHECK_PASSWORD_INPUT_ERROR_COUNT", "0");
 // Access via ftp etc.
 // Remove the `templates/errorlog/error.log` and you should be able to login again.
 //This file contains the IP addresses of clients who entered an incorrect admin password.
+
+// Reject posts that are not submitted via JavaScript
+// (1: Enabled, 0: Disabled)
+// When set to 1, posts from clients with JavaScript disabled will be rejected.
+// Posts will also be rejected if common.js is not a compatible version.
+define("REJECT_WITHOUT_JAVASCRIPT", "0"); 

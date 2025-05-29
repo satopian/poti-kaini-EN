@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.76.5';
-const POTI_LOT = 'lot.20250528';
+const POTI_VER = 'v6.77.0';
+const POTI_LOT = 'lot.20250529';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -205,6 +205,8 @@ defined("MAX_W_PX") or define("MAX_W_PX", "1024"); //高さ
 defined("MAX_H_PX") or define("MAX_H_PX", "1024"); //高さ
 //ログファイルのファイルサイズの制限値(単位MB)
 defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
+//JavaScriptを経由していない投稿を拒絶
+defined("REJECT_WITHOUT_JAVASCRIPT") or define("REJECT_WITHOUT_JAVASCRIPT", "0");
 
 $badurl= $badurl ?? [];//拒絶するurl
 
@@ -231,6 +233,7 @@ defined("MSG050") or define("MSG050", "Cookieが確認できません。");
 defined("MSG051") or define("MSG051", "連続したパスワードの誤入力を検知したためロックしています。");
 defined("MSG052") or define("MSG052", "ログファイルのファイルサイズが制限値を超過したため処理を停止しました。");
 defined("MSG053") or define("MSG053", "少し待ってください。");
+defined("MSG054") or define("MSG054", "JavaScriptを有効にしてください。");
 
 $ADMIN_PASS= $ADMIN_PASS ?? false;
 if(!$ADMIN_PASS){
@@ -916,6 +919,11 @@ function regist(): void {
 	check_csrf_token();
 	//投稿間隔をチェック
 	check_submission_interval(3);//投稿間隔を3秒に設定
+
+	// JavaScriptを経由している投稿かチェック
+	if (REJECT_WITHOUT_JAVASCRIPT && !filter_input(INPUT_POST, 'js_submit_flag', FILTER_VALIDATE_BOOLEAN)) {
+		error(MSG054);
+	}
 
 	$admin = (string)filter_input_data('POST', 'admin');
 	$resto = (string)filter_input_data('POST', 'resto',FILTER_VALIDATE_INT);
