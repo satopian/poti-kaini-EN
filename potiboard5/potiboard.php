@@ -918,7 +918,7 @@ function regist(): void {
 	//CSRFトークンをチェック
 	check_csrf_token();
 	//投稿間隔をチェック
-	check_submission_interval(3);//投稿間隔を3秒に設定
+	check_submission_interval();
 
 	// JavaScriptを経由している投稿かチェック
 	if (REJECT_WITHOUT_JAVASCRIPT && !filter_input(INPUT_POST, 'js_submit_flag', FILTER_VALIDATE_BOOLEAN)) {
@@ -3769,7 +3769,13 @@ function set_form_display_time(): void {
 	$_SESSION['form_display_time'] = time();
 }
 //投稿間隔をチェック
-function check_submission_interval($min_interval=2): void {
+function check_submission_interval(): void {
+
+	$mode = (int)filter_input_data('POST', 'mode',FILTER_VALIDATE_INT);
+	$pictmp = (int)filter_input_data('POST', 'pictmp',FILTER_VALIDATE_INT);//お絵かきコメントなら2になる
+	// デフォルトで最低2秒の間隔を設ける
+	$min_interval = ($mode==='regist' && $pictmp!==2) ? 3 : 2; // お絵かきコメント以外の投稿は3秒待機
+
 	// デフォルトで最低2秒の間隔を設ける
 	session_sta();
 	if (!isset($_SESSION['form_display_time'])) {
