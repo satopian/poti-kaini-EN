@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.0';
-const POTI_LOT = 'lot.20250529';
+const POTI_VER = 'v6.77.1';
+const POTI_LOT = 'lot.20250530';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -207,6 +207,7 @@ defined("MAX_H_PX") or define("MAX_H_PX", "1024"); //高さ
 defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
 //JavaScriptを経由していない投稿を拒絶
 defined("REJECT_WITHOUT_JAVASCRIPT") or define("REJECT_WITHOUT_JAVASCRIPT", "0");
+defined("REJECT_IF_NO_REVERSE_DNS") or define("REJECT_IF_NO_REVERSE_DNS", "0");
 
 $badurl= $badurl ?? [];//拒絶するurl
 
@@ -1678,6 +1679,7 @@ function check_dir ($path): void {
 function paintform(): void {
 	global $qualitys,$usercode,$pallets_dat;
 
+	check_badhost();//ホストチェック
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
 	check_same_origin();
 
@@ -3190,6 +3192,11 @@ function check_badhost (): void {
 	$host = $userip ? gethostbyaddr($userip) :'';
 
 	if($host === $userip){//ホスト名がipアドレスになる場合は
+
+		if(REJECT_IF_NO_REVERSE_DNS){
+			error(MSG016); //逆引きできないIPは拒絶
+		}
+		
 		foreach($badip as $value){
 			if (preg_match("/\A$value/i",$host)) {//前方一致
 			error(MSG016);

@@ -1,6 +1,6 @@
 <?php
 /*
-  * POTI-board EVO v5.30.0 lot.221022
+  * POTI-board EVO v6.77.1 lot.20250530
   * by POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/
   *
   * configuration file of POTI-board EVO
@@ -184,6 +184,14 @@ $badfile = array("dummyhash","dummyhash2");
 // 拒絶するホスト
 // Block following IPs
 $badip = array("addr.dummy.com","addr2.dummy.com");
+
+// Reject posts from IP addresses that cannot be reverse-resolved to a hostname
+// (1: Enabled, 0: Disabled)
+define("REJECT_IF_NO_REVERSE_DNS", "0");
+
+// Note: Many users may have IP addresses that cannot be reverse-resolved.
+// Setting this to true may prevent some legitimate users from posting.
+
 
 /* ---------- メール通知設定(email notification settings) ---------- */
 // メール通知機能を使う使わないを設定する項目はここにはありません。
