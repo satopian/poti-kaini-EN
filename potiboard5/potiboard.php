@@ -297,7 +297,9 @@ switch($mode){
 		return regist();
 	case 'admin':
 
-		check_badhost();//禁止ホストには画面を表示しない
+		if(is_badhost()){
+			redirect(h(PHP_SELF2));
+		};
 
 		if(!$pass){
 			$dat['admin_in'] = true;
@@ -353,10 +355,9 @@ switch($mode){
 		if(CONTINUE_PASS||$type==='rep') check_cont_pass();
 		return paintform();
 	case 'newpost':
-		if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY){
+		if(is_badhost() || !USE_IMG_UPLOAD && DENY_COMMENTS_ONLY || DIARY){
 			redirect(h(PHP_SELF2));
 		}
-		check_badhost();
 		$dat['post_mode'] = true;
 		$dat['regist'] = true;
 		$dat = array_merge($dat,form());
@@ -2144,7 +2145,9 @@ function deltemp(): void {
 function incontinue(): void {
 	global $addinfo;
 
-	check_badhost();//禁止ホストには画面を表示しない
+	if(is_badhost()){
+		redirect(h(PHP_SELF2));
+	};
 
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
@@ -3191,14 +3194,14 @@ function check_jpeg_exif($dest): void {
 		error(MSG003,$dest);
 	}
 }
-
-function check_badhost (): void {
+//禁止ホストチェック
+function is_badhost (): bool {
 	global $badip;
 
 	session_sta();
 	$session_is_badhost = $_SESSION['is_badhost'] ?? false; //SESSIONに保存された値を取得
 	if(USE_BADHOST_SESSION_CACHE && $session_is_badhost){
-		error(MSG016); //セッションに禁止ホストフラグがあれば拒絶
+		return true; //セッションに禁止ホストフラグがあれば拒絶
 	}
 
 	//ホスト取得
@@ -3209,22 +3212,29 @@ function check_badhost (): void {
 
 		if(REJECT_IF_NO_REVERSE_DNS){
 			$_SESSION['is_badhost'] = true;
-			error(MSG016); //逆引きできないIPは拒絶
+			return true; //逆引きできないIPは拒絶
 		}
 		
 		foreach($badip as $value){
 			if (preg_match("/\A$value/i",$host)) {//前方一致
 			$_SESSION['is_badhost'] = true;
-			error(MSG016);
+			return true;;
 			}
 		}
 	}else{
 		foreach($badip as $value){
 			if (preg_match("/$value\z/i",$host)) {
 			$_SESSION['is_badhost'] = true;
-			error(MSG016);
+			return true;
 			}
 		}
+	}
+	return false; //禁止ホストではない
+}
+
+function check_badhost (): void {
+	if(is_badhost()){//禁止ホストなら
+		error(MSG016);
 	}
 }
 
