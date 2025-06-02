@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.6';
+const POTI_VER = 'v6.77.7';
 const POTI_LOT = 'lot.20250602';
 
 /*
@@ -208,6 +208,7 @@ defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
 //JavaScriptを経由していない投稿を拒絶
 defined("REJECT_WITHOUT_JAVASCRIPT") or define("REJECT_WITHOUT_JAVASCRIPT", "0");
 defined("REJECT_IF_NO_REVERSE_DNS") or define("REJECT_IF_NO_REVERSE_DNS", "0");
+defined("USE_BADHOST_SESSION_CACHE") or define("USE_BADHOST_SESSION_CACHE", "0");
 
 $badurl= $badurl ?? [];//拒絶するurl
 
@@ -3195,7 +3196,7 @@ function check_badhost (): void {
 
 	session_sta();
 	$session_is_badhost = $_SESSION['is_badhost'] ?? false; //SESSIONに保存された値を取得
-	if($session_is_badhost){
+	if(USE_BADHOST_SESSION_CACHE && $session_is_badhost){
 		error(MSG016); //セッションに禁止ホストフラグがあれば拒絶
 	}
 

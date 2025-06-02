@@ -192,6 +192,12 @@ define("REJECT_IF_NO_REVERSE_DNS", "0");
 // Note: Many users may have IP addresses that cannot be reverse-resolved.
 // Setting this to true may prevent some legitimate users from posting.
 
+// Store in SESSION when a banned host accesses the site  
+// (1: Enabled, 0: Disabled)
+define("USE_BADHOST_SESSION_CACHE", "0");
+
+// Note: Caches bad host detection result in the session.
+// Once flagged, it won't be cleared until the browser is restarted.
 
 /* ---------- メール通知設定(email notification settings) ---------- */
 // メール通知機能を使う使わないを設定する項目はここにはありません。
