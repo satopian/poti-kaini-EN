@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.7';
+const POTI_VER = 'v6.77.8';
 const POTI_LOT = 'lot.20250602';
 
 /*
@@ -356,6 +356,7 @@ switch($mode){
 		if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY||DIARY){
 			redirect(h(PHP_SELF2));
 		}
+		check_badhost();
 		$dat['post_mode'] = true;
 		$dat['regist'] = true;
 		$dat = array_merge($dat,form());
