@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.3';
+const POTI_VER = 'v6.77.6';
 const POTI_LOT = 'lot.20250602';
 
 /*
@@ -295,6 +295,8 @@ switch($mode){
 		}
 		return regist();
 	case 'admin':
+
+		check_badhost();//禁止ホストには画面を表示しない
 
 		if(!$pass){
 			$dat['admin_in'] = true;
@@ -2140,6 +2142,8 @@ function deltemp(): void {
 function incontinue(): void {
 	global $addinfo;
 
+	check_badhost();//禁止ホストには画面を表示しない
+
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
 	$dat['useneo'] = false;
@@ -3188,23 +3192,34 @@ function check_jpeg_exif($dest): void {
 
 function check_badhost (): void {
 	global $badip;
+
+	session_sta();
+	$session_is_badhost = $_SESSION['is_badhost'] ?? false; //SESSIONに保存された値を取得
+	if($session_is_badhost){
+		error(MSG016); //セッションに禁止ホストフラグがあれば拒絶
+	}
+
+	//ホスト取得
 	$userip = get_uip();
 	$host = $userip ? gethostbyaddr($userip) :'';
 
 	if($host === $userip){//ホスト名がipアドレスになる場合は
 
 		if(REJECT_IF_NO_REVERSE_DNS){
+			$_SESSION['is_badhost'] = true;
 			error(MSG016); //逆引きできないIPは拒絶
 		}
 		
 		foreach($badip as $value){
 			if (preg_match("/\A$value/i",$host)) {//前方一致
+			$_SESSION['is_badhost'] = true;
 			error(MSG016);
 			}
 		}
 	}else{
 		foreach($badip as $value){
 			if (preg_match("/$value\z/i",$host)) {
+			$_SESSION['is_badhost'] = true;
 			error(MSG016);
 			}
 		}
