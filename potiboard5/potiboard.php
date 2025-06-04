@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.9';
+const POTI_VER = 'v6.78.0';
 const POTI_LOT = 'lot.20250604';
 
 /*
@@ -1444,6 +1444,7 @@ function newstring($str): string {
 function userdel(): void {
 	global $path;
 
+	check_badhost();
 	check_same_origin();
 
 	$thread_no=(string)filter_input_data('POST','thread_no',FILTER_VALIDATE_INT);
@@ -1508,6 +1509,7 @@ function userdel(): void {
 function admindel($pass): void {
 	global $path;
 
+	check_badhost();
 	check_same_origin(true);
 
 	$onlyimgdel = (bool)filter_input_data('POST', 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
@@ -2343,6 +2345,7 @@ function download_app_dat(): void {
 function editform(): void {
 	global $addinfo,$fontcolors,$ADMIN_PASS;
 
+	check_badhost();
 	check_same_origin();
 
 	//csrfトークンをセット
@@ -2432,6 +2435,7 @@ function editform(): void {
 // 記事上書き
 function rewrite(): void {
 
+	check_badhost();
 	//CSRFトークンをチェック
 	check_csrf_token();
 
