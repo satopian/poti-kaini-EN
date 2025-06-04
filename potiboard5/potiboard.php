@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.77.8';
-const POTI_LOT = 'lot.20250602';
+const POTI_VER = 'v6.77.9';
+const POTI_LOT = 'lot.20250604';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -298,7 +298,7 @@ switch($mode){
 	case 'admin':
 
 		if(is_badhost()){
-			redirect(h(PHP_SELF2));
+			error(MSG049);
 		};
 
 		if(!$pass){
@@ -355,7 +355,10 @@ switch($mode){
 		if(CONTINUE_PASS||$type==='rep') check_cont_pass();
 		return paintform();
 	case 'newpost':
-		if(is_badhost() || !USE_IMG_UPLOAD && DENY_COMMENTS_ONLY || DIARY){
+		if(is_badhost()){
+			error(MSG049);
+		};
+		if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY || DIARY){
 			redirect(h(PHP_SELF2));
 		}
 		$dat['post_mode'] = true;
@@ -2146,7 +2149,7 @@ function incontinue(): void {
 	global $addinfo;
 
 	if(is_badhost()){
-		redirect(h(PHP_SELF2));
+		error(MSG049);
 	};
 
 	$dat['paint_mode'] = false;
