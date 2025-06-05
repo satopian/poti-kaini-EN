@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.78.1';
+const POTI_VER = 'v6.78.2';
 const POTI_LOT = 'lot.20250605';
 
 /*
@@ -2299,6 +2299,9 @@ function check_cont_pass(): void {
 	if(!$flag) error(MSG028);
 }
 function download_app_dat(): void {
+
+	//投稿間隔をチェック
+	check_submission_interval();
 
 	check_same_origin(true);
 
