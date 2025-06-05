@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.78.0';
-const POTI_LOT = 'lot.20250604';
+const POTI_VER = 'v6.78.1';
+const POTI_LOT = 'lot.20250605';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -3807,23 +3807,20 @@ function filter_input_data(string $input, string $key, int $filter=0) {
 //フォームの表示時刻をセット
 function set_form_display_time(): void {
 	session_sta();
-	$_SESSION['form_display_time'] = time();
+	$_SESSION['form_display_time'] = microtime(true);
 }
 //投稿間隔をチェック
 function check_submission_interval(): void {
 
-	$mode = (int)filter_input_data('POST', 'mode',FILTER_VALIDATE_INT);
-	$pictmp = (int)filter_input_data('POST', 'pictmp',FILTER_VALIDATE_INT);//お絵かきコメントなら2になる
-	// デフォルトで最低2秒の間隔を設ける
-	$min_interval = ($mode==='regist' && $pictmp===2) ? 1 : 2; // お絵かきコメント以外の投稿は2秒待機
+	// デフォルトで1.2秒の間隔を設ける
+	$min_interval = 1.2; // 1.2秒待機
 
-	// デフォルトで最低2秒の間隔を設ける
 	session_sta();
 	if (!isset($_SESSION['form_display_time'])) {
 		error(MSG049);
 	}
 	$form_display_time = $_SESSION['form_display_time'];
-	$now = time();
+	$now = microtime(true);
 
 	if (($now - $form_display_time) < $min_interval) {
 		set_form_display_time();
