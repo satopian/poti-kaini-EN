@@ -154,6 +154,28 @@ addEventListener("DOMContentLoaded", () => {
             }
         };
     }
+
+    //コメントフォームのファイルサイズチェック
+    const fileInput = document.querySelector(
+        '#comment_form input[type="file"]'
+    );
+    const maxInput = document.querySelector(
+        '#comment_form input[name="MAX_FILE_SIZE"]'
+    );
+
+    if (
+        fileInput instanceof HTMLInputElement &&
+        maxInput instanceof HTMLInputElement
+    ) {
+        const maxSize = parseInt(maxInput.value, 10);
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files?.[0];
+            if (file && file.size > maxSize) {
+                alert("The file size is too large.");
+            }
+        });
+    }
+
     //スマホの時はPC用のメニューを非表示
     if (navigator.maxTouchPoints && screen.width < 600) {
         const for_mobile = document.getElementById("for_mobile");

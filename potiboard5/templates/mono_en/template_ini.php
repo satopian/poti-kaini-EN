@@ -61,7 +61,7 @@ define('MSG030', "[failed in deletion.(Admin)]");
 define('MSG031', "[Please input No.]");
 define('MSG032', "[There is an inappropriate string.]");
 define('MSG033', "[failed in deletion.]<br>[user doesn't have deletion authority.]");
-define('MSG034', "[Failed to upload picture.]<br>[The size of the picture is too big.]");
+define('MSG034', "[Failed to upload picture.]<br>[The file size is too large.]");
 define('MSG035', "[Comment should have at least some Japanese characters.]");
 define('MSG036', "[This URL can not be used in text.]");
 define('MSG037', "[This name cannot be used.]");

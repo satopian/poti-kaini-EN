@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.79.0';
-const POTI_LOT = 'lot.20250608';
+const POTI_VER = 'v6.79.1';
+const POTI_LOT = 'lot.20250609';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -526,8 +526,6 @@ function basicpart(): array {
 function form($resno="",$tmp=[]): array {
 	global $addinfo;
 	global $fontcolors,$qualitys;
-
-	$dat['upload_max_filesize']= get_upload_max_filesize(); //POST可能な最大サイズを取得
 
 	//csrfトークンをセット
 	$dat['token']= get_csrf_token();
@@ -2428,7 +2426,6 @@ function editform(): void {
 	$dat['admin'] = is_adminpass($pwd) ? h($ADMIN_PASS):'';
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
-	$dat['upload_max_filesize']= get_upload_max_filesize(); //POST可能な最大サイズを取得
 	$dat['addinfo'] = $addinfo;
 	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
 
