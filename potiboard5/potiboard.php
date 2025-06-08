@@ -1984,28 +1984,28 @@ function paintform(): void {
 	}
 }
 // ini_getで取得したサイズ文字列をMBに変換
-function ini_get_size_mb(string $key): int {
+function ini_get_size_mb(string $key): float {
 	if (!function_exists('ini_get')) return 0;
 
 	$val = ini_get($key);
 	$unit = strtoupper(substr($val, -1));
 	$num = (float)$val;
 
-	switch ($unit) {
+	switch ($unit) {// 単位の変換
 			case 'G':
-					return (int)($num * 1024);	// GB → MB
+					return ($num * 1024);	// GB → MB
 			case 'M':
-					return (int)$num;						// MB → MB
+					return $num;						// MB → MB
 			case 'K':
-					return (int)($num / 1024);	// KB → MB
+					return ($num / 1024);	// KB → MB
 			case 'B':
-					return (int)($num / 1024 / 1024);	// バイト → MB
+					return ($num / 1024 / 1024);	// バイト → MB
 			default:
-					return (int)((float)$val / 1024 / 1024); // 単位なし → バイトとして処理
+					return ((float)$val / 1024 / 1024); // 単位なし → バイトとして処理
 	}
 }
 //投稿可能な最大ファイルサイズを取得 単位MB
-function get_upload_max_filesize(): int {
+function get_upload_max_filesize(): float {
 	$upload_max = ini_get_size_mb('upload_max_filesize');
 	$post_max = ini_get_size_mb('post_max_size');
 	return min($upload_max, $post_max);
