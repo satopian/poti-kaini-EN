@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.17";
+Neo.version = "1.6.18";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1248,8 +1248,8 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
       // 動画容量を制限するNEO独自のパラメータ
       // 単位MB
       if (
-        !Neo.config.neo_max_pch ||
         isNaN(Neo.config.neo_max_pch) ||
+        !Number(Neo.config.neo_max_pch) ||
         Number(Neo.config.neo_max_pch) * 1024 * 1024 >
           headerString.length + blob.size + thumbnail_size + thumbnail2.size
       ) {

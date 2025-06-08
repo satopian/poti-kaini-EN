@@ -136,7 +136,7 @@
 				}
 				Promise.all([klecks.getPNG(), klecks.getPSD()]).then(([png, psd]) => {
 					const TotalSiz=((png.size+psd.size)/1024/1024).toFixed(3);
-					if(TotalSiz>{{$max_pch}}){
+					if({{$max_pch}} && TotalSiz>{{$max_pch}}){
 						return alert(`<?php if($en):?>File size is too large.<?php else:?>ファイルサイズが大きすぎます。<?php endif;?>\n<?php if($en):?>limit size<?php else:?>制限値<?php endif;?>:{{$max_pch}}MB\n<?php if($en):?>Current size<?php else:?>現在値<?php endif;?>:${TotalSiz}MB`);
 					}
 					const formData = new FormData();

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!-- mocked drawing page -->
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<title>{{$title}}</title> 
+	<title>{{$title}}</title>
 	<!-- this is important -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 	<script src="tegaki/tegaki.js?{{$parameter_day}}&{{$ver}}"></script>
@@ -19,11 +20,11 @@
 	</style>
 	<script>
 		document.addEventListener('DOMContentLoaded',()=>{
-		document.addEventListener('dblclick', (e)=>{ 
+		document.addEventListener('dblclick', (e)=>{
 			e.preventDefault()
 		}, {
 			passive: false
-			 });
+		});
 	});
 	</script>
 </head>
@@ -147,52 +148,53 @@
 
 	Tegaki.flatten().toBlob(
 		function(blob) {
-		// console.log(blob);
-		const tgkr = Tegaki.replayRecorder ? Tegaki.replayRecorder.toBlob() : null;
-		const formData = new FormData();
-		let DataSize = 1000;
-		let max_pch = {{$max_pch}};
-		max_pch = parseInt(max_pch)*1024*1024;
-		if(tgkr){
-			DataSize = DataSize + blob.size + tgkr.size;
-			if(!max_pch||isNaN(max_pch)||(DataSize<max_pch)){
-				formData.append("tgkr",tgkr,'blob');
+			// console.log(blob);
+			const tgkr = Tegaki.replayRecorder ? Tegaki.replayRecorder.toBlob() : null;
+			const formData = new FormData();
+			let DataSize = 1000;
+			let max_pch = {{$max_pch}};
+			max_pch = Number(max_pch)*1024*1024;
+			if(tgkr){
+				DataSize = DataSize + blob.size + tgkr.size;
+				if(!max_pch||isNaN(max_pch)||(DataSize<max_pch)){
+					formData.append("tgkr",tgkr,'blob');
+				}
 			}
-		}
-		formData.append("picture",blob,'blob');
-		formData.append("usercode", "{{$klecksusercode}}");
-		@if($rep)formData.append("repcode", "{{$repcode}}");@endif
-		formData.append("stime", <?=time();?>);
-		formData.append("resto", "{{$resto}}");
-		formData.append("tool", "Tegaki");
-		postData("?mode=saveimage&tool=tegaki", formData);
-      },
-      'image/png'
-    );
-  },
-  // (c)satopian MIT Licence ここまで
+			formData.append("picture",blob,'blob');
+			formData.append("usercode", "{{$klecksusercode}}");
+			@if($rep)formData.append("repcode", "{{$repcode}}");@endif
+			formData.append("stime", <?=time();?>);
+			formData.append("resto", "{{$resto}}");
+			formData.append("tool", "Tegaki");
+			postData("?mode=saveimage&tool=tegaki", formData);
+			},
+			'image/png'
+		);
+	},
+	// (c)satopian MIT Licence ここまで
 
-  // when the user clicks on Cancel
-  onCancel: function() {
-    console.log('Closing...')
-  },
-  // initial canvas size
-  width: {{$picw}},
-  height: {{$pich}},
-  saveReplay: @if($imgfile||!$anime) false @else true @endif,
+	// when the user clicks on Cancel
+	onCancel: function() {
+		console.log('Closing...')
+	},
+	// initial canvas size
+	width: {{$picw}},
+	height: {{$pich}},
+	saveReplay: @if($imgfile||!$anime) false @else true @endif,
 
 });
 
 @if($imgfile)
 	var self = Tegaki;
-    var image = new Image();
-    image.onload = function() {
-		self.activeLayer.ctx.drawImage(image, 0, 0);
-		TegakiLayers.syncLayerImageData(self.activeLayer);
-    };
-    image.src = "{{$imgfile}}"; // image URL
+	var image = new Image();
+	image.onload = function() {
+	self.activeLayer.ctx.drawImage(image, 0, 0);
+	TegakiLayers.syncLayerImageData(self.activeLayer);
+	};
+	image.src = "{{$imgfile}}"; // image URL
 @endif
 
-	</script>
+</script>
 </body>
+
 </html>

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.78.2';
-const POTI_LOT = 'lot.20250605';
+const POTI_VER = 'v6.79.0';
+const POTI_LOT = 'lot.20250608';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -526,6 +526,8 @@ function basicpart(): array {
 function form($resno="",$tmp=[]): array {
 	global $addinfo;
 	global $fontcolors,$qualitys;
+
+	$dat['upload_max_filesize']= get_upload_max_filesize(); //POST可能な最大サイズを取得
 
 	//csrfトークンをセット
 	$dat['token']= get_csrf_token();
@@ -1944,12 +1946,7 @@ function paintform(): void {
 
 	$dat['usercode'] = $usercode;
 
-
-	$dat['max_pch']=0;
-	if (function_exists('ini_get')){
-		$dat['max_pch'] = min((int)ini_get('post_max_size'),(int)ini_get('upload_max_filesize'));
-	} 
-
+	$dat['max_pch'] = get_upload_max_filesize();
 	//AXNOS Paint用
 	$pmax_w = max($picw,PMAX_W); // 最大幅を元画像にあわせる
 	$pmax_h = max($pich,PMAX_H); // 最大高を元画像にあわせる
@@ -1985,6 +1982,33 @@ function paintform(): void {
 		
 		htmloutput(PAINTFILE,$dat);
 	}
+}
+// ini_getで取得したサイズ文字列をMBに変換
+function ini_get_size_mb(string $key): int {
+	if (!function_exists('ini_get')) return 0;
+
+	$val = ini_get($key);
+	$unit = strtoupper(substr($val, -1));
+	$num = (float)$val;
+
+	switch ($unit) {
+			case 'G':
+					return (int)($num * 1024);	// GB → MB
+			case 'M':
+					return (int)$num;						// MB → MB
+			case 'K':
+					return (int)($num / 1024);	// KB → MB
+			case 'B':
+					return (int)($num / 1024 / 1024);	// バイト → MB
+			default:
+					return (int)((float)$val / 1024 / 1024); // 単位なし → バイトとして処理
+	}
+}
+//投稿可能な最大ファイルサイズを取得 単位MB
+function get_upload_max_filesize(): int {
+	$upload_max = ini_get_size_mb('upload_max_filesize');
+	$post_max = ini_get_size_mb('post_max_size');
+	return min($upload_max, $post_max);
 }
 
 // お絵かきコメント 
@@ -2404,6 +2428,7 @@ function editform(): void {
 	$dat['admin'] = is_adminpass($pwd) ? h($ADMIN_PASS):'';
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
+	$dat['upload_max_filesize']= get_upload_max_filesize(); //POST可能な最大サイズを取得
 	$dat['addinfo'] = $addinfo;
 	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
 
