@@ -136,8 +136,9 @@
 				}
 				Promise.all([klecks.getPNG(), klecks.getPSD()]).then(([png, psd]) => {
 					const TotalSiz=((png.size+psd.size)/1024/1024).toFixed(3);
-					if({{$max_pch}} && TotalSiz>{{$max_pch}}){
-						return alert(`<?php if($en):?>File size is too large.<?php else:?>ファイルサイズが大きすぎます。<?php endif;?>\n<?php if($en):?>limit size<?php else:?>制限値<?php endif;?>:{{$max_pch}}MB\n<?php if($en):?>Current size<?php else:?>現在値<?php endif;?>:${TotalSiz}MB`);
+					const max_pch = Number({{$max_pch}}); // 最大サイズ
+					if(max_pch && TotalSiz>max_pch){
+						return alert(`<?php if($en):?>File size is too large.<?php else:?>ファイルサイズが大きすぎます。<?php endif;?>\n<?php if($en):?>limit size<?php else:?>制限値<?php endif;?>:${max_pch}MB\n<?php if($en):?>Current size<?php else:?>現在値<?php endif;?>:${TotalSiz}MB`);
 					}
 					const formData = new FormData();
 					formData.append("picture", png,'blob');
