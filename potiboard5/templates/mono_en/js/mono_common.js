@@ -155,26 +155,29 @@ addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    //コメントフォームのファイルサイズチェック
-    const fileInput = document.querySelector(
-        '#comment_form input[type="file"]'
-    );
-    const maxInput = document.querySelector(
-        '#comment_form input[name="MAX_FILE_SIZE"]'
-    );
+    // ファイルサイズチェック
+    const setupFileSizeValidator = (formId) => {
+        const form = document.getElementById(formId);
+        if (!(form instanceof HTMLFormElement)) return;
 
-    if (
-        fileInput instanceof HTMLInputElement &&
-        maxInput instanceof HTMLInputElement
-    ) {
+        const maxInput = form.querySelector('input[name="MAX_FILE_SIZE"]');
+        if (!(maxInput instanceof HTMLInputElement)) return;
+
         const maxSize = parseInt(maxInput.value, 10);
-        fileInput.addEventListener("change", () => {
-            const file = fileInput.files?.[0];
-            if (file && file.size > maxSize) {
-                alert("The file size is too large.");
+
+        form.addEventListener("change", (e) => {
+            const target = e.target;
+            if (target instanceof HTMLInputElement && target.type === "file") {
+                const file = target.files?.[0];
+                if (file && file.size > maxSize) {
+                    alert("ファイルサイズが大きすぎます。");
+                    target.value = ""; // 入力をクリア
+                }
             }
         });
-    }
+    };
+    setupFileSizeValidator("comment_form");
+    setupFileSizeValidator("paint_form");
 
     //スマホの時はPC用のメニューを非表示
     if (navigator.maxTouchPoints && screen.width < 600) {

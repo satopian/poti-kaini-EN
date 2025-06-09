@@ -31,6 +31,7 @@
 		<input type="hidden" name="resto" value="{{$resno}}">
 		@endif
 		<input type="hidden" name="mode" value="paint">
+		<input type="hidden" name="MAX_FILE_SIZE" value="{{ isset($upload_max_filesize) ? $upload_max_filesize : '' }}">
 		<input class="button" type="submit" value="Paint">
 		@if($anime)<label id="save_playback"><input type="checkbox" value="true" name="anime" title="Save Playback" @if($animechk){{$animechk}}@endif>Save Playback</label>@endif
 	</p>

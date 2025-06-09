@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.79.1';
+const POTI_VER = 'v6.79.2';
 const POTI_LOT = 'lot.20250609';
 
 /*
@@ -564,6 +564,8 @@ function form($resno="",$tmp=[]): array {
 	$dat['usesub']  = USE_SUB ? ' *' : '';
 	$dat['usecom'] = (USE_COM||($resno&&!RES_UPLOAD)) ? ' *' :'';
 	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
+	//PCHアップロードの投稿可能な最大値 単位byte
+	$dat['upload_max_filesize'] = get_upload_max_filesize()*1024*1024;
 
 	//本文必須の設定では無い時はレスでも画像かコメントがあれば通る
 	$dat['upfile'] = false;
