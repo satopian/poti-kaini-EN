@@ -144,7 +144,7 @@
 					formData.append("picture", png,'blob');
 					formData.append("psd", psd,'blob');
 					formData.append("usercode", "{{$klecksusercode}}");
-					@if($rep)formData.append("repcode", "{{$repcode}}");@endif
+					formData.append("repcode", "{{$repcode}}");
 					formData.append("stime", <?=time();?>);
 					formData.append("resto", "{{$resto}}");
 					formData.append("tool", "Klecks");

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.79.2';
-const POTI_LOT = 'lot.20250609';
+const POTI_VER = 'v6.80.1';
+const POTI_LOT = 'lot.20250610';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1741,7 +1741,7 @@ function paintform(): void {
 	}
 
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
-	//pchファイルアップロードペイント
+	$pchup_paint_mode = false;//pchファイルアップロードペイント
 	if(is_adminpass($admin)){
 		
 		$pchtmp= $_FILES['pch_upload']['tmp_name'] ?? '';
@@ -1766,6 +1766,7 @@ function paintform(): void {
 				if(!in_array(mime_content_type($pchup),["application/octet-stream","application/gzip","image/vnd.adobe.photoshop"])){
 					error(MSG045,$pchup);
 				}
+				$pchup_paint_mode = true;
 				if($pchext==="pch"){
 					$is_neo=is_neo($pchup);
 					$shi = $is_neo ? 'neo': 0;
@@ -1931,6 +1932,11 @@ function paintform(): void {
 		$dat['repcode']=$repcode;
 		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
 		$usercode.='&repcode='.$repcode;
+	}elseif($pchup_paint_mode){//PCHアップロードペイントの時は
+		//描画時間･工程数による拒絶を防ぐため
+		//ダミーの差し換え時の識別コードを追加
+		$dat['repcode']='1';
+		$usercode.='&repcode=1';
 	}
 
 	$not_support_async_await=not_support_async_await()&&($shi==1||$shi==2);
