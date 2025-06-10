@@ -1741,7 +1741,9 @@ function paintform(): void {
 	}
 
 	$dat['parameter_day']=date("Ymd");//JavaScriptのキャッシュ制御
-	$pchup_paint_mode = false;//pchファイルアップロードペイント
+
+	//pchファイルアップロードペイント
+	$pchup_paint_mode = false;
 	if(is_adminpass($admin)){
 		
 		$pchtmp= $_FILES['pch_upload']['tmp_name'] ?? '';
