@@ -1,3 +1,11 @@
+//ブラウザの優先言語が日本語以外の時は英語で表示
+const lang = (
+    navigator.languages?.[0] ||
+    navigator.language ||
+    ""
+).toLowerCase();
+const en = lang.startsWith("ja") ? false : true;
+
 const colorIdx = GetCookie("colorIdx");
 switch (Number(colorIdx)) {
     case 1:
@@ -123,7 +131,7 @@ addEventListener("DOMContentLoaded", () => {
             const languages_length0 = navigator.languages.length === 0;
             const webdriver = navigator.webdriver;
             if (webdriver || languages_length0) {
-                alert("The post has been rejected.");
+                alert(en ? "The post has been rejected." : "拒絶されました。");
                 return;
             }
             const nameInput = commentform.elements.namedItem("name");
@@ -170,7 +178,7 @@ addEventListener("DOMContentLoaded", () => {
             if (target instanceof HTMLInputElement && target.type === "file") {
                 const file = target.files?.[0];
                 if (file && file.size > maxSize) {
-                    alert("ファイルサイズが大きすぎます。");
+                    alert(en ? "The file size is too large." : "ファイルサイズが大きすぎます。");
                     target.value = ""; // 入力をクリア
                 }
             }
