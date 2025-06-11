@@ -178,7 +178,11 @@ addEventListener("DOMContentLoaded", () => {
             if (target instanceof HTMLInputElement && target.type === "file") {
                 const file = target.files?.[0];
                 if (file && file.size > maxSize) {
-                    alert(en ? "The file size is too large." : "ファイルサイズが大きすぎます。");
+                    alert(
+                        en
+                            ? "The file size is too large."
+                            : "ファイルサイズが大きすぎます。"
+                    );
                     target.value = ""; // 入力をクリア
                 }
             }
@@ -204,11 +208,12 @@ addEventListener("DOMContentLoaded", () => {
     };
     const select_app = document.getElementById("select_app");
     // セレクトメニューの変更イベント
-    if (select_app) {
+    if (select_app instanceof HTMLSelectElement) {
         const usePlaybackApps = ["neo", "tegaki", "1", "2"];
 
         select_app.addEventListener("change", (e) => {
-            toggleHideAnimation(usePlaybackApps.includes(e.target?.value));
+            if (!(e.target instanceof HTMLSelectElement)) return;
+            toggleHideAnimation(usePlaybackApps.includes(e.target.value));
         });
 
         // 初期値の設定を反映
