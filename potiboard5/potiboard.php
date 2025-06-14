@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.80.2';
-const POTI_LOT = 'lot.20250611';
+const POTI_VER = 'v6.80.5';
+const POTI_LOT = 'lot.20250614';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -408,6 +408,9 @@ function get_uip(): string {
 	if (strstr($ip, ', ')) {
 		$ips = explode(', ', $ip);
 		$ip = $ips[0];
+	}
+	if(filter_var($ip, FILTER_VALIDATE_IP) === false){
+		return $ip = '';
 	}
 	return $ip;
 }
@@ -3253,8 +3256,10 @@ function is_badhost (): bool {
 	if($host === $userip){//ホスト名がipアドレスになる場合は
 
 		if(REJECT_IF_NO_REVERSE_DNS){
-			$_SESSION['is_badhost'] = true;
-			return true; //逆引きできないIPは拒絶
+			if(!$host || filter_var($userip, FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){//IPv4アドレスなら
+				$_SESSION['is_badhost'] = true;
+				return true; //逆引きできないIPは拒絶
+			}
 		}
 		
 		foreach($badip as $value){
