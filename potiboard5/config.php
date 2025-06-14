@@ -182,7 +182,8 @@ $badfile = array("dummyhash","dummyhash2");
 
 
 // 拒絶するホスト
-// Block following IPs
+// Blocked hosts
+// List of blocked hosts
 $badip = array("addr.dummy.com","addr2.dummy.com");
 
 // Reject posts from IP addresses that cannot be reverse-resolved to a hostname
