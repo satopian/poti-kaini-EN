@@ -237,10 +237,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // フェードイン/フェードアウトを管理する関数
     const fade = (el, to, duration = 500) => {
-        const startOpacity = parseFloat(el.style.opacity);
+        const startOpacity = parseFloat(el.style.opacity || 0);
         let startTime = performance.now();
 
-        function fadeStep(now) {
+        const fadeStep = (now) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
             let opacity = startOpacity + (to - startOpacity) * progress;
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     el.style.visibility = "hidden"; // 完全にフェードアウトしたら非表示
                 }
             }
-        }
+        };
 
         if (to === 1) {
             el.style.visibility = "visible"; // フェードインで表示
@@ -283,12 +283,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // スムーススクロール
-    function smoothScrollToTop(duration = 500) {
+    const smoothScrollToTop = (duration = 500) => {
         // 0.5秒かけてスクロール
         const start = window.scrollY;
         const startTime = performance.now();
 
-        function scrollStep(now) {
+        const scrollStep = (now) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const ease = 1 - Math.pow(1 - progress, 3); // ease-out効果
@@ -300,10 +300,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 fade(pagetop, 0, 500); // スクロール完了後にフェードアウト
             }
-        }
+        };
 
         requestAnimationFrame(scrollStep);
-    }
+    };
 
     // トップに戻るボタンがクリックされたとき
     pagetop?.addEventListener("click", (e) => {
