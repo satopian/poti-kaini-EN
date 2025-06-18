@@ -1,5 +1,5 @@
 <?php
-// thumbnail_gd.inc.php for PetitNote (C)satopian 2021 - 2024
+// thumbnail_gd.inc.php for PetitNote (C)さとぴあ @satopian 2021 - 2025
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
