@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.80.5';
-const POTI_LOT = 'lot.20250614';
+const POTI_VER = 'v6.80.6';
+const POTI_LOT = 'lot.20250619';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -296,11 +296,7 @@ switch($mode){
 		}
 		return regist();
 	case 'admin':
-
-		if(is_badhost()){
-			error(MSG049);
-		};
-
+		check_badhost(MSG049);
 		if(!$pass){
 			$dat['admin_in'] = true;
 
@@ -355,9 +351,7 @@ switch($mode){
 		if(CONTINUE_PASS||$type==='rep') check_cont_pass();
 		return paintform();
 	case 'newpost':
-		if(is_badhost()){
-			error(MSG049);
-		};
+		check_badhost(MSG049);
 		if(!USE_IMG_UPLOAD && DENY_COMMENTS_ONLY || DIARY){
 			redirect(h(PHP_SELF2));
 		}
@@ -398,7 +392,6 @@ switch($mode){
 
 exit();
 
-
 //ユーザーip
 function get_uip(): string {
 	$ip = $_SERVER["HTTP_CLIENT_IP"] ?? '';
@@ -410,7 +403,7 @@ function get_uip(): string {
 		$ip = $ips[0];
 	}
 	if(filter_var($ip, FILTER_VALIDATE_IP) === false){
-		return $ip = '';
+		return '';
 	}
 	return $ip;
 }
@@ -2185,9 +2178,7 @@ function deltemp(): void {
 function incontinue(): void {
 	global $addinfo;
 
-	if(is_badhost()){
-		error(MSG049);
-	};
+	check_badhost(MSG049);
 
 	$dat['paint_mode'] = false;
 	$dat['pch_mode'] = false;
@@ -3279,9 +3270,10 @@ function is_badhost (): bool {
 	return false; //禁止ホストではない
 }
 
-function check_badhost (): void {
+function check_badhost($err_message = ""): void {
 	if(is_badhost()){//禁止ホストなら
-		error(MSG016);
+		$err_message = $err_message ?: MSG016; //エラーメッセージがなければデフォルトメッセージ
+		error($err_message);
 	}
 }
 
