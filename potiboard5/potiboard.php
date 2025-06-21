@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.80.6';
+const POTI_VER = 'v6.80.7';
 const POTI_LOT = 'lot.20250619';
 
 /*
@@ -2193,14 +2193,14 @@ function incontinue(): void {
 
 	$no = (string)filter_input_data('GET', 'no',FILTER_VALIDATE_INT);
 	$resno = (string)filter_input_data('GET', 'resno',FILTER_VALIDATE_INT);
-	$flag = FALSE;
+	$flag = false;
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){//記事ナンバーのログを取得
 		if(!trim($line)){
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,) = explode(",", rtrim($line));
+		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,,,,,$logver) = explode(",", rtrim($line));
 		$flag = true;
 		break;
 		}
@@ -2208,6 +2208,10 @@ function incontinue(): void {
 	closeFile($fp);
 
 	if(!$flag) error(MSG001);
+	
+	if(!check_elapsed_days($ctim,$logver)){
+		error(MSG001);
+	};
 
 	$dat['continue_mode'] = true;
 	if(!$cext || !is_file(IMG_DIR.$ctim.$cext)){//画像が無い時は処理しない
