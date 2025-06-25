@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.80.8';
-const POTI_LOT = 'lot.20250621';
+const POTI_VER = 'v6.81.1';
+const POTI_LOT = 'lot.20250625';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -454,7 +454,10 @@ function check_same_origin($cookie_check=false): void {
 			error($en?"User code mismatch.":"ユーザーコードが一致しません。");
 		}
 	}
-	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST']) && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
+	if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
+		error($en?'Your browser is not supported. ':'お使いのブラウザはサポートされていません。');
+	}
+	if(parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']){
 		error(MSG049);
 	}
 }
@@ -1937,9 +1940,8 @@ function paintform(): void {
 		$usercode.='&repcode=1';
 	}
 
-	$not_support_async_await=not_support_async_await()&&($shi==1||$shi==2);
-	$dat['await']=$not_support_async_await ? '' : 'await';//しぃペインターのダイナミックパレットの制御
-	$dat['async']=$not_support_async_await ? '' : 'async';//awaitをSupportしていない古いブラウザの時は空白に
+	$dat['await']='await';//しぃペインターのダイナミックパレットの制御
+	$dat['async']='async';//ダイナミックパレットのコードに直接　async await　と書いていないテンプレートのために残す。
 
 	//アプリ選択 
 	if($shi==1){ $dat['normal'] = true; }
@@ -3705,21 +3707,6 @@ if(!is_adminpass(filter_input_data('POST','pass'))){
 function isIE(): bool {
 	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
     return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
-}
-function not_support_async_await(): bool {
-
-	if(isIE()){
-		return true;
-	}
-	$userAgent = $_SERVER['HTTP_USER_AGENT'];
-	if (strpos($userAgent, 'Firefox/') !== false) {
-		$matches = [];
-		preg_match('/Firefox\/(\d+)/', $userAgent, $matches);
-		if (isset($matches[1]) && (int)$matches[1] < 89 ) {
-			return true;
-		}
-	}
-	return false;
 }
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
