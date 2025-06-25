@@ -483,7 +483,7 @@ function basicpart(): array {
 	$dat['switch_sns'] = SWITCH_SNS;
 	$dat['sns_window_width'] = (int)SNS_WINDOW_WIDTH;
 	$dat['sns_window_height'] = (int)SNS_WINDOW_HEIGHT;
-	$dat['is_IE'] = isIE();
+	$dat['is_IE'] = true;//古いテンプレートの互換性のため
 	$dat['use_admin_link'] = USE_ADMIN_LINK;
 	
 	//OGPイメージ シェアボタン
@@ -3702,11 +3702,6 @@ if(!is_adminpass(filter_input_data('POST','pass'))){
 	}else{
 		safe_unlink($file);
 	}
-}
-
-function isIE(): bool {
-	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
-    return (bool) strpos($userAgent, 'MSIE') || (bool) strpos($userAgent, 'Trident/');
 }
 
 // 優先言語のリストをチェックして対応する言語があればその翻訳されたレイヤー名を返す
