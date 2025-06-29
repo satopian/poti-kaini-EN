@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.81.2';
-const POTI_LOT = 'lot.20250625';
+const POTI_VER = 'v6.81.3';
+const POTI_LOT = 'lot.20250629';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -2202,7 +2202,7 @@ function incontinue(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,,,,,$logver) = explode(",", rtrim($line));
+		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,,,,,$logver) = explode(",", rtrim($line).",,,,,,,,");
 		$flag = true;
 		break;
 		}
