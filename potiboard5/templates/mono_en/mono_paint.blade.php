@@ -594,10 +594,9 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 				</ul>
 				<h3>Special usage of copy tool</h3>
 				<p>
-					Use copy and merge layers to move between layers. To move by copying, first select the rectangle on the layer
-					you want to move, then select the layer you want to move, and then continue the normal copy work. By doing so,
-					you can move between layers.
-				</p>
+					Use the Copy or Merge Layers functions to move content between layers. <br> Select a rectangle on the
+					original layer using the copy tool, then switch to another layer and continue the copy process. <br> This
+					allows you to move content between layers. </p>
 				<h2>A brief description of the toolbar buttons and special features</h2>
 				<dl>
 					<dt>Nib (normal pen, watercolor pen, text)</dt>
