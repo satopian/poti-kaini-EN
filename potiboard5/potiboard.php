@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.81.3';
-const POTI_LOT = 'lot.20250629';
+const POTI_VER = 'v6.82.0';
+const POTI_LOT = 'lot.20250701';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
