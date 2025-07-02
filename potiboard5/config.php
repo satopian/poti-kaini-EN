@@ -306,7 +306,7 @@ define("DEF_NAME", "anonymous");	//未入力時の名前(default name)
 // 本文を必須にする する:1 しない:0
 // Make the body of the post mandatory. (Yes: 1, No: 0)
 define("USE_COM", "0");
-define("DEF_COM", "no body");	//未入力時の本文(default letter body)
+define("DEF_COM", "Image only.");	//未入力時の本文(default message body)
 
 // 題名を必須にする する:1 しない:0
 // Make the title of the post mandatory. (Must have a title: 1, Must not have a title: 0)
