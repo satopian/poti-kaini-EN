@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.82.0';
-const POTI_LOT = 'lot.20250701';
+const POTI_VER = 'v6.82.1';
+const POTI_LOT = 'lot.20250702';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1275,8 +1275,8 @@ function regist(): void {
 	$new_treeline = '';
 	chmod(TREEFILE,PERMISSION_FOR_LOG);
 	$tp=fopen(TREEFILE,"r+");
-	stream_set_write_buffer($tp, 0);
 	file_lock($tp, LOCK_EX);
+	stream_set_write_buffer($tp, 0);
 	$buf = get_buffer_from_fp($tp);
 	if(!$buf){error(MSG023);}
 	$line = explode("\n", trim($buf));
@@ -3178,7 +3178,7 @@ function check_jpeg_exif($dest): void {
 		return;
 	}
 	//画像回転の検出
-	$exif = exif_read_data($dest);
+	$exif = @exif_read_data($dest);//サポートされていないタグの時に`E_NOTICE`が発生するため`@`で制御
 	$orientation = $exif["Orientation"] ?? 1;
 	//位置情報はあるか?
 	$gpsdata_exists =(isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])); 
