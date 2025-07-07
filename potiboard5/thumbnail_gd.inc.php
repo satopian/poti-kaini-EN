@@ -11,6 +11,9 @@ class thumbnail_gd {
 		$path=basename($path).'/';
 		$fname=basename($fname);
 		$time=basename($time);
+		if(!ctype_digit($time)) {
+			return null;
+		}
 		$fname=$path.$fname;
 		if(!is_file($fname)){
 			return null;
@@ -45,46 +48,43 @@ class thumbnail_gd {
 			return null;
 		};
 		// 出力画像（サムネイル）のイメージを作成
-		$exists_ImageCopyResampled = false;
 		if(function_exists("ImageCreateTrueColor")){
 			$im_out = ImageCreateTrueColor($out_w, $out_h);
 
-				if(self::isTransparencyEnabled($options, $mime_type)){//透明度を扱う時
-						imagealphablending($im_out, false);
-						imagesavealpha($im_out, true);//透明
-				}else{//透明度を扱わない時
-					if(function_exists("ImageColorAlLocate") && function_exists("imagefill")){
-						$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
-						imagefill($im_out, 0, 0, $background);
-					}
+			if(self::isTransparencyEnabled($options, $mime_type)){//透明度を扱う時
+					imagealphablending($im_out, false);
+					imagesavealpha($im_out, true);//透明
+			}else{//透明度を扱わない時
+				if(function_exists("ImageColorAlLocate") && function_exists("imagefill")){
+					$background = ImageColorAlLocate($im_out, 0xFF, 0xFF, 0xFF);//背景色を白に
+					imagefill($im_out, 0, 0, $background);
 				}
-				// コピー＆再サンプリング＆縮小
-				if(function_exists("ImageCopyResampled")){
-					ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
-					$exists_ImageCopyResampled = true;//"ImageCopyResampled"が有効
-				}
-			}else{
-				$im_out = ImageCreate($out_w, $out_h);
 			}
-			// コピー＆縮小
-			if(!$exists_ImageCopyResampled){
-				ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);//"ImageCopyResampled"が無効の時
-			}
-			if(isset($options['toolarge'])){
-				if(!$outfile = self::overwriteResizedImage($im_out, $fname, $mime_type)){
-					return null;
-				}
-			}else{
-				if(!$outfile = self::createThumbnailImage($im_out, $time, $options)){
-					return null;
-			}
+
+		}else{
+			$im_out = ImageCreate($out_w, $out_h);
 		}
-		
+
+		// コピー＆再サンプリング＆縮小
+		if(function_exists("ImageCopyResampled")){
+			ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
+		}else{
+			ImageCopyResized($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);//"ImageCopyResampled"が無効の時
+		}
+
+		if(isset($options['toolarge'])){
+			$outfile = self::overwriteResizedImage($im_out, $fname, $mime_type);
+		}else{
+			$outfile = self::createThumbnailImage($im_out, $time, $options);
+		}
 		// 作成したイメージを破棄
-		if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
-			ImageDestroy($im_in);
-			ImageDestroy($im_out);
+		self::safeImageDestroy($im_in);
+		self::safeImageDestroy($im_out);
+
+		if(!$outfile){
+			return null;
 		}
+
 		if(!chmod($outfile,PERMISSION_FOR_DEST)){
 			return null;
 		}
@@ -115,6 +115,14 @@ class thumbnail_gd {
 		}
 		return true;
 	}
+
+	//GDのイメージを破棄
+	private static function safeImageDestroy($gdImage): void {
+		if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
+			imagedestroy($gdImage);
+		}
+	}
+
 	// 透明度の処理を行う必要があるかを判断
 	private static function isTransparencyEnabled($options, $mime_type): bool {
 		// 透明度を扱うオプションが設定されているか確認
