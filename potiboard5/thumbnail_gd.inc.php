@@ -200,7 +200,7 @@ class thumbnail_gd {
 				}
 				return $outfile;
 
-				default : return null;
+			default : return null;
 
 		}
 	}
