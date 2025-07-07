@@ -1,5 +1,5 @@
 <?php
-$picpost_inc_ver=20250308;
+$picpost_inc_ver=20250707;
 //----------------------------------------------------------------------
 // picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
@@ -218,7 +218,9 @@ class picpost{
 		if(!$im_in){
 			die("error\n{$errormsg_10}");
 		}else{
-			ImageDestroy($im_in);
+			if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
+				ImageDestroy($im_in);
+			}
 		}
 	}
 

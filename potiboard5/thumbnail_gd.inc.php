@@ -3,7 +3,7 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20241226;
+$thumbnail_gd_ver=20240707;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
@@ -81,9 +81,10 @@ class thumbnail_gd {
 		}
 		
 		// 作成したイメージを破棄
-		ImageDestroy($im_in);
-		ImageDestroy($im_out);
-
+		if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
+			ImageDestroy($im_in);
+			ImageDestroy($im_out);
+		}
 		if(!chmod($outfile,PERMISSION_FOR_DEST)){
 			return null;
 		}

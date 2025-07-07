@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.83.0';
-const POTI_LOT = 'lot.20250706';
+const POTI_VER = 'v6.85.0';
+const POTI_LOT = 'lot.20250707';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -88,7 +88,7 @@ require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 //サムネイルfunction
 check_file(__DIR__.'/thumbnail_gd.inc.php');
 require_once(__DIR__.'/thumbnail_gd.inc.php');
-if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20241126){
+if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20250707){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -106,12 +106,12 @@ if(!isset($search_inc_ver) || $search_inc_ver < 20250308){
 //画像保存Class
 check_file(__DIR__.'/save.inc.php');
 require_once(__DIR__.'/save.inc.php');
-if(!isset($save_inc_ver) || $save_inc_ver < 20250308){
+if(!isset($save_inc_ver) || $save_inc_ver < 20250707){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 check_file(__DIR__.'/picpost.inc.php');
 require_once(__DIR__.'/picpost.inc.php');
-if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20250308){
+if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20250707){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -3229,9 +3229,10 @@ function check_jpeg_exif($dest): void {
 	// 画像を保存
 	imagejpeg($im_out, $dest,98);
 	// 画像のメモリを解放
-	imagedestroy($im_in);
-	imagedestroy($im_out);
-
+	if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
+		imagedestroy($im_in);
+		imagedestroy($im_out);
+	}
 	if(!is_file($dest)){
 		error(MSG003,$dest);
 	}
