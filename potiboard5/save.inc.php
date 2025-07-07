@@ -2,7 +2,7 @@
 //save.inc.php 2024 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20250308;
+$save_inc_ver=20250707;
 class image_save{
 
 	private $imgfile,$en,$count,$errtext,$session_usercode; // プロパティとして宣言
