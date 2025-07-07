@@ -139,25 +139,25 @@ class thumbnail_gd {
 	//各画像フォーマットのリソースを作成
 	private static function createImageResource($fname,$mime_type) {
 		switch ($mime_type) {
-			case "image/gif";
+			case "image/gif":
 				if(!function_exists("ImageCreateFromGIF")){//gif
 					return null;
 				}
 					$im_in = @ImageCreateFromGIF($fname);
 					if(!$im_in)return null;
 				break;
-			case "image/jpeg";
+			case "image/jpeg":
 				$im_in = @ImageCreateFromJPEG($fname);//jpg
 					if(!$im_in)return null;
 				break;
-			case "image/png";
+			case "image/png":
 				if(!function_exists("ImageCreateFromPNG")){//png
 					return null;
 				}
 				$im_in = @ImageCreateFromPNG($fname);
 					if(!$im_in)return null;
 				break;
-			case "image/webp";
+			case "image/webp":
 				if(!function_exists("ImageCreateFromWEBP")){//webp
 					return null;
 				}
@@ -175,24 +175,24 @@ class thumbnail_gd {
 		$outfile=(string)$fname;
 		//本体画像を縮小
 		switch ($mime_type) {
-			case "image/gif";
+			case "image/gif":
 				if(function_exists("ImagePNG")){
 					ImagePNG($im_out, $outfile,3);
 				}else{
 					ImageJPEG($im_out, $outfile,98);
 				}
 				return $outfile;
-			case "image/jpeg";
+			case "image/jpeg":
 				ImageJPEG($im_out, $outfile,98);
 				return $outfile;
-			case "image/png";
+			case "image/png":
 				if(function_exists("ImagePNG")){
 					ImagePNG($im_out, $outfile,3);
 				}else{
 					ImageJPEG($im_out, $outfile,98);
 				}
 				return $outfile;
-			case "image/webp";
+			case "image/webp":
 				if(function_exists("ImageWEBP")){
 					ImageWEBP($im_out, $outfile,98);
 				}else{
