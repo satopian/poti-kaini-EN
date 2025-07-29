@@ -34,17 +34,17 @@ use InvalidArgumentException;
  * @author    Jorge Patricio Castro Castillo <jcastro arroba eftec dot cl>
  * @copyright Copyright (c) 2016-2025 Jorge Patricio Castro Castillo MIT License.
  *            Don't delete this comment, its part of the license.
- *            Part of this code is based in the work of Laravel PHP Components.
- * @version   4.18
+ *            Part of this code is based on the work of Laravel PHP Components.
+ * @version   4.19
  * @link      https://github.com/EFTEC/BladeOne
  */
 class BladeOne
 {
     //<editor-fold desc="fields">
-    public const VERSION = '4.18';
-    /** @var int BladeOne reads if the compiled file has changed. If it has changed,then the file is replaced. */
+    public const VERSION = '4.19';
+    /** @var int BladeOne reads if the compiled file has changed. If it has changed, then the file is replaced. */
     public const MODE_AUTO = 0;
-    /** @var int Then compiled file is always replaced. It's slow and it's useful for development. */
+    /** @var int The compiled file is always replaced. It's slow and it's useful for development. */
     public const MODE_SLOW = 1;
     /** @var int The compiled file is never replaced. It's fast and it's useful for production. */
     public const MODE_FAST = 2;
@@ -57,7 +57,7 @@ class BladeOne
     /** @var string It is used to mark the end of the stack (regexp). This value must not be used for other purposes */
     public string $escapeStack1 = '#3R#-#4X#-';
     /** @var string PHP tag. You could use < ?php or < ? (if shorttag is active in php.ini) */
-    public string $phpTag = '<?php '; // hello hello hello.
+    public string $phpTag = '<?php ';
     /** @var string this line is used to easily echo a value */
     protected string $phpTagEcho = '<?php' . ' echo ';
     /** @var string|null $currentUser Current user. Example: john */
@@ -66,7 +66,7 @@ class BladeOne
     public ?string $currentRole;
     /** @var string[]|null $currentPermission Current permission. Example ['edit','add'] */
     public ?array $currentPermission = [];
-    /** @var callable|null callback of validation. It is used for @can,@cannot */
+    /** @var callable|null callback of validation. It is used for "@can,@cannot" */
     public $authCallBack;
     /** @var callable|null callback of validation. It is used for @canany */
     public $authAnyCallBack;
@@ -76,7 +76,7 @@ class BladeOne
     public bool $throwOnError = false;
     /** @var string security token */
     public string $csrf_token = '';
-    /** @var string The path to the missing translations log file. If empty then every missing key is not saved. */
+    /** @var string The path to the missing translations log file. If empty, then every missing key is not saved. */
     public string $missingLog = '';
     /** @var bool if true then pipes commands are available, example {{$a1|strtolower}} */
     public bool $pipeEnable = false;
@@ -97,7 +97,7 @@ class BladeOne
     /** @var BladeOne it is used to get the last instance */
     public static BladeOne $instance;
     /**
-     * @var bool if true then the variables defined in the "include" as arguments are scoped to work only
+     * @var bool if it is true, then the variables defined in the "include" as arguments are scoped to work only
      * inside the "include" statement.<br>
      * If false (default value), then the variables defined in the "include" as arguments are defined globally.<br>
      * <b>Example: (includeScope=false)</b><br>
@@ -1444,7 +1444,6 @@ class BladeOne
      * Get the mode of the engine.See BladeOne::MODE_* constants
      *
      * @return int=[self::MODE_AUTO,self::MODE_DEBUG,self::MODE_FAST,self::MODE_SLOW][$i]
-     * @noinspection PhpUndefinedConstantInspection
      */
     public function getMode(): int
     {
@@ -3021,19 +3020,19 @@ class BladeOne
          * @return string
          */
         $callback = function($match) {
-            if (static::contains($match[0], 'x-')) {
+           if (isset($match[4]) && static::contains($match[0], 'x-')) {
                 $match[4] = $this->compileComponents($match[4]);
             }
             $paramsCompiled = $this->parseParams($match[2]);
             $str = "('components." . $match[1] . "'," . $paramsCompiled . ")";
-            return self::compileComponent($str) . $match[4] . self::compileEndComponent();
+            return self::compileComponent($str) . ($match[4] ?? '') . self::compileEndComponent();
         };
         return preg_replace_callback('/<x-([a-z0-9.-]+)(\s[^>]*)?(>((?:(?!<\/x-\1>).)*)<\/x-\1>|\/>)/ms', $callback, $value);
     }
 
     protected function parseParams($params): string
     {
-        preg_match_all('/([a-z-0-9:]*?)\s*?=\s*?(.+?)(\s|$)/ms', $params, $matches);
+        preg_match_all('/([a-zA-Z0-9:-]*?)\s*?=\s*?(.+?)(\s|$)/ms', $params, $matches);
         $paramsCompiled = [];
         foreach ($matches[1] as $i => $key) {
             $value = str_replace('"', '', $matches[2][$i]);
