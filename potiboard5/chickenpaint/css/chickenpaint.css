@@ -535,6 +535,10 @@
   cursor: ew-resize;
 }
 
+.chickenpaint-canvas[data-cursor=zoom-in] {
+  cursor: zoom-in;
+}
+
 .chickenpaint-palettes {
   position: absolute;
   top: 0;
