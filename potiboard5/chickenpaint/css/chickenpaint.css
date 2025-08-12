@@ -796,9 +796,11 @@
 }
 
 .chickenpaint-tool-flip-horizontal .chickenpaint-toolbar-button-icon {
-	background-position: 0 -160px;
-  }
-
+  background-position: 0 -160px;
+}
+.chickenpaint-tool-flip-horizontal.flipped {
+  box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.6);
+}
 .chickenpaint-tool-undo {
   margin-left: 3px;
 }
