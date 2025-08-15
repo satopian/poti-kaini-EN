@@ -886,6 +886,10 @@
   margin-left: 3px;
 }
 
+.chickenpaint-selection-panel label {
+ margin: 8px 0;
+}
+
 .chickenpaint-gradient-panel {
   padding: 3px;
 }
