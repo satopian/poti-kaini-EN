@@ -1584,9 +1584,6 @@ body.chickenpaint-full-screen {
     font-size: 18px;
     display: none;
   }
-  .chickenpaint select.form-control {
-    height: 25px;
-  }
   .chickenpaint .checkbox {
     min-height: 0;
     height: auto;
