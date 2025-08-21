@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.89.5';
+const POTI_VER = 'v6.90.0';
 const POTI_LOT = 'lot.20250820';
 
 /*
@@ -3179,7 +3179,7 @@ function check_jpeg_exif($dest): void {
 	$exif = @exif_read_data($dest);//サポートされていないタグの時に`E_NOTICE`が発生するため`@`で制御
 	$orientation = $exif["Orientation"] ?? 1;
 	//位置情報はあるか?
-	$gpsdata_exists =(isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])); 
+	$gpsdata_exists =(isset($exif['GPSLatitude']) || isset($exif['GPSLongitude'])); 
 
 	if ($orientation === 1 && !$gpsdata_exists) {
 	//画像が回転していない、位置情報も存在しない時
