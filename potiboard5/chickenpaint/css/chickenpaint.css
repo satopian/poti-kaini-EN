@@ -1694,8 +1694,7 @@ body.chickenpaint-full-screen {
 }
 .chickenpaint .btn-block {
 	display: block;
-	width: 98%;
-	margin: 0 auto;
+	width: 100%;
 }
 .chickenpaint .btn-block + .btn-block {
 	margin-top: 0.5rem;
