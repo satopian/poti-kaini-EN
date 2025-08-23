@@ -1802,7 +1802,7 @@ body.chickenpaint-full-screen {
   --bs-link-color: #337dcc;
   --bs-link-color-rgb: 30, 35, 39;
   --bs-link-decoration: underline;
-  --bs-link-hover-color: #0c6cc0;
+  --bs-link-hover-color: #2f73bc;
   --bs-link-hover-color-rgb: 30, 35, 39;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
@@ -4765,11 +4765,11 @@ textarea.form-control-lg {
   --bs-btn-bg: #337dcc;
   --bs-btn-border-color: #337dcc;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #0c6cc0;
-  --bs-btn-hover-border-color: #0c6cc0;
+  --bs-btn-hover-bg: #2f73bc;
+  --bs-btn-hover-border-color: #2f73bc;
   --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0c6cc0;
+  --bs-btn-active-bg: #2f73bc;
   --bs-btn-active-border-color: #0a53be;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
