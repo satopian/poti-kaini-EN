@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no">
+
+<title>ChickenPaint testbed</title>
+
+<script type="module" src="/c.dd9a59b3.js"></script>
+<link rel="stylesheet" href="/c.5765211d.css">
+<style>:not(input), div#chickenpaint-parent :not(input) {
+  user-select: none;
+}
+</style>
+
+</head>
+<body>
+    <h1>ChickenPaint testbed</h1>
+    <div id="chickenpaint-parent"></div>
+
+<script>document.addEventListener("DOMContentLoaded", ()=>{
+    document.addEventListener('dblclick', (e)=>{
+        e.preventDefault();
+    }, {
+        passive: false
+    });
+    const chicken = document.querySelector('#chickenpaint-parent');
+    chicken.addEventListener('contextmenu', (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+    }, {
+        passive: false
+    });
+    new ChickenPaint({
+        uiElem: document.getElementById("chickenpaint-parent"),
+        //loadImageUrl: "./uploaded.png",
+        //loadChibiFileUrl: "./uploaded.chi",
+        // saveUrl: "save.php",
+        // postUrl: "posting.php",
+        // exitUrl: "",
+        allowDownload: true,
+        resourcesRoot: "chickenpaint/",
+        disableBootstrapAPI: true,
+        fullScreenMode: "auto"
+    });
+});
+
+</script>
+
+<p></p>
+
+</body></html>
