@@ -5351,10 +5351,11 @@ textarea.form-control-lg {
   vertical-align: 0;
 }
 
-.dropdown-divider {
+hr.dropdown-divider {
   height: 0;
   margin: var(--bs-dropdown-divider-margin-y) 0;
   overflow: hidden;
+  border: none;
   border-top: 1px solid var(--bs-dropdown-divider-bg);
   opacity: 1;
 }
@@ -5372,6 +5373,9 @@ textarea.form-control-lg {
   background-color: transparent;
   border: 0;
   border-radius: var(--bs-dropdown-item-border-radius, 0);
+}
+.dropdown-item:any-link {
+  color: var(--bs-dropdown-link-color);
 }
 .dropdown-item:hover, .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
@@ -5547,6 +5551,9 @@ textarea.form-control-lg {
   border: 0;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
+.nav-link:any-link {
+  color: var(--bs-nav-link-color);
+}
 @media (prefers-reduced-motion: reduce) {
   .nav-link {
     transition: none;
@@ -5715,6 +5722,9 @@ textarea.form-control-lg {
   color: var(--bs-navbar-brand-color);
   text-decoration: none;
   white-space: nowrap;
+}
+.navbar-brand:any-link {
+  color: var(--bs-navbar-brand-color);
 }
 .navbar-brand:hover, .navbar-brand:focus {
   color: var(--bs-navbar-brand-hover-color);
