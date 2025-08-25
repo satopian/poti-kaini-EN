@@ -4684,7 +4684,7 @@ textarea.form-control-lg {
 
 .btn {
   --bs-btn-padding-x: 0.75rem;
-  --bs-btn-padding-y: 0.3rem; /* ボタンの余白 */
+  --bs-btn-padding-y: 0.29rem; /* ボタンの余白 */
   --bs-btn-font-family: ;
   --bs-btn-font-size: 1rem;
   --bs-btn-font-weight: 400;
