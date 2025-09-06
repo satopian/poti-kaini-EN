@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.92.5';
-const POTI_LOT = 'lot.20250902';
+const POTI_VER = 'v6.93.2';
+const POTI_LOT = 'lot.20250906';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -98,7 +98,7 @@ if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20250308){
 	//検索Class
 check_file(__DIR__.'/search.inc.php');
 require_once(__DIR__.'/search.inc.php');
-if(!isset($search_inc_ver) || $search_inc_ver < 20250308){
+if(!isset($search_inc_ver) || $search_inc_ver < 20250906){
 	die($en ? "Please update search.inc.php" : "search.inc.phpを更新してください。");
 }
 //画像保存Class
@@ -465,10 +465,10 @@ function basicpart(): array {
 	global $pallets_dat,$resno;
 	
 	$dat['title'] = TITLE;
-	$dat['encoded_title'] = urlencode(TITLE);
+	$dat['encoded_title'] = rawurlencode(TITLE);
 	$dat['home']  = HOME;
 	$dat['self']  = PHP_SELF;
-	$dat['encoded_self'] = urlencode(PHP_SELF);
+	$dat['encoded_self'] = rawurlencode(PHP_SELF);
 	$dat['self2'] = h(PHP_SELF2).(URL_PARAMETER ? '?'.time():'');
 	$dat['ver'] = POTI_VER;
 	$dat['verlot'] = POTI_VERLOT;
@@ -486,7 +486,7 @@ function basicpart(): array {
 	
 	//OGPイメージ シェアボタン
 	$dat['rooturl'] = ROOT_URL;//設置場所url
-	$dat['encoded_rooturl'] = urlencode(ROOT_URL);//設置場所url
+	$dat['encoded_rooturl'] = rawurlencode(ROOT_URL);//設置場所url
 	$dat['sharebutton'] = SHARE_BUTTON ? true : false;
 	$dat['use_select_palettes']=false;
 	$dat['palette_select_tags']='';
@@ -3370,12 +3370,12 @@ function create_res ($line, $options = []): array {
 	//名前とトリップを分離
 	list($res['name'], $res['trip']) = separateNameAndTrip($name);
 	$res['name']=strip_tags($res['name']);
-	$res['encoded_no'] = urlencode($res['no']);
-	$res['encoded_name'] = urlencode($res['name']);
+	$res['encoded_no'] = rawurlencode($res['no']);
+	$res['encoded_name'] = rawurlencode($res['name']);
 	$res['share_name'] = encode_for_share($res['name']);
 	$res['share_sub'] = encode_for_share($res['sub']);
 	$res['encoded_t'] = encode_for_share('['.$res['no'].']'.$res['sub'].($res['name'] ? ' by '.$res['name'] : '').' - '.TITLE);
-	$res['encoded_u'] = urlencode(ROOT_URL.PHP_SELF.'?res='.$res['no']);
+	$res['encoded_u'] = rawurlencode(ROOT_URL.PHP_SELF.'?res='.$res['no']);
 	 
 
 	$com = preg_replace("#<br( *)/?>#i","\n",$com); //<br />を改行に戻す
@@ -3399,7 +3399,7 @@ function create_res ($line, $options = []): array {
 function encode_for_share($str): string {
 	$str = str_replace("&#44;",",", $str);
 	$str = htmlspecialchars_decode((string)$str, ENT_QUOTES);
-	return h(urlencode($str));
+	return h(rawurlencode($str));
 }
 
 function saveimage(): void {
@@ -3829,8 +3829,8 @@ function set_form_display_time(): void {
 //投稿間隔をチェック
 function check_submission_interval(): void {
 
-	// デフォルトで1.2秒の間隔を設ける
-	$min_interval = 1.2; // 1.2秒待機
+	// デフォルトで0.8秒の間隔を設ける
+	$min_interval = 0.8; // 0.8秒待機
 
 	session_sta();
 	if (!isset($_SESSION['form_display_time'])) {
