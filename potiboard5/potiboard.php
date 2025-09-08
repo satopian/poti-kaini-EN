@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.93.2';
-const POTI_LOT = 'lot.20250906';
+const POTI_VER = 'v6.95.0';
+const POTI_LOT = 'lot.20250908';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -797,15 +797,6 @@ function res($resno = 0): void {
 		}
 	}
 	
-	foreach($rresname as $key => $val){
-		$rep=str_replace('&quot;','”',$val);
-		$rep=str_replace('&#039;','’',$rep);
-		$rep=str_replace('&lt;','＜',$rep);
-		$rep=str_replace('&gt;','＞',$rep);
-		$rep=str_replace("&#44;",",",$rep);
-		$rresname[$key]=str_replace('&amp;','＆',$rep);
-	}	
-
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
 	//前のスレッド、次のスレッド

@@ -75,21 +75,22 @@
 			<p class="resm">
 				Reply mode
 				@if($resname)
-				<script>
-					function add_to_com() {
-						var textField = document.getElementById("p_input_com");
-						var postername = "{!! htmlspecialchars($resname,ENT_QUOTES,'utf-8') !!}{{$_san}}";
+					<script>
+					const add_to_com = ()=> {
+						const textField = document.getElementById("p_input_com");
+						const postername = {!! json_encode(htmlspecialchars_decode($resname).$_san,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) !!};
+
 						// テキストフィールドの現在のカーソル位置を取得
-						var startPos = textField.selectionStart;
-						var endPos = textField.selectionEnd;
+						const startPos = textField.selectionStart;
+						const endPos = textField.selectionEnd;
 						// カーソル位置に指定した文字列を挿入
 						textField.value = textField.value.substring(0, startPos) + postername + textField.value.substring(endPos);
 						// カーソル位置を更新
-						var newCursorPosition = startPos + postername.length;
+						const newCursorPosition = startPos + postername.length;
 						textField.setSelectionRange(newCursorPosition, newCursorPosition);						// テキストフィールドにフォーカスを設定
 						textField.focus();
 					}
-				</script>
+					</script>
 				{{-- copy button  --}}
 				<button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
 				@endif
