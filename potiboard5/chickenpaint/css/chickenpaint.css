@@ -1548,6 +1548,7 @@
     color: black;
     border: 1px solid rgba(0, 0, 0, 0.2117647059);
     border-radius: 0.25rem;
+    outline: none;
 }
 
 .chickenpaint .widget-nav .widget-toggler.selected {
