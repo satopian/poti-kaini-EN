@@ -1,5 +1,5 @@
 <?php
-$picpost_inc_ver=20250707;
+$picpost_inc_ver=20250918;
 //----------------------------------------------------------------------
 // picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
@@ -70,6 +70,7 @@ class picpost{
 		$errormsg_8 = "User code has been reissued.\nPlease try again.";
 		$errormsg_9 = "The post has been rejected.";
 		$errormsg_10 = "The image appears to be corrupted.\nPlease consider saving a screenshot to preserve your work.";
+		$errormsg_11 = "Your browser is not supported.";
 	}else{//日本語
 		$errormsg_1 = "データの取得に失敗しました。時間を置いて再度投稿してみて下さい。";
 		$errormsg_2 = "規定容量オーバー。お絵かき画像は保存されません。";
@@ -81,17 +82,24 @@ class picpost{
 		$errormsg_8 = "ユーザーコードを再発行しました。\n再度投稿してみてください。";
 		$errormsg_9 = "拒絶されました。";
 		$errormsg_10 = "破損した画像が検出されました。\nスクリーンショットを撮り作品を保存する事を強くおすすめします。";
+		$errormsg_11 = "お使いのブラウザはサポートされていません。";
 	}
 
 	header('Content-type: text/plain');
 
 	//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
 	//Orijinがhostと異なっていたら投稿を拒絶。
-	if(isset($_SERVER['HTTP_ORIGIN']) && isset($_SERVER['HTTP_HOST'])){//EdgeのIEモードでは$_SERVER['HTTP_ORIGIN']を取得できない
-		if(parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']){
-			die("error\n{$errormsg_9}");
-		}
+	$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+	$same_origin = ($sec_fetch_site === 'same-origin');
+
+	if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
+		die("error\n{$errormsg_11}");
 	}
+
+	if(!$same_origin && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
+		die("error\n{$errormsg_9}");
+	}
+
 	/* ---------- picpost.php用設定 ---------- */
 	defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
 	defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606

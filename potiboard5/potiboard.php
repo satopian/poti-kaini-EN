@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.96.6';
-const POTI_LOT = 'lot.20250917';
+const POTI_VER = 'v6.97.0';
+const POTI_LOT = 'lot.20250918';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -104,12 +104,12 @@ if(!isset($search_inc_ver) || $search_inc_ver < 20250906){
 //画像保存Class
 check_file(__DIR__.'/save.inc.php');
 require_once(__DIR__.'/save.inc.php');
-if(!isset($save_inc_ver) || $save_inc_ver < 20250707){
+if(!isset($save_inc_ver) || $save_inc_ver < 20250918){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 check_file(__DIR__.'/picpost.inc.php');
 require_once(__DIR__.'/picpost.inc.php');
-if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20250707){
+if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20250918){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
 $path = __DIR__.'/'.IMG_DIR;
@@ -452,10 +452,14 @@ function check_same_origin($cookie_check=false): void {
 			error($en?"User code mismatch.":"ユーザーコードが一致しません。");
 		}
 	}
+
+	$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+	$same_origin = ($sec_fetch_site === 'same-origin');
+
 	if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
 		error($en?'Your browser is not supported. ':'お使いのブラウザはサポートされていません。');
 	}
-	if(parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']){
+	if(!$same_origin && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
 		error(MSG049);
 	}
 }
