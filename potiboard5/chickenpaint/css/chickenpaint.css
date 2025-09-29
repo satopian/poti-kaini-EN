@@ -14529,6 +14529,9 @@ fieldset:disabled .btn {
 .chickenpaint .dropdown-item:any-link {
     color: var(--bs-dropdown-link-color);
 }
+.chickenpaint .modal-body a:any-link{
+    color: var(--bs-dropdown-link-color);
+}
 
 /* バックドロップは表示しない */
 .chickenpaint .modal-backdrop {
