@@ -14561,6 +14561,9 @@ fieldset:disabled .btn {
     float: left;
     margin-left: -1.5em;
 }
+.modal-dialog .modal-content .form-group label,.modal-dialog .modal-content .form-check-label{
+    font-size:14px;
+}
 .chickenpaint button.btn.btn-light.btn-sm {
     background-color: #fcfcfc;
     border: none;
