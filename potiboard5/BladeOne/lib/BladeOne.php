@@ -35,13 +35,13 @@ use InvalidArgumentException;
  * @copyright Copyright (c) 2016-2025 Jorge Patricio Castro Castillo MIT License.
  *            Don't delete this comment, its part of the license.
  *            Part of this code is based on the work of Laravel PHP Components.
- * @version   4.19
+ * @version   4.19.1
  * @link      https://github.com/EFTEC/BladeOne
  */
 class BladeOne
 {
     //<editor-fold desc="fields">
-    public const VERSION = '4.19';
+    public const VERSION = '4.19.1';
     /** @var int BladeOne reads if the compiled file has changed. If it has changed, then the file is replaced. */
     public const MODE_AUTO = 0;
     /** @var int The compiled file is always replaced. It's slow and it's useful for development. */
@@ -883,6 +883,7 @@ class BladeOne
             $this->assetDict[$name] = $url;
         }
     }
+
     public function addAssetDictCDN($name, $url = ''): void
     {
         if (\is_array($name)) {
@@ -3020,7 +3021,7 @@ class BladeOne
          * @return string
          */
         $callback = function($match) {
-           if (isset($match[4]) && static::contains($match[0], 'x-')) {
+            if (isset($match[4]) && static::contains($match[0], 'x-')) {
                 $match[4] = $this->compileComponents($match[4]);
             }
             $paramsCompiled = $this->parseParams($match[2]);
@@ -4294,6 +4295,7 @@ class BladeOne
     {
         return $this->phpTagEcho . "(isset(\$this->assetDict[$expression]))?\$this->assetDict[$expression]:\$this->baseUrl.'/'.$expression; ?>";
     }
+
     protected function compileAssetCDN($expression): string
     {
         return $this->phpTagEcho . "(isset(\$this->assetDictCDN[$expression]))?\$this->assetDictCDN[$expression]:\$this->cdnUrl.'/'.$expression; ?>";

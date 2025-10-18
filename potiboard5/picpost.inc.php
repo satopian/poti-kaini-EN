@@ -1,5 +1,5 @@
 <?php
-$picpost_inc_ver=20250918;
+$picpost_inc_ver=20251018;
 //----------------------------------------------------------------------
 // picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
@@ -87,19 +87,6 @@ class picpost{
 
 	header('Content-type: text/plain');
 
-	//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
-	//Orijinがhostと異なっていたら投稿を拒絶。
-	$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
-	$same_origin = ($sec_fetch_site === 'same-origin');
-
-	if(!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST'])){
-		die("error\n{$errormsg_11}");
-	}
-
-	if(!$same_origin && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
-		die("error\n{$errormsg_9}");
-	}
-
 	/* ---------- picpost.php用設定 ---------- */
 	defined('PERMISSION_FOR_LOG') or define('PERMISSION_FOR_LOG', 0600); //config.phpで未定義なら0600
 	defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
@@ -150,6 +137,20 @@ class picpost{
 
 	/* ---------- 投稿者情報記録 ---------- */
 	$is_send_java=(stripos($u_agent,"Java/")!==false);//Javaプラグインからの送信ならtrue
+
+	//Sec-Fetch-SiteがSafariに実装されていないので、Orijinと、hostをそれぞれ取得して比較。
+	//Orijinがhostと異なっていたら投稿を拒絶。
+	$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+	$same_origin = ($sec_fetch_site === 'same-origin');
+
+	if(!$is_send_java && (!isset($_SERVER['HTTP_ORIGIN']) || !isset($_SERVER['HTTP_HOST']))){
+		die("error\n{$errormsg_11}");
+	}
+
+	if(!$is_send_java && !$same_origin && (parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST'])){
+		die("error\n{$errormsg_9}");
+	}
+
 	$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
 	
 	session_sta();

@@ -1689,6 +1689,12 @@ body.chickenpaint-full-screen {
         min-width: 160px;
     }
 }
+/* モバイルモードボタン非表示 */
+@media (max-width: 549px) {
+    .chickenpaint button.widget-toggler.mobile{
+        display: none;
+    }
+}
 /* パレット表示非表示のショートカットメニュー */
 @media (max-width: 519px) {
     .chickenpaint .widget-nav {
