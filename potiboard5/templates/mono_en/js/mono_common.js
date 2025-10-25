@@ -185,7 +185,11 @@ addEventListener("DOMContentLoaded", () => {
             ) {
                 const file = target.files?.[0];
                 if (file && file.size > maxSize) {
-                    alert("ファイルサイズが大きすぎます。");
+                    alert(
+                        en
+                            ? "The file size is too large."
+                            : "ファイルサイズが大きすぎます。"
+                    );
                     target.value = ""; // 入力をクリア
                     if (preview instanceof HTMLImageElement) {
                         preview.src = ""; // メモリ上の画像を表示
