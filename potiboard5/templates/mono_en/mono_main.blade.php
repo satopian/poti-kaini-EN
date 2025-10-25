@@ -165,7 +165,7 @@
 						<td>File</td>
 						<td>
 							<input class="form" type="file" name="upfile" accept="image/*">
-							<span class="preview"></span>
+							<img id="attach_preview" style="max-width:100px;max-height:100px; display:block;">
 						</td>
 					</tr>
 					@endif

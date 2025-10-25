@@ -164,8 +164,10 @@ addEventListener("DOMContentLoaded", () => {
     }
 
     // ファイルサイズチェック
-    const setupFileSizeValidator = (formId) => {
+    const setupFilePreviewAndSizeCheck = (formId) => {
         const form = document.getElementById(formId);
+        const preview = document.getElementById("attach_preview");
+
         if (!(form instanceof HTMLFormElement)) return;
 
         const maxInput = form.querySelector('input[name="MAX_FILE_SIZE"]');
@@ -175,21 +177,54 @@ addEventListener("DOMContentLoaded", () => {
 
         form.addEventListener("change", (e) => {
             const target = e.target;
-            if (target instanceof HTMLInputElement && target.type === "file") {
+            if (
+                target instanceof HTMLInputElement &&
+                target.type === "file" &&
+                target.files &&
+                target.files.length > 0
+            ) {
                 const file = target.files?.[0];
                 if (file && file.size > maxSize) {
-                    alert(
-                        en
-                            ? "The file size is too large."
-                            : "ファイルサイズが大きすぎます。"
-                    );
+                    alert("ファイルサイズが大きすぎます。");
                     target.value = ""; // 入力をクリア
+                    if (preview instanceof HTMLImageElement) {
+                        preview.src = ""; // メモリ上の画像を表示
+                        preview.style.marginTop = "";
+                        preview.style.marginBottom = "";
+                    }
+                    return;
+                }
+                // paint_formの時は画像プレビュー表示しない
+                if (formId === "paint_form") {
+                    return;
+                }
+                //画像プレビュー表示
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    if (reader && preview instanceof HTMLImageElement) {
+                        const result = e.target && e.target.result;
+                        if (typeof result === "string") {
+                            preview.src = result; // メモリ上の画像を表示
+                            preview.style.marginTop = "15px";
+                            preview.style.marginBottom = "6px";
+                        }
+                    }
+                };
+                if (file instanceof Blob) {
+                    reader.readAsDataURL(file);
+                }
+            } else {
+                if (preview instanceof HTMLImageElement) {
+                    preview.src = ""; // メモリ上の画像を表示
+                    preview.style.marginTop = "";
+                    preview.style.marginBottom = "";
                 }
             }
         });
     };
-    setupFileSizeValidator("comment_form");
-    setupFileSizeValidator("paint_form");
+    setupFilePreviewAndSizeCheck("comment_form");
+    setupFilePreviewAndSizeCheck("paint_form");
 
     //スマホの時はPC用のメニューを非表示
     if (navigator.maxTouchPoints && screen.width < 600) {
