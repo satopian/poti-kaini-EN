@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.103.1';
+const POTI_VER = 'v6.103.2';
 const POTI_LOT = 'lot.20251029';
 
 /*
@@ -3829,7 +3829,10 @@ function check_submission_interval(): void {
 
 	session_sta();
 	if (!isset($_SESSION['form_display_time'])) {
-		error(MSG049);
+		set_form_display_time();
+		if (!isset($_SESSION['form_display_time'])) {
+			error(MSG049);
+		}
 	}
 	$form_display_time = $_SESSION['form_display_time'];
 	$now = microtime(true);
