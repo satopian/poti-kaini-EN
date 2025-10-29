@@ -162,12 +162,39 @@ addEventListener("DOMContentLoaded", () => {
             }
         };
     }
+    const preview = document.getElementById("attach_preview");
+    const removeAttachmentBtn = document.getElementById(
+        "remove_attachment_btn"
+    );
+    if (removeAttachmentBtn) {
+        removeAttachmentBtn.style.cursor = "pointer";
+    }
 
+    const fileInput = document.querySelector(
+        '#comment_form input[type="file"]'
+    );
+
+    const clear_css_preview = () => {
+        if (preview instanceof HTMLImageElement) {
+            preview.src = ""; // メモリ上の画像を表示
+            preview.src = ""; // メモリ上の画像を表示
+            preview.style.marginTop = "";
+            preview.style.marginBottom = "";
+            preview.style.height = ""; //高さ自動調整
+            preview.style.display = "none"; //非表示
+        }
+        //選択解除リンクを非表示
+        if (removeAttachmentBtn) {
+            removeAttachmentBtn.style.display = "none";
+        }
+        if (fileInput instanceof HTMLInputElement) {
+            fileInput.value = "";
+            fileInput.style.width = "";
+        }
+    };
     // ファイルサイズチェック
     const setupFilePreviewAndSizeCheck = (formId) => {
         const form = document.getElementById(formId);
-        const preview = document.getElementById("attach_preview");
-
         if (!(form instanceof HTMLFormElement)) return;
 
         const maxInput = form.querySelector('input[name="MAX_FILE_SIZE"]');
@@ -177,6 +204,7 @@ addEventListener("DOMContentLoaded", () => {
 
         form.addEventListener("change", (e) => {
             const target = e.target;
+
             if (
                 target instanceof HTMLInputElement &&
                 target.type === "file" &&
@@ -187,20 +215,23 @@ addEventListener("DOMContentLoaded", () => {
                 if (file && file.size > maxSize) {
                     alert(
                         en
-                            ? "The file size is too large."
+                            ? "The file is too large."
                             : "ファイルサイズが大きすぎます。"
                     );
+                    clear_css_preview();
                     target.value = ""; // 入力をクリア
-                    if (preview instanceof HTMLImageElement) {
-                        preview.src = ""; // メモリ上の画像を表示
-                        preview.style.marginTop = "";
-                        preview.style.marginBottom = "";
-                    }
                     return;
                 }
                 // paint_formの時は画像プレビュー表示しない
                 if (formId === "paint_form") {
                     return;
+                }
+                if (fileInput instanceof HTMLInputElement) {
+                    fileInput.style.width = "inherit";
+                }
+                //選択解除リンクを表示
+                if (removeAttachmentBtn) {
+                    removeAttachmentBtn.style.display = "inline-block";
                 }
                 //画像プレビュー表示
                 const reader = new FileReader();
@@ -209,9 +240,24 @@ addEventListener("DOMContentLoaded", () => {
                     if (reader && preview instanceof HTMLImageElement) {
                         const result = e.target && e.target.result;
                         if (typeof result === "string") {
-                            preview.src = result; // メモリ上の画像を表示
-                            preview.style.marginTop = "15px";
-                            preview.style.marginBottom = "6px";
+                            const testImg = new Image();
+                            testImg.src = result;
+                            testImg.onload = () => {
+                                preview.style.height = "fit-content"; //高さ自動調整
+                                preview.src = result; // メモリ上の画像を表示
+                                preview.style.marginTop = "15px";
+                                preview.style.marginBottom = "8px";
+                                preview.style.display = "block"; //表示
+                            };
+                            testImg.onerror = () => {
+                                clear_css_preview();
+                                alert(
+                                    en
+                                        ? "This file is an unsupported format."
+                                        : "対応していないファイル形式です。"
+                                );
+                                return;
+                            };
                         }
                     }
                 };
@@ -219,16 +265,31 @@ addEventListener("DOMContentLoaded", () => {
                     reader.readAsDataURL(file);
                 }
             } else {
-                if (preview instanceof HTMLImageElement) {
-                    preview.src = ""; // メモリ上の画像を表示
-                    preview.style.marginTop = "";
-                    preview.style.marginBottom = "";
-                }
+                //ファイル添付が解除された時
+                clear_css_preview();
             }
         });
     };
     setupFilePreviewAndSizeCheck("comment_form");
     setupFilePreviewAndSizeCheck("paint_form");
+
+    removeAttachmentBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        clear_css_preview();
+    });
+
+    window.addEventListener("pageshow", () => {
+        const formIds = ["comment_form", "paint_form"];
+        formIds.forEach((id) => {
+            const form = document.getElementById(id);
+            if (form instanceof HTMLFormElement) {
+                const fileInputs = form.querySelectorAll('input[type="file"]');
+                fileInputs.forEach((input) => {
+                    input.value = "";
+                });
+            }
+        });
+    });
 
     //スマホの時はPC用のメニューを非表示
     if (navigator.maxTouchPoints && screen.width < 600) {

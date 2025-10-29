@@ -20,11 +20,11 @@
 			margin: 6px 0;
 			display: inline-block;
 		}
+
 		.pchup_button {
 			margin: 0 0 10px 0;
 		}
-
-</style>
+	</style>
 	<title>{{$title}}</title>
 	<style id="for_mobile"></style>
 </head>
@@ -51,7 +51,8 @@
 			</nav>
 		</div>
 		<hr>
-		{{-- <!-- 変則的に管理者お絵かきモードをここにも挿入 --> --}}
+		{{--
+		<!-- 変則的に管理者お絵かきモードをここにも挿入 --> --}}
 		@if($post_mode)
 		@if($regist)
 		<script src="loadcookie.js?{{$ver}}"></script>
@@ -67,7 +68,8 @@
 		@endif
 		@endif @endif
 		@endif
-		{{-- <!-- 管理者お絵かきモードおわり --> --}}
+		{{--
+		<!-- 管理者お絵かきモードおわり --> --}}
 	</header>
 	<main>
 		@if($post_mode)
@@ -97,9 +99,10 @@
 				<hr class="hr">
 				@if($ptime)<p class="ptime">PaintTime : {{$ptime}}</p>
 				@endif
-			{{-- 未投稿画像の画像が無い時はフォームを表示しない --}}
-			@if(!$notmp)
-				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data" @if(!$rewrite)id="comment_form"@endif>
+				{{-- 未投稿画像の画像が無い時はフォームを表示しない --}}
+				@if(!$notmp)
+				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data" @if(!$rewrite)id="comment_form"
+					@endif>
 					<input type="hidden" name="token" value="{{$token}}">
 
 					<table>
@@ -117,28 +120,28 @@
 						<tr>
 							<td>URL</td>
 							<td>
-								<input class="form" type="text" name="url" size="28" autocomplete="url" @if($url)
-									value="{{$url}}" @endif></td>
+								<input class="form" type="text" name="url" size="28" autocomplete="url" @if($url) value="{{$url}}"
+									@endif>
+							</td>
 						</tr>
 						@endif
 						<tr>
 							<td>Subject @if($usesub){{$usesub}}@endif</td>
 							<td>
-								<input class="form" type="text" name="sub" size="20" autocomplete="section-sub"
-									@if($sub) value="{{$sub}}" @endif>
+								<input class="form" type="text" name="sub" size="20" autocomplete="section-sub" @if($sub)
+									value="{{$sub}}" @endif>
 								<input class="button" type="submit" value="Post">
 								@if($regist)
 								<input type="hidden" name="mode" value="regist">
 								@endif
-								{{-- <!--モード指定:編集--> --}}
+								{{--
+								<!--モード指定:編集--> --}}
 								@if($rewrite)
 								<input type="hidden" name="mode" value="rewrite">
 								@if($thread_no)<input type="hidden" name="thread_no" value="{{$thread_no}}">@endif
 								@if($logfilename)<input type="hidden" name="logfilename" value="{{$logfilename}}">@endif
-								@if($mode_catalog)<input type="hidden" name="mode_catalog"
-									value="{{$mode_catalog}}">@endif
-								@if($catalog_pageno)<input type="hidden" name="catalog_pageno"
-									value="{{$catalog_pageno}}">@endif
+								@if($mode_catalog)<input type="hidden" name="mode_catalog" value="{{$mode_catalog}}">@endif
+								@if($catalog_pageno)<input type="hidden" name="catalog_pageno" value="{{$catalog_pageno}}">@endif
 								@if(!$catalog_pageno)<input type="hidden" name="catalog_pageno" value="0">@endif
 								<input type="hidden" name="no" value="{{$rewrite}}">
 								<input type="hidden" name="edittime" value="{{$time}}">
@@ -163,22 +166,23 @@
 						</tr>
 						<tr>
 							<td>Comment @if($usecom){{$usecom}}@endif</td>
-							<td><textarea class="form" name="com" cols="48" rows="4"
-									wrap="soft">@if($com){{$com}}@endif</textarea></td>
+							<td><textarea class="form" name="com" cols="48" rows="4" wrap="soft">@if($com){{$com}}@endif</textarea>
+							</td>
 						</tr>
 						@if($upfile)
 						<tr>
 							<td>File</td>
 							<td><input class="form" type="file" name="upfile" size="35" accept="image/*">
-							<img id="attach_preview" style="max-width:100px;max-height:100px; display:block;">
+								<div id="remove_attachment_btn" style="display:none">[<a href="#">Remove</a>]</div>
+								<img id="attach_preview" style="max-width:100px;max-height:100px; display:block;">
 							</td>
 						</tr>
 						@endif
 						@if($tmp)
-						@php 
+						@php
 						rsort($tmp);
 						@endphp
-		
+
 						<tr>
 							<td>Images</td>
 							<td><select name="picfile">
@@ -192,7 +196,8 @@
 						<tr>
 							<td>Password</td>
 							<td><input class="form" type="password" name="pwd" value="" autocomplete="current-password">
-								<small>(For editing and deleting)</small></td>
+								<small>(For editing and deleting)</small>
+							</td>
 						</tr>
 						@endif
 					</table>
@@ -212,10 +217,10 @@
 					</ul>
 					@endif
 				</form>
-			@endif
+				@endif
 				@if($regist)
 				<script>
-				document.addEventListener('DOMContentLoaded',l,false);
+					document.addEventListener('DOMContentLoaded',l,false);
 				</script>
 				@endif
 			</div>
@@ -262,38 +267,41 @@
 					<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
 				</form>
 				<table class="delfo">
-						<tr>
-							<th>Check</th>
-							<th>No</th>
-							<th>Time</th>
-							<th>Subject</th>
-							<th>Name</th>
-							<th>Comment</th>
-							<th>Host</th>
-							<th>Image (KB) </th>
-							<th>Hash</th>
+					<tr>
+						<th>Check</th>
+						<th>No</th>
+						<th>Time</th>
+						<th>Subject</th>
+						<th>Name</th>
+						<th>Comment</th>
+						<th>Host</th>
+						<th>Image (KB) </th>
+						<th>Hash</th>
 					</tr>
-						@foreach ($dels as $del)
-						<tr>
-							<td><input form="delete" type="checkbox" name="del[]" value="{{$del['no']}}"></td>
-							<td>
-								<form action="{{$self}}" method="post" id="form{{$del['no']}}">
+					@foreach ($dels as $del)
+					<tr>
+						<td><input form="delete" type="checkbox" name="del[]" value="{{$del['no']}}"></td>
+						<td>
+							<form action="{{$self}}" method="post" id="form{{$del['no']}}">
 								<input type="hidden" name="del[]" value="{{$del['no']}}"><input type="hidden" name="pwd"
 									value="{{$pass}}"><input type="hidden" name="mode" value="edit">
-								<a href="javascript:form{{$del['no']}}.submit()">{{$del['no']}}</a></form>
-							</td>
-							<td>{{$del['now']}}</td>
-							<td>{{$del['sub']}}</td>
-							<td>{!!$del['name']!!}</td>
-							<td>{{$del['com']}}</td>
-							<td>{{$del['host']}}</td>
-							<td>@if($del['src'])
-								<a href="{{$del['src']}}" target="_blank" rel="noopener" title="{{$del['no']}}" data-lightbox="{{$del['no']}}">{{$del['srcname']}}</a>
-								({{$del['size_kb']}})KB @endif</td>
-							<td>@if($del['src']){{$del['chk']}}@endif</td>
-						</tr>
-						@endforeach
-					</table>
+								<a href="javascript:form{{$del['no']}}.submit()">{{$del['no']}}</a>
+							</form>
+						</td>
+						<td>{{$del['now']}}</td>
+						<td>{{$del['sub']}}</td>
+						<td>{!!$del['name']!!}</td>
+						<td>{{$del['com']}}</td>
+						<td>{{$del['host']}}</td>
+						<td>@if($del['src'])
+							<a href="{{$del['src']}}" target="_blank" rel="noopener" title="{{$del['no']}}"
+								data-lightbox="{{$del['no']}}">{{$del['srcname']}}</a>
+							({{$del['size_kb']}})KB @endif
+						</td>
+						<td>@if($del['src']){{$del['chk']}}@endif</td>
+					</tr>
+					@endforeach
+				</table>
 				@if($del_pages)
 				@foreach($del_pages as $del_page)
 				<div class="del_page">[
@@ -306,10 +314,11 @@
 						<strong>{{$del_page['pageno']}}
 						</strong>
 					</form>
-				@else
-				<a href="javascript:form_page{{$del_page['no']}}.submit()">{{$del_page['pageno']}}</a></form>
-				@endif
-				]</div>
+					@else
+					<a href="javascript:form_page{{$del_page['no']}}.submit()">{{$del_page['pageno']}}</a></form>
+					@endif
+					]
+				</div>
 				@endforeach
 				@endif
 
@@ -318,10 +327,12 @@
 				<p>&lt;&lt;Image all size : {{$all}} KB &gt;&gt;</p>
 			</div>
 		</section>
-		{{-- <!-- (========== ADMIN MODE -DELETE-(管理モード(削除)) end ==========) --> --}}
+		{{--
+		<!-- (========== ADMIN MODE -DELETE-(管理モード(削除)) end ==========) --> --}}
 		@endif
 		@if($err_mode)
-		{{-- <!-- (========== ERROR MODE(エラー画面) start ==========) --> --}}
+		{{--
+		<!-- (========== ERROR MODE(エラー画面) start ==========) --> --}}
 		<section>
 			<div class="thread">
 				<h2 class="oekaki">ERROR</h2>
@@ -329,11 +340,12 @@
 				<p><a href="#" onclick="javascript:window.history.back(-1);return false;">[Back]</a></p>
 			</div>
 		</section>
-		{{-- <!-- (========== ERROR MODE(エラー画面) end ==========) --> --}}
+		{{--
+		<!-- (========== ERROR MODE(エラー画面) end ==========) --> --}}
 		@endif
 	</main>
 	<footer>
-	{{--  Copyright notice, do not delete  --}}
+		{{-- Copyright notice, do not delete --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>

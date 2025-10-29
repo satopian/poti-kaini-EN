@@ -75,7 +75,7 @@
 			<p class="resm">
 				Reply mode
 				@if($resname)
-					<script>
+				<script>
 					const add_to_com = ()=> {
 						const textField = document.getElementById("p_input_com");
 						const postername = {!! json_encode(htmlspecialchars_decode($resname).$_san,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) !!};
@@ -90,106 +90,106 @@
 						textField.setSelectionRange(newCursorPosition, newCursorPosition);						// テキストフィールドにフォーカスを設定
 						textField.focus();
 					}
-					</script>
-				{{-- copy button  --}}
+				</script>
+				{{-- copy button --}}
 				<button class="copy_button" onclick="add_to_com()">Copy the poster name</button>
 				@endif
 			</p>
 			<hr>
-	@endif
-	@endif
-	@if($paintform)
-	@if($resno or !$diary)
-	@if($resno)
+			@endif
+			@endif
+			@if($paintform)
+			@if($resno or !$diary)
+			@if($resno)
 			<p class="resm">Reply with oekaki</p>
 			<hr>
-		@endif
-		<div class="epost">
-			{{-- ペイントフォーム --}}
-			@include('parts.mono_paint_form',['admin'=>$admin])
-		</div>
-
-	@endif
-
-		<div class="epost">
-		@if ($notres and (!$diary or $addinfo))
-			<ul>
-			@if ($paint2 and !$diary)
-			<li>Canvas size is width {{$pminw}}px to {{$pmaxw}}px, height {{$pminh}}px to {{$pmaxh}}px.</li>
-			<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be thumbnailed.</li>
 			@endif
-			{!!$addinfo!!}
-		</ul>
-		@endif	
-		</div>
-		@endif
-		@if($form)
-			<div>
-			<form action="{{$self}}" method="post" enctype="multipart/form-data" id="comment_form">
-				<input type="hidden" name="token" value="@if($token){{$token}}@endif">
-				<input type="hidden" name="mode" value="regist">
-				@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif
-				<input type="hidden" name="MAX_FILE_SIZE" value="{{$maxbyte}}">
-				<table>
-					<tr>
-						<td>Name @if($usename){{$usename}}@endif</td>
-						<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username">
-						</td>
-					</tr>
-					<tr>
-						<td>Email</td>
-						<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email">
-						</td>
-					</tr>
-					@if($use_url_input)
-					<tr>
-						<td>URL</td>
-						<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
-					</tr>
-					@endif
-					<tr>
-						<td>Subject @if($usesub){{$usesub}}@endif</td>
-						<td>
-							<input class="form" type="text" name="sub" size="20" value="@if($resub){{$resub}}@endif"
-								autocomplete="section-sub">
-							<input class="button" type="submit" value="Post">
-						</td>
-					</tr>
-					<tr>
-						<td>Comment @if($usecom){{$usecom}}@endif</td>
-						<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft"
-								id="p_input_com"></textarea></td>
-					</tr>
-					@if($upfile)
-					<tr>
-						<td>File</td>
-						<td>
-							<input class="form" type="file" name="upfile" accept="image/*">
-							<img id="attach_preview" style="max-width:100px;max-height:100px; display:block;">
-						</td>
-					</tr>
-					@endif
-					<tr>
-						<td>Password</td>
-						<td><input class="form" type="password" name="pwd" value=""
-								autocomplete="current-password"><small>(For editing and deleting)</small></td>
-					</tr>
-				</table>
+			<div class="epost">
+				{{-- ペイントフォーム --}}
+				@include('parts.mono_paint_form',['admin'=>$admin])
+			</div>
+
+			@endif
+
+			<div class="epost">
+				@if ($notres and (!$diary or $addinfo))
 				<ul>
-					@if($upfile)
-					<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
-					<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
-					@endif
-					@if($paintform or $upfile)
-					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be  will be thumbnailed.</li>
-					<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
+					@if ($paint2 and !$diary)
+					<li>Canvas size is width {{$pminw}}px to {{$pmaxw}}px, height {{$pminh}}px to {{$pmaxh}}px.</li>
+					<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be thumbnailed.</li>
 					@endif
 					{!!$addinfo!!}
 				</ul>
-			</form>
+				@endif
+			</div>
+			@endif
+			@if($form)
+			<div>
+				<form action="{{$self}}" method="post" enctype="multipart/form-data" id="comment_form">
+					<input type="hidden" name="token" value="@if($token){{$token}}@endif">
+					<input type="hidden" name="mode" value="regist">
+					@if($resno)<input type="hidden" name="resto" value="{{$resno}}">@endif
+					<input type="hidden" name="MAX_FILE_SIZE" value="{{$maxbyte}}">
+					<table>
+						<tr>
+							<td>Name @if($usename){{$usename}}@endif</td>
+							<td><input class="form" type="text" name="name" size="28" value="" autocomplete="username">
+							</td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><input class="form" type="text" name="email" size="28" value="" autocomplete="email">
+							</td>
+						</tr>
+						@if($use_url_input)
+						<tr>
+							<td>URL</td>
+							<td><input class="form" type="text" name="url" size="28" autocomplete="url"></td>
+						</tr>
+						@endif
+						<tr>
+							<td>Subject @if($usesub){{$usesub}}@endif</td>
+							<td>
+								<input class="form" type="text" name="sub" size="20" value="@if($resub){{$resub}}@endif"
+									autocomplete="section-sub">
+								<input class="button" type="submit" value="Post">
+							</td>
+						</tr>
+						<tr>
+							<td>Comment @if($usecom){{$usecom}}@endif</td>
+							<td><textarea class="form" name="com" cols="28" rows="4" wrap="soft" id="p_input_com"></textarea></td>
+						</tr>
+						@if($upfile)
+						<tr>
+							<td>File</td>
+							<td>
+								<input class="form" type="file" name="upfile" accept="image/*">
+								<div id="remove_attachment_btn" style="display:none">[<a href="#">Remove</a>]</div>
+								<img id="attach_preview" style="max-width:100px;max-height:100px; display:block;">
+							</td>
+						</tr>
+						@endif
+						<tr>
+							<td>Password</td>
+							<td><input class="form" type="password" name="pwd" value="" autocomplete="current-password"><small>(For
+									editing and deleting)</small></td>
+						</tr>
+					</table>
+					<ul>
+						@if($upfile)
+						<li>Attachable files type: GIF, JPG, PNG and WEBP. </li>
+						<li>Attached image larger than width {{$maxw_px}}px height {{$maxh_px}}px will be reduced size.</li>
+						@endif
+						@if($paintform or $upfile)
+						<li>Images larger than width {{$maxw}}px height {{$maxh}}px will be will be thumbnailed.</li>
+						<li>The maximum amount of posted data is {{$maxkb}}KB. With sage function.</li>
+						@endif
+						{!!$addinfo!!}
+					</ul>
+				</form>
+			</div>
+			@endif
 		</div>
-	@endif
-	</div>
 	</header>
 
 	<main>
@@ -212,15 +212,14 @@
 				@endif
 				{{-- 親記事のヘッダ --}}
 				<h3>
-				@if(!isset($res['not_deleted'])||$res['not_deleted'])
+					@if(!isset($res['not_deleted'])||$res['not_deleted'])
 					<span class="name"><a
 							href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
-							target="_blank" rel="noopener">{{$res['name']}}</a></span><span
-						class="trip">{{$res['trip']}}</span> :
+							target="_blank" rel="noopener">{{$res['name']}}</a></span><span class="trip">{{$res['trip']}}</span> :
 					{{$res['now']}}@if($res['id']) ID : {{$res['id']}}@endif @if($res['url']) <span class="url">[<a
 							href="{{$res['url']}}" target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>
 					@endif @if($res['updatemark']){{$res['updatemark']}}@endif
-				@endif
+					@endif
 				</h3>
 				<hr>
 				@else
@@ -229,20 +228,20 @@
 				<div class="res">
 					{{-- 子レスヘッダ --}}
 					<h4>
-					<span class="oyaresno" id="{{$res['no']}}">[{{$res['no']}}]</span>
-					@if(!isset($res['not_deleted'])||$res['not_deleted'])
+						<span class="oyaresno" id="{{$res['no']}}">[{{$res['no']}}]</span>
+						@if(!isset($res['not_deleted'])||$res['not_deleted'])
 						<span class="rsub">{{$res['sub']}}</span> :
 						<span class="name"><a
-							href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
-								target="_blank" rel="noopener">{{$res['name']}}</a></span><span
-							class="trip">{{$res['trip']}}</span> : {{$res['now']}}@if($res['id']) ID :
-						{{$res['id']}}@endif @if($res['url']) <span class="url">[<a href="{{$res['url']}}"
-								target="_blank" rel="nofollow noopener noreferrer">URL</a>]</span>@endif
+								href="{{$self}}?mode=search&page=1&amp;imgsearch=on&amp;query={{$res['encoded_name']}}&amp;radio=2"
+								target="_blank" rel="noopener">{{$res['name']}}</a></span><span class="trip">{{$res['trip']}}</span> :
+						{{$res['now']}}@if($res['id']) ID :
+						{{$res['id']}}@endif @if($res['url']) <span class="url">[<a href="{{$res['url']}}" target="_blank"
+								rel="nofollow noopener noreferrer">URL</a>]</span>@endif
 						@if($res['updatemark']) {{$res['updatemark']}}@endif
-					@endif
+						@endif
 					</h4>
-				{{-- 子レスヘッダここまで --}}
-				@endif
+					{{-- 子レスヘッダここまで --}}
+					@endif
 					{{-- 親子共通 --}}
 					@if($res['src'])
 					<div class="img_info_wrap">
@@ -251,70 +250,71 @@
 						@if($res['thumb']) - Showing thumbnail - @endif @if($res['painttime']) PaintTime :
 						{{$res['painttime']}}@endif
 						@if($res['tool'])<span class="article_info_desc"> Tool :
-						{{$res['tool']}}</span>@endif
+							{{$res['tool']}}</span>@endif
 						<br>
 						@if($res['continue']) <a
 							href="{{$self}}?mode=continue&amp;no={{$res['continue']}}&amp;resno={{$ress[0]['no']}}">*Continue</a>@endif
 						@if($res['spch'])<span class="for_pc">@endif @if($res['pch']) <a
-								href="{{$self}}?mode=openpch&amp;pch={{$res['pch']}}&amp;resno={{$ress[0]['no']}}&no={{$res['no']}}" target="_blank">*Replay</a>@endif
+								href="{{$self}}?mode=openpch&amp;pch={{$res['pch']}}&amp;resno={{$ress[0]['no']}}&no={{$res['no']}}"
+								target="_blank">*Replay</a>@endif
 							@if($res['spch'])</span>@endif
 					</div>
 					<figure @if($res['w']>=750) style="float:none;margin-right:0"@endif>
 						<a href="{{$res['src']}}" target="_blank" rel="noopener" data-lightbox="{{$ress[0]['no']}}">
 							<img src="{{$res['imgsrc']}}" alt="{{$res['sub']}} by {{$res['name']}}"
-								title="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}"
-								height="{{$res['h']}}" @if($i>4)loading="lazy"@endif>
+								title="{{$res['sub']}} by {{$res['name']}}" width="{{$res['w']}}" height="{{$res['h']}}"
+								@if($i>4)loading="lazy"@endif>
 						</a>
 					</figure>
 					@endif
 					<div class="comment_wrap">
-					<p>{!!$res['com']!!}
-						@if(isset($res['not_deleted'])&&!$res['not_deleted'])
-						This post does not exist.
-						@endif
-					</p>
-				</div>
-				{{-- 最初のループならレス省略件数を表示 --}}
+						<p>{!!$res['com']!!}
+							@if(isset($res['not_deleted'])&&!$res['not_deleted'])
+							This post does not exist.
+							@endif
+						</p>
+					</div>
+					{{-- 最初のループならレス省略件数を表示 --}}
 					@if ($loop->first)
 					@if ($res['skipres'])
 					<hr>
 					<div class="article_skipres">
-						{{$res['skipres']}} 
+						{{$res['skipres']}}
 						@if($res['skipres']>1) posts @else post @endif
-						 omitted.
+						omitted.
 					</div>
 					@endif
 					@endif
 					{{-- 子レスなら --}}
 					@if (!$loop->first)
-			</div>
-			@endif
-			@endforeach
-			@endif
-			<div class="thfoot">
-				<hr>
-				@if($sharebutton)
-				{{-- シェアボタン --}}
-				<span class="share_button">
-					@if($switch_sns)
-						<a href="{{$self}}?mode=set_share_server&encoded_t={{$ress[0]['encoded_t']}}&amp;encoded_u={{$ress[0]['encoded_u']}}" onclick="open_sns_server_window(event,{{$sns_window_width}},{{$sns_window_height}})"><span
-						class="button"><img src="{{$skindir}}img/share-from-square-solid.svg" alt=""> Share on SNS</span></a>
-					@else
+				</div>
+				@endif
+				@endforeach
+				@endif
+				<div class="thfoot">
+					<hr>
+					@if($sharebutton)
+					{{-- シェアボタン --}}
+					<span class="share_button">
+						@if($switch_sns)
+						<a href="{{$self}}?mode=set_share_server&encoded_t={{$ress[0]['encoded_t']}}&amp;encoded_u={{$ress[0]['encoded_u']}}"
+							onclick="open_sns_server_window(event,{{$sns_window_width}},{{$sns_window_height}})"><span
+								class="button"><img src="{{$skindir}}img/share-from-square-solid.svg" alt=""> Share on SNS</span></a>
+						@else
 						<a target="_blank"
-						href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
-						class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
-						<a target="_blank" class="fb btn"
-							href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
+							href="https://twitter.com/intent/tweet?text={{$ress[0]['encoded_t']}}&url={{$ress[0]['encoded_u']}}"><span
+								class="button"><img src="{{$skindir}}img/twitter.svg" alt=""> Tweet</span></a>
+						<a target="_blank" class="fb btn" href="http://www.facebook.com/share.php?u={{$ress[0]['encoded_u']}}"><span
 								class="button"><img src="{{$skindir}}img/facebook.svg" alt="">
 								Share</span></a>
+						@endif
+					</span>
 					@endif
-				</span>
-				@endif
-				@if($notres)<span class="button"><a href="{{$self}}?res={{$ress[0]['no']}}"><img
-							src="{{$skindir}}img/rep.svg" alt=""> @if($ress[0]['disp_resbutton'])Reply @else
+					@if($notres)<span class="button"><a href="{{$self}}?res={{$ress[0]['no']}}"><img src="{{$skindir}}img/rep.svg"
+								alt=""> @if($ress[0]['disp_resbutton'])Reply @else
 							View @endif</a></span>@endif
-				<a href="#header" title="to top">[&uarr;]</a>
-			</div>
+					<a href="#header" title="to top">[&uarr;]</a>
+				</div>
 			</div>
 			@endforeach
 			{{-- スレッドループここまで --}}
@@ -348,8 +348,10 @@
 
 				@if($view_other_works)
 				<div class="view_other_works">
-					@foreach($view_other_works as $view_other_work)<div><a
-							href="{{$self}}?res={{$view_other_work['no']}}"><img src="{{$view_other_work['imgsrc']}}" alt="{{$view_other_work['sub']}} by {{$view_other_work['name']}}" title="{{$view_other_work['sub']}} by {{$view_other_work['name']}}" width="{{$view_other_work['w']}}" height="{{$view_other_work['h']}}" loading="lazy"></a></div>@endforeach
+					@foreach($view_other_works as $view_other_work)<div><a href="{{$self}}?res={{$view_other_work['no']}}"><img
+								src="{{$view_other_work['imgsrc']}}" alt="{{$view_other_work['sub']}} by {{$view_other_work['name']}}"
+								title="{{$view_other_work['sub']}} by {{$view_other_work['name']}}" width="{{$view_other_work['w']}}"
+								height="{{$view_other_work['h']}}" loading="lazy"></a></div>@endforeach
 				</div>
 				@endif
 
@@ -362,17 +364,17 @@
 
 				@endif
 			</nav>
-			{{--  メンテナンスフォーム欄  --}}
+			{{-- メンテナンスフォーム欄 --}}
 			@include('parts.mono_mainte_form')
 
 		</div>
-		{{--  著作権表示 削除しないでください  --}}
+		{{-- 著作権表示 削除しないでください --}}
 		@include('parts.mono_copyright')
 	</footer>
 	<div id="page_top"><a class="icon-angles-up-solid"></a></div>
 	<script src="loadcookie.js?{{$ver}}"></script>
 	<script>
-	document.addEventListener('DOMContentLoaded',l,false);
+		document.addEventListener('DOMContentLoaded',l,false);
 	</script>
 	<script src="lib/{{$jquery}}"></script>
 	<script src="lib/lightbox/js/lightbox.min.js"></script>
