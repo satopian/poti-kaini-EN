@@ -1,7 +1,7 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
 //(c)satopian 2023-2025 MIT License
-$sns_share_inc_ver = 20250906;
+$sns_share_inc_ver = 20251031;
 class sns_share{
 
 //シェアするserverの選択画面
@@ -57,7 +57,7 @@ class sns_share{
 
 		if($sns_server_radio){
 			if(in_array($sns_server_radio,["https://x.com","https://twitter.com"])){
-				$share_url="https://twitter.com/intent/tweet?text=";
+				$share_url="https://x.com/intent/tweet?text=";
 			} elseif($sns_server_radio === "https://bsky.app"){
 				$share_url="https://bsky.app/intent/compose?text=";
 			}	elseif($sns_server_radio === "https://www.threads.net"){
