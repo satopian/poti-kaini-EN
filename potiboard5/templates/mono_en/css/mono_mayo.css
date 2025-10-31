@@ -115,6 +115,7 @@ select,
 textarea {
   width: 25em;
   height: 5em;
+  margin-top: 2px;
 }
 
 button,
