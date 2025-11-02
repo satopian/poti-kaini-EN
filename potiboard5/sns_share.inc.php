@@ -57,7 +57,7 @@ class sns_share{
 
 		if($sns_server_radio){
 			if(in_array($sns_server_radio,["https://x.com","https://twitter.com"])){
-				$share_url="https://x.com/intent/tweet?text=";
+				$share_url="https://x.com/intent/post?text=";
 			} elseif($sns_server_radio === "https://bsky.app"){
 				$share_url="https://bsky.app/intent/compose?text=";
 			}	elseif($sns_server_radio === "https://www.threads.net"){
@@ -80,6 +80,8 @@ class sns_share{
 		if(!$share_url){
 			error($en ? "Please select an SNS sharing destination.":"SNSの共有先を選択してください。");
 		}
-		header('Location:'.$share_url);
+		$dat['share_url'] = $share_url;
+		// header('Location:'.$share_url);
+		htmloutput('sns_redirect',$dat);
 	}
 }
