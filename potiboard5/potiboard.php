@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.107.1';
+const POTI_VER = 'v6.108.1';
 const POTI_LOT = 'lot.20251108';
 
 /*
@@ -718,6 +718,79 @@ function updatelog(): void {
 	safe_unlink(($page/PAGE_DEF+1).PHP_EXT);
 }
 
+//レス画面に前後のスレッドの画像一覧と次のスレッド前のスレッドのリンクを出す
+function res_view_other_works($resno,$trees,$i): array {
+
+	if($resno<0){
+		redirect(h(PHP_SELF2));
+	}
+	
+	$next_tree=[];
+	foreach($trees as $j => $value){
+		if (($i<$j)&&($i+20)>=$j) {//現在のスレッドより後ろの20スレッドのツリーを取得
+			$next_tree[]=explode(",", trim($value),2)[0];
+		}
+	}
+	$prev_tree=[];
+	foreach($trees as $j => $value){
+		if (($i-20)<=$j && $i>$j) {//現在のスレッドより手前の20スレッドのツリーを取得
+			$prev_tree[]=explode(",", trim($value),2)[0];
+		}
+	}
+
+	$fp=fopen(LOGFILE,"r");
+	$prev_line=create_line_from_treenumber ($fp,$prev_tree);
+	$next_line=create_line_from_treenumber ($fp,$next_tree);
+	closeFile($fp);
+
+	$prev_lineindex = get_lineindex($prev_line); // 逆変換テーブル作成
+	$next_lineindex = get_lineindex($next_line); // 逆変換テーブル作成
+
+	//前のスレッド、次のスレッド
+	$next=(isset($next_tree[0])&&$next_tree[0]) ? $next_tree[0] :'';
+	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
+
+	$last_prev_tree = end($prev_tree);
+	$prev=$last_prev_tree ? $last_prev_tree :'';
+
+	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
+	$dat['view_other_works']=false;
+	if(!VIEW_OTHER_WORKS){
+		return $dat;
+	}
+
+	$prev_res=[];
+	$next_res=[];
+	foreach($prev_tree as $n){
+		$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
+		if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+			$prev_res[]=$_res;
+		}
+	}
+	foreach($next_tree as $n){
+		$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
+		if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
+			$next_res[]=$_res;
+		}
+	}
+	if((3<=count($prev_res)) && (3<=count($next_res))){
+		$prev_res = array_slice($prev_res,-3);
+		$next_res = array_slice($next_res,0,3);
+		$view_other_works= array_merge($prev_res,$next_res);
+	
+	}elseif((6>count($next_res))&&(6<=count($prev_res))){
+		$view_other_works= array_slice($prev_res,-6);
+	}elseif((6>count($prev_res))&&(6<=count($next_res))){
+		$view_other_works= array_slice($next_res,0,6);
+	}else{
+		$view_other_works= array_merge($prev_res,$next_res);
+		$view_other_works= array_slice($view_other_works,0,6);
+	}
+
+	$dat['view_other_works']=$view_other_works;
+	return $dat;
+}
+
 //レス画面を表示
 function res($resno = 0): void {
 
@@ -734,32 +807,19 @@ function res($resno = 0): void {
 			break;
 		}
 	}
-	$next_tree=[];
-	foreach($trees as $j => $value){
-		if (($i<$j)&&($i+20)>=$j) {//現在のスレッドより後ろの20スレッドのツリーを取得
-			$next_tree[]=explode(",", trim($value),2)[0];
-		}
-	}
-	$prev_tree=[];
-	foreach($trees as $j => $value){
-		if (($i-20)<=$j && $i>$j) {//現在のスレッドより手前の20スレッドのツリーを取得
-			$prev_tree[]=explode(",", trim($value),2)[0];
-		}
-	}
 
 	if (empty($treeline)) {
 		error(MSG001);
 	}
 
+	//レス画面に前後のスレッドの画像一覧と次のスレッド前のスレッドのリンクを出す
+	$res_view_other_works = res_view_other_works($resno,$trees,$i);
+	
 	$fp=fopen(LOGFILE,"r");
 	$line=create_line_from_treenumber ($fp,$treeline);
-	$prev_line=create_line_from_treenumber ($fp,$prev_tree);
-	$next_line=create_line_from_treenumber ($fp,$next_tree);
 	closeFile($fp);
 
 	$lineindex = get_lineindex($line); // 逆変換テーブル作成
-	$prev_lineindex = get_lineindex($prev_line); // 逆変換テーブル作成
-	$next_lineindex = get_lineindex($next_line); // 逆変換テーブル作成
 
 	if(!isset($lineindex[$resno])){
 		error(MSG001);
@@ -800,50 +860,10 @@ function res($resno = 0): void {
 			$rresname[] = $res['name'];
 		}
 	}
-	
+
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
-	//前のスレッド、次のスレッド
-	$next=(isset($next_tree[0])&&$next_tree[0]) ? $next_tree[0] :'';
-	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
-
-	$last_prev_tree = end($prev_tree);
-	$prev=$last_prev_tree ? $last_prev_tree :'';
-
-	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
-	$dat['view_other_works']=false;
-	if(VIEW_OTHER_WORKS){
-
-		$prev_res=[];
-		$next_res=[];
-		foreach($prev_tree as $n){
-			$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
-			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
-				$prev_res[]=$_res;
-			}
-		}
-		foreach($next_tree as $n){
-			$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
-			if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
-				$next_res[]=$_res;
-			}
-		}
-		if((3<=count($prev_res)) && (3<=count($next_res))){
-			$prev_res = array_slice($prev_res,-3);
-			$next_res = array_slice($next_res,0,3);
-			$view_other_works= array_merge($prev_res,$next_res);
-		
-		}elseif((6>count($next_res))&&(6<=count($prev_res))){
-			$view_other_works= array_slice($prev_res,-6);
-		}elseif((6>count($prev_res))&&(6<=count($next_res))){
-			$view_other_works= array_slice($next_res,0,6);
-		}else{
-			$view_other_works= array_merge($prev_res,$next_res);
-			$view_other_works= array_slice($view_other_works,0,6);
-
-		}
-		$dat['view_other_works']=$view_other_works;
-	}
+	$dat = array_merge($dat,$res_view_other_works);
 	//フォームの表示時刻をセット
 	set_form_display_time();
 
