@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.111.0';
+const POTI_VER = 'v6.111.1';
 const POTI_LOT = 'lot.20251118';
 
 /*
@@ -1278,7 +1278,7 @@ function regist(): void {
 	}
 	list($lastno,) = explode(",", $line[0]);
 	$no = $lastno + 1;
-	$tool = switch_paint_tool_name($tool);
+	$tool = is_paint_tool_name($tool);
 	$newline = "$no,$date,$name,$email,$sub,$com,$url,$host,$pass,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,\n";
 	$newline.= implode("\n", $line);
 
@@ -2550,7 +2550,7 @@ function rewrite(): void {
 				if(!$sub)  $sub  = $esub;
 				if(!$com)  $com  = $ecom;
 				if(!$fcolor) $fcolor = $efcolor;
-				$tool=switch_paint_tool_name($tool);
+				$tool=is_paint_tool_name($tool);
 				$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver,";
 				$flag = TRUE;
 				break;
@@ -2764,7 +2764,7 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	$date = str_replace(",", "&#44;", $date);
 	$ptime = $ptime ? str_replace(",", "&#44;", $ptime):'';
 	$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
-	$tool = switch_paint_tool_name($tool); 
+	$tool = is_paint_tool_name($tool); 
 	$line[$i] = "$no,$date,$name,$email,$sub,$com,$url,$host,$epwd,$imgext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,";
 
 	writeFile($fp, implode("\n", $line));
@@ -3360,7 +3360,7 @@ function create_res ($line, $options = []): array {
 		$res['thumb'] = ($logver === "6") ? ($thumbnail==="thumbnail") : is_file(THUMB_DIR.$time.'s.jpg');
 		$res['imgsrc'] = $res['thumb'] ? THUMB_DIR.$time.'s.jpg' : $res['src'];
 		$tool=($tool==="shi-Painter") ? "Shi-Painter" : $tool; 
-		$res['tool'] = switch_paint_tool_name($tool);
+		$res['tool'] = is_paint_tool_name($tool);
 		//描画時間
 		$ptime=is_numeric($ptime) ? calcPtime($ptime) : $ptime; 
 		$res['painttime'] = DSP_PAINTTIME ? $ptime : '';
@@ -3750,25 +3750,10 @@ function getTranslatedLayerName(): string {
 
 	return "Layer";
 }
-function switch_paint_tool_name($tool): string {
-	switch ($tool){
-		case  "Upload" :
-			return $tool;
-		case "PaintBBS NEO":
-			return $tool;
-		case "PaintBBS":
-			return $tool;
-		case "Shi-Painter":
-			return $tool;
-		case "Klecks":
-			return $tool;
-		case "ChickenPaint":
-			return "litaChit";
-		case "Axnos Paint":
-			return $tool;
-		default:
-			return "???";
-	}
+function is_paint_tool_name($tool): string {
+	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","Axnos Paint"]) ? $tool :'';
+	$tool = ($tool==="ChickenPaint") ? "litaChit" : $tool;
+	return (string)$tool;
 }
 //ツリーnoと一致する行の配列を作成
 function create_line_from_treenumber ($fp,$trees): array {
