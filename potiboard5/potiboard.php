@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.111.1';
+const POTI_VER = 'v6.111.2';
 const POTI_LOT = 'lot.20251118';
 
 /*
@@ -3751,7 +3751,7 @@ function getTranslatedLayerName(): string {
 	return "Layer";
 }
 function is_paint_tool_name($tool): string {
-	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","Axnos Paint"]) ? $tool :'';
+	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","litaChit","Axnos Paint"]) ? $tool :'';
 	$tool = ($tool==="ChickenPaint") ? "litaChit" : $tool;
 	return (string)$tool;
 }
