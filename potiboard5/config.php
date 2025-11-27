@@ -64,7 +64,7 @@ define("USE_PAINTBBS_NEO", "1");
 // (1: Enabled, 0: Disabled)
 define("USE_SHI_PAINTER", "1");
 
-// Use litaChit
+// Use litaChix
 // (1: Enabled, 0: Disabled) 
 define("USE_CHICKENPAINT", "1");
 

@@ -340,6 +340,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 					<param name="neo_show_right_button" value="true">
 					<param name="neo_animation_skip" value="true">
 					<param name="neo_disable_grid_touch_move" value="true">
+					<param name="neo_enable_zoom_out" value="true">
 					@else
 					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}"
 						mayscript>
@@ -702,6 +703,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								<param name="speed" value="{{$speed}}">
 								<param name="buffer_progress" value="false">
 								<param name="buffer_canvas" value="false">
+								<param name="neo_enable_zoom_out" value="true">
 								@if($type_neo)
 					</applet-dummy>
 					@else
@@ -773,7 +775,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 							@if($use_tegaki)<option value="tegaki">Tegaki</option>@endif
 							@if($use_axnos)<option value="axnos">Axnos Paint</option>@endif
 							@if($use_shi_painter)<option value="1" class="for_pc">Shi-Painter</option>@endif
-							@if($use_chickenpaint)<option value="chicken">litaChit</option>@endif
+							@if($use_chickenpaint)<option value="chicken">litaChix</option>@endif
 							@if($use_klecks)<option value="klecks">Klecks</option>@endif
 						</select>
 						@endif

@@ -3751,8 +3751,8 @@ function getTranslatedLayerName(): string {
 	return "Layer";
 }
 function is_paint_tool_name($tool): string {
-	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","litaChit","Axnos Paint"]) ? $tool :'';
-	$tool = ($tool==="ChickenPaint") ? "litaChit" : $tool;
+	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","litaChix","Axnos Paint"]) ? $tool :'';
+	$tool = ($tool==="ChickenPaint") ? "litaChix" : $tool;
 	return (string)$tool;
 }
 //ツリーnoと一致する行の配列を作成
