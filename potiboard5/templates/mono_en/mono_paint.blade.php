@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 	<style>
 		div#appstage,
 		div#chickenpaint-parent {
@@ -46,13 +47,7 @@
 
 	@endif
 
-	@if($paint_mode)
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-	@endif
-	@if($pch_mode)
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">@endif
 	@if($continue_mode)
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 	<style>
 		/* index.cssを更新しない人がいるかもしれないためインラインでも記述 */
 		#span_cont_paint_same_thread {
@@ -704,7 +699,8 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								<param name="buffer_progress" value="false">
 								<param name="buffer_canvas" value="false">
 								<param name="neo_enable_zoom_out" value="true">
-								@if($type_neo)
+								<param name="neo_viewer_buttonswrapper_top" value="true">
+					@if($type_neo)
 					</applet-dummy>
 					@else
 					</applet>

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.112.0';
-const POTI_LOT = 'lot.20251127';
+const POTI_VER = 'v6.112.2';
+const POTI_LOT = 'lot.20251128';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -3751,8 +3751,8 @@ function getTranslatedLayerName(): string {
 	return "Layer";
 }
 function is_paint_tool_name($tool): string {
-	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","litaChix","Axnos Paint"]) ? $tool :'';
-	$tool = ($tool==="ChickenPaint") ? "litaChix" : $tool;
+	$tool = in_array($tool,["Upload","PaintBBS NEO","PaintBBS","Shi-Painter","Tegaki","Klecks","ChickenPaint","litaChit","litaChix","Axnos Paint"]) ? $tool :'';
+	$tool = ($tool==="ChickenPaint"||$tool==="litaChit") ? "litaChix" : $tool;
 	return (string)$tool;
 }
 //ツリーnoと一致する行の配列を作成
