@@ -78,7 +78,9 @@ Neo.init = function () {
             Neo.config.width = pch.width;
             Neo.config.height = pch.height;
             Neo.initViewer(pch);
-            Neo.startViewer();
+            // Neo.initViewer()内へ移動
+            // ボタンが表示される前に再生される事があるため
+            // Neo.startViewer();
           }
         });
       }
@@ -7141,7 +7143,10 @@ Neo.initViewer = function (pch) {
   if (pch) {
     //Neo.config.pch_file) {
     Neo.painter._actionMgr._items = pch.data;
-    Neo.painter.play();
+    Neo.startViewer();
+    setTimeout(() => {
+      Neo.painter.play();
+    }, 50);
   }
 };
 
