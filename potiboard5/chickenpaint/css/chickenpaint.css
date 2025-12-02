@@ -1705,7 +1705,7 @@ body.chickenpaint-full-screen {
     }
 }
 @media (max-width: 539px) {
-    /* 選択解除･変形アイコン */
+    /* 上部の消去･塗り潰し･変形･選択解除アイコン */
     .chickenpaint .widget-nav span.upperIcon {
         display: none;
     }
