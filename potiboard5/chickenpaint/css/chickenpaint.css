@@ -1543,19 +1543,16 @@
 .chickenpaint-icon-lock-alpha:before {
     content: "\e901";
 }
-/* ウィジェットを常に表示 */
-/* .chickenpaint .widget-nav {
-  display: none;
-} */
 
+/* ウィジェット */
 .chickenpaint .widget-nav .widget-toggler {
     padding: 0.12rem 0.5rem;
     margin: 0 0.5rem 0 0.5rem;
     font-size: 0.8rem;
     background-color: transparent;
     color: black;
-    border: 1px solid rgba(0, 0, 0, 0.2117647059);
-    border-radius: 0.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.2rem;
     outline: none;
 }
 
