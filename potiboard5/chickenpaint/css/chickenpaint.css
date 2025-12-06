@@ -437,7 +437,7 @@
     margin-bottom: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    padding: 0.5rem 0.5rem;
+    padding: 0.25rem 0.5rem;
 }
 
 .chickenpaint .navbar .dropdown-item {
@@ -1548,6 +1548,7 @@
 div#chickenpaint-palette-toggler-content {
     /* 右に寄せる */
     margin: 0 0 0 auto;
+    padding: 0.3em 0;
 }
 
 .chickenpaint .widget-nav .widget-toggler {
@@ -5758,7 +5759,7 @@ fieldset:disabled .btn {
 
 .nav {
     --bs-nav-link-padding-x: 1rem;
-    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-padding-y: 0.3rem;
     --bs-nav-link-font-weight: ;
     --bs-nav-link-color: var(--bs-link-color);
     --bs-nav-link-hover-color: var(--bs-link-hover-color);
