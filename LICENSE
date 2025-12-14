@@ -1,9 +1,19 @@
-License
-
+## License
 POTI-board EVO Copyright (c) 2018-2025 POTI-board redevelopment team.
+
+POTI-board EVO as a whole is distributed under the Artistic License 2.0,
+excluding bundled or integrated third-party components, which remain under
+their respective licenses.
+See the LICENSE file for details.
+
 original script POTI-board Copyright (c) 2003-2008 SakaQ http://www.punyu.net/php/
 original script futaba.php Copyright (c) 2002-2005 futaba https://www.2chan.net/
 original script gazou.php Copyright (c) 2000-2002 Let's php http://php.s3.to/
+
+Each module is subject to its own license
+
+picpost.inc.php  - Copyright (c)SakaQ 2005 http://www.punyu.net/php/
+noticemail.inc Copyright (c)SakaQ
 
 Each module is subject to its own license
 
