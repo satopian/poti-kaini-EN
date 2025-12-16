@@ -1695,8 +1695,9 @@ body.chickenpaint-full-screen {
     }
 }
 /* Mobileモード切り替えボタン非表示 */
-@media (max-width: 669px) {
-    .chickenpaint button.widget-toggler.mobile {
+@media (max-width: 701px) {
+    .chickenpaint button.widget-toggler.mobile,
+    .chickenpaint span.upperIcon.clear.icon-md-crop_free {
         display: none;
     }
 }

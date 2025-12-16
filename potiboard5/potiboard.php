@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.116.1';
-const POTI_LOT = 'lot.20251211';
+const POTI_VER = 'v6.117.0';
+const POTI_LOT = 'lot.20251214';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1969,8 +1969,8 @@ function paintform(): void {
 	//AXNOS Paint用
 	$pmax_w = max($picw,PMAX_W); // 最大幅を元画像にあわせる
 	$pmax_h = max($pich,PMAX_H); // 最大高を元画像にあわせる
-	$dat['pmaxw'] = min($pmax_w,1800); // 1800px以上にはならない
-	$dat['pmaxh'] = min($pmax_h,1800); // 1800px以上にはならない
+	$dat['pmaxw'] = min($pmax_w,2000); // 2000px以上にはならない
+	$dat['pmaxh'] = min($pmax_h,2000); // 2000px以上にはならない
 
 	$pmin_w = min($picw,PMIN_W); // 最小幅を元画像にあわせる
 	$pmin_h = min($pich,PMIN_H); // 最小高を元画像にあわせる
