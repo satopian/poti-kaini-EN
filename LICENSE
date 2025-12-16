@@ -8,7 +8,7 @@ their respective licenses.
 
 original script POTI-board Copyright (c) 2003-2008 SakaQ http://www.punyu.net/php/
 original script futaba.php Copyright (c) 2002-2005 futaba https://www.2chan.net/
-original script gazou.php Copyright (c) 2000-2002 Let's php http://php.s3.to/
+original script gazou.php Copyright (c) 2000-2002  ToR http://php.s3.to/
 
 Each module is subject to its own license
 
@@ -18,8 +18,8 @@ thumbnail_gd.inc.php - Copyright (c) 2024 satopian
 save.inc.php - Copyright (c) 2023-2024 satopian
 search.inc.php - Copyright (c) 2020-2025 satopian
 sns_share.inc.php- Copyright (c) 2023-2025 satopian
-DynamicPalette - Copyright (c) 2003 noraneko
-PaintBBS, Shi-Painter, PCH Viewer - Copyright (c) 2004 shi-chan
+DynamicPalette - Copyright (c) 2003 noraneko http://wondercatstudio.com/
+PaintBBS, Shi-Painter, PCH Viewer - Copyright (c) 2000-2004 shi-chan http://shichan.jp/
 PaintBBS NEO - Copyright (c) 2016-2025 funige https://github.com/funige/neo
 tegaki.js - Copyright (c) 2015 Maxime Youdine https://github.com/desuwa/tegaki
 AXNOS Paint - Copyright (c) 2022 「悪の巣」部屋番号13番：「趣味の悪い大衆酒場[Mad end dance hall]」https://github.com/axnospaint/axnospaint-lib
