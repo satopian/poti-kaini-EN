@@ -14623,3 +14623,7 @@ fieldset:disabled .btn {
 .chickenpaint-resize-handle-vert {
     touch-action: none; /* 横/縦リサイズハンドルでスクロールを無効化 */
 }
+/* モーダル内のフォームラベルのマージン調整 */
+.chickenpaint .modal-content .form-group label {
+    margin: 0 0 3px 0;
+}
