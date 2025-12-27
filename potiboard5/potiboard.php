@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.118.0';
-const POTI_LOT = 'lot.20251219';
+const POTI_VER = 'v6.119.0';
+const POTI_LOT = 'lot.20251227';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -754,7 +754,7 @@ function res_view_other_works($resno,$trees,$i): array {
 	$prev=$last_prev_tree ? $last_prev_tree :'';
 
 	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
-	$dat['view_other_works']=false;
+	$dat['view_other_works']=[];
 	if(!VIEW_OTHER_WORKS){
 		return $dat;
 	}
