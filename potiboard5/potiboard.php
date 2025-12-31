@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.119.0';
-const POTI_LOT = 'lot.20251227';
+const POTI_VER = 'v6.120.0';
+const POTI_LOT = 'lot.20251231';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -14,7 +14,7 @@ const POTI_LOT = 'lot.20251227';
   *   POTI-board v1.32
   *     (C)SakaQ >> http://www.punyu.net/php/
   *   futaba.php v0.8 lot.031015 (gazou.php v3.0 CUSTOM)
-  *     (C)futaba >> http://www.2chan.net/ ((C)ToR >> http://php.loglog.jp/)
+  *     (C)futaba >> http://www.2chan.net/ ((C)ToR >> http://php.s3.to/)
   *
   * OEKAKI APPLET :
   *   PaintBBS   (test by v2.22_8)
