@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.121.0';
+const POTI_VER = 'v6.121.2';
 const POTI_LOT = 'lot.20260103';
 
 /*
@@ -86,7 +86,7 @@ require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 //サムネイルfunction
 check_file(__DIR__.'/thumbnail_gd.inc.php');
 require_once(__DIR__.'/thumbnail_gd.inc.php');
-if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20250707){
+if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260103){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -1205,14 +1205,16 @@ function regist(): void {
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
-	//アップロード画像でかつPNG形式か?
-	$is_upload_img_png_format = ($is_upload && mime_content_type($dest)==="image/png");
+		//アップロード画像でかつPNG形式か?
+		$is_upload_img_png_format = ($is_upload && mime_content_type($dest)==="image/png");
 
-	if($is_upload){
-		thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
-	}
-	//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-	convert2($temppath,$time,".tmp",$is_upload,$is_upload_img_png_format,);
+		if($is_upload){
+			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
+		}
+		//ファイルサイズが規定サイズを超過していたらWebPに変換
+		//画像アップロード時はサイズを超過していくてもGDのPNGで上書き
+		//ここでGPSデータが消える
+		convert2($temppath,$time,".tmp",$is_upload,$is_upload_img_png_format,);
 
 		clearstatcache();
 		if($is_upload && (filesize($dest) > MAX_KB * 1024)){//ファイルサイズ再チェック
@@ -2723,9 +2725,8 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	if(!is_file($dest)) error(MSG003);
 	chmod($dest,PERMISSION_FOR_DEST);
 
-	//PNG形式またはWebP形式で上書き保存
+	//ファイルサイズが規定サイズを超過していたらWebPに変換
 	convert2($temppath,$time,".tmp");
-
 
 	//サポートしていないフォーマットならエラーが返る
 	$imgext = getImgType($dest);
@@ -3181,7 +3182,7 @@ function convert2($path,$time,$ext,$is_upload_img=false,$is_upload_img_png_forma
 
 	clearstatcache();
 	$filesize=filesize($upfile);
-	//GDのPNGのサイズは少し大きくなるので超過判定を1.5で割る
+	//GDのPNGのサイズは少し大きくなるので制限値を1.5で割る
 	$max_kb_size_over = ($filesize > (MAX_KB * 1024 / 1.5));
 
 		if(
@@ -3207,7 +3208,7 @@ function convert2($path,$time,$ext,$is_upload_img=false,$is_upload_img_png_forma
 	}
 }
 
-//Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
+//Exifをチェックして画像が回転している時は上書き保存
 function check_jpeg_exif($dest): void {
 
 	if((exif_imagetype($dest) !== IMAGETYPE_JPEG ) || !function_exists("imagecreatefromjpeg")){
