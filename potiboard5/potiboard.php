@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.120.0';
-const POTI_LOT = 'lot.20251231';
+const POTI_VER = 'v6.121.0';
+const POTI_LOT = 'lot.20260103';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1205,11 +1205,14 @@ function regist(): void {
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
-		if($is_upload){
-			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
-		}
-		//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-		convert_andsave_if_smaller_png2jpeg($temppath,$time,".tmp",$is_upload);
+	//アップロード画像でかつPNG形式か?
+	$is_upload_img_png_format = ($is_upload && mime_content_type($dest)==="image/png");
+
+	if($is_upload){
+		thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
+	}
+	//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
+	convert2($temppath,$time,".tmp",$is_upload,$is_upload_img_png_format,);
 
 		clearstatcache();
 		if($is_upload && (filesize($dest) > MAX_KB * 1024)){//ファイルサイズ再チェック
@@ -2720,8 +2723,9 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	if(!is_file($dest)) error(MSG003);
 	chmod($dest,PERMISSION_FOR_DEST);
 
-	//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-	convert_andsave_if_smaller_png2jpeg($temppath,$time,'.tmp');
+	//PNG形式またはWebP形式で上書き保存
+	convert2($temppath,$time,".tmp");
+
 
 	//サポートしていないフォーマットならエラーが返る
 	$imgext = getImgType($dest);
@@ -3165,25 +3169,44 @@ function is_ngword ($ngwords, $strs): bool {
 	}
 	return false;
 }
-//pngをjpegに変換してみてファイル容量が小さくなっていたら元のファイルを上書き
-function convert_andsave_if_smaller_png2jpeg($path,$time,$ext,$is_upload=false): void {
-	$dest=$path.$time.$ext;
+
+//PNG形式またはWebP形式で上書き保存
+function convert2($path,$time,$ext,$is_upload_img=false,$is_upload_img_png_format=false): void {
+
+	$upfile=$path.$time.$ext;
+	$fname= $time.$ext;
+	if(mime_content_type($upfile)==="image/gif"){
+		return;//GIF形式の時は処理しない
+	}
+
 	clearstatcache();
-	$fsize_dest=filesize($dest);
-	if(($is_upload && ($fsize_dest > (IMAGE_SIZE * 1024))) || ($fsize_dest > (MAX_KB * 1024))){//指定サイズを超えていたら
+	$filesize=filesize($upfile);
+	//GDのPNGのサイズは少し大きくなるので超過判定を1.5で割る
+	$max_kb_size_over = ($filesize > (MAX_KB * 1024 / 1.5));
 
-		$im_jpg = thumbnail_gd::thumb($path,$time.$ext,$time,null,null,['png2jpeg'=>1]);//実体データの変換
+		if(
+		//お絵かき画像は必ずPNG形式
+		//ファイルサイズが小さな時はもとのPNGのまま何もしない
+			!$is_upload_img && !$max_kb_size_over
+		){
+		//お絵かき画像でファイルサイズが小さな時は
+		//PNG形式のまま何もしない
+			 return;
+		}//アップロード画像がPNG形式で、ファイルサイズが小さな時はPNG形式で上書き保存	
+		elseif($is_upload_img_png_format && !$max_kb_size_over){
+			//PNG形式で保存
+			$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2png'=>true]);
+		}else{
+			//WebP形式で保存
+			$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2webp'=>true]);
+	}
 
-		if($im_jpg) {
-			if(filesize($im_jpg)<$fsize_dest){//JPEGのほうが小さい時だけ
-				rename($im_jpg,$dest);//JPEGで保存
-				chmod($dest,PERMISSION_FOR_DEST);
-			} else{//PNGよりファイルサイズが大きくなる時は
-				unlink($im_jpg);//作成したJPEG画像を削除
-			}
-		}
+	if(is_file($img)){
+		rename($img,$upfile);//上書き保存
+		chmod($upfile,PERMISSION_FOR_DEST);
 	}
 }
+
 //Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
 function check_jpeg_exif($dest): void {
 
@@ -3193,11 +3216,9 @@ function check_jpeg_exif($dest): void {
 	//画像回転の検出
 	$exif = @exif_read_data($dest);//サポートされていないタグの時に`E_NOTICE`が発生するため`@`で制御
 	$orientation = $exif["Orientation"] ?? 1;
-	//位置情報はあるか?
-	$gpsdata_exists =(isset($exif['GPSLatitude']) || isset($exif['GPSLongitude'])); 
 
-	if ($orientation === 1 && !$gpsdata_exists) {
-	//画像が回転していない、位置情報も存在しない時
+	if ($orientation === 1) {
+	//画像が回転していない時
 		return;
 	}
 
@@ -3233,14 +3254,14 @@ function check_jpeg_exif($dest): void {
 	$out_w = ceil($w * $ratio);//端数の切り上げ
 	$out_h = ceil($h * $ratio);
 	$im_out = $im_in;//縮小しない時
-	//JPEG形式で何度も保存しなおすのを回避するため、
+	//何度も保存しなおすのを回避するため、
 	//指定範囲内にリサイズしておく。
 	if(function_exists("ImageCreateTrueColor") && function_exists("ImageCopyResampled")){
 		$im_out = ImageCreateTrueColor($out_w, $out_h);
 		ImageCopyResampled($im_out, $im_in, 0, 0, 0, 0, $out_w, $out_h, $w, $h);
 	}
 	// 画像を保存
-	imagejpeg($im_out, $dest,98);
+	imagepng($im_out, $dest,3);//圧縮率3で保存
 	// 画像のメモリを解放
 	if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
 		imagedestroy($im_in);
