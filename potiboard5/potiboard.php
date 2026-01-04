@@ -1212,7 +1212,7 @@ function regist(): void {
 			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
 		}
 		//ファイルサイズが規定サイズを超過していたらWebPに変換
-		//画像アップロード時はサイズを超過していくてもGDのPNGで上書き
+		//画像アップロード時はサイズを超過していなくてもGDのPNGで上書き
 		//ここでGPSデータが消える
 		convert2($temppath,$time,".tmp",$is_upload,$is_upload_img_png_format,);
 
