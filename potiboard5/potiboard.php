@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.123.0';
+const POTI_VER = 'v6.123.2';
 const POTI_LOT = 'lot.20260113';
 
 /*
@@ -86,7 +86,7 @@ require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 //サムネイルfunction
 check_file(__DIR__.'/thumbnail_gd.inc.php');
 require_once(__DIR__.'/thumbnail_gd.inc.php');
-if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260103){
+if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260113){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -3196,10 +3196,10 @@ function convert2($path,$time,$ext,$is_upload_img=false,$upload_img_mime_type=""
 		case "image/png":
 			//サイズ違反チェック
 			if($max_kb_size_over){
-				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2png'=>true]);
-			}else{
 				//WebP形式で保存
 				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2webp'=>true]);
+			}else{
+				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2png'=>true]);
 			}
 				break;
 		case "image/jpeg":
