@@ -3,37 +3,37 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20260103;
+$thumbnail_gd_ver=20260113;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
-	public static function thumb($path,$fname,$time,$max_w,$max_h,$options=[]): ?string {
+	public static function thumb($path,$fname,$time,$max_w,$max_h,$options=[]): string {
 		$path=basename($path).'/';
 		$fname=basename($fname);
 		$time=basename($time);
 		if(!ctype_digit($time)) {
-			return null;
+			return '';
 		}
 		$fname=$path.$fname;
 		if(!is_file($fname)){
-			return null;
+			return '';
 		}
 		if(!self::gd_check()||!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")){
-			return null;
+			return '';
 		}
 		if(isset($options['png2webp'])||isset($options['png2jpeg'])){
 			$options['2webp']=true;//互換処理
 		}
 		if((isset($options['webp'])||isset($options['2webp'])||isset($options['thumbnail_webp'])) && !function_exists("ImageWEBP")){
-			return null;
+			return '';
 		}
 
 		$fsize = filesize($fname); // ファイルサイズを取得
 		list($w,$h) = GetImageSize($fname); // 画像の幅と高さを取得
 		$w_h_size_over = $max_w && $max_h && ($w > $max_w || $h > $max_h);
 		$f_size_over = !isset($options['toolarge']) ? ($fsize>1024*1024) : false;
-		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['2webp']) && !isset($options['2png'])){//リサイズも変換もしない
-			return null;
+		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['2webp']) && !isset($options['2png']) && !isset($options['2jpeg'])){//リサイズも変換もしない
+			return '';
 		}
 		if(!$w_h_size_over || isset($options['2webp']) || isset($options['2png']) || !$max_w || !$max_h){//リサイズしない
 			$out_w = $w;
@@ -48,7 +48,7 @@ class thumbnail_gd {
 
 		$mime_type = mime_content_type($fname);
 		if(!$im_in = self::createImageResource($fname,$mime_type)){
-			return null;
+			return '';
 		};
 		// 出力画像（サムネイル）のイメージを作成
 		if(function_exists("ImageCreateTrueColor")){
@@ -85,17 +85,17 @@ class thumbnail_gd {
 		self::safeImageDestroy($im_out);
 
 		if(!$outfile){
-			return null;
+			return '';
 		}
 
 		if(!chmod($outfile,PERMISSION_FOR_DEST)){
-			return null;
+			return '';
 		}
 
 		if(is_file($outfile)){
 			return $outfile;
 		}
-		return null;
+		return '';
 
 	}
 	//GD版が使えるかチェック
@@ -192,7 +192,12 @@ class thumbnail_gd {
 			$outfile=TEMP_DIR.$time.'.png.tmp';//一時ファイル
 			ImagePNG($im_out, $outfile,3);
 		
-		} elseif(isset($options['2webp'])){
+		}elseif(isset($options['2jpeg'])){
+
+			$outfile=TEMP_DIR.$time.'.jpeg.tmp';//一時ファイル
+			imagejpeg($im_out, $outfile,98);
+
+		}elseif(isset($options['2webp'])){
 
 			$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
 			ImageWEBP($im_out, $outfile,98);

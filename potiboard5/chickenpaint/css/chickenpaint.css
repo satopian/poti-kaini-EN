@@ -206,7 +206,7 @@
 }
 .chickenpaint .fa,
 .chickenpaint .fas,
-.chickenpaint .navbar a.selected:before,
+.chickenpaint .navbar span.selected:before,
 .chickenpaint .far,
 .chickenpaint .fal,
 .chickenpaint .fab {
@@ -426,7 +426,7 @@
     width: auto;
 }
 
-.chickenpaint .navbar a.selected:before {
+.chickenpaint .navbar span.selected:before {
     font-family: "icomoon-fa";
 }
 
@@ -1258,7 +1258,7 @@
     font-size: 14px !important;
 }
 
-.chickenpaint .navbar a.selected:before {
+.chickenpaint .navbar span.selected:before {
     content: "\f00c";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.121.2';
-const POTI_LOT = 'lot.20260103';
+const POTI_VER = 'v6.123.0';
+const POTI_LOT = 'lot.20260113';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1205,8 +1205,8 @@ function regist(): void {
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
-		//アップロード画像でかつPNG形式か?
-		$is_upload_img_png_format = ($is_upload && mime_content_type($dest)==="image/png");
+		//添付したアップロード画像の元のmime_type
+		$upload_img_mime_type = $is_upload ? mime_content_type($dest) : "";
 
 		if($is_upload){
 			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
@@ -1214,7 +1214,7 @@ function regist(): void {
 		//ファイルサイズが規定サイズを超過していたらWebPに変換
 		//画像アップロード時はサイズを超過していなくてもGDのPNGで上書き
 		//ここでGPSデータが消える
-		convert2($temppath,$time,".tmp",$is_upload,$is_upload_img_png_format,);
+		convert2($temppath,$time,".tmp",$is_upload,$upload_img_mime_type);
 
 		clearstatcache();
 		if($is_upload && (filesize($dest) > MAX_KB * 1024)){//ファイルサイズ再チェック
@@ -3172,10 +3172,10 @@ function is_ngword ($ngwords, $strs): bool {
 }
 
 //PNG形式またはWebP形式で上書き保存
-function convert2($path,$time,$ext,$is_upload_img=false,$is_upload_img_png_format=false): void {
+function convert2($path,$time,$ext,$is_upload_img=false,$upload_img_mime_type=""): void {
 
-	$upfile=$path.$time.$ext;
-	$fname= $time.$ext;
+	$fname= basename($time.$ext);
+	$upfile=$path.$fname;
 	if(mime_content_type($upfile)==="image/gif"){
 		return;//GIF形式の時は処理しない
 	}
@@ -3185,21 +3185,31 @@ function convert2($path,$time,$ext,$is_upload_img=false,$is_upload_img_png_forma
 	//GDのPNGのサイズは少し大きくなるので制限値を1.5で割る
 	$max_kb_size_over = ($filesize > (MAX_KB * 1024 / 1.5));
 
-		if(
-		//お絵かき画像は必ずPNG形式
-		//ファイルサイズが小さな時はもとのPNGのまま何もしない
-			!$is_upload_img && !$max_kb_size_over
-		){
-		//お絵かき画像でファイルサイズが小さな時は
-		//PNG形式のまま何もしない
+	//お絵かき画像は必ずPNG形式
+	//ファイルサイズが小さな時はもとのPNGのまま何もしない
+	if(!$is_upload_img && !$max_kb_size_over){
 			 return;
-		}//アップロード画像がPNG形式で、ファイルサイズが小さな時はPNG形式で上書き保存	
-		elseif($is_upload_img_png_format && !$max_kb_size_over){
-			//PNG形式で保存
-			$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2png'=>true]);
-		}else{
+	}
+	$upload_img_mime_type = ($upload_img_mime_type === true) ? "image/png" : $upload_img_mime_type;
+
+		switch($upload_img_mime_type){
+		case "image/png":
+			//サイズ違反チェック
+			if($max_kb_size_over){
+				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2png'=>true]);
+			}else{
+				//WebP形式で保存
+				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2webp'=>true]);
+			}
+				break;
+		case "image/jpeg":
+				$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2jpeg'=>true]);
+				break;
+		default:
+			//上記caseに該当しないmime_typeの時、またはお絵かき画像の時は
 			//WebP形式で保存
 			$img = thumbnail_gd::thumb($path,$fname,$time,null,null,['2webp'=>true]);
+			break;
 	}
 
 	if(is_file($img)){
