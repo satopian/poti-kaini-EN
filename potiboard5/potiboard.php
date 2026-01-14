@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.123.2';
-const POTI_LOT = 'lot.20260113';
+const POTI_VER = 'v6.123.6';
+const POTI_LOT = 'lot.20260114';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -104,7 +104,7 @@ if(!isset($search_inc_ver) || $search_inc_ver < 20250906){
 //画像保存Class
 check_file(__DIR__.'/save.inc.php');
 require_once(__DIR__.'/save.inc.php');
-if(!isset($save_inc_ver) || $save_inc_ver < 20250918){
+if(!isset($save_inc_ver) || $save_inc_ver < 20260114){
 die($en ? "Please update save.inc.php" : "save.inc.phpを更新してください。");
 }
 check_file(__DIR__.'/picpost.inc.php');
@@ -1064,8 +1064,6 @@ function regist(): void {
 			if(!move_uploaded_file($upfile, $dest)){
 				error(MSG003,$upfile);
 			}
-			//Exifをチェックして画像が回転している時と位置情報が付いている時は上書き保存
-			check_jpeg_exif($dest);
 			$tool="Upload";
 			$is_upload=true;
 		}
@@ -1201,7 +1199,8 @@ function regist(): void {
 	$ext=$w=$h=$chk="";
 	$thumbnail='';
 	$pchext='';
-	$src='';
+	$pch_src='';
+	$aco_src='';
 	// アップロード処理
 	if($dest&&$is_file_dest){//画像が無い時は処理しない
 
@@ -1209,6 +1208,8 @@ function regist(): void {
 		$upload_img_mime_type = $is_upload ? mime_content_type($dest) : "";
 
 		if($is_upload){
+			//Exifをチェックして画像が回転している時は上書き保存
+			check_jpeg_exif($dest);
 			thumbnail_gd::thumb($temppath,$time.".tmp",$time,MAX_W_PX,MAX_H_PX,['toolarge'=>1]);//実体データを縮小
 		}
 		//ファイルサイズが規定サイズを超過していたらWebPに変換
@@ -1250,10 +1251,18 @@ function regist(): void {
 		//PCHファイルアップロード
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
-			$src = $temppath.$picfile.$pchext;
+			$pch_src = $temppath.$picfile.$pchext;
 			$dst = PCH_DIR.$time.$pchext;
-			if(copy($src, $dst)){
+			if(copy($pch_src, $dst)){
 				chmod($dst,PERMISSION_FOR_DEST);
+			}
+		}
+		//litaChixのカラーセット
+		$aco_src = $temppath.$picfile.".aco";
+		$aco_dst = IMG_DIR.$time.".aco";
+		if(is_file($aco_src)){
+			if(copy($aco_src, $aco_dst)){
+				chmod($aco_dst,0606);
 			}
 		}
 
@@ -1347,7 +1356,8 @@ function regist(): void {
 	updatelog();
 
 	//ワークファイル削除
-	safe_unlink($src);
+	safe_unlink($pch_src);
+	safe_unlink($aco_src);
 	safe_unlink($upfile);
 	safe_unlink($temppath.$picfile.".dat");
 	
@@ -1857,13 +1867,17 @@ function paintform(): void {
 		}
 		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
 
-			$dat['oekaki_id']=$pch.$ext;
+			$dat['oekaki_id']= $pch.$ext;
 
 			$dat['anime'] = false;
 			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
 			if($_pch_ext==='.chi'){
 				$dat['img_chi'] = './'.PCH_DIR.$pch.'.chi';
 			}
+			if(is_file(IMG_DIR.$pch.'.aco')){
+				$dat['img_aco'] = IMG_DIR.$pch.'.aco';
+			}
+
 			if($_pch_ext==='.psd'){
 				$dat['img_klecks'] = './'.PCH_DIR.$pch.'.psd';
 			}
@@ -2674,7 +2688,8 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	$pwd=hex2bin($pwd);//バイナリに
 	$pwd=openssl_decrypt($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//復号化
 	$oyano='';
-	$src='';
+	$pch_src='';
+	$aco_src='';
 	$upfile='';
 
 	foreach($line as $i => $value){
@@ -2750,13 +2765,21 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	//PCHファイルアップロード
 	// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 	if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
-		$src = $temppath . $file_name . $pchext;
+		$pch_src = $temppath.$file_name.$pchext;
 		$dst = PCH_DIR . $time . $pchext;
-		if(copy($src, $dst)){
+		if(copy($pch_src, $dst)){
 			chmod($dst, PERMISSION_FOR_DEST);
 		}
 	}
-	
+	//litaChixのカラーセット
+	$aco_src = $temppath.$file_name.".aco";
+	$aco_dst = IMG_DIR.$time.".aco";
+	if(is_file($aco_src)){
+		if(copy($aco_src, $aco_dst)){
+			chmod($aco_dst,0606);
+		}
+	}
+
 	//ID付加
 	if(DISP_ID){
 		$date .= " ID:" . getId($userip);
@@ -2782,7 +2805,8 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	delete_files($path, $etim, $ext);
 
 	//ワークファイル削除
-	safe_unlink($src);
+	safe_unlink($pch_src);
+	safe_unlink($aco_src);
 	safe_unlink($upfile);
 	safe_unlink($temppath.$file_name.".dat");
 	if(!$java){
@@ -3277,9 +3301,6 @@ function check_jpeg_exif($dest): void {
 	if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
 		imagedestroy($im_in);
 		imagedestroy($im_out);
-	}
-	if(!is_file($dest)){
-		error(MSG003,$dest);
 	}
 }
 //禁止ホストチェック

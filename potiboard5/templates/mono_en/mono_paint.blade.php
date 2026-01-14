@@ -228,6 +228,7 @@
 			
 				@if($imgfile) loadImageUrl: "{{$imgfile}}",@endif
 				@if($img_chi) loadChibiFileUrl: "{{$img_chi}}",@endif
+				@if($img_aco ?? '') loadSwatchesUrl: "{{$img_aco}}",@endif
 				saveUrl: "?mode=saveimage&tool=chi&usercode={!!$usercode!!}",
 				postUrl: "?mode={!!$mode!!}&stime={{$stime}}",
 				exitUrl: "?mode={!!$mode!!}&stime={{$stime}}",

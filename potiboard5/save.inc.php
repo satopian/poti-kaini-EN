@@ -1,8 +1,8 @@
 <?php
-//save.inc.php 2024-2025 (c)satopian MIT Licence
+//save.inc.php 2024-2026 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20250918;
+$save_inc_ver=20260114;
 class image_save{
 
 	private $imgfile,$en,$count,$errtext,$session_usercode; // プロパティとして宣言
@@ -27,7 +27,7 @@ class image_save{
 		header( "Location: ./ ");
 	}
 
-	$lang = ($http_langs = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '')
+	$lang = ($http_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '')
 	? explode( ',', $http_langs )[0] : '';
 	$this->en= (stripos($lang,'ja')!==0);
 
@@ -120,7 +120,7 @@ class image_save{
 		$this->check_async_request();
 
 		session_sta();
-		$this->session_usercode = isset($_SESSION['usercode']) ? $_SESSION['usercode'] : "";
+		$this->session_usercode = $_SESSION['usercode'] ?? "";
 		$cookie_usercode = (string)filter_input_data('COOKIE', 'usercode');
 		if(!$this->session_usercode || !$cookie_usercode || ($this->session_usercode !== $cookie_usercode)){
 			$this->error_msg($this->en ? "User code has been reissued.\nPlease try again." : "ユーザーコードを再発行しました。\n再度投稿してみてください。");
@@ -164,7 +164,7 @@ class image_save{
 		$this->resto = trim($this->resto);
 		$this->tool = trim($this->tool);
 		$this->tool= is_paint_tool_name($this->tool);
-		$this->hide_animation = isset($this->hide_animation) ? $this->hide_animation : ''; 
+		$this->hide_animation = isset($this->hide_animation) ? trim($this->hide_animation) : ''; 
 		$this->hide_animation = trim($this->hide_animation);
 		/* ---------- 投稿者情報記録 ---------- */
 		$userdata = "$u_ip\t$u_host\t$u_agent\t$imgext";
@@ -222,8 +222,18 @@ class image_save{
 					//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
 					move_uploaded_file($_FILES['chibifile']['tmp_name'], TEMP_DIR.$this->imgfile.'.chi');
 					if(is_file(TEMP_DIR.$this->imgfile.'.chi')){
-					chmod(TEMP_DIR.$this->imgfile.'.chi',PERMISSION_FOR_DEST);
+						chmod(TEMP_DIR.$this->imgfile.'.chi',PERMISSION_FOR_DEST);
 					}
+				}
+			}
+		}
+		if(isset($_FILES['swatches']) && ($_FILES['swatches']['error'] == UPLOAD_ERR_OK)){
+			$mimetype = mime_content_type($_FILES['swatches']['tmp_name']);
+			if($mimetype==="application/x-adobe-aco" || $mimetype==="application/octet-stream"){
+				//chiファイルのアップロードができなかった場合はエラーメッセージはださず、画像のみ投稿する。 
+				move_uploaded_file($_FILES['swatches']['tmp_name'], TEMP_DIR.$this->imgfile.'.aco');
+				if(is_file(TEMP_DIR.$this->imgfile.'.aco')){
+					chmod(TEMP_DIR.$this->imgfile.'.aco',PERMISSION_FOR_DEST);
 				}
 			}
 		}
