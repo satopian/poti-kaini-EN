@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.123.6';
+const POTI_VER = 'v6.123.7';
 const POTI_LOT = 'lot.20260114';
 
 /*
@@ -1252,9 +1252,9 @@ function regist(): void {
 		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
 			$pch_src = $temppath.$picfile.$pchext;
-			$dst = PCH_DIR.$time.$pchext;
-			if(copy($pch_src, $dst)){
-				chmod($dst,PERMISSION_FOR_DEST);
+			$pch_dst = PCH_DIR.$time.$pchext;
+			if(copy($pch_src, $pch_dst)){
+				chmod($pch_dst,PERMISSION_FOR_DEST);
 			}
 		}
 		//litaChixのカラーセット
@@ -2766,9 +2766,9 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
 	if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
 		$pch_src = $temppath.$file_name.$pchext;
-		$dst = PCH_DIR . $time . $pchext;
-		if(copy($pch_src, $dst)){
-			chmod($dst, PERMISSION_FOR_DEST);
+		$pch_dst = PCH_DIR . $time . $pchext;
+		if(copy($pch_src, $pch_dst)){
+			chmod($pch_dst, PERMISSION_FOR_DEST);
 		}
 	}
 	//litaChixのカラーセット
