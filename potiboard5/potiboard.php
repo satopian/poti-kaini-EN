@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.123.7';
-const POTI_LOT = 'lot.20260114';
+const POTI_VER = 'v6.123.8';
+const POTI_LOT = 'lot.20260115';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1248,21 +1248,23 @@ function regist(): void {
 				if($i>=$chkline){break;}//チェックする最大行数
 			}
 		}
-		//PCHファイルアップロード
-		// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-		if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
-			$pch_src = $temppath.$picfile.$pchext;
-			$pch_dst = PCH_DIR.$time.$pchext;
-			if(copy($pch_src, $pch_dst)){
-				chmod($pch_dst,PERMISSION_FOR_DEST);
+		if($pictmp2){
+			//PCHファイルアップロード
+			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
+			if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
+				$pch_src = $temppath.$picfile.$pchext;
+				$pch_dst = PCH_DIR.$time.$pchext;
+				if(copy($pch_src, $pch_dst)){
+					chmod($pch_dst,PERMISSION_FOR_DEST);
+				}
 			}
-		}
-		//litaChixのカラーセット
-		$aco_src = $temppath.$picfile.".aco";
-		$aco_dst = IMG_DIR.$time.".aco";
-		if(is_file($aco_src)){
-			if(copy($aco_src, $aco_dst)){
-				chmod($aco_dst,0606);
+			//litaChixのカラーセット
+			$aco_src = $temppath.$picfile.".aco";
+			$aco_dst = IMG_DIR.$time.".aco";
+			if(is_file($aco_src)){
+				if(copy($aco_src, $aco_dst)){
+					chmod($aco_dst,0606);
+				}
 			}
 		}
 
