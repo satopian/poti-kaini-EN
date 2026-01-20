@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.125.2';
+const POTI_VER = 'v6.126.0';
 const POTI_LOT = 'lot.20260120';
 
 /*
@@ -49,7 +49,7 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
 	);
 }
 
-const JQUERY ='jquery-3.7.0.min.js';
+const JQUERY = 'jquery-4.0.0.min.js';
 check_file(__DIR__.'/lib/'.JQUERY);
 // Lightbox
 check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js');
