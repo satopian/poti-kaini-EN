@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.22";
+Neo.version = "1.6.23";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -2130,9 +2130,14 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
       //ツールは鉛筆･消しゴムまたは水彩?
       const usesHighPrecisionTool = [1, 2, 14].includes(Neo.CurrentToolType);
       //ブラシサイズは10px以下?
-      const smallbrush = Neo.painter.lineWidth <= 10;
+      const smallbrush = Neo.painter.lineWidth <= 16;
       //上記条件が揃う時はポインター追従性を高くする
-      if (freeHandMode && usesHighPrecisionTool && smallbrush) {
+      if (
+        ref.isMouseDown &&
+        freeHandMode &&
+        usesHighPrecisionTool &&
+        smallbrush
+      ) {
         const events = e.getCoalescedEvents?.() ?? [e];
         for (const ev of events) {
           ref._mouseMoveHandler(ev);
