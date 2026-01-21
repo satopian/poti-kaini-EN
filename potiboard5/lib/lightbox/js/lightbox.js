@@ -69,7 +69,7 @@
 
     Lightbox.prototype.imageCountLabel = function (
         currentImageNum,
-        totalImages
+        totalImages,
     ) {
         return this.options.albumLabel
             .replace(/%1/g, currentImageNum)
@@ -95,7 +95,7 @@
             function (event) {
                 self.start($(event.currentTarget));
                 return false;
-            }
+            },
         );
     };
 
@@ -120,7 +120,7 @@
         //
         // Github issue: https://github.com/lokesh/lightbox2/issues/663
         $(
-            '<div id="lightboxOverlay" tabindex="-1" class="lightboxOverlay"></div><div id="lightbox" tabindex="-1" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""/><div class="lb-nav"><a class="lb-prev" role="button" tabindex="0" aria-label="Previous image" href="" ></a><a class="lb-next" role="button" tabindex="0" aria-label="Next image" href="" ></a></div><div class="lb-loader"><a class="lb-cancel" role="button" tabindex="0"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close" role="button" tabindex="0"></a></div></div></div></div>'
+            '<div id="lightboxOverlay" tabindex="-1" class="lightboxOverlay"></div><div id="lightbox" tabindex="-1" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""/><div class="lb-nav"><a class="lb-prev" role="button" tabindex="0" aria-label="Previous image" href="" ></a><a class="lb-next" role="button" tabindex="0" aria-label="Next image" href="" ></a></div><div class="lb-loader"><a class="lb-cancel" role="button" tabindex="0"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close" role="button" tabindex="0"></a></div></div></div></div>',
         ).appendTo($("body"));
 
         // Cache jQuery objects
@@ -205,7 +205,7 @@
                         function () {
                             this.$nav.css("pointer-events", "auto");
                         }.bind(self),
-                        0
+                        0,
                     );
                 });
             }
@@ -240,8 +240,8 @@
     Lightbox.prototype.start = function ($link) {
         var self = this;
         var $window = $(window);
-
-        $window.on("resize", $.proxy(this.sizeOverlay, this));
+        //名前空間 (.overlay) を付与
+        $window.on("resize.overlay", this.sizeOverlay.bind(this));
 
         this.sizeOverlay();
 
@@ -273,7 +273,7 @@
                 $link.prop("tagName") +
                     '[data-lightbox="' +
                     escapeHtml(dataLightboxValue) +
-                    '"]'
+                    '"]',
             );
             for (var i = 0; i < $links.length; i = ++i) {
                 addToAlbum($($links[i]));
@@ -288,7 +288,7 @@
             } else {
                 // If image is part of a set
                 $links = $(
-                    $link.prop("tagName") + '[rel="' + $link.attr("rel") + '"]'
+                    $link.prop("tagName") + '[rel="' + $link.attr("rel") + '"]',
                 );
                 for (var j = 0; j < $links.length; j = ++j) {
                     addToAlbum($($links[j]));
@@ -332,7 +332,7 @@
         $(".lb-loader").fadeIn("slow");
         this.$lightbox
             .find(
-                ".lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption"
+                ".lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption",
             )
             .hide();
         this.$outerContainer.addClass("animating");
@@ -436,7 +436,7 @@
                         imageWidth = maxImageWidth;
                         imageHeight = parseInt(
                             preloader.height / (preloader.width / imageWidth),
-                            10
+                            10,
                         );
                         $image.width(imageWidth);
                         $image.height(imageHeight);
@@ -444,7 +444,7 @@
                         imageHeight = maxImageHeight;
                         imageWidth = parseInt(
                             preloader.width / (preloader.height / imageHeight),
-                            10
+                            10,
                         );
                         $image.width(imageWidth);
                         $image.height(imageHeight);
@@ -518,7 +518,7 @@
                 "swing",
                 function () {
                     postResize();
-                }
+                },
             );
         } else {
             postResize();
@@ -598,7 +598,7 @@
         if (this.album.length > 1 && this.options.showImageNumberLabel) {
             var labelText = this.imageCountLabel(
                 this.currentImageIndex + 1,
-                this.album.length
+                this.album.length,
             );
             this.$lightbox.find(".lb-number").text(labelText).fadeIn("fast");
         } else {
@@ -627,8 +627,8 @@
     };
 
     Lightbox.prototype.enableKeyboardNav = function () {
-        this.$lightbox.on("keyup.keyboard", $.proxy(this.keyboardAction, this));
-        this.$overlay.on("keyup.keyboard", $.proxy(this.keyboardAction, this));
+        this.$lightbox.on("keyup.keyboard", this.keyboardAction.bind(this));
+        this.$overlay.on("keyup.keyboard", this.keyboardAction.bind(this));
     };
 
     Lightbox.prototype.disableKeyboardNav = function () {
@@ -664,7 +664,7 @@
     // Closing time. :-(
     Lightbox.prototype.end = function () {
         this.disableKeyboardNav();
-        $(window).off("resize", this.sizeOverlay);
+        $(window).off("resize.overlay");
         this.$lightbox.fadeOut(this.options.fadeDuration);
         this.$overlay.fadeOut(this.options.fadeDuration);
 
