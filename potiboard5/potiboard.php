@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.128.3';
-const POTI_LOT = 'lot.20260127';
+const POTI_VER = 'v6.128.5';
+const POTI_LOT = 'lot.20260129';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -3185,12 +3185,16 @@ function is_ngword ($ngwords, $strs): bool {
 	$strs = (array)$strs;//配列に変換
 	foreach($ngwords as $i => $ngword){//拒絶する文字列
 		$ngwords[$i]  = str_replace([" ", "　"], "", $ngword);
-		$ngwords[$i]  = str_replace("/", "\/", $ngwords[$i]);
+		$ngwords[$i]  = str_replace("/", "&#47;", $ngwords[$i]);
 	}
 	foreach ($strs as $str) {
+		$str = str_replace("/", "&#47;", $str);
 		foreach($ngwords as $ngword){//拒絶する文字列
 			if ($ngword !== '' && preg_match("/{$ngword}/ui", $str)){
 				return true;
+			}
+			if (preg_match('/[\p{Mn}\p{Me}]/u', $str)) {
+			return true;
 			}
 		}
 	}
