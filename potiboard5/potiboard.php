@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.133.2';
-const POTI_LOT = 'lot.20260210';
+const POTI_VER = 'v6.135.0';
+const POTI_LOT = 'lot.20260211';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -3149,6 +3149,7 @@ function check_pch_ext ($filepath,$options = []): string {
  * @return bool
  */
 function safe_unlink ($path): bool {
+	clearstatcache();
 	if ($path && is_file($path)) {
 		chmod($path,PERMISSION_FOR_DEST);
 		return unlink($path);
