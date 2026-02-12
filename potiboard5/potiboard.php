@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.135.0';
-const POTI_LOT = 'lot.20260211';
+const POTI_VER = 'v6.136.0';
+const POTI_LOT = 'lot.20260212';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -3194,8 +3194,8 @@ function is_ngword ($ngwords, $strs): bool {
 			if ($ngword !== '' && preg_match("/{$ngword}/ui", $str)){
 				return true;
 			}
-			if (preg_match('/[\p{Mn}\p{Me}]/u', $str)) {
-			return true;
+			if (preg_match('/\p{M}{3,}/u', $str)) {
+				return true;
 			}
 		}
 	}
