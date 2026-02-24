@@ -1,8 +1,8 @@
 <?php
-$search_inc_ver = 20250906;
-//POTI-board plugin search(C)2020-2025 さとぴあ(@satopian)
+$search_inc_ver = 20260224;
+//POTI-board plugin search(C)2020-2026 さとぴあ(@satopian)
 //MIT License
-//v6.68.3 lot.20250308
+//v6.151.5 lot.20260224
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -47,7 +47,7 @@ $search_inc_ver = 20250906;
 //v0.1 2020.07.13 GitHubに公開
 
 class processsearch {
-	public static function search(): void {
+	public static function search() : void {
 	//設定
 // How many cases can you search?
 // Initial value 120 Do not make it too large.
@@ -178,11 +178,12 @@ class processsearch {
 			$encoded_name=rawurlencode($name);
 			//変数格納
 			$dat['comments'][]= compact('no','name','encoded_name','sub','img','w','h','com','link','postedtime');
-
+			unset($no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver);
+			unset($articles[$i]);
 		}
 		$j=$page+$i;//表示件数
 	}
-	unset($sub,$name,$no,$boardname);
+	unset($boardname);
 	unset($i,$val);
 
 	$search_type='';
@@ -194,7 +195,7 @@ class processsearch {
 	else{
 		$img_or_com='comments';
 		$mai_or_ken=' ';
-		}
+	}
 	$dat['imgsearch']= $imgsearch ? true : false;
 
 	//クエリを検索窓に入ったままにする
@@ -234,15 +235,15 @@ class processsearch {
 	if($check_query!==''&&$radio===3){
 		$dat['title']=$pageno.' '.$img_or_com.' of '.$query;//titleタグに入る
 		$dat['h1']=$pageno.' '.$img_or_com.' of '.$query;//h1タグに入る
-		}
+	}
 	elseif($check_query!==''){
 		$dat['title']=$pageno.' Posts by '.$query;
 		$dat['h1']=$pageno.' Posts by '.$query;
-		}
+	}
 	else{
 		$dat['title']='Recent '.$pageno.' Posts';
 		$dat['h1']='Recent '.$pageno.' Posts';
-		}
+	}
 	$dat['pageno']=$pageno;
 	//ページング
 

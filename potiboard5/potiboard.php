@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.151.5';
+const POTI_VER = 'v6.151.6';
 const POTI_LOT = 'lot.20260224';
 
 /*
@@ -98,7 +98,7 @@ if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20251031){
 	//検索Class
 check_file(__DIR__.'/search.inc.php');
 require_once(__DIR__.'/search.inc.php');
-if(!isset($search_inc_ver) || $search_inc_ver < 20250906){
+if(!isset($search_inc_ver) || $search_inc_ver < 20260224){
 	die($en ? "Please update search.inc.php" : "search.inc.phpを更新してください。");
 }
 //画像保存Class
