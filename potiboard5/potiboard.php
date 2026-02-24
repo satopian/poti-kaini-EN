@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.151.2';
+const POTI_VER = 'v6.151.3';
 const POTI_LOT = 'lot.20260224';
 
 /*
@@ -2037,7 +2037,7 @@ function ini_get_size_mb(string $key): float {
 
 	$val = ini_get($key);
 	$unit = strtoupper(substr($val, -1));
-	$num = (float)$val;
+	$num = (float)substr($val, 0, -1);
 
 	switch ($unit) {// 単位の変換
 			case 'G':
