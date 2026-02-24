@@ -659,7 +659,7 @@ function updatelog(): void {
 			}
 			clearstatcache(); //キャッシュをクリア
 			unset($disp_threads[$oya]);
-			}
+		}
 		$prev = $page - PAGE_DEF;
 		$next = $page + PAGE_DEF;
 		// 改ページ処理
