@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.150.1';
-const POTI_LOT = 'lot.20260223';
+const POTI_VER = 'v6.151.2';
+const POTI_LOT = 'lot.20260224';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -655,10 +655,11 @@ function updatelog(): void {
 					$res['skipres'] = DSP_RES ? (($skipres>0) ? $skipres : false) :false;
 				}
 					$dat['oya'][$oya][]=$res;
+					$res=[];
 			}
 			clearstatcache(); //キャッシュをクリア
-
-		}
+			unset($disp_threads[$oya]);
+			}
 		$prev = $page - PAGE_DEF;
 		$next = $page + PAGE_DEF;
 		// 改ページ処理
@@ -679,7 +680,7 @@ function updatelog(): void {
 		}
 
 
-	for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
+		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
 
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
 				if($i === $end_page){//特定のページに代入される記号 エンド
@@ -761,17 +762,19 @@ function res_view_other_works($resno,$trees,$i): array {
 
 	$prev_res=[];
 	$next_res=[];
-	foreach($prev_tree as $n){
+	foreach($prev_tree as $key => $n){
 		$_res=($n && isset($prev_lineindex[$n])) ? create_res($prev_line[$prev_lineindex[$n]]):[];
 		if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 			$prev_res[]=$_res;
 		}
+		unset($prev_tree[$key]);
 	}
-	foreach($next_tree as $n){
+	foreach($next_tree as $key =>$n){
 		$_res=($n && isset($next_lineindex[$n])) ? create_res($next_line[$next_lineindex[$n]]):[];
 		if(!empty($_res)&&$_res['imgsrc']&&$_res['no']!==$resno){
 			$next_res[]=$_res;
 		}
+		unset($next_tree[$key]);
 	}
 	if((3<=count($prev_res)) && (3<=count($next_res))){
 		$prev_res = array_slice($prev_res,-3);
@@ -806,6 +809,7 @@ function res($resno = 0): void {
 			$treeline = explode(",", trim($value));//現在のスレッドのツリーを取得
 			break;
 		}
+		unset($trees[$i]);
 	}
 
 	if (empty($treeline)) {
@@ -859,7 +863,11 @@ function res($resno = 0): void {
 		if ($oyaname != $res['name'] && !in_array($res['name'], $rresname)) { // 重複チェックと親投稿者除外
 			$rresname[] = $res['name'];
 		}
+		unset($line[$k]);
+		unset($treeline[$j]);
 	}
+	unset($line);
+	unset($lineindex);
 
 	$dat['resname'] = !empty($rresname) ? implode(HONORIFIC_SUFFIX.' ',$rresname) : false; // レス投稿者一覧
 
@@ -3588,6 +3596,7 @@ function get_lineindex ($line): array {
 			error(MSG019);
 		};
 		$lineindex[$no] = $i; // 値にkey keyに記事no
+		unset($line[$i]);
 	}
 	return $lineindex;
 }
@@ -3869,33 +3878,17 @@ function file_lock($fp, int $lock, array $options=[]): void {
 }
 
 //filter_input のラッパー関数
-function filter_input_data(string $input, string $key, int $filter=0) {
+function filter_input_data(string $input, string $key, int $filter=FILTER_UNSAFE_RAW) {
 	// $_GETまたは$_POSTからデータを取得
 	$value = null;
 	if ($input === 'GET') {
-			$value = $_GET[$key] ?? null;
+			$value = filter_input(INPUT_GET, $key, $filter);
 	} elseif ($input === 'POST') {
-			$value = $_POST[$key] ?? null;
+			$value = filter_input(INPUT_POST, $key, $filter);
 	} elseif ($input === 'COOKIE') {
-			$value = $_COOKIE[$key] ?? null;
+			$value = filter_input(INPUT_COOKIE, $key, $filter);
 	}
-
-	// データが存在しない場合はnullを返す
-	if ($value === null) {
-			return null;
-	}
-
-	// フィルタリング処理
-	switch ($filter) {
-		case FILTER_VALIDATE_BOOLEAN:
-			return  filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		case FILTER_VALIDATE_INT:
-			return filter_var($value, FILTER_VALIDATE_INT);
-		case FILTER_VALIDATE_URL:
-			return filter_var($value, FILTER_VALIDATE_URL);
-		default:
-			return $value;  // 他のフィルタはそのまま返す
-	}
+		return $value;
 }
 
 //フォームの表示時刻をセット
