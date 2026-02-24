@@ -3,7 +3,7 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.151.3';
+const POTI_VER = 'v6.151.5';
 const POTI_LOT = 'lot.20260224';
 
 /*
@@ -2035,9 +2035,24 @@ function paintform(): void {
 function ini_get_size_mb(string $key): float {
 	if (!function_exists('ini_get')) return 0;
 
-	$val = ini_get($key);
+	$val = trim(ini_get($key));//前後の空白を削除
+
+	if ($val === '') return 0.0;
+
+	// もし完全に数字だけなら、「バイト単位」
+	if (is_numeric($val)) {
+			return (float)$val / 1024 / 1024;
+	}
+
 	$unit = strtoupper(substr($val, -1));
-	$num = (float)substr($val, 0, -1);
+	$num = trim(substr($val, 0, -1));
+
+	//（数字または小数）かチェック
+	if (!is_numeric($num)) {
+			return 0.0; // 数値部分が無効な場合は0.0を返す
+	}
+
+	$num = (float)$num; // 浮動小数点数に変換
 
 	switch ($unit) {// 単位の変換
 			case 'G':
@@ -2049,7 +2064,7 @@ function ini_get_size_mb(string $key): float {
 			case 'B':
 					return ($num / 1024 / 1024);	// バイト → MB
 			default:
-					return ((float)$val / 1024 / 1024); // 単位なし → バイトとして処理
+					return ($num / 1024 / 1024); // 単位なし → バイトとして処理
 	}
 }
 //投稿可能な最大ファイルサイズを取得 単位MB
