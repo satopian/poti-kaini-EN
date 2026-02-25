@@ -1176,8 +1176,8 @@ function regist(): void {
 		}
 		if($pchk){
 		//KASIRAが入らない10桁のUNIX timeを取り出す
-		$ltime=microtime2time($ltime,$logver);
-		$interval=time()-(int)$ltime;
+		$ltime = microtime2time($ltime,$logver);
+		$interval= $ltime ? time()-(int)$ltime : -1;
 		if(RENZOKU && ($interval>=0) && ($interval < RENZOKU)){error(MSG020,$dest);}
 		if(RENZOKU2 && ($interval>=0) && ($interval < RENZOKU2) && $dest){error(MSG021,$dest);}
 		if($com){
@@ -3588,15 +3588,17 @@ function check_elapsed_days ($microtime,$logver=false): bool {
 
 	$time = microtime2time($microtime,$logver);
 
-	return ELAPSED_DAYS //古いスレッドのフォームを閉じる日数が設定されていたら
+	return ELAPSED_DAYS && $time //古いスレッドのフォームを閉じる日数が設定されていたら
 		? ((time() - $time)) <= ((int)ELAPSED_DAYS * 86400) // 指定日数以内なら許可
 		: true; // フォームを閉じる日数が未設定なら許可
 }
 //マイクロ秒を秒に戻す
 function microtime2time($microtime,$logver): int {
-
-	return $logver==="6" ? (int)substr($microtime,0,-3) :
-	(int)(strlen($microtime)>12 ? substr($microtime,-13,-3) : (int)$microtime);
+	$microtime=(string)$microtime;
+	$time = $logver==="6" ? substr($microtime,0,-3):
+	(strlen($microtime)>12 ? substr($microtime,-13,-3) : 
+	$microtime); 
+	return ctype_digit($time) ? (int)$time : 0;
 }
 
 //逆変換テーブル作成
