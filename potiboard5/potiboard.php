@@ -3,8 +3,8 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.152.0';
-const POTI_LOT = 'lot.20260226';
+const POTI_VER = 'v6.152.1';
+const POTI_LOT = 'lot.20260227';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -648,6 +648,7 @@ function updatelog(): void {
 					continue;
 				}
 				$res = create_res($line[$j], ['pch' => 1]);
+				unset($line[$j]);//メモリ節約のために使用済みの行は削除
 				$res['skipres']=false;
 				if($k===0){//スレッドの親の時
 					$res['disp_resbutton'] = check_elapsed_days($res['time'],$res['logver']); //返信ボタン表示有無
@@ -839,6 +840,7 @@ function res($resno = 0): void {
 		$k=$lineindex[$disptree];
 
 		$res = create_res($line[$k], ['pch' => 1]);
+		unset($line[$k]);//メモリ節約のために使用済みの行は削除
 		$res['skipres']=false;
 	
 		if($j===0){
@@ -2872,6 +2874,7 @@ function catalog(): void {
 		$j=$lineindex[$disptree]; //該当記事を探して$jにセット
 
 		$res = create_res($line[$j]);
+		unset($line[$j]);//使用した行は消す(メモリ節約のため)
 		// カタログ専用ロジック
 		if ($res['img_file_exists']) {
 			if($res['w'] && $res['h']){
