@@ -3,8 +3,9 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.152.1';
-const POTI_LOT = 'lot.20260227';
+const POTI_VER = 'v6.152.2';
+const POTI_LOT = 'lot.20260228';
+
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -251,7 +252,7 @@ if(X_FRAME_OPTIONS_DENY){
 //POSTから変数を取得
 
 $mode = (string)filter_input_data('POST', 'mode');
-$mode = $mode ? $mode : (string)filter_input_data('GET', 'mode');
+$mode = $mode ?: (string)filter_input_data('GET', 'mode');
 $resto = (string)filter_input_data('POST', 'resto',FILTER_VALIDATE_INT);
 $pwd = (string)newstring(filter_input_data('POST', 'pwd'));
 $type = (string)newstring(filter_input_data('POST', 'type'));
@@ -274,7 +275,7 @@ deltemp();
 session_sta();
 $session_usercode = $_SESSION['usercode'] ?? "";
 $session_usercode = (string)$session_usercode;
-$usercode = $usercode ? $usercode : $session_usercode;
+$usercode = $usercode ?: $session_usercode;
 
 //user-codeの発行
 if(!$usercode){//user-codeがなければ発行
@@ -393,9 +394,9 @@ exit();
 //ユーザーip
 function get_uip(): string {
 	$ip = $_SERVER["HTTP_CLIENT_IP"] ?? '';
-	$ip = $ip ? $ip : ($_SERVER["HTTP_INCAP_CLIENT_IP"] ?? '');
-	$ip = $ip ? $ip : ($_SERVER["HTTP_X_FORWARDED_FOR"] ?? '');
-	$ip = $ip ? $ip : ($_SERVER["REMOTE_ADDR"] ?? '');
+	$ip = $ip ?: ($_SERVER["HTTP_INCAP_CLIENT_IP"] ?? '');
+	$ip = $ip ?: ($_SERVER["HTTP_X_FORWARDED_FOR"] ?? '');
+	$ip = $ip ?: ($_SERVER["REMOTE_ADDR"] ?? '');
 	if (strstr($ip, ', ')) {
 		$ips = explode(', ', $ip);
 		$ip = $ips[0];
@@ -557,7 +558,7 @@ function form($resno="",$tmp=[]): array {
 	$dat['pminh'] = PMIN_H;
 	$dat['anime'] = USE_ANIME ? true : false;
 	$dat['animechk'] = DEF_ANIME ? ' checked' : '';
-	$dat['resno'] = $resno ? $resno :'';
+	$dat['resno'] = $resno ?:'';
 	$dat['notres'] = $resno ? false : true;
 	$dat['paintform'] = (USE_PAINT && !empty($count_arr_apps)) ? (!$resno || $resno && RES_UPLOAD) : false;
 	$dat['maxbyte'] = MAX_KB * 1024 * 2;//フォームのHTMLによるファイルサイズの制限 jpeG→png変換を考慮して2倍。
@@ -753,7 +754,7 @@ function res_view_other_works($resno,$trees,$i): array {
 	$dat['res_next']=($next && isset($next_line[$next_lineindex[$next]])) ? create_res($next_line[$next_lineindex[$next]]):[];
 
 	$last_prev_tree = end($prev_tree);
-	$prev=$last_prev_tree ? $last_prev_tree :'';
+	$prev=$last_prev_tree ?:'';
 
 	$dat['res_prev']=($prev && isset($prev_lineindex[$prev])) ? create_res($prev_line[$prev_lineindex[$prev]]):[];
 	$dat['view_other_works']=[];
@@ -1052,7 +1053,7 @@ function regist(): void {
 			$ptime = $psec;
 		}
 		$uresto=(string)filter_var($uresto,FILTER_VALIDATE_INT);
-		$resto = $uresto ? $uresto : $resto;//変数上書き$userdataのレス先を優先する
+		$resto = $uresto ?: $resto;//変数上書き$userdataのレス先を優先する
 		$pictmp2 = true;
 	}
 	$dest='';
@@ -1375,7 +1376,7 @@ function regist(): void {
 	
 	//-- クッキー保存 --
 	//パスワード
-	$email = $email ? $email : ($sage ? 'sage' : '') ;
+	$email = $email ?: ($sage ? 'sage' : '') ;
 	$name=str_replace("\t",'',(string)filter_input_data('POST', 'name'));//エスケープ前の値をセット
 	//クッキー項目："クッキー名 クッキー値"
 	$cooks = [['namec',$name],['emailc',$email],['urlc',$url],['fcolorc',$fcolor],['pwdc',$c_pass]];
@@ -1385,7 +1386,7 @@ function regist(): void {
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
 
-	$resno = $resto ? $resto : $no;
+	$resno = $resto ?: $no;
 	$resno = h($resno);
 	
 	//メール通知
@@ -1492,7 +1493,7 @@ function userdel(): void {
 	$logfilename=(string)filter_input_data('POST','logfilename');
 	$mode_catalog=filter_input_data('POST','mode_catalog');
 	$catalog_pageno=(string)filter_input_data('POST','catalog_pageno',FILTER_VALIDATE_INT);
-	$catalog_pageno= $catalog_pageno ? $catalog_pageno : 0;
+	$catalog_pageno= $catalog_pageno ?: 0;
 	$onlyimgdel = filter_input_data('POST', 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = (array)($_POST['del'] ?? []);//$del は配列
 	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
@@ -1501,7 +1502,7 @@ function userdel(): void {
 	if(!is_array($del)){
 		error(MSG028);
 	}
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ?: newstring($pwdc);
 	chmod(LOGFILE,PERMISSION_FOR_LOG);
 	$fp=fopen(LOGFILE,"r+");
 	file_lock($fp, LOCK_EX);
@@ -1738,7 +1739,7 @@ function paintform(): void {
 	$type = (string)newstring(filter_input_data('POST', 'type'));
 	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
 	$pwdc = (string)filter_input_data('COOKIE', 'pwdc');
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ?: newstring($pwdc);
 	$resto = (string)filter_input_data('POST', 'resto',FILTER_VALIDATE_INT);
 	if(strlen($resto)>1000){
 		error(MSG015);
@@ -1911,7 +1912,7 @@ function paintform(): void {
 
 	$dat['compress_level'] = COMPRESS_LEVEL;
 	$dat['layer_count'] = LAYER_COUNT;
-	if($shi) $dat['quality'] = $quality ? $quality : $qualitys[0];
+	if($shi) $dat['quality'] = $quality ?: $qualitys[0];
 	$selected_palette_no = (int)filter_input_data('POST', 'selected_palette_no',FILTER_VALIDATE_INT);
 	//NEOを使う時はPaintBBSの設定
 	if(USE_SELECT_PALETTES){//パレット切り替え機能を使う時
@@ -2368,7 +2369,7 @@ function check_cont_pass(): void {
 	$no = (string)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
 	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
 	$pwdc = (string)filter_input_data('COOKIE', 'pwdc');
-	$pwd = $pwd ? $pwd : newstring($pwdc);
+	$pwd = $pwd ?: newstring($pwdc);
 	$flag = false;
 	$fp=fopen(LOGFILE,"r");
 	while($line = fgets($fp)){
@@ -2399,7 +2400,7 @@ function download_app_dat(): void {
 	$pwd=(string)newstring(filter_input_data('POST','pwd'));
 	$pwdc = (string)newstring(filter_input_data('COOKIE', 'pwdc'));
 	$no=basename((string)filter_input_data('POST','no',FILTER_VALIDATE_INT));
-	$pwd = $pwd ? $pwd : $pwdc;
+	$pwd = $pwd ?: $pwdc;
 
 	$cpwd='';
 	$cno='';
@@ -2456,7 +2457,7 @@ function editform(): void {
 		error(MSG031);
 	}
 
-	$pwd = $pwd ? $pwd : $pwdc;
+	$pwd = $pwd ?: $pwdc;
 	$fp=fopen(LOGFILE,"r");
 	file_lock($fp, LOCK_EX);
 	$buf = get_buffer_from_fp($fp);
@@ -2631,12 +2632,12 @@ function replace($no="",$pwd="",$repcode="",$java=""): void {
 	"Image replacement failed.\nIt may be left in [Recover Images]."
 	:"画像の差し換えに失敗しました。\n未投稿画像に残っている可能性があります。";
 
-	$no = $no ? $no : (string)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
-	$no = $no ? $no : (string)filter_input_data('GET', 'no',FILTER_VALIDATE_INT);
-	$pwd = $pwd ? $pwd : (string)newstring(filter_input_data('POST', 'pwd'));
-	$pwd = $pwd ? $pwd : (string)newstring(filter_input_data('GET', 'pwd'));
-	$repcode = $repcode ? $repcode : (string)newstring(filter_input_data('POST', 'repcode'));
-	$repcode = $repcode ? $repcode : (string)newstring(filter_input_data('GET', 'repcode'));
+	$no = $no ?: (string)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
+	$no = $no ?: (string)filter_input_data('GET', 'no',FILTER_VALIDATE_INT);
+	$pwd = $pwd ?: (string)newstring(filter_input_data('POST', 'pwd'));
+	$pwd = $pwd ?: (string)newstring(filter_input_data('GET', 'pwd'));
+	$repcode = $repcode ?: (string)newstring(filter_input_data('POST', 'repcode'));
+	$repcode = $repcode ?: (string)newstring(filter_input_data('GET', 'repcode'));
 	$repno="";
 	$reptime="";
 	if (strpos($repcode, "|") !== false) {
@@ -3417,7 +3418,7 @@ function create_res ($line, $options = []): array {
 		'email' => $email ? filter_var($email, FILTER_VALIDATE_EMAIL) : '',
 		'ext' => $ext,
 		'time' => $time,
-		'fontcolor' => $fcolor ? $fcolor : DEF_FONTCOLOR, //文字色
+		'fontcolor' => $fcolor ?: DEF_FONTCOLOR, //文字色
 		'not_deleted' => !(!$name && !$email && !$url && !$com && !$ext),//｢この記事はありません｣で使用
 		'logver' => $logver,
 	];

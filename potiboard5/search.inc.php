@@ -56,7 +56,7 @@ class processsearch {
 
 	$imgsearch=(bool)filter_input_data('GET','imgsearch',FILTER_VALIDATE_BOOLEAN);
 	$page=(int)filter_input_data('GET','page',FILTER_VALIDATE_INT);
-	$page= $page ? $page : 1;
+	$page= $page ?: 1;
 
 	if($page<0){
 		redirect(h(PHP_SELF2));
