@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.23";
+Neo.version = "1.6.24";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1116,9 +1116,9 @@ Neo.resizeCanvas = function () {
   if (Neo.painter.zoom < 1) {
     // 表示用アンチエイリアスを有効化
     ctx.imageSmoothingEnabled = true;
-    Neo.painter.destCanvas.style.imageRendering = "smooth";
     // 品質を指定（対応ブラウザのみ有効）
-    if ("imageSmoothingQuality" in ctx) {
+    if (Neo.painter.zoom < 0.5 && "imageSmoothingQuality" in ctx) {
+      Neo.painter.destCanvas.style.imageRendering = "smooth";
       ctx.imageSmoothingQuality = "high";
     }
   } else {
@@ -2485,7 +2485,7 @@ Neo.Painter.prototype._mouseMoveHandler = function (e) {
 
   // 画面外をタップした時スクロール可能にするため
   //  console.warn("move -" + e.target.id + e.target.className)
-  if (!(e.target.className == "o" && e.type == "touchmove")) {
+  if (e.cancelable && !(e.target.className == "o" && e.type == "touchmove")) {
     e.preventDefault();
   }
 };
@@ -5518,6 +5518,7 @@ Neo.HandTool.prototype.downHandler = function (oe) {
   oe.tempCanvasCtx.clearRect(0, 0, oe.canvasWidth, oe.canvasHeight);
 
   this.isDrag = true;
+  this.ticking = false;
   this.startX = oe.rawMouseX;
   this.startY = oe.rawMouseY;
 };
@@ -5528,9 +5529,18 @@ Neo.HandTool.prototype.upHandler = function (oe) {
 };
 
 Neo.HandTool.prototype.moveHandler = function (oe) {
-  if (this.isDrag) {
-    var dx = this.startX - oe.rawMouseX;
-    var dy = this.startY - oe.rawMouseY;
+  if (!this.isDrag) return;
+
+  this.latestX = oe.rawMouseX;
+  this.latestY = oe.rawMouseY;
+
+  if (this.ticking) return;
+
+  this.ticking = true;
+
+  requestAnimationFrame(() => {
+    var dx = this.startX - this.latestX;
+    var dy = this.startY - this.latestY;
 
     var ax = oe.destCanvas.width / (oe.canvasWidth * oe.zoom);
     var ay = oe.destCanvas.height / (oe.canvasHeight * oe.zoom);
@@ -5549,11 +5559,12 @@ Neo.HandTool.prototype.moveHandler = function (oe) {
 
     oe.setZoomPosition(oe.zoomX - dx, oe.zoomY - dy);
 
-    this.startX = oe.rawMouseX;
-    this.startY = oe.rawMouseY;
-  }
-};
+    this.startX = this.latestX;
+    this.startY = this.latestY;
 
+    this.ticking = false;
+  });
+};
 Neo.HandTool.prototype.upMoveHandler = function (oe) {};
 Neo.HandTool.prototype.rollOverHandler = function (oe) {};
 Neo.HandTool.prototype.rollOutHandler = function (oe) {};
