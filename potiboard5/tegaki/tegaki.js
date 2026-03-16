@@ -2693,6 +2693,13 @@ var TegakiLayers = {
         canvas.width = Tegaki.baseWidth;
         canvas.height = Tegaki.baseHeight;
 
+        //縮小表示の時は滑らかに表示する
+        if (Tegaki.zoomFactor < 1) {
+            canvas.style.imageRendering = "auto";
+        } else {
+            canvas.style.imageRendering = "";
+        }
+
         id = ++Tegaki.layerCounter;
 
         canvas.id = "tegaki-canvas-" + id;
