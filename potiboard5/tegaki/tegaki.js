@@ -3066,9 +3066,9 @@ var Tegaki = {
     offsetX: 0,
     offsetY: 0,
 
-    zoomLevel: 0,
+    zoomLevel: 1,
     zoomFactor: 1.0,
-    zoomFactorList: [0.5, 1.0, 2.0, 4.0, 8.0, 16.0],
+    zoomFactorList: [0.5, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 6.0, 8.0, 16.0],
     zoomBaseLevel: 1,
 
     hasCustomCanvas: false,

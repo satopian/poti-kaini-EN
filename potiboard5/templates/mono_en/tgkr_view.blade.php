@@ -13,9 +13,8 @@
 	-ms-user-select: none;
 	user-select: none;
 	}
-	#tegaki-canvas-cnt {
-	overflow: inherit;
-	touch-action: auto;
+	#tegaki-cursor-layer{
+		touch-action: auto;
 	}
 </style>
 </head>
