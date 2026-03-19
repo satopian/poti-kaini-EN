@@ -3066,10 +3066,12 @@ var Tegaki = {
     offsetX: 0,
     offsetY: 0,
 
-    zoomLevel: 1,
+    zoomLevel: 0,
     zoomFactor: 1.0,
-    zoomFactorList: [0.5, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 6.0, 8.0, 16.0],
-    zoomBaseLevel: 1,
+    zoomFactorList: [
+        0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 6.0, 8.0, 16.0,
+    ],
+    zoomBaseLevel: 5, //zoomFactorListのインデックスの1.0倍の位置
 
     hasCustomCanvas: false,
 
@@ -5647,6 +5649,8 @@ class TegakiReplayViewer {
         this.autoPaused = false;
         this.pause(true);
         Tegaki.onReplayReset();
+        //巻き戻しした時に表示倍率をリセット
+        Tegaki.setZoom(0);
     }
 
     play() {
