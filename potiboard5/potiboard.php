@@ -708,6 +708,7 @@ function updatelog(): void {
 			error(MSG015);
 		} 
 		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
+		$dat['logfilename'] = $logfilename;
 		if(is_file($logfilename)){
 			if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 		}
