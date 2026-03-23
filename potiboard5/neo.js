@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.25";
+Neo.version = "1.6.26";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -5726,7 +5726,9 @@ Neo.EffectToolBase.prototype.upHandler = function (oe) {
   }
 
   if (oe.tool.type != Neo.Painter.TOOLTYPE_PASTE) {
-    oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
+    setTimeout(() => {
+      oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
+    }, 10);
   }
 };
 
@@ -5888,6 +5890,9 @@ Neo.TurnTool.prototype.upHandler = function (oe) {
     //      oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
     oe._actionMgr.turn(x, y, width, height);
   }
+  setTimeout(() => {
+    oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
+  }, 10);
 };
 
 /*
@@ -6224,12 +6229,10 @@ Neo.ZoomPlusCommand = function (data) {
 };
 Neo.ZoomPlusCommand.prototype = new Neo.CommandBase();
 Neo.ZoomPlusCommand.prototype.execute = function () {
-  if (this.data.zoom === 0.5 && Neo.config.neo_enable_zoom_out) {
-    this.data.setZoom(1);
-  } else if (this.data.zoom === 0.2 && Neo.config.neo_enable_zoom_out) {
-    this.data.setZoom(0.5);
-  } else if (this.data.zoom < 12) {
+  if (this.data.zoom >= 1 && this.data.zoom < 12) {
     this.data.setZoom(this.data.zoom + 1);
+  } else if (this.data.zoom < 1) {
+    this.data.setZoom(this.data.zoom + 0.2);
   }
   Neo.resizeCanvas();
   // Neo.resizeCanvas()でupdateDestCanvas()を引数付きで呼び出しているためコメントアウト
@@ -6243,10 +6246,8 @@ Neo.ZoomMinusCommand.prototype = new Neo.CommandBase();
 Neo.ZoomMinusCommand.prototype.execute = function () {
   if (this.data.zoom >= 2) {
     this.data.setZoom(this.data.zoom - 1);
-  } else if (this.data.zoom === 1 && Neo.config.neo_enable_zoom_out) {
-    this.data.setZoom(0.5);
-  } else if (this.data.zoom === 0.5 && Neo.config.neo_enable_zoom_out) {
-    this.data.setZoom(0.2);
+  } else if (Neo.config.neo_enable_zoom_out && this.data.zoom >= 0.4) {
+    this.data.setZoom(this.data.zoom - 0.2);
   }
   Neo.resizeCanvas();
   // Neo.resizeCanvas()でupdateDestCanvas()を引数付きで呼び出しているためコメントアウト
