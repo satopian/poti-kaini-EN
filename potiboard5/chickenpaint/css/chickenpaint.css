@@ -14638,6 +14638,11 @@ fieldset:disabled .btn {
   margin: 0 0 3px 0;
 }
 
+/* 親要素の余白 */
+#chickenpaint-colorPickerSampleColorRadioGroup {
+  padding: 6px 0 0 6px;
+}
+
 /* 親要素にあるラジオボタン用の左余白を解除 */
 #chickenpaint-colorPickerSampleColorRadioGroup .form-check {
   padding-left: 0;
@@ -14645,18 +14650,17 @@ fieldset:disabled .btn {
 
 /* スポイト色の取得先選択のラジオボタンのラベル */
 #chickenpaint-colorPickerSampleColorRadioGroup .form-check-label {
+  width: 150px;
+  text-align: center;
   padding: 6px;
-  margin: 8px 0 0 6px;
+  margin: 0 0 0 6px;
   border-radius: 5px;
   background-color: var(--bs-tertiary-bg);
-  width: 155px;
   font-size: 14px;
-  text-align: center;
   border: 1px solid var(--bs-tertiary-bg);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
     0 0 1px rgba(0, 0, 0, 0.2);
-  display: block;
 }
 
 /* スポイト色の取得先選択のラジオボタンのラベルがホバーされた時 */
@@ -14671,10 +14675,9 @@ fieldset:disabled .btn {
   border: 1px solid var(--bs-primary);
   background-color: var(--bs-primary);
   color: #fff;
-  border: 1px solid var(--bs-primary);
 }
-/* ラジオボタンのサークルを消してラベルだけにする */
+/* ラジオボタンのサークルの位置を調整 */
 input#chickenpaint-colorPicker-method-merged,
 input#chickenpaint-colorPicker-method-layer {
-  display: none;
+  margin: 10px 0;
 }
