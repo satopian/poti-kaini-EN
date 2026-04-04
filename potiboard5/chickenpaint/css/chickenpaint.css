@@ -14661,7 +14661,6 @@ fieldset:disabled .btn {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
     0 0 1px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
 }
 
 /* スポイト色の取得先選択のラジオボタンのラベルがホバーされた時 */
@@ -14681,4 +14680,8 @@ fieldset:disabled .btn {
 input#chickenpaint-colorPicker-method-merged,
 input#chickenpaint-colorPicker-method-layer {
   margin: 10px 0;
+}
+/* ラベルのカーソルをポインターに変更 */
+.chickenpaint label.form-check-label{
+  cursor: pointer;
 }
