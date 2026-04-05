@@ -14682,6 +14682,12 @@ input#chickenpaint-colorPicker-method-layer {
   margin: 10px 0;
 }
 /* ラベルのカーソルをポインターに変更 */
-.chickenpaint label.form-check-label{
+.chickenpaint label.form-check-label {
+  cursor: pointer;
+}
+/* メニューのカーソルをポインターに変更 */
+.chickenpaint .nav-item.dropdown,
+.chickenpaint .nav-link.dropdown-toggle,
+.chickenpaint .navbar .dropdown-item {
   cursor: pointer;
 }
