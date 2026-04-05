@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.26";
+Neo.version = "1.6.27";
 Neo.painter;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -95,8 +95,8 @@ Neo.init2 = function () {
   pageview.style.width = Neo.config.applet_width + "px";
   pageview.style.height = Neo.config.applet_height + "px";
 
-  Neo.canvas = document.getElementById("canvas");
-  Neo.container = document.getElementById("container");
+  Neo.canvas = document.getElementById("neo-canvas");
+  Neo.container = document.getElementById("neo-container");
   Neo.toolsWrapper = document.getElementById("toolsWrapper");
 
   Neo.painter = new Neo.Painter();
@@ -210,7 +210,7 @@ Neo.initConfig = function (applet) {
       Neo.applyStyle("color_bar_select", "#407675");
     }
 
-    var e = document.getElementById("container");
+    var e = document.getElementById("neo-container");
     Neo.config.inherit_color = Neo.getInheritColor(e);
     if (!Neo.config.color_frame) Neo.config.color_frame = Neo.config.color_text;
 
@@ -329,7 +329,11 @@ Neo.initSkin = function () {
   var darkBar = Neo.multColor(Neo.config.color_bar, 0.7);
   var bgImage = Neo.painter ? Neo.backgroundImage() : "";
 
-  Neo.addRule(".NEO #container", "background-image", "url(" + bgImage + ")");
+  Neo.addRule(
+    ".NEO #neo-container",
+    "background-image",
+    "url(" + bgImage + ")",
+  );
   Neo.addRule(".NEO .colorSlider .label", "color", Neo.config.tool_color_text);
   Neo.addRule(".NEO .sizeSlider .label", "color", Neo.config.tool_color_text);
   Neo.addRule(
@@ -823,7 +827,7 @@ Neo.initComponents = function () {
 
   // アプレットのborderの動作をエミュレート
   if (navigator.userAgent.search("FireFox") > -1) {
-    var container = document.getElementById("container");
+    var container = document.getElementById("neo-container");
     container.addEventListener(
       "mousedown",
       function (e) {
@@ -888,7 +892,7 @@ Neo.initButtons = function () {
   };
 
   Neo.fillButton = new Neo.FillButton().init("fill");
-  Neo.rightButton = new Neo.RightButton().init("right");
+  Neo.rightButton = new Neo.RightButton().init("neo-right");
 
   if (Neo.isMobile() || Neo.config.neo_show_right_button == "true") {
     Neo.rightButton.element.style.display = "block";
@@ -1130,6 +1134,7 @@ Neo.resizeCanvas = function () {
   Neo.canvas.style.height = height + "px";
 
   if (Neo.toolsWrapper) {
+    const toolsWrapper = Neo.toolsWrapper;
     var top = (Neo.container.clientHeight - toolsWrapper.clientHeight) / 2;
     Neo.toolsWrapper.style.top = (top > 0 ? top : 0) + "px";
 
@@ -1463,18 +1468,18 @@ Neo.createContainer = function (applet) {
 
   var html =
     '<div id="pageView" style="margin:auto; width:450px; height:470px;">' +
-    '<div id="container" style="visibility:hidden;" class="o">' +
-    '<div id="center" class="o">' +
+    '<div id="neo-container" style="visibility:hidden;" class="o">' +
+    '<div id="neo-center" class="o">' +
     '<div id="painterContainer" class="o">' +
     '<div id="painterWrapper" class="o">' +
-    '<div id="upper" class="o">' +
+    '<div id="neo-upper" class="o">' +
     '<div id="redo">[やり直し]</div> ' +
     '<div id="undo">[元に戻す]</div> ' +
     '<div id="fill">[塗り潰し]</div> ' +
-    '<div id="right" style="display:none;">[右]</div> ' +
+    '<div id="neo-right" style="display:none;">[右]</div> ' +
     "</div>" +
     '<div id="painter">' +
-    '<div id="canvas">' +
+    '<div id="neo-canvas">' +
     '<div id="scrollH"></div>' +
     '<div id="scrollV"></div>' +
     '<div id="zoomPlusWrapper">' +
@@ -1583,16 +1588,16 @@ Neo.setToolSide = function (side) {
     Neo.addRule(".NEO #toolsWrapper", "right", "-3px");
     Neo.addRule(".NEO #toolsWrapper", "left", "auto");
     Neo.addRule(".NEO #painterWrapper", "padding", "0 55px 0 0 !important");
-    Neo.addRule(".NEO #upper", "padding-right", "75px !important");
+    Neo.addRule(".NEO #neo-upper", "padding-right", "75px !important");
   } else {
     Neo.addRule(".NEO #toolsWrapper", "right", "auto");
     Neo.addRule(".NEO #toolsWrapper", "left", "-1px");
     Neo.addRule(".NEO #painterWrapper", "padding", "0 0 0 55px !important");
-    Neo.addRule(".NEO #upper", "padding-right", "20px !important");
+    Neo.addRule(".NEO #neo-upper", "padding-right", "20px !important");
   }
 };
 
-"use strict";
+("use strict");
 
 Neo.dictionary = {
   ja: {},
@@ -1804,7 +1809,7 @@ Neo.translate = (function () {
   };
 })();
 
-"use strict";
+("use strict");
 
 Neo.Painter = function () {
   this._undoMgr = new Neo.UndoManager(50);
@@ -2119,7 +2124,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   var ref = this;
 
   if (!Neo.viewer) {
-    var container = document.getElementById("container");
+    var container = document.getElementById("neo-container");
 
     container.onmousedown = function (e) {
       ref._mouseDownHandler(e);
@@ -2451,8 +2456,7 @@ Neo.Painter.prototype._mouseUpHandler = function (e) {
   this.isMouseDownRight = false;
   this.tool.upHandler(this);
   //  document.onmouseup = undefined;
-
-  if (e.target.id != "right") {
+  if (e.target.id != "neo-right") {
     this.virtualRight = false;
     Neo.RightButton.clear();
   }
@@ -2718,7 +2722,7 @@ Neo.UndoItem.prototype.height;
 Neo.Painter.prototype.setZoom = function (value) {
   this.zoom = value;
 
-  var container = document.getElementById("container");
+  var container = document.getElementById("neo-container");
   var width = Math.round(this.canvasWidth * this.zoom);
   var height = Math.round(this.canvasHeight * this.zoom);
 
@@ -4485,7 +4489,11 @@ Neo.Painter.prototype.getDestCanvasPosition = function (
 
 Neo.Painter.prototype.isWidget = function (element) {
   while (1) {
-    if (element == null || element.id == "canvas" || element.id == "container")
+    if (
+      element == null ||
+      element.id == "neo-canvas" ||
+      element.id == "neo-container"
+    )
       break;
 
     if (
@@ -4504,7 +4512,7 @@ Neo.Painter.prototype.isWidget = function (element) {
 Neo.Painter.prototype.isContainer = function (element) {
   while (1) {
     if (element == null) break;
-    if (element.id == "container") return true;
+    if (element.id == "neo-container") return true;
     element = element.parentNode;
   }
   return false;
@@ -4766,7 +4774,7 @@ Neo.Painter.prototype.isDirty = function () {
   return this.dirty;
 };
 
-"use strict";
+("use strict");
 
 Neo.ToolBase = function () {};
 
@@ -6213,7 +6221,7 @@ Neo.DummyTool.prototype.upMoveHandler = function (oe) {};
 Neo.DummyTool.prototype.rollOverHandler = function (oe) {};
 Neo.DummyTool.prototype.rollOutHandler = function (oe) {};
 
-"use strict";
+("use strict");
 
 Neo.CommandBase = function () {};
 Neo.CommandBase.prototype.data;
@@ -6319,7 +6327,7 @@ Neo.CopyrightCommand.prototype.execute = function () {
   }
 };
 
-"use strict";
+("use strict");
 
 /*
   -----------------------------------------------------------------------
@@ -7066,9 +7074,9 @@ Neo.createViewer = function (applet) {
 
   var html =
     '<div id="pageView" style="margin:auto;">' +
-    '<div id="container" style="visibility:visible;" class="o">' +
+    '<div id="neo-container" style="visibility:visible;" class="o">' +
     '<div id="painter" style="background-color:white;">' +
-    '<div id="canvas" style="background-color:white;">' +
+    '<div id="neo-canvas" style="background-color:white;">' +
     "</div>" +
     "</div>" +
     '<div id="viewerButtonsWrapper" style="display:block;">' +
@@ -7113,8 +7121,8 @@ Neo.initViewer = function (pch) {
   pageview.style.width = pageWidth + "px";
   pageview.style.height = pageHeight + "px";
 
-  Neo.canvas = document.getElementById("canvas");
-  Neo.container = document.getElementById("container");
+  Neo.canvas = document.getElementById("neo-canvas");
+  Neo.container = document.getElementById("neo-container");
   Neo.container.style.backgroundColor = Neo.config.color_back;
   Neo.container.style.border = "0";
 
@@ -7421,7 +7429,7 @@ Neo.getLineCount = function () {
   return Neo.painter._actionMgr._items.length;
 };
 
-"use strict";
+("use strict");
 
 Neo.getModifier = function (e) {
   if (e.shiftKey) {
