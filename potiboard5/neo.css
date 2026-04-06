@@ -30,7 +30,7 @@
     margin: auto;
 }
 
-.NEO #toolsWrapper {
+.NEO #neo-toolsWrapper {
     width: 52px;
     display: table;
     position: absolute;
@@ -39,20 +39,20 @@
     z-index: 100;
 }
 
-.NEO #tools {
+.NEO #neo-tools {
     width: 52px;
     display: table-cell;
     vertical-align: middle;
     position: relative;
 }
 
-.NEO #painterContainer {
+.NEO #neo-painterContainer {
     display: table-cell;
     vertical-align: middle;
     position: relative;
 }
 
-.NEO #painterWrapper {
+.NEO #neo-painterWrapper {
     padding: 0 55px 0 0;
     position: relative;
 
@@ -68,11 +68,11 @@
     width: max-content; /* コンテンツを折り返さない */
 }
 
-.NEO #lower {
+.NEO #neo-lower {
     height: 30px;
 }
 
-.NEO #painter {
+.NEO #neo-painter {
     position: relative;
     padding: 20px 20px 20px 20px;
 
@@ -86,20 +86,20 @@
     background-color: white;
 }
 
-.NEO #headerButtons {
+.NEO #neo-headerButtons {
     position: absolute;
     top: 5px;
     left: 5px;
     z-index: 100;
 }
 
-.NEO #footerButtons {
+.NEO #neo-footerButtons {
     position: absolute;
     bottom: 5px;
     left: 5px;
 }
 
-.NEO #window {
+.NEO #neo-window {
     float: left;
 }
 
@@ -109,11 +109,11 @@
 -----------------------
 */
 
-.NEO #pageView {
+.NEO #neo-pageView {
     background-color: white;
 }
 
-.NEO #windowView {
+.NEO #neo-windowView {
     z-index: 9999;
     position: fixed;
     width: 100%;
@@ -129,7 +129,7 @@
 -----------------------
 */
 
-.NEO #zoomMinus {
+.NEO #neo-zoomMinus {
     padding: 0;
     margin: 0;
     width: 16px;
@@ -137,14 +137,14 @@
     margin-left: 1px;
 }
 
-.NEO #zoomPlus {
+.NEO #neo-zoomPlus {
     padding: 0;
     margin: 0;
     width: 16px;
     height: 16px;
 }
 
-.NEO #zoomMinusWrapper {
+.NEO #neo-zoomMinusWrapper {
     position: absolute;
     right: -20px;
     bottom: -21px;
@@ -153,7 +153,7 @@
     text-align: center;
 }
 
-.NEO #zoomPlusWrapper {
+.NEO #neo-zoomPlusWrapper {
     position: absolute;
     left: -21px;
     bottom: -21px;
@@ -163,7 +163,7 @@
     text-align: center;
 }
 
-.NEO #scrollH {
+.NEO #neo-scrollH {
     position: absolute;
     left: 1px;
     bottom: -20px;
@@ -171,7 +171,7 @@
     height: 18px;
 }
 
-.NEO #scrollV {
+.NEO #neo-scrollV {
     position: absolute;
     right: -20px;
     top: 1px;
@@ -179,22 +179,22 @@
     height: calc(100% - 2px);
 }
 
-.NEO #scrollH div {
+.NEO #neo-scrollH div {
     position: absolute;
     width: 50px;
     height: 16px;
 }
 
-.NEO #scrollV div {
+.NEO #neo-scrollV div {
     position: absolute;
     width: 16px;
     height: 50px;
 }
 
-/* .NEO #scrollH div:hover {} */
-/* .NEO #scrollV div:hover {} */
+/* .NEO #neo-scrollH div:hover {} */
+/* .NEO #neo-scrollV div:hover {} */
 
-.NEO #neoWarning {
+.NEO #neo-neoWarning {
     position: absolute;
     left: 5px;
     top: 5px;
