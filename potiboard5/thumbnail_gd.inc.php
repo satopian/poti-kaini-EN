@@ -3,7 +3,7 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20260113;
+$thumbnail_gd_ver=20260406;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
@@ -25,6 +25,9 @@ class thumbnail_gd {
 			$options['2webp']=true;//互換処理
 		}
 		if((isset($options['webp'])||isset($options['2webp'])||isset($options['thumbnail_webp'])) && !function_exists("ImageWEBP")){
+			return '';
+		}
+		if((isset($options['avif'])||isset($options['2avif'])||isset($options['thumbnail_avif'])) && !function_exists("ImageAVIF")){
 			return '';
 		}
 
@@ -132,7 +135,7 @@ class thumbnail_gd {
 		$transparencyOptionsSet = isset($options['toolarge']) || isset($options['webp']) || isset($options['thumbnail_webp']) || isset($options['2webp']) || isset($options['2png']);
 		
 		// 対象の画像形式で透明度がサポートされているか確認
-		$transparencySupportedFormats = ["image/png", "image/gif", "image/webp"];
+		$transparencySupportedFormats = ["image/png", "image/gif", "image/webp", "image/avif"];
 		
 		// 透明度を扱うための関数が存在するか確認
 		$transparencyFunctionsAvailable = function_exists("imagealphablending") && function_exists("imagesavealpha");
@@ -143,7 +146,7 @@ class thumbnail_gd {
 	private static function createImageResource($fname,$mime_type) {
 		switch ($mime_type) {
 			case "image/gif":
-				if(!function_exists("ImageCreateFromGIF")){//gif
+				if(!function_exists("ImageCreateFromGIF")) {//gif
 					return null;
 				}
 					$im_in = @ImageCreateFromGIF($fname);
@@ -154,17 +157,24 @@ class thumbnail_gd {
 					if(!$im_in)return null;
 				break;
 			case "image/png":
-				if(!function_exists("ImageCreateFromPNG")){//png
+				if(!function_exists("ImageCreateFromPNG")) {//png
 					return null;
 				}
 				$im_in = @ImageCreateFromPNG($fname);
 					if(!$im_in)return null;
 				break;
 			case "image/webp":
-				if(!function_exists("ImageCreateFromWEBP")){//webp
+				if(!function_exists("ImageCreateFromWEBP")) {//webp
 					return null;
 				}
 					$im_in = @ImageCreateFromWEBP($fname);
+					if(!$im_in)return null;
+				break;
+			case "image/avif":
+				if(!function_exists("ImageCreateFromAVIF")) {//avif
+					return null;
+				}
+					$im_in = @ImageCreateFromAVIF($fname);
 					if(!$im_in)return null;
 				break;
 
@@ -177,9 +187,9 @@ class thumbnail_gd {
 	private static function overwriteResizedImageWithPNG($im_out, $fname): ?string {
 		$outfile=(string)$fname;
 		//本体画像を縮小
-			if(function_exists("ImagePNG")){
+			if(function_exists("ImagePNG")) {
 				ImagePNG($im_out, $outfile,3);
-			}else{
+			} else {
 				ImageJPEG($im_out, $outfile,98);
 			}
 		return $outfile;
@@ -187,32 +197,47 @@ class thumbnail_gd {
 	//サムネイル作成
 	private static function createThumbnailImage($im_out, $time, $options): ?string {
 
-		if(isset($options['2png'])){
+		if(isset($options['2png'])) {
 
 			$outfile=TEMP_DIR.$time.'.png.tmp';//一時ファイル
 			ImagePNG($im_out, $outfile,3);
 		
-		}elseif(isset($options['2jpeg'])){
+		} elseif(isset($options['2jpeg'])) {
 
 			$outfile=TEMP_DIR.$time.'.jpeg.tmp';//一時ファイル
 			imagejpeg($im_out, $outfile,98);
 
-		}elseif(isset($options['2webp'])){
+		} elseif(isset($options['2webp'])) {
 
 			$outfile=TEMP_DIR.$time.'.webp.tmp';//一時ファイル
 			ImageWEBP($im_out, $outfile,98);
 		
-		} elseif(isset($options['webp'])){
+		} elseif(isset($options['2avif'])) {
+
+			$outfile=TEMP_DIR.$time.'.avif.tmp';//一時ファイル
+			imageavif($im_out, $outfile,98);
+		
+		} elseif(isset($options['webp'])) {
 
 			$outfile='webp/'.$time.'t.webp';
 			ImageWEBP($im_out, $outfile,90);
 		
-		}elseif(isset($options['thumbnail_webp'])){
+		} elseif(isset($options['avif'])) {
+
+			$outfile='avif/'.$time.'t.avif';
+			imageavif($im_out, $outfile,90);
+		
+		} elseif(isset($options['thumbnail_webp'])) {
 
 			$outfile=THUMB_DIR.$time.'s.webp';
 			ImageWEBP($im_out, $outfile,90);
 
-		}else{
+		} elseif(isset($options['thumbnail_avif'])) {
+
+			$outfile=THUMB_DIR.$time.'s.avif';
+			imageavif($im_out, $outfile,90);
+
+		} else {
 
 			$outfile=THUMB_DIR.$time.'s.jpg';
 			// サムネイル画像を保存
