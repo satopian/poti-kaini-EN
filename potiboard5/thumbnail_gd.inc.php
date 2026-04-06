@@ -215,7 +215,7 @@ class thumbnail_gd {
 		} elseif(isset($options['2avif'])) {
 
 			$outfile=TEMP_DIR.$time.'.avif.tmp';//一時ファイル
-			imageavif($im_out, $outfile,98);
+			imageavif($im_out, $outfile,90);
 		
 		} elseif(isset($options['webp'])) {
 
@@ -225,7 +225,7 @@ class thumbnail_gd {
 		} elseif(isset($options['avif'])) {
 
 			$outfile='avif/'.$time.'t.avif';
-			imageavif($im_out, $outfile,90);
+			imageavif($im_out, $outfile,80);
 		
 		} elseif(isset($options['thumbnail_webp'])) {
 
@@ -235,7 +235,7 @@ class thumbnail_gd {
 		} elseif(isset($options['thumbnail_avif'])) {
 
 			$outfile=THUMB_DIR.$time.'s.avif';
-			imageavif($im_out, $outfile,90);
+			imageavif($im_out, $outfile,80);
 
 		} else {
 
