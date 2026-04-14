@@ -2309,9 +2309,9 @@ Neo.Painter.prototype.updateInputText = function () {
 };
 
 Neo.Painter.prototype.cancelCopy = function () {
-  if (this.tool.type !== Neo.Painter.TOOLTYPE_PASTE && !this.isCopyActive)
-    return;
+  if (!this.isCopyActive) return;
   setTimeout(() => {
+    if (this.tool.type !== Neo.Painter.TOOLTYPE_PASTE) return;
     this.setToolByType(Neo.Painter.TOOLTYPE_COPY);
     this.updateDestCanvas(0, 0, this.canvasWidth, this.canvasHeight, true);
   }, 30);
