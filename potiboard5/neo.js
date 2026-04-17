@@ -10,12 +10,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.33";
-Neo.painter;
+Neo.version = "1.6.36";
+Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
 Neo.viewer = false;
+Neo.container = null;
+Neo.center = null;
+Neo.canvas = null;
+Neo.toolsWrapper = null;
 Neo.toolSide = false;
+Neo.applet = null;
+Neo.animation = null;
+Neo.storage = null;
+Neo.elementNeo = null;
+Neo.translate = function (str) {
+  return str;
+};
 
 Neo.config = {
   width: 300,
@@ -48,17 +59,19 @@ Neo.SLIDERTYPE_BLUE = 2;
 Neo.SLIDERTYPE_ALPHA = 3;
 Neo.SLIDERTYPE_SIZE = 4;
 
-document.neo = Neo;
-
+/** @type {any} */ (document).neo = Neo;
 Neo.init = function () {
-  var applets = document.getElementsByTagName("applet");
+  // 「appletタグ」でかつ「属性に .class か .jar を含む」もの
+  let applets = document.querySelectorAll(
+    'applet[code*=".class" i], applet[archive*=".jar" i]',
+  );
   if (applets.length == 0) {
     applets = document.getElementsByTagName("applet-dummy");
   }
 
   for (var i = 0; i < applets.length; i++) {
     var applet = applets[i];
-    var name = applet.attributes.name.value;
+    var name = applet.getAttribute("name");
 
     if (name == "paintbbs" || name == "pch") {
       Neo.applet = applet;
@@ -72,7 +85,7 @@ Neo.init = function () {
         Neo.initConfig(applet);
 
         var filename = Neo.getFilename();
-        var pch = Neo.getPCH(filename, function (pch) {
+        Neo.getPCH(filename, function (pch) {
           if (pch) {
             Neo.createViewer(applet);
             Neo.config.width = pch.width;
@@ -91,13 +104,23 @@ Neo.init = function () {
 };
 
 Neo.init2 = function () {
-  var pageview = document.getElementById("neo-pageView");
+  const pageview = document.getElementById("neo-pageView");
+  if (!pageview) return;
   pageview.style.width = Neo.config.applet_width + "px";
   pageview.style.height = Neo.config.applet_height + "px";
 
   Neo.canvas = document.getElementById("neo-canvas");
   Neo.container = document.getElementById("neo-container");
   Neo.toolsWrapper = document.getElementById("neo-toolsWrapper");
+  Neo.center = document.getElementById("neo-center");
+  if (
+    Neo.center &&
+    Neo.container.clientWidth &&
+    Neo.container.clientWidth >= 400 &&
+    Neo.config.neo_disable_neo_center_min_width != "true"
+  ) {
+    Neo.center.style.minWidth = "397px";
+  }
 
   Neo.painter = new Neo.Painter();
   Neo.painter.build(Neo.canvas, Neo.config.width, Neo.config.height);
@@ -168,7 +191,6 @@ Neo.init2 = function () {
 
 Neo.initConfig = function (applet) {
   if (applet) {
-    var name = applet.attributes.name.value || "neo";
     var appletWidth = applet.attributes.width;
     var appletHeight = applet.attributes.height;
     if (appletWidth) Neo.config.applet_width = parseInt(appletWidth.value);
@@ -273,33 +295,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const elementNeo = document.getElementById("NEO");
+  Neo.elementNeo = document.getElementById("NEO");
   // グリッド部分の touchmove イベントをキャンセルする関数をイベントリスナーに追加
   Neo.add_touch_move_grid_control = function () {
-    if (Neo.config.neo_disable_grid_touch_move) {
+    if (Neo.elementNeo && Neo.config.neo_disable_grid_touch_move) {
       // すでにリスナーが追加されていない場合のみ追加
-      if (!elementNeo?._touchMoveListenerAdded) {
-        elementNeo?.addEventListener("touchmove", Neo.touch_move_grid_control, {
-          passive: false,
-        });
-        elementNeo._touchMoveListenerAdded = true; // リスナーが追加されたことを記録
-      }
-    }
-  };
-
-  // グリッド部分の touchmove イベントをキャンセルする関数の追加とリムーブ
-  elementNeo?.addEventListener("touchmove", function (e) {
-    if (Neo.config.neo_disable_grid_touch_move) {
-      Neo.add_touch_move_grid_control();
-      if (Neo.isPinchZooming()) {
-        elementNeo.removeEventListener(
+      if (!Neo.elementNeo?._touchMoveListenerAdded) {
+        Neo.elementNeo?.addEventListener(
           "touchmove",
           Neo.touch_move_grid_control,
           {
             passive: false,
           },
         );
-        elementNeo._touchMoveListenerAdded = false; // リスナーが削除されたことを記録
+        Neo.elementNeo._touchMoveListenerAdded = true; // リスナーが追加されたことを記録
+      }
+    }
+  };
+
+  // グリッド部分の touchmove イベントをキャンセルする関数の追加とリムーブ
+  Neo.elementNeo?.addEventListener("touchmove", function (e) {
+    if (Neo.elementNeo && Neo.config.neo_disable_grid_touch_move) {
+      Neo.add_touch_move_grid_control();
+      if (Neo.isPinchZooming()) {
+        Neo.elementNeo.removeEventListener(
+          "touchmove",
+          Neo.touch_move_grid_control,
+          {
+            passive: false,
+          },
+        );
+        Neo.elementNeo._touchMoveListenerAdded = false; // リスナーが削除されたことを記録
       }
     }
   });
@@ -652,17 +678,17 @@ Neo.backgroundImage = function () {
     }
   }
   imageData.data.set(buf8);
-  ctx.putImageData(imageData, 0, 0);
+  ctx?.putImageData(imageData, 0, 0);
   return bgCanvas.toDataURL("image/png");
 };
 
 Neo.multColor = function (c, scale) {
-  var r = Math.round(parseInt(c.slice(1, 3), 16) * scale);
-  var g = Math.round(parseInt(c.slice(3, 5), 16) * scale);
-  var b = Math.round(parseInt(c.slice(5, 7), 16) * scale);
-  r = ("0" + Math.min(Math.max(r, 0), 255).toString(16)).slice(-2);
-  g = ("0" + Math.min(Math.max(g, 0), 255).toString(16)).slice(-2);
-  b = ("0" + Math.min(Math.max(b, 0), 255).toString(16)).slice(-2);
+  const rNum = Math.round(parseInt(c.slice(1, 3), 16) * scale);
+  const gNum = Math.round(parseInt(c.slice(3, 5), 16) * scale);
+  const bNum = Math.round(parseInt(c.slice(5, 7), 16) * scale);
+  const r = ("0" + Math.min(Math.max(rNum, 0), 255).toString(16)).slice(-2);
+  const g = ("0" + Math.min(Math.max(gNum, 0), 255).toString(16)).slice(-2);
+  const b = ("0" + Math.min(Math.max(bNum, 0), 255).toString(16)).slice(-2);
   return "#" + r + g + b;
 };
 
@@ -831,8 +857,9 @@ Neo.initComponents = function () {
 
   // アプレットのborderの動作をエミュレート
   if (navigator.userAgent.search("FireFox") > -1) {
-    var container = document.getElementById("neo-container");
-    container.addEventListener(
+    const container = document.getElementById("neo-container");
+    if (!container) return;
+    container?.addEventListener(
       "mousedown",
       function (e) {
         container.style.borderColor = Neo.config.inherit_color;
@@ -976,7 +1003,7 @@ Neo.start = function (isApp) {
 
   Neo.isApp = isApp;
   if (Neo.applet) {
-    var name = Neo.applet.attributes.name.value || "paintbbs";
+    var name = Neo.applet.getAttribute("name") || "paintbbs";
     Neo.applet.outerHTML = "";
     document[name] = Neo;
 
@@ -1004,15 +1031,14 @@ Neo.showWarning = function () {
   const futaba = location.hostname.match(/^(?:.+\.)?2chan\.net$/i); //サブドメインありなし両方に対応
   const samplebbs = location.hostname.match(/^(?:.+\.)?neo\.websozai\.jp$/i);
 
-  var chrome = navigator.userAgent.match(/Chrome\/(\d+)/i);
-  if (chrome && chrome.length > 1) chrome = chrome[1];
-
-  var edge = navigator.userAgent.match(/Edge\/(\d+)/i);
-  if (edge && edge.length > 1) edge = edge[1];
-
+  var edgeMatch = navigator.userAgent.match(/Edge\/(\d+)/i);
+  var edgeVersion = 0; // 数値として初期化
+  if (edgeMatch && edgeMatch.length > 1) {
+    edgeVersion = parseInt(edgeMatch[1], 10);
+  }
   var str = "";
   if (futaba || samplebbs) {
-    if (edge && edge < 15) {
+    if (edgeVersion && edgeVersion < 15) {
       str = Neo.translate(
         "このブラウザでは<br>投稿に失敗することがあります<br>",
       );
@@ -1088,12 +1114,19 @@ Neo.updateUIColor = function (updateSlider, updateColorTip) {
  */
 
 Neo.updateWindow = function () {
+  const windowView = document.getElementById("neo-windowView");
+  const pageView = document.getElementById("neo-pageView");
   if (Neo.fullScreen) {
-    document.getElementById("neo-windowView").style.display = "block";
-    document.getElementById("neo-windowView").appendChild(Neo.container);
+    if (!windowView) return;
+    windowView.style.display = "block";
+    windowView.appendChild(Neo.container);
   } else {
-    document.getElementById("neo-windowView").style.display = "none";
-    document.getElementById("neo-pageView").appendChild(Neo.container);
+    if (windowView) {
+      windowView.style.display = "none";
+    }
+    if (pageView) {
+      pageView.appendChild(Neo.container);
+    }
   }
   Neo.resizeCanvas();
 };
@@ -1267,8 +1300,9 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
       }
     }
   }
+  let formData = null;
   if (Neo.config.neo_send_with_formdata == "true") {
-    var formData = new FormData();
+    formData = new FormData();
     formData.append("header", headerString);
     formData.append("picture", blob, blob);
     let thumbnail_size = 0;
@@ -1453,7 +1487,7 @@ Neo.getColors = function () {
 };
 
 Neo.setColors = function (colors) {
-  console.log("setColors");
+  // console.log("setColors");
   var array = colors.split("\n");
   for (var i = 0; i < 14; i++) {
     var color = array[i];
@@ -1829,15 +1863,13 @@ Neo.Painter = function () {
   this._actionMgr = new Neo.ActionManager();
 };
 
-Neo.Painter.prototype.container;
+Neo.Painter.prototype.container = null;
 Neo.Painter.prototype._undoMgr;
 Neo.Painter.prototype._actionMgr;
 Neo.Painter.prototype.tool;
 Neo.Painter.prototype.inputText;
 
 //Canvas Info
-Neo.Painter.prototype.canvasWidth;
-Neo.Painter.prototype.canvasHeight;
 Neo.Painter.prototype.canvas = [];
 Neo.Painter.prototype.canvasCtx = [];
 Neo.Painter.prototype.visible = [];
@@ -1864,14 +1896,31 @@ Neo.Painter.prototype.zoomY = 0;
 
 Neo.Painter.prototype.isMouseDown = false;
 Neo.Painter.prototype.isMouseDownRight = false;
+Neo.Painter.prototype.isSpaceDown = false;
+Neo.Painter.prototype.inputText = null;
 
 Neo.Painter.prototype.isBezierActive = false;
 Neo.Painter.prototype.isCopyActive = false;
 
-Neo.Painter.prototype.prevMouseX;
-Neo.Painter.prototype.prevMouseY;
-Neo.Painter.prototype.mouseX;
-Neo.Painter.prototype.mouseY;
+Neo.Painter.prototype.prevMouseX = null;
+Neo.Painter.prototype.prevMouseY = null;
+Neo.Painter.prototype.mouseX = null;
+Neo.Painter.prototype.mouseY = null;
+
+Neo.Painter.prototype.stabilizedX = null;
+Neo.Painter.prototype.stabilizedY = null;
+
+Neo.Painter.prototype.prevMouseX = null;
+Neo.Painter.prototype.prevMouseY = null;
+
+Neo.Painter.prototype.securityTimer = 0;
+Neo.Painter.prototype.securityCount = 0;
+
+Neo.Painter.prototype.destWidth = 0;
+Neo.Painter.prototype.destHeight = 0;
+
+Neo.Painter.prototype.canvasWidth = 0;
+Neo.Painter.prototype.canvasHeight = 0;
 
 //Neo.Painter.prototype.slowX = 0;
 //Neo.Painter.prototype.slowY = 0;
@@ -2138,11 +2187,11 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   this.destCanvas.style.imageRendering = "pixelated";
   this.destCanvasCtx.imageSmoothingEnabled = false;
 
-  var ref = this;
+  const ref = this;
 
   if (!Neo.viewer) {
-    var container = document.getElementById("neo-container");
-
+    const container = document.getElementById("neo-container");
+    if (!container) return;
     container.onmousedown = function (e) {
       ref._mouseDownHandler(e);
     };
@@ -2151,8 +2200,8 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
       const freeHandMode = ref.drawType === 0;
       //ツールは鉛筆･消しゴムまたは水彩?
       const usesHighPrecisionTool = [1, 2, 14].includes(Neo.CurrentToolType);
-      //ブラシサイズは10px以下?
-      const smallbrush = Neo.painter.lineWidth <= 16;
+      //ブラシサイズは16px以下?
+      const smallbrush = ref.lineWidth <= 16;
       //上記条件が揃う時はポインター追従性を高くする
       if (
         ref.isMouseDown &&
@@ -2208,8 +2257,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   }
 
   if (Neo.config.neo_confirm_unload == "true") {
-    window.onbeforeunload = function () {
-      if (!Neo.uploaded && Neo.painter.isDirty()) {
+    window.onbeforeunload = function (e) {
+      if (!Neo.uploaded && ref.isDirty()) {
+        e.preventDefault();
         return false;
       }
     };
@@ -2284,7 +2334,7 @@ Neo.Painter.prototype._initInputText = function () {
 
   text.style.display = "none";
   //  text.style.userSelect = "none";
-  Neo.painter.container.appendChild(text);
+  this.container.appendChild(text);
   this.inputText = text;
 
   this.updateInputText();
@@ -2405,13 +2455,13 @@ Neo.Painter.prototype._rollOutHandler = function (e) {
 Neo.Painter.prototype._mouseDownHandler = function (e) {
   if (this.busy) {
     // loadAnimation実行中は何もしない
-    if (e.target == Neo.painter.destCanvas) {
+    if (e.target == this.destCanvas) {
       this.busySkipped = true;
     }
     return;
   }
 
-  if (e.target == Neo.painter.destCanvas) {
+  if (e.target == this.destCanvas) {
     //よくわからないがChromeでドラッグの時カレットが出るのを防ぐ
     //http://stackoverflow.com/questions/2745028/chrome-sets-cursor-to-text-while-dragging-why
     e.preventDefault();
@@ -2438,8 +2488,8 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
   this.prevMouseY = this.mouseY;
   this.securityCount++;
   let autosaveCount = this.securityCount;
-  if (autosaveCount % 10 === 0 && Neo.painter.isDirty()) {
-    Neo.painter.saveSession(); //10ストロークごとに自動バックアップ
+  if (autosaveCount % 10 === 0 && this.isDirty()) {
+    this.saveSession(); //10ストロークごとに自動バックアップ
   }
 
   if (
@@ -2522,6 +2572,31 @@ Neo.Painter.prototype._mouseUpHandler = function (e) {
 
 Neo.Painter.prototype._mouseMoveHandler = function (e) {
   this._updateMousePosition(e);
+
+  // 指数移動平均による手ブレ補正
+  if (Neo.config.neo_disable_stabilizer != "true" && this.isMouseDown) {
+    // 0.0〜0.99 0.0で補正なし
+    const stability = 0.8;
+    const factor = 1.0 - stability;
+
+    // moothXが未定義なら現在の位置で初期化
+    if (typeof this.stabilizedX !== "number" || isNaN(this.stabilizedX)) {
+      this.stabilizedX = this.mouseX;
+      this.stabilizedY = this.mouseY;
+    } else {
+      //補間計算
+      this.stabilizedX = factor * this.mouseX + stability * this.stabilizedX;
+      this.stabilizedY = factor * this.mouseY + stability * this.stabilizedY;
+    }
+
+    // 手ブレ補正後の数値に差し替え
+    this.mouseX = this.stabilizedX;
+    this.mouseY = this.stabilizedY;
+  } else {
+    // マウスを離している時はリセット
+    this.stabilizedX = null;
+    this.stabilizedY = null;
+  }
 
   if (e.type == "touchmove" && e.touches.length > 1) return;
 
@@ -2771,7 +2846,8 @@ Neo.UndoItem.prototype.height;
 Neo.Painter.prototype.setZoom = function (value) {
   this.zoom = value;
 
-  var container = document.getElementById("neo-container");
+  const container = document.getElementById("neo-container");
+  if (!container) return;
   var width = Math.round(this.canvasWidth * this.zoom);
   var height = Math.round(this.canvasHeight * this.zoom);
 
@@ -3660,32 +3736,32 @@ Neo.Painter.prototype.drawBezier = function (
     [x2, y2],
     [x3, y3],
   ];
-  var that = this;
+  var ref = this;
 
   this.draw(ctx, points, function (left, top, width, height, buf8, imageData) {
     var n = Math.ceil((width + height) * 2.5);
-    var oType = that._currentMaskType;
-    var oAlpha = that._currentColor[3];
+    var oType = ref._currentMaskType;
+    var oAlpha = ref._currentColor[3];
 
     if (isPreview) {
-      that._currentMaskType = Neo.Painter.MASKTYPE_NONE;
-      that._currentColor[3] = 255;
+      ref._currentMaskType = Neo.Painter.MASKTYPE_NONE;
+      ref._currentColor[3] = 255;
     }
 
     for (var i = 0; i < n; i++) {
       var t = (i * 1.0) / n;
-      var p = that.getBezierPoint(t, x0, y0, x1, y1, x2, y2, x3, y3);
+      var p = ref.getBezierPoint(t, x0, y0, x1, y1, x2, y2, x3, y3);
 
       p[0] = Math.round(p[0]);
       p[1] = Math.round(p[1]);
 
-      that.plot(p, function (x, y) {
-        that.setPoint(buf8, imageData.width, x, y, left, top, type);
+      ref.plot(p, function (x, y) {
+        ref.setPoint(buf8, imageData.width, x, y, left, top, type);
       });
     }
-    that._currentMaskType = oType;
-    that._currentColor[3] = oAlpha;
-    that.prevLine = null;
+    ref._currentMaskType = oType;
+    ref._currentColor[3] = oAlpha;
+    ref.prevLine = null;
   });
 };
 
@@ -3700,12 +3776,12 @@ Neo.Painter.prototype.drawLine = function (ctx, x0, y0, x1, y1, type) {
     [x0, y0],
     [x1, y1],
   ];
-  var that = this;
+  var ref = this;
   this.aerr = 0;
 
   this.draw(ctx, points, function (left, top, width, height, buf8, imageData) {
-    that.bresenham(points, function (x, y) {
-      that.setPoint(buf8, imageData.width, x, y, left, top, type);
+    ref.bresenham(points, function (x, y) {
+      ref.setPoint(buf8, imageData.width, x, y, left, top, type);
     });
   });
   this.prevLine = points;
@@ -4584,10 +4660,10 @@ Neo.Painter.prototype.cancelTool = function (e) {
 Neo.Painter.prototype.loadImage = function (filename) {
   console.log("loadImage " + filename);
   var img = new Image();
+  const ref = this;
   img.onload = function () {
-    var oe = Neo.painter;
-    oe.canvasCtx[0].drawImage(img, 0, 0);
-    oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight);
+    ref.canvasCtx[0].drawImage(img, 0, 0);
+    ref.updateDestCanvas(0, 0, ref.canvasWidth, ref.canvasHeight);
   };
   img.src = filename;
 };
@@ -4595,30 +4671,31 @@ Neo.Painter.prototype.loadImage = function (filename) {
 Neo.Painter.prototype.loadAnimation = function (filename) {
   console.log("loadAnimation " + filename);
 
-  Neo.painter.busy = true;
+  this.busy = true;
   //続きを描く画面で動画をスキップする時はbusySkippedをtrueにする
-  Neo.painter.busySkipped = Neo.config.neo_animation_skip == "true";
+  this.busySkipped = Neo.config.neo_animation_skip == "true";
 
+  const ref = this;
   Neo.getPCH(filename, function (pch) {
     //console.log(pch);
-    Neo.painter._actionMgr._items = pch.data;
-    Neo.painter._actionMgr._mark = pch.data.length;
-    Neo.painter._actionMgr.play();
+    ref._actionMgr._items = pch.data;
+    ref._actionMgr._mark = pch.data.length;
+    ref._actionMgr.play();
   });
 };
 
 Neo.Painter.prototype.loadSession = function (callback) {
+  const ref = this;
   if (Neo.storage) {
     var img0 = new Image();
     img0.onload = function () {
       var img1 = new Image();
       img1.onload = function () {
-        var oe = Neo.painter;
-        oe.canvasCtx[0].clearRect(0, 0, oe.canvasWidth, oe.canvasHeight);
-        oe.canvasCtx[1].clearRect(0, 0, oe.canvasWidth, oe.canvasHeight);
-        oe.canvasCtx[0].drawImage(img0, 0, 0);
-        oe.canvasCtx[1].drawImage(img1, 0, 0);
-        oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight);
+        ref.canvasCtx[0].clearRect(0, 0, ref.canvasWidth, ref.canvasHeight);
+        ref.canvasCtx[1].clearRect(0, 0, ref.canvasWidth, ref.canvasHeight);
+        ref.canvasCtx[0].drawImage(img0, 0, 0);
+        ref.canvasCtx[1].drawImage(img1, 0, 0);
+        ref.updateDestCanvas(0, 0, ref.canvasWidth, ref.canvasHeight);
 
         if (callback) callback();
       };
@@ -4795,7 +4872,7 @@ Neo.Painter.prototype.onstop = function () {
 };
 
 Neo.Painter.prototype.onspeed = function () {
-  var mgr = Neo.painter._actionMgr;
+  var mgr = this._actionMgr;
   var mode = mgr.speedMode();
   Neo.speed = mgr._speedTable[(mode + 1) % 4];
 };
@@ -6557,23 +6634,23 @@ Neo.ActionManager.prototype.play = function () {
     func = item[0] && this[item[0]] ? item[0] : "dummy";
   }
 
-  var that = this;
+  var ref = this;
   var wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
 
   this[func](item, function (result) {
     if (result) {
       if (
         Neo.painter.busySkipped &&
-        that._head < that._mark - 2 &&
-        that._mark - 2 >= 0 &&
-        that._items[that._mark - 1][0] == "restore"
+        ref._head < ref._mark - 2 &&
+        ref._mark - 2 >= 0 &&
+        ref._items[ref._mark - 1][0] == "restore"
       ) {
-        that._head = that._mark - 2;
+        ref._head = ref._mark - 2;
       } else {
-        that._head++;
+        ref._head++;
       }
-      that._index = 0;
-      that._prevSpeed = Neo.speed;
+      ref._index = 0;
+      ref._prevSpeed = Neo.speed;
     }
 
     setTimeout(function () {
@@ -7190,7 +7267,8 @@ Neo.createViewer = function (applet) {
 };
 
 Neo.initViewer = function (pch) {
-  var pageview = document.getElementById("neo-pageView");
+  const pageview = document.getElementById("neo-pageView");
+  if (!pageview) return;
   var pageWidth = Neo.config.applet_width;
   var pageHeight = Neo.config.applet_height;
   pageview.style.width = pageWidth + "px";
@@ -7288,7 +7366,7 @@ Neo.initViewer = function (pch) {
 
 Neo.startViewer = function () {
   if (Neo.applet) {
-    var name = Neo.applet.attributes.name.value || "pch";
+    var name = Neo.applet.getAttribute("name") || "pch";
     if (!document[name]) document[name] = Neo;
     if (Neo.applet.parentNode) {
       Neo.applet.parentNode.removeChild(Neo.applet);
@@ -7538,7 +7616,21 @@ Neo.getModifier = function (e) {
   -------------------------------------------------------------------------
 */
 
-Neo.Button = function () {};
+Neo.Button = function () {
+  this.element = null;
+  this.params = null;
+  this.name = "";
+  this.selected = false;
+  this.isMouseDown = false;
+  /** @type {((Button: Neo.Button) => void) | null} */
+  this.onmousedown = null;
+  /** @type {((Button: Neo.Button) => void) | null} */
+  this.onmouseup = null;
+  /** @type {((Button: Neo.Button) => void) | null} */
+  this.onmouseover = null;
+  /** @type {((Button: Neo.Button) => void) | null} */
+  this.onmouseout = null;
+};
 Neo.Button.prototype.init = function (name, params) {
   this.element = document.getElementById(name);
   this.params = params || {};
@@ -7575,7 +7667,7 @@ Neo.Button.prototype.init = function (name, params) {
     { passive: false, capture: true },
   );
 
-  this.element.className = !this.params.type == "fill" ? "button" : "buttonOff";
+  this.element.className = "buttonOff";
 
   this.disable = function (wait) {
     this.element.style.pointerEvents = "none";
@@ -7643,11 +7735,20 @@ Neo.Button.prototype.update = function () {};
   -------------------------------------------------------------------------
 */
 
-Neo.RightButton;
+Neo.RightButton = null;
 
-Neo.RightButton = function () {};
+Neo.RightButton = function () {
+  this.params = null;
+  this.element = null;
+  this.selected = "";
+};
 Neo.RightButton.prototype = new Neo.Button();
 
+/**
+ * @param {any} name
+ * @param {any} params
+ * @returns {any}
+ */
 Neo.RightButton.prototype.init = function (name, params) {
   Neo.Button.prototype.init.call(this, name, params);
   this.params.type = "right";
@@ -7703,7 +7804,13 @@ Neo.FillButton.prototype.init = function (name, params) {
 
 Neo.colorTips = [];
 
-Neo.ColorTip = function () {};
+Neo.ColorTip = function () {
+  this.element = null;
+  this.params = null;
+  this.name = "";
+  this.selected = false;
+  this.isMouseDown = false;
+};
 Neo.ColorTip.prototype.init = function (name, params) {
   this.element = document.getElementById(name);
   this.params = params || {};
@@ -7834,7 +7941,17 @@ Neo.ColorTip.getCurrent = function () {
 Neo.toolTips = [];
 Neo.toolButtons = [];
 
-Neo.ToolTip = function () {};
+Neo.ToolTip = function () {
+  this.element = null;
+  this.params = null;
+  this.name = "";
+  this.mode = 0;
+  this.isMouseDown = false;
+  this.onmousedown = null;
+  this.onmouseup = null;
+  this.onmouseout = null;
+  this.onmouseover = null;
+};
 
 Neo.ToolTip.prototype.prevMode = -1;
 
@@ -8325,7 +8442,11 @@ Neo.Effect2Tip.prototype.update = function () {
 
 Neo.maskTip;
 
-Neo.MaskTip = function () {};
+Neo.MaskTip = function () {
+  this.isMouseDown = false;
+  this.onmousedown = null;
+  this.canvas = null;
+};
 Neo.MaskTip.prototype = new Neo.ToolTip();
 
 Neo.MaskTip.prototype.init = function (name, params) {
