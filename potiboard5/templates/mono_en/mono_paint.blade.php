@@ -191,14 +191,12 @@
 
 	@if(!$chickenpaint)
 	<header>
-		@if(!$paint_mode)
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
 			@if($use_admin_link)<a href="{{$self}}?mode=admin">[Admin mode]</a>@endif
 		</div>
 		<hr>
-		@endif
 		<div>
 			<p class="menu">
 				@if($continue_mode||$pch_mode)
@@ -434,7 +432,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 							<input class="button" type="button" value="[R]" onclick="Neo.setToolSide(false)">
 						</fieldset>
 						<fieldset>
-							<legend>Stabilizer</legend>
+							<legend>STABILIZER</legend>
 							<select onchange="Neo.setStabilizLevel(this.value)">
 								<option value="0">0</option>
 								<option value="1" selected>1</option>
