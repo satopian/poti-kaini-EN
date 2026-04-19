@@ -373,7 +373,7 @@ div#chickenpaint-parent {
 
 #appstage {
   display: table;
-  margin: 0 auto;
+  margin: 16px auto;
 }
 
 #appstage > div {
@@ -381,7 +381,7 @@ div#chickenpaint-parent {
 }
 
 #appstage > div.app {
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 #appstage > div.palette_wrap {
