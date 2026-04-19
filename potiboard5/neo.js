@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.38";
+Neo.version = "1.6.39";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -36,6 +36,8 @@ Neo.updateUI = function () {};
 Neo.translate = function (str) {
   return str;
 };
+Neo.setStabilizLevel = function () {};
+Neo.stabiliz_level = 1;
 
 Neo.config = {
   width: 300,
@@ -1652,6 +1654,16 @@ Neo.setToolSide = function (side) {
     Neo.addRule(".NEO #neo-upper", "padding-right", "20px !important");
   }
 };
+//手ぶれ補正の強さ
+Neo.setStabilizLevel = function (level) {
+  level = parseInt(level);
+  if (isNaN(level) || level < 0) {
+    level = 1; //デフォルトは1
+  } else if (level > 5) {
+    level = 5; //最大5
+  }
+  Neo.stabiliz_level = level;
+};
 
 "use strict";
 
@@ -2631,31 +2643,49 @@ Neo.Painter.prototype._stabilizer = function (e) {
   const rawX = this.mouseX;
   const rawY = this.mouseY;
   const freeHandMode = this.drawType === 0;
-  if (Neo.config.neo_disable_stabilizer != "true" && freeHandMode) {
-    if (this.isMouseDown) {
-      // 手ぶれ補正の強さ
-      // 補正なし 0.0 最強 0.99
-      const stability = 0.8;
-      const factor = 1.0 - stability;
 
-      // stabilizedX が未定義なら現在の位置で初期化
-      if (typeof this.stabilizedX !== "number" || isNaN(this.stabilizedX)) {
-        this.stabilizedX = this.mouseX;
-        this.stabilizedY = this.mouseY;
-      } else {
-        this.stabilizedX = factor * this.mouseX + stability * this.stabilizedX;
-        this.stabilizedY = factor * this.mouseY + stability * this.stabilizedY;
-      }
-      // 手ぶれ補正後の数値に差し替え
-      this.mouseX = this.stabilizedX;
-      this.mouseY = this.stabilizedY;
+  const toolTypes = [
+    Neo.Painter.TOOLTYPE_PEN,
+    Neo.Painter.TOOLTYPE_ERASER,
+    Neo.Painter.TOOLTYPE_BRUSH,
+    Neo.Painter.TOOLTYPE_TONE,
+    Neo.Painter.TOOLTYPE_BLUR,
+    Neo.Painter.TOOLTYPE_DODGE,
+    Neo.Painter.TOOLTYPE_BURN,
+  ];
+
+  const isDrawTool = freeHandMode && toolTypes.includes(this.tool.type);
+
+  if (Neo.config.neo_disable_stabilizer == "true" || !isDrawTool) {
+    return;
+  }
+  if (this.isMouseDown) {
+    // 手ぶれ補正の強さ
+    // 補正なし 0.0 最強 0.99
+    const level = Neo.stabiliz_level;
+    //手ぶれ補正のレベルを6段階に分けたテーブル
+    //0で補正なし、5で最強
+    const stabilityTable = [0.0, 0.8, 0.85, 0.9, 0.94, 0.97];
+    const stability = stabilityTable[Math.max(0, Math.min(level, 5))];
+    const factor = 1.0 - stability;
+
+    // stabilizedX が未定義なら現在の位置で初期化
+    if (typeof this.stabilizedX !== "number" || isNaN(this.stabilizedX)) {
+      this.stabilizedX = this.mouseX;
+      this.stabilizedY = this.mouseY;
     } else {
-      // マウスを離している時はリセット
-      this.stabilizedX = null;
-      this.stabilizedY = null;
-      this.mouseX = rawX;
-      this.mouseY = rawY;
+      this.stabilizedX = factor * this.mouseX + stability * this.stabilizedX;
+      this.stabilizedY = factor * this.mouseY + stability * this.stabilizedY;
     }
+    // 手ぶれ補正後の数値に差し替え
+    this.mouseX = this.stabilizedX;
+    this.mouseY = this.stabilizedY;
+  } else {
+    // マウスを離している時はリセット
+    this.stabilizedX = null;
+    this.stabilizedY = null;
+    this.mouseX = rawX;
+    this.mouseY = rawY;
   }
 };
 

@@ -104,6 +104,11 @@
 			@endif
 			}
 	</script>
+	<style>
+	select:focus {
+  outline: none;
+	}
+	</style>
 	@endif
 	@if($paint_mode)
 	@if(!$chickenpaint)
@@ -186,12 +191,14 @@
 
 	@if(!$chickenpaint)
 	<header>
+		@if(!$paint_mode)
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
 			@if($use_admin_link)<a href="{{$self}}?mode=admin">[Admin mode]</a>@endif
 		</div>
 		<hr>
+		@endif
 		<div>
 			<p class="menu">
 				@if($continue_mode||$pch_mode)
@@ -288,6 +295,7 @@
 		@else
 		{{--
 		<!-- (========== PAINT MODE(お絵かきモード) start ==========) --> --}}
+	<!--動的パレットスクリプト ここから-->
 		<script>
 			"use strict";
 				//	BBS Note 動的パレット＆マトリクス 2003/06/22
@@ -424,6 +432,17 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 							<legend>TOOL</legend>
 							<input class="button" type="button" value="[L]" onclick="Neo.setToolSide(true)">
 							<input class="button" type="button" value="[R]" onclick="Neo.setToolSide(false)">
+						</fieldset>
+						<fieldset>
+							<legend>Stabilizer</legend>
+							<select onchange="Neo.setStabilizLevel(this.value)">
+								<option value="0">0</option>
+								<option value="1" selected>1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
 						</fieldset>
 						@endif
 						<fieldset>
