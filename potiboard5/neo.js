@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.40";
+Neo.version = "1.6.41";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -2386,6 +2386,7 @@ Neo.Painter.prototype.updateInputText = function () {
 Neo.Painter.prototype.cancelCopy = function () {
   if (!this.isCopyActive) return;
   if (Neo.CurrentToolType !== Neo.Painter.TOOLTYPE_PASTE) return;
+  this.popTool();
   this.setToolByType(Neo.Painter.TOOLTYPE_COPY);
   this.updateDestCanvas(0, 0, this.canvasWidth, this.canvasHeight, true);
 };
@@ -6484,7 +6485,7 @@ Neo.UndoCommand = function (data) {
 };
 Neo.UndoCommand.prototype = new Neo.CommandBase();
 Neo.UndoCommand.prototype.execute = function () {
-  // this.data.cancelCopy();
+  this.data.cancelCopy();
   this.data.undo();
 };
 
