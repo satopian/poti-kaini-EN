@@ -2488,6 +2488,7 @@ var TegakiKeybinds = {
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "none";
                 cursor_layer.style.touchAction = "auto";
+                document.body.style.cursor = "grab";
             }
         }
 
@@ -2539,6 +2540,7 @@ var TegakiKeybinds = {
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "auto";
                 cursor_layer.style.touchAction = "none";
+                document.body.style.cursor = "default";
             }
         }
         if (e.key.toLowerCase() === "alt") {
