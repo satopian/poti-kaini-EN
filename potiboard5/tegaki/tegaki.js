@@ -2482,6 +2482,15 @@ var TegakiKeybinds = {
     },
 
     resolve: function (e) {
+        if (e.key === " ") {
+            Tegaki.isPressedSpaceKey = true;
+            const cursor_layer = document.getElementById("tegaki-cursor-layer");
+            if (cursor_layer) {
+                cursor_layer.style.pointerEvents = "none";
+                cursor_layer.style.touchAction = "auto";
+            }
+        }
+
         var fn, mods, keys, el;
 
         el = e.target;
@@ -2505,6 +2514,12 @@ var TegakiKeybinds = {
 
         keys = e.key.toLowerCase();
 
+        //ブラウザデフォルトのキー操作をキャンセル
+        const arrkeys = ["+", ";", "=", "-", "s", "h", "r", "o"];
+        if (arrkeys.includes(keys)) {
+            e.preventDefault();
+        }
+
         if (mods[0]) {
             keys = mods.join("+") + "+" + keys;
         }
@@ -2516,20 +2531,19 @@ var TegakiKeybinds = {
             e.stopPropagation();
             fn[0][fn[1]]();
         }
-        document.addEventListener("keyup", function (e) {
-            // e.key を利用して特定のキーのアップイベントを検知する
-            if (e.key.toLowerCase() === "alt") {
-                e.preventDefault(); // Alt キーのデフォルトの動作をキャンセル
+    },
+    onKeyUp: function (e) {
+        if (e.key === " ") {
+            Tegaki.isPressedSpaceKey = false;
+            const cursor_layer = document.getElementById("tegaki-cursor-layer");
+            if (cursor_layer) {
+                cursor_layer.style.pointerEvents = "auto";
+                cursor_layer.style.touchAction = "none";
             }
-        });
-        //ブラウザデフォルトのキー操作をキャンセル
-        document.addEventListener("keydown", (e) => {
-            const keys = ["+", ";", "=", "-", "s", "h", "r", "o"];
-            if (keys.includes(e.key.toLowerCase())) {
-                // console.log("e.key",e.key);
-                e.preventDefault();
-            }
-        });
+        }
+        if (e.key.toLowerCase() === "alt") {
+            e.preventDefault(); // Alt キーのデフォルトの動作をキャンセル
+        }
     },
 };
 var TegakiLayers = {
@@ -3061,6 +3075,8 @@ var Tegaki = {
     activePointerId: 0,
     activePointerIsPen: false,
 
+    isPressedSpaceKey: false,
+
     isPainting: false,
 
     offsetX: 0,
@@ -3305,6 +3321,7 @@ var Tegaki = {
             $T.on(document, "pointercancel", self.onPointerUp);
 
             $T.on(document, "keydown", TegakiKeybinds.resolve);
+            $T.on(document, "keyup", TegakiKeybinds.onKeyUp);
 
             $T.on(window, "beforeunload", Tegaki.onTabClose);
         } else {
@@ -3329,6 +3346,7 @@ var Tegaki = {
             $T.off(document, "pointercancel", self.onPointerUp);
 
             $T.off(document, "keydown", TegakiKeybinds.resolve);
+            $T.off(document, "keyup", TegakiKeybinds.onKeyUp);
 
             $T.off(window, "beforeunload", Tegaki.onTabClose);
         } else {
@@ -4384,6 +4402,9 @@ var Tegaki = {
         if (Tegaki.cursor) {
             TegakiCursor.render(e.clientX, e.clientY);
         }
+        if (Tegaki.isPressedSpaceKey) {
+            return;
+        }
 
         if (e.mozInputSource !== undefined) {
             // Firefox thing where mouse events fire for no reason when the pointer is a pen
@@ -4439,6 +4460,12 @@ var Tegaki = {
 
         if (Tegaki.cursor) {
             TegakiCursor.render(e.clientX, e.clientY);
+        }
+        if (Tegaki.isPressedSpaceKey) {
+            if (e.target.releasePointerCapture) {
+                e.target.releasePointerCapture(e.pointerId);
+            }
+            return;
         }
 
         if (Tegaki.isScrollbarClick(e)) {
