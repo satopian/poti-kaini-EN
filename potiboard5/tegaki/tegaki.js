@@ -63,6 +63,7 @@ var TegakiStrings = {
     eraser: isJa ? "消しゴム" : "Eraser",
     bucket: isJa ? "塗りつぶし" : "Bucket",
     tone: isJa ? "トーン" : "Tone",
+    hand: isJa ? "手のひらツール" : "Hand",
 
     // Replay
     gapless: isJa ? "ギャップレス" : "Gapless",
