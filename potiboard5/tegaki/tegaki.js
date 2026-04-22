@@ -1371,6 +1371,35 @@ class TegakiPipette extends TegakiTool {
 
     setAlpha() {}
 }
+class TegakiHand extends TegakiTool {
+    constructor() {
+        super();
+
+        this.id = 9;
+
+        this.name = "hand";
+
+        this.keybind = "h";
+
+        this.step = 0.0;
+
+        this.useSize = false;
+        this.useAlpha = false;
+        this.useFlow = false;
+
+        this.noCursor = true;
+    }
+
+    commit() {}
+
+    setSize() {}
+
+    setAlpha() {}
+    set() {
+        Tegaki.onToolChanged(this);
+    }
+}
+
 class TegakiBlur extends TegakiBrush {
     constructor() {
         super();
@@ -3104,6 +3133,7 @@ var Tegaki = {
         TegakiPipette,
         TegakiBlur,
         TegakiEraser,
+        TegakiHand,
     ],
 
     tools: {},
@@ -4270,6 +4300,22 @@ var Tegaki = {
 
         TegakiUI.onToolChanged();
         Tegaki.updateCursorStatus();
+
+        if (tool.name === "hand") {
+            const cursor_layer = document.getElementById("tegaki-cursor-layer");
+            if (cursor_layer) {
+                cursor_layer.style.pointerEvents = "none";
+                cursor_layer.style.touchAction = "auto";
+                document.body.style.cursor = "grab";
+            }
+        } else {
+            const cursor_layer = document.getElementById("tegaki-cursor-layer");
+            if (cursor_layer) {
+                cursor_layer.style.pointerEvents = "auto";
+                cursor_layer.style.touchAction = "none";
+                document.body.style.cursor = "default";
+            }
+        }
     },
 
     onLayerStackChanged: function () {},
