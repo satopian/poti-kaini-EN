@@ -5384,6 +5384,10 @@ class TegakiReplayRecorder {
 
         for (k in tools) {
             tool = tools[k];
+            //ハンドツールは録画しない
+            if (tool.id === 9) {
+                continue;
+            }
 
             toolMap.push({
                 id: tool.id,
@@ -5432,6 +5436,9 @@ class TegakiReplayRecorder {
 
     push(e) {
         if (this.recording) {
+            if (e.id === 9) {
+                return;
+            }
             if (
                 e.coalesce &&
                 this.events[this.events.length - 1].type === e.type
@@ -5872,6 +5879,16 @@ class TegakiReplayViewer {
             this.toolMap[tool.id] = tool;
 
             r.pos = pos;
+        }
+        //ダミーのハンドツールを追加。ハンドツールID9が存在しない古いバージョンの描画データを再生するため。
+        if (!this.toolMap[9]) {
+            this.toolMap[9] = {
+                id: 9,
+                step: 0,
+                size: 1,
+                alpha: 1,
+                flow: 1,
+            };
         }
     }
 
