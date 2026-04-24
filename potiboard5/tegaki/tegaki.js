@@ -1959,8 +1959,13 @@ var TegakiCursor = {
         this.offsetY = el.offsetTop;
 
         this.cursorCtx = el.getContext("2d");
-    },
 
+        if (Tegaki.replayMode) {
+            el.style.pointerEvents = "none";
+            el.style.touchAction = "auto";
+            document.body.style.cursor = "grab";
+        }
+    },
     getCanvas: function () {
         if (this.cursorCtx) {
             return this.cursorCtx.canvas;
@@ -4302,7 +4307,10 @@ var Tegaki = {
         TegakiUI.onToolChanged();
         Tegaki.updateCursorStatus();
 
-        if (tool.name === "hand" || Tegaki.replayMode) {
+        if (Tegaki.replayMode) {
+            return;
+        }
+        if (tool.name === "hand") {
             const cursor_layer = document.getElementById("tegaki-cursor-layer");
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "none";
