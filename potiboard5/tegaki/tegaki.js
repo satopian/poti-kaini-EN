@@ -4302,7 +4302,7 @@ var Tegaki = {
         TegakiUI.onToolChanged();
         Tegaki.updateCursorStatus();
 
-        if (tool.name === "hand") {
+        if (tool.name === "hand" || Tegaki.replayMode) {
             const cursor_layer = document.getElementById("tegaki-cursor-layer");
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "none";
