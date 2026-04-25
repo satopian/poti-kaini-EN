@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var Neo = function () {};
 
-Neo.version = "1.6.46";
+Neo.version = "1.6.47";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -39,7 +39,8 @@ Neo.translate = function (str) {
 };
 Neo.setStabilizLevel = function () {};
 Neo.stabiliz_level = 1;
-
+Neo.styleSheet = null;
+Neo.rules = null;
 Neo.config = {
   width: 300,
   height: 300,
