@@ -1962,7 +1962,7 @@ var TegakiCursor = {
 
         if (Tegaki.replayMode) {
             el.style.pointerEvents = "none";
-            el.style.touchAction = "auto";
+            el.style.touchAction = "manipulation";
             document.body.style.cursor = "grab";
         }
     },
@@ -2522,7 +2522,7 @@ var TegakiKeybinds = {
             const cursor_layer = document.getElementById("tegaki-cursor-layer");
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "none";
-                cursor_layer.style.touchAction = "auto";
+                cursor_layer.style.touchAction = "manipulation";
                 document.body.style.cursor = "grab";
             }
         }
@@ -4315,7 +4315,7 @@ var Tegaki = {
             const cursor_layer = document.getElementById("tegaki-cursor-layer");
             if (cursor_layer) {
                 cursor_layer.style.pointerEvents = "none";
-                cursor_layer.style.touchAction = "auto";
+                cursor_layer.style.touchAction = "manipulation";
                 document.body.style.cursor = "grab";
             }
         } else {
