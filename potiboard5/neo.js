@@ -1,16 +1,26 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   if (Neo.init()) {
     if (!navigator.userAgent.match("Electron")) {
       Neo.start();
     }
   }
+  document.addEventListener(
+    "dblclick",
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    {
+      passive: false,
+    },
+  );
 });
 
 var Neo = function () {};
 
-Neo.version = "1.6.47";
+Neo.version = "1.6.48";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -2524,7 +2534,7 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
     e.preventDefault();
   }
 
-  if (e.type == "touchstart" && e.touches.length > 1) return;
+  if (this.touchlength > 1) return;
 
   if (e.button == 2 || this.virtualRight) {
     this.isMouseDownRight = true;

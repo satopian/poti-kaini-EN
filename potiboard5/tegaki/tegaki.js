@@ -3369,6 +3369,7 @@ var Tegaki = {
         $T.on(self.bg, "contextmenu", self.onDummy);
         $T.on(window, "resize", self.onWindowResized);
         $T.on(window, "scroll", self.updatePosOffset);
+        $T.on(window, "dblclick", self.ondblclick);
     },
 
     unBindGlobalEvents: function () {
@@ -4606,6 +4607,11 @@ var Tegaki = {
 
     onPointerOut: function (e) {
         TegakiCursor.clearAll();
+    },
+
+    ondblclick: function (e) {
+        e.preventDefault();
+        e.stopPropagation();
     },
 
     onDummy: function (e) {
