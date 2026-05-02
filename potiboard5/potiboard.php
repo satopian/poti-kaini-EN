@@ -2805,7 +2805,9 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	$dest = $temppath.$time.'.tmp';
 	
 	//サポートしていないフォーマットならエラーが返る
-	getImgType($upfile);
+	if(!getImgType($upfile)){
+		error(MSG003, $upfile);
+	};
 	copy($upfile, $dest);
 	
 	if(!is_file($dest)) error(MSG003);
@@ -3147,6 +3149,10 @@ function redirect (?string $url): void {
 }
 
 function getImgType (?string $dest): string {
+
+	if(!$dest || !is_file($dest)){
+		return "";
+	}
 
 	$img_type=mime_content_type($dest);
 
