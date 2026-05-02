@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = function () {};
 
-Neo.version = "1.6.51";
+Neo.version = "1.6.55";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -2023,6 +2023,8 @@ Neo.Painter.prototype.toneTool = null;
 Neo.Painter.prototype.blurTool = null;
 Neo.Painter.prototype.dodgeTool = null;
 Neo.Painter.prototype.burnTool = null;
+Neo.Painter.prototype.sliderTool = null;
+Neo.Painter.prototype.dummyTool = null;
 
 Neo.Painter.prototype.rectTool = null;
 Neo.Painter.prototype.rectFillTool = null;
@@ -2288,8 +2290,9 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
     container.onmouseout = function (e) {
       ref._rollOutHandler(e);
     };
+    // 先にNeo.Buttonのtouchstart()がトリガーされる
     container.addEventListener(
-      "mousedown",
+      "mousedown", //pointerdownに変更するとここが先にトリガーされ、線幅を保存できなくなる
       function (e) {
         ref._mouseDownHandler(e);
       },
@@ -2475,6 +2478,9 @@ Neo.Painter.prototype._initTools = function () {
   this.ellipseFillTool = new Neo.EllipseFillTool();
   this.blurRectTool = new Neo.BlurRectTool();
   this.turnTool = new Neo.TurnTool();
+
+  this.sliderTool = new Neo.SliderTool();
+  this.dummyTool = new Neo.DummyTool();
 };
 
 Neo.Painter.prototype.hideInputText = function () {
@@ -2655,20 +2661,22 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
 
   if (!this.isUIPaused()) {
     if (e.target["data-bar"]) {
-      this.pushTool(new Neo.HandTool());
+      this.pushTool(this.handTool);
+      this.handTool.reverse = false;
     } else if (this.isSpaceDown && document.activeElement != this.inputText) {
-      this.pushTool(new Neo.HandTool());
-      this.tool.reverse = true;
+      this.pushTool(this.handTool);
+      this.handTool.reverse = true;
     } else if (e.target["data-slider"] != undefined) {
-      this.pushTool(new Neo.SliderTool());
-      this.tool.target = e.target;
+      this.pushTool(this.sliderTool);
+      this.sliderTool.target = e.target;
+      this.sliderTool.alt = false;
     } else if (e.ctrlKey && e.altKey && !e.shiftKey) {
-      this.pushTool(new Neo.SliderTool());
-      this.tool.target = Neo.sliders[Neo.SLIDERTYPE_SIZE].element;
-      this.tool.alt = true;
+      this.pushTool(this.sliderTool);
+      this.sliderTool.target = Neo.sliders[Neo.SLIDERTYPE_SIZE].element;
+      this.sliderTool.alt = true;
     } else if (this.isWidget(e.target)) {
       this.isMouseDown = false;
-      this.pushTool(new Neo.DummyTool());
+      this.pushTool(this.dummyTool);
     }
   }
 
@@ -2770,12 +2778,16 @@ Neo.Painter.prototype._stabilizer = function (e) {
   if (this.isMouseDown) {
     // 手ぶれ補正の強さ
     // 補正なし 0.0 最強 0.99
-    const level = Neo.stabiliz_level;
+    const level = Math.max(0, Math.min(Neo.stabiliz_level, 5));
     //手ぶれ補正のレベルを6段階に分けたテーブル
     //0で補正なし、5で最強
     // [0:無効, 1:0.55, 2:0.8, 3:0.85, 4:0.9, 5:0.96]
     const stabilityTable = [0.0, 0.55, 0.8, 0.85, 0.9, 0.96];
-    const stability = stabilityTable[Math.max(0, Math.min(level, 5))];
+    const stabilityLebel = stabilityTable[level];
+    //ブラシサイズが大きい時と拡大時は補正強度を下げる
+    const zoomModifier = this.zoom <= 1 ? 1 : 0.88;
+    const sizeModifier = this.lineWidth <= 8 ? 1 : 0.96;
+    const stability = stabilityLebel * zoomModifier * sizeModifier;
     const factor = 1.0 - stability;
 
     // stabilizedX が未定義なら現在の位置で初期化
@@ -4804,32 +4816,31 @@ Neo.Painter.prototype.getDestCanvasPosition = function (
 };
 
 Neo.Painter.prototype.isWidget = function (element) {
-  while (1) {
-    if (
-      element == null ||
-      element.id == "neo-canvas" ||
-      element.id == "neo-container"
-    )
-      break;
+  if (!element || !(element instanceof Element)) return false;
 
-    if (
-      element.id == "neo-tools" ||
-      element.className == "buttonOn" ||
-      element.className == "buttonOff" ||
-      element.className == "inputText"
-    ) {
-      return true;
-    }
-    element = element.parentNode;
+  // #NEO の外側を除外
+  const root = element.closest("#NEO");
+  if (!root) return false;
+
+  //  ツール領域・ボタン類
+  if (
+    element.closest(
+      "#neo-tools, .NEO .buttonOn, .NEO .buttonOff, .NEO .inputText",
+    )
+  ) {
+    return true;
   }
+
   return false;
 };
 
 Neo.Painter.prototype.isContainer = function (element) {
-  while (1) {
-    if (element == null) break;
-    if (element.id == "neo-container") return true;
-    element = element.parentNode;
+  if (!element || !(element instanceof Element)) return false;
+  // #NEO の外側を除外
+  const root = element.closest("#NEO");
+  if (!root) return false;
+  if (element.closest("#neo-container")) {
+    return true;
   }
   return false;
 };
@@ -5102,6 +5113,7 @@ Neo.ToolBase.prototype.startX = null;
 Neo.ToolBase.prototype.startY = null;
 Neo.ToolBase.prototype.type = null;
 Neo.ToolBase.prototype.step = 0;
+Neo.ToolBase.prototype.reverse = false;
 
 Neo.ToolBase.prototype.init = function (oe) {};
 Neo.ToolBase.prototype.kill = function (oe) {};

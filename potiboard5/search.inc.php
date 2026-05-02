@@ -1,8 +1,8 @@
 <?php
-$search_inc_ver = 20260224;
+$search_inc_ver = 20260502;
 //POTI-board plugin search(C)2020-2026 さとぴあ(@satopian)
 //MIT License
-//v6.151.5 lot.20260224
+//v6.173.0 lot.20260502
 //POTI-board EVO v6.0 対応版
 //https://paintbbs.sakura.ne.jp/
 
@@ -12,7 +12,7 @@ $search_inc_ver = 20260224;
 //https://paintbbs.sakura.ne.jp/poti/
 
 //更新履歴
-
+//v6.173.0 2026.05.02 メソッドの引数の型指定。
 //V6.65.1 2025.02.09 検索可能行数を10000行に拡大。長過ぎる検索語句を無視するようにした。
 //v6.63.0 2025.01.25 ページ番号が負の値の時はトップページにリダイレクト。
 //v6.61.2 2024.12.27 戻り値の型宣言を追加。
@@ -91,6 +91,11 @@ class processsearch {
 	fclose($tp);
 
 	$fp = fopen(LOGFILE, "r");
+	
+	$s_com='';
+	$s_sub='';
+	$s_name='';
+	
 	while ($line = fgets($fp)) {
 		if(!trim($line)){
 			continue;
@@ -286,7 +291,7 @@ class processsearch {
 
 	}
 	//検索文字列をフォーマット
-	Private static function create_formatted_text_for_search($str): string {
+	Private static function create_formatted_text_for_search(?string $str): string {
 
 		$s_str=mb_convert_kana($str, 'rn', 'UTF-8');//全角英数を半角に
 		$s_str=str_replace([" ", "　"], "", $s_str);

@@ -2,11 +2,24 @@
 //save.inc.php 2024-2026 (c)satopian MIT Licence
 //https://paintbbs.sakura.ne.jp/
 
-$save_inc_ver=20260114;
+$save_inc_ver=20260501;
 class image_save{
 
-	private $imgfile,$en,$count,$errtext,$session_usercode; // プロパティとして宣言
-	private $tool,$repcode,$stime,$resto,$timer,$error_type,$hide_animation,$pmax_w,$pmax_h;
+	private int $security_timer;
+	private string $imgfile;
+	private bool $en;
+	/** @var string|int  */
+	private $count;
+	private ?string $session_usercode; // プロパティとして宣言
+	private ?string $tool;
+	private ?string $repcode;
+	private ?string $stime;
+	private ?string $resto;
+	private int $timer;
+	private ?string $error_type;
+	private ?string $hide_animation;
+	private int $pmax_w;
+	private int $pmax_h;
 	
 	function __construct(){
 
@@ -276,7 +289,7 @@ class image_save{
 		}
 	}
 
-	private function error_msg($message): void {
+	private function error_msg(?string $message): void {
 		switch ($this->error_type){
 			case "neo":
 				$errtext="error\n";

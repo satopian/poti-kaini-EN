@@ -120,6 +120,9 @@
 						e.preventDefault(); // Alt キーのデフォルトの動作をキャンセル
 					}
 				});
+				document.addEventListener('DOMContentLoaded',()=>{
+					document.addEventListener('dblclick', (e)=>{ e.preventDefault()}, { passive: false });
+				});
 	</script>
 	@endif
 	@endif

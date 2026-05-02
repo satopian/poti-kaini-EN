@@ -1,5 +1,5 @@
 <?php
-$picpost_inc_ver=20251018;
+$picpost_inc_ver=20260501;
 //----------------------------------------------------------------------
 // picpost.inc.php lot.20241117 for POTI-board
 // by さとぴあ & POTI-board redevelopment team >> https://paintbbs.sakura.ne.jp/poti/ 
@@ -158,20 +158,21 @@ class picpost{
 
 	// 拡張ヘッダーから情報を取り出す
 	$sendheader = substr($buffer, 1 + 8, $headerLength);
+	$tool='';
 	if($sendheader){
 		$sendheader = str_replace("&amp;", "&", $sendheader);
 		parse_str($sendheader, $u);
 		//拡張ヘッダから取得		
-		$tool = isset($u['tool']) ? $u['tool'] : 'Shi-Painter';
+		$tool = $u['tool'] ?? 'Shi-Painter';
 		$tool= is_paint_tool_name($tool);
-		$resto = isset($u['resto']) ? $u['resto'] : '';
+		$resto = $u['resto'] ?? '';
 		$usercode = !$is_send_java ? $session_usercode : (isset($u['usercode']) ? $u['usercode'] : '');
-		$rep = isset($u['rep']) ? $u['rep'] : '';
-		$no = isset($u['no']) ? $u['no'] : '';
-		$pwd = isset($u['pwd']) ? $u['pwd'] : '';
-		$repcode = isset($u['repcode']) ? $u['repcode'] : '';
-		$stime = isset($u['stime']) ? $u['stime'] : '';
-		$count = isset($u['count']) ? $u['count'] : 0;
+		$rep = $u['rep'] ?? '';
+		$no = $u['no'] ?? '';
+		$pwd = $u['pwd'] ?? '';
+		$repcode = $u['repcode'] ?? '';
+		$stime = $u['stime'] ?? '';
+		$count = $u['count'] ?? 0;
 	}
 	$timer = $time - $stime;
 	//usercode 差し換え認識コード 描画開始 完了時間 レス先 を追加

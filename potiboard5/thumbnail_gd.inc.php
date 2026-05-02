@@ -3,11 +3,16 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20260406;
+$thumbnail_gd_ver=20260501;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
-	public static function thumb($path,$fname,$time,$max_w,$max_h,$options=[]): string {
+/**
+ * @param int|string|null $max_w
+ * @param int|string|null $max_h
+*/
+
+	public static function thumb(?string $path,?string $fname,?string $time,$max_w,$max_h,array $options=[]): string {
 		$path=basename($path).'/';
 		$fname=basename($fname);
 		$time=basename($time);
@@ -122,7 +127,10 @@ class thumbnail_gd {
 		return true;
 	}
 
-	//GDのイメージを破棄
+	/**
+	 * GDのイメージを破棄 
+	 * @param resource|\GdImage|null $gdImage
+	*/
 	private static function safeImageDestroy($gdImage): void {
 		if(PHP_VERSION_ID < 80000) {//PHP8.0未満の時は
 			imagedestroy($gdImage);
@@ -130,7 +138,7 @@ class thumbnail_gd {
 	}
 
 	// 透明度の処理を行う必要があるかを判断
-	private static function isTransparencyEnabled($options, $mime_type): bool {
+	private static function isTransparencyEnabled(array $options,?string $mime_type): bool {
 		// 透明度を扱うオプションが設定されているか確認
 		$transparencyOptionsSet = isset($options['toolarge']) || isset($options['webp']) || isset($options['thumbnail_webp']) || isset($options['2webp']) || isset($options['2png']);
 		
@@ -142,8 +150,11 @@ class thumbnail_gd {
 		
 		return $transparencyOptionsSet && in_array($mime_type, $transparencySupportedFormats) && $transparencyFunctionsAvailable;
 	}
-	//各画像フォーマットのリソースを作成
-	private static function createImageResource($fname,$mime_type) {
+	/**
+	 *各画像フォーマットのリソースを作成
+	 * @param string|bool $mime_type
+	 */
+	private static function createImageResource(?string $fname,$mime_type) {
 		switch ($mime_type) {
 			case "image/gif":
 				if(!function_exists("ImageCreateFromGIF")) {//gif
@@ -183,8 +194,11 @@ class thumbnail_gd {
 		return $im_in;
 	}
 
-	//縮小してPNGで上書き
-	private static function overwriteResizedImageWithPNG($im_out, $fname): ?string {
+	/**
+	 * 縮小してPNGで上書き 
+	 * @param resource|\GdImage|null $im_out
+	*/
+	private static function overwriteResizedImageWithPNG($im_out, ?string $fname): ?string {
 		$outfile=(string)$fname;
 		//本体画像を縮小
 			if(function_exists("ImagePNG")) {
@@ -194,8 +208,11 @@ class thumbnail_gd {
 			}
 		return $outfile;
 	}
-	//サムネイル作成
-	private static function createThumbnailImage($im_out, $time, $options): ?string {
+	/**
+	 * サムネイル作成 
+	 * @param resource|\GdImage|null $im_out
+	*/
+	private static function createThumbnailImage($im_out,?string $time,array $options): ?string {
 
 		if(isset($options['2png'])) {
 
