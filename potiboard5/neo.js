@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
     },
     {
-      capture: true,
       passive: false,
     },
   );
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = function () {};
 
-Neo.version = "1.6.55";
+Neo.version = "1.6.58";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -36,11 +35,6 @@ Neo.applet = null;
 Neo.isAnimation = false;
 Neo.storage = null;
 Neo.elementNeo = null;
-Neo.getPCH = null;
-Neo.getFilename = null;
-Neo.createViewer = null;
-Neo.createViewer = null;
-Neo.initViewer = null;
 Neo.isPinchZooming = null;
 Neo.touch_move_grid_control = function () {};
 Neo.add_touch_move_grid_control = function () {};
@@ -167,7 +161,7 @@ Neo.init2 = function () {
       : "描きかけの画像があります。動画の読み込みを中止して復元しますか？";
 
   let storageTimestamp = Neo.storage.getItem("timestamp");
-  const nowTimestamp = new Date().getTime();
+  const nowTimestamp = Date.now();
 
   if (
     Number.isInteger(Number(storageTimestamp)) &&
@@ -1296,7 +1290,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   }
 
   var count = Neo.painter.securityCount;
-  var timer = new Date() - Neo.painter.securityTimer;
+  var timer = Date.now() - Neo.painter.securityTimer;
   if (Neo.config.send_header_count == "true") {
     headerString = "count=" + count + "&" + headerString;
   }
@@ -2237,7 +2231,7 @@ Neo.Painter.prototype._initCanvas = function (div, width, height) {
   this.zoomX = width * 0.5;
   this.zoomY = height * 0.5;
 
-  this.securityTimer = new Date() - 0;
+  this.securityTimer = Date.now();
   this.securityCount = 0;
 
   for (var i = 0; i < 2; i++) {
@@ -2438,7 +2432,7 @@ Neo.Painter.prototype._initInputText = function () {
   }
 
   text.id = "neo-inputText";
-  text.setAttribute("contentEditable", true);
+  text.setAttribute("contentEditable", "true");
   text.spellcheck = false;
   text.className = "inputText";
   text.innerHTML = "";
@@ -2536,6 +2530,20 @@ Neo.Painter.prototype._keyDownHandler = function (e) {
   if (!this.isShiftDown && !this.isCtrlDown && !this.isAltDown) {
     if (key == "+") new Neo.ZoomPlusCommand(this).execute(); // +
     if (key == "-") new Neo.ZoomMinusCommand(this).execute(); // -
+    //鉛筆
+    if (key == "b") this.setToolByType(Neo.Painter.TOOLTYPE_PEN);
+    //水彩
+    if (key == "w") this.setToolByType(Neo.Painter.TOOLTYPE_BRUSH);
+    //消しゴム
+    if (key == "e") this.setToolByType(Neo.Painter.TOOLTYPE_ERASER);
+    //全消し
+    if (
+      document.activeElement != this.inputText &&
+      ["delete", "backspace"].includes(key)
+    ) {
+      this._pushUndo();
+      this._actionMgr.eraseAll();
+    }
   }
 
   if (this.tool.keyDownHandler) {
@@ -2755,9 +2763,7 @@ Neo.Painter.prototype.getPosition = function (e) {
 };
 
 // 手ぶれ補正
-Neo.Painter.prototype._stabilizer = function (e) {
-  const rawX = this.mouseX;
-  const rawY = this.mouseY;
+Neo.Painter.prototype._stabilizer = function () {
   const freeHandMode = this.drawType === 0;
 
   const toolTypes = [
@@ -2805,8 +2811,6 @@ Neo.Painter.prototype._stabilizer = function (e) {
     // マウスを離している時はリセット
     this.stabilizedX = null;
     this.stabilizedY = null;
-    this.mouseX = rawX;
-    this.mouseY = rawY;
   }
 };
 
@@ -2837,12 +2841,12 @@ Neo.Painter.prototype._updateMousePosition = function (e) {
   }
 
   //手ぶれ補正
-  this._stabilizer(e);
+  this._stabilizer();
 
   /*
      this.slowX = this.slowX * 0.8 + this.mouseX * 0.2;
      this.slowY = this.slowY * 0.8 + this.mouseY * 0.2;
-     var now = new Date().getTime();
+     var now = Date.now();
      if (this.stab) {
      var pause = this.stab[3];
      if (pause) {
@@ -3147,6 +3151,9 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
   var pngCanvasCtx = pngCanvas.getContext("2d", {
     willReadFrequently: true,
   });
+  if (!pngCanvasCtx) {
+    return null;
+  }
   pngCanvasCtx.fillStyle = "#ffffff";
   pngCanvasCtx.fillRect(0, 0, imageWidth, imageHeight);
 
@@ -3181,6 +3188,10 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
 
 Neo.Painter.prototype.getPNG = function () {
   var image = this.getImage();
+  if (!image) {
+    console.error("Failed to export image.");
+    return null;
+  }
   var dataURL = image.toDataURL("image/png");
   return this.dataURLtoBlob(dataURL);
 };
@@ -3205,6 +3216,10 @@ Neo.Painter.prototype.getThumbnail = function (type) {
     console.log("get thumbnail", thumbnailWidth, thumbnailHeight);
 
     var image = this.getImage(thumbnailWidth, thumbnailHeight);
+    if (!image) {
+      console.error("Failed to export image.");
+      return null;
+    }
     var dataURL = image.toDataURL("image/" + type);
     return this.dataURLtoBlob(dataURL);
   } else {
@@ -4348,6 +4363,9 @@ Neo.Painter.prototype.merge = function (layer, x, y, width, height) {
   y = Math.round(y);
   width = Math.round(width);
   height = Math.round(height);
+  var r = 0x00;
+  var g = 0x00;
+  var b = 0x00;
 
   var imageData = [];
   var buf32 = [];
@@ -4374,9 +4392,9 @@ Neo.Painter.prototype.merge = function (layer, x, y, width, height) {
 
     var a = a0 + a1 - a0 * a1;
     if (a > 0) {
-      var r = Math.floor((r1 * a1 + r0 * a0 * (1 - a1)) / a + 0.5);
-      var g = Math.floor((g1 * a1 + g0 * a0 * (1 - a1)) / a + 0.5);
-      var b = Math.floor((b1 * a1 + b0 * a0 * (1 - a1)) / a + 0.5);
+      r = Math.floor((r1 * a1 + r0 * a0 * (1 - a1)) / a + 0.5);
+      g = Math.floor((g1 * a1 + g0 * a0 * (1 - a1)) / a + 0.5);
+      b = Math.floor((b1 * a1 + b0 * a0 * (1 - a1)) / a + 0.5);
     }
     buf8[src][index + 0] = 0;
     buf8[src][index + 1] = 0;
@@ -4461,8 +4479,8 @@ Neo.Painter.prototype.pickColor = function (x, y) {
   var r = 0xff,
     g = 0xff,
     b = 0xff,
-    a;
-
+    a = 0,
+    result = 0xffffff;
   x = Math.floor(x);
   y = Math.floor(y);
   if (x >= 0 && x < this.canvasWidth && y >= 0 && y < this.canvasHeight) {
@@ -4473,7 +4491,7 @@ Neo.Painter.prototype.pickColor = function (x, y) {
         var buf32 = new Uint32Array(imageData.data.buffer);
         var buf8 = new Uint8ClampedArray(imageData.data.buffer);
 
-        var a = buf8[3] / 255.0;
+        a = buf8[3] / 255.0;
         r = r * (1.0 - a) + buf8[2] * a;
         g = g * (1.0 - a) + buf8[1] * a;
         b = b * (1.0 - a) + buf8[0] * a;
@@ -4482,16 +4500,16 @@ Neo.Painter.prototype.pickColor = function (x, y) {
     r = Math.max(Math.min(Math.round(r), 255), 0);
     g = Math.max(Math.min(Math.round(g), 255), 0);
     b = Math.max(Math.min(Math.round(b), 255), 0);
-    var result = r | (g << 8) | (b << 16);
+    result = r | (g << 8) | (b << 16);
   }
   this.setColor(result);
 
   if (this.current > 0) {
     if (a == 0 && (result == 0xffffff || this.getEmulationMode() < 2.16)) {
-      this.setToolByType(Neo.eraserTip.tools[Neo.eraserTip.mode]);
+      this.setToolByType(Neo.Painter.TOOLTYPE_ERASER);
     } else {
       if (Neo.eraserTip.selected) {
-        this.setToolByType(Neo.penTip.tools[Neo.penTip.mode]);
+        this.setToolByType(Neo.Painter.TOOLTYPE_PEN);
       }
     }
   }
@@ -4717,27 +4735,28 @@ Neo.Painter.prototype.doFill = function (layer, x, y, width, height, type) {
             var a1x = a1;
             var ax = 1 + a0 * (1 - a1x);
 
-            var r = (r1 + r0 * a0 * (1 - a1x)) / ax;
-            var g = (g1 + g0 * a0 * (1 - a1x)) / ax;
-            var b = (b1 + b0 * a0 * (1 - a1x)) / ax;
+            let r = (r1 + r0 * a0 * (1 - a1x)) / ax;
+            let g = (g1 + g0 * a0 * (1 - a1x)) / ax;
+            let b = (b1 + b0 * a0 * (1 - a1x)) / ax;
 
             r = r1 > r0 ? Math.ceil(r) : Math.floor(r);
             g = g1 > g0 ? Math.ceil(g) : Math.floor(g);
             b = b1 > b0 ? Math.ceil(b) : Math.floor(b);
+
+            var tmp = a * 255;
+            a = Math.ceil(tmp);
+
+            buf8[index + 0] = r;
+            buf8[index + 1] = g;
+            buf8[index + 2] = b;
+            buf8[index + 3] = a;
           }
-
-          var tmp = a * 255;
-          a = Math.ceil(tmp);
-
-          buf8[index + 0] = r;
-          buf8[index + 1] = g;
-          buf8[index + 2] = b;
-          buf8[index + 3] = a;
         }
       }
       index += 4;
     }
   }
+  //透明なピクセルの場合はもとのbuf8が入る
   imageData.data.set(buf8);
   ctx.putImageData(imageData, x, y);
 };
@@ -4790,13 +4809,13 @@ Neo.Painter.prototype.ellipseMask = function (x, y, width, height) {
  */
 
 Neo.Painter.prototype.getDestCanvasPosition = function (
-  mx,
-  my,
+  _mx,
+  _my,
   isClip,
   isCenter,
 ) {
-  var mx = Math.floor(mx); //Math.round(mx);
-  var my = Math.floor(my); //Math.round(my);
+  var mx = Math.floor(_mx); //Math.round(mx);
+  var my = Math.floor(_my); //Math.round(my);
   if (isCenter) {
     mx += 0.499;
     my += 0.499;
@@ -4909,7 +4928,7 @@ Neo.Painter.prototype.loadSession = function (callback) {
 
 Neo.Painter.prototype.saveSession = function () {
   if (Neo.storage) {
-    Neo.storage.setItem("timestamp", new Date().getTime());
+    Neo.storage.setItem("timestamp", Date.now());
     Neo.storage.setItem("layer0", this.canvas[0].toDataURL("image/png"));
     Neo.storage.setItem("layer1", this.canvas[1].toDataURL("image/png"));
   }
@@ -6681,7 +6700,7 @@ Neo.CopyrightCommand.prototype.execute = function () {
   if (
     confirm(
       Neo.translate(
-        "PaintBBS NEOは、お絵描きしぃ掲示板 PaintBBS (©2000-2004 しぃちゃん) をhtml5化するプロジェクトです。\n\nPaintBBS NEOのホームページを表示しますか？",
+        "PaintBBS NEOは、お絵かきしぃ掲示板 PaintBBS (©2000-2004 しぃちゃん) をhtml5化するプロジェクトです。\n\nPaintBBS NEOのホームページを表示しますか？",
       ) + "\n",
     )
   ) {
@@ -7497,25 +7516,30 @@ Neo.initViewer = function (pch) {
   const viewerWrapperOnTop =
     Neo.config.neo_viewer_buttonswrapper_top &&
     window.innerHeight < pageHeight + 100;
-
-  painter.style.marginTop = "0";
-  painter.style.position = "absolute";
-  painter.style.padding = "0";
-  painter.style.bottom = viewerWrapperOnTop ? 0 : dy + 26 + "px";
-  painter.style.left = dx + "px";
+  if (painter) {
+    painter.style.marginTop = "0";
+    painter.style.position = "absolute";
+    painter.style.padding = "0";
+    painter.style.bottom = viewerWrapperOnTop ? "0" : dy + 26 + "px";
+    painter.style.left = dx + "px";
+  }
 
   var viewerButtonsWrapper = document.getElementById(
     "neo-viewerButtonsWrapper",
   );
-  viewerButtonsWrapper.style.width = pageWidth - 2 + "px";
-  viewerButtonsWrapper.style.position = viewerWrapperOnTop ? "absolute" : "";
-  viewerButtonsWrapper.style.top = viewerWrapperOnTop ? "0px" : "";
+  if (viewerButtonsWrapper) {
+    viewerButtonsWrapper.style.width = pageWidth - 2 + "px";
+    viewerButtonsWrapper.style.position = viewerWrapperOnTop ? "absolute" : "";
+    viewerButtonsWrapper.style.top = viewerWrapperOnTop ? "0" : "";
+  }
 
   var viewerBar = document.getElementById("neo-viewerBar");
-  viewerBar.style.position = "absolute";
-  viewerBar.style.right = "2px";
-  viewerBar.style.top = "1px";
-  viewerBar.style.width = pageWidth - 24 * 6 - 2 + "px";
+  if (viewerBar) {
+    viewerBar.style.position = "absolute";
+    viewerBar.style.right = "2px";
+    viewerBar.style.top = "1px";
+    viewerBar.style.width = pageWidth - 24 * 6 - 2 + "px";
+  }
 
   Neo.canvas.style.width = Neo.config.width + "px";
   Neo.canvas.style.height = Neo.config.height + "px";
