@@ -437,7 +437,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 						</fieldset>
 						<fieldset>
 							<legend>STABILIZER</legend>
-							<select onchange="Neo.setStabilizLevel(this.value)">
+							<select onchange="Neo.setStabilizeLevel(this.value)">
 								<option value="0">0</option>
 								<option value="1" selected>1</option>
 								<option value="2">2</option>
@@ -604,10 +604,11 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 				</p>
 				<h3>Keyboard shortcuts</h3>
 				<ul>
-					<li>[+] to zoom in [-] to zoom out.</li>
+					<li>Eraser with [E], Pencil with [B].</li>
+					<li>Zoom in with [+], Zoom out with [-].</li>
 					<li>Undo with [Ctrl + Z] or [Ctrl + U], redo with [Ctrl + Alt + Z] or [Ctrl + Y].</li>
 					<li>Copy and Bezier operations can be reset with [Esc]. (Same for right-clicking)</li>
-					<li>Free scrolling by dragging the canvas while holding down the space key.</li>
+					<li>Free scrolling by dragging the canvas while holding down the [Space] key.</li>
 					<li>Change the line width by [Ctrl + Alt + drag].</li>
 				</ul>
 				<h3>Special usage of copy tool</h3>
