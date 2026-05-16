@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "ignoreDeprecations": "6.0",
+        "allowJs": true,
+        "checkJs": true, // JSファイルのチェックを有効化
+        "noImplicitAny": false, // 型が不明な場合にanyを許容する
+        "noUnusedLocals": false // 未使用変数の警告を消す
+    },
+    "exclude": [
+        "/potiboard5/",
+        "/potiboard5/chickenpaint/*",
+        "/potiboard5/klecks/*",
+        "/potiboard5/axnos/*",
+        ".git"
+    ]
+}

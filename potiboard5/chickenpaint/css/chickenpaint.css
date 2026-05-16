@@ -14688,6 +14688,6 @@ input#chickenpaint-colorPicker-method-layer {
 /* メニューのカーソルをポインターに変更 */
 .chickenpaint .nav-item.dropdown,
 .chickenpaint .nav-link.dropdown-toggle,
-.chickenpaint .navbar .dropdown-item {
+.chickenpaint .dropdown-item {
   cursor: pointer;
 }

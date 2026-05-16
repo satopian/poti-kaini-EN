@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /** @type {any} */
-var Neo = function () {};
+var Neo = {};
 
-Neo.version = "1.6.60";
+Neo.version = "1.6.61";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1916,9 +1916,11 @@ Neo.translate = (function () {
 
 "use strict";
 
-Neo.Painter = function () {
-  this._undoMgr = new Neo.UndoManager(50);
-  this._actionMgr = new Neo.ActionManager();
+Neo.Painter = class {
+  constructor() {
+    this._undoMgr = new Neo.UndoManager(50);
+    this._actionMgr = new Neo.ActionManager();
+  }
 };
 
 Neo.Painter.prototype.container = null;
@@ -5139,7 +5141,9 @@ Neo.Painter.prototype.isDirty = function () {
 
 "use strict";
 
-Neo.ToolBase = function () {};
+Neo.ToolBase = class {
+  constructor() {}
+};
 Neo.ToolBase.prototype.isDrag = false;
 Neo.ToolBase.prototype.isUpMove = false;
 Neo.ToolBase.prototype.ticking = false;
@@ -5265,11 +5269,11 @@ Neo.ToolBase.prototype.saveStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.DrawToolBase = function () {
-  Neo.ToolBase.call(this);
+Neo.DrawToolBase = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.DrawToolBase.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.DrawToolBase.prototype.constructor = Neo.DrawToolBase;
 
 Neo.DrawToolBase.prototype.isUpMove = false;
 Neo.DrawToolBase.prototype.step = 0;
@@ -5775,12 +5779,11 @@ Neo.DrawToolBase.prototype.drawBezierCursor2 = function (oe) {
   -------------------------------------------------------------------------
 */
 
-Neo.PenTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.PenTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-
-Neo.PenTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.PenTool.prototype.constructor = Neo.PenTool;
 
 Neo.PenTool.prototype.type = Neo.Painter.TOOLTYPE_PEN;
 Neo.PenTool.prototype.lineType = Neo.Painter.LINETYPE_PEN;
@@ -5800,11 +5803,11 @@ Neo.PenTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.BrushTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.BrushTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.BrushTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.BrushTool.prototype.constructor = Neo.BrushTool;
 
 Neo.BrushTool.prototype.type = Neo.Painter.TOOLTYPE_BRUSH;
 Neo.BrushTool.prototype.lineType = Neo.Painter.LINETYPE_BRUSH;
@@ -5829,10 +5832,11 @@ Neo.BrushTool.prototype.getAlpha = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.ToneTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.ToneTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.ToneTool.prototype = Object.create(Neo.DrawToolBase.prototype);
 Neo.ToneTool.prototype.constructor = Neo.DrawToolBase;
 Neo.ToneTool.prototype.type = Neo.Painter.TOOLTYPE_TONE;
 Neo.ToneTool.prototype.lineType = Neo.Painter.LINETYPE_TONE;
@@ -5852,11 +5856,11 @@ Neo.ToneTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.EraserTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.EraserTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EraserTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.EraserTool.prototype.constructor = Neo.EraserTool;
 
 Neo.EraserTool.prototype.type = Neo.Painter.TOOLTYPE_ERASER;
 Neo.EraserTool.prototype.lineType = Neo.Painter.LINETYPE_ERASER;
@@ -5867,11 +5871,11 @@ Neo.EraserTool.prototype.lineType = Neo.Painter.LINETYPE_ERASER;
   -------------------------------------------------------------------------
 */
 
-Neo.BlurTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.BlurTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.BlurTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.BlurTool.prototype.constructor = Neo.BlurTool;
 
 Neo.BlurTool.prototype.type = Neo.Painter.TOOLTYPE_BLUR;
 Neo.BlurTool.prototype.lineType = Neo.Painter.LINETYPE_BLUR;
@@ -5891,11 +5895,11 @@ Neo.BlurTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.DodgeTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.DodgeTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.DodgeTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.DodgeTool.prototype.constructor = Neo.DodgeTool;
 
 Neo.DodgeTool.prototype.type = Neo.Painter.TOOLTYPE_DODGE;
 Neo.DodgeTool.prototype.lineType = Neo.Painter.LINETYPE_DODGE;
@@ -5915,11 +5919,11 @@ Neo.DodgeTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.BurnTool = function () {
-  Neo.DrawToolBase.call(this);
+Neo.BurnTool = class extends Neo.DrawToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.BurnTool.prototype = Object.create(Neo.DrawToolBase.prototype);
-Neo.BurnTool.prototype.constructor = Neo.BurnTool;
 Neo.BurnTool.prototype.type = Neo.Painter.TOOLTYPE_BURN;
 Neo.BurnTool.prototype.lineType = Neo.Painter.LINETYPE_BURN;
 
@@ -5938,11 +5942,11 @@ Neo.BurnTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.HandTool = function () {
-  Neo.ToolBase.call(this);
+Neo.HandTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.HandTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.HandTool.prototype.constructor = Neo.HandTool;
 Neo.HandTool.prototype.type = Neo.Painter.TOOLTYPE_HAND;
 Neo.HandTool.prototype.isUpMove = false;
 Neo.HandTool.prototype.reverse = false;
@@ -6008,11 +6012,11 @@ Neo.HandTool.prototype.rollOutHandler = function (oe) {};
   -------------------------------------------------------------------------
 */
 
-Neo.SliderTool = function () {
-  Neo.ToolBase.call(this);
+Neo.SliderTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.SliderTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.SliderTool.prototype.constructor = Neo.SliderTool;
 Neo.SliderTool.prototype.type = Neo.Painter.TOOLTYPE_SLIDER;
 Neo.SliderTool.prototype.isUpMove = false;
 Neo.SliderTool.prototype.alt = false;
@@ -6066,11 +6070,11 @@ Neo.SliderTool.prototype.rollOutHandler = function (oe) {};
   -------------------------------------------------------------------------
 */
 
-Neo.FillTool = function () {
-  Neo.ToolBase.call(this);
+Neo.FillTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.FillTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.FillTool.prototype.constructor = Neo.FillTool;
 Neo.FillTool.prototype.type = Neo.Painter.TOOLTYPE_FILL;
 Neo.FillTool.prototype.isUpMove = false;
 
@@ -6099,11 +6103,11 @@ Neo.FillTool.prototype.rollOverHandler = function (oe) {};
   -------------------------------------------------------------------------
 */
 
-Neo.EraseAllTool = function () {
-  Neo.ToolBase.call(this);
+Neo.EraseAllTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EraseAllTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.EraseAllTool.prototype.constructor = Neo.EraseAllTool;
 Neo.EraseAllTool.prototype.type = Neo.Painter.TOOLTYPE_ERASEALL;
 Neo.EraseAllTool.prototype.isUpMove = false;
 
@@ -6130,11 +6134,11 @@ Neo.EraseAllTool.prototype.rollOverHandler = function (oe) {};
   -------------------------------------------------------------------------
 */
 
-Neo.EffectToolBase = function () {
-  Neo.ToolBase.call(this);
+Neo.EffectToolBase = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EffectToolBase.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.EffectToolBase.prototype.constructor = Neo.EffectToolBase;
 Neo.EffectToolBase.prototype.isUpMove = false;
 
 Neo.EffectToolBase.prototype.downHandler = function (oe) {
@@ -6238,11 +6242,11 @@ Neo.EffectToolBase.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.EraseRectTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.EraseRectTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EraseRectTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.EraseRectTool.prototype.constructor = Neo.EraseRectTool;
 Neo.EraseRectTool.prototype.type = Neo.Painter.TOOLTYPE_ERASERECT;
 
 Neo.EraseRectTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6258,11 +6262,11 @@ Neo.EraseRectTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.FlipHTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.FlipHTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.FlipHTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.FlipHTool.prototype.constructor = Neo.FlipHTool;
 Neo.FlipHTool.prototype.type = Neo.Painter.TOOLTYPE_FLIP_H;
 
 Neo.FlipHTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6278,11 +6282,11 @@ Neo.FlipHTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.FlipVTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.FlipVTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.FlipVTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.FlipVTool.prototype.constructor = Neo.FlipVTool;
 Neo.FlipVTool.prototype.type = Neo.Painter.TOOLTYPE_FLIP_V;
 
 Neo.FlipVTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6298,11 +6302,11 @@ Neo.FlipVTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.BlurRectTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.BlurRectTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.BlurRectTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.BlurRectTool.prototype.constructor = Neo.BlurRectTool;
 Neo.BlurRectTool.prototype.type = Neo.Painter.TOOLTYPE_BLURRECT;
 
 Neo.BlurRectTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6327,11 +6331,11 @@ Neo.BlurRectTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.TurnTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.TurnTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.TurnTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.TurnTool.prototype.constructor = Neo.TurnTool;
 Neo.TurnTool.prototype.type = Neo.Painter.TOOLTYPE_TURN;
 
 Neo.TurnTool.prototype.doEffect = function (oe) {
@@ -6364,11 +6368,11 @@ Neo.TurnTool.prototype.doEffect = function (oe) {
   -------------------------------------------------------------------------
 */
 
-Neo.MergeTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.MergeTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.MergeTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.MergeTool.prototype.constructor = Neo.MergeTool;
 
 Neo.MergeTool.prototype.type = Neo.Painter.TOOLTYPE_MERGE;
 
@@ -6385,11 +6389,11 @@ Neo.MergeTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.CopyTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.CopyTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.CopyTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.CopyTool.prototype.constructor = Neo.CopyTool;
 Neo.CopyTool.prototype.type = Neo.Painter.TOOLTYPE_COPY;
 
 Neo.CopyTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6409,11 +6413,11 @@ Neo.CopyTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.PasteTool = function () {
-  Neo.ToolBase.call(this);
+Neo.PasteTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.PasteTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.PasteTool.prototype.constructor = Neo.PasteTool;
 Neo.PasteTool.prototype.type = Neo.Painter.TOOLTYPE_PASTE;
 
 Neo.PasteTool.prototype.downHandler = function (oe) {
@@ -6496,11 +6500,11 @@ Neo.PasteTool.prototype.drawCursor = function (oe) {
   -------------------------------------------------------------------------
 */
 
-Neo.RectTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.RectTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.RectTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.RectTool.prototype.constructor = Neo.RectTool;
 Neo.RectTool.prototype.type = Neo.Painter.TOOLTYPE_RECT;
 
 Neo.RectTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6516,11 +6520,11 @@ Neo.RectTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.RectFillTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.RectFillTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.RectFillTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.RectFillTool.prototype.constructor = Neo.RectFillTool;
 Neo.RectFillTool.prototype.type = Neo.Painter.TOOLTYPE_RECTFILL;
 
 Neo.RectFillTool.prototype.isFill = true;
@@ -6537,11 +6541,11 @@ Neo.RectFillTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.EllipseTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.EllipseTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EllipseTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.EllipseTool.prototype.constructor = Neo.EllipseTool;
 Neo.EllipseTool.prototype.type = Neo.Painter.TOOLTYPE_ELLIPSE;
 Neo.EllipseTool.prototype.isEllipse = true;
 Neo.EllipseTool.prototype.doEffect = function (oe, x, y, width, height) {
@@ -6557,11 +6561,11 @@ Neo.EllipseTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.EllipseFillTool = function () {
-  Neo.EffectToolBase.call(this);
+Neo.EllipseFillTool = class extends Neo.EffectToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.EllipseFillTool.prototype = Object.create(Neo.EffectToolBase.prototype);
-Neo.EllipseFillTool.prototype.constructor = Neo.EllipseFillTool;
 Neo.EllipseFillTool.prototype.type = Neo.Painter.TOOLTYPE_ELLIPSEFILL;
 Neo.EllipseFillTool.prototype.isEllipse = true;
 Neo.EllipseFillTool.prototype.isFill = true;
@@ -6578,11 +6582,11 @@ Neo.EllipseFillTool.prototype.doEffect = function (oe, x, y, width, height) {
   -------------------------------------------------------------------------
 */
 
-Neo.TextTool = function () {
-  Neo.ToolBase.call(this);
+Neo.TextTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.TextTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.TextTool.prototype.constructor = Neo.TextTool;
 Neo.TextTool.prototype.type = Neo.Painter.TOOLTYPE_TEXT;
 Neo.TextTool.prototype.isUpMove = false;
 
@@ -6687,11 +6691,11 @@ Neo.TextTool.prototype.loadStates = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.DummyTool = function () {
-  Neo.ToolBase.call(this);
+Neo.DummyTool = class extends Neo.ToolBase {
+  constructor() {
+    super();
+  }
 };
-Neo.DummyTool.prototype = Object.create(Neo.ToolBase.prototype);
-Neo.DummyTool.prototype.constructor = Neo.DummyTool;
 Neo.DummyTool.prototype.type = Neo.Painter.TOOLTYPE_NONE;
 Neo.DummyTool.prototype.isUpMove = false;
 
@@ -6708,7 +6712,9 @@ Neo.DummyTool.prototype.rollOutHandler = function (oe) {};
 
 "use strict";
 
-Neo.CommandBase = function () {};
+Neo.CommandBase = class {
+  constructor() {}
+};
 Neo.CommandBase.prototype.data;
 Neo.CommandBase.prototype.execute = function () {};
 
@@ -6717,10 +6723,12 @@ Neo.CommandBase.prototype.execute = function () {};
     ZOOM
   ---------------------------------------------------
 */
-Neo.ZoomPlusCommand = function (data) {
-  this.data = data;
+Neo.ZoomPlusCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.ZoomPlusCommand.prototype = new Neo.CommandBase();
 Neo.ZoomPlusCommand.prototype.execute = function () {
   if (this.data.zoom >= 1 && this.data.zoom < 12) {
     this.data.setZoom(this.data.zoom + 1);
@@ -6732,10 +6740,12 @@ Neo.ZoomPlusCommand.prototype.execute = function () {
   // Neo.painter.updateDestCanvas();
 };
 
-Neo.ZoomMinusCommand = function (data) {
-  this.data = data;
+Neo.ZoomMinusCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.ZoomMinusCommand.prototype = new Neo.CommandBase();
 Neo.ZoomMinusCommand.prototype.execute = function () {
   if (this.data.zoom >= 2) {
     this.data.setZoom(this.data.zoom - 1);
@@ -6752,27 +6762,33 @@ Neo.ZoomMinusCommand.prototype.execute = function () {
     UNDO
   ---------------------------------------------------
 */
-Neo.UndoCommand = function (data) {
-  this.data = data;
+Neo.UndoCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.UndoCommand.prototype = new Neo.CommandBase();
 Neo.UndoCommand.prototype.execute = function () {
   this.data.cancelCopy();
   this.data.undo();
 };
 
-Neo.RedoCommand = function (data) {
-  this.data = data;
+Neo.RedoCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.RedoCommand.prototype = new Neo.CommandBase();
 Neo.RedoCommand.prototype.execute = function () {
   this.data.redo();
 };
 
-Neo.WindowCommand = function (data) {
-  this.data = data;
+Neo.WindowCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.WindowCommand.prototype = new Neo.CommandBase();
 Neo.WindowCommand.prototype.execute = function () {
   if (Neo.fullScreen) {
     if (confirm(Neo.translate("ページビュー？"))) {
@@ -6787,19 +6803,23 @@ Neo.WindowCommand.prototype.execute = function () {
   }
 };
 
-Neo.SubmitCommand = function (data) {
-  this.data = data;
+Neo.SubmitCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.SubmitCommand.prototype = new Neo.CommandBase();
 Neo.SubmitCommand.prototype.execute = function () {
   var board = location.href.replace(/[^/]*$/, "");
   this.data.submit(board);
 };
 
-Neo.CopyrightCommand = function (data) {
-  this.data = data;
+Neo.CopyrightCommand = class extends Neo.CommandBase {
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 };
-Neo.CopyrightCommand.prototype = new Neo.CommandBase();
 Neo.CopyrightCommand.prototype.execute = function () {
   var url = "http://github.com/funige/neo/";
   if (
@@ -6821,18 +6841,20 @@ Neo.CopyrightCommand.prototype.execute = function () {
   -----------------------------------------------------------------------
 */
 
-Neo.ActionManager = function () {
-  this._items = [];
-  this._head = 0;
-  this._index = 0;
+Neo.ActionManager = class {
+  constructor() {
+    this._items = [];
+    this._head = 0;
+    this._index = 0;
 
-  this._pause = false;
-  this._mark = 0;
+    this._pause = false;
+    this._mark = 0;
 
-  this._speedTable = [-1, 0, 1, 11]; // [最, 早, 既, 鈍]
+    this._speedTable = [-1, 0, 1, 11]; // [最, 早, 既, 鈍]
 
-  Neo.speed = parseInt(Neo.config.speed || 0);
-  this._prevSpeed = Neo.speed;
+    Neo.speed = parseInt(Neo.config.speed || 0);
+    this._prevSpeed = Neo.speed;
+  }
 };
 
 Neo.ActionManager.prototype.speedMode = function () {
@@ -7959,23 +7981,25 @@ Neo.getModifier = function (e) {
   -------------------------------------------------------------------------
 */
 
-Neo.Button = function () {
-  this.element = null;
-  this.params = null;
-  this.elementID = "";
-  this.selected = false;
-  this.isMouseDown = false;
-  this.disable = function () {};
-  this.enable = function () {};
+Neo.Button = class {
+  constructor() {
+    this.element = null;
+    this.params = null;
+    this.elementID = "";
+    this.selected = false;
+    this.isMouseDown = false;
+    this.disable = function () {};
+    this.enable = function () {};
 
-  /** @type {((Button: Neo.Button) => void) | null} */
-  this.onmousedown = null;
-  /** @type {((Button: Neo.Button) => void) | null} */
-  this.onmouseup = null;
-  /** @type {((Button: Neo.Button) => void) | null} */
-  this.onmouseover = null;
-  /** @type {((Button: Neo.Button) => void) | null} */
-  this.onmouseout = null;
+    /** @type {((Button: Neo.Button) => void) | null} */
+    this.onmousedown = null;
+    /** @type {((Button: Neo.Button) => void) | null} */
+    this.onmouseup = null;
+    /** @type {((Button: Neo.Button) => void) | null} */
+    this.onmouseover = null;
+    /** @type {((Button: Neo.Button) => void) | null} */
+    this.onmouseout = null;
+  }
 };
 Neo.Button.prototype.init = function (elementID, params) {
   this.element = document.getElementById(elementID);
@@ -8081,15 +8105,14 @@ Neo.Button.prototype.update = function () {};
   -------------------------------------------------------------------------
 */
 
-Neo.RightButton = function () {
-  Neo.Button.call(this);
-  this.params = null;
-  this.element = null;
-  this.selected = "";
+Neo.RightButton = class extends Neo.Button {
+  constructor() {
+    super();
+    this.params = null;
+    this.element = null;
+    this.selected = false;
+  }
 };
-Neo.RightButton.prototype = Object.create(Neo.Button.prototype);
-Neo.RightButton.prototype.constructor = Neo.RightButton;
-
 /**
  * @param {any} elementID
  * @param {any} params
@@ -8131,13 +8154,11 @@ Neo.RightButton.clear = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.FillButton;
-
-Neo.FillButton = function () {
-  Neo.Button.call(this);
+Neo.FillButton = class extends Neo.Button {
+  constructor() {
+    super();
+  }
 };
-Neo.FillButton.prototype = Object.create(Neo.Button.prototype);
-Neo.FillButton.prototype.constructor = Neo.FillButton;
 
 Neo.FillButton.prototype.init = function (elementID, params) {
   Neo.Button.prototype.init.call(this, elementID, params);
@@ -8291,16 +8312,18 @@ Neo.ColorTip.getCurrent = function () {
 Neo.toolTips = [];
 Neo.toolButtons = [];
 
-Neo.ToolTip = function () {
-  this.element = null;
-  this.params = null;
-  this.elementID = "";
-  this.mode = 0;
-  this.isMouseDown = false;
-  this.onmousedown = null;
-  this.onmouseup = null;
-  this.onmouseout = null;
-  this.onmouseover = null;
+Neo.ToolTip = class {
+  constructor() {
+    this.element = null;
+    this.params = null;
+    this.elementID = "";
+    this.mode = 0;
+    this.isMouseDown = false;
+    this.onmousedown = null;
+    this.onmouseup = null;
+    this.onmouseout = null;
+    this.onmouseover = null;
+  }
 };
 
 Neo.ToolTip.prototype.prevMode = -1;
@@ -8486,14 +8509,11 @@ Neo.ToolTip.tone =
   -------------------------------------------------------------------------
 */
 
-Neo.penTip;
-
-Neo.PenTip = function () {
-  Neo.ToolTip.call(this);
+Neo.PenTip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.PenTip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.PenTip.prototype.constructor = Neo.PenTip;
-
 Neo.PenTip.prototype.tools = [
   Neo.Painter.TOOLTYPE_PEN,
   Neo.Painter.TOOLTYPE_BRUSH,
@@ -8535,13 +8555,11 @@ Neo.PenTip.prototype.update = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.pen2Tip;
-
-Neo.Pen2Tip = function () {
-  Neo.ToolTip.call(this);
+Neo.Pen2Tip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.Pen2Tip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.Pen2Tip.prototype.constructor = Neo.Pen2Tip;
 
 Neo.Pen2Tip.prototype.tools = [
   Neo.Painter.TOOLTYPE_TONE,
@@ -8636,13 +8654,11 @@ Neo.Pen2Tip.prototype.drawTone = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.eraserTip;
-
-Neo.EraserTip = function () {
-  Neo.ToolTip.call(this);
+Neo.EraserTip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.EraserTip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.EraserTip.prototype.constructor = Neo.EraserTip;
 
 Neo.EraserTip.prototype.tools = [
   Neo.Painter.TOOLTYPE_ERASER,
@@ -8694,13 +8710,11 @@ Neo.EraserTip.prototype.draw = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.effectTip;
-
-Neo.EffectTip = function () {
-  Neo.ToolTip.call(this);
+Neo.EffectTip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.EffectTip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.EffectTip.prototype.constructor = Neo.EffectTip;
 
 Neo.EffectTip.prototype.tools = [
   Neo.Painter.TOOLTYPE_RECTFILL,
@@ -8745,13 +8759,11 @@ Neo.EffectTip.prototype.update = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.effect2Tip;
-
-Neo.Effect2Tip = function () {
-  Neo.ToolTip.call(this);
+Neo.Effect2Tip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.Effect2Tip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.Effect2Tip.prototype.constructor = Neo.Effect2Tip;
 
 Neo.Effect2Tip.prototype.tools = [
   Neo.Painter.TOOLTYPE_COPY,
@@ -8806,16 +8818,14 @@ Neo.Effect2Tip.prototype.update = function () {
   -------------------------------------------------------------------------
 */
 
-Neo.maskTip;
-
-Neo.MaskTip = function () {
-  Neo.ToolTip.call(this);
-  this.isMouseDown = false;
-  this.onmousedown = null;
-  this.canvas = null;
+Neo.MaskTip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+    this.isMouseDown = false;
+    this.onmousedown = null;
+    this.canvas = null;
+  }
 };
-Neo.MaskTip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.MaskTip.prototype.constructor = Neo.MaskTip;
 
 Neo.MaskTip.prototype.init = function (elementID, params) {
   this.toolStrings = [
@@ -8869,13 +8879,11 @@ Neo.MaskTip.prototype.draw = function (c) {
   -------------------------------------------------------------------------
 */
 
-Neo.drawTip;
-
-Neo.DrawTip = function () {
-  Neo.ToolTip.call(this);
+Neo.DrawTip = class extends Neo.ToolTip {
+  constructor() {
+    super();
+  }
 };
-Neo.DrawTip.prototype = Object.create(Neo.ToolTip.prototype);
-Neo.DrawTip.prototype.constructor = Neo.DrawTip;
 
 Neo.DrawTip.prototype.hasTintImage = true;
 Neo.DrawTip.prototype.toolIcons = [
@@ -9401,11 +9409,11 @@ Neo.ScrollBarButton.prototype.update = function (oe) {
   -------------------------------------------------------------------------
 */
 
-Neo.ViewerButton = function () {
-  Neo.Button.call(this);
+Neo.ViewerButton = class extends Neo.Button {
+  constructor() {
+    super();
+  }
 };
-Neo.ViewerButton.prototype = Object.create(Neo.Button.prototype);
-Neo.ViewerButton.prototype.constructor = Neo.ViewerButton;
 
 Neo.ViewerButton.speedStrings = ["最", "早", "既", "鈍"];
 

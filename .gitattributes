@@ -6,3 +6,5 @@
 /phpunit.xml export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
+min.sh export-ignore
+jsconfig.json export-ignore
