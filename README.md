@@ -42,6 +42,1362 @@ It's easy to change the color scheme because the settings are separated for the 
 However, an environment that can handle SCSS is required.  
 For example, the free [Visual Studio Code](https://azure.microsoft.com/en-us/products/visual-studio-code/) and its extension, [DartJS Sass Compiler and Sass Watcher](https://marketplace.visualstudio.com/items?itemName=codelios.dartsass).
 
+
+### 2026/05/22 v6.179.0
+
+### litaChix Updates
+- Used TypeScript static analysis tools to identify and fix potential bugs.  
+- Fixed an error that occurred when using the Blender tool on masks, where a method assuming the object was a color object was being called.  
+- Removed unused memory management code that was no longer referenced anywhere.  
+- Although the warning level of the TypeScript static analysis tools had been configured to be lenient, there were still thousands of warnings.  
+  All of those warnings have now been reduced to zero.  
+- In the template used to launch litaChix, `const handleExit = ()=>{` has been changed to `window.handleExit = ()=>{`.  
+  While resolving TypeScript static analysis warnings, the `handleExit` function was moved under `window`, so assigning it to a constant defined with `const` no longer worked because it was not attached to `window`.  
+
+### 2026/05/16 v6.178.0
+
+### litaChix Updates
+- Used TypeScript static analysis tools to identify and fix potential bugs.  
+  In addition, inheritance written using `Object.create(Parent)` could not be correctly recognized by the TypeScript analysis tools, causing repeated warnings.  
+  Therefore, the inheritance code was rewritten using the `extends` syntax of ES6 classes.  
+  This resulted in a large-scale refactoring.  
+- Changed the default opacity of the Pen tool to the maximum value of 255.  
+- Changed the Pencil opacity to the maximum value of 255 and restored the default size to 16.  
+- Strengthened the low-pass filter used to prevent sudden pressure changes.  
+- Changed the default stabilizer value for the Pen and Pencil tools from 5% to 6%.  
+
+### PaintBBS NEO Updates
+- Used TypeScript static analysis tools to identify and fix potential bugs.  
+- Rewrote inheritance using `new(Parent)` and `Object.create(Parent)` to use ES6 class `extends` syntax.  
+- Added descriptions for the newly added shortcut keys in the PaintBBS NEO paint screen: Pencil: B, Eraser: E.  
+
+
+### 2026/05/06 v6.176.0 
+### litaChix Updates
+- Increased the dilution of the watercolor brush, resulting in lighter color application.  
+- The opacity slider now changes more gradually at lower values.  
+
+### PaintBBS NEO Updates
+- Added shortcut keys.  
+  B: Pencil · E: Eraser · W: Watercolor · Delete|Backspace: Clear layer (executes immediately, without switching tools)  
+
+
+### 2026/05/03 v6.175.0 
+
+### litaChix Updates
+- Fixed an issue where layer names could no longer be changed by double-clicking.  
+
+
+### 2026/05/02 v6.173.2
+### PaintBBS NEO Updates
+- Since stabilization is mainly needed when the canvas is at 100% or reduced, its strength is now reduced when zoomed in.  
+  Stabilization can be effective for line art but not always suitable for painting, so it is also reduced when the brush size is larger than 8.  
+  When both conditions apply (zoomed in and brush size greater than 8), the stabilization effect is reduced even further.  
+- Added a script to the HTML file that launches NEO to prevent unintended double-tap zoom on iPad.  
+
+### Initialized potentially undefined variables
+- Initialized variables that could potentially be undefined to resolve warnings from static analysis tools.  
+
+### Added type annotations to function arguments
+- Added type annotations to function arguments to resolve warnings from static analysis tools.  
+
+### 2026/05/02 v6.173.2
+
+### PaintBBS NEO Updates
+- Since stabilization is mainly needed when the canvas is at 100% or reduced, its strength is now reduced when zoomed in.  
+  Stabilization can be effective for line art but not always suitable for painting, so it is also reduced when the brush size is larger than 8.  
+  When both conditions apply (zoomed in and brush size greater than 8), the stabilization effect is reduced even further.  
+- Added a script to the HTML file that launches NEO to prevent unintended double-tap zoom on iPad.  
+
+### Initialized potentially undefined variables
+- Initialized variables that could potentially be undefined to resolve warnings from static analysis tools.  
+
+### Added type annotations to function arguments
+- Added type annotations to function arguments to resolve warnings from static analysis tools.  
+
+
+### 2026/04/29 v6.172.0
+### PaintBBS NEO Updates
+- Fixed bugs introduced in recent updates. Fixed an issue where the line width was reset to 1px when switching between the Pencil and Watercolor tools.  
+- Fixed an issue where the text input overlay remained visible even after switching to tools other than the Text tool.  
+- When using "Rotat", striped artifacts could appear in areas that should be blank.  
+  This behavior reproduces the original PaintBBS, but it requires extra work to remove the stripes when simply rotating.  
+  Therefore, a newly added option allows disabling these stripes.  
+
+### litaChix Updates
+- There were reports of an issue where values would continue changing and could not be finalized when using the color picker or sliders, even after releasing the pen.  
+  This was likely caused by the browser not correctly interpreting `touch-action: none`.  
+  Since `pointermove` can be suppressed via JavaScript even in browsers where `touch-action: none` is not supported, the code has been updated as a precaution.  
+
+
+
+### 2026/04/27 v6.171.0
+
+### PaintBBS NEO Updates
+- Fixed an issue where unintended zooming could occur due to double-tap zoom.  
+
+### litaChix Updates
+- Brush sizes below 5 can now be adjusted in 0.5 increments. Intermediate sizes such as 1.5 and 3.5 can be selected.  
+  Also, the slider for brush sizes between 1 and 5 is now evenly distributed to make selection easier.  
+- The default pencil size has been changed from 16 to 2, and brush size now varies with pen pressure.  
+  Previously, it was set to 16px with opacity 255, making it more suitable for solid fills than a pencil.  
+  You can still restore the previous settings by adjusting the values in the tool options palette.  
+- The default opacity of the Pen tool has been changed to 250.  
+  Based on feedback that it felt too light for a pen, it has been adjusted to a more pen-like opacity.  
+
+### Tegaki Updates
+- Added a measure to prevent double-tap zoom.  
+
+### 2026/04/25 v6.170.1
+
+### tegaki.js Updates  
+- Fixed an issue where replay data created before the Hand tool was added could no longer be played back.  
+
+### PaintBBS NEO Updates
+- Reduced the strength of the stabilizer.  
+- Unified the EventListeners for drawing and slider operations under pointer events, simplifying previously complex handling.  
+
+
+### 2026/04/23 v6.169.0
+
+### tegaki.js Updates  
+- Added a Hand tool icon for mobile devices where scrolling was not possible when opening large canvases or zooming in.  
+    
+<img width="500" height="635" alt="image" src="https://github.com/user-attachments/assets/ba330bc4-0c8e-4576-9e4b-508adc4dcb39" /><br>
+
+- However, since this uses the same touch scrolling behavior as scrolling with a finger on a smartphone, it does not work with a mouse.  
+
+### PaintBBS NEO Updates
+- Reduced the strength of the stabilization level.  
+  
+### 2026/04/22 v6.167.0
+### tegaki.js Updates
+- Pressing the Space key now switches to the Hand tool.  
+  (Only when scrollbars are visible.)  
+
+
+### 2026/04/20 v6.166.2
+
+### PaintBBS NEO Updates
+- You can now adjust the stabilization level.  
+  
+<img width="670" height="718" alt="Screen-2026-04-20_11-10-02" src="https://github.com/user-attachments/assets/a60e32df-f64b-4fa7-abfd-4765ffb60bd2" /><br>
+  
+  0 = no stabilization, 5 = maximum.  
+  
+- Fixed an issue where pressing the Space key would sometimes fail to switch to the Hand tool.  
+
+
+### 2026/04/18 v6.165.3
+
+### PaintBBS NEO Updates
+- Added a stabilization (anti-shake) feature.  
+  When drawing on large canvases such as 2000×2000 pixels in PaintBBS NEO, the zoom-out feature is often used.  
+  However, drawing on a reduced canvas could record small hand movements, which would appear as significant line jitter when viewed at 100% zoom.  
+  To address this, a stabilization (anti-shake) feature has been added.  
+  This feature also works when drawing at 100% zoom and helps reduce the feeling of the pen slipping on the canvas.  
+  While stabilization has been added, the characteristic jagged line style of PaintBBS remains unchanged.  
+
+
+### PaintBBS NEO Updates
+- Copy operations can now be reset using undo actions such as "Ctrl+Z" or "Undo".  
+
+### litaChix Updates
+- litaChix has a fullscreen mode, and the "Esc" key is reserved by the browser to exit fullscreen.  
+  Therefore, cancel operations that previously used the "Esc" key have been moved to "Ctrl+Z" (Undo).  
+  For example, canceling a Bezier curve drawing is now done with "Ctrl+Z" or the Undo button.  
+  Canceling transform operations is also now done with "Ctrl+Z" or the Undo button.  
+  The "Esc" key is now used exclusively for exiting fullscreen mode in the browser.  
+
+
+### 2026/04/12 v6.162.0
+
+### NEO Updates
+Shi-chan’s `oekaki.html` includes the following description:
+
+> Copy and Bezier operations can be reset with [Esc]. (Same for right-clicking)
+
+The original PaintBBS v2.04 and v2.19 behave according to this description.  
+Therefore, the following features were added to PaintBBS NEO to match this behavior:
+- Added right-click reset for Bezier operations.  
+- Added right-click reset for copy operations.  
+- Fixed an issue (present since NEO v1.5.x) where canceling a copy operation could leave an image on the canvas with its transparency ignored, identical to the one shown while moving the copied selection.  
+
+- Fixed an issue where confirming a selection for copying would replace the selected area with an image with its transparency ignored, identical to the one shown while moving the copied selection.  
+
+### litaChix Updates
+- Reworked the Bezier curve behavior in litaChix to make it closer to PaintBBS NEO and Shi-Painter.  
+  The starting position of the second control handle is now aligned with the end position of the first segment.  
+  Pressing the Escape key or right-clicking during a Bezier operation now cancels the action.  
+
+
+### 2026/04/08 v6.161.0
+
+### PaintBBS NEO Updates
+- Fixed a flicker in the Bezier curve preview that briefly appeared when releasing the pen.  
+
+### litaChix Updates
+- Reduced the size of the circular cursor that displays the picked color.  
+  The outer size was changed from 20px to 18px, and the inner colored area from 18px to 16px.  
+
+
+### 2026/04/07 v6.160.2
+
+### NEO Updates
+- Added the "neo-" prefix to all IDs used in PaintBBS NEO.  
+
+
+### NEO Updates
+- Added the "-neo" prefix to IDs to avoid ID conflicts.  
+
+
+### 2026/04/05 v6.159.1
+
+### litaChix Updates
+- Fixed a potential issue where menus could become unresponsive to taps on iOS.  
+
+
+### 2026/04/04 v6.159.0
+### litaChix Updates
+- Displays the color picked with the Color picker as a circular cursor.  
+      
+<img width="499" height="444" alt="image" src="https://github.com/user-attachments/assets/1e6c60e3-cf46-4da7-b92e-fa2394932b03" /><br>
+   
+
+### 2026/04/01 v6.158.2
+
+### litaChix Updates
+- Fixed an issue where the error message "Whoops! This layer is currently hidden." was shown even when the Color picker source was set to "Pick displayed color".  
+
+
+### 2026/04/01 v6.158.1
+
+### litaChix Updates
+- Fixed an issue where hovering over labels in the "Color picker" tool options panel did not show the clickable pointer cursor.  
+- Slightly adjusted the blue color scheme.  
+- Adjusted when messages such as "Whoops! This layer is currently hidden." and "Whoops! This layer's opacity is currently 0%." are displayed during transform operations.  
+  Previously, these messages were shown when selecting Menu → Edit.  
+- Now shows messages such as "Whoops! This layer is currently hidden." and "Whoops! This layer's opacity is currently 0%." and aborts the operation when attempting to pick colors from a hidden layer.  
+
+
+### 2026/03/30 v6.157.3
+
+### litaChix Update
+- The eyedropper tool no longer samples fully transparent areas.  
+  When sampling a transparent area, the previously selected color is now retained without change.  
+  This behavior matches that of FireAlpaca and Krita.  
+  Previously, invisible colors such as white or black within transparent areas could be picked.  
+
+- Fixed an issue where the cursor icon did not match the active function during temporary changes via shortcut keys.  
+
+- When repeated input from the same key is detected, only the first input is now processed.  
+  For example, pressing the Tab key hides the UI, but previously holding it down caused the UI to toggle continuously.  
+  Now it will toggle only once, preventing repeated execution and reducing device load.  
+
+
+### 2026/03/29 v6.157.2
+### litaChix Update
+- Added an option to choose the sampling source for the eyedropper tool: "Pick displayed color" or "Pick color from layer"    
+  Due to layer effects such as Multiply or Overlay, the displayed color may differ from the actual color on an individual layer.      
+  Previously, there was no way to sample color directly from the active layer itself.    
+  Similar to Clip Studio Paint and FireAlpaca, it is now possible to choose whether to pick colors from the composited (displayed) image or from the active layer.   
+
+<img width="212" height="262" alt="image" src="https://github.com/user-attachments/assets/837768d1-ab24-4d17-a291-3021893486f3" />
+
+
+### 2026/03/25 v6.156.0
+
+- Improved the blending behavior of the Blender brush tool.  
+  When stroking from transparent areas toward opaque areas, the brush now blends with transparency.  
+  Dragging transparent pixels with the Blender brush makes previously opaque areas transparent.
+  
+<img width="967" height="730" alt="image" src="https://github.com/user-attachments/assets/4ced0808-9219-422f-a9c6-3aadb6417020" />
+  
+
+### 2026/03/23 v6.155.10
+### PaintBBS NEO Updates
+- You can now select reduction rates of 80%, 60%, 40%, and 20%.  
+  The canvas can be reduced from 100% in 20% increments.
+- Fixed a bug where the inverted color area of a rectangle remained after filling a rectangular selection with the Rectangle Tool.  
+  This bug occurred in NEO v1.6.25 (2026/03/15) and was fixed in v1.6.26.
+
+
+### 2026/03/22 v6.155.9
+### litaChix Update
+- Improved the Blender brush tool.  
+  It now uses the watercolor brush blending algorithm to produce more natural color mixing.
+
+
+### 2026/03/19 v6.155.8
+### tegaki.js Update
+- Added finer zoom level control below 1.0x, allowing values such as 0.5x, 0.6x, 0.7x, 0.8x, 0.9x, and 1.0x.
+- When rewinding during playback while using zoom, the zoom level is now reset to 1.0x.
+- Enabled touch-based scrolling of the canvas during playback on mobile devices.
+
+
+### 2026/03/18 v6.155.7
+### litaChix Update
+- When a layer has 0% opacity or is hidden, a warning is now shown and the operation is canceled if a transform is attempted from the tool options panel.
+
+
+### 2026/03/17 v6.155.6
+### litaChix Update
+- Added a "Duplicate" checkbox to the Move tool options panel.  
+  When "Duplicate" is enabled, the selected content is duplicated and the copy is moved.
+<img width="207" height="257" alt="image" src="https://github.com/user-attachments/assets/f2b7a5a7-4cdd-4cc6-878d-6f6da3c86a1a" />
+
+
+### litaChix Update
+- Fixed an issue where Ctrl+Alt with the Move tool would also trigger duplication.    
+Duplication now occurs only when Alt is pressed alone.
+
+### 2026/03/15 v6.155.3
+### PaintBBS NEO Update
+- Optimized the number of canvas redraws during copy and layer merge operations to reduce load.  
+- Fixed an issue where these operations became very slow and difficult to use with large canvas sizes.
+
+
+### 2026/03/15 v6.155.2
+### litaChix Update
+- Fixed an issue where autosave could trigger during a transform operation and cause the transform confirmation dialog to appear.
+- Prevented high-load transform/move operations and autosave from running at the same time.  
+  Autosave will no longer run while transform or move mode is active.
+
+
+### 2026/03/14 v6.155.0
+### PaintBBS NEO Update
+- Updated NEO. Fixed an issue where scrolling became extremely slow and nearly unusable when the canvas was displayed at a reduced scale in "Float" mode.  
+  This issue occurred with very large canvas sizes such as 2000x2000.  
+  To resolve this, the rendering quality during scaled display was adjusted and the number of screen redraws during scrolling was optimized.  
+  Scrolling is now smooth.
+
+
+### 2026/03/09 v6.153.1
+
+### litaChix Update
+- Reduced the number of redraw operations during move and transform actions to lower device load.
+
+### 2026/03/09 v6.153.0
+
+### litaChix Update
+- Reduced memory usage during save compression to avoid memory pressure during autosave on devices such as iPads.
+- Cleaned up duplicated event listeners that were being called frequently during drawing.
+- The Monochromatic noise filter previously generated noise using the selected color and white.  
+  However, when the selected color was white, the result became completely white.  
+  It now generates noise using the selected color and transparency instead.    
+  This makes it possible to create white grain and similar noise effects.
+
+### 2026/03/05 v6.152.6
+### AXNOS Paint Update
+- Reduced the update frequency of the layer thumbnails and the navigator thumbnail to improve drawing performance on the main canvas.
+
+
+### 2026/03/02 v6.152.5
+
+- Fixed an issue in Lightbox v2.12.0 where images could not be copied.
+- Updated AXNOS Paint.
+- Updated litaChix.
+
+### 2026/02/28 v6.152.2
+
+### Lightbox v2.12.0
+- Bundled a customized version based on Lightbox v2.12.0 (released on February 28), modified again for use with this bulletin board.
+- Includes fixes such as memory leak improvements.
+
+### Elvis Operator
+- After learning that the Elvis operator is even slightly faster than the ternary operator, code has been standardized to use the Elvis operator wherever possible.  
+  This also improves readability and helps reduce the likelihood of bugs.
+
+### Bug
+- Due to mistakenly excluding untracked files, several required Klecks files were not pushed to GitHub.  
+- As a result, Klecks may not have functioned correctly in the previous update.
+
+### 2026/02/26 v6.152.0
+
+- Improved the safety of microsecond calculations recorded in the log file.  
+- If a calculation fails due to log file corruption or other issues, the microtime2time() function will now return 0.
+
+
+### 2026/02/24 v6.151.6
+
+### Memory Optimization
+- Freed memory by unsetting arrays that were no longer needed.
+
+### Maximum POST Size Calculation
+- Fixed a potential issue in the calculation of the maximum allowed POST size based on php.ini settings.  
+- Separated numeric values and strings in places where ambiguous casting to numbers was previously used, as this behavior may no longer be supported in future versions of PHP.
+
+### 2026/02/23 v6.150.1
+
+### litaChix Update
+#### Bug Fix
+- Fixed an issue where backup data stored in the browser database was unintentionally deleted when selecting "Export as PNG" or "Export as ZIP" from the File menu.  
+- As a result of this issue, if the page was reloaded or navigated away from immediately after choosing "Export as PNG," work in progress could not be restored.  
+- Corrected the relevant function arguments to resolve this problem.
+
+
+### 2026/02/22 v6.150.0
+### litaChix Update
+- Previously, when using the "Convert brightness to opacity" filter, pixels were converted to either transparent or black (opaque or semi-transparent).  
+- With this update, pixels are now converted to either transparent or the currently selected drawing color from the color picker.  
+- For example, if you draw black line art on a white background and apply this filter, the white areas become transparent as before, while the black lines are converted to the drawing color selected in the color picker.
+
+
+### 2026/02/21 v6.139.0
+
+### litaChix Update
+- Updated the UI/UX of the "Menu > Backup to browser storage" operation to use a modal interface.  
+- Previously, an alert notifying that the backup had been saved could appear suddenly about 10 seconds after selecting the menu item.  
+- To resolve this issue, a modal now opens immediately after the operation begins to indicate that preparation is in progress. When the process is complete, a notification is displayed to inform the user.  
+- In most cases, the process finishes almost instantly. However, when the canvas size is 2000x2000 with 50 or more layers, it may take around 10 seconds to complete.  
+  For this reason, users are now informed in advance that the process is in progress and may take several seconds.
+  
+<img width="517" height="217" alt="3" src="https://github.com/user-attachments/assets/ced7bd81-63bc-4662-9f7a-31a3916f19a9" /><br>
+<img width="517" height="217" alt="4" src="https://github.com/user-attachments/assets/dd513146-7018-4ce2-aa6c-f927756a29c7" /><br>
+  
+
+### 2026/02/19 v6.138.0
+### litaChix Update
+- Improved the performance of the saving process.
+- Added the "Convert to drawing color" filter.  
+  This allows you to instantly change line colors to the currently selected color in the color picker.  
+  For example, if you drew with black but want to switch the lines to a blue sketch color, this filter is useful.  
+  (In practice, it changes the color of all opaque areas, not only the lines.)
+
+
+### 2026/02/17 v6.137.2
+
+### litaChix Updates
+- Optimized and improved the processing speed for the non-Web Worker version.
+
+
+### 2026/02/16 v6.137.1
+
+### litaChix Updates
+#### Avoidance of saving issues in certain environments
+- Addressed an issue where **the Web Worker in litaChix** (added in v6.133.0) could be blocked by server settings, security software, or ad blockers, preventing users from posting.
+- Switched from using **Web Worker** to an alternative fflate function to ensure smooth drawing during auto-save.
+
+
+### 2026/02/15 v6.136.3
+
+### litaChix Updates
+- Fixed an issue where posting from the **File menu** was not working.
+  (Posting from the floppy disk icon was still functioning correctly.)
+
+
+### 2026/02/14 v6.136.2
+
+### litaChix Updates
+- Adjusted the low-pass filter for pen pressure.
+- The filter is no longer applied at the start of a stroke to prevent lines from becoming too thin.
+
+
+### 2026/02/12 v6.136.1
+
+### litaChix Updates
+- Adjusted the low-pass filter for pen pressure.
+
+
+### 2026/02/12 v6.136.0
+
+### litaChix Update
+- Fixed an issue where pinch-zoom TouchEvents were still being listened to while drawing, causing input lag.
+- Although pinch-zoom is restricted to Pan and Rotation modes, the background event processing has now been correctly disabled during drawing to ensure smooth performance.
+
+### Fixed Emoji Validation Issue
+- Fixed a bug where the Zalgo text filter introduced in v6.129.1 incorrectly blocked valid emoji characters.
+
+### 2026/02/11 v6.135.0
+
+### litaChix Update
+- Changed the compression level for the layer data file (.chi) from 7 to 6.  
+- This results in a very slight increase in file size, but reduces CPU load during compression and improves processing speed.
+
+### Improved file deletion checks
+- Fixed an issue in the function that checks whether a file exists before deleting it, where an error could still occur when attempting to delete a non-existent file.  
+- Since the is_file() function caches file status, the cache is now cleared before performing the check.
+
+
+### 2026/02/10 v6.133.2
+
+### litaChix Update
+- Fixed an issue where the “backup available” flag could still be saved even if saving the backup to the browser failed.
+- Fixed a case where attempting to load data when no backup existed could result in a fatal error.
+- Made the layer information loading process asynchronous when continuing a drawing, allowing the app to start more smoothly.
+
+
+### 2026/02/09 v6.133.1
+### litaChix Update
+- Autosave drawing lag during compression had been resolved through faster processing and moving compression to a separate thread.  
+  However, a new issue appeared where retrieving layer information caused a delay of up to 200ms.  
+  The affected part of the process has now been made asynchronous to fix this problem.
+
+
+### 2026/02/09 v6.133.0
+
+### litaChix Update
+- Improved autosave performance by switching the data compression library from **pako** to **fflate**.  
+- This update not only increases speed, but also moves the heavy compression process into a Web Worker, separating it into another thread.  
+- As a result, drawing can continue smoothly without being affected by autosave.  
+
+Autosave interruptions had already been reduced to a minimum, but with very large canvases and many layers, there was still a slight delay noticeable enough to tell when autosave was running.  
+This update fundamentally resolves autosave-related lag.
+
+
+### 2026/02/08 v6.132.0
+
+### litaChix Update
+- Adjusted the autosave behavior.  
+- Fixed an issue where autosave could be triggered simultaneously by both the **60-stroke** and **2-minute** conditions.  
+- Autosave will now run after **60 strokes or 2 minutes** have passed since the last autosave.  
+- The autosave counter and timer are reset each time autosave is performed.
+
+### Klecks Update
+- Updated Klecks.
+
+
+
+### 2026/02/06 v6.131.1
+
+### litaChix Update
+#### Improved autosave performance to prevent drawing interruptions
+- Fixed an issue where autosave could cause the pen to feel momentarily unresponsive while drawing.
+
+
+### 2026/02/06 v6.131.0
+
+### litaChix Update
+#### Added an autosave feature to prevent accidental loss of drawings
+- litaChix can now restore your work from an autosave backup if the browser discards the canvas due to a memory saver feature, or if you accidentally close the browser or leave the page.
+
+- Unsaved drawing data is backed up to the browser’s local database (IndexedDB).  
+  Autosave is triggered on the **first stroke after 2 minutes**, or every **60 strokes**.
+
+- When the confirmation dialog **"Unsaved data was detected. Would you like to restore it?"** appears, tap **OK** to restore the backup.  
+  Please note that if you select **Cancel**, the autosaved backup data will be deleted.
+
+- Previously, this automatic backup feature was only available in **PaintBBS NEO** and **AXNOS Paint**.  
+  With this update, all three paint tools — **PaintBBS NEO**, **AXNOS Paint**, and **litaChix** — now support automatic backup to help prevent data loss.
+
+<img width="804" height="366" alt="image" src="https://github.com/user-attachments/assets/623ce504-6f97-4292-98b0-668bc21d538b" /><br>
+
+
+### 2026/02/03 v6.130.0
+
+### litaChix Update
+#### Added a shortcut for changing brush size: CTRL + ALT + Drag
+- A new shortcut, **CTRL + ALT + Drag**, has been added to change brush size.  
+  This shortcut is standard in many common painting tools such as Corel Painter, CLIP STUDIO PAINT, and FireAlpaca.
+- The existing shortcut keys `[` and `]` for changing brush size remain available.
+
+
+### 2026/02/01 v6.129.1
+
+### Improved line quality in litaChix
+- Fixed an issue where brush size became inconsistent due to pen pressure being sampled too sensitively.  
+  A low-pass filter is now applied so that brush size does not change abruptly in response to pressure.
+- Wherever possible, calculations are now performed using floating-point values to prevent extreme, step-like changes caused by integer rounding of brush size.
+
+### Zalgo-style text (Unicode combining characters) countermeasures
+- To prevent layout breakage in the comment area caused by Zalgo-style text (text using Unicode combining characters), such characters have been added to the list of prohibited characters.  
+  However, they can still be entered when using the administrator password.
+
+
+### 2026/01/27 v6.128.3
+
+### AXNOS Paint Update
+- Fixed an issue where the customized version of AXNOS Paint, modified to match POTI-board, did not work correctly on smartphones.
+
+
+### 2026/01/27 v6.128.2
+### litaChix Update
+- Revised the logic for greying out effect menu items when a layer group is selected or while editing a mask.  
+- Effect menus that include the **"Apply to all (create merged layer)"** checkbox are now **operable** even when a layer folder is selected.
+
+
+### 2026/01/26 v6.128.1
+### litaChix Update
+- Fixed an issue where "Mono halftone" and "Mosaic" could be clicked while a layer group was selected, even though these filters are not intended to be usable in that state.
+  When a layer group is selected, these filters are now grayed out and cannot be clicked.
+- In the previous fix for jittery strokes, high-precision pointer events were applied only to brushes of 16px or smaller.  
+- This range has now been expanded to brushes up to 32px, enabling high-precision event handling even with larger brush sizes.
+- Optimized the conditions for processing high-precision pointer events to reduce performance overhead.
+
+
+### 2026/01/23 v6.128.0
+
+### litaChix Update
+<img width="870" height="966" alt="image" src="https://github.com/user-attachments/assets/494f71e1-a117-4906-bf23-a442d316f50c" /><br>
+
+- Added the **Edge** filter, which draws an outline along the boundary between transparent and opaque areas of a layer.  
+  The outline is drawn using the currently selected color in the color picker.
+- Previously, **"Mono halftone"** always produced black dots. It now renders dots using the currently selected color in the color picker.
+- **"Monochromatic noise"** now generates noise using the currently selected color in the color picker.
+- Filters that cannot be used while editing a mask are now grayed out in the Effects menu and cannot be clicked from the start.
+- Fixed an error that occurred when executing **"Clear with texture"** while editing a mask.
+
+
+### 2026/01/21 v6.126.1
+### Lightbox Update
+- Lightbox2 contained code that was deprecated in jQuery 4, so it has been individually modified in this customized version.  
+  This is **not** an official patch from the Lightbox project.
+
+
+### 2026/01/21 v6.126.0
+### Updates to PaintBBS NEO and litaChix
+- The conditions for reducing stroke jitter when moving the pen quickly have been optimized.  
+  Previously, high-precision pointer events were used only when the brush size was 10px or smaller.  
+  This threshold has now been relaxed to **16px or smaller**, allowing jitter to be reduced even when drawing with larger brushes.
+- High-precision pointer events were previously captured even when the cursor was floating and no drawing was occurring.  
+  Since this only increased system load without any benefit, high-precision events are now acquired **only during actual drawing**.
+
+### jQuery Update
+- Updated to **jQuery 4.0.0**, the first major release in about 10 years.  
+  Currently, jQuery is used only for image popup display functionality.
+
+
+### 2026/01/17 v6.125.1
+### PaintBBS NEO and litaChix Update
+#### Fixed an issue where stroke jitter occurred when moving the pen quickly
+- Fixed an issue present in both PaintBBS NEO and litaChix where strokes became jittery when the pen was moved quickly.  
+- When the pen movement was fast, pointer events were insufficient, causing strokes that should be smooth curves to become angular lines.  
+- This issue was resolved by adding a process to restore pointer events that were thinned out by the browser.  
+- However, processing a larger number of events with thick brushes increases device load and can lead to performance issues.  
+- Therefore, additional pen movement events are now captured only for brushes of **10px or less**, which are necessary to ensure line quality.  
+- For brush sizes of **11px or more**, the behavior remains the same as before.
+
+<img width="500" height="500" alt="oekaki_2026_01_17_06_44_30" src="https://github.com/user-attachments/assets/c67b09ec-1db0-4470-9cf6-5c9626578e07" /><br>
+↑  
+Before the fix. Curved strokes show jitter, resulting in unintended angular segments.
+
+<img width="500" height="500" alt="oekaki_2026_01_17_06_44_20" src="https://github.com/user-attachments/assets/7ae4a500-6e9e-40bb-b10b-7df930130b83" /><br>
+↑  
+After the fix. Curves are rendered correctly.
+
+
+### 2026/01/15 v6.123.8
+
+### litaChix Update
+- Fixed an issue where Chrome’s split view (tab tiling) could open unintentionally when long-pressing items in the color set or menu.
+- This is more of a bulletin board feature update than a paint tool update, but it is now possible to load the color swatches of a previously created color set when continuing a drawing.  
+  This allows color set swatches to be carried over to the “continue drawing” screen.
+
+### Preserve JPEG Format for JPEG Attachments
+- During metadata removal, uploaded images were previously converted to WebP format, but images that were originally in JPEG format are now saved as JPEG.  
+ 
+### Minor Bug Fixes
+- Fixed an issue where JPEG images with Exif rotation data could be saved in PNG format.
+
+### 2026/01/04 v6.121.2
+### Reduced the risk of publishing photos containing location data
+#### More thorough removal of location information (such as data included in Exif)
+
+- Photos taken with smartphones may contain location information (GPS data).  
+  This includes photos of illustrations taken at home, not only outdoor photos.
+- Previously, location information was removed only when:
+  the image format was JPEG **and**
+  PHP successfully detected location data,
+  in which case the image was recreated using GD to strip the metadata.
+- Fortunately, with default settings, most smartphone photos exceed 1024px in size,
+  so location data was usually removed automatically during the image resize process.
+- However, location information (GPS data included in Exif, etc.)
+  can also exist in WebP and PNG images.
+- If such images were resized in advance using image viewers like XnView
+  to a size smaller than the board’s resize threshold,
+  PHP’s resize process was not triggered,
+  and the images were uploaded as-is.
+- PHP cannot detect the presence of location information
+  in PNG and WebP image files,
+  so the location check process did not function correctly.
+- Therefore, regardless of whether location data is detected,
+  images are now recreated and overwritten using GD.
+  This removes Exif and other location information from **all uploaded images**.
+- However, GD may not function in some environments,
+  so please ensure in advance that your camera settings
+  and image metadata are configured to avoid publishing location information.
+- Under typical rental server environments,
+  images recreated by GD should always be overwritten
+  and location information should not remain.
+  However, since it is impossible to guarantee the absence of bugs,
+  it cannot be guaranteed that location information is removed 100% of the time.  
+  Please exercise sufficient caution.
+
+
+### 2025/12/31 v6.120.0
+### litaChix Update
+
+<img width="880" height="848" alt="image" src="https://github.com/user-attachments/assets/4b9d55ff-e088-4aa8-8c1b-54060a894333" /><br>
+
+- Added Color Halftone Filter and Monochrome Halftone Filter.
+- The background of generated tone dots is transparent by design.
+  This allows the dots to be recolored using clipping layers.
+- Example workflow:
+  Fill the area around a character with gray, apply a blur filter,
+  convert it to dots using the Monochrome Halftone Filter,
+  then apply a clipping layer to add color.
+  This makes it possible to use the dots as red, blue, or other colored tones.
+- When the Color Halftone Filter is applied using **"Apply to all (create merged layer)"**,
+  the resulting layer is automatically set to Multiply.
+
+
+### 2025/12/19 v6.118.0
+### litaChix Update
+- Added a Mosaic (Pixelate) filter.
+
+<img width="1180" height="628" alt="image" src="https://github.com/user-attachments/assets/c080c93d-28a4-44d6-938d-44e06955170d" /><br>
+
+
+
+### 2025/12/11 v6.116.1
+### litaChix Update
+#### Improved drawing quality for brush types other than "ROUND Hard Edge"
+- Updated litaChix to improve stroke quality for all brush types **except** **ROUND Hard Edge**, which did not have this issue.  
+Previously, when using brushes such as **ROUND Soft**, thin strokes could fail to draw in some areas depending on pen pressure, resulting in broken or inconsistent lines.  
+There were also cases where the stroke suddenly became thicker.  
+These issues have been corrected so that lines no longer break and thickness changes no longer occur abruptly.
+
+#### Adjusted effective opacity when using the Pen tool with the opacity slider set to 255
+- When using the **Pen** tool, the actual opacity was too light even when the UI slider was set to its maximum value (255).  
+The opacity value shown in the UI (0–255) is not used directly in rendering.  
+Internally, the brush engine applies its own scaling and conversion, meaning the internal opacity range is effectively different from the UI range.
+
+Using the absolute internal maximum opacity would degrade anti-aliasing quality.  
+Therefore, the opacity curve for the internal range of **131–255** has been adjusted so that the resulting stroke opacity matches the typical behavior of common painting tools, based on sampled color values from those applications.
+
+
+### 2025/12/07 v6.115.1
+### Major Bug Fix in litaChix
+- In v6.115.0, the smoothing quality during zoom-out was set to “high,” but this caused a significant slowdown in drawing performance in litaChix, resulting in noticeable input lag.  
+  The settings have now been reverted to the previous configuration to eliminate the drawing delay.
+
+
+### 2025/12/06 v6.115.0
+### litaChix Update
+- Fullscreen mode has been added. Similar to fullscreen video playback, the painting screen can now be displayed in fullscreen.  
+  Tap the fullscreen icon to enter fullscreen mode. Tap the icon again to exit fullscreen mode.  
+  You can also exit fullscreen by pressing the ESC key.
+
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/622af6bc-9e10-4c2a-86d6-950ae8609a6f" /><br>
+
+- Fixed an issue where the top and bottom padding of the menu bar was too large, preventing efficient use of screen space.  
+
+
+### 2025/12/03 v6.113.1
+### "litaChix" Update
+- The SVG icon weight for “Clear,” “Fill,” “Transform,” and “Deselect” was reduced from 600 to 500, as the icons were previously too bold.  
+- The top palette toggle button and the “Clear,” “Fill,” “Transform,” and “Deselect” icons are now consistently aligned to the right.
+   
+<img width="965" height="808" alt="image" src="https://github.com/user-attachments/assets/18321ffb-fc89-4b3c-8cbe-ea00d78f5cbe" />
+  
+
+### 2025/12/02 v6.113.0
+### Major Update for "litaChix"
+- It is now easier to see when a selection is active.  
+  Previously, even if a selection was active, only a dashed outline was displayed.  
+  Very small selections could cause issues such as "cannot fill" or "cannot draw."
+
+<img width="677" height="719" alt="image" src="https://github.com/user-attachments/assets/b97f547a-d2bc-4f2e-9652-19630f919d52" /><br>
+
+- To address this, the area outside the selection is now shaded with a semi-transparent gray to clearly indicate that drawing is not allowed there.  
+  When a selection is active, the "Deselect Icon" is displayed in blue, and the "Deselect Button" has a blue border.  
+  This makes it easy to visually confirm when a selection is active.
+
+- "Clear," "Fill," "Transform," and "Deselect" icons have been added to the top bar.
+
+<img width="163" height="71" alt="image" src="https://github.com/user-attachments/assets/20f7ebe6-8816-4526-8773-71a52c5fb0c6" /><br>
+
+  This allows frequently used actions to be performed quickly.  
+  These are auxiliary UI elements that are not displayed on small-screen devices such as smartphones.
+
+### Updated Files
+- axnos/  Overwritten and updated directory  
+- chickenpaint/  Overwritten and updated directory  
+- potiboard.php
+
+### 2025/11/28 v6.112.2
+### "litaChit" has been renamed to "litaChix"
+- Although it has only been a week since the renaming from "ChickenPaint Be," it has already been renamed to "Chix" (a stylized plural form of "chick").  
+- The naming follows this progression: "Chicken" → "Chicks" → and then stylized as "Chix."
+
+### Zoom-out support added in PaintBBS NEO
+- Previously, pressing the "-" (minus) button would not allow zooming below 1×. With this update, users can now zoom out to 0.5× and 0.2×.  
+- This makes it possible to work on extremely large canvases and allows viewing the entire canvas on small screens, such as smartphones.
+
+### Video playback controls in PaintBBS NEO now appear at the top
+- When playing very large videos or on small screens, the playback controls are now displayed at the top instead of the bottom.  
+- The controls are only moved to the top if the browser's viewport height is insufficient.  
+- This enables easier zooming out with the "-" button and rewinding during playback of large videos.
+
+<img width="365" height="265" alt="image" src="https://github.com/user-attachments/assets/2d31271b-e3b1-4146-bf56-1272f56dba7e" /><br>
+  
+
+### 2025/11/20 v6.111.2
+### "ChickenPaint Be" Renamed to "litaChit"
+- The modified version of ChickenPaint by satopian, formerly known as "ChickenPaint Be," has been renamed to "litaChit."
+- Some configuration variables still use the name "chickenpaint," and the main file remains "chickenpaint.js," maintaining high compatibility with the original ChickenPaint.
+- Only the brand name has changed.
+- "litaChit" is a coined term combining "lita" (Swedish for "small") and "Chit" (slip, note, or piece of paper).
+
+- With this update, the behavior when downloading images from the file menu has changed. Previously, PNG images, the native CHI format, and color swatches in ACO format were downloaded consecutively. Now, you can either save only the image or save all items together as a ZIP file.
+  
+<img width="363" height="197" alt="image" src="https://github.com/user-attachments/assets/7a6b2952-f200-4e60-b096-b1902ac9ccac" /><br>
+  
+
+### 2025/11/03 v6.107.0
+### Klecks Update
+- Updated Klecks to the latest version.  
+The selection tool now allows direct transform operations.  
+
+### 2025/10/31 v6.105.0
+### Preview Attached Images Before Posting
+- When selecting an image file, the selected image is now displayed as a preview.  
+
+<img width="596" height="538" alt="image" src="https://github.com/user-attachments/assets/4f7c0d99-2574-419e-a10e-b7bdd8a23c01" /><br>
+
+This allows users to clearly see which image has been selected before submitting a post.  
+
+### Update Related to Twitter Domain Change
+- Updated internal references from “twitter.com” to “x.com.”  
+Although “twitter.com” was redirecting to “x.com,” the service is now being unified under “x.com.”  
+If the old domain remains in internal processing, the “Share on SNS” feature will no longer be able to share posts to X.  
+
+
+### 2025/10/22 v6.102.1  
+### ChickenPaint Be Update
+- Fixed an issue where the confirm transform dialog sometimes failed to close when the button was pressed.  
+- When in canvas rotation mode, the cursor now displays as "grab," the same as the hand tool.  
+
+
+### 2025/10/19 v6.102.0  
+### ChickenPaint Be Update  
+### Mobile mode and PC mode can now be switched with a toggle button
+
+- Previously, mobile mode was only enabled when both the screen size was small and multi-touch input was detected.  
+  However, there are times when users want to maximize the drawing area even while working on a PC.  
+  To address this, pressing the Mobile Mode button now switches to mobile mode even when working on a PC.  
+- Additionally, on tablet devices and similar environments, when the application launched in mobile mode, it could only be used in that mode. Now, users can switch to PC mode as well.  
+- The Mobile Mode and PC Mode buttons replace each other each time they are pressed.
+
+![2025_10_13_001_ChickenPaint_Be_Mode_Switch](https://github.com/user-attachments/assets/447b580e-f2fb-4315-8891-1af01d356626)
+
+### Fixed an Issue Preventing Posts from Shi-Painter Launched via Java Applet in Pale Moon
+
+A problem was fixed where posting failed when using Shi-Painter with the Oracle Java plugin on Pale Moon (a browser that supports Java plugins, e.g., from The Pale Moon Project).  
+The cause was a misinterpretation of how data is sent from Java.
+
+Posting from Shi-Painter launched with Chrome + CheerpJ had no issues, because in that case the data was transmitted as JavaScript.
+
+
+### 2025/10/13 v6.101.5
+### ChickenPaint Be Bug Fixes
+Following reports that the layer palette in ChickenPaint could not be resized, an investigation identified the following issues:
+
+- Misaligned coordinates
+- On smartphones, tablets, and Windows Ink devices, touch-move events were conflicting with pen input, causing event cancellation
+
+These two issues have been fixed, allowing users to resize the layer palette (shrink and expand) without problems.
+
+![Layer palette resizing in ChickenPaint Be](https://github.com/user-attachments/assets/f05d46ff-9364-4225-b424-4a7e2803df05)
+
+
+### 2025/10/11 v6.101.3
+#### PaintBBS NEO Update
+- Fixed an issue where the application malfunctioned when a domain name contained the domain name of a specific site.
+
+
+### 2025/10/07 v6.101.2
+### ChickenPaint Be Update
+#### Improved Chromatic Aberration Filter Behavior
+<img width="507" height="270" alt="image" src="https://github.com/user-attachments/assets/e4e3a82b-6a93-42b1-8d71-80674edbd691" /><br>
+- To make it clearer that a **merged layer** will be automatically added, the checkbox label has been changed to **Apply to all (create merged layer)**.  
+- In the previous version, the label was **Current layer only**, but with this update, the meaning of the checkbox has been reversed.
+
+
+### 2025/10/06 v6.101.1
+### ChickenPaint Be Update
+#### Improved Chromatic Aberration Filter Behavior
+<img width="509" height="269" alt="image" src="https://github.com/user-attachments/assets/b576b207-be09-44f5-99ef-8628348c8d9b" /><br>
+- Checking **Current layer only** makes the filter behave the same as in v6.101.0.  
+  When unchecked, **Add merged layer** is automatically performed: a merged layer of all visible layers is added, and the Chromatic Aberration filter is applied to that merged layer.  
+  Previously, you had to manually choose **Add merged layer** or **Merge all layers** in most cases.  
+  This process is now automated.
+
+
+### 2025/10/04 v6.101.0
+### ChickenPaint Be Update
+#### Added Chromatic Aberration (RGB Offset) Filter
+- Implemented a **Chromatic Aberration (RGB Offset)** filter.
+- Since the effect does not offset colors on transparent areas, you will need to **Merge All Layers** or use **Add Merged Layer** to combine all visible layers before applying the filter.
+
+##### Example
+<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/ec766e06-e037-4c8b-98a8-b51aa17e66ce" />
+
+
+### 2025/09/25 v6.100.1
+- A problem was found with ChickenPaint Be's "Pick up underlying" (blend with layers below) feature, so its behavior has been reverted to the previous "Sample all layers" (blend all layers) functionality.
+
+
+### 2025/09/24 v6.99.1
+### ChickenPaint Be Update
+#### Renamed "Sample all layers" to "Pick up underlying" and updated its behavior
+- The behavior of the "Sample all layers" checkbox in the layer palette has been changed and the label has been updated to "Pick up underlying".  
+  Previously, checking "Sample all layers" would mix colors from a merged image of all layers.  
+  However, when the line art was black, using this function would also mix the black lines into the painting.  
+  As a result, it was effectively unusable for coloring line art.  
+
+- The new "Pick up underlying" feature limits color sampling to the current layer and the layers below it, excluding layers above the current layer from mixing.  
+  By not picking up colors from layers above, it works correctly when coloring line art.  
+  For example, if you want to paint only the blush on a face on a layer above but blend it naturally with the skin color on the layer below, this option is effective.  
+  This option is only active when using mixing brushes, such as watercolor brushes or the smudge tool, that blend colors while painting.  
+
+<img width="241" height="382" alt="image" src="https://github.com/user-attachments/assets/7f5b51ec-564c-49de-baf3-33a9dd10ec29" />
+
+
+### 2025/09/22 v6.98.1
+### ChickenPaint Be Update
+
+- Improved the opacity adjustment slider.  
+  Previously, when using the watercolor brush, opacity levels 1–7 produced no visible paint, and color only started appearing at level 8.  
+  This has been remapped so that paint is visible starting from opacity level 1.  
+  In addition, the slider response at lower opacity levels has been made more gradual, allowing finer control when working with low opacity settings.  
+
+
+### 2025/09/20 v6.98.0
+### ChickenPaint Be Update
+#### Fixed Watercolor Brush White/Black Artifacts
+- Transparent areas no longer mix with hidden white or black pixels.
+
+- Previously, when using the watercolor brush, unintended white could surface and appear visible, or black could surface and make colors unnaturally darker.  
+  This happened because seemingly transparent regions in a layer actually contained white or black pixels, which would blend when using mixing brushes.  
+  As a result, when clipping to a lower layer and painting with the watercolor brush, unintended white could surface.  
+  To fix this, blending is now skipped in transparent regions, and only the selected brush color is applied.  
+
+- Blending behavior in opaque areas remains unchanged.  
+
+#### Paint Only Within Selection
+- When a selection is active, brush strokes are now restricted to within the selection area.  
+  Previously, brush strokes would apply across the entire canvas regardless of selection.  
+
+
+### 2025/09/18 v6.97.0
+
+### ChickenPaint Be Update
+- Fixed a bug where **grayscale Flood Fill** did not work correctly when applied to a mask.  
+
+### Same-Origin Check with `$_SERVER['HTTP_SEC_FETCH_SITE']`
+- Previously, the origin and host name were compared, and a mismatch would result in a same-origin check error.  
+  However, this caused cases where legitimate users were rejected.  
+  To address this, when `$_SERVER['HTTP_SEC_FETCH_SITE']` returns `same-site`, the same-origin check will now be allowed to pass.  
+  [Sec-Fetch-Site header - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site)  
+
+
+### 2025/09/17 v6.96.6
+#### Flood Fill Improvements
+- In ChickenPaint Be, flood fill can now reference other layers.  
+  You can separate the line art layer and the fill layer.  
+  Previously, filling areas was limited to the same layer, but with **Sample All Layers** checked, the fill area is determined using a merged image of all layers.
+- Added **Grow Fill Area** to allow filling anti-aliased edges.
+- Flood fill opacity can now be adjusted.
+- Semi-transparent colors can now be used with flood fill.
+
+#### Additional Fix (v6.96.6)
+- Fixed a bug where the **Flood Fill** opacity setting was not applied to **Grow Fill Area**.  
+
+<img width="209" height="260" alt="image" src="https://github.com/user-attachments/assets/e31ea61e-ec3f-40f1-82ef-8e53728ae852" />
+
+
+### 2025/09/16 v6.96.3
+### ChickenPaint Be Update
+#### Texture Fill
+- When a texture is selected, you can now fill the selection area with that texture.  
+
+https://github.com/user-attachments/assets/ddf63802-8a32-4acf-92b2-8fcab09503c9  
+
+- Added **Clear with Texture** to the "Effects" menu, allowing you to erase using the selected texture.  
+
+#### Bug Fixes
+- Recently, it became possible to move layers using the arrow keys (← ↓ ↑ →).  
+  However, when entering values in the blur adjustment modal, layers could unintentionally move.  
+  This has been fixed by disabling arrow key movement while a modal is open.  
+
+
+### 2025/09/11 v6.96.0
+### ChickenPaint Be Update
+- Added texture scaling support.  
+  (You can now adjust the scale with a slider.)
+
+https://github.com/user-attachments/assets/0e619262-2e24-49db-8882-dccf7fcb48bb
+
+### Related Videos
+- [ChickenPaint Be New Feature: Flip Horizontal Display - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+- [ChickenPaint Be New Feature: Improved Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)  
+- [ChickenPaint Be New Feature: Selection Panel & Zoom/Rotate Panel - YouTube](https://www.youtube.com/watch?v=0fipzBPHCRk)  
+
+
+### 2025/09/09 v6.95.2
+### ChickenPaint Be Update
+- Added support for multibyte characters in ChickenPaint Be layer names.  
+Previously, entering non-alphanumeric characters would cause text corruption when resuming work.  
+Now, layer names fully support multiple languages and even emojis.  
+  
+<img width="242" height="382" alt="image" src="https://github.com/user-attachments/assets/d9074fe7-08d5-4828-87db-47cc9ec077ee" /><br>
+
+### Improved "Copy the poster name" Feature
+- Improved the "Copy the poster name" feature so that HTML special characters, which were previously converted into full-width characters, are now safely copied into the comment field as half-width characters.
+
+
+### 2025/09/07 v6.93.2
+### Tested with PHP 8.5 Beta 2
+- Verified compatibility with the upcoming PHP 8.5 (scheduled for release in November).  
+No errors or warnings occurred during testing.  
+
+### Reduced Wait Time from 1.2s to 0.8s
+- Reduced the wait time before buttons become clickable from 1.2 seconds to 0.8 seconds.  
+This wait was originally introduced as a bot prevention measure, but at 1.2 seconds even human users frequently encountered the “Please wait” error message.  
+The shorter 0.8s delay solves this issue while maintaining bot protection.  
+
+### Fixed Space Characters Displaying as `+` in SNS Sharing
+- Fixed an issue where sharing to SNS (e.g., Threads on mobile) converted spaces into the `+` character.  
+The URL encoding process has been updated so that spaces are no longer converted into `+`.  
+
+
+### 2025/09/02 v6.92.5
+### ChickenPaint Be Update
+#### Bug Fixes
+- Fixed an issue where the brightness/contrast sliders for textures were not working correctly.  
+
+<img width="535" height="233" alt="image" src="https://github.com/user-attachments/assets/76e36f3b-ca55-4a54-a0aa-b139d68dd753" />
+
+
+### Related Videos
+- [ChickenPaint Be New Feature: Flip Horizontal Display - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+- [ChickenPaint Be New Feature: Improved Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)  
+- [ChickenPaint Be New Feature: Selection Panel & Zoom/Rotate Panel - YouTube](https://www.youtube.com/watch?v=0fipzBPHCRk)  
+
+
+### 2025/09/02 v6.92.2
+### ChickenPaint Be Update
+- Added icons to the buttons in the Tool Options palette.  
+- Adjusted the background color of the Light button to match the gray used for inactive layers.  
+
+<img width="211" height="259" alt="image" src="https://github.com/user-attachments/assets/7e07c1c6-40d8-4900-ac09-da6a4fe4e2e3" />
+
+### Related Videos
+- [ChickenPaint Be New Feature: Flip Horizontal Display - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+- [ChickenPaint Be New Feature: Improved Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)  
+- [ChickenPaint Be New Feature: Selection Panel & Zoom/Rotate Panel - YouTube](https://www.youtube.com/watch?v=0fipzBPHCRk)  
+
+
+### 2025/08/29 v6.92.1
+### ChickenPaint Be Update
+- Fixed an issue where setting the rotation angle slider to 180 degrees caused the canvas angle to alternate between +180° and -180°, resulting in flickering.  
+
+<img width="214" height="262" alt="image" src="https://github.com/user-attachments/assets/ee4a9d29-a99b-442f-a1c7-de5c87b36de4" />
+
+
+### 2025/08/24 v6.90.3
+### ChickenPaint Be Update
+- Adjusted button colors.  
+
+<img width="461" height="391" alt="image" src="https://github.com/user-attachments/assets/5cf045bf-8eb1-4c32-9857-f7f5776c81e4" />
+
+
+### 2025/08/20 v6.90.0
+- Changed the conditions for clearing GPS information.  
+  Previously, GPS data was cleared only if **both latitude and longitude were present**.  
+  Now, GPS data will be cleared if **either latitude or longitude is present**.  
+  Normally, GPS data with only latitude or only longitude should not exist, but this change ensures that such incomplete data is also removed in case of corruption.
+
+
+### 2025/08/20 v6.89.5
+### ChickenPaint Be Update
+#### Added "Zoom and Rotate" to the Tool Options Palette
+- The "Zoom and Rotate" panel has been added to the Tool Options Palette.
+  It is displayed when using the Hand Tool, Rotate Tool, or when pressing the Space key.
+- You can adjust zoom and canvas rotation using the sliders.
+- Pressing the "Reset View" button resets all of the following: **Zoom**, **Rotation**, and **Flip View Horizontally**.
+
+<img width="208" height="259" alt="image" src="https://github.com/user-attachments/assets/2f50e80f-0758-4280-be71-39368261110c" /><br>
+
+[ChickenPaint Be New Feature: Flip View Horizontally - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+
+### 2025/08/17 v6.88.3
+### ChickenPaint Be Update
+- When using the selection tool, a **Constrain** checkbox is now displayed.
+- The **Transform** button is now highlighted in blue.
+- Pressing the **Enter** key applies the transformation.
+
+<img width="211" height="261" alt="image" src="https://github.com/user-attachments/assets/b33fa63c-3b74-4972-bbf5-b3ae0014074c" /><br>
+
+[ChickenPaint Be New Feature: Flip View Horizontally - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+### 2025/08/16 v6.88.2
+### ChickenPaint Be Update
+- A "Constrain Proportions" checkbox is now displayed during transform operations.  
+
+<img width="219" height="267" alt="image" src="https://github.com/user-attachments/assets/ebf4c33e-16cc-4d1e-ad6f-40a27813fbd8" /><br>
+
+[ChickenPaint Be New Feature: Flip View Horizontally - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+### 2025/08/16 v6.88.1
+### ChickenPaint Be Update
+#### Workflow Improvements
+- When using the Rectangular Selection Tool or the Move Tool, the Tool Options palette now displays **Select All**, **Deselect**, and **Transform** buttons.
+
+<img width="411" height="312" alt="image" src="https://github.com/user-attachments/assets/88bf8d10-387e-4f51-87cf-784dc415dcb7" />
+
+
+### 2025/08/14 v6.87.1
+### ChickenPaint Be Update
+- Fixed a bug where, when performing a transformation while the view was flipped horizontally, the rotation direction of the object was opposite to the pen’s rotation direction.
+- Fixed a bug where, when the view was flipped horizontally, moving the object with the ← ↓ ↑ → arrow keys caused left and right movements to be reversed.
+
+[ChickenPaint Be New Feature: Flip View Horizontally - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+
+### 2025/08/13 v6.87.0
+### ChickenPaint Be Update
+#### Added "Flip View Horizontally" Feature for Dramatically Improved Workflow
+- Updated ChickenPaint Be.  
+- Previously, flipping the entire image horizontally required flipping each layer one by one.  
+  For example, with 50 layers, you had to flip all 50 layers individually.  
+- The newly added **"Flip View Horizontally"** feature flips the display of all layers at once.  
+- Since this is a *view-only* flip, it does not alter the actual image and is not recorded in the undo history.  
+- When the flip button has a red border, the view is in flipped state.  
+- Be careful not to mistake the flipped view as the correct orientation, as this could lead to posting a flipped image.  
+
+- This newly added "Flip View Horizontally" feature is commonly used in many painting tools.  
+
+[ChickenPaint Be New Feature: Flip View Horizontally - YouTube](https://www.youtube.com/watch?v=ATRIBAJKq5c)  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+
+
+### 2025/08/10 v6.86.7
+### Fixed Bugs in ChickenPaint Be
+- Fixed an issue where, during a transform operation, pressing the space key to enter temporary pan mode (move canvas) caused the cursor to flicker by switching back and forth every time the pen or mouse was moved.  
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+
+### 2025/08/09 v6.86.6
+### Fixed Bugs in ChickenPaint Be
+- Fixed an issue where, after entering zoom mode with [CTRL + Space] and dragging the pen left or right, the cursor would incorrectly switch to the pan (move canvas) cursor even while zooming.  
+  This was less noticeable in Chrome, where the cursor disappears while pressing with the pen, but in Firefox, Edge, or when using a mouse, the cursor remained visible and did not match the active mode.  
+- Fixed a flickering issue when the Move Tool was selected, and space was pressed to enter pan mode: moving the pen caused the cursor to alternate rapidly between the Move Tool cursor and the Pan cursor.  
+- Fixed an issue where, after entering zoom mode with [CTRL + Space] and releasing the CTRL key, the cursor did not revert to the pan-enabled cursor but instead stayed as the "panning in progress" cursor.  
+- Fixed an issue where the Selection Tool would stop working after entering zoom mode with [CTRL + Space].
+
+
+### 2025/08/07 v6.86.5
+### Added Alternative Shortcut Key for Zooming with Pen Drag
+- In v6.86.0, we introduced a zoom feature that allows you to zoom in and out by dragging the pen left or right while holding down [CTRL + Space].  
+However, on macOS, this shortcut is already used by the operating system, making it unavailable for use in the app.  
+To address this, we’ve added an alternative shortcut that enters zoom mode when pressing the [Z] key.
+
+- Dragging the pen left or right while holding [Z] will zoom in or out.  
+- The existing [CTRL + Space] shortcut still works for the same purpose.
+
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)
+
+
+### 2025/08/06 v6.86.3
+### ChickenPaint Be Update
+- Prevented the menu from opening when pressing the ↓ key during a transformation operation.  
+Previously, when entering transform mode via Menu → Edit → Transform, the menu remained focused, causing the ↓ key to open the menu.  
+This update removes the focus from the menu bar when entering transform mode, allowing the ↓ key to be used for moving the selected area during transformation.  
+  
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)  
+  
+
+
+### 2025/08/05 v6.86.1
+
+### ChickenPaint Be Update
+- When the Move tool is selected or during a transformation operation, you can now move the selected area using the arrow keys (← ↓ ↑ →).  
+This allows for movement in 1-pixel increments.  
+  
+[New Features in ChickenPaint Be: Enhanced Zoom and Move - YouTube](https://www.youtube.com/watch?v=PPjAfSb5IYA)  
+  
+
+### 2025/08/02 v6.86.0
+
+### Enhanced Zoom Features in ChickenPaint Be
+
+- Two new continuous zoom features have been added: pinch-to-zoom and zooming via horizontal pen drag.
+- Previously, users could only zoom incrementally using magnifying glass icons (e.g., 1.5x, 0.75x) or continuously via mouse wheel.
+- Since mobile devices like iPads and smartphones do not support mouse wheels, continuous zooming was not available.
+- With the implementation of pinch-to-zoom, users on mobile devices can now smoothly zoom in and out.
+
+#### Pinch-to-Zoom Implemented
+- When the selected tool is "hand" (canvas move) or "rotate", pinch-to-zoom can now be used on touch devices.
+  
+[ChickenPaint Be: Pinch-to-Zoom Demo - YouTube](https://www.youtube.com/shorts/Vj1nf5S9JVA)
+
+#### Zoom with Horizontal Pen Drag
+- While holding down `CTRL + SPACE`, you can enter zoom mode.
+- In zoom mode, dragging left zooms out, and dragging right zooms in. The cursor also changes to indicate zoom mode.
+  
+[ChickenPaint Be: Zoom with Pen Drag Demo - YouTube](https://www.youtube.com/shorts/s8PsKRhqb-Y)
+
+### BladeOne Updated
+
+- Updated the BladeOne template engine to version v4.19.
+
+
+### 2025/07/08 v6.85.0
+
+### PHP 8.5 Compatibility Improvements
+
+- Updated functions and syntax that may be deprecated according to the [PHP RFC for deprecations in PHP 8.5](https://wiki.php.net/rfc/deprecations_php_8_5).  
+  (As of now, these deprecations are still under discussion.)
+
+> Deprecate no-op functions from the resource to object conversion:  
+> Deprecate `imagedestroy()`
+
+- These functions became no-ops in PHP 8.0.  
+  Code was refactored to conditionally support both PHP 7 and PHP 8.5 by branching logic based on the PHP version.
+
+> Language/syntax deprecations:  
+> Deprecate semicolon after `case` in `switch` statement
+
+- Unified `switch` statement syntax by replacing semicolons after `case` with colons.
+
+
+### 2025/07/01 v6.82.0
+
+### ChickenPaint Be Update
+
+- Added a new layer operation menu item to create a merged layer while preserving existing layers.  
+  Previously, using “Merge All Layers” would flatten all layers into one.  
+  The newly added “Add Merged Layer” option creates a new merged layer while keeping all original layers intact.  
+  This is equivalent to the “Merge visible to new layer” feature in Clip Studio Paint.  
+  See:[CLIP STUDIO PAINT Instruction manual - Merge visible to new layer](https://www.clip-studio.com/site/gd_en/csp/userguide/csp_userguide/500_menu/500_menu_layer_merging_copy.htm#:~:text=Select%20%5BLayer%5D%20menu%20)
+
+#### How to Use
+Menu > Layers > Add Merged Layer  
+or use the shortcut key: `Shift + Alt + E`
+
+
+### 2025/06/29 v6.81.3
+
+### Bug Fix
+
+- Fixed an issue where parsing old log entries (from POTI-board versions prior to v6) with `explode()` caused undefined array keys due to **insufficient delimiters**.  
+  This bug was introduced in **v6.80.8** and fixed in **v6.81.3**.
+
+### 2025/06/25 v6.81.2
+
+### Dropped Support for All Versions of Internet Explorer, Including Edge IE Mode
+
+- Due to continued JavaScript updates, it was discovered that posting from Internet Explorer (IE) had become impossible.  
+  While we considered reverting some code to older syntax to restore compatibility,  
+  using outdated browsers poses significant security risks.  
+
+- Shi-Painter now works with Chrome and CheerpJ, even allowing usage on iPhone.  
+  In addition, browsers like [The Pale Moon Project homepage](https://www.palemoon.org/)  
+  still support Java applets with Java plugins, offering alternatives for users.
+
+- As a result, official support for all versions of Internet Explorer, including IE mode in Edge, has been discontinued.  
+
+- This change also allows stricter enforcement of Same-Origin Policy checks,  
+  which were previously limited to maintain IE compatibility.
+
+
+### 2025/06/10 v6.80.1
+### No Drawing Time or Step Restrictions When Uploading PCH from Admin Panel
+
+- Previously, when the following settings were configured in `config.php`:
+  
+  ```php
+  define("SECURITY_CLICK", "60");  
+  define("SECURITY_TIMER", "60");
+  ```
+
+  an alert would appear when trying to post a drawing from the admin panel using an uploaded paint file.  
+  For example: “Please draw more” or “Please draw for another 60 sec”  
+  However, this behavior is not appropriate when administrators upload legacy artworks.
+
+- When uploading `.pch` files (PaintBBS NEO), `.chi` files (ChickenPaint), or `.psd` files (Klecks) from the admin panel,  
+  it's often for reposting previous works.  
+  In these cases, alerts such as “Please draw more” or “Please draw for another 60 sec” were unnecessary and inconvenient.
+
+![20250610_PCHアップロードペイントの時は描画時間の制限を受けない英語版](https://github.com/user-attachments/assets/72e0e54c-44be-4836-aff0-ebcb9d2fad01)
+
+- **With this update**, alerts for short drawing time or low step count are disabled when uploading drawing files via the admin panel.  
+  Regardless of the `SECURITY_CLICK` or `SECURITY_TIMER` settings, uploads will now proceed immediately after loading the canvas.
+
+
+### POTI-board EVO  Release  
+### 2025/06/09 v6.79.2
+### Fixed Bug in Retrieving Values from php.ini
+
+- Fixed a bug where the value of  
+  [`post_max_size`](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)  
+  from `php.ini` was not properly recognized.  
+  Previously, all values were treated as megabytes (MB), regardless of the unit.  
+  For example, `100KB` was incorrectly interpreted as `100MB`.  
+  With this fix, `100MB` is interpreted correctly as `100MB`, and `100KB` is interpreted as `0.09765625MB`.  
+  Because of this, JavaScript on the paint screen now calculates values including decimal points.
+
+- Fixed an issue where PaintBBS NEO would discard animations and Klecks would fail to post  
+  when the value could not be retrieved from `php.ini`.  
+  Previously, if retrieval failed, a value of `0` would be returned and compared against the file size,  
+  causing uploads to fail.  
+  With this fix, if the retrieved value is `0`, it is treated as if no limit was found, and posting is allowed.
+
+- Fixed a PHP error that occurred when users submitted image files that exceeded the limit set in `php.ini`.  
+  JavaScript has been updated to check file sizes on the front end.  
+  The upper limit defined in the `MAX_FILE_SIZE` hidden input is now read and used by JavaScript to validate the upload.  
+  This prevents excessive file sizes like `100MB` from being passed to PHP and causing an error.  
+  Of course, file size validation is also performed on the backend using PHP.
+
+
+### 2025/05/29 v6.77.0
+### Added Option to Reject Posts from Devices with JavaScript Disabled
+
+- Introduced a mechanism to handle posts via JavaScript.  
+  A flag indicating that the post was made via JavaScript is now added,  
+  and posts without this flag can be rejected.  
+  This helps block basic spam bots that cannot process JavaScript.
+
+- Added a new configuration option to `config.php`  
+  that allows the admin to choose whether to reject non-JavaScript submissions.  
+  Enforcing JavaScript-only posts may cause issues with older templates  
+  that do not include the updated JavaScript.
+
+- If the new setting is not present in `config.php`,  
+  both JavaScript and non-JavaScript posts will be accepted by default.
+
+To enable JavaScript-only posting, add the following setting anywhere in `config.php`:
+
+- Also added a script in JavaScript to reject posts from browser automation bots.
+
+### 2025/05/26 v6.76.3
+### Enhanced Bot Protection
+- Measures the time between form display and submit button press. If it's too short, the submission is rejected.  
+- In recent versions, checks were added to block unauthorized posts by verifying if cookies are enabled and ensuring same-origin policies are respected.     
+- While these measures cannot fully prevent spam or brute-force attacks, they are considered effective against bots that attempt to post directly to form fields without using a browser.
+
+### Migrated from Deprecated X-Frame-Options to CSP
+The now-deprecated [X-Frame-Options - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) header (deprecated in December 2024) has been replaced with [Content-Security-Policy (CSP) - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy).  
+This is a necessary feature for preventing clickjacking.  
+However, since some users still want to allow the site to be displayed in a frame, the setting can be configured in `config.php` to either allow or disallow framing.  
+For more information on clickjacking, refer to:  
+[Clickjacking prevention - Security on the web | MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Practical_implementation_guides/Clickjacking)
+By default, embedding the site in a frame is disallowed to avoid clickjacking vulnerabilities that can occur when such embedding is permitted.
+
 ### 2025/04/12 v6.73.2
 ### Made the PaintBBS NEO's Viewer Compatible with Smartphones and Tablets  
 - The timelapse playback controls in PaintBBS NEO’s viewer have been updated for smartphone, tablet, and pen tablet (with Windows Ink enabled) compatibility.  
