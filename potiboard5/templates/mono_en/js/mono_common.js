@@ -1,3 +1,5 @@
+"use strict";
+// @ts-check
 //ブラウザの優先言語が日本語以外の時は英語で表示
 const lang = (
     navigator.languages?.[0] ||
@@ -164,14 +166,14 @@ addEventListener("DOMContentLoaded", () => {
     }
     const preview = document.getElementById("attach_preview");
     const removeAttachmentBtn = document.getElementById(
-        "remove_attachment_btn"
+        "remove_attachment_btn",
     );
     if (removeAttachmentBtn) {
         removeAttachmentBtn.style.cursor = "pointer";
     }
 
     const fileInput = document.querySelector(
-        '#comment_form input[type="file"]'
+        '#comment_form input[type="file"]',
     );
 
     const clear_css_preview = () => {
@@ -216,7 +218,7 @@ addEventListener("DOMContentLoaded", () => {
                     alert(
                         en
                             ? "The file is too large."
-                            : "ファイルサイズが大きすぎます。"
+                            : "ファイルサイズが大きすぎます。",
                     );
                     clear_css_preview();
                     target.value = ""; // 入力をクリア
@@ -254,7 +256,7 @@ addEventListener("DOMContentLoaded", () => {
                                 alert(
                                     en
                                         ? "This file is an unsupported format."
-                                        : "対応していないファイル形式です。"
+                                        : "対応していないファイル形式です。",
                                 );
                                 return;
                             };
@@ -285,7 +287,9 @@ addEventListener("DOMContentLoaded", () => {
             if (form instanceof HTMLFormElement) {
                 const fileInputs = form.querySelectorAll('input[type="file"]');
                 fileInputs.forEach((input) => {
-                    input.value = "";
+                    if (input instanceof HTMLInputElement) {
+                        input.value = "";
+                    }
                 });
             }
         });
@@ -414,7 +418,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 jQuery(function () {
     //Lightbox
+    // @ts-ignore
     if (typeof lightbox !== "undefined") {
+        // @ts-ignore
         lightbox.option({
             alwaysShowNavOnTouchDevices: true,
             disableScrolling: true,
