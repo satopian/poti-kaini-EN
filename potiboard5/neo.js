@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // /** @type {any} */
 var Neo = {};
 
-Neo.version = "1.7.1";
+Neo.version = "1.7.2";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -1141,8 +1141,7 @@ Neo.start = function (isApp = false) {
 
   Neo.isApp = isApp;
   if (Neo.applet) {
-    var name =
-      Neo.applet.getAttribute("name") || Neo.applet.dataset.name || "paintbbs";
+    var name = Neo.applet.getAttribute("name") || "paintbbs";
     Neo.applet.outerHTML = "";
     document[name] = Neo;
 
