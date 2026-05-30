@@ -1,13 +1,26 @@
 "use strict";
 // @ts-check
+
 //ブラウザの優先言語が日本語以外の時は英語で表示
+/**
+ * @type {string}
+ */
+// @ts-ignore
 const lang = (
     navigator.languages?.[0] ||
     navigator.language ||
     ""
 ).toLowerCase();
+/**
+ * @type {boolean}
+ */
+// @ts-ignore
 const en = lang.startsWith("ja") ? false : true;
 
+/**
+ * @description CookieからcolorIdxを取得して、対応するCSSを有効化する
+ * @returns {void}
+ */
 const colorIdx = GetCookie("colorIdx");
 switch (Number(colorIdx)) {
     case 1:
@@ -20,15 +33,22 @@ switch (Number(colorIdx)) {
         document.getElementById("css3")?.removeAttribute("disabled");
         break;
 }
-
+/**
+ * @description 選択されたスタイルをCookieに保存する
+ * @param {HTMLElement} obj
+ */
 function SetCss(obj) {
     if (obj instanceof HTMLSelectElement) {
         const idx = obj.selectedIndex;
-        SetCookie("colorIdx", idx);
+        SetCookie("colorIdx", idx.toString());
         window.location.reload();
     }
 }
-
+/**
+ * @description Cookieから値を取得する
+ * @param {string} key
+ * @returns {string}
+ */
 function GetCookie(key) {
     var tmp = document.cookie + ";";
     var tmp1 = tmp.indexOf(key, 0);
@@ -40,12 +60,19 @@ function GetCookie(key) {
     }
     return "";
 }
-
+/**
+ * @description Cookieに値を保存する
+ * @param {string} key
+ * @param {string} val
+ */
 function SetCookie(key, val) {
     document.cookie =
         key + "=" + encodeURIComponent(val) + ";max-age=31536000;";
 }
-
+/**
+ * @description ページが読み込まれたときに、CookieからcolorIdxを取得して、セレクトメニューの選択状態を更新する
+ * @returns {void}
+ */
 const select_mystyle = document.getElementById("mystyle");
 if (select_mystyle instanceof HTMLSelectElement) {
     select_mystyle.selectedIndex = Number(colorIdx);
@@ -53,7 +80,12 @@ if (select_mystyle instanceof HTMLSelectElement) {
 
 //shareするSNSのserver一覧を開く
 var snsWindow = null; // グローバル変数としてウィンドウオブジェクトを保存する
-
+/**
+ * @description SNSのserver一覧を開く
+ * @param {Event} event
+ * @param {number} width
+ * @param {number} height
+ */
 function open_sns_server_window(event, width = 600, height = 600) {
     event.preventDefault(); // デフォルトのリンクの挙動を中断
 
@@ -63,7 +95,12 @@ function open_sns_server_window(event, width = 600, height = 600) {
         width = 350; // デフォルト値
         height = 400; // デフォルト値
     }
-    var url = event.currentTarget.href;
+    const target = event.currentTarget;
+
+    var url = target instanceof HTMLAnchorElement ? target.href : "";
+    if (!url) {
+        return console.error("failed to get URL from the clicked element.");
+    }
     var windowFeatures = "width=" + width + ",height=" + height; // ウィンドウのサイズを指定
 
     if (snsWindow && !snsWindow.closed) {
@@ -71,17 +108,27 @@ function open_sns_server_window(event, width = 600, height = 600) {
     } else {
         snsWindow = window.open(url, "_blank", windowFeatures); // 新しいウィンドウを開く
     }
-    // ウィンドウがフォーカスを失った時の処理
+    /**
+     * @description ウィンドウがフォーカスを失った時の処理
+     */
     snsWindow.addEventListener("blur", () => {
         if (snsWindow.location.href === url) {
             snsWindow.close(); // URLが変更されていない場合はウィンドウを閉じる
         }
     });
 }
+/**
+ * @description ページが表示されたときに、すべてのsubmitボタンを有効化する
+ * @returns {void}
+ */
 window.addEventListener("pageshow", () => {
     // すべてのsubmitボタンを取得
     const submitButtons = document.querySelectorAll('[type="submit"]');
 
+    /**
+     * @description すべてのsubmitボタンを有効化する
+     * @param {HTMLInputElement} btn
+     */
     submitButtons.forEach(function (btn) {
         if (btn instanceof HTMLInputElement) {
             // ボタンを有効化
@@ -90,7 +137,9 @@ window.addEventListener("pageshow", () => {
     });
 });
 addEventListener("DOMContentLoaded", () => {
-    //URLクエリからresidを取得して指定idへページ内を移動
+    /**
+     * @description URLクエリからresidを取得して指定idへページ内を移動
+     */
     const urlParams = new URLSearchParams(window.location.search);
     const resid = urlParams.get("resid");
     const document_resid = resid ? document.getElementById(resid) : null;
@@ -100,9 +149,14 @@ addEventListener("DOMContentLoaded", () => {
 
     document.documentElement.style.visibility = "visible";
 
-    //JavaScriptによるCookie発行
+    /**
+     * @description JavaScriptによるCookie発行
+     */
     const paintform = document.getElementById("paint_form");
     if (paintform instanceof HTMLFormElement) {
+        /**
+         * @description paint_formのsubmitイベントでCookieを発行、二度押しを防止する
+         */
         paintform.onsubmit = function () {
             const picwInput = paintform.elements.namedItem("picw");
             const pichInput = paintform.elements.namedItem("pich");
@@ -126,6 +180,9 @@ addEventListener("DOMContentLoaded", () => {
     }
     const commentform = document.getElementById("comment_form");
     if (commentform instanceof HTMLFormElement) {
+        /**
+         * @description comment_formのsubmitイベントでCookieを発行、二度押しを防止する
+         */
         commentform.onsubmit = function (e) {
             e.preventDefault(); // フォームのデフォルトの送信を防ぐ
 
@@ -136,6 +193,10 @@ addEventListener("DOMContentLoaded", () => {
                 alert(en ? "The post has been rejected." : "拒絶されました。");
                 return;
             }
+
+            /**
+             * @description Cookie発行
+             */
             const nameInput = commentform.elements.namedItem("name");
             const urlInput = commentform.elements.namedItem("url");
             const pwdInput = commentform.elements.namedItem("pwd");
@@ -155,6 +216,7 @@ addEventListener("DOMContentLoaded", () => {
             hidden.name = "js_submit_flag";
             hidden.value = "1";
             commentform.appendChild(hidden);
+
             const submitButton = commentform.querySelector('[type="submit"]');
             if (submitButton instanceof HTMLInputElement) {
                 // 二度押し防止
@@ -175,14 +237,17 @@ addEventListener("DOMContentLoaded", () => {
     const fileInput = document.querySelector(
         '#comment_form input[type="file"]',
     );
-
+    /**
+     * @description 画像プレビューをクリアする
+     * @returns {void}
+     */
     const clear_css_preview = () => {
         if (preview instanceof HTMLImageElement) {
             preview.src = ""; // メモリ上の画像を表示
             preview.src = ""; // メモリ上の画像を表示
             preview.style.marginTop = "";
             preview.style.marginBottom = "";
-            preview.style.height = ""; //高さ自動調整
+            preview.style.height = ""; //高さのリセット
             preview.style.display = "none"; //非表示
         }
         //選択解除リンクを非表示
@@ -194,7 +259,11 @@ addEventListener("DOMContentLoaded", () => {
             fileInput.style.width = "";
         }
     };
-    // ファイルサイズチェック
+    /**
+     * ファイルサイズチェック
+     * @param {string} formId
+     * @returns {void}
+     */
     const setupFilePreviewAndSizeCheck = (formId) => {
         const form = document.getElementById(formId);
         if (!(form instanceof HTMLFormElement)) return;
@@ -220,8 +289,8 @@ addEventListener("DOMContentLoaded", () => {
                             ? "The file is too large."
                             : "ファイルサイズが大きすぎます。",
                     );
-                    clear_css_preview();
                     target.value = ""; // 入力をクリア
+                    clear_css_preview();
                     return;
                 }
                 // paint_formの時は画像プレビュー表示しない
@@ -245,10 +314,10 @@ addEventListener("DOMContentLoaded", () => {
                             const testImg = new Image();
                             testImg.src = result;
                             testImg.onload = () => {
-                                preview.style.height = "fit-content"; //高さ自動調整
                                 preview.src = result; // メモリ上の画像を表示
                                 preview.style.marginTop = "15px";
                                 preview.style.marginBottom = "8px";
+                                preview.style.height = "fit-content"; //高さ自動調整
                                 preview.style.display = "block"; //表示
                             };
                             testImg.onerror = () => {
@@ -280,6 +349,10 @@ addEventListener("DOMContentLoaded", () => {
         clear_css_preview();
     });
 
+    /**
+     * @description ページが表示されたときに、comment_formとpaint_formのファイル入力をクリアする
+     * @returns {void}
+     */
     window.addEventListener("pageshow", () => {
         const formIds = ["comment_form", "paint_form"];
         formIds.forEach((id) => {
@@ -295,7 +368,9 @@ addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //スマホの時はPC用のメニューを非表示
+    /**
+     * @description スマホの時はPC用のメニューを非表示
+     */
     if (navigator.maxTouchPoints && screen.width < 600) {
         const for_mobile = document.getElementById("for_mobile");
         if (for_mobile) {
@@ -304,6 +379,10 @@ addEventListener("DOMContentLoaded", () => {
     }
     //動画保存するアプリと保存しないアプリの時の表示切り替え
 
+    /**
+     * 動画保存するアプリと保存しないアプリの時の表示切り替え
+     * @param {boolean} usePlayback
+     */
     const toggleHideAnimation = (usePlayback) => {
         const save_playback = document.getElementById("save_playback");
         if (save_playback) {
@@ -311,7 +390,9 @@ addEventListener("DOMContentLoaded", () => {
         }
     };
     const select_app = document.getElementById("select_app");
-    // セレクトメニューの変更イベント
+    /**
+     * @description セレクトメニューの変更イベント
+     */
     if (select_app instanceof HTMLSelectElement) {
         const usePlaybackApps = ["neo", "tegaki", "1", "2"];
 
@@ -325,7 +406,9 @@ addEventListener("DOMContentLoaded", () => {
     }
 });
 
-//スクロールすると出てくるトップに戻るボタン
+/**
+ * @description スクロールすると出てくるトップに戻るボタン
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const pagetop = document.getElementById("page_top");
     let scrollTimeout; // スクロールが停止したタイミングをキャッチするタイマー
@@ -333,6 +416,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return; // pagetopが存在しない場合は処理を終了
     }
     // 初期状態で非表示
+    /**
+     * @type {string}
+     */
     const cssOpacity = getComputedStyle(pagetop).opacity; // CSSから最大opacity取得
     // CSSで設定されているopacityの値を動的に取得（上限として使用）
     const maxOpacity = parseFloat(cssOpacity);
@@ -340,10 +426,19 @@ document.addEventListener("DOMContentLoaded", () => {
     pagetop.style.opacity = "0"; // 初期opacityを0に設定
 
     // フェードイン/フェードアウトを管理する関数
+    /**
+     * フェードイン/フェードアウトを管理する関数
+     * @param {HTMLElement} el
+     * @param {number} to
+     * @param {number} duration
+     */
     const fade = (el, to, duration = 500) => {
-        const startOpacity = parseFloat(el.style.opacity || 0);
+        const startOpacity = parseFloat(el.style.opacity || "0");
         let startTime = performance.now();
-
+        /**
+         * フェード処理のステップ
+         * @param {number} now
+         */
         const fadeStep = (now) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
@@ -386,12 +481,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 200); // 200msの遅延で非表示
     });
 
-    // スムーススクロール
+    /**
+     * スムーススクロール
+     * @param {number} duration
+     */
     const smoothScrollToTop = (duration = 500) => {
         // 0.5秒かけてスクロール
         const start = window.scrollY;
         const startTime = performance.now();
 
+        /**
+         * スムーススクロールのステップ
+         * @param {number} now
+         */
         const scrollStep = (now) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);

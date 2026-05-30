@@ -1,4 +1,5 @@
 "use strict";
+//@ts-check
 
 document.addEventListener("DOMContentLoaded", () => {
   if (Neo.init()) {
@@ -18,10 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 });
 
-/** @type {any} */
+// /** @type {any} */
 var Neo = {};
 
-Neo.version = "1.6.61";
+Neo.version = "1.7.1";
 Neo.painter = null;
 Neo.fullScreen = false;
 Neo.uploaded = false;
@@ -37,13 +38,7 @@ Neo.isAnimation = false;
 Neo.storage = null;
 Neo.elementNeo = null;
 Neo.isPinchZooming = null;
-Neo.touch_move_grid_control = function () {};
-Neo.add_touch_move_grid_control = function () {};
 Neo.updateUI = function () {};
-Neo.translate = function (str) {
-  return str;
-};
-Neo.setStabilizeLevel = function () {};
 Neo.stabilize_level = 1;
 Neo.styleSheet = null;
 Neo.rules = null;
@@ -78,49 +73,93 @@ Neo.SLIDERTYPE_BLUE = 2;
 Neo.SLIDERTYPE_ALPHA = 3;
 Neo.SLIDERTYPE_SIZE = 4;
 
-/** @type {any} */ (document).neo = Neo;
-Neo.init = function () {
-  // 「appletタグ」でかつ「属性に .class か .jar を含む」もの
-  let applets = document.querySelectorAll(
-    'applet[code*=".class" i], applet[archive*=".jar" i]',
-  );
-  if (applets.length == 0) {
-    applets = document.querySelectorAll("applet-dummy");
+/**
+ *  @type {any} *
+ *  @note ライブコネクト
+ */
+(document).neo = Neo;
+
+/**
+ * 起動設定（paramの中身）を抽出する
+ * @param {string} targetName - "paintbbs" | "pch"
+ */
+Neo.extractBootConfig = function (targetName) {
+  // 1. 外部で設定されたObjectの場合
+  if (Neo.param && typeof Neo.param === "object") {
+    return Neo.param[targetName] ? { ...Neo.param[targetName] } : {};
   }
 
+  // 2. DOMの探索（指定された名前を持つ要素を最初に1つ見つける）
+  // targetName が "paintbbs" なら .neo-applet-paintbbs を探す
+  const applet = `applet[name="${targetName}"], applet-dummy[name="${targetName}"], .neo-applet-${targetName}`;
+  const node = document.querySelector(applet);
+
+  if (!node) return {};
+
+  // 3. paramタグの中身だけを抽出
+  const config = {};
+  const params = node.querySelectorAll("param");
+  for (const param of params) {
+    const key = param.getAttribute("name");
+    const val = param.getAttribute("value");
+    if (key) {
+      config[key] = Neo.fixConfig(String(val));
+    }
+  }
+
+  return config;
+};
+
+Neo.init = function () {
+  //appletタグまたはそれに代わるdivタグのID
+  let applets = document.querySelectorAll(
+    "applet,applet-dummy,.neo-applet-paintbbs,.neo-applet-pch",
+  );
+
   for (const applet of applets) {
-    var name = applet.getAttribute("name");
-
-    if (name == "paintbbs" || name == "pch") {
-      Neo.applet = applet;
-
-      if (name == "paintbbs") {
-        Neo.initConfig(applet);
-        Neo.createContainer(applet);
-        Neo.init2();
-      } else {
-        Neo.viewer = true;
-        Neo.initConfig(applet);
-
-        var filename = Neo.getFilename();
-        Neo.getPCH(filename, function (pch) {
-          if (pch) {
-            Neo.createViewer(applet);
-            Neo.config.width = pch.width;
-            Neo.config.height = pch.height;
-            Neo.initViewer(pch);
-            // Neo.initViewer()内へ移動
-            // ボタンが表示される前に再生される事があるため
-            // Neo.startViewer();
+    if (applet instanceof HTMLElement) {
+      let name = applet.getAttribute("name");
+      // name属性がない場合、クラス名から探す
+      if (!name) {
+        for (const className of applet.classList) {
+          if (className.startsWith("neo-applet-")) {
+            name = className.replace("neo-applet-", "");
+            break; // 見つかったら終了
           }
-        });
+        }
       }
-      return true;
+      if (name == "paintbbs" || name == "pch") {
+        // console.log(name);
+
+        Neo.applet = applet;
+
+        if (name == "paintbbs") {
+          Neo.initConfig(applet);
+          Neo.createContainer(applet);
+          Neo.init2();
+        } else {
+          Neo.viewer = true;
+          Neo.initConfig(applet);
+
+          var filename = Neo.getFilename();
+          Neo.getPCH(filename, function (pch) {
+            if (pch) {
+              Neo.createViewer(applet);
+              Neo.config.width = pch.width;
+              Neo.config.height = pch.height;
+              Neo.initViewer(pch);
+              // Neo.initViewer()内へ移動
+              // ボタンが表示される前に再生される事があるため
+              // Neo.startViewer();
+            }
+          });
+        }
+        return true;
+      }
     }
   }
   return false;
 };
-
 Neo.init2 = function () {
   const pageview = document.getElementById("neo-pageView");
   if (!pageview) return;
@@ -207,23 +246,48 @@ Neo.init2 = function () {
     false,
   );
 };
-
+/**
+ * 初期設定
+ */
 Neo.initConfig = function (applet) {
   if (applet) {
-    var appletWidth = applet.attributes.width;
-    var appletHeight = applet.attributes.height;
-    if (appletWidth) Neo.config.applet_width = parseInt(appletWidth.value);
-    if (appletHeight) Neo.config.applet_height = parseInt(appletHeight.value);
-
-    var params = applet.getElementsByTagName("param");
-    for (var i = 0; i < params.length; i++) {
-      var p = params[i];
-      Neo.config[p.name] = Neo.fixConfig(p.value);
-
-      if (p.name == "image_width") Neo.config.width = parseInt(p.value);
-      if (p.name == "image_height") Neo.config.height = parseInt(p.value);
+    var appletWidth = applet.dataset.width || applet.attributes.width.value;
+    var appletHeight = applet.dataset.height || applet.attributes.height.value;
+    if (appletWidth) Neo.config.applet_width = parseInt(appletWidth);
+    if (appletHeight) Neo.config.applet_height = parseInt(appletHeight);
+    let targetName;
+    if (applet instanceof HTMLElement) {
+      targetName = applet.getAttribute("name");
+      // name属性がない場合、クラス名から探す
+      if (!targetName) {
+        for (const className of applet.classList) {
+          if (className.startsWith("neo-applet-")) {
+            targetName = className.replace("neo-applet-", "");
+            break; // 見つかったら終了
+          }
+        }
+      }
+    }
+    if (!targetName) {
+      targetName = "paintbbs";
     }
 
+    // 1. 設定値（paramの代わり）を抽出する
+    const params = Neo.extractBootConfig(targetName);
+
+    // 2. 抽出した設定値をループして Neo.config に反映させる
+    if (params) {
+      for (const key in params) {
+        const value = String(params[key]);
+
+        // 設定値を適用
+        // console.log(value);
+        Neo.config[key] = Neo.fixConfig(value);
+
+        if (key === "image_width") Neo.config.width = parseInt(value);
+        if (key === "image_height") Neo.config.height = parseInt(value);
+      }
+    }
     var emulationMode = Neo.config.neo_emulation_mode || "2.22_8x";
     Neo.config.neo_alt_translation = emulationMode.slice(-1).match(/x/i);
 
@@ -352,6 +416,11 @@ document.addEventListener("DOMContentLoaded", () => {
   Neo.add_touch_move_grid_control();
 });
 
+/**
+ *
+ * @param {string} value
+ * @returns {string}
+ */
 Neo.fixConfig = function (value) {
   // javaでは"#12345"を色として解釈するがjavascriptでは"#012345"に変換しないとだめ
   if (value.match(/^#[0-9a-fA-F]{5}$/)) {
@@ -611,14 +680,35 @@ Neo.initSkin = function () {
   Neo.setToolSide(Neo.toolSide);
 };
 
+/**
+ * 動的にスタイルシートにCSSルールを追加する
+ * @param {string} selector - CSSセレクタ (例: "body", ".paint-canvas")
+ * @param {string} styleName - CSSプロパティ名 (例: "letter-spacing")
+ * @param {string|number} value - 設定する値 (例: "0px !important")
+ * @param {CSSStyleSheet} [sheet] - 対象のスタイルシート（省略時は Neo.styleSheet）
+ */
 Neo.addRule = function (selector, styleName, value, sheet) {
-  if (!sheet) sheet = Neo.styleSheet;
-  if (sheet.addRule) {
-    sheet.addRule(selector, styleName + ":" + value, sheet.rules.length);
-  } else if (sheet.insertRule) {
-    var rule = selector + "{" + styleName + ":" + value + "}";
-    var index = sheet.cssRules.length;
-    sheet.insertRule(rule, index);
+  // 1. 省略時はデフォルトの stylesheet を適用
+  if (!sheet) {
+    sheet = Neo.styleSheet;
+  }
+
+  if (!sheet) {
+    throw new Error("Neo.addRule: Stylesheet is undefined.");
+  }
+  try {
+    if (sheet?.insertRule) {
+      sheet.insertRule(
+        selector + " { " + styleName + ": " + value + "; }",
+        sheet.cssRules.length,
+      );
+    }
+  } catch (e) {
+    // スタイル定義の内容による例外（無視しても動作に影響がない場合が多い）
+    console.error(
+      "Neo.addRule: Failed to insert rule for '" + selector + "'.",
+      e,
+    );
   }
 };
 
@@ -629,33 +719,45 @@ Neo.readStyles = function () {
   }
 };
 
+/**
+ * スタイルシートからカラー設定を読み込んで Neo.rules に格納する
+ * @param {CSSStyleSheet} sheet
+ */
 Neo.readStyle = function (sheet) {
   try {
     var rules = sheet.cssRules;
     for (var i = 0; i < rules.length; i++) {
       var rule = rules[i];
-      if (rule.styleSheet) {
+
+      if (rule instanceof CSSImportRule && rule.styleSheet) {
         Neo.readStyle(rule.styleSheet);
         continue;
       }
 
-      var selector = rule.selectorText;
-      if (selector) {
-        selector = selector.replace(/^(.NEO\s+)?\./, "");
+      if (rule instanceof CSSStyleRule) {
+        var selector = rule.selectorText;
+        if (selector) {
+          selector = selector.replace(/^(.NEO\s+)?\./, "");
 
-        var css = rule.cssText || rule.style.cssText;
-        var result = css.match(/color:\s*(.*)\s*;/);
-        if (result) {
-          var hex = Neo.colorNameToHex(result[1]);
-          if (hex) {
-            Neo.rules[selector] = hex;
+          var css = rule.cssText || rule.style.cssText;
+          var result = css.match(/color:\s*(.*)\s*;/);
+
+          if (result) {
+            var hex = Neo.colorNameToHex(result[1]);
+            if (hex) {
+              Neo.rules[selector] = hex;
+            }
           }
         }
       }
     }
   } catch (e) {}
 };
-
+/**
+ * 指定された設定名に色を適用する
+ * @param {string} name
+ * @param {string} defaultColor
+ */
 Neo.applyStyle = function (name, defaultColor) {
   if (Neo.config[name] == undefined) {
     Neo.config[name] = Neo.rules[name] || defaultColor;
@@ -703,7 +805,12 @@ Neo.backgroundImage = function () {
   ctx.putImageData(imageData, 0, 0);
   return bgCanvas.toDataURL("image/png");
 };
-
+/**
+ * カラーコードに倍率を掛け合わせて、明度を調整したカラーコードを返す
+ * @param {string} c - 16進数のカラーコード
+ * @param {number} scale - 明度の倍率
+ * @returns {string} 変換後の16進数カラーコード
+ */
 Neo.multColor = function (c, scale) {
   const rNum = Math.round(parseInt(c.slice(1, 3), 16) * scale);
   const gNum = Math.round(parseInt(c.slice(3, 5), 16) * scale);
@@ -714,6 +821,11 @@ Neo.multColor = function (c, scale) {
   return "#" + r + g + b;
 };
 
+/**
+ * 色の名前やrgb表記の文字列を16進数のカラーコードに変換する
+ * @param {string} name - 色の名前（"red"等）または "rgb(r,g,b)" 形式の文字列
+ * @returns {string|boolean} 変換後のカラーコード（失敗時は false）
+ */
 Neo.colorNameToHex = function (name) {
   var colors = {
     aliceblue: "#f0f8ff",
@@ -1015,7 +1127,11 @@ Neo.initButtons = function () {
   new Neo.ScrollBarButton().init("neo-scrollV");
 };
 
-Neo.start = function (isApp) {
+/**
+ * @param {boolean} [isApp]
+ * @returns {void}
+ */
+Neo.start = function (isApp = false) {
   if (Neo.viewer) return;
 
   Neo.initSkin();
@@ -1025,7 +1141,8 @@ Neo.start = function (isApp) {
 
   Neo.isApp = isApp;
   if (Neo.applet) {
-    var name = Neo.applet.getAttribute("name") || "paintbbs";
+    var name =
+      Neo.applet.getAttribute("name") || Neo.applet.dataset.name || "paintbbs";
     Neo.applet.outerHTML = "";
     document[name] = Neo;
 
@@ -1033,6 +1150,7 @@ Neo.start = function (isApp) {
     Neo.container.style.visibility = "visible";
 
     if (Neo.isApp) {
+      // @ts-ignore
       var ipc = require("electron").ipcRenderer;
       ipc.sendToHost("neo-status", "ok");
     } else {
@@ -1111,6 +1229,10 @@ Neo.updateUI = function () {
   Neo.updateUIColor(true, false);
 };
 
+/**
+ * @param {boolean} updateSlider
+ * @param {boolean} updateColorTip
+ */
 Neo.updateUIColor = function (updateSlider, updateColorTip) {
   for (var i = 0; i < Neo.toolButtons.length; i++) {
     var toolTip = Neo.toolButtons[i];
@@ -1242,6 +1364,11 @@ Neo.resizeCanvas = function () {
    -----------------------------------------------------------------------
  */
 
+/**
+ * オブジェクトのシャローコピーを作成する
+ * @param {Record<string, any>} src - コピー元のオブジェクト
+ * @returns {Record<string, any>} コピーされた新しいオブジェクト
+ */
 Neo.clone = function (src) {
   var dst = {};
   for (var k in src) {
@@ -1250,6 +1377,13 @@ Neo.clone = function (src) {
   return dst;
 };
 
+/**
+ * 渡された値（サイズ等）を、パケット通信ヘッダー用に「8文字固定」のゼロ埋め文字列に変換する
+ * * @example
+ * Neo.getSizeString(125); // "00000125"（8文字に固定される）
+ * * @param {number|string} len - 変換したいデータサイズ（数値または文字列）
+ * @returns {string} 8文字にゼロパディングされた文字列
+ */
 Neo.getSizeString = function (len) {
   var result = String(len);
   while (result.length < 8) {
@@ -1260,6 +1394,7 @@ Neo.getSizeString = function (len) {
 
 Neo.openURL = function (url) {
   if (Neo.isApp) {
+    // @ts-ignore
     require("electron").shell.openExternal(url);
   } else {
     window.open(url, "_blank");
@@ -1274,6 +1409,13 @@ Neo.getAbsoluteURL = function (board, url) {
   }
 };
 
+/**
+ * 描画されたイラストデータ（および各種サムネイル、動画データ）をサーバーに投稿する
+ * @param {*} board - お絵かき掲示板の設定やコンテキストオブジェクト
+ * @param {Blob} blob - 投稿するメインのイラスト画像データ (PNG等)
+ * @param {Blob|null} thumbnail - 通常のサムネイル画像データ（無い場合は null）
+ * @param {Blob|null} thumbnail2 - アニメーション動画（PCH）データ（無い場合は null）
+ */
 Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   var url = Neo.getAbsoluteURL(board, Neo.config.url_save);
   var headerString = Neo.str_header || "";
@@ -1344,10 +1486,10 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   if (Neo.config.neo_send_with_formdata == "true") {
     formData = new FormData();
     formData.append("header", headerString);
-    formData.append("picture", blob, blob);
+    formData.append("picture", blob, "blob");
     let thumbnail_size = 0;
     if (thumbnail) {
-      formData.append("thumbnail", thumbnail, blob);
+      formData.append("thumbnail", thumbnail, "blob");
       thumbnail_size = thumbnail.size;
     }
     if (thumbnail2) {
@@ -1359,7 +1501,7 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
         Number(Neo.config.neo_max_pch) * 1024 * 1024 >
           headerString.length + blob.size + thumbnail_size + thumbnail2.size
       ) {
-        formData.append("pch", thumbnail2, blob);
+        formData.append("pch", thumbnail2, "blob");
       } else {
         thumbnail2 = null;
       }
@@ -1394,6 +1536,10 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
   var subtype = futaba ? "octet-binary" : "octet-stream"; // 念のため
   var body = new Blob(array, { type: "application/" + subtype });
 
+  /**
+   * @param {string} path
+   * @param {FormData|Blob} data
+   */
   const postData = (path, data) => {
     var errorMessage = path + "\n";
 
@@ -1506,7 +1652,11 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 
   // データ送信処理
   const data = Neo.config.neo_send_with_formdata === "true" ? formData : body;
-  postData(url, data);
+  if (data) {
+    postData(url, data);
+  } else {
+    console.error("failed to post data");
+  }
 };
 
 /*
@@ -1516,8 +1666,8 @@ Neo.submit = function (board, blob, thumbnail, thumbnail2) {
 */
 
 Neo.getColors = function () {
-  console.log("getColors");
-  console.log("defaultColors==", Neo.config.colors.join("\n"));
+  // console.log("getColors");
+  // console.log("defaultColors==", Neo.config.colors.join("\n"));
   var array = [];
   for (var i = 0; i < 14; i++) {
     array.push(Neo.colorTips[i].color);
@@ -1526,6 +1676,10 @@ Neo.getColors = function () {
   //  return Neo.config.colors.join('\n');
 };
 
+/**
+ * パレット全体のカラーを一括で設定し、UIのカラーチップに反映する
+ * @param {string} colors - 改行区切りの16進数カラーコードの文字列（14色分）
+ */
 Neo.setColors = function (colors) {
   // console.log("setColors");
   var array = colors.split("\n");
@@ -1651,6 +1805,11 @@ Neo.createContainer = function (applet) {
   }, 0);
 };
 
+/**
+ * 指定されたCanvas上の画像の形（アルファチャンネル）を維持したまま、指定した単色に置き換える
+ * @param {CanvasRenderingContext2D} ctx - 対象となるCanvasの2Dコンテキスト
+ * @param {string|number} c - 置き換えたい新しい色（カラーコードまたは数値）
+ */
 Neo.tintImage = function (ctx, c) {
   c = Neo.painter.getColor(c) & 0xffffff;
 
@@ -1668,9 +1827,19 @@ Neo.tintImage = function (ctx, c) {
   ctx.putImageData(imageData, 0, 0);
 };
 
-Neo.setToolSide = function (side) {
-  if (side === "left") side = true;
-  if (side === "right") side = false;
+/**
+ * HTML側からの指定に基づきツールの位置を変更する
+ * @param {boolean|string} htmlConfiguredSide - HTMLタグ等で設定された外部からのサイド指定
+ */
+Neo.setToolSide = function (htmlConfiguredSide) {
+  let side;
+  if (htmlConfiguredSide === "left") {
+    side = true;
+  } else if (htmlConfiguredSide === "right") {
+    side = false;
+  } else {
+    side = htmlConfiguredSide;
+  }
   Neo.toolSide = !!side;
 
   if (!Neo.toolSide) {
@@ -1685,9 +1854,14 @@ Neo.setToolSide = function (side) {
     Neo.addRule(".NEO #neo-upper", "padding-right", "20px !important");
   }
 };
-//手ぶれ補正の強さ
-Neo.setStabilizeLevel = function (level) {
-  level = parseInt(level);
+
+/**
+ * 手ぶれ補正の強さ
+ * @param {Number|string} htmlConfig
+ * @note 0-5の範囲 デフォルト1
+ */
+Neo.setStabilizeLevel = function (htmlConfig) {
+  let level = parseInt(String(htmlConfig));
   if (isNaN(level) || level < 0) {
     level = 1; //デフォルトは1
   } else if (level > 5) {
@@ -1705,6 +1879,7 @@ Neo.setStabilizeLevel = function (level) {
 Neo.setStabilizLevel = Neo.setStabilizeLevel;
 
 "use strict";
+//@ts-check
 
 Neo.dictionary = {
   ja: {},
@@ -1915,6 +2090,7 @@ Neo.translate = (function () {
 })();
 
 "use strict";
+//@ts-check
 
 Neo.Painter = class {
   constructor() {
@@ -2097,6 +2273,15 @@ Neo.Painter.TOOLTYPE_ELLIPSEFILL = 23;
 Neo.Painter.TOOLTYPE_BLURRECT = 24;
 Neo.Painter.TOOLTYPE_TURN = 25;
 
+/**
+ * ペインターの描画コンポーネントを初期化して、描画可能な状態にする。
+ * @description
+ * 描画エリア（Canvas）の生成、ツールセットの展開、描画データの初期化を順次行い、
+ * 指定されたHTML要素内に PaintBBS NEO を構築する。
+ * @param {HTMLElement} div - PaintBBSを描画する親コンテナ要素
+ * @param {number|string} width - キャンバスの横幅（ピクセル）
+ * @param {number|string} height - キャンバスの高さ（ピクセル）
+ */
 Neo.Painter.prototype.build = function (div, width, height) {
   this.container = div;
   this._initCanvas(div, width, height);
@@ -2108,6 +2293,15 @@ Neo.Painter.prototype.build = function (div, width, height) {
   this.setTool(this.penTool);
 };
 
+/**
+ * 現在のツールを切り替え、古いツールの終了と新しいツールの初期化を行う。
+ * @description
+ * 1. 現在のツールがあれば状態を保存する。
+ * 2. 特定のツール（テキストやペースト）の終了処理を実行する。
+ * 3. ツールを入れ替え、新しいツールの初期化を行う。
+ * 4. 新しいツールの状態を読み込む。
+ * @param {Object} tool - 新しく設定するツールインスタンス
+ */
 Neo.Painter.prototype.setTool = function (tool) {
   if (this.tool && this.tool.saveStates) this.tool.saveStates();
 
@@ -2126,12 +2320,26 @@ Neo.Painter.prototype.setTool = function (tool) {
   if (this.tool && this.tool.loadStates) this.tool.loadStates();
 };
 
+/**
+ * 現在のツールをスタックに退避し、新しいツールをアクティブにする。
+ * @description
+ * ツールの一時的な切り替えを行う。現在使用中のツールを toolStack に保存し、
+ * 指定されたツールを新しいアクティブツールとして初期化する。
+ * 元のツールに戻る際は popTool を使用することを想定している。
+ * @param {Object} tool - スタックに積んだ後にアクティブにするツールインスタンス
+ */
 Neo.Painter.prototype.pushTool = function (tool) {
   this.toolStack.push(this.tool);
   this.tool = tool;
   tool.init();
 };
 
+/**
+ * 現在のツールを終了し、スタックから以前のツールを復元する。
+ * @description
+ * スタックに退避されていた以前のツールを現在のアクティブツールとして復元する。
+ * 現在のツールに対しては終了処理（kill）を行い、安全に切り替える。
+ */
 Neo.Painter.prototype.popTool = function () {
   var tool = this.tool;
   if (tool && tool.kill) {
@@ -2140,9 +2348,18 @@ Neo.Painter.prototype.popTool = function () {
   this.tool = this.toolStack.pop();
 };
 
+/**
+ * 現在アクティブなツールを取得する。
+ * @description
+ * ツールがスライダー等の設定変更中である場合、スタックの最上位にある
+ * 以前のツール（ペイントツール等）を優先的に返すことで、
+ * 現在の操作文脈を正しく取得する。
+ * @returns {Object|null} 現在のツールインスタンス、またはnull
+ */
 Neo.Painter.prototype.getCurrentTool = function () {
   if (this.tool) {
     var tool = this.tool;
+    // スライダー操作中はスタックから直前のツールを参照する
     if (tool && tool.type == Neo.Painter.TOOLTYPE_SLIDER) {
       var stack = this.toolStack;
       if (stack.length > 0) {
@@ -2153,9 +2370,16 @@ Neo.Painter.prototype.getCurrentTool = function () {
   }
   return null;
 };
+
 Neo.CurrentToolType = 1;
+/**
+ * ツールタイプに基づいてアクティブなツールを切り替える。
+ * @description
+ * ツールタイプ（ID）から対応するインスタンスを特定し、セットする。
+ * @param {number|string} toolType - Neo.Painter.TOOLTYPE_xxx で定義されたツールID
+ */
 Neo.Painter.prototype.setToolByType = function (toolType) {
-  switch (parseInt(toolType)) {
+  switch (parseInt(String(toolType))) {
     case Neo.Painter.TOOLTYPE_PEN:
       this.setTool(this.penTool);
       break;
@@ -2233,14 +2457,26 @@ Neo.Painter.prototype.setToolByType = function (toolType) {
       console.log("unknown toolType " + toolType);
       break;
   }
-  Neo.CurrentToolType = toolType;
+  Neo.CurrentToolType = Number(toolType);
 };
 
+/**
+ * キャンバスの初期化とイベントリスナーの登録を行う。
+ * @description
+ * 1. 描画用キャンバス(canvas)と表示用キャンバス(destCanvas)の生成と設定。
+ * 2. willReadFrequently: true を使用した高速なコンテキスト取得。
+ * 3. 現代のブラウザ環境に最適化したポインターイベントの登録。
+ * 4. coalesceEvents を利用した、高速描画時のポインター追従性の向上。
+ * 5. ページ離脱防止アラートのセットアップ。
+ * @param {HTMLElement} div - 親コンテナ要素
+ * @param {number|string} width - 内部キャンバスの幅
+ * @param {number|string} height - 内部キャンバスの高さ
+ */
 Neo.Painter.prototype._initCanvas = function (div, width, height) {
-  width = parseInt(width);
-  height = parseInt(height);
-  var destWidth = parseInt(div.clientWidth);
-  var destHeight = parseInt(div.clientHeight);
+  width = parseInt(String(width));
+  height = parseInt(String(height));
+  var destWidth = parseInt(String(div.clientWidth));
+  var destHeight = parseInt(String(div.clientHeight));
   this.destWidth = width;
   this.destHeight = height;
 
@@ -2430,6 +2666,14 @@ Neo.Painter.prototype._initToneData = function () {
   }
 };
 
+/**
+ * アルファ値に対応するトーンパターンデータを取得する。
+ * @description
+ * 定義済みの閾値テーブル(alphaTable)に基づき、指定されたアルファ値に最も近い
+ * ハーフトーンのパターンを選択して返す。
+ * @param {number} alpha - 0〜255の範囲のアルファ値（透明度）
+ * @returns {Array} 対応するハーフトーンパターン
+ */
 Neo.Painter.prototype.getToneData = function (alpha) {
   var alphaTable = [
     23, 47, 69, 92, 114, 114, 114, 138, 161, 184, 184, 207, 230, 230, 253,
@@ -2443,6 +2687,9 @@ Neo.Painter.prototype.getToneData = function (alpha) {
   return this._toneData[i];
 };
 
+/**
+ * テキスト入力
+ */
 Neo.Painter.prototype._initInputText = function () {
   var text = document.getElementById("neo-inputText");
   if (!text) {
@@ -2677,6 +2924,7 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
     return;
   }
 
+  // 右クリック時のカラーピッカーのガード
   if (this.isMouseDownRight) {
     this.isMouseDownRight = false;
     if (!this.isWidget(e.target)) {
@@ -2701,6 +2949,7 @@ Neo.Painter.prototype._mouseDownHandler = function (e) {
       this.sliderTool.target = Neo.sliders[Neo.SLIDERTYPE_SIZE].element;
       this.sliderTool.alt = true;
     } else if (this.isWidget(e.target)) {
+      // UI操作時のツール切り替え（dummyToolへの差し替え）
       this.isMouseDown = false;
       this.pushTool(this.dummyTool);
     }
@@ -2780,7 +3029,9 @@ Neo.Painter.prototype.getPosition = function (e) {
   }
 };
 
-// 手ぶれ補正
+/**
+ * 手ぶれ補正
+ */
 Neo.Painter.prototype._stabilizer = function () {
   const freeHandMode = this.drawType === 0;
 
@@ -2950,6 +3201,17 @@ Neo.Painter.prototype.redo = function () {
 //    return true;
 //};
 
+/**
+ * 現在のキャンバス状態をUndo履歴に保存する。
+ * @description
+ * 指定された範囲のキャンバスデータ（レイヤー0と1）を抽出し、
+ * UndoItemとして履歴管理マネージャーにプッシュする。
+ * @param {number} [x=0] - 取得開始X座標
+ * @param {number} [y=0] - 取得開始Y座標
+ * @param {number} [w=canvasWidth] - 取得範囲の幅
+ * @param {number} [h=canvasHeight] - 取得範囲の高さ
+ * @param {boolean} [holdRedo=false] - リドゥ履歴を保持するかどうか
+ */
 Neo.Painter.prototype._pushUndo = function (x, y, w, h, holdRedo) {
   x = x === undefined ? 0 : x;
   y = y === undefined ? 0 : y;
@@ -2972,6 +3234,16 @@ Neo.Painter.prototype._pushUndo = function (x, y, w, h, holdRedo) {
   this.dirty = true;
 };
 
+/**
+ * 現在のキャンバス状態をRedo（やり直し）履歴に保存する。
+ * @description
+ * Undo操作が行われた直後の、現在のキャンバス状態をスナップショットとして保存する。
+ * これにより、Undoした後に再度やり直すことが可能になる。
+ * @param {number} [x=0] - 取得開始X座標
+ * @param {number} [y=0] - 取得開始Y座標
+ * @param {number} [w=canvasWidth] - 取得範囲の幅
+ * @param {number} [h=canvasHeight] - 取得範囲の高さ
+ */
 Neo.Painter.prototype._pushRedo = function (x, y, w, h) {
   x = x === undefined ? 0 : x;
   y = y === undefined ? 0 : y;
@@ -2995,6 +3267,14 @@ Neo.Painter.prototype._pushRedo = function (x, y, w, h) {
    -------------------------------------------------------------------------
  */
 
+/**
+ * Undo/Redo履歴を管理するマネージャー。
+ * @description
+ * 描画操作のスナップショット（Neo.UndoItem）をスタックとして保持する。
+ * 最大ステップ数（_maxStep）を設定することで、メモリの肥大化を抑制しつつ
+ * ユーザーの操作履歴を安全に管理する。
+ * @param {number} _maxStep - 保持する履歴の最大数
+ */
 Neo.UndoManager = function (_maxStep) {
   this._maxStep = _maxStep;
   this._undoItems = [];
@@ -3004,7 +3284,16 @@ Neo.UndoManager.prototype._maxStep;
 Neo.UndoManager.prototype._redoItems;
 Neo.UndoManager.prototype._undoItems;
 
-//アクションをしてUndo情報を更新
+/**
+ * 新しい操作履歴（UndoItem）を登録し、履歴を管理する。
+ * @description
+ * 1. 新しい状態をスタックに積む。
+ * 2. 最大ステップ数を超えた場合、最も古い履歴を削除してメモリを解放する。
+ * 3. 新しい操作が行われた場合、それ以降の「やり直し（Redo）」履歴をクリアし、
+ * 操作の分岐点を明確にする。
+ * @param {Neo.UndoItem} undoItem - 保存するキャンバスの状態データ
+ * @param {boolean} holdRedo - Redo履歴を保持するかどうか
+ */
 Neo.UndoManager.prototype.pushUndo = function (undoItem, holdRedo) {
   this._undoItems.push(undoItem);
 
@@ -3021,6 +3310,13 @@ Neo.UndoManager.prototype.popUndo = function () {
   return this._undoItems.pop();
 };
 
+/**
+ * やり直し（Redo）の履歴をスタックに追加する。
+ * @description
+ * Undo操作によってスタックから取り出された状態を Redo 履歴に保存して
+ * Undoした状態からRedoできるようにする。
+ * @param {Neo.UndoItem} undoItem - 保存するキャンバスの状態データ
+ */
 Neo.UndoManager.prototype.pushRedo = function (undoItem) {
   this._redoItems.push(undoItem);
 };
@@ -3042,6 +3338,14 @@ Neo.UndoItem.prototype.height;
    -------------------------------------------------------------------------
  */
 
+/**
+ * 表示倍率を設定し、キャンバスの表示サイズを更新する。
+ * @description
+ * 指定された倍率（value）に基づき、表示用キャンバス（destCanvas）のサイズを計算・更新する。
+ * 表示領域の余白（100px/130px）を考慮し、描画誤差を防ぐためにサイズを偶数に補正する。
+ * 最後に表示領域の更新とズーム位置の再計算を行う。
+ * @param {number} value - 拡大率（例: 1.0 = 100%）
+ */
 Neo.Painter.prototype.setZoom = function (value) {
   this.zoom = value;
 
@@ -3065,6 +3369,15 @@ Neo.Painter.prototype.setZoom = function (value) {
   this.setZoomPosition(this.zoomX, this.zoomY);
 };
 
+/**
+ * ズーム時の表示中心座標を設定し、スクロールバー等のUIを同期する。
+ * @description
+ * 表示領域（destCanvas）から、キャンバス全体のどの座標を中心に見るかを計算する。
+ * 画面外にはみ出さないよう座標をクランプ（制限）し、表示用キャンバスを更新する。
+ * また、スクロールバーの進捗率を計算して更新を行う。
+ * @param {number} x - 視点の中心X座標
+ * @param {number} y - 視点の中心Y座標
+ */
 Neo.Painter.prototype.setZoomPosition = function (x, y) {
   var minx = (this.destCanvas.width / this.zoom) * 0.5;
   var maxx = this.canvasWidth - minx;
@@ -3141,6 +3454,15 @@ Neo.Painter.prototype.useThumbnail = function () {
   return false;
 };
 
+/**
+ * DataURL形式の文字列をBlobオブジェクトに変換する。
+ * @description
+ * Base64形式またはURIエンコードされたDataURLから、
+ * Blob（バイナリ）形式へ変換を行う。
+ * ファイルアップロードやサーバー保存の直前段階で利用される。
+ * @param {string} dataURL - 変換元のDataURL文字列
+ * @returns {Blob} 変換後のBlobオブジェクト（type: image/png）
+ */
 Neo.Painter.prototype.dataURLtoBlob = function (dataURL) {
   var byteString;
   if (dataURL.split(",")[0].indexOf("base64") >= 0) {
@@ -3157,15 +3479,25 @@ Neo.Painter.prototype.dataURLtoBlob = function (dataURL) {
   return new Blob([ia], { type: "image/png" });
 };
 
+/**
+ * 現在のレイヤー状態を統合し、完成画像を返す。
+ * @description
+ * 内部で保持している複数のレイヤー（this.canvas[0], [1]）を、
+ * 指定されたサイズにリサイズまたは調整して一つのキャンバスへ描画する。
+ * 背景色（白）を塗りつぶした後に重ね合わせることで、合成画像を作成する。
+ * @param {number} [imageWidth] - 出力画像の幅（省略時はキャンバス幅）
+ * @param {number} [imageHeight] - 出力画像の高さ（省略時はキャンバス高さ）
+ * @returns {HTMLCanvasElement|null} 合成された画像データを持つCanvas要素
+ */
 Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
-  var width = this.canvasWidth;
-  var height = this.canvasHeight;
-  imageWidth = imageWidth || width;
-  imageHeight = imageHeight || height;
+  const canvasWidth = this.canvasWidth;
+  const canvasHeight = this.canvasHeight;
+  const width = imageWidth ?? canvasWidth;
+  const height = imageHeight ?? canvasHeight;
 
   var pngCanvas = document.createElement("canvas");
-  pngCanvas.width = imageWidth;
-  pngCanvas.height = imageHeight;
+  pngCanvas.width = width;
+  pngCanvas.height = height;
   var pngCanvasCtx = pngCanvas.getContext("2d", {
     willReadFrequently: true,
   });
@@ -3173,19 +3505,19 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
     return null;
   }
   pngCanvasCtx.fillStyle = "#ffffff";
-  pngCanvasCtx.fillRect(0, 0, imageWidth, imageHeight);
+  pngCanvasCtx.fillRect(0, 0, width, height);
 
   if (this.visible[0]) {
     pngCanvasCtx.drawImage(
       this.canvas[0],
       0,
       0,
+      canvasWidth,
+      canvasHeight,
+      0,
+      0,
       width,
       height,
-      0,
-      0,
-      imageWidth,
-      imageHeight,
     );
   }
   if (this.visible[1]) {
@@ -3193,27 +3525,47 @@ Neo.Painter.prototype.getImage = function (imageWidth, imageHeight) {
       this.canvas[1],
       0,
       0,
+      canvasWidth,
+      canvasHeight,
+      0,
+      0,
       width,
       height,
-      0,
-      0,
-      imageWidth,
-      imageHeight,
     );
   }
   return pngCanvas;
 };
 
+/**
+ * 現在の描画内容をPNG形式のBlobとして取得する。
+ * @description
+ * 1. getImage() を呼び出し、レイヤーを統合した完成画像（Canvas）を取得する。
+ * 2. toDataURL("image/png") を使用して、Canvasの内容をBase64文字列に変換する。
+ * 3. dataURLtoBlob() を使用して、Base64文字列をサーバー通信やダウンロードに適したBlobバイナリに変換する。
+ * @returns {Blob|null} PNG形式のBlobオブジェクト。失敗時はnullを返す。
+ */
 Neo.Painter.prototype.getPNG = function () {
+  // レイヤーを統合した画像を取得
   var image = this.getImage();
   if (!image) {
     console.error("Failed to export image.");
     return null;
   }
+
+  // CanvasをBase64エンコードされたデータURL形式に変換
   var dataURL = image.toDataURL("image/png");
+
+  // 文字列データをバイナリ（Blob）に変換して返す
   return this.dataURLtoBlob(dataURL);
 };
-
+/**
+ * 掲示板投稿や保存用のサムネイル、またはアニメーション用の描画データを取得する。
+ * @description
+ * - "animation" 以外: getImage() で生成した画像を指定サイズでリサイズし、Blobとして返す。
+ * - "animation" 指定時: 描画手順をJSON化し、LZStringで圧縮したバイナリデータ（NEO形式）を返す。
+ * @param {string} type - 出力形式（例: "png", "jpeg", "animation"）
+ * @returns {Blob|null} 変換後のBlobオブジェクト、または失敗時のnull
+ */
 Neo.Painter.prototype.getThumbnail = function (type) {
   if (type != "animation") {
     var thumbnailWidth = this.getThumbnailWidth();
@@ -3257,6 +3609,10 @@ Neo.Painter.prototype.getThumbnail = function (type) {
     ]);
   }
 };
+/**
+ * サムネイルの幅を取得
+ * @returns {Number}}
+ */
 
 Neo.Painter.prototype.getThumbnailWidth = function () {
   var width = Neo.config.thumbnail_width;
@@ -3270,6 +3626,10 @@ Neo.Painter.prototype.getThumbnailWidth = function () {
   return 0;
 };
 
+/**
+ * サムネイルの高さを取得
+ * @returns {Number}
+ */
 Neo.Painter.prototype.getThumbnailHeight = function () {
   var height = Neo.config.thumbnail_height;
   if (height) {
@@ -3281,7 +3641,14 @@ Neo.Painter.prototype.getThumbnailHeight = function () {
   }
   return 0;
 };
-
+/**
+ * 全消し
+ * @description
+ * 1. オプションで消去の確認を行う。
+ * 2. 履歴管理のため、消去前の状態をUndoスタックに保存する。
+ * 3. アクションマネージャーを通じて描画レイヤーをクリアする。
+ * @param {boolean} doConfirm - 消去時に確認ダイアログを表示するかどうか
+ */
 Neo.Painter.prototype.clearCanvas = function (doConfirm) {
   if (!doConfirm || confirm("全消しします")) {
     //Register undo first;
@@ -3294,13 +3661,25 @@ Neo.Painter.prototype.clearCanvas = function (doConfirm) {
      */
   }
 };
-
+/**
+ * キャンバス上の矩形領域を、表示用キャンバス（destCanvas）へ転送・描画する。
+ * @description
+ * 1. 座標とサイズの正規化（境界チェック）。
+ * 2. ズーム倍率とスクロール位置を考慮した表示用座標（zx, zy, zw, zh）の計算。
+ * 3. 背景のクリア（または一部更新）。
+ * 4. レイヤー（0, 1）および一時レイヤーを順番に描画（合成）。
+ * @param {number} x - 元キャンバスの取得開始X
+ * @param {number} y - 元キャンバスの取得開始Y
+ * @param {number} width - 取得範囲の幅
+ * @param {number} height - 取得範囲の高さ
+ * @param {boolean} [useTemp] - 一時レイヤー（tempCanvas）を含めて描画するかどうか
+ */
 Neo.Painter.prototype.updateDestCanvas = function (
   x,
   y,
   width,
   height,
-  useTemp,
+  useTemp = false,
 ) {
   // 元座標は整数化（元キャンバス側）
   x = Math.floor(x);
@@ -3371,6 +3750,19 @@ Neo.Painter.prototype.updateDestCanvas = function (
   ctx.restore();
 };
 
+/**
+ * ブラシで描画した時に、書き換える必要が「範囲」を計算する。
+ * @description
+ * 線を引いた時に、キャンバス全体を再描画すると重くなるため
+ * 「線が引かれた場所」の「最小限の矩形」だけ更新する必要がある。
+ * その「最小限の矩形」の座標とサイズを返す。
+ * @param {number} x0 - 線の始点X
+ * @param {number} y0 - 線の始点Y
+ * @param {number} x1 - 線の終点X
+ * @param {number} y1 - 線の終点Y
+ * @param {number} r  - ブラシの太さ（半径）
+ * @returns {number[]} [左上のX, 左上のY, 幅, 高さ]
+ */
 Neo.Painter.prototype.getBound = function (x0, y0, x1, y1, r) {
   var left = Math.floor(x0 < x1 ? x0 : x1);
   var top = Math.floor(y0 < y1 ? y0 : y1);
@@ -3411,6 +3803,15 @@ Neo.Painter.prototype.setColor = function (c) {
   Neo.updateUI();
 };
 
+/**
+ * ツールの種類に応じて、現在の色から描画用のアルファ値を計算する。
+ * @description
+ * ツール（ペン、塗りつぶし、ブラシ）ごとに異なる数学的な曲線を用いてアルファ値を変換し、
+ * 描き味の調整を行う。また、非常に低いアルファ値に対しては、累積誤差を利用して
+ * 点を間引くことで見た目の濃度を擬似的に表現する（ディザリングに近い処理）。
+ * @param {number} type - アルファ計算のタイプ（ALPHATYPE_PEN, ALPHATYPE_FILL, ALPHATYPE_BRUSH）
+ * @returns {number} 0.0〜1.0 の範囲に正規化された描画用アルファ値
+ */
 Neo.Painter.prototype.getAlpha = function (type) {
   var a1 = this._currentColor[3] / 255.0; //this.alpha;
 
@@ -3463,6 +3864,15 @@ Neo.Painter.prototype.prepareDrawing = function () {
   this._currentMaskType = this.maskType;
 };
 
+/**
+ * 指定ピクセルの色が現在のマスク条件に適合するか判定する。
+ * @description
+ * 現在のマスク設定（特定色のみ、特定色以外、あるいは明度差による条件）に基づき、
+ * ターゲットとなるピクセル（buf8, index）を描画対象にするかどうかを判定する。
+ * @param {Uint8ClampedArray} buf8 - キャンバスの画素データ（RGBA）
+ * @param {number} index - 判定対象ピクセルの開始インデックス
+ * @returns {boolean|undefined} 描画を許可するなら true、禁止なら false、マスク無効なら undefined
+ */
 Neo.Painter.prototype.isMasked = function (buf8, index) {
   var r = this._currentMask[0];
   var g = this._currentMask[1];
@@ -3530,6 +3940,19 @@ Neo.Painter.prototype.isMasked = function (buf8, index) {
   }
 };
 
+/**
+ * ツールタイプに基づいて、バッファ上の指定ピクセルに対する加工処理を振り分ける。
+ * * `left`/`top` を用いてオフセット補正を行った後、選択された `type` に応じて
+ * * 適切な描画メソッド（setPenPoint等）を呼び出す。
+ * * @param {Uint8ClampedArray} buf8 - 操作対象の画像バッファ（RGBA）。
+ * @param {number} bufWidth - バッファの横幅。
+ * @param {number} x0 - 描画対象のグローバルX座標。
+ * @param {number} y0 - 描画対象のグローバルY座標。
+ * @param {number} left - バッファ左上のグローバルXオフセット。
+ * @param {number} top - バッファ左上のグローバルYオフセット。
+ * @param {number} type - 使用するツールタイプ（Neo.Painter.LINETYPE_...）。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setPoint = function (
   buf8,
   bufWidth,
@@ -3576,6 +3999,13 @@ Neo.Painter.prototype.setPoint = function (
   }
 };
 
+/**
+ * 指定した座標のピクセルに対してペンの描画処理を実行する。
+ * @param {Uint8ClampedArray} buf8 - 画素データ
+ * @param {number} width - バッファの横幅
+ * @param {number} x - 相対X座標
+ * @param {number} y - 相対Y座標
+ */
 Neo.Painter.prototype.setPenPoint = function (buf8, width, x, y) {
   var d = this._currentWidth;
   const r0 = Math.floor(d / 2);
@@ -3631,6 +4061,16 @@ Neo.Painter.prototype.setPenPoint = function (buf8, width, x, y) {
   }
 };
 
+/**
+ * ブラシの描画データのバッファへの書き込み。
+ * * 現在のブラシ設定に基づいて、指定された座標を中心とした矩形範囲の
+ * ピクセルに対してアルファブレンディングを行い、色を更新する。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - ブラシを描画する中心のX座標。
+ * @param {number} y - ブラシを描画する中心のY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setBrushPoint = function (buf8, width, x, y) {
   const d = this._currentWidth;
   let r0 = Math.floor(d / 2);
@@ -3686,6 +4126,18 @@ Neo.Painter.prototype.setBrushPoint = function (buf8, width, x, y) {
   }
 };
 
+/**
+ * ハーフトーンのデータのバッファへの書き込み。
+ * * 指定された矩形範囲に対し、トーンのパターン（4x4グリッド）に基づいて
+ * ピクセルを不透明（255）で上書きする。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - ブラシを描画する中心のX座標。
+ * @param {number} y - ブラシを描画する中心のY座標。
+ * @param {number} x0 - トーンパターンのオフセットX座標。
+ * @param {number} y0 - トーンパターンのオフセットY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setTonePoint = function (buf8, width, x, y, x0, y0) {
   var d = this._currentWidth;
   var r0 = Math.floor(d / 2);
@@ -3722,6 +4174,16 @@ Neo.Painter.prototype.setTonePoint = function (buf8, width, x, y, x0, y0) {
   }
 };
 
+/**
+ * 消しゴムツールを使用して、指定範囲のピクセルの不透明度を減少させます。
+ * * ブラシ形状に基づいて現在のアルファ値分だけ対象ピクセルの不透明度（A）を削り、
+ * 透過度を上げます。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - 消しゴムを適用する中心のX座標。
+ * @param {number} y - 消しゴムを適用する中心のY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setEraserPoint = function (buf8, width, x, y) {
   var d = this._currentWidth;
   var r0 = Math.floor(d / 2);
@@ -3746,6 +4208,18 @@ Neo.Painter.prototype.setEraserPoint = function (buf8, width, x, y) {
   }
 };
 
+/**
+ * ぼかし（Blur）ツールを使用して、指定範囲のピクセルを隣接画素と合成。
+ * * 周囲4方向のピクセルから色情報を取得し、重み付け合成を行うことで
+ * 緩やかなグラデーション（ぼかし）を作成する。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - 処理の中心X座標。
+ * @param {number} y - 処理の中心Y座標。
+ * @param {number} x0 - 座標の補正用Xオフセット。
+ * @param {number} y0 - 座標の補正用Yオフセット。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setBlurPoint = function (buf8, width, x, y, x0, y0) {
   var d = this._currentWidth;
   var r0 = Math.floor(d / 2);
@@ -3801,6 +4275,14 @@ Neo.Painter.prototype.setBlurPoint = function (buf8, width, x, y, x0, y0) {
   }
 };
 
+/**
+ * 覆い焼き（Dodge）ツールを使用して、指定範囲の画素の明度を上げる。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - 覆い焼きを適用する中心のX座標。
+ * @param {number} y - 覆い焼きを適用する中心のY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setDodgePoint = function (buf8, width, x, y) {
   var d = this._currentWidth;
   const r0 = Math.floor(d / 2);
@@ -3852,6 +4334,16 @@ Neo.Painter.prototype.setDodgePoint = function (buf8, width, x, y) {
   }
 };
 
+/**
+ * 焼き込み（Burn）ツールを使用して、指定範囲の画素の明度を下げる。
+ * * ブラシのアルファ値に基づいて背景色を黒方向へ引き寄せ、
+ * 影や深みを強調する。
+ * * @param {Uint8ClampedArray} buf8 - キャンバスの画像データを保持するUint8配列 (RGBA)。
+ * @param {number} width - バッファの横幅（ピクセル単位）。
+ * @param {number} x - 焼き込みを適用する中心のX座標。
+ * @param {number} y - 焼き込みを適用する中心のY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.setBurnPoint = function (buf8, width, x, y) {
   var d = this._currentWidth;
   const r0 = Math.floor(d / 2);
@@ -3903,14 +4395,37 @@ Neo.Painter.prototype.setBurnPoint = function (buf8, width, x, y) {
   }
 };
 
-//////////////////////////////////////////////////////////////////////
-
+/**
+ * 指定した座標のピクセル値をXOR演算（排他的論理和）で反転させる。
+ * 四角塗り潰しのための選択範囲の表示する時などに使用する。
+ * * @param {Uint32Array} buf32 - キャンバスの画像データを保持するUint32配列 (32bit RGBA)。
+ * @param {number} bufWidth - バッファの横幅（ピクセル単位）。
+ * @param {number} x - 処理対象のX座標。
+ * @param {number} y - 処理対象のY座標。
+ * @param {number} [c=0xffffff] - XOR演算に使用するビットマスク（デフォルトは白）。
+ * @returns {void}
+ */
 Neo.Painter.prototype.xorPixel = function (buf32, bufWidth, x, y, c) {
   var index = y * bufWidth + x;
   if (!c) c = 0xffffff;
   buf32[index] ^= c;
 };
 
+/**
+ * 3次ベジェ曲線上の指定位置（t）における座標を算出。
+ * * 始点(x0, y0)から終点(x3, y3)まで、2つの制御点(x1, y1), (x2, y2)の影響を受けて
+ * 滑らかに変化する曲線を補間する。
+ * * @param {number} t - 曲線上での位置（0.0 から 1.0 の間で指定）。
+ * @param {number} x0 - 始点のX座標。
+ * @param {number} y0 - 始点のY座標。
+ * @param {number} x1 - 1つ目の制御点のX座標。
+ * @param {number} y1 - 1つ目の制御点のY座標。
+ * @param {number} x2 - 2つ目の制御点のX座標。
+ * @param {number} y2 - 2つ目の制御点のY座標。
+ * @param {number} x3 - 終点のX座標。
+ * @param {number} y3 - 終点のY座標。
+ * @returns {Array<number>} 算出された座標 [x, y] を返す。
+ */
 Neo.Painter.prototype.getBezierPoint = function (
   t,
   x0,
@@ -3932,6 +4447,24 @@ Neo.Painter.prototype.getBezierPoint = function (
   return [x, y];
 };
 
+/**
+ * 4つの制御点から3次ベジェ曲線を計算し、描画バッファにストロークを描画する。
+ * * 計算された曲線上の各点において `plot` を経由し、最終的に `setPoint` で
+ * 実際のピクセル操作を行う。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {number} x0 - 始点のX座標。
+ * @param {number} y0 - 始点のY座標。
+ * @param {number} x1 - 1つ目の制御点のX座標。
+ * @param {number} y1 - 1つ目の制御点のY座標。
+ * @param {number} x2 - 2つ目の制御点のX座標。
+ * @param {number} y2 - 2つ目の制御点のY座標。
+ * @param {number} x3 - 終点のX座標。
+ * @param {number} y3 - 終点のY座標。
+ * @param {number} type - 使用するブラシやツールのタイプ。
+ * @param {boolean} isReplay - リプレイ再生中かどうか。
+ * @param {boolean} isPreview - プレビュー描画中かどうか（不透明度やマスクを一時解除）。
+ * @returns {void}
+ */
 Neo.Painter.prototype.drawBezier = function (
   ctx,
   x0,
@@ -3982,6 +4515,17 @@ Neo.Painter.prototype.drawBezier = function (
 };
 
 Neo.Painter.prototype.prevLine = null; // 始点または終点が2度プロットされることがあるので
+
+/**
+ * ブレゼンハムのアルゴリズムを使用して、始点から終点まで直線を描画。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {number} x0 - 始点のX座標。
+ * @param {number} y0 - 始点のY座標。
+ * @param {number} x1 - 終点のX座標。
+ * @param {number} y1 - 終点のY座標。
+ * @param {number} type - 使用するブラシやツールのタイプ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.drawLine = function (ctx, x0, y0, x1, y1, type) {
   x0 = Math.floor(x0);
   y0 = Math.floor(y0);
@@ -4003,6 +4547,15 @@ Neo.Painter.prototype.drawLine = function (ctx, x0, y0, x1, y1, type) {
   this.prevLine = points;
 };
 
+/**
+ * 描画範囲を最適化し、バッファを取得・加工・反映させるラッパー。
+ * * 指定された点群を囲む最小矩形を算出し、ブラシ幅(r)の余白を含めて
+ * ImageDataを取得・書き戻すことで描画負荷を最小限に抑える。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {Array<Array<number>>} points - 描画対象となる点の配列 [[x,y], ...]。
+ * @param {Function} callback - バッファ操作を行う描画ロジック本体。
+ * @returns {void}
+ */
 Neo.Painter.prototype.draw = function (ctx, points, callback) {
   var xs = [],
     ys = [];
@@ -4032,6 +4585,14 @@ Neo.Painter.prototype.draw = function (ctx, points, callback) {
   ctx.putImageData(imageData, left, top);
 };
 
+/**
+ * ブレゼンハムのアルゴリズムを用いて、指定された始点と終点の間のピクセル座標を算出。
+ * * [重要] 前回の線分(this.prevLine)と始点が一致する場合、重複描画を防ぐために
+ * * コールバックをスキップする最適化ロジックを含む。
+ * * @param {Array<Array<number>>} points - [[x0, y0], [x1, y1]] の形式の座標配列。
+ * @param {Function} callback - 算出された座標(x, y)に対して実行する描画処理。
+ * @returns {void}
+ */
 Neo.Painter.prototype.bresenham = function (points, callback) {
   var x0 = points[0][0];
   var y0 = points[0][1];
@@ -4069,6 +4630,14 @@ Neo.Painter.prototype.bresenham = function (points, callback) {
   this.prevLine = points;
 };
 
+/**
+ * 指定した座標に対して描画処理（callback）を実行する。
+ * * 直前の描画座標(prevLine)と比較し、同一地点であれば再描画をスキップして
+ * * 重複による色の重なりを防ぎます。
+ * * @param {Array<number>} point - [x, y] 形式の描画対象座標。
+ * @param {Function} callback - 実際に setPoint を呼び出す描画関数。
+ * @returns {void}
+ */
 Neo.Painter.prototype.plot = function (point, callback) {
   var x0 = point[0];
   var y0 = point[1];
@@ -4082,10 +4651,33 @@ Neo.Painter.prototype.plot = function (point, callback) {
   this.prevLine = [point, point];
 };
 
+/**
+ * キャンバス上の指定された単一点に対して描画処理を適用する。
+ * * 内部的には始点と終点が同一の線分として `drawLine` を呼び出すことで、
+ * * 線描画ロジックの重複排除やバッファ最適化の恩恵を統合的に受ける。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {number} x - 描画対象のX座標。
+ * @param {number} y - 描画対象のY座標。
+ * @param {number} type - 使用するブラシやツールのタイプ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.drawPoint = function (ctx, x, y, type) {
   this.drawLine(ctx, x, y, x, y, type);
 };
 
+/**
+ * 指定された矩形範囲内のピクセル値をXOR演算によってビット反転（ネガ処理）する。
+ * * 32bit整数のバッファを直接操作することで、高速な描画プレビューや選択範囲の反転を実現する。
+ * * [注意] 処理対象が32bit配列であることを前提としているため、バッファの整合性に注意すること。
+ * * @param {Uint32Array} buf32 - 操作対象となるキャンバスの画像データバッファ（32bit）。
+ * * @param {number} bufWidth - バッファの横幅（ピクセル単位）。
+ * * @param {number} x - 矩形の開始X座標。
+ * * @param {number} y - 矩形の開始Y座標。
+ * * @param {number} width - 矩形の横幅。
+ * * @param {number} height - 矩形の高さ。
+ * * @param {number} c - XOR演算に使用する32bitのマスク値（例: 0xffffff）。
+ * @returns {void}
+ */
 Neo.Painter.prototype.xorRect = function (
   buf32,
   bufWidth,
@@ -4105,6 +4697,19 @@ Neo.Painter.prototype.xorRect = function (
   }
 };
 
+/**
+ * 指定された矩形範囲に対して、塗りつぶしまたは枠線のXOR反転描画を行う。
+ * * [塗りつぶし] `xorRect` を呼び出し、範囲内全ピクセルを反転する。
+ * * [枠線] 矩形の外周ラインのみを反転させ、視覚的な選択枠を表示する。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {number} x - 矩形の開始X座標。
+ * @param {number} y - 矩形の開始Y座標。
+ * @param {number} width - 矩形の横幅。
+ * @param {number} height - 矩形の高さ。
+ * @param {boolean} isFill - trueなら矩形内部を塗りつぶし、falseなら外周のみを描画する。
+ * @param {number} [c=0xffffff] - XORに使用する32bitマスク値。
+ * @returns {void}
+ */
 Neo.Painter.prototype.drawXORRect = function (
   ctx,
   x,
@@ -4161,6 +4766,16 @@ Neo.Painter.prototype.drawXORRect = function (
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * 中点楕円アルゴリズムによるXORプレビュー描画。
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} x - バウンディングボックスの左上X。
+ * @param {number} y - バウンディングボックスの左上Y。
+ * @param {number} width - 幅。
+ * @param {number} height - 高さ。
+ * @param {boolean} isFill - trueで塗りつぶし、falseで輪郭のみ。
+ * @param {number} [c=0xFFFFFF] - XOR用マスク値。
+ */
 Neo.Painter.prototype.drawXOREllipse = function (
   ctx,
   x,
@@ -4243,6 +4858,18 @@ Neo.Painter.prototype.drawXOREllipse = function (
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * 指定された2点間をXOR演算によって反転させ、プレビュー用の直線を描画する。
+ * * ブレゼンハムのアルゴリズムを利用し、キャンバスの部分的なバッファのみを
+ * * XOR操作することで、描画負荷を最小限に抑えつつ高速な視覚フィードバックを実現する。
+ * * @param {CanvasRenderingContext2D} ctx - 描画対象のCanvasコンテキスト。
+ * @param {number} x0 - 始点のX座標。
+ * @param {number} y0 - 始点のY座標。
+ * @param {number} x1 - 終点のX座標。
+ * @param {number} y1 - 終点のY座標。
+ * @param {number} [c=0xffffff] - XOR演算に使用する32bitマスク値。
+ * @returns {void}
+ */
 Neo.Painter.prototype.drawXORLine = function (ctx, x0, y0, x1, y1, c) {
   x0 = Math.round(x0);
   x1 = Math.round(x1);
@@ -4293,6 +4920,14 @@ Neo.Painter.prototype.drawXORLine = function (ctx, x0, y0, x1, y1, c) {
   ctx.putImageData(imageData, left, top);
 };
 
+/**
+ * 消し四角
+ * @param {number} layer - 対象レイヤーインデックス。
+ * @param {number} x - 開始X。
+ * @param {number} y - 開始Y。
+ * @param {number} width - 幅。
+ * @param {number} height - 高さ。
+ */
 Neo.Painter.prototype.eraseRect = function (layer, x, y, width, height) {
   var ctx = this.canvasCtx[layer];
   x = Math.round(x);
@@ -4325,6 +4960,15 @@ Neo.Painter.prototype.eraseRect = function (layer, x, y, width, height) {
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * 左右反転
+ * * @param {number} layer - 操作対象のレイヤーインデックス。
+ * @param {number} x - 反転対象範囲の開始X座標。
+ * @param {number} y - 反転対象範囲の開始Y座標。
+ * @param {number} width - 反転対象範囲の横幅。
+ * @param {number} height - 反転対象範囲の高さ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.flipH = function (layer, x, y, width, height) {
   var ctx = this.canvasCtx[layer];
   x = Math.round(x);
@@ -4350,6 +4994,15 @@ Neo.Painter.prototype.flipH = function (layer, x, y, width, height) {
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * 上下反転
+ * * @param {number} layer - 操作対象のレイヤーインデックス。
+ * @param {number} x - 反転対象範囲の開始X座標。
+ * @param {number} y - 反転対象範囲の開始Y座標。
+ * @param {number} width - 反転対象範囲の横幅。
+ * @param {number} height - 反転対象範囲の高さ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.flipV = function (layer, x, y, width, height) {
   var ctx = this.canvasCtx[layer];
   x = Math.round(x);
@@ -4375,8 +5028,17 @@ Neo.Painter.prototype.flipV = function (layer, x, y, width, height) {
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * レイヤー結合
+ * * @param {number} layer - 統合先となるレイヤーインデックス(0 or 1)。
+ * @param {number} x - 合成範囲の開始X座標。
+ * @param {number} y - 合成範囲の開始Y座標。
+ * @param {number} width - 合成範囲の横幅。
+ * @param {number} height - 合成範囲の高さ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.merge = function (layer, x, y, width, height) {
-  var ctx = this.canvasCtx[layer];
+  // var ctx = this.canvasCtx[layer];
   x = Math.round(x);
   y = Math.round(y);
   width = Math.round(width);
@@ -4431,6 +5093,15 @@ Neo.Painter.prototype.merge = function (layer, x, y, width, height) {
   }
 };
 
+/**
+ * 指定された矩形範囲内のピクセルに対して近傍平均化を行い、ぼかし効果を適用する。
+ * * @param {number} layer - 操作対象のレイヤーインデックス。
+ * @param {number} x - ぼかし対象範囲の開始X座標。
+ * @param {number} y - ぼかし対象範囲の開始Y座標。
+ * @param {number} width - ぼかし対象範囲の横幅。
+ * @param {number} height - ぼかし対象範囲の高さ。
+ * @returns {void}
+ */
 Neo.Painter.prototype.blurRect = function (layer, x, y, width, height) {
   var ctx = this.canvasCtx[layer];
   x = Math.round(x);
@@ -4473,6 +5144,14 @@ Neo.Painter.prototype.blurRect = function (layer, x, y, width, height) {
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * ぼかし処理における画素加算とアルファブレンドを統合的に実行する。
+ * * @param {Uint8ClampedArray} buffer - 操作対象の画像データバッファ。
+ * @param {number} index - 加算対象のピクセルインデックス。
+ * @param {number} a - 現在のサンプリングウェイト。
+ * @param {Array<number>} rgba - 累積色値およびアルファ値、ウェイトを保持する配列 [r, g, b, a, weight]。
+ * @returns {void}
+ */
 Neo.Painter.prototype.addBlur = function (buffer, index, a, rgba) {
   var r0 = rgba[0];
   var g0 = rgba[1];
@@ -4493,6 +5172,15 @@ Neo.Painter.prototype.addBlur = function (buffer, index, a, rgba) {
   }
 };
 
+/**
+ * 指定された座標における、全可視レイヤーの合成色を算出する。
+ * * 各レイヤーのRGBA値を順次アルファブレンドし、背景色（白）をベースにした
+ * * 最終的な表示色を計算する。算出された色は現在のカラーとして設定され、
+ * * 透明度に応じて自動的にツールをペンか消しゴムへ切り替える機能を持つ。
+ * @param {number} x - 取得対象のX座標。
+ * @param {number} y - 取得対象のY座標。
+ * @returns {void}
+ */
 Neo.Painter.prototype.pickColor = function (x, y) {
   var r = 0xff,
     g = 0xff,
@@ -4533,6 +5221,18 @@ Neo.Painter.prototype.pickColor = function (x, y) {
   }
 };
 
+/**
+ * 指定されたキャンバス内の水平ラインを、指定色で一括塗りつぶしする。
+ * * `Uint32Array` を用いて、色情報を32bit整数としてインデックスへ直接書き込むことで、
+ * * ブラウザの描画APIを通さずにメモリ上で高速にライン描画を行う。
+ * * [パフォーマンス] ループ内で `this.canvasWidth` を用いてインデックスを算出する。
+ * * @param {Uint32Array} buf32 - 操作対象となるキャンバスの画像データバッファ（32bit）。
+ * @param {number} x0 - 塗りつぶし開始X座標。
+ * @param {number} x1 - 塗りつぶし終了X座標。
+ * @param {number} y - 塗りつぶし対象のY座標。
+ * @param {number} color - 書き込む色値（32bit）。
+ * @returns {void}
+ */
 Neo.Painter.prototype.fillHorizontalLine = function (buf32, x0, x1, y, color) {
   var index = y * this.canvasWidth + x0;
   for (var x = x0; x <= x1; x++) {
@@ -4540,13 +5240,29 @@ Neo.Painter.prototype.fillHorizontalLine = function (buf32, x0, x1, y, color) {
   }
 };
 
+/**
+ * スキャンライン・塗りつぶしアルゴリズムにおいて、対象線分上の座標をスタックへ追加する。
+ * @param {number} x0 - 走査開始X。
+ * @param {number} x1 - 走査終了X。
+ * @param {number} y - 対象Y。
+ * @param {number} baseColor - 置換対象の色（※現在未使用）。
+ * @param {Uint32Array} buf32 - 画像データバッファ（※現在未使用）。
+ * @param {Array<{x: number, y: number}>} stack - 塗りつぶし候補座標を保持するスタック。
+ */
 Neo.Painter.prototype.scanLine = function (x0, x1, y, baseColor, buf32, stack) {
-  var width = this.canvasWidth;
+  // var width = this.canvasWidth;
   for (var x = x0; x <= x1; x++) {
     stack.push({ x: x, y: y });
   }
 };
 
+/**
+ * 塗り潰し
+ * @param {number} layer - 対象レイヤーインデックス。
+ * @param {number} x - クリック開始X。
+ * @param {number} y - クリック開始Y。
+ * @param {number} fillColor - 置換後の色（32bit整数）。
+ */
 Neo.Painter.prototype.doFloodFill = function (layer, x, y, fillColor) {
   x = Math.round(x);
   y = Math.round(y);
@@ -4601,6 +5317,15 @@ Neo.Painter.prototype.doFloodFill = function (layer, x, y, fillColor) {
   //  this.updateDestCanvas(0, 0, this.canvasWidth, this.canvasHeight);
 };
 
+/**
+ * コピー
+ * @description 指定範囲の画像を一時バッファとプレビュー用キャンバスにコピーする。
+ * @param {number} layer - 対象レイヤーインデックス。
+ * @param {number} x - 開始X。
+ * @param {number} y - 開始Y。
+ * @param {number} width - 幅。
+ * @param {number} height - 高さ。
+ */
 Neo.Painter.prototype.copy = function (layer, x, y, width, height) {
   this.tempX = 0;
   this.tempY = 0;
@@ -4651,6 +5376,18 @@ Neo.Painter.prototype.paste = function (layer, x, y, width, height, dx, dy) {
   this.tempCanvasCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 };
 
+/**
+ * 傾け
+ * @description 領域を90度回転させる。
+ * @param {number} layer - 対象レイヤー。
+ * @param {number} x, y - 開始座標。
+ * @param {number} width, height - サイズ。
+ * @note
+ * 「バグストライプ」の再現処理を含む。
+ * オリジナルのPaintBBS等の仕様に準じ、回転処理時の境界データ参照に由来するグリッジを
+ * 意図的に発生させる。この挙動は Neo.config.neo_disable_turn_original_glitch
+ * により無効化できる。
+ */
 Neo.Painter.prototype.turn = function (layer, x, y, width, height) {
   var ctx = this.canvasCtx[layer];
 
@@ -4705,6 +5442,12 @@ Neo.Painter.prototype.turn = function (layer, x, y, width, height) {
   ctx.putImageData(imageData, x, y);
 };
 
+/**
+ * マスク形状タイプに応じたピクセル判定関数を返却する。
+ * @param {string|number} type - 描画ツールまたは塗りつぶしの形状タイプ。
+ * @returns {((i: number, j: number, w: number, h: number) => boolean) | null}
+ * 指定座標が描画範囲内であれば true を返す関数。該当タイプがない場合は null。
+ */
 Neo.Painter.prototype.getMaskFunc = function (type) {
   switch (type) {
     case Neo.Painter.TOOLTYPE_RECT:
@@ -4719,6 +5462,15 @@ Neo.Painter.prototype.getMaskFunc = function (type) {
   return null;
 };
 
+/**
+ * 塗り潰し
+ * @description 塗り潰しおよび汎用描画エンジン。
+ * @description 指定矩形領域に対し、typeで指定されたマスク形状に基づいて現在の色を合成・描画する。
+ * @param {number} layer - 対象レイヤーインデックス。
+ * @param {number} x, y - 描画開始X/Y座標。
+ * @param {number} width, height - 描画対象領域のサイズ。
+ * @param {string|number} [type] - マスク形状タイプ(例: TOOLTYPE_RECT, TOOLTYPE_RECTFILLなど)。
+ */
 Neo.Painter.prototype.doFill = function (layer, x, y, width, height, type) {
   var ctx = this.canvasCtx[layer];
   var maskFunc = this.getMaskFunc(type);
@@ -4782,7 +5534,14 @@ Neo.Painter.prototype.doFill = function (layer, x, y, width, height, type) {
 Neo.Painter.prototype.rectFillMask = function (x, y, width, height) {
   return true;
 };
-
+/**
+ * 矩形枠線マスク関数。矩形の外周部のみ描画対象とする。
+ * @param {number} x - 相対X座標
+ * @param {number} y - 相対Y座標
+ * @param {number} width - 矩形幅
+ * @param {number} height - 矩形高さ
+ * @returns {boolean} 外周の線幅内であれば true
+ */
 Neo.Painter.prototype.rectMask = function (x, y, width, height) {
   var d = this._currentWidth;
   //  var d = this.lineWidth;
@@ -4791,6 +5550,15 @@ Neo.Painter.prototype.rectMask = function (x, y, width, height) {
     : false;
 };
 
+/**
+ * 楕円
+ * @description 楕円塗り潰しマスク関数。楕円内部を全て描画対象とする。
+ * @param {number} x - 相対X座標
+ * @param {number} y - 相対Y座標
+ * @param {number} width - 矩形幅
+ * @param {number} height - 矩形高さ
+ * @returns {boolean} 楕円内部の時に true
+ */
 Neo.Painter.prototype.ellipseFillMask = function (x, y, width, height) {
   var cx = (width - 1) / 2.0;
   var cy = (height - 1) / 2.0;
@@ -4800,6 +5568,15 @@ Neo.Painter.prototype.ellipseFillMask = function (x, y, width, height) {
   return x * x + y * y < 1 ? true : false;
 };
 
+/**
+ * 線楕円
+ * @description 楕円枠線マスク関数。楕円の輪郭部分のみ描画対象とする。
+ * @param {number} x - 相対X座標
+ * @param {number} y - 相対Y座標
+ * @param {number} width - 矩形幅
+ * @param {number} height - 矩形高さ
+ * @returns {boolean} 輪郭内であれば true
+ */
 Neo.Painter.prototype.ellipseMask = function (x, y, width, height) {
   var d = this._currentWidth;
   //  var d = this.lineWidth;
@@ -4826,6 +5603,14 @@ Neo.Painter.prototype.ellipseMask = function (x, y, width, height) {
    -----------------------------------------------------------------------
  */
 
+/**
+ * キャンバス上のマウス座標を、ズーム・スクロール状態を反映した描画先座標に変換。
+ * @param {number} _mx - マウスのX座標
+ * @param {number} _my - マウスのY座標
+ * @param {boolean} isClip - キャンバス範囲外をカットするかどうか
+ * @param {boolean} isCenter - 座標をピクセル中心（0.5）に合わせるかどうか
+ * @returns {{x: number, y: number}} 変換後の座標オブジェクト
+ */
 Neo.Painter.prototype.getDestCanvasPosition = function (
   _mx,
   _my,
@@ -4852,6 +5637,14 @@ Neo.Painter.prototype.getDestCanvasPosition = function (
   return { x: x, y: y };
 };
 
+/**
+ * イベント発生源が描画キャンバス周辺か、またはUI操作領域かを判定する。
+ * @param {Element} element - イベントターゲットとなるDOM要素。
+ * @returns {boolean} 操作対象のUI（ツール、ボタン、入力欄）の時は true。描画領域（キャンバス）または周囲の余白の時は false。
+ * @note
+ * イベント伝播時に、UI操作とキャンバス操作を仕分けるための境界判定。
+ * #NEO配下のツールバーやボタンを「ウィジェット」としてマークし、描画イベントの伝播を遮断する。
+ */
 Neo.Painter.prototype.isWidget = function (element) {
   if (!element || !(element instanceof Element)) return false;
 
@@ -4871,6 +5664,11 @@ Neo.Painter.prototype.isWidget = function (element) {
   return false;
 };
 
+/**
+ * 要素がメインの描画・操作エリア（#neo-container）内にあるかを判定する。
+ * @param {Element} element - 判定対象のDOM要素
+ * @returns {boolean} #neo-container配下なら true
+ */
 Neo.Painter.prototype.isContainer = function (element) {
   if (!element || !(element instanceof Element)) return false;
   // #NEO の外側を除外
@@ -4882,6 +5680,10 @@ Neo.Painter.prototype.isContainer = function (element) {
   return false;
 };
 
+/**
+ * 実行中のツールを強制終了し、マウスの状態をリセットする。
+ * @returns {void}
+ */
 Neo.Painter.prototype.cancelTool = function (e) {
   if (this.tool) {
     this.isMouseDown = false;
@@ -4896,6 +5698,11 @@ Neo.Painter.prototype.cancelTool = function (e) {
   }
 };
 
+/**
+ * 画像ファイルを読み込み、メインレイヤー（canvasCtx[0]）に描画する。
+ * @param {string} filename - 画像のパスまたはDataURL
+ * @returns {void}
+ */
 Neo.Painter.prototype.loadImage = function (filename) {
   console.log("loadImage " + filename);
   var img = new Image();
@@ -4907,6 +5714,11 @@ Neo.Painter.prototype.loadImage = function (filename) {
   img.src = filename;
 };
 
+/**
+ * アニメーションデータ(PCH)を読み込み、再生を開始する。
+ * @param {string} filename - アニメーションデータのURL
+ * @returns {void}
+ */
 Neo.Painter.prototype.loadAnimation = function (filename) {
   console.log("loadAnimation " + filename);
 
@@ -4923,6 +5735,11 @@ Neo.Painter.prototype.loadAnimation = function (filename) {
   });
 };
 
+/**
+ * ブラウザのストレージからレイヤーデータを読み込み、キャンバスを復元する。
+ * @param {Function} [callback] - 読み込み完了後に実行するコールバック関数
+ * @returns {void}
+ */
 Neo.Painter.prototype.loadSession = function (callback) {
   const ref = this;
   if (Neo.storage) {
@@ -4944,6 +5761,10 @@ Neo.Painter.prototype.loadSession = function (callback) {
   }
 };
 
+/**
+ * 現在のキャンバス状態（レイヤー0, 1）をブラウザのストレージに保存する。
+ * @returns {void}
+ */
 Neo.Painter.prototype.saveSession = function () {
   if (Neo.storage) {
     Neo.storage.setItem("timestamp", Date.now());
@@ -4952,6 +5773,10 @@ Neo.Painter.prototype.saveSession = function () {
   }
 };
 
+/**
+ * ブラウザのストレージから保存済みのセッションデータを削除する。
+ * @returns {void}
+ */
 Neo.Painter.prototype.clearSession = function () {
   if (Neo.storage) {
     Neo.storage.removeItem("timestamp");
@@ -4959,7 +5784,13 @@ Neo.Painter.prototype.clearSession = function () {
     Neo.storage.removeItem("layer1");
   }
 };
-
+/**
+ * RGBの各色成分の値を比較し、小さい順にインデックス（0:R, 1:G, 2:B）を並べ替えて返す。
+ * @param {number} r0 - 赤成分
+ * @param {number} g0 - 緑成分
+ * @param {number} b0 - 青成分
+ * @returns {number[]} [最小値のインデックス, 中間値のインデックス, 最大値のインデックス]
+ */
 Neo.Painter.prototype.sortColor = function (r0, g0, b0) {
   var min = r0 < g0 ? (r0 < b0 ? 0 : 2) : g0 < b0 ? 1 : 2;
   var max = r0 > g0 ? (r0 > b0 ? 0 : 2) : g0 > b0 ? 1 : 2;
@@ -4967,6 +5798,18 @@ Neo.Painter.prototype.sortColor = function (r0, g0, b0) {
   return [min, mid, max];
 };
 
+/**
+ * 指定レイヤーにテキストを描画する。
+ * 一時キャンバスでテキストを描画後、ピクセル単位で色変換・アルファ合成を行いメインへ転写する。
+ * @param {number} layer - 描画対象レイヤー番号
+ * @param {number} x - 描画X座標
+ * @param {number} y - 描画Y座標
+ * @param {number} color - RGB色コード
+ * @param {number} alpha - 不透明度 (0.0~1.0)
+ * @param {string} string - 描画するテキスト
+ * @param {string} fontSize - フォントサイズ
+ * @param {string} fontFamily - フォントファミリー
+ */
 Neo.Painter.prototype.doText = function (
   layer,
   x,
@@ -5140,6 +5983,7 @@ Neo.Painter.prototype.isDirty = function () {
 };
 
 "use strict";
+//@ts-check
 
 Neo.ToolBase = class {
   constructor() {}
@@ -5155,7 +5999,7 @@ Neo.ToolBase.prototype.step = 0;
 Neo.ToolBase.prototype.reverse = false;
 
 Neo.ToolBase.prototype.init = function (oe) {};
-Neo.ToolBase.prototype.kill = function (oe) {};
+Neo.ToolBase.prototype.kill = function () {};
 Neo.ToolBase.prototype.transformForZoom = function (oe) {};
 Neo.ToolBase.prototype.lineType = Neo.Painter.LINETYPE_NONE;
 
@@ -5229,8 +6073,8 @@ Neo.ToolBase.prototype.getReserve = function () {
     case Neo.Painter.TOOLTYPE_ERASEALL:
     case Neo.Painter.TOOLTYPE_COPY:
     case Neo.Painter.TOOLTYPE_MERGE:
-    case Neo.Painter.TOOLTYPE_FIP_H:
-    case Neo.Painter.TOOLTYPE_FIP_V:
+    case Neo.Painter.TOOLTYPE_FLIP_H:
+    case Neo.Painter.TOOLTYPE_FLIP_V:
 
     case Neo.Painter.TOOLTYPE_DODGE:
     case Neo.Painter.TOOLTYPE_BURN:
@@ -6249,6 +7093,15 @@ Neo.EraseRectTool = class extends Neo.EffectToolBase {
 };
 Neo.EraseRectTool.prototype.type = Neo.Painter.TOOLTYPE_ERASERECT;
 
+/**
+ * 矩形消去ツールの実行
+ * @description
+ * @param {object} oe - PaintBBS NEOのメインインスタンス (Neo.painter)
+ * @param {number} x - 開始X座標
+ * @param {number} y - 開始Y座標
+ * @param {number} width - 消去する幅
+ * @param {number} height - 消去する高さ
+ */
 Neo.EraseRectTool.prototype.doEffect = function (oe, x, y, width, height) {
   //  var ctx = oe.canvasCtx[oe.current];
   //  oe.eraseRect(ctx, x, y, width, height);
@@ -6616,6 +7469,13 @@ Neo.TextTool.prototype.upMoveHandler = function (oe) {};
 Neo.TextTool.prototype.rollOverHandler = function (oe) {};
 Neo.TextTool.prototype.rollOutHandler = function (oe) {};
 
+/**
+ * テキスト入力の確定処理
+ * @description
+ * ユーザーがテキスト入力中にEnterキーを押した際、
+ * 入力された内容をキャンバスに描画し、入力UIを終了する。
+ * @param {KeyboardEvent} e - キーボードイベント
+ */
 Neo.TextTool.prototype.keyDownHandler = function (e) {
   if (e.key == "Enter") {
     // Returnで確定
@@ -6654,7 +7514,7 @@ Neo.TextTool.prototype.keyDownHandler = function (e) {
   }
 };
 
-Neo.TextTool.prototype.kill = function (oe) {
+Neo.TextTool.prototype.kill = function () {
   Neo.painter.hideInputText();
 };
 
@@ -6711,7 +7571,7 @@ Neo.DummyTool.prototype.rollOverHandler = function (oe) {};
 Neo.DummyTool.prototype.rollOutHandler = function (oe) {};
 
 "use strict";
-
+//@ts-check
 Neo.CommandBase = class {
   constructor() {}
 };
@@ -6834,7 +7694,7 @@ Neo.CopyrightCommand.prototype.execute = function () {
 };
 
 "use strict";
-
+//@ts-check
 /*
   -----------------------------------------------------------------------
     Action Manager
@@ -6922,6 +7782,11 @@ Neo.ActionManager.prototype.pushCurrent = function () {
   head.push(type);
 };
 
+/**
+ * 指定された描画アクション（履歴データ）から、ブラシ設定（色、マスク、太さ）を復元する
+ * @param {Array<*>} item - 描画アクションのデータ配列
+ * [2]~[5]: RGBAカラー、[6]~[8]: マスクカラー、[9]: ブラシ幅、[10]: マスクタイプ
+ */
 Neo.ActionManager.prototype.getCurrent = function (item) {
   var oe = Neo.painter;
 
@@ -7034,6 +7899,13 @@ Neo.ActionManager.prototype.clearCanvas = function () {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 画面を指定色で塗りつぶす（バケツツール）。
+ * @param {*} layer - レイヤー番号、または録画データ配列
+ * @param {*} [x] - X座標、または再生用コールバック
+ * @param {*} [y] - Y座標
+ * @param {*} [color] - 塗りつぶし色
+ */
 Neo.ActionManager.prototype.floodFill = function (layer, x, y, color) {
   if (typeof layer != "object") {
     this.push("floodFill", layer, x, y, color);
@@ -7071,7 +7943,12 @@ Neo.ActionManager.prototype.eraseAll = function () {
   var callback = arguments[1];
   if (callback && typeof callback == "function") callback(true);
 };
-
+/**
+ * 手書き線の描画アクション 等速
+ * @param {*} x0
+ * @param {*} [y0]
+ * @param {*} [lineType]
+ */
 Neo.ActionManager.prototype.freeHand = function (x0, y0, lineType) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7120,6 +7997,12 @@ Neo.ActionManager.prototype.freeHand = function (x0, y0, lineType) {
   }
 };
 
+/**
+ * 手書き線の描画アクション 高速
+ * @param {*} x0 - 開始X座標、または一括描画するアクションデータ配列(item)
+ * @param {*} [y0] - 開始Y座標、または一括描画完了後のコールバック関数
+ * @param {*} [lineType] - 線の種類
+ */
 Neo.ActionManager.prototype.freeHandFast = function (x0, y0, lineType) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7186,6 +8069,14 @@ Neo.ActionManager.prototype.freeHandMove = function (x0, y0, x1, y1, lineType) {
   }
 };
 
+/**
+ * 直線描画
+ * @param {number|Array<*>} x0 - 始点X座標、または描画データ配列
+ * @param {number|function(boolean):void} [y0] - 始点Y座標、またはコールバック関数
+ * @param {number} [x1] - 終点X座標
+ * @param {number} [y1] - 終点Y座標
+ * @param {string} [lineType] - 線の種類
+ */
 Neo.ActionManager.prototype.line = function (x0, y0, x1, y1, lineType) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7216,6 +8107,18 @@ Neo.ActionManager.prototype.line = function (x0, y0, x1, y1, lineType) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * ベジェ曲線描画
+ * @param {number|Array<*>} x0 - 始点X座標、または描画データ配列
+ * @param {number|function(boolean):void} [y0] - 始点Y座標、またはコールバック関数
+ * @param {number} [x1] - 制御点1 X座標
+ * @param {number} [y1] - 制御点1 Y座標
+ * @param {number} [x2] - 制御点2 X座標
+ * @param {number} [y2] - 制御点2 Y座標
+ * @param {number} [x3] - 終点X座標
+ * @param {number} [y3] - 終点Y座標
+ * @param {string} [lineType] - 線の種類
+ */
 Neo.ActionManager.prototype.bezier = function (
   x0,
   y0,
@@ -7270,6 +8173,14 @@ Neo.ActionManager.prototype.bezier = function (
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 塗り潰し
+ * @param {number|Array<*>} x - 始点X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 始点Y座標、またはコールバック関数
+ * @param {number} [width] - 矩形の幅
+ * @param {number} [height] - 矩形の高さ
+ * @param {string|number} [type] - 塗りつぶしの種類(四角楕円など)
+ */
 Neo.ActionManager.prototype.fill = function (x, y, width, height, type) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7297,6 +8208,13 @@ Neo.ActionManager.prototype.fill = function (x, y, width, height, type) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 左右反転
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 反転する幅
+ * @param {number} [height] - 反転する高さ
+ */
 Neo.ActionManager.prototype.flipH = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7318,6 +8236,13 @@ Neo.ActionManager.prototype.flipH = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 上下反転
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 反転する幅
+ * @param {number} [height] - 反転する高さ
+ */
 Neo.ActionManager.prototype.flipV = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7339,6 +8264,13 @@ Neo.ActionManager.prototype.flipV = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * レイヤー結合
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 結合する幅
+ * @param {number} [height] - 結合する高さ
+ */
 Neo.ActionManager.prototype.merge = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7360,6 +8292,13 @@ Neo.ActionManager.prototype.merge = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形ぼかし
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - ぼかす範囲の幅
+ * @param {number} [height] - ぼかす範囲の高さ
+ */
 Neo.ActionManager.prototype.blurRect = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7381,6 +8320,13 @@ Neo.ActionManager.prototype.blurRect = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形消去
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 消去する幅
+ * @param {number} [height] - 消去する高さ
+ */
 Neo.ActionManager.prototype.eraseRect2 = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7406,6 +8352,14 @@ Neo.ActionManager.prototype.eraseRect2 = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形消去
+ * @deprecated 現在はeraseRect2 が使用されているため、この関数は未使用
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 消去する幅
+ * @param {number} [height] - 消去する高さ
+ */
 Neo.ActionManager.prototype.eraseRect = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7427,6 +8381,14 @@ Neo.ActionManager.prototype.eraseRect = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形コピー
+ * @description 指定された範囲の画像をコピーし、oe.tool にその座標とサイズを記憶する。
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - コピーする幅
+ * @param {number} [height] - コピーする高さ
+ */
 Neo.ActionManager.prototype.copy = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7453,6 +8415,15 @@ Neo.ActionManager.prototype.copy = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形ペースト
+ * @param {number|Array<*>} x - コピー元の開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - コピー元の開始Y座標、またはコールバック関数
+ * @param {number} [width] - ペーストする幅
+ * @param {number} [height] - ペーストする高さ
+ * @param {number} [dx] - 貼り付け先のX座標
+ * @param {number} [dy] - 貼り付け先のY座標
+ */
 Neo.ActionManager.prototype.paste = function (x, y, width, height, dx, dy) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7477,6 +8448,14 @@ Neo.ActionManager.prototype.paste = function (x, y, width, height, dx, dy) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * 矩形傾け
+ * @description ツールバーの「傾け」ボタンに対応する、指定範囲を90度回転させる処理。
+ * @param {number|Array<*>} x - 開始X座標、またはアクションデータ配列
+ * @param {number|function(boolean):void} [y] - 開始Y座標、またはコールバック関数
+ * @param {number} [width] - 変形する範囲の幅
+ * @param {number} [height] - 変形する範囲の高さ
+ */
 Neo.ActionManager.prototype.turn = function (x, y, width, height) {
   var oe = Neo.painter;
   var layer = oe.current;
@@ -7498,6 +8477,16 @@ Neo.ActionManager.prototype.turn = function (x, y, width, height) {
   if (callback && typeof callback == "function") callback(true);
 };
 
+/**
+ * テキストツールによる描画処理
+ * @param {Object|number} x - 描画データ配列、またはX座標
+ * @param {number|function} [y] - Y座標、またはコールバック関数
+ * @param {number} [color] - 色ID
+ * @param {number} [alpha] - 不透明度
+ * @param {string} [string] - 入力された文字列
+ * @param {number} [size] - フォントサイズ
+ * @param {string} [family] - フォントファミリー
+ */
 Neo.ActionManager.prototype.text = function (
   x,
   y,
@@ -7574,7 +8563,7 @@ Neo.ActionManager.prototype.dummy = function () {
     動画表示モード
   -----------------------------------------------------------------------
 */
-
+/**@param {HTMLElement} applet */
 Neo.createViewer = function (applet) {
   var neo = document.createElement("div");
   neo.className = "NEO";
@@ -7606,8 +8595,8 @@ Neo.createViewer = function (applet) {
   });
 
   var parent = applet.parentNode;
-  parent.appendChild(neo);
-  parent.insertBefore(neo, applet);
+  parent?.appendChild(neo);
+  parent?.insertBefore(neo, applet);
 
   // applet.style.display = "none";
 
@@ -7624,6 +8613,14 @@ Neo.createViewer = function (applet) {
   }, 0);
 };
 
+/**
+ * ビューアの初期化処理
+ * @description
+ * アプレットのDOM構成、スタイルの適用、キャンバスの生成、
+ * および操作イベントのリスナー登録を行う。
+ * @param {Object} [pch] - PCHファイルデータ（あれば再生を開始する）
+ * @param {Array<*>} [pch.data] - 再生用アクションデータ
+ */
 Neo.initViewer = function (pch) {
   const pageview = document.getElementById("neo-pageView");
   if (!pageview) return;
@@ -7726,7 +8723,13 @@ Neo.initViewer = function (pch) {
     }, 50);
   }
 };
-
+/**
+ * PCHビューアの起動と環境構築
+ * @description
+ * 1. 古いアプレット要素の破棄とDOM移行。
+ * 2. 設定値(Neo.config)に基づくCSSルールの動的生成。
+ * 3. プレイヤーコントロール(ボタン類)の生成と機能バインディング。
+ */
 Neo.startViewer = function () {
   if (Neo.applet) {
     var name = Neo.applet.getAttribute("name") || "pch";
@@ -7858,6 +8861,13 @@ Neo.getFilename = function () {
   return Neo.config.pch_file || Neo.config.image_canvas;
 };
 
+/**
+ * PCHファイルを非同期で取得し、デコードする。
+ * @description
+ * 読み込み失敗時はコンソールにエラーを出力し、処理を終了する。
+ * @param {string} filename - 対象のPCHファイルパス
+ * @param {function(Object):void} callback - デコードされたPCHデータを受け取るコールバック
+ */
 Neo.getPCH = function (filename, callback) {
   if (!filename || filename.slice(-4).toLowerCase() != ".pch") return null;
 
@@ -7876,6 +8886,20 @@ Neo.getPCH = function (filename, callback) {
     });
 };
 
+/**
+ * PCHファイルのバイナリデータをデコードし、構造化されたオブジェクトに変換する。
+ * * @typedef {Object} PCHData
+ * @property {number} width - キャンバスの横幅
+ * @property {number} height - キャンバスの高さ
+ * @property {Array} data - 描画命令の配列（fixPCH適用済み）
+ * * @param {ArrayBuffer} rawdata - fetchで取得した生のバイナリデータ
+ * @returns {PCHData|null} デコード成功時はオブジェクト、失敗時はnullを返す
+ * * @example
+ * const pch = Neo.decodePCH(buffer);
+ * if (pch) {
+ * console.log(`Canvas size: ${pch.width}x${pch.height}`);
+ * }
+ */
 Neo.decodePCH = function (rawdata) {
   var byteArray = new Uint8Array(rawdata);
   var data = LZString.decompressFromUint8Array(byteArray.subarray(12));
@@ -7901,6 +8925,13 @@ Neo.decodePCH = function (rawdata) {
   }
 };
 
+/**
+ * PCHデータの描画命令配列を修正し、不正なコマンドを解消する。
+ * @description
+ * 描画命令の中に 'eraseAll' が混入している時は、独立した要素として分割し再配置する。
+ * @param {Array<string>} items - 復元された描画命令の配列
+ * @returns {Array<string>} 修正済みの描画命令配列
+ */
 Neo.fixPCH = function (items) {
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
@@ -7936,6 +8967,11 @@ Neo.setSpeed = function (value) {
   Neo.speed = value;
 };
 
+/**
+ * レイヤー可視性
+ * @param {number} layer - 対象となるレイヤーのインデックス
+ * @param {number|boolean} value - 表示状態（0またはfalseで非表示、それ以外で表示）
+ */
 Neo.setVisit = function (layer, value) {
   Neo.painter.visible[layer] = value == 0 ? false : true;
   Neo.painter.updateDestCanvas(
@@ -7960,6 +8996,7 @@ Neo.getLineCount = function () {
 };
 
 "use strict";
+//@ts-check
 
 Neo.getModifier = function (e) {
   if (e.shiftKey) {
@@ -8113,11 +9150,6 @@ Neo.RightButton = class extends Neo.Button {
     this.selected = false;
   }
 };
-/**
- * @param {any} elementID
- * @param {any} params
- * @returns {any}
- */
 Neo.RightButton.prototype.init = function (elementID, params) {
   Neo.Button.prototype.init.call(this, elementID, params);
   this.params.type = "right";
@@ -9152,6 +10184,11 @@ Neo.SizeSlider.prototype.shift = function (x, y) {
   }
 };
 
+/**
+ * スライダーのドラッグ操作によりブラシサイズを更新する。
+ * @param {number} x - 相対X座標
+ * @param {number} y - 相対Y座標
+ */
 Neo.SizeSlider.prototype.slide = function (x, y) {
   var value;
   if (!Neo.painter.tool.alt) {

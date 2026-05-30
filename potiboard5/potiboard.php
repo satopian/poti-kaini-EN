@@ -3,8 +3,9 @@
 
 // POTI-board EVO
 // バージョン :
-const POTI_VER = 'v6.179.1';
-const POTI_LOT = 'lot.20260523';
+
+const POTI_VER = 'v6.181.1';
+const POTI_LOT = 'lot.20260530';
 
 
 /*
@@ -64,10 +65,10 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/2.3/loader.js');
 	define('CHEERPJ_HASH','sha384-1s6C2I0gGJltmNWfLfzHgXW5Dj4JB4kQTpnS37fU6CaQR/FrYG219xbhcAFRcHKE');
 	define('CHEERPJ_PRELOAD','');
-}else{//cj4.1
-	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/4.2/loader.js');
+}else{//cj4.3
+	define('CHEERPJ_URL','https://cjrtnc.leaningtech.com/4.3/loader.js');
 	define('CHEERPJ_HASH','sha384-uKhK9NUHrSpoCfjhgnQkV7vDjOB6IhQZY1esOxD+TF1yvLbbJS/DRhX7g6ATh/wX');
-	define('CHEERPJ_PRELOAD','{"/lt/8/lib/ext/meta-index":[0,131072],"/lt/8/jre/lib/rt.jar":[0,131072,9699328,11010048,11272192,11534336,11665408,12189696,12320768,12451840,15204352,15335424,15466496,15597568,15990784,16384000,16777216,16908288,17039360,17563648,17694720,17825792,18087936,18612224,18743296,18874368,19005440,19136512,19529728,19660800,20185088,20316160,20840448,21757952,21889024,26869760],"/lt/8/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/8/jre/lib/jsse.jar":[0,131072,786432,917504],"/lt/8/jre/lib/jce.jar":[0,131072],"/lt/etc/users":[0,131072],"/lt/8/jre/lib/charsets.jar":[0,131072,1703936,1835008],"/lt/8/jre/lib/resources.jar":[0,131072,917504,1179648],"/lt/8/jre/lib/javaws.jar":[0,131072,1441792,1703936],"/lt/8/jre/lib/meta-index":[0,131072],"/lt/8/lib/security/java.security":[0,131072],"/lt/8/lib/security/java.policy":[0,131072],"/lt/etc/resolv.conf":[0,131072],"/lt/fc/fonts/fonts.conf":[0,131072],"/lt/fc/cache/e21edda6a7db77f35ca341e0c3cb2a22-le32d8.cache-7":[0,131072],"/lt/etc/localtime":[],"/lt/8/lib/ext":[],"/lt/8/lib/ext/index.list":[],"/lt/8/lib/ext/localedata.jar":[],"/lt/8/lib/ext/sunec.jar":[],"/lt/8/lib/ext/sunjce_provider.jar":[],"/lt/8/lib/ext/zipfs.jar":[],"/lt/8/jre/lib":[],"/lt/fc/ttf/LiberationSans-Regular.ttf":[0,131072,262144,393216],"/lt/8/lib/accessibility.properties":[],"/lt/8/lib/fonts/LucidaSansRegular.ttf":[],"/lt/8/lib/ext/*":[],"/lt/etc/hosts":[],"/lt/8/lib/fonts/badfonts.txt":[],"/lt/8/lib/fonts":[],"/lt/8/lib/fonts/fallback":[],"/lt/fc/ttf":[]}');
+	define('CHEERPJ_PRELOAD','{"/lt/8/jre/lib/rt.jar":[0,131072,9699328,10878976,11272192,11534336,11665408,12189696,12320768,12451840,15204352,15335424,15466496,15597568,15990784,16384000,16777216,16908288,17039360,17563648,17694720,17956864,18087936,18612224,18743296,18874368,19005440,19136512,19529728,19660800,20185088,20316160,20840448,21757952,21889024,22020096,22151168,27000832],"/lt/etc/users":[0,131072],"/lt/etc/localtime":[],"/lt/8/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/8/lib/ext/meta-index":[0,131072],"/lt/8/lib/ext":[],"/lt/8/lib/ext/index.list":[],"/lt/8/lib/ext/localedata.jar":[],"/lt/8/jre/lib/jsse.jar":[0,131072,786432,917504],"/lt/8/jre/lib/jce.jar":[0,131072],"/lt/8/jre/lib/charsets.jar":[0,131072,1703936,1835008],"/lt/8/jre/lib/resources.jar":[0,131072,917504,1179648],"/lt/8/jre/lib/javaws.jar":[0,131072,1441792,1703936],"/lt/8/lib/ext/sunec.jar":[],"/lt/8/lib/ext/sunjce_provider.jar":[],"/lt/8/lib/ext/zipfs.jar":[],"/lt/8/jre/lib/meta-index":[0,131072],"/lt/8/jre/lib":[],"/lt/8/lib/accessibility.properties":[],"/lt/8/lib/security/java.security":[0,131072],"/lt/8/lib/fonts/LucidaSansRegular.ttf":[],"/lt/8/lib/security/java.policy":[0,131072],"/lt/8/lib/ext/*":[],"/lt/etc/hosts":[],"/lt/etc/resolv.conf":[0,131072],"/lt/8/lib/fonts/badfonts.txt":[],"/lt/8/lib/fonts":[],"/lt/fc/fonts/fonts.conf":[0,131072],"/lt/fc/ttf":[],"/lt/fc/cache/e21edda6a7db77f35ca341e0c3cb2a22-le32d8.cache-7":[0,131072],"/lt/8/lib/tzdb.dat":[0,131072],"/lt/8/lib/fonts/fallback":[],"/lt/fc/ttf/LiberationSans-Regular.ttf":[0,131072,262144,393216]}');
 }
 define('CHEERPJ_DEBUG','{ enableDebug: true }');
 define('CHEERPJ_DEBUG_MODE',0);
@@ -630,7 +631,7 @@ function updatelog(): void {
 	$totalpages = ceil($counttree / PAGE_DEF)-1;
 	$url_parameter = URL_PARAMETER ? '?'.time() : '';
 
-	for($page=0;$page<$counttree;$page+=PAGE_DEF){//PAGE_DEF単位で全件ループ
+	for($page=0;$page<$counttree;$page+=(int)PAGE_DEF){//PAGE_DEF単位で全件ループ
 
 		$dat=$fdat;//form()を何度もコールしない
 
@@ -639,7 +640,7 @@ function updatelog(): void {
 		foreach($disp_threads as $oya=>$val){//PAGE_DEF分のスレッドを表示
 			$treeline = explode(",", rtrim($val));
 			// レス省略
-			$skipres=count($treeline) - DSP_RES-1;
+			$skipres=count($treeline) - (int)DSP_RES-1;
 
 			//レス作成
 			$dat['oya'][$oya]=[];
@@ -675,15 +676,17 @@ function updatelog(): void {
 			$dat['next'] = $next/PAGE_DEF.PHP_EXT;
 		}
 		$paging = "";
-		for($l = 0; $l < $counttree; $l += (PAGE_DEF*30)){
+		$start_page=0;
+		$end_page=0;
+		for($l = 0; $l < $counttree; $l += ((int)PAGE_DEF*30)){
 
 			$start_page=$l;
-			$end_page=$l+(PAGE_DEF*31);//現在のページよりひとつ後ろのページ
+			$end_page=$l+((int)PAGE_DEF*31);//現在のページよりひとつ後ろのページ
 			if($page-(PAGE_DEF*30)<=$l){break;}//現在ページより1つ前のページ
 		}
 
 
-		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += PAGE_DEF){
+		for($i = $start_page; ($i < $counttree && $i <= $end_page) ; $i += (int)PAGE_DEF){
 
 			$pn = $i ? $i / PAGE_DEF : 0; // page_number
 				if($i === $end_page){//特定のページに代入される記号 エンド
