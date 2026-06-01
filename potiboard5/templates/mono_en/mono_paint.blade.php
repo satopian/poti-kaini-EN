@@ -126,11 +126,9 @@
 	</script>
 	@endif
 	@endif
-	@if($pch_mode)
-	@if($type_neo)
+	@if($pch_mode and $type_neo)
 	<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
 	<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
-	@endif
 	@endif
 	@if($chickenpaint)
 	<style>
@@ -329,28 +327,52 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 
 		<div id="appstage">
 			<div class="app" style="width:{{$w}}px; height:{{$h}}px">
+@if($useneo)
+<div class="neo-applet-paintbbs" data-width="{{$w}}" data-height="{{$h}}"></div>
+<script>
+Neo.param ={
+	paintbbs:{
+	neo_max_pch:{{$max_pch}},
+	neo_send_with_formdata:true,
+	neo_validate_exact_ok_text_in_response:true,
+	neo_confirm_layer_info_notsaved:true,
+	neo_confirm_unload:true,
+	neo_show_right_button:true,
+	neo_animation_skip:true,
+	neo_disable_grid_touch_move:true,
+	neo_enable_zoom_out:true,
+	neo_disable_turn_original_glitch:true,
+	send_header_count:true,
+	send_header_timer:true,
+	image_width:{{$picw}},
+	image_height:{{$pich}},
+	thumbnail_width:"100%",
+	thumbnail_height:"100%",
+	url_save:"{{$self}}?mode=saveimage&tool=neo",
+	@if($pchfile)
+		pch_file:"{{$pchfile}}",
+	@endif
+	@if($imgfile)
+		image_canvas:"{{$imgfile}}",
+	@endif
+	@if($rep)
+		url_exit: "{{$self}}?res={{$oyano}}&resid={{$no}}",
+	@else
+		url_exit:"{{$self}}?mode=piccom&stime={{$stime}}",
+	@endif
+	@if($anime)
+		thumbnail_type:"animation",
+	@endif
+	send_header:"usercode={{$usercode}}&tool={{$tool}}&rep={{$rep}}&no={{$no}}&pwd={{$pwd}}",
+	}
+}
+</script>
+@endif
 
+@if(!$useneo)
+			@if($paintbbs)
 
-				@if($paintbbs)
-				@if($useneo)
-				<applet-dummy code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}"
-					mayscript>
-					@if(isset($max_pch))
-					<param name="neo_max_pch" value="{{$max_pch}}">
-					@endif
-					<param name="neo_send_with_formdata" value="true">
-					<param name="neo_validate_exact_ok_text_in_response" value="true">
-					<param name="neo_confirm_layer_info_notsaved" value="true">
-					<param name="neo_confirm_unload" value="true">
-					<param name="neo_show_right_button" value="true">
-					<param name="neo_animation_skip" value="true">
-					<param name="neo_disable_grid_touch_move" value="true">
-					<param name="neo_enable_zoom_out" value="true">
-					<param name="neo_disable_turn_original_glitch" value="true">
-					@else
-					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}"
-						mayscript>
-						@endif
+					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
 						@endif
 						<!--しぃペインター個別設定-->
 						@if($normal)
@@ -373,7 +395,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								<param name=dir_resource value="./">
 								<param name="tt.zip" value="tt_def.zip">
 								<param name="res.zip" value="res.zip">
-								<!--(Shi-Painterv1.05_9以前を使うなら res_pro.	zip に変更)-->
+								<!--(しぃペインターv1.05_9以前を使うなら res_pro.	zip に変更)-->
 								<param name=tools value="pro">
 								<param name=layer_count value="{{$layer_count}}">
 								@if($quality)
@@ -390,12 +412,12 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								<param name="compress_level" value="{{$compress_level}}">
 								<param name="undo" value="{{$undo}}">
 								<param name="undo_in_mg" value="{{$undo_in_mg}}">
-								@if($useneo)
-								{{-- neo --}}
-								<param name="url_save" value="{{$self}}?mode=saveimage&amp;tool=neo">
-								<param name="send_header" value="usercode={{$usercode}}&amp;tool={{$tool}}">
-								<param name="url_exit" value="{{$self}}?mode={{$mode}}&amp;stime={{$stime}}">
-								@else
+								<param name="poo" value="false">
+								<param name="send_advance" value="true">
+								<param name="tool_advance" value="true">
+								<param name="thumbnail_width" value="100%">
+								<param name="thumbnail_height" value="100%">
+
 								{{-- しぃペインター --}}
 								<param name="url_save" value="{{$self}}?mode=picpost">
 								<param name="send_header"
@@ -404,7 +426,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								<param name="url_exit" value="{{$self}}?res={{$oyano}}&amp;resid={{$no}}">
 								@else
 								<param name="url_exit" value="{{$self}}?mode=piccom&amp;stime={{$stime}}">
-								@endif
+
 								@endif
 								@if($anime)
 								<param name="thumbnail_type" value="animation">
@@ -415,14 +437,6 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 								@if($imgfile)
 								<param name="image_canvas" value="{{$imgfile}}">
 								@endif
-								<param name="poo" value="false">
-								<param name="send_advance" value="true">
-								<param name="thumbnail_width" value="100%">
-								<param name="thumbnail_height" value="100%">
-								<param name="tool_advance" value="true">
-								@if($useneo)
-				</applet-dummy>
-				@else
 				</applet>
 				@endif
 			</div>
@@ -696,37 +710,43 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 		<div id="appstage">
 			<div class="app">
 				<div style="width:{{$w}}px; height:{{$h}}px">
-					@if($paintbbs)
-					@if($type_neo)
-					<applet-dummy code="pch.PCHViewer.class" archive="PCHViewer.jar,PaintBBS.jar" name="pch" width="{{$w}}"
-						height="{{$h}}" mayscript>
-						@else
-						<applet code="pch.PCHViewer.class" archive="PCHViewer.jar,PaintBBS.jar" name="pch" width="{{$w}}"
-							height="{{$h}}" mayscript>
-							@endif
-							@endif
-							@if($normal)
-							<applet name="pch" code="pch2.PCHViewer.class" archive="PCHViewer.jar,spainter_all.jar" codebase="./"
-								width="{{$w}}" height="{{$h}}">
-								@endif
-								@if($normal)
-								<param name="res.zip" value="res.zip">
-								<!--(Shi-Painterv1.05_9以前を使うなら res_normal.zip に変更)-->
-								<param name="tt.zip" value="tt_def.zip">
-								<param name="tt_size" value="31">
-								@endif
-								<param name="image_width" value="{{$picw}}">
-								<param name="image_height" value="{{$pich}}">
-								<param name="pch_file" value="{{$pchfile}}">
-								<param name="speed" value="{{$speed}}">
-								<param name="buffer_progress" value="false">
-								<param name="buffer_canvas" value="false">
-								<param name="neo_enable_zoom_out" value="true">
-								<param name="neo_viewer_buttonswrapper_top" value="true">
-					@if($type_neo)
-					</applet-dummy>
-					@else
-					</applet>
+	@if($type_neo)
+	<div class="neo-applet-pch" width="{{$w}}" height="{{$h}}"></div>
+	<script>
+	Neo.param ={
+		pch:{
+		image_width:{{$picw}},
+		image_height:{{$pich}},
+		pch_file:"{{$pchfile}}",
+		speed:{{$speed}},
+		neo_enable_zoom_out:true,
+		neo_viewer_buttonswrapper_top:true,
+		}		
+	}
+	</script>	
+	@endif
+	@if(!$type_neo)
+	@if($paintbbs)
+		<applet name="pch" code="pch.PCHViewer.class"
+			archive="PCHViewer.jar,PaintBBS.jar" width="{{$w}}" height="{{$h}}" MAYSCRIPT>
+		@endif
+		@if($normal)
+			<applet name="pch" code="pch2.PCHViewer.class" archive="PCHViewer.jar,spainter_all.jar" codebase="./"
+				width="{{$w}}" height="{{$h}}">
+				<param name="res.zip" value="res.zip">
+				{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
+				<param name="tt.zip" value="tt_def.zip">
+				<param name="tt_size" value="31">
+		@endif
+				<param name="image_width" value="{{$picw}}">
+				<param name="image_height" value="{{$pich}}">
+				<param name="pch_file" value="{{$pchfile}}">
+				<param name="speed" value="{{$speed}}">
+				<param name="buffer_progress" value="false">
+				<param name="buffer_canvas" value="false">
+				<param name="neo_enable_zoom_out" value="true">
+				<param name="neo_viewer_buttonswrapper_top" value="true">
+			</applet>
 					@endif
 				</div>
 				<p>
