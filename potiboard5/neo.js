@@ -433,11 +433,12 @@ Neo.fixConfig = function (value) {
     value = "#0" + value.slice(1);
   }
   //true|falseの時は小文字に統一
-  value =
+  if (
     value.toLocaleLowerCase() === "true" ||
     value.toLocaleLowerCase() === "false"
-      ? value.toLocaleLowerCase()
-      : value;
+  ) {
+    return value.toLocaleLowerCase();
+  }
   return value;
 };
 
