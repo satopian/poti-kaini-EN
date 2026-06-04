@@ -330,7 +330,7 @@ a[c],b.p_st.options[c].style.color=e[c],b.p_ed.options[c].style.background=a[c],
 @if($useneo)
 <div class="neo-applet-paintbbs" data-width="{{$w}}" data-height="{{$h}}"></div>
 <script>
-Neo.param ={
+Neo.params ={
 	paintbbs:{
 	neo_max_pch:{{$max_pch}},
 	neo_send_with_formdata:true,
@@ -713,7 +713,7 @@ Neo.param ={
 	@if($type_neo)
 	<div class="neo-applet-pch" data-width="{{$w}}" data-height="{{$h}}"></div>
 	<script>
-	Neo.param ={
+	Neo.params ={
 		pch:{
 		image_width:{{$picw}},
 		image_height:{{$pich}},
