@@ -4,7 +4,7 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.188.1';
+const POTI_VER = 'v6.188.2';
 const POTI_LOT = 'lot.20260615';
 
 
@@ -4027,11 +4027,13 @@ function validateQueryParameters(){
 	$res=filter_input_data('GET','res',FILTER_VALIDATE_INT);
 	$page=filter_input_data('GET','page',FILTER_VALIDATE_INT);
 	$resno=filter_input_data('GET','resno',FILTER_VALIDATE_INT);
+	$no=filter_input_data('GET','no',FILTER_VALIDATE_INT);
 	//フィルタが失敗した時はfalse
 	if(
 		$res===false||
 		$page===false||
-		$resno===false
+		$resno===false||
+		$no===false
 	)
 	{
 			header("HTTP/1.1 403 Forbidden");
