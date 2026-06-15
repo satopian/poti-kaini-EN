@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.186.0';
-const POTI_LOT = 'lot.20260613';
+const POTI_VER = 'v6.188.1';
+const POTI_LOT = 'lot.20260615';
 
 
 /*
@@ -100,7 +100,7 @@ if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20251031){
 	//検索Class
 check_file(__DIR__.'/search.inc.php');
 require_once(__DIR__.'/search.inc.php');
-if(!isset($search_inc_ver) || $search_inc_ver < 20260501){
+if(!isset($search_inc_ver) || $search_inc_ver < 20260614){
 	die($en ? "Please update search.inc.php" : "search.inc.phpを更新してください。");
 }
 //画像保存Class
@@ -114,6 +114,12 @@ require_once(__DIR__.'/picpost.inc.php');
 if(!isset($picpost_inc_ver) || $picpost_inc_ver < 20260501){
 die($en ? "Please update picpost.inc.php" : "picpost.inc.phpを更新してください。");
 }
+
+/**
+ * 不正なクエリパラメータの時は 403 403 Forbiddenを返す
+ */
+validateQueryParameters();
+
 $path = __DIR__.'/'.IMG_DIR;
 $temppath = __DIR__.'/'.TEMP_DIR;
 
@@ -331,13 +337,13 @@ switch($mode){
 			updatelog();
 			redirect(h(PHP_SELF2));
 		}
-		return;
+		exit();
 
 	case 'usrdel':
 		if (!USER_DELETES) {
 			error(MSG033);
 		}
-		userdel();
+		return userdel();
 	case 'paint':
 		return paintform();
 	case 'piccom':
@@ -383,14 +389,15 @@ switch($mode){
 		return saveimage();
 	case 'picpost':
 		return picpost::saveimage();
-	default:
+	case '':
 		if($res){
 			return res($res);
 		}
-		redirect(h(PHP_SELF2));
+		 redirect(h(PHP_SELF2));
+	default:
+		header("HTTP/1.1 403 Forbidden");
+		exit();
 }
-
-exit();
 
 //ユーザーip
 function get_uip(): string {
@@ -712,7 +719,6 @@ function updatelog(): void {
 			error(MSG015);
 		} 
 		$logfilename = ($page === 0) ? h(PHP_SELF2) : ($page / PAGE_DEF) . PHP_EXT;
-		$dat['logfilename'] = $logfilename;
 		if(is_file($logfilename)){
 			if(PHP_EXT!='.php'){chmod($logfilename,PERMISSION_FOR_DEST);}
 		}
@@ -3919,7 +3925,6 @@ function is_paint_tool_name(?string $tool): string {
  * ツリーnoと一致する行の配列を作成
  * @param resource|false $fp
  */
-
 function create_line_from_treenumber ($fp,array $trees): array {
 
 	rewind($fp);
@@ -4012,5 +4017,24 @@ function check_submission_interval(): void {
 	if (($now - $form_display_time) < $min_interval) {
 		set_form_display_time();
 		error(MSG053);
+	}
+}
+
+/**
+ * 不正なクエリパラメータの時は 403 403 Forbiddenを返す
+ */
+function validateQueryParameters(){
+	$res=filter_input_data('GET','res',FILTER_VALIDATE_INT);
+	$page=filter_input_data('GET','page',FILTER_VALIDATE_INT);
+	$resno=filter_input_data('GET','resno',FILTER_VALIDATE_INT);
+	//フィルタが失敗した時はfalse
+	if(
+		$res===false||
+		$page===false||
+		$resno===false
+	)
+	{
+			header("HTTP/1.1 403 Forbidden");
+			exit();
 	}
 }

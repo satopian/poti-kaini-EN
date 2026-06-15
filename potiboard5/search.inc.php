@@ -1,5 +1,5 @@
 <?php
-$search_inc_ver = 20260502;
+$search_inc_ver = 20260614;
 //POTI-board plugin search(C)2020-2026 さとぴあ(@satopian)
 //MIT License
 //v6.173.0 lot.20260502
@@ -53,6 +53,30 @@ class processsearch {
 // Initial value 120 Do not make it too large.
 	defined("MAX_SEARCH") or define("MAX_SEARCH","120");
 	//設定を変更すればより多く検索できるようになりますが、サーバの負荷が高くなります。
+
+	$gets= filter_input_array(INPUT_GET) ?? [];
+	// 許可リストをキーにした配列を作成
+	$allowed_keys = array_fill_keys(['mode', 'radio', 'imgsearch', 'query','page'], true);
+	// 不正なキーを抽出
+	$invalid_keys = array_diff_key($gets, $allowed_keys);
+
+	$page=filter_input_data('GET','page',FILTER_VALIDATE_INT);
+	$radio=filter_input_data('GET','radio',FILTER_VALIDATE_INT);
+	$imgsearch=filter_input_data('GET','imgsearch');
+	$imagSearchOptions =["on","off"];
+	$isAllowedOption = in_array($imgsearch,$imagSearchOptions);
+	//フィルタが失敗した時はfalse
+	if(
+		!empty($invalid_keys)||
+		$page===false||
+		$radio===false||
+		$imgsearch && $isAllowedOption===false
+	)
+	{
+		header("HTTP/1.1 403 Forbidden");
+		exit();
+	}
+
 
 	$imgsearch=(bool)filter_input_data('GET','imgsearch',FILTER_VALIDATE_BOOLEAN);
 	$page=(int)filter_input_data('GET','page',FILTER_VALIDATE_INT);
