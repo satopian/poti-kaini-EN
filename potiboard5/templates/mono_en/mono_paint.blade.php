@@ -112,7 +112,7 @@
 	@endif
 	@if($paint_mode)
 	@if(!$chickenpaint)
-	<script src="{{$skindir}}js/visibility-change-title-rewrite.js?{{$ver}}">
+	<script src="{{$skindir}}js/visibility-change-title-rewrite.js?{{$ver}}"></script>
 	<script>
 		//Firefoxのメニューバーが開閉するのため、Altキーのデフォルトの処理をキャンセル
 				document.addEventListener('keyup', function(e) {//しぃペインター NEO共通
