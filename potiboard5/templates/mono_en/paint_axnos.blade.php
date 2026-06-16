@@ -11,6 +11,7 @@
 	</style>
 
 <title>{{$title}}</title>
+	<script src="{{$skindir}}js/visibility-change-title-rewrite.js?{{$ver}}">
 	<script>
 		// 画面上部のお知らせ領域に表示するテキスト（掲示板名を想定）
 	const HEADER_TEXT = "AXNOS Paint（アクノスペイント）";
