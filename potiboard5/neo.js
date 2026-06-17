@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.6";
+Neo.version = "1.7.7";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -333,6 +333,31 @@ Neo.init2 = function () {
     },
     false,
   );
+  /**
+   * Chromeのメモリーセーバによるタブ破棄対策
+   * 非アクティブになった時にタイトルタグにアスタリスクを追加
+   */
+  //オリジナルのタイトルタグを保持
+  const originalTitle = document.title;
+  document.addEventListener("visibilitychange", () => {
+    if (Neo.config.neo_visibility_change_title_rewrite === "true") {
+      // ページが見えている時は元に戻す
+      if (document.visibilityState === "visible") {
+        document.title = originalTitle;
+      }
+      // ページが隠れた時はタイマーをセット
+      else if (document.visibilityState === "hidden") {
+        setTimeout(() => {
+          if (
+            document.visibilityState === "hidden" &&
+            document.title === originalTitle
+          ) {
+            document.title = `${originalTitle} *`;
+          }
+        }, 3000);
+      }
+    }
+  });
 };
 /**
  * 初期設定
@@ -862,26 +887,6 @@ Neo.applyStyle = function (name, defaultColor) {
     Neo.config[name] = Neo.rules[name] || defaultColor;
   }
 };
-// /** @param {HTMLElement|null} element */
-// Neo.getInheritColor = function (element) {
-//   var result = "#000000";
-//   while (element && element.style) {
-//     if (element.style.color != "") {
-//       result = element.style.color;
-//       break;
-//     }
-//     const textAttributes = element.attributes.getNamedItem("text");
-
-//     if (textAttributes) {
-//       result = textAttributes.value;
-//       console.log("result", result);
-//       break;
-//     }
-//     element =
-//       element.parentNode instanceof HTMLElement ? element.parentNode : null;
-//   }
-//   return result;
-// };
 
 Neo.backgroundImage = function () {
   var c1 = Neo.painter.getColor(Neo.config.color_bk) | 0xff000000;

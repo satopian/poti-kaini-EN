@@ -15,7 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // ページが隠れた時はタイマーをセット
         else if (document.visibilityState === "hidden") {
             setTimeout(() => {
-                document.title = `${originalTitle} *`;
+                if (
+                    document.visibilityState === "hidden" &&
+                    document.title === originalTitle
+                ) {
+                    document.title = `${originalTitle} *`;
+                }
             }, 3000);
         }
     });

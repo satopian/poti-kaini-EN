@@ -4021,7 +4021,7 @@ function check_submission_interval(): void {
 }
 
 /**
- * 不正なクエリパラメータの時は 403 403 Forbiddenを返す
+ * 不正なクエリパラメータの時は 403 Forbiddenを返す
  */
 function validateQueryParameters(){
 	$res=filter_input_data('GET','res',FILTER_VALIDATE_INT);
