@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.189.0';
-const POTI_LOT = 'lot.20260616';
+const POTI_VER = 'v6.190.0';
+const POTI_LOT = 'lot.20260618';
 
 
 /*
@@ -823,7 +823,6 @@ function res(?string $resno): void {
 			$treeline = explode(",", trim($value));//現在のスレッドのツリーを取得
 			break;
 		}
-		unset($trees[$i]);
 	}
 
 	if (empty($treeline)) {
