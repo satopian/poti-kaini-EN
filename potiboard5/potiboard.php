@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.190.0';
-const POTI_LOT = 'lot.20260618';
+const POTI_VER = 'v6.191.1';
+const POTI_LOT = 'lot.20260620';
 
 
 /*
@@ -809,6 +809,10 @@ function res_view_other_works(?string $resno,array $trees,int $i): array {
 
 //レス画面を表示
 function res(?string $resno): void {
+
+	//不正なクエリパラメータの時は 403 Forbiddenを返す
+	$allowed_keys = array_fill_keys(['res'], true);
+	validateQueryParameters($allowed_keys);
 
 	if(!$resno||$resno<0){
 		redirect(h(PHP_SELF2));
@@ -2906,6 +2910,11 @@ function location_paintcom(): void {
 // カタログ
 function catalog(): void {
 
+	//不正なクエリパラメータの時は 403 Forbiddenを返す
+	$allowed_keys = array_fill_keys(['mode','page'], true);
+	validateQueryParameters($allowed_keys);
+
+
 	$page = (int)filter_input_data('GET', 'page',FILTER_VALIDATE_INT);
 
 	$page=$page<0 ? 0 : $page;
@@ -4022,13 +4031,22 @@ function check_submission_interval(): void {
 /**
  * 不正なクエリパラメータの時は 403 Forbiddenを返す
  */
-function validateQueryParameters(){
+function validateQueryParameters($allowed_keys=[]){
+
+	$gets=filter_input_array(INPUT_GET) ?? [];
+	// 不正なキーを抽出
+	$invalid_keys=[];
+	if(!empty($allowed_keys)){
+		$invalid_keys = array_diff_key($gets, $allowed_keys);
+	}
+
 	$res=filter_input_data('GET','res',FILTER_VALIDATE_INT);
 	$page=filter_input_data('GET','page',FILTER_VALIDATE_INT);
 	$resno=filter_input_data('GET','resno',FILTER_VALIDATE_INT);
 	$no=filter_input_data('GET','no',FILTER_VALIDATE_INT);
 	//フィルタが失敗した時はfalse
 	if(
+		!empty($invalid_keys)||
 		$res===false||
 		$page===false||
 		$resno===false||
