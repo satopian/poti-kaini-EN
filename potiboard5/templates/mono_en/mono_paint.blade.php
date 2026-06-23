@@ -35,7 +35,7 @@
 		main>div#catalog,
 		footer>div,
 		footer>div.copy {
-			margin: 0px auto;
+			margin: 0 auto;
 			display: block;
 
 			max-width: calc({
