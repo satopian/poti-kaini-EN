@@ -19,7 +19,7 @@
 	@if(!$chickenpaint)
 		{{-- 動的PaletteのColorPicker --}}
 	<style>
-		input.gradationColorInputText {width: 70px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer;}
+		input.gradationColorInputText {width: 70px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer; vertical-align:center;}
 	</style>
 
 	@include('parts.style-switcher')
