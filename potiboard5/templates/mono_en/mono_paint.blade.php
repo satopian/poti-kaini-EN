@@ -311,7 +311,6 @@
 				{!!htmlspecialchars($palettes,ENT_NOQUOTES)!!}
 				@endif
 function setPalette(){var a=document.forms.namedItem("Palette");if(a&&(a=a.elements.namedItem("select"),a instanceof HTMLSelectElement)){document.paintbbs.setColors(Palettes[a.selectedIndex]);a=document.forms.namedItem("grad");var b=a?.elements.namedItem("view");a&&b instanceof HTMLInputElement&&b.checked&&GetPalette()}}async function PaletteSave(){Palettes[0]=String(await document.paintbbs.getColors())}var cutomP=0;
-function setPalette(){var a=document.forms.namedItem("Palette");a&&(a=a.elements.namedItem("select"),a instanceof HTMLSelectElement&&(document.paintbbs.setColors(Palettes[a.selectedIndex]),document.forms.namedItem("grad")&&GetPalette()))}async function PaletteSave(){Palettes[0]=String(await document.paintbbs.getColors())}var cutomP=0;
 async function PaletteNew(){var a=String(await document.paintbbs.getColors()),b=document.forms.namedItem("Palette");b&&(b=b.elements.namedItem("select"),b instanceof HTMLSelectElement&&(Palettes[b.length]=a,cutomP++,a=prompt("Palette name","Palette "+cutomP),a==null||a==""?cutomP--:(b.options[b.length]=new Option(a),30>b.length&&(b.size=b.length),PaletteListSetColor())))}
 async function PaletteRenew(){var a=document,b=document.forms.namedItem("Palette");b&&(b=b.elements.namedItem("select"),b instanceof HTMLSelectElement&&(Palettes[Number(b.selectedIndex)]=String(await a.paintbbs.getColors()),PaletteListSetColor()))}
 function PaletteDel(){var a=Palettes.length,b=document.forms.namedItem("Palette");if(b&&(b=b.elements.namedItem("select"),b instanceof HTMLSelectElement)){var c=b.selectedIndex;if(c!=-1&&confirm("Are you sure you want to delete ["+b.options[c].text+"]?")){for(b.remove(c);a>c;)Palettes[c]=Palettes[c+1],c++;30>b.length&&(b.size=b.length)}}}
@@ -455,7 +454,6 @@ Neo.params ={
 			</div>
 			<div class="palette_wrap">
 				<div class="palette">
-					<form name="Palette">
 						@if($useneo)
 						<fieldset>
 							<legend>TOOL</legend>
@@ -475,6 +473,7 @@ Neo.params ={
 						</fieldset>
 						@endif
 						<fieldset>
+					<form name="Palette">
 							<legend>PALETTE</legend>
 							<select class="form palette_select" name="select" size="{{$palsize}}" onchange="setPalette()">
 								<option>saved palette</option>
@@ -508,6 +507,7 @@ Neo.params ={
 					<form name="grad">
 						<fieldset>
 							<legend>GRADATION</legend>
+							<input type="checkbox" name="view" onclick="showHideLayer()">
 							<input type="button" class="button" value=" Ok " onclick="ChengeGrad()"><br>
 							<select class="form" name="p_st" onchange="GetPalette()">
 								<option>1</option>
