@@ -532,7 +532,7 @@ Neo.params ={
 								<option>14</option>
 							</select>
 							<input class="form gradationColorInputText" type="text" name="pst" size="8" onkeypress="Chenge_()" onchange="Chenge_()">
-							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPst" size="8"  onChange="colorPickerChange()" value="#fff"><br>
+							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPst" size="8"  onChange="colorPickerChange()" value="#ffffff"><br>
 							<select class="form" name="p_ed" onchange="GetPalette()">
 								<option>1</option>
 								<option>2</option>
@@ -550,7 +550,7 @@ Neo.params ={
 								<option>14</option>
 							</select>
 							<input class="form gradationColorInputText" type="text" name="ped" size="8" onkeypress="Chenge_()" onchange="Chenge_()">
-							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPed" size="8"  onChange="colorPickerChange()" value="#fff">
+							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPed" size="8"  onChange="colorPickerChange()" value="#ffffff">
 							<div id="psft"></div>
 							<script>
 								if(DynamicColor) PaletteListSetColor();
