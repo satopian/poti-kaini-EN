@@ -4048,13 +4048,9 @@ function validateQueryParameters($allowed_keys=[]){
 	if(
 		!empty($invalid_keys)||
 		$res===false||
-		$resno<1||
 		$page===false||
-		$page<0||
 		$resno===false||
-		$resno<1||
-		$no===false||
-		$no<1
+		$no===false
 	)
 	{
 			header("HTTP/1.1 403 Forbidden");
