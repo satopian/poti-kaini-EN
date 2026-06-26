@@ -6692,7 +6692,7 @@ var TegakiUI = {
         !edge && el.classList.add("tegaki-invis");
         el.value = color;
         el.type = "color";
-        $T.on(el, "change", Tegaki.onColorPicked);
+        $T.on(el, "input", Tegaki.onColorPicked);
 
         ctrl.appendChild(el);
 

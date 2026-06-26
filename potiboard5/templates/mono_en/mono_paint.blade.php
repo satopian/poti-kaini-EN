@@ -20,7 +20,7 @@
 		{{-- 動的PaletteのColorPicker --}}
 	<style>
 		input.gradationColorInputText {width: 70px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
-		input#neo-colorPicker{width:35px;height: 25px;border: 0;padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
+		input#neo-colorPicker{width:48px;height: 22px;border: 0;padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
 	</style>
 
 	@include('parts.style-switcher')
@@ -494,7 +494,7 @@ Neo.params ={
 							<input class="button" type="button" value="Invert" onclick="P_Effect(255)">
 							<br>
 							@if($useneo)
-							<input id="neo-colorPicker" type="color" onChange="Neo.setColor(this.value)">
+							<input id="neo-colorPicker" type="color" oninput="Neo.setColor(this.value)">
 							@endif
 						</fieldset>
 						<fieldset>
