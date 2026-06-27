@@ -133,6 +133,10 @@
 	.pickr .pcr-button::after {
 		transition: none;
 	}
+	/* 色相スライダの操作でリロードのジェスチャになるのを防止 */
+	.pcr-app.visible{
+		touch-action: none;
+	}
 	/* grab */
 	.pcr-app .pcr-selection .pcr-color-palette,
 	.pcr-app .pcr-selection .pcr-color-chooser,
