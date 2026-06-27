@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.8";
+Neo.version = "1.7.9";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -4116,32 +4116,35 @@ Neo.Painter.prototype.getBound = function (x0, y0, x1, y1, r) {
  */
 Neo.Painter.prototype.getColor = function (color = "") {
   const c = color ? color : this.foregroundColor;
+  /** @type {number} @description 0-255  */
   const r = parseInt(c.slice(1, 3), 16);
+  /** @type {number} @description 0-255  */
   const g = parseInt(c.slice(3, 5), 16);
+  /** @type {number} @description 0-255  */
   const b = parseInt(c.slice(5, 7), 16);
+  /** @type {number} @description 0-255  */
   const a = Math.floor(this.alpha * 255);
 
   const value = (a << 24) | (b << 16) | (g << 8) | r;
 
+  // 正しい順序 #RRGGBB で文字列を作成
+  const hex =
+    "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   //<input type="color">で色を取得するElementのID
   /**@type {string} */
   const colorPickerId = Neo.config.neo_color_picker_id;
+  const colorPicker = document.getElementById(colorPickerId);
   if (colorPickerId) {
-    // value から各成分を再度取り出し、#RRGGBB の順で結合し直す
-    // 0xFF は 11111111 (2進数) で、特定の8ビットだけを抽出するマスク
-    const rb = value & 0xff; // 元の式での r
-    const gb = (value >> 8) & 0xff; // 元の式での g
-    const bb = (value >> 16) & 0xff; // 元の式での b
-
-    // 正しい順序 #RRGGBB で文字列を作成
-    const hex =
-      "#" + ((1 << 24) + (rb << 16) + (gb << 8) + bb).toString(16).slice(1);
-
-    const colorPicker = document.getElementById(colorPickerId);
     if (colorPicker instanceof HTMLInputElement) {
       colorPicker.value = hex;
     }
   }
+  //色が変更された事を通知するカスタムイベント
+  document.dispatchEvent(
+    new CustomEvent("neo:colorchange", {
+      detail: { hex, r, g, b, a },
+    }),
+  );
 
   return value;
 };
