@@ -559,7 +559,22 @@ document.addEventListener("neo:colorchange", (e) => {
     pickr.setColor(e.detail.hex);
 		 isUpdatingFromNeo = false;
 });
-
+document.addEventListener("neo:fullscreenchange", (e) => {
+	const pickr = document.querySelector(".pickr");
+	if(pickr){
+		if (e.detail.fullscreen) {
+			pickr.style.position = 'fixed';
+			pickr.style.top = '6px';
+			pickr.style.right = '12px';
+			pickr.style.zIndex = '99999';
+		}else{
+			pickr.style.position = '';
+			pickr.style.top = '';
+			pickr.style.right = '';
+			pickr.style.zIndex = '';	
+		}
+	}
+});
 </script>
 							@endif
 						</fieldset>
