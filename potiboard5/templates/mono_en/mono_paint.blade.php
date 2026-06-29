@@ -556,9 +556,14 @@ pickr.on('change', (color, instance) => {
 });
 
 document.addEventListener("neo:colorchange", (e) => {
-	isUpdatingFromNeo = true;
+    isUpdatingFromNeo = true;
+    const currentH = pickr._color.h; // 現在のhueを保存
     pickr.setColor(e.detail.hex);
-		 isUpdatingFromNeo = false;
+    if (pickr._color.v === 0 || pickr._color.s === 0) {
+        pickr._color.h = currentH; // hueを復元
+        pickr._components.hue.update(currentH / 360); // 色相スライダーを更新
+    }
+    isUpdatingFromNeo = false;
 });
 document.addEventListener("neo:fullscreenchange", (e) => {
 	const pickr = document.querySelector(".pickr");
