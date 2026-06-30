@@ -5,7 +5,7 @@
 <title>{{$title}}</title> 
 <script src="tegaki/tegaki.js?{{$parameter_day}}"></script>
 <link rel="stylesheet" href="tegaki/tegaki.css?{{$parameter_day}}">
-<meta name="viewport" content="width={{$picw+100}}, initial-scale=1.0,maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 <style>
 	:not(input){
 	-moz-user-select: none;
