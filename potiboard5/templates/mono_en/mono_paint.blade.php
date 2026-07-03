@@ -61,7 +61,7 @@
 	</style>
 	@endif
 	@if($useneo)
-	<link rel="stylesheet" href="./lib/pickr/themes/classic.min.css?{{$parameter_day}}&{{$ver}}"/>
+	<link rel="stylesheet" href="./lib/pickr/themes/nano.min.css?{{$parameter_day}}&{{$ver}}"/>
 	<script src="./lib/pickr/pickr.min.js?{{$parameter_day}}&{{$ver}}"></script>
 	<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
 	<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
@@ -536,7 +536,7 @@ Neo.params ={
 // Pickrの初期化
 const pickr = Pickr.create({
     el: "#pickr-container",
-    theme: 'classic',
+    theme: 'nano',
     position: 'top-start',
     components: {
         preview: true,
