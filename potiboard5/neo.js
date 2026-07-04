@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.11";
+Neo.version = "1.7.12";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -52,7 +52,7 @@ Neo.isPinchZooming = function () {
   return false;
 };
 Neo.updateUI = function () {};
-Neo.stabilize_level = 1;
+Neo.stabilize_level = 0;
 /** @type {CSSStyleSheet|null}*/
 Neo.styleSheet = null;
 /** @type {any} **/
@@ -2053,8 +2053,9 @@ Neo.setToolSide = function (htmlConfiguredSide) {
  */
 Neo.setStabilizeLevel = function (htmlConfig) {
   let level = parseInt(String(htmlConfig));
+
   if (isNaN(level) || level < 0) {
-    level = 1; //デフォルトは1
+    level = 0; //最小0
   } else if (level > 5) {
     level = 5; //最大5
   }
@@ -3360,7 +3361,7 @@ Neo.Painter = class {
 
     const isDrawTool = freeHandMode && toolTypes.includes(Neo.CurrentToolType);
 
-    if (Neo.config.neo_disable_stabilizer == "true" || !isDrawTool) {
+    if (!isDrawTool || !Neo.stabilize_level) {
       return;
     }
     if (this.isMouseDown) {
