@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.12";
+Neo.version = "1.7.15";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -2787,12 +2787,12 @@ Neo.Painter = class {
     if (!Neo.viewer) {
       const container = document.getElementById("neo-container");
       if (!container) return;
-      container.onmouseover = function (e) {
+      container.addEventListener("mouseover", function (e) {
         ref._rollOverHandler(e);
-      };
-      container.onmouseout = function (e) {
+      });
+      container.addEventListener("mouseout", function (e) {
         ref._rollOutHandler(e);
-      };
+      });
       // 先にNeo.Buttonのtouchstart()がトリガーされる
       container.addEventListener(
         "mousedown", //pointerdownに変更するとここが先にトリガーされ、線幅を保存できなくなる
@@ -2863,22 +2863,27 @@ Neo.Painter = class {
         },
         { capture: false },
       );
-
-      document.onkeydown = function (e) {
+      document.addEventListener("keydown", function (e) {
         ref._keyDownHandler(e);
-      };
-      document.onkeyup = function (e) {
+      });
+      document.addEventListener("keyup", function (e) {
         ref._keyUpHandler(e);
-      };
+      });
+      window.addEventListener("blur", () => {
+        ref.isSpaceDown = false;
+        ref.isShiftDown = false;
+        ref.isCtrlDown = false;
+        ref.isAltDown = false;
+      });
     }
 
     if (Neo.config.neo_confirm_unload == "true") {
-      window.onbeforeunload = function (e) {
+      window.addEventListener("beforeunload", function (e) {
         if (!Neo.uploaded && ref.isDirty()) {
           e.preventDefault();
           return false;
         }
-      };
+      });
     }
     this.updateDestCanvas(0, 0, this.canvasWidth, this.canvasHeight);
   }
@@ -3044,6 +3049,54 @@ Neo.Painter = class {
    * @param {KeyboardEvent} e
    */
   _keyDownHandler(e) {
+    /**
+     * ctrlキーとの組み合わせのブラウザデフォルトのショートカットキーを無効化
+     * @description ctrl+z,ctrl+y,ctrl+v,ctrl+x,ctrl+aは使用可能
+     * @param {KeyboardEvent} e
+     */
+    const preventCtrlKeyDefaults = (e) => {
+      const keys = ["+", ";", "=", "-", "s", "h", "r", "u", "o"];
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        e.key &&
+        keys.includes(e.key.toLowerCase())
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    const target = e.target;
+    //NEO外部の input textAreaへの入力をNEOで処理しない
+    if (
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement
+    ) {
+      //NEO外部の input textAreaへの入力中はフラグをリセット
+      this.isShiftDown = false;
+      this.isCtrlDown = false;
+      this.isAltDown = false;
+      this.isSpaceDown = false;
+      preventCtrlKeyDefaults(e);
+      return;
+    }
+
+    if (this.tool.keyDownHandler) {
+      this.tool.keyDownHandler(e);
+    }
+
+    //テキスト入力をしている時はキーボードショートカットキーを使用しないため早期return
+    if (target === this.inputText) {
+      preventCtrlKeyDefaults(e);
+      return;
+    }
+
+    //スペースキーでスクロールしないようにする
+    //テキスト入力をしていない時はデフォルトのキーボードイベントをキャンセルする
+    e.preventDefault();
+
+    /**
+     * キーボードショートカット
+     */
     this.isShiftDown = e.shiftKey;
     this.isCtrlDown = e.ctrlKey;
     this.isAltDown = e.altKey;
@@ -3078,34 +3131,6 @@ Neo.Painter = class {
       ) {
         this._pushUndo();
         this._actionMgr.eraseAll();
-      }
-    }
-
-    if (this.tool.keyDownHandler) {
-      this.tool.keyDownHandler(e);
-    }
-
-    //スペース・Shift+スペースででスクロールしないように
-    // if (document.activeElement != this.inputText) e.preventDefault();
-    // console.log(document.activeElement.tagName)
-    //ctrlキーとの組み合わせのブラウザデフォルトのショートカットキーを無効化
-    //但しctrl+v,ctrl+x,ctrl+aは使用可能
-    const keys = ["+", ";", "=", "-", "s", "h", "r", "y", "z", "u", "o"];
-    if (
-      (e.ctrlKey || e.metaKey) &&
-      e.key &&
-      keys.includes(e.key.toLowerCase())
-    ) {
-      e.preventDefault();
-    }
-
-    //text入力と、入力フォーム以外はすべてのキーボードイベントを無効化
-    if (document.activeElement != this.inputText) {
-      if (!(
-        document.activeElement?.tagName.toLocaleUpperCase() === "INPUT" ||
-        document.activeElement?.tagName.toLocaleUpperCase() === "TEXTAREA"
-      )) {
-        e.preventDefault();
       }
     }
   }
@@ -3544,12 +3569,6 @@ Neo.Painter = class {
     ];
     this._undoMgr.pushRedo(undoItem);
   }
-
-  /*
-   -------------------------------------------------------------------------
-   Data Cache for Undo / Redo
-   -------------------------------------------------------------------------
- */
 
   /*
    -------------------------------------------------------------------------
@@ -6322,6 +6341,12 @@ Neo.UndoItem = class {
   }
 };
 
+/*
+   -------------------------------------------------------------------------
+   Data Cache for Undo / Redo
+   -------------------------------------------------------------------------
+ */
+
 /**
  * Undo/Redo履歴を管理するマネージャー。
  * @description
@@ -6393,6 +6418,24 @@ Neo.setColor = function (color) {
     //カラーチップに色をセット
     colorTip.setColor(color);
   }
+};
+// デバッグ用: コンソールから状態を確認できるようにする
+window["__neodebug"] = () => {
+  console.log({
+    tool: Neo.painter.tool?.constructor?.name,
+    isMouseDown: Neo.painter.isMouseDown,
+    isMouseDownRight: Neo.painter.isMouseDownRight,
+    isSpaceDown: Neo.painter.isSpaceDown,
+    isCtrlDown: Neo.painter.isCtrlDown,
+    isShiftDown: Neo.painter.isShiftDown,
+    isAltDown: Neo.painter.isAltDown,
+    isBezierActive: Neo.painter.isBezierActive,
+    isCopyActive: Neo.painter.isCopyActive,
+    busy: Neo.painter.busy,
+    touchlength: Neo.painter.touchlength,
+    hasFocus: document.hasFocus(),
+    activeElement: document.activeElement?.tagName,
+  });
 };
 
 "use strict";
@@ -10621,7 +10664,7 @@ Neo.Pen2Tip = class extends Neo.ToolTip {
       if (Neo.painter.tool.type == this.tools[i]) this.mode = i;
     }
 
-    switch (this.tools[Number(this.mode)]) {
+    switch (this.tools[this.mode]) {
       case Neo.Painter.TOOLTYPE_TONE:
         // this.drawTone(Neo.painter.foregroundColor);
         this.drawTone();
