@@ -44,13 +44,6 @@ Neo.toolSide = false;
 Neo.applet = null;
 Neo.isAnimation = false;
 Neo.storage = localStorage;
-/**@type {HTMLElement|null} */
-Neo.elementNeo = null;
-Neo.elementNeo_touchMoveListenerAdded = false;
-/** @returns {boolean} */
-Neo.isPinchZooming = function () {
-  return false;
-};
 Neo.updateUI = function () {};
 Neo.stabilize_level = 0;
 /** @type {CSSStyleSheet|null}*/
@@ -137,10 +130,6 @@ Neo.SLIDERTYPE_GREEN = 1;
 Neo.SLIDERTYPE_BLUE = 2;
 Neo.SLIDERTYPE_ALPHA = 3;
 Neo.SLIDERTYPE_SIZE = 4;
-
-/** @param {TouchEvent} e */
-Neo.touch_move_grid_control = function (e) {};
-Neo.add_touch_move_grid_control = function () {};
 
 /**
  *  @type {any} *
@@ -470,66 +459,6 @@ Neo.initConfig = function (applet) {
   /** @type {{size:number,color:string,alpha:number,tool:number,drawType:number}} */
   Neo.reserveEraser = Neo.clone(Neo.config.reserves[1]);
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-  // ピンチズーム検出
-  /**@returns {boolean} */
-  Neo.isPinchZooming = function () {
-    if ("visualViewport" in window && window.visualViewport) {
-      return window.visualViewport.scale > 1;
-    } else {
-      return document.documentElement.clientWidth > window.innerWidth;
-    }
-  };
-
-  // グリッド部分の touchmove イベントのデフォルトの動作をキャンセル
-  /** @param {TouchEvent} e */
-  Neo.touch_move_grid_control = function (e) {
-    if (Neo.config.neo_disable_grid_touch_move) {
-      let screenwidth = Number(screen.width);
-      if (screenwidth - Neo.config.applet_width > 100) {
-        if (typeof e.cancelable !== "boolean" || e.cancelable) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    }
-  };
-
-  Neo.elementNeo = document.getElementById("NEO");
-  // グリッド部分の touchmove イベントをキャンセルする関数をイベントリスナーに追加
-  Neo.add_touch_move_grid_control = function () {
-    if (Neo.elementNeo && Neo.config.neo_disable_grid_touch_move) {
-      // すでにリスナーが追加されていない場合のみ追加
-      if (!Neo.elementNeo_touchMoveListenerAdded) {
-        Neo.elementNeo?.addEventListener(
-          "touchmove",
-          Neo.touch_move_grid_control,
-          {
-            passive: false,
-          },
-        );
-        Neo.elementNeo_touchMoveListenerAdded = true; // リスナーが追加されたことを記録
-      }
-    }
-  };
-
-  // グリッド部分の touchmove イベントをキャンセルする関数の追加とリムーブ
-  Neo.elementNeo?.addEventListener("touchmove", function (e) {
-    if (Neo.elementNeo && Neo.config.neo_disable_grid_touch_move) {
-      Neo.add_touch_move_grid_control();
-      if (Neo.isPinchZooming()) {
-        Neo.elementNeo.removeEventListener(
-          "touchmove",
-          Neo.touch_move_grid_control,
-        );
-        Neo.elementNeo_touchMoveListenerAdded = false; // リスナーが削除されたことを記録
-      }
-    }
-  });
-  // 初期化
-  Neo.add_touch_move_grid_control();
-});
 
 /**
  *
@@ -2047,6 +1976,64 @@ Neo.setToolSide = function (htmlConfiguredSide) {
 };
 
 /**
+ * NEOの網目でタッチスクロールしないようにする
+ * デバイスの幅が狭い時とピンチズーム使用時にはタッチスクロールできるようにする
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  let elementNeo_touchMoveListenerAdded = false;
+  // ピンチズーム検出
+  /**@returns {boolean} */
+  const isPinchZooming = function () {
+    if ("visualViewport" in window && window.visualViewport) {
+      return window.visualViewport.scale > 1;
+    } else {
+      return document.documentElement.clientWidth > window.innerWidth;
+    }
+  };
+
+  // グリッド部分の touchmove イベントのデフォルトの動作をキャンセル
+  /** @param {TouchEvent} e */
+  const touch_move_grid_control = function (e) {
+    if (Neo.config.neo_disable_grid_touch_move) {
+      let screenwidth = Number(screen.width);
+      if (screenwidth - Neo.config.applet_width > 100) {
+        if (typeof e.cancelable !== "boolean" || e.cancelable) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+    }
+  };
+
+  const elementNeo = document.getElementById("NEO");
+  // グリッド部分の touchmove イベントをキャンセルする関数をイベントリスナーに追加
+  const add_touch_move_grid_control = function () {
+    if (elementNeo && Neo.config.neo_disable_grid_touch_move) {
+      // すでにリスナーが追加されていない場合のみ追加
+      if (!elementNeo_touchMoveListenerAdded) {
+        elementNeo?.addEventListener("touchmove", touch_move_grid_control, {
+          passive: false,
+        });
+        elementNeo_touchMoveListenerAdded = true; // リスナーが追加されたことを記録
+      }
+    }
+  };
+
+  // グリッド部分の touchmove イベントをキャンセルする関数の追加とリムーブ
+  elementNeo?.addEventListener("touchmove", function (e) {
+    if (elementNeo && Neo.config.neo_disable_grid_touch_move) {
+      add_touch_move_grid_control();
+      if (isPinchZooming()) {
+        elementNeo.removeEventListener("touchmove", touch_move_grid_control);
+        elementNeo_touchMoveListenerAdded = false; // リスナーが削除されたことを記録
+      }
+    }
+  });
+  // 初期化
+  add_touch_move_grid_control();
+});
+
+/**
  * 手ぶれ補正の強さ
  * @param {Number|string} htmlConfig
  * @note 0-5の範囲 デフォルト1
@@ -3080,6 +3067,18 @@ Neo.Painter = class {
       return;
     }
 
+    /**
+     * キー押下状態を記録
+     */
+    this.isShiftDown = e.shiftKey;
+    this.isCtrlDown = e.ctrlKey;
+    this.isAltDown = e.altKey;
+    var key = e.key ? e.key.toLowerCase() : null;
+    if (key === " ") this.isSpaceDown = true;
+
+    /**
+     * 現在のツールにキー入力を伝える
+     */
     if (this.tool.keyDownHandler) {
       this.tool.keyDownHandler(e);
     }
@@ -3097,11 +3096,6 @@ Neo.Painter = class {
     /**
      * キーボードショートカット
      */
-    this.isShiftDown = e.shiftKey;
-    this.isCtrlDown = e.ctrlKey;
-    this.isAltDown = e.altKey;
-    var key = e.key ? e.key.toLowerCase() : null;
-    if (key === " ") this.isSpaceDown = true;
 
     if (!this.isShiftDown && this.isCtrlDown) {
       if (!this.isAltDown) {
@@ -6420,9 +6414,10 @@ Neo.setColor = function (color) {
   }
 };
 // デバッグ用: コンソールから状態を確認できるようにする
+/** @ts-ignore */
 window["__neodebug"] = () => {
   console.log({
-    tool: Neo.painter.tool?.constructor?.name,
+    tool: Neo.painter.tool,
     isMouseDown: Neo.painter.isMouseDown,
     isMouseDownRight: Neo.painter.isMouseDownRight,
     isSpaceDown: Neo.painter.isSpaceDown,
