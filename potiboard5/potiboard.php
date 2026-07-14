@@ -4,9 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.201.2';
-const POTI_LOT = 'lot.20260711';
-
+const POTI_VER = 'v6.202.2';
+const POTI_LOT = 'lot.20260714';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -88,7 +87,7 @@ require_once(__DIR__.'/templates/'.SKIN_DIR.'template_ini.php');
 //サムネイルfunction
 check_file(__DIR__.'/thumbnail_gd.inc.php');
 require_once(__DIR__.'/thumbnail_gd.inc.php');
-if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260501){
+if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260701){
 	die($en ? "Please update thumbnail_gd.inc.php" : "thumbnail_gd.inc.phpを更新してください。");
 }
 //SNS共有Class
@@ -100,7 +99,7 @@ if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20251031){
 	//検索Class
 check_file(__DIR__.'/search.inc.php');
 require_once(__DIR__.'/search.inc.php');
-if(!isset($search_inc_ver) || $search_inc_ver < 20260627){
+if(!isset($search_inc_ver) || $search_inc_ver < 20260714){
 	die($en ? "Please update search.inc.php" : "search.inc.phpを更新してください。");
 }
 //画像保存Class
@@ -508,7 +507,7 @@ function basicpart(): array {
 	$arr_palette_select_tags=[];
 		foreach($pallets_dat as $i=>$value){
 			if(is_array($value)){
-				list($p_name,$p_dat)=$value;
+				[$p_name,$p_dat]=$value;
 			}else{
 				$p_name=$i;
 			}
@@ -594,7 +593,7 @@ function form(?string $resno="",array $tmp=[]): array {
 	$dat['fctable']=[];
 	if(USE_FONTCOLOR){
 		foreach ( $fontcolors as $fontcolor ){
-			list($color,$name) = explode(",", $fontcolor);
+			[$color,$name] = explode(",", $fontcolor);
 			$dat['fctable'][] = compact('color','name');
 		}
 	}
@@ -1055,7 +1054,7 @@ function regist(): void {
 
 		$userdata=file_get_contents($temppath.$picfile.".dat");
 
-		list($uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool) = explode("\t", trim($userdata)."\t\t\t");
+		[$uip,$uhost,,,$ucode,,$starttime,$postedtime,$uresto,$tool] = explode("\t", trim($userdata)."\t\t\t");
 
 		//ユーザーコードまたはipアドレスは一致しているか?
 		$valid_poster_found = (($ucode && $ucode == $usercode)||($uip && $uip == $userip)||($uhost && $uhost == $host));
@@ -1148,7 +1147,7 @@ function regist(): void {
 		}
 	}
 	if($resto && isset($lineindex[$resto])){
-		list(,,,,,,,,,,,,$_time,,,,,,,$_logver) = explode(",", trim($line[$lineindex[$resto]]).",,,,,,,,");
+		[,,,,,,,,,,,,$_time,,,,,,,$_logver] = explode(",", trim($line[$lineindex[$resto]]).",,,,,,,,");
 		if(!check_elapsed_days($_time,$_logver)){//フォームが閉じられていたら
 			if($pictmp2){//お絵かきは
 				$resto = '';//新規投稿
@@ -1164,7 +1163,7 @@ function regist(): void {
 		if(!trim($value)){
 			continue;
 		}
-		list($lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,,,,,,,$logver) = explode(",", trim($value).",,,,,,,,");
+		[$lastno,,$lname,$lemail,$lsub,$lcom,$lurl,$lhost,$lpwd,,,,$ltime,,,,,,,$logver] = explode(",", trim($value).",,,,,,,,");
 
 		$pchk=false;
 		switch(POST_CHECKLEVEL){
@@ -1268,7 +1267,7 @@ function regist(): void {
 				if(!trim($value)){
 					continue;
 				}
-				list(,,,,,,,,,$extp,,,$timep,$chkp,) = explode(",", trim($value));
+				[,,,,,,,,,$extp,,,$timep,$chkp,] = explode(",", trim($value));
 				if($extp){//拡張子があったら
 				if($chkp===$chk&&is_file($path.$timep.$extp)){
 				error(MSG005,$dest);
@@ -1299,7 +1298,7 @@ function regist(): void {
 			}
 		}
 
-		list($w, $h) = getimagesize($dest);
+		[$w, $h] = getimagesize($dest);
 		
 		$ext = getImgType($dest);
 		//サポートしていないフォーマットならエラーが返る
@@ -1313,7 +1312,7 @@ function regist(): void {
 		// 縮小表示
 		$max_w = $resto ? MAX_RESW : MAX_W;
 		$max_h = $resto ? MAX_RESH : MAX_H;
-		list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
+		[$w,$h]=image_reduction_display($w,$h,$max_w,$max_h);
 		$thumbnail = make_thumbnail($time.$ext,$time,$max_w,$max_h);
 	}
 	// 最大ログ数を超過した行と画像を削除
@@ -1322,13 +1321,13 @@ function regist(): void {
 	if($countline >= $logmax){
 		for($i=$logmax-1; $i<$countline;++$i){
 			if($line[$i]===""){continue;}
-			list($dno,,,,,,,,,$dext,,,$dtime,) = explode(",", $line[$i]);
+			[$dno,,,,,,,,,$dext,,,$dtime,] = explode(",", $line[$i]);
 			delete_files($path, $dtime, $dext);
 			unset($line[$i]);
 			treedel($dno);
 		}
 	}
-	list($lastno,) = explode(",", $line[0]);
+	[$lastno,] = explode(",", $line[0]);
 	$no = $lastno + 1;
 	$tool = is_paint_tool_name($tool);
 	$newline = "$no,$date,$name,$email,$sub,$com,$url,$host,$pass,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,6,\n";
@@ -1349,7 +1348,7 @@ function regist(): void {
 		if(!trim($value)){
 			continue;
 		}
-		list($oyano,) = explode(",", rtrim($value));
+		[$oyano,] = explode(",", rtrim($value));
 		if(!isset($lineindex[$oyano])){//親のログが存在しないときは
 			unset($line[$i]);//ツリーを削除
 		}
@@ -1407,7 +1406,7 @@ function regist(): void {
 	$cooks = [['namec',$name],['emailc',$email],['urlc',$url],['fcolorc',$fcolor],['pwdc',$c_pass]];
 
 	foreach ( $cooks as $cook ) {
-		list($c_name,$c_cookie) = $cook;
+		[$c_name,$c_cookie] = $cook;
 		setcookie ($c_name, $c_cookie,time()+(SAVE_COOKIE*24*3600));
 	}
 
@@ -1542,7 +1541,7 @@ function userdel(): void {
 		if(!trim($value)){
 			continue;
 		}
-		list($no,,,,,,,$dhost,$pass,$ext,,,$time,,) = explode(",",trim($value));
+		[$no,,,,,,,$dhost,$pass,$ext,,,$time,,] = explode(",",trim($value));
 		if(ctype_digit($no) && in_array($no,$del) && check_password($pwd, $pass, $pwd)){
 			if(!$onlyimgdel){	//記事削除
 				$thread_exists=treedel($no);
@@ -1603,8 +1602,8 @@ function admindel(?string $pass): void {
 
 	foreach($line as $j => $value){
 			if(($j>=($del_pageno))&&($j<(1000+$del_pageno))){
-			list($no,$date,$name,$email,$sub,$com,$url,
-			$host,$pw,$ext,$w,$h,$time,$chk,) = explode(",",trim($value));
+			[$no,$date,$name,$email,$sub,$com,$url,
+			$host,$pw,$ext,$w,$h,$time,$chk,] = explode(",",trim($value));
 		$res= [
 			'size' => 0,
 			'size_kb' => 0,
@@ -1615,7 +1614,7 @@ function admindel(?string $pass): void {
 			'src' => "",
 			'srcname' => "",
 		] ;
-		list($name,) = separateNameAndTrip($name);
+		[$name,] = separateNameAndTrip($name);
 		$res['now']  = preg_replace("/ ID:.*/","",$date);//ID以降除去
 		$res['name'] = strip_tags($name);//タグ除去
 		$res['sub'] = strip_tags($sub);
@@ -1662,7 +1661,7 @@ function admindel(?string $pass): void {
 			if(!trim($value)){
 				continue;
 			}
-			list($no,,,,,,,,,$ext,,,$time,,) = explode(",",trim($value));
+			[$no,,,,,,,,,$ext,,,$time,,] = explode(",",trim($value));
 			if(ctype_digit($no) && in_array($no,$del)){
 				if(!$onlyimgdel){	//記事削除
 					treedel($no);
@@ -1838,12 +1837,12 @@ function paintform(): void {
 					$is_neo=is_neo($pchup);
 					$shi = $is_neo ? 'neo': 0;
 					if($get_pch_size=get_pch_size($pchup)){
-						list($picw,$pich)=$get_pch_size;//pchの幅と高さを取得
+						[$picw,$pich]=$get_pch_size;//pchの幅と高さを取得
 					}
 					$dat['pchfile'] = $pchup;
 				} elseif($pchext==="spch"){
 					if($get_spch_size=get_spch_size($pchup)){
-						list($picw,$pich)=$get_spch_size;//pchの幅と高さを取得
+						[$picw,$pich]=$get_spch_size;//pchの幅と高さを取得
 					}
 					$shi=($shi==1||$shi==2) ? $shi : 1;
 					$dat['pchfile'] = $pchup;
@@ -1875,7 +1874,7 @@ function paintform(): void {
 				continue;
 			}	
 			if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-				list($oyano,) = explode(',', trim($tree));
+				[$oyano,] = explode(',', trim($tree));
 				break;
 			}
 		}
@@ -1892,7 +1891,7 @@ function paintform(): void {
 		if(!is_file(IMG_DIR.$pch.$ext)){
 			error(MSG001);
 		}
-		list($picw,$pich)=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
+		[$picw,$pich]=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 		
 		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
 
@@ -1946,7 +1945,7 @@ function paintform(): void {
 			if($i===$selected_palette_no){//キーと入力された数字が同じなら
 				setcookie("palettec", $i, time()+(86400*SAVE_COOKIE));//Cookie保存
 				if(is_array($value)){
-					list($p_name,$p_dat)=$value;
+					[$p_name,$p_dat]=$value;
 					check_file(__DIR__.'/'.$p_dat);
 					$lines=file($p_dat);
 				}else{
@@ -1966,7 +1965,7 @@ function paintform(): void {
 	$initial_palette = 'Palettes[0] = "#000000\n#FFFFFF\n#B47575\n#888888\n#FA9696\n#C096C0\n#FFB6FF\n#8080FF\n#25C7C9\n#E7E58D\n#E7962D\n#99CB7B\n#FCECE2\n#F9DDCF";';
 	foreach ( $lines as $i => $line ) {
 		$line=charconvert(str_replace(["\r","\n","\t"],"",$line));
-		list($pid,$pname,$pal[0],$pal[2],$pal[4],$pal[6],$pal[8],$pal[10],$pal[1],$pal[3],$pal[5],$pal[7],$pal[9],$pal[11],$pal[12],$pal[13]) = explode(",", $line);
+		[$pid,$pname,$pal[0],$pal[2],$pal[4],$pal[6],$pal[8],$pal[10],$pal[1],$pal[3],$pal[5],$pal[7],$pal[9],$pal[11],$pal[12],$pal[13]] = explode(",", $line);
 		$DynP[]=h($pname);
 		$p_cnt=$i+1;
 		ksort($pal);
@@ -2124,7 +2123,7 @@ function paintcom(): void {
 			}
 			if (strpos(trim($line) . ',', $resto . ',') === 0) {
 
-				list($cno,,,,$sub,,,,,,,,,,) = explode(",", charconvert($line));
+				[$cno,,,,$sub,,,,,,,,,,] = explode(",", charconvert($line));
 					$dat['sub'] = 'Re: '.$sub;
 					break;
 			}
@@ -2139,7 +2138,7 @@ function paintcom(): void {
 		if(!is_dir($file) && pathinfo($file, PATHINFO_EXTENSION)==='dat') {
 
 			$userdata=file_get_contents(TEMP_DIR.$file);
-			list($uip,$uhost,$uagent,$imgext,$ucode,) = explode("\t", rtrim($userdata));
+			[$uip,$uhost,$uagent,$imgext,$ucode,] = explode("\t", rtrim($userdata));
 			$file_name = pathinfo($file, PATHINFO_FILENAME);
 			$imgext=basename($imgext);
 			if(is_file(TEMP_DIR.$file_name.$imgext)) //画像があればリストに追加
@@ -2212,7 +2211,7 @@ function openpch(): void {
 		}
 	$datasize = filesize($dat['pchfile']);
 	$dat['datasize'] = ($datasize-($datasize % 1024)) / 1024;
-	list($dat['picw'], $dat['pich']) = getimagesize(IMG_DIR.$pch);
+	[$dat['picw'], $dat['pich']] = getimagesize(IMG_DIR.$pch);
 	$dat['w'] = ($dat['picw'] < 200 ? 200 : $dat['picw']);
 	$dat['h'] = ($dat['pich'] < 200 ? 200 : $dat['pich']) + 26;
 
@@ -2289,7 +2288,7 @@ function incontinue(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-		list($cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,,,,,$logver) = explode(",", rtrim($line).",,,,,,,,");
+		[$cno,,$name,,$sub,,,,,$cext,$picw,$pich,$ctim,,$cptime,,,,,$logver] = explode(",", rtrim($line).",,,,,,,,");
 		$flag = true;
 		break;
 		}
@@ -2315,7 +2314,7 @@ function incontinue(): void {
 	$dat['name']=h($name);
 	$dat['sub']=h($sub);
 
-	list($dat['picw'], $dat['pich']) = getimagesize($dat['picfile']);
+	[$dat['picw'], $dat['pich']] = getimagesize($dat['picfile']);
 	$dat['no'] = h($no);
 	$dat['oyano'] = h($resno);
 	$dat['pch'] = h($ctim);
@@ -2404,7 +2403,7 @@ function check_cont_pass(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-			list($cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver)
+			[$cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver]
 			= explode(",", trim($line).",,,,,,,,");
 		
 			if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
@@ -2440,7 +2439,7 @@ function download_app_dat(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-		list($cno,,,,,,,,$cpwd,,,,$ctime,) = explode(",", rtrim($line));
+		[$cno,,,,,,,,$cpwd,,,,$ctime,] = explode(",", rtrim($line));
 		$flag = true;
 		break;
 		}
@@ -2505,7 +2504,7 @@ function editform(): void {
 	foreach($line as $value){
 		if($value){
 			if(strpos($value . ',',$del[0]. ',') === 0){
-				list($no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver) = explode(",", rtrim($value).",,,,,,,,");
+				[$no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver] = explode(",", rtrim($value).",,,,,,,,");
 				if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
 					$flag = TRUE;
 					break;
@@ -2537,7 +2536,7 @@ function editform(): void {
 	$dat['use_url_input'] = USE_URL_INPUT_FIELD ? true : false;
 
 	//名前とトリップを分離
-	list($name,) = separateNameAndTrip($name);
+	[$name,] = separateNameAndTrip($name);
 	$dat['name'] = h(strip_tags($name));
 	$dat['email'] = h(filter_var($email,FILTER_VALIDATE_EMAIL));
 	$dat['sub'] = h(strip_tags($sub));
@@ -2554,7 +2553,7 @@ function editform(): void {
 	//文字色
 	if(USE_FONTCOLOR){
 		foreach ( $fontcolors as $fontcolor ){
-			list($color,$name) = explode(",", $fontcolor);
+			[$color,$name] = explode(",", $fontcolor);
 			$chk = ($color == $fcolor);
 			$dat['fctable'][] = compact('color','name','chk');
 		}
@@ -2629,7 +2628,7 @@ function rewrite(): void {
 			continue;
 		}
 		if(strpos($value . ',', $no . ',') === 0){
-			list($eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver,) = explode(",", rtrim($value).',,,,,,,');
+			[$eno,$edate,$ename,,$esub,$ecom,$eurl,$ehost,$epwd,$ext,$w,$h,$time,$chk,$ptime,$efcolor,$pchext,$thumbnail,$tool,$logver,] = explode(",", rtrim($value).',,,,,,,');
 			if((!$edittime || $edittime == $time) && $eno == $no && check_password($pwd, $epwd, $admin)){
 				$date=DO_NOT_CHANGE_POSTS_TIME ? $edate : $date;
 				if(!$name) $name = $ename;
@@ -2682,7 +2681,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	if (strpos($repcode, "|") !== false) {
 	// $repcodeに、記事Noと元の記事のUNIXタイムが`|`で区分けされて含まれている時
 	// 含まれていない時は、記事No、UNIXタイムによる識別を行わない
-		list($repno,$reptime)=explode("|","$repcode");
+		[$repno,$reptime]=explode("|","$repcode");
 	}
 	$repno = $repno && is_numeric($repno) ? $repno :"";
 	$reptime = $reptime && is_numeric($reptime) ? $reptime :"";
@@ -2703,7 +2702,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 		if(!is_dir($file) && preg_match("/\.(dat)\z/i",$file)) {
 			$file=basename($file);
 			$userdata=file_get_contents(TEMP_DIR.$file);
-			list($uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool) = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
+			[$uip,$uhost,$uagent,$imgext,$ucode,$urepcode,$starttime,$postedtime,$uresto,$tool] = explode("\t", rtrim($userdata)."\t\t\t");//区切りの"\t"を行末に
 			$file_name = pathinfo($file, PATHINFO_FILENAME );//拡張子除去
 			$imgext=basename($imgext);
 			//ユーザーコードまたはipアドレスは一致しているか?
@@ -2780,7 +2779,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 			continue;
 		}
 			if(strpos($value . ',', $no . ',') === 0){
-			list($eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,) = explode(",", rtrim($value).',,,,,,,');
+			[$eno,$edate,$name,$email,$sub,$com,$url,$ehost,$epwd,$ext,$_w,$_h,$etim,,$ptime,$fcolor,$epchext,$ethumbnail,$etool,$logver,] = explode(",", rtrim($value).',,,,,,,');
 			//画像差し換えに管理パスは使っていない
 			if((!$reptime || ($reptime === $etim)) &&  ($eno === $no) && check_password($pwd, $epwd)){
 				$flag = true;
@@ -2799,7 +2798,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	$tp=fopen(TREEFILE,"r");
 	while($tree=fgets($tp)){
 		if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-			list($oyano,) = explode(',', trim($tree));
+			[$oyano,] = explode(',', trim($tree));
 			break;
 		}
 	}
@@ -2838,7 +2837,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	$chk = substr(hash_file('sha256', $dest), 0, 32);
 	check_badfile($chk, $dest); // 拒絶画像チェック
 
-	list($w, $h) = getimagesize($dest);
+	[$w, $h] = getimagesize($dest);
 
 	chmod($dest,PERMISSION_FOR_DEST);
 	rename($dest,$path.$time.$imgext);
@@ -2846,7 +2845,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	$oya=($oyano===$no);
 	$max_w = $oya ? MAX_W : MAX_RESW ;
 	$max_h = $oya ? MAX_H : MAX_RESH ;
-	list($w,$h)=image_reduction_display($w,$h,$max_w,$max_h);
+	[$w,$h]=image_reduction_display($w,$h,$max_w,$max_h);
 
 	//サムネイル作成
 	$thumbnail = make_thumbnail($time.$imgext,$time,$max_w,$max_h);
@@ -3055,7 +3054,6 @@ function Reject_if_NGword_exists_in_the_post(): void {
 
 	//本文に日本語がなければ拒絶
 	if (USE_JAPANESEFILTER) {
-		mb_regex_encoding("UTF-8");
 		if ($com_len && !preg_match("/[ぁ-んァ-ヶｧ-ﾝー一-龠]+/u",$chk_com)) error(MSG035);
 	}
 	//本文へのURLの書き込みを禁止
@@ -3359,7 +3357,7 @@ function check_jpeg_exif(?string $dest): void {
 		return;
 	}
 
-	list($w,$h) = getimagesize($dest);
+	[$w,$h] = getimagesize($dest);
 
 	$im_in = imagecreatefromjpeg($dest);
 	if(!$im_in){
@@ -3383,7 +3381,7 @@ function check_jpeg_exif(?string $dest): void {
 	}
 	if ($orientation === 6 || $orientation === 8) {
 		// 90度または270度回転の場合、幅と高さを入れ替える
-		list($w, $h) = [$h, $w];
+		[$w, $h] = [$h, $w];
 	}
 	$w_ratio = MAX_W_PX / $w;
 	$h_ratio = MAX_H_PX / $h;
@@ -3473,7 +3471,7 @@ function h(?string $str): string {//出力のエスケープ
 function create_res (?string $line, array $options = []): array {
 	global $path;
 
-	list($no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver)
+	[$no,$date,$name,$email,$sub,$com,$url,$host,$pwd,$ext,$w,$h,$time,$chk,$ptime,$fcolor,$pchext,$thumbnail,$tool,$logver]
 	= explode(",", rtrim($line).',,,,,,,');//追加のカンマfutaba.phpのログ読み込み時のエラー回避
 	$three_point_sub=(mb_strlen($sub)>12) ? '…' :'';
 	$res = [
@@ -3534,11 +3532,11 @@ function create_res (?string $line, array $options = []): array {
 
 	//日付とIDを分離
 	
-	list($res['id'], $res['now']) = separateDatetimeAndId($date);
+	[$res['id'], $res['now']] = separateDatetimeAndId($date);
 	//日付と編集マークを分離
-	list($res['now'], $res['updatemark']) = separateDatetimeAndUpdatemark($res['now']);
+	[$res['now'], $res['updatemark']] = separateDatetimeAndUpdatemark($res['now']);
 	//名前とトリップを分離
-	list($res['name'], $res['trip']) = separateNameAndTrip($name);
+	[$res['name'], $res['trip']] = separateNameAndTrip($name);
 	$res['name']=strip_tags($res['name']);
 	$res['encoded_no'] = rawurlencode($res['no']);
 	$res['encoded_name'] = rawurlencode($res['name']);
@@ -3694,7 +3692,7 @@ function get_lineindex (array $line): array {
 		if(!trim($value)){
 		continue;
 		}
-		list($no,) = explode(",", $value,2);
+		[$no,] = explode(",", $value,2);
 		if(!ctype_digit($no)){//記事Noが正しく読み込まれたかどうかチェック
 			error(MSG019);
 		};
@@ -3942,7 +3940,7 @@ function create_line_from_treenumber ($fp,array $trees): array {
 		if(!trim($lines)){
 			continue;
 		}
-		list($no,) = explode(",", $lines,2);
+		[$no,] = explode(",", $lines,2);
 		if(isset($treeSet[$no])) {//$treesに含まれている記事番号なら定義ずみ
 			$line[]=trim($lines);
 		}

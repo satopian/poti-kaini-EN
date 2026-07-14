@@ -1,5 +1,5 @@
 <?php
-$search_inc_ver = 20260627;
+$search_inc_ver = 20260714;
 //POTI-board plugin search(C)2020-2026 さとぴあ(@satopian)
 //MIT License
 //v6.173.0 lot.20260502
@@ -124,7 +124,7 @@ class processsearch {
 		if(!trim($line)){
 			continue;
 		}
-		list($no,,$name,$email,$sub,$com,$url,,,$ext,$w,$h,$time,,,,,,,$logver) = explode(",", rtrim($line).",,,,,,");
+		[$no,,$name,$email,$sub,$com,$url,,,$ext,$w,$h,$time,,,,,,,$logver] = explode(",", rtrim($line).",,,,,,");
 		if(!isset($oya[$no])||(!$name && !$email && !$url && !$com && !$ext)){
 			continue;
 		}
@@ -138,7 +138,7 @@ class processsearch {
 
 		if($continue_to_search){
 			if($radio===1||$radio===2||$radio===0){
-				list($name,) = separateNameAndTrip($name);
+				[$name,] = separateNameAndTrip($name);
 				$s_name = self::create_formatted_text_for_search($name);
 			}
 			else{
@@ -177,7 +177,7 @@ class processsearch {
 		$articles = array_values($articles);
 
 		foreach($articles as $i => $val){
-			list($no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver)=$val;
+			[$no,$name,$sub,$com,$ext,$w,$h,$time,$link,$logver]=$val;
 			$img='';
 			if($ext){
 				if(is_file(THUMB_DIR.$time.'s.jpg')){//サムネイルはあるか？

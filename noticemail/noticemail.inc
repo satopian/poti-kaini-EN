@@ -90,7 +90,7 @@ noticemail::send($data);
 class noticemail
 {
 
-	public static function send($data): void
+	public static function send(array $data): void
 	{
 		mb_language('uni');
 		mb_internal_encoding("UTF-8");
@@ -127,7 +127,7 @@ class noticemail
 		$Message .= $from ? ('e-Mail:' . $from . "\n") : '';
 		if (is_array($option)) {
 			foreach ($option as $value) {
-				list($optitle, $opvalue) = explode(",", rtrim($value));
+				[$optitle, $opvalue] = explode(",", rtrim($value));
 				$Message .= $optitle . ': ' . $opvalue . " \n";
 			}
 		}

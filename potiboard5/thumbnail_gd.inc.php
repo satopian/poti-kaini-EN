@@ -3,13 +3,17 @@
 // https://paintbbs.sakura.ne.jp/
 // originalscript (C)SakaQ 2005 http://www.punyu.net/php/
 
-$thumbnail_gd_ver=20260501;
+$thumbnail_gd_ver=20260714;
 defined('PERMISSION_FOR_DEST') or define('PERMISSION_FOR_DEST', 0606); //config.phpで未定義なら0606
 class thumbnail_gd {
 
 /**
+ * @param string|null $path
+ * @param string|null $fname
+ * @param string|null $time
  * @param int|string|null $max_w
  * @param int|string|null $max_h
+ * @param array $options
 */
 
 	public static function thumb(?string $path,?string $fname,?string $time,$max_w,$max_h,array $options=[]): string {
@@ -37,7 +41,7 @@ class thumbnail_gd {
 		}
 
 		$fsize = filesize($fname); // ファイルサイズを取得
-		list($w,$h) = GetImageSize($fname); // 画像の幅と高さを取得
+		[$w,$h] = GetImageSize($fname); // 画像の幅と高さを取得
 		$w_h_size_over = $max_w && $max_h && ($w > $max_w || $h > $max_h);
 		$f_size_over = !isset($options['toolarge']) ? ($fsize>1024*1024) : false;
 		if(!$w_h_size_over && !$f_size_over && !isset($options['webp']) && !isset($options['2webp']) && !isset($options['2png']) && !isset($options['2jpeg'])){//リサイズも変換もしない
@@ -152,7 +156,9 @@ class thumbnail_gd {
 	}
 	/**
 	 *各画像フォーマットのリソースを作成
+	 * @param string $fname
 	 * @param string|bool $mime_type
+	 * @return resource|\GdImage|null
 	 */
 	private static function createImageResource(?string $fname,$mime_type) {
 		switch ($mime_type) {
@@ -197,8 +203,10 @@ class thumbnail_gd {
 	/**
 	 * 縮小してPNGで上書き 
 	 * @param resource|\GdImage|null $im_out
+	 * @param string|null $fname
+	 * @return string
 	*/
-	private static function overwriteResizedImageWithPNG($im_out, ?string $fname): ?string {
+	private static function overwriteResizedImageWithPNG($im_out, ?string $fname): string {
 		$outfile=(string)$fname;
 		//本体画像を縮小
 			if(function_exists("ImagePNG")) {
@@ -211,6 +219,9 @@ class thumbnail_gd {
 	/**
 	 * サムネイル作成 
 	 * @param resource|\GdImage|null $im_out
+	 * @param string|null $time
+	 * @param array $options
+	 * @return string|null
 	*/
 	private static function createThumbnailImage($im_out,?string $time,array $options): ?string {
 
