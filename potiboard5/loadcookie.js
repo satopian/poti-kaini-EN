@@ -12,56 +12,96 @@ function l() {
     for (let i = 0; i < document.forms.length; i++) {
         const form = document.forms[i];
 
-        if (form.pwd) {
-            form.pwd.value = P;
-        }
-        if (form.name) {
-            form.name.value = N;
-        }
-        if (form.email) {
-            form.email.value = E;
-        }
-        if (form.url) {
-            form.url.value = U;
-        }
-        if (form.fcolor) {
-            if (FC == "") FC = form.fcolor[0].value;
+        const pwd = form.elements.namedItem("pwd");
 
-            checkd_if_formval_equal_cookieval(form.fcolor, FC);
+        if (pwd instanceof HTMLInputElement) {
+            pwd.value = P;
         }
-        if (form.shi) {
-            checkd_if_formval_equal_cookieval(form.shi, AP);
+        const name = form.elements.namedItem("name");
+
+        if (name instanceof HTMLInputElement) {
+            name.value = N;
         }
-        if (form.picw) {
+        const email = form.elements.namedItem("email");
+
+        if (email instanceof HTMLInputElement) {
+            email.value = E;
+        }
+        const url = form.elements.namedItem("url");
+
+        if (url instanceof HTMLInputElement) {
+            url.value = U;
+        }
+        const fcolor = form.elements.namedItem("fcolor");
+
+        if (fcolor instanceof RadioNodeList) {
+            if (FC == "") FC = fcolor[0].value;
+
+            checkd_if_formval_equal_cookieval(fcolor, FC);
+        }
+        const shi = form.elements.namedItem("shi");
+
+        if (shi instanceof HTMLSelectElement) {
+            checkd_if_formval_equal_cookieval(shi, AP);
+        }
+
+        const picw = form.elements.namedItem("picw");
+
+        if (
+            picw instanceof HTMLSelectElement ||
+            picw instanceof HTMLInputElement
+        ) {
             if (PW != "") {
-                form.picw.value = PW;
+                picw.value = PW;
             }
         }
 
-        if (form.pich) {
+        const pich = form.elements.namedItem("pich");
+
+        if (
+            pich instanceof HTMLSelectElement ||
+            pich instanceof HTMLInputElement
+        ) {
             if (PH != "") {
-                form.pich.value = PH;
+                pich.value = PH;
             }
         }
+        const selected_palette_no = form.elements.namedItem(
+            "selected_palette_no",
+        );
 
-        if (form.selected_palette_no) {
-            form.selected_palette_no.selectedIndex = PL;
+        if (selected_palette_no instanceof HTMLSelectElement) {
+            selected_palette_no.selectedIndex = Number(PL);
         }
     }
 }
 
 // Cookieと一致したらチェック
+/**
+ *
+ * @param {HTMLSelectElement|RadioNodeList} docformsname
+ * @param {string} cookieval
+ */
 function checkd_if_formval_equal_cookieval(docformsname, cookieval) {
     if (docformsname.length) {
         // ラジオボタンやチェックボックス（NodeList）をループでチェック
         for (let j = 0; j < docformsname.length; j++) {
-            if (docformsname[j].value == cookieval) {
-                docformsname[j].checked = true; //チェックボックス
-                docformsname.selectedIndex = j; //プルダウンメニュー
+            if (docformsname instanceof RadioNodeList) {
+                if (docformsname[j].value == cookieval) {
+                    docformsname[j].checked = true; //チェックボックス
+                }
+            }
+            if (docformsname instanceof HTMLSelectElement) {
+                if (docformsname.options[j].value == cookieval) {
+                    docformsname.selectedIndex = j; //プルダウンメニュー
+                }
             }
         }
     }
 }
+/**
+ * @param {string} name
+ */
 //指定した名前のCookieをロード
 function loadCookie(name) {
     const cookies = new URLSearchParams(document.cookie.replace(/; /g, "&"));

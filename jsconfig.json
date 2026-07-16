@@ -7,7 +7,6 @@
         "noUnusedLocals": false // 未使用変数の警告を消す
     },
     "exclude": [
-        "/potiboard5/",
         "/potiboard5/chickenpaint/*",
         "/potiboard5/klecks/*",
         "/potiboard5/axnos/*",
