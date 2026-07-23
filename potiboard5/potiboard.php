@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.203.1';
-const POTI_LOT = 'lot.20260721';
+const POTI_VER = 'v6.203.2';
+const POTI_LOT = 'lot.20260723';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -4077,7 +4077,7 @@ function rejectSqlInjectionAttempt(): void {
 			if (!is_string($value)) continue;
 			$lower = strtolower($value);
 			foreach ($keywords as $kw) {
-					if (str_contains($lower, $kw)) {
+					if (strpos($lower, $kw) !== false) {
 							if (preg_match($suspiciousPattern, $lower)) {
 									$hasSuspiciousValue = true;
 									break 2;
