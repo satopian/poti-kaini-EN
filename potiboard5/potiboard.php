@@ -4,7 +4,7 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.205.1';
+const POTI_VER = 'v6.205.2';
 const POTI_LOT = 'lot.20260724';
 
 /*
@@ -2005,7 +2005,7 @@ function paintform(): void {
 		$dat['no']=$no;
 		$dat['pwd']=$pwd;
 		$dat['repcode']=$repcode;
-		$dat['mode'] = 'picrep&no='.$no.'&pwd='.$pwd.'&repcode='.$repcode;
+		$dat['mode'] = 'picrep';
 		$usercode.='&repcode='.$repcode;
 	}elseif($pchup_paint_mode){//PCHアップロードペイントの時は
 		//描画時間･工程数による拒絶を防ぐため
