@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.203.2';
-const POTI_LOT = 'lot.20260723';
+const POTI_VER = 'v6.205.1';
+const POTI_LOT = 'lot.20260724';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -814,7 +814,7 @@ function res_view_other_works(?string $resno,array $trees,int $i): array {
 function res(?string $resno): void {
 
 	//不正なクエリパラメータの時は 403 Forbiddenを返す
-	$allowed_keys = array_fill_keys(['res'], true);
+	$allowed_keys = array_fill_keys(['res','resid'], true);
 	validateQueryParameters($allowed_keys);
 
 	if(!$resno||$resno<0){
@@ -2675,11 +2675,8 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	:"画像の差し換えに失敗しました。\n未投稿画像に残っている可能性があります。";
 
 	$no = $no ?: (string)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
-	$no = $no ?: (string)filter_input_data('GET', 'no',FILTER_VALIDATE_INT);
 	$pwd = $pwd ?: (string)newstring(filter_input_data('POST', 'pwd'));
-	$pwd = $pwd ?: (string)newstring(filter_input_data('GET', 'pwd'));
 	$repcode = $repcode ?: (string)newstring(filter_input_data('POST', 'repcode'));
-	$repcode = $repcode ?: (string)newstring(filter_input_data('GET', 'repcode'));
 	$repno="";
 	$reptime="";
 	if (strpos($repcode, "|") !== false) {
