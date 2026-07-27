@@ -231,7 +231,7 @@
 				<h2 class="oekaki">Admin mode</h2>
 				<form action="{{$self}}" method="post" class="adminin">
 					<input type="hidden" name="mode" value="admin_in">
-					<input class="button" type="submit" value="Admin In">
+					<input class="button" type="submit" value="Admin Login">
 				</form>
 			</div>
 		</section>
