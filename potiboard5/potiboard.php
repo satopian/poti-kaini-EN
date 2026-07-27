@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v6.205.2';
-const POTI_LOT = 'lot.20260724';
+const POTI_VER = 'v7.00.1';
+const POTI_LOT = 'lot.20260727';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -217,6 +217,7 @@ defined("MAX_LOG_FILESIZE") or define("MAX_LOG_FILESIZE", "15"); //
 //JavaScriptを経由していない投稿を拒絶
 defined("REJECT_WITHOUT_JAVASCRIPT") or define("REJECT_WITHOUT_JAVASCRIPT", "0");
 defined("REJECT_IF_NO_REVERSE_DNS") or define("REJECT_IF_NO_REVERSE_DNS", "0");
+defined("REJECT_IF_NO_REVERSE_DNS_ADMIN_LOGIN") or define("REJECT_IF_NO_REVERSE_DNS_ADMIN_LOGIN", "0");
 defined("USE_BADHOST_SESSION_CACHE") or define("USE_BADHOST_SESSION_CACHE", "0");
 
 $badurl= $badurl ?? [];//拒絶するurl
@@ -305,40 +306,45 @@ switch($mode){
 		}
 		return regist();
 	case 'admin':
-		check_badhost(MSG049);
-		if(!$pass){
-			$dat['admin_in'] = true;
+		$dat['before_admin_in'] = true;
+		set_form_display_time();
+		return htmloutput(OTHERFILE, $dat);
 
-			//フォームの表示時刻をセット
-			set_form_display_time();
-
-			return htmloutput(OTHERFILE,$dat);
-		}
+	case 'admin_in':
+		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
 		check_same_origin(true);
-
-		//投稿間隔をチェック
+		check_badhost(MSG049,['admin_in'=>true]);
 		check_submission_interval();
 
+		$dat['admin_in'] = true;
+		set_form_display_time();
+		return htmloutput(OTHERFILE, $dat);
+
+	case 'admin_auth':
+		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
+		check_same_origin(true);
+		check_badhost(MSG049,['admin_in'=>true]);
+		if (REJECT_WITHOUT_JAVASCRIPT && !filter_input(INPUT_POST, 'js_submit_flag', FILTER_VALIDATE_BOOLEAN)) {
+			error(MSG049);
+		}
+
+		check_submission_interval();
 		check_password_input_error_count();
-		if(!is_adminpass($pass)){ 
-			error(MSG029);
-		}
-	
-		if($admin==="del") return admindel($pass);
-		if($admin==="post"){
-			$dat['post_mode'] = true;
-			$dat['regist'] = true;
-			$dat = array_merge($dat,form($res));
-			$dat = array_merge($dat,form_admin_in('valid'));
+		if(!is_adminpass($pass)) error(MSG029);
+		if($admin === 'del') return admindel($pass);
 
-			//フォームの表示時刻をセット
-			set_form_display_time();
-
-			return htmloutput(OTHERFILE,$dat);
+		if($admin === 'post'){
+				$dat['post_mode'] = true;
+				$dat['regist'] = true;
+				$dat = array_merge($dat, form($res));
+				$dat = array_merge($dat, form_admin_in('valid'));
+				set_form_display_time();
+				return htmloutput(OTHERFILE, $dat);
 		}
-		if($admin==="update"){
-			updatelog();
-			redirect(h(PHP_SELF2));
+
+		if($admin === 'update'){
+				updatelog();
+				redirect(h(PHP_SELF2));
 		}
 		exit();
 
@@ -528,7 +534,7 @@ function basicpart(): array {
 	//言語
 	$dat['en']=lang_en();
 	//初期化 PHP8.1 OTHERFILE
-	$keys=['resform','post_mode','paint','rewrite','admin','admin_in','admin_del','pass','regist','mes','err_mode','resno','pictmp','notmp','ptime','name','email','url','sub','com','ipcheck','tmp','thread_no','logfilename','mode_catalog','catalog_pageno'];
+	$keys=['resform','post_mode','paint','rewrite','admin','admin_in','before_admin_in','admin_del','pass','regist','mes','err_mode','resno','pictmp','notmp','ptime','name','email','url','sub','com','ipcheck','tmp','thread_no','logfilename','mode_catalog','catalog_pageno'];
 	foreach($keys as $key){
 		$dat[$key]=false;	
 	}
@@ -1545,8 +1551,8 @@ function userdel(): void {
 		if(!trim($value)){
 			continue;
 		}
-		[$no,,,,,,,$dhost,$pass,$ext,,,$time,,] = explode(",",trim($value));
-		if(ctype_digit($no) && in_array($no,$del) && check_password($pwd, $pass, $pwd)){
+		[$no,,,,,,,$dhost,$pwdhash,$ext,,,$time,,] = explode(",",trim($value));
+		if(ctype_digit($no) && in_array($no,$del) && check_password($pwd, $pwdhash)){
 			if(!$onlyimgdel){	//記事削除
 				$thread_exists=treedel($no);
 				if(USER_DELETES > 2){
@@ -2407,10 +2413,10 @@ function check_cont_pass(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-			[$cno,,,,,,,,$cpwd,,,,$ctime,,,,,,,$logver]
+			[$cno,,,,,,,,$cpwdhash,,,,$ctime,,,,,,,$logver]
 			= explode(",", trim($line).",,,,,,,,");
 		
-			if($cno == $no && check_password($pwd, $cpwd) && check_elapsed_days($ctime,$logver)){
+			if($cno == $no && check_password($pwd, $cpwdhash) && check_elapsed_days($ctime,$logver)){
 				$flag = true;
 				break;
 			}
@@ -2432,7 +2438,7 @@ function download_app_dat(): void {
 	$no=basename((string)filter_input_data('POST','no',FILTER_VALIDATE_INT));
 	$pwd = $pwd ?: $pwdc;
 
-	$cpwd='';
+	$cpwdhash='';
 	$cno='';
 	$ctime='';
 	$flag = false;
@@ -2443,14 +2449,14 @@ function download_app_dat(): void {
 			continue;
 		}
 		if (strpos(trim($line) . ',', $no . ',') === 0) {
-		[$cno,,,,,,,,$cpwd,,,,$ctime,] = explode(",", rtrim($line));
+		[$cno,,,,,,,,$cpwdhash,,,,$ctime,] = explode(",", rtrim($line));
 		$flag = true;
 		break;
 		}
 	}
 	closeFile($fp);
 	if(!$flag) error(MSG001);
-	if(!(($no===$cno)&&check_password($pwd,$cpwd,$pwd))){
+	if(!(($no===$cno)&&check_password($pwd,$cpwdhash,$pwd))){
 		error(MSG029);
 	}
 	$ctime=basename($ctime);
@@ -2482,6 +2488,7 @@ function editform(): void {
 	$del = (array)($_POST['del'] ?? []);
 	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
 	$pwdc = (string)newstring(filter_input_data('COOKIE', 'pwdc'));
+	$pass = (string)newstring(filter_input_data('POST', 'pass'));
 
 	if (!is_array($del) && !ctype_cntrl($del[0])) {
 		error(MSG031);
@@ -2508,8 +2515,8 @@ function editform(): void {
 	foreach($line as $value){
 		if($value){
 			if(strpos($value . ',',$del[0]. ',') === 0){
-				[$no,,$name,$email,$sub,$com,$url,$ehost,$pass,,,,$time,,,$fcolor,,,,$logver] = explode(",", rtrim($value).",,,,,,,,");
-				if ($no == $del[0] && check_password($pwd, $pass, $pwd)){
+				[$no,,$name,$email,$sub,$com,$url,$ehost,$pwdhash,,,,$time,,,$fcolor,,,,$logver] = explode(",", rtrim($value).",,,,,,,,");
+				if ($no == $del[0] && check_password($pwd, $pwdhash, $pass)){
 					$flag = TRUE;
 					break;
 				}
@@ -2520,7 +2527,7 @@ function editform(): void {
 	if(!$flag) {
 		error(MSG028);
 	}
-	if(!is_adminpass($pwd) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
+	if(!is_adminpass($pass) && !check_elapsed_days($time,$logver)){//指定日数より古い記事の編集はエラーにする
 			error(MSG028);
 	}
 
@@ -3404,13 +3411,17 @@ function check_jpeg_exif(?string $dest): void {
 		imagedestroy($im_out);
 	}
 }
-//禁止ホストチェック
-function is_badhost (): bool {
+/** 禁止ホストチェック
+ * @return bool 
+ */ 
+function is_badhost ($options=[]): bool {
 	global $badip;
+
+	$is_admin_in = isset($options['admin_in']);
 
 	session_sta();
 	$session_is_badhost = $_SESSION['is_badhost'] ?? false; //SESSIONに保存された値を取得
-	if(USE_BADHOST_SESSION_CACHE && $session_is_badhost){
+	if(USE_BADHOST_SESSION_CACHE && !$is_admin_in && $session_is_badhost){
 		return true; //セッションに禁止ホストフラグがあれば拒絶
 	}
 
@@ -3420,23 +3431,32 @@ function is_badhost (): bool {
 
 	if($host === $userip){//ホスト名がipアドレスになる場合は
 
-		if(REJECT_IF_NO_REVERSE_DNS){
+	$reject_if_no_reverse_dns = (REJECT_IF_NO_REVERSE_DNS || $is_admin_in && REJECT_IF_NO_REVERSE_DNS_ADMIN_LOGIN);
+
+
+		if($reject_if_no_reverse_dns){
 			if(!$host || filter_var($userip, FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){//IPv4アドレスなら
+			if(!$is_admin_in){
 				$_SESSION['is_badhost'] = true;
+			}
 				return true; //逆引きできないIPは拒絶
 			}
 		}
 		
 		foreach($badip as $value){
 			if (preg_match("/\A$value/i",$host)) {//前方一致
-			$_SESSION['is_badhost'] = true;
+			if(!$is_admin_in){
+				$_SESSION['is_badhost'] = true;
+			}
 			return true;;
 			}
 		}
 	}else{
 		foreach($badip as $value){
 			if (preg_match("/$value\z/i",$host)) {
-			$_SESSION['is_badhost'] = true;
+			if(!$is_admin_in){
+				$_SESSION['is_badhost'] = true;
+			}
 			return true;
 			}
 		}
@@ -3444,8 +3464,8 @@ function is_badhost (): bool {
 	return false; //禁止ホストではない
 }
 
-function check_badhost(?string $err_message = ""): void {
-	if(is_badhost()){//禁止ホストなら
+function check_badhost(?string $err_message = "",$options=[]): void {
+	if(is_badhost($options)){//禁止ホストなら
 		$err_message = $err_message ?: MSG016; //エラーメッセージがなければデフォルトメッセージ
 		error($err_message);
 	}

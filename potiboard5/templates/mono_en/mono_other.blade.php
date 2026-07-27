@@ -20,7 +20,6 @@
 			margin: 6px 0;
 			display: inline-block;
 		}
-
 		.pchup_button {
 			margin: 0 0 10px 0;
 		}
@@ -101,8 +100,7 @@
 				@endif
 				{{-- 未投稿画像の画像が無い時はフォームを表示しない --}}
 				@if(!$notmp)
-				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data" @if(!$rewrite)id="comment_form"
-					@endif>
+				<form class="" action="{{$self}}" method="post" enctype="multipart/form-data" @if(!$rewrite)id="comment_form"@endif>
 					<input type="hidden" name="token" value="{{$token}}">
 
 					<table>
@@ -120,9 +118,8 @@
 						<tr>
 							<td>URL</td>
 							<td>
-								<input class="form" type="text" name="url" size="28" autocomplete="url" @if($url) value="{{$url}}"
-									@endif>
-							</td>
+								<input class="form" type="text" name="url" size="28" autocomplete="url" @if($url)
+								 value="{{$url}}" @endif></td>
 						</tr>
 						@endif
 						<tr>
@@ -225,20 +222,33 @@
 				@endif
 			</div>
 		</section>
-		<!-- (========== POST MODE(投稿モード) end ==========) -->
 		@endif
+		<!-- (========== POST MODE(投稿モード) end ==========) -->
+			@if($before_admin_in)
+		<!-- (========== ADMIN MODE -LOGIN-(管理者ページを表示) start ==========) -->
+		<section>
+			<div class="thread">
+				<h2 class="oekaki">Admin mode</h2>
+				<form action="{{$self}}" method="post" class="adminin">
+					<input type="hidden" name="mode" value="admin_in">
+					<input class="button" type="submit" value="Admin In">
+				</form>
+			</div>
+		</section>
+		@endif
+		<!-- (========== ADMIN MODE -LOGIN-(管理ページを表示) end ==========) -->
 		@if($admin_in)
 		<!-- (========== ADMIN MODE -LOGIN-(管理モード(認証)) start ==========) -->
 		<section>
 			<div class="thread">
 				<h2 class="oekaki">Admin mode</h2>
-				<form action="{{$self}}" method="post" class="adminin">
+				<form action="{{$self}}" method="post" class="adminin" id="admin_auth_form">
 					<label><input type="radio" name="admin" value="update" checked>Update</label>
 					<label><input type="radio" name="admin" value="del">Manage posts</label>
 					<label><input type="radio" name="admin" value="post">Admin Post</label>
-					<input type="hidden" name="mode" value="admin">
+					<input type="hidden" name="mode" value="admin_auth">
 					<input class="form" type="password" name="pass">
-					<input class="button" type="submit" value="ADMIN IN">
+					<input class="button" type="submit" value="Admin Auth">
 				</form>
 			</div>
 		</section>
@@ -253,7 +263,7 @@
 					<input type="hidden" name="admin" value="update">
 					<input type="hidden" name="mode" value="admin">
 					<input type="hidden" name="pass" value="{{$pass}}">
-					<input type="submit" value="UPDATE" class="button delbtton">
+					<input type="submit" value="Update" class="button delbtton">
 					Update the html file
 				</form>
 				<hr>
@@ -262,8 +272,8 @@
 					<input type="hidden" name="admin" value="del">
 					<input type="hidden" name="pass" value="{{$pass}}">
 					<p>Check the checkbox of the article you want to delete and press the delete button.</p>
-					<input class="button delbtton" type="submit" value="DELETE">
-					<input class="button delbtton" type="reset" value="RESET">
+					<input class="button delbtton" type="submit" value="Delete">
+					<input class="button delbtton" type="reset" value="Reset">
 					<label>[<input type="checkbox" name="onlyimgdel" value="on">ImageOnly]</label>
 				</form>
 				<table class="delfo">
@@ -283,10 +293,9 @@
 						<td><input form="delete" type="checkbox" name="del[]" value="{{$del['no']}}"></td>
 						<td>
 							<form action="{{$self}}" method="post" id="form{{$del['no']}}">
-								<input type="hidden" name="del[]" value="{{$del['no']}}"><input type="hidden" name="pwd"
+								<input type="hidden" name="del[]" value="{{$del['no']}}"><input type="hidden" name="pass"
 									value="{{$pass}}"><input type="hidden" name="mode" value="edit">
-								<a href="javascript:form{{$del['no']}}.submit()">{{$del['no']}}</a>
-							</form>
+								<a href="javascript:form{{$del['no']}}.submit()">{{$del['no']}}</a></form>
 						</td>
 						<td>{{$del['now']}}</td>
 						<td>{{$del['sub']}}</td>
