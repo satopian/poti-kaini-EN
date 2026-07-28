@@ -239,7 +239,7 @@
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
-			@if($use_admin_link)<a href="{{$self}}?mode=admin">[Admin mode]</a>@endif
+			@if($use_admin_link)<a href="{{$self}}?mode=admin" class="js_admin_in_link">[Admin mode]</a>@endif
 		</div>
 		<hr>
 		<div>

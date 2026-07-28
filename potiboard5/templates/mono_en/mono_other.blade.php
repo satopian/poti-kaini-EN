@@ -33,7 +33,7 @@
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<div>
 			<a href="{{$home}}" target="_top">[Home]</a>
-			@if($use_admin_link)<a href="{{$self}}?mode=admin">[Admin mode]</a>@endif
+			@if($use_admin_link)<a href="{{$self}}?mode=admin" class="js_admin_in_link">[Admin mode]</a>@endif
 
 		</div>
 		<hr>
@@ -242,13 +242,14 @@
 		<section>
 			<div class="thread">
 				<h2 class="oekaki">Admin mode</h2>
-				<form action="{{$self}}" method="post" class="adminin" id="admin_auth_form">
+				<form action="{{$self}}" method="post" class="adminin">
 					<label><input type="radio" name="admin" value="update" checked>Update</label>
 					<label><input type="radio" name="admin" value="del">Manage posts</label>
 					<label><input type="radio" name="admin" value="post">Admin Post</label>
 					<input type="hidden" name="mode" value="admin_auth">
-					<input class="form" type="password" name="pass">
-					<input class="button" type="submit" value="Admin Auth">
+					<input type="hidden" name="token" value="{{$token}}">
+					<input class="form" type="password" name="pass" autocomplete="new-password">
+					<input class="button" type="submit" value="Login">
 				</form>
 			</div>
 		</section>
@@ -261,14 +262,15 @@
 				<h2 class="oekaki">Admin mode</h2>
 				<form action="{{$self}}" method="post">
 					<input type="hidden" name="admin" value="update">
-					<input type="hidden" name="mode" value="admin">
+					<input type="hidden" name="mode" value="admin_auth">
 					<input type="hidden" name="pass" value="{{$pass}}">
 					<input type="submit" value="Update" class="button delbtton">
 					Update the html file
 				</form>
 				<hr>
 				<form id="delete" action="{{$self}}" method="post" class="delmode">
-					<input type="hidden" name="mode" value="admin">
+					<input type="hidden" name="mode" value="admin_auth">
+					<input type="hidden" name="token" value="{{$token}}">
 					<input type="hidden" name="admin" value="del">
 					<input type="hidden" name="pass" value="{{$pass}}">
 					<p>Check the checkbox of the article you want to delete and press the delete button.</p>
@@ -315,7 +317,8 @@
 				@foreach($del_pages as $del_page)
 				<div class="del_page">[
 					<form action="{{$self}}" method="post" id="form_page{{$del_page['no']}}">
-						<input type="hidden" name="mode" value="admin">
+						<input type="hidden" name="mode" value="admin_auth">
+						<input type="hidden" name="token" value="{{$token}}">
 						<input type="hidden" name="admin" value="del">
 						<input type="hidden" name="pass" value="{{$pass}}">
 						<input type="hidden" name="del_pageno" value="{{$del_page['no']}}">

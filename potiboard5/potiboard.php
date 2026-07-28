@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.00.1';
-const POTI_LOT = 'lot.20260727';
+const POTI_VER = 'v7.00.7';
+const POTI_LOT = 'lot.20260728';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -307,26 +307,24 @@ switch($mode){
 		return regist();
 	case 'admin':
 		$dat['before_admin_in'] = true;
-		set_form_display_time();
 		return htmloutput(OTHERFILE, $dat);
 
 	case 'admin_in':
 		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
-		check_same_origin(true);
+		check_same_origin();
 		check_badhost(MSG049,['admin_in'=>true]);
-		check_submission_interval();
 
 		$dat['admin_in'] = true;
 		set_form_display_time();
+		$token= get_csrf_token();
+		$dat['token'] = $token;
+
 		return htmloutput(OTHERFILE, $dat);
 
 	case 'admin_auth':
 		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
-		check_same_origin(true);
+		check_csrf_token();
 		check_badhost(MSG049,['admin_in'=>true]);
-		if (REJECT_WITHOUT_JAVASCRIPT && !filter_input(INPUT_POST, 'js_submit_flag', FILTER_VALIDATE_BOOLEAN)) {
-			error(MSG049);
-		}
 
 		check_submission_interval();
 		check_password_input_error_count();
@@ -1582,12 +1580,14 @@ function userdel(): void {
 }
 
 // 管理者削除
-function admindel(?string $pass): void {
+function admindel(string $pass): void {
 	global $path;
-
+	if(!is_adminpass($pass)){
+		error(MSG029);
+	}
 	check_badhost();
 	check_same_origin(true);
-
+	$dat['token'] = get_csrf_token();
 	$onlyimgdel = (bool)filter_input_data('POST', 'onlyimgdel',FILTER_VALIDATE_BOOLEAN);
 	$del = (array)($_POST['del'] ?? []);//$del は配列
 	$del_pageno=(int)filter_input_data('POST','del_pageno',FILTER_VALIDATE_INT);
@@ -2540,7 +2540,7 @@ function editform(): void {
 	
 	$dat['post_mode'] = true;
 	$dat['rewrite'] = $no;
-	$dat['admin'] = is_adminpass($pwd) ? h($ADMIN_PASS):'';
+	$dat['admin'] = is_adminpass($pass) ? h($ADMIN_PASS):'';
 	$dat['maxbyte'] = 0;//編集画面
 	$dat['maxkb']   = 0;
 	$dat['addinfo'] = $addinfo;

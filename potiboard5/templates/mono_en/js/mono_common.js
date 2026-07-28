@@ -232,37 +232,48 @@ addEventListener("DOMContentLoaded", () => {
       }
     };
   }
+
   /**
-   * 管理者認証
-   * @returns {void}
+   * JavascriptでPOSTして管理者画面を開く
    */
-  const admin_auth_form = document.getElementById("admin_auth_form");
-  if (admin_auth_form instanceof HTMLFormElement) {
-    admin_auth_form.onsubmit = (e) => {
+  document.querySelectorAll(".js_admin_in_link").forEach((js_admin_in_link) => {
+    js_admin_in_link.addEventListener("click", (e) => {
+      //ブラウザ自動化ツールを拒絶
       e.preventDefault(); // フォームのデフォルトの送信を防ぐ
-      //自動化ツールによる自動送信を拒否する
+      // 自動化ツールによる自動送信を拒否する
       const languages_length0 = navigator.languages.length === 0;
       const webdriver = navigator.webdriver;
       if (webdriver || languages_length0) {
         alert(en ? "The post has been rejected." : "拒絶されました。");
         return;
       }
-      // JSからの送信であることを示す hidden フィールドを追加
-      const hidden = document.createElement("input");
-      hidden.type = "hidden";
-      hidden.name = "js_submit_flag";
-      hidden.value = "1";
-      admin_auth_form.appendChild(hidden);
-
-      const submitButton = admin_auth_form.querySelector('[type="submit"]');
-      if (submitButton instanceof HTMLInputElement) {
-        // 二度押し防止
-        submitButton.disabled = true;
-        // フォームを送信
-        submitButton.form?.submit();
+      if (!(js_admin_in_link instanceof HTMLAnchorElement)) {
+        return;
       }
-    };
-  }
+      const url = new URL(js_admin_in_link.href);
+      const form = document.createElement("form");
+      form.action = url.pathname; // クエリ抜きの $self 相当
+      form.method = "POST";
+
+      /**
+       * @param  {string} name
+       * @param  {string} value
+       */
+      const append = (name, value) => {
+        const i = document.createElement("input");
+        i.type = "hidden";
+        i.name = name;
+        i.value = value || "";
+        form.appendChild(i);
+      };
+
+      append("mode", "admin_in");
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    });
+  });
 
   /**
    * @description スマホの時はPC用のメニューを非表示
