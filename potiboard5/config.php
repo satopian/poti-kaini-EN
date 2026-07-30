@@ -654,12 +654,14 @@ define("URL_PARAMETER", "0");
 // You should only change these lines if you get permission errors in your server when
 // using the board.
 
-//Image and HTML file permissions.
-define("PERMISSION_FOR_DEST", 0606);//初期値 0606
-//Log file permissions (Those are used internally by the script)
-define("PERMISSION_FOR_LOG", 0600);//初期値 0600
-//Directory permissions to save image and other files
-define("PERMISSION_FOR_DIR", 0707);//初期値 0707
+// Image and HTML file permissions.
+define("PERMISSION_FOR_DEST", 0606); // default: 0606
+// Log file permissions (used internally by the script)
+define("PERMISSION_FOR_LOG", 0600); // default: 0600
+// Directory permissions for saving images and other files
+define("PERMISSION_FOR_DIR", 0707); // default: 0707
+// Permissions for this configuration file (config.php)
+define("PERMISSION_FOR_CONFIG", 0600); // default: 0600
 
 // Skinny.php cache and directory permissions
 // Set in Skinny.php.

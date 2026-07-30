@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.00.8';
-const POTI_LOT = 'lot.20260728';
+const POTI_VER = 'v7.01.0';
+const POTI_LOT = 'lot.20260729';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -55,7 +55,9 @@ check_file(__DIR__.'/lib/'.JQUERY);
 // Lightbox
 check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js');
 check_file(__DIR__.'/lib/lightbox/css/lightbox.min.css');
-check_file(__DIR__.'/config.php');
+
+defined('PERMISSION_FOR_CONFIG') or define('PERMISSION_FOR_CONFIG',0600); 
+check_file(__DIR__.'/config.php',false,PERMISSION_FOR_CONFIG);
 require_once(__DIR__.'/config.php');
 
 defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
@@ -71,6 +73,7 @@ if(USE_CHEERPJ_OLD_VERSION){//2.3
 }
 define('CHEERPJ_DEBUG','{ enableDebug: true }');
 define('CHEERPJ_DEBUG_MODE',0);
+
 
 // $ cat FILENAME.js | openssl dgst -sha384 -binary | openssl base64 -A
 // https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
@@ -93,7 +96,7 @@ if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260701){
 //SNS共有Class
 check_file(__DIR__.'/sns_share.inc.php');
 require_once(__DIR__.'/sns_share.inc.php');
-if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20251031){
+if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20260730){
 	die($en ? "Please update sns_share.inc.php" : "sns_share.inc.phpを更新してください。");
 }
 	//検索Class
@@ -309,7 +312,6 @@ switch($mode){
 		return htmloutput(OTHERFILE, $dat);
 
 	case 'admin_in':
-		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
 		check_same_origin();
 		check_badhost(MSG049,['admin_in'=>true]);
 
@@ -321,7 +323,6 @@ switch($mode){
 		return htmloutput(OTHERFILE, $dat);
 
 	case 'admin_auth':
-		if(($_SERVER["REQUEST_METHOD"]) !== "POST") error(MSG049);
 		check_csrf_token();
 		check_badhost(MSG049,['admin_in'=>true]);
 
@@ -454,6 +455,11 @@ function check_csrf_token(): void {
 }
 function check_same_origin(bool $cookie_check=false): void {
 	global $usercode,$en;
+	if($_SERVER["REQUEST_METHOD"] != "POST"){
+		header("HTTP/1.1 403 Forbidden");
+		exit();
+	}
+
 	session_sta();
 	$c_usercode = (string)filter_input_data('COOKIE', 'usercode');//user-codeを取得
 	$session_usercode = $_SESSION['usercode'] ?? "";
@@ -1734,10 +1740,27 @@ function initial_error_message(): array {
 return $msg;	
 }
 
-// ファイル存在チェック
-function check_file (?string $path,bool $check_writable=false): void {
+/**
+ * @param string $path
+ * @param bool $check_writable
+ * @param int $permission 
+ */
+
+function check_file (string $path,bool $check_writable=false,int $permission=0): void {
 	$msg=initial_error_message();
+
 	if (!is_file($path)) die($path . $msg['041']);
+
+	if($permission){
+		// 現在のパーミッションを取得（8進数下位3桁を抽出）
+		$current_perms = fileperms($path) & 0777; 
+		// 異なる場合のみ chmod を実行する
+		if ($current_perms !== $permission) {
+				chmod($path, $permission);
+		}
+	}
+
+
 	if (!is_readable($path)) die($path . $msg['042']);
 	if($check_writable){//書き込みが必要なファイルのチェック
 		if (!is_writable($path)) die($path . $msg['043']);
@@ -2675,6 +2698,8 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	
 	global $path,$temppath,$usercode,$en;
 
+	check_same_origin();
+
 	$replace_error_msg = $en ? 
 	"Image replacement failed.\nIt may be left in [Recover Images]."
 	:"画像の差し換えに失敗しました。\n未投稿画像に残っている可能性があります。";
@@ -3590,6 +3615,9 @@ function encode_for_share(?string $str): string {
 	return h(rawurlencode($str));
 }
 
+/**
+ * お絵かきデータを保存
+ */
 function saveimage(): void {
 	
 	$tool=filter_input_data('GET',"tool");
@@ -3611,10 +3639,11 @@ function saveimage(): void {
 		case "tegaki":
 			$image_save->save_klecks();
 			break;
+		default:
+			header("HTTP/1.1 403 Forbidden");
+			exit();
 	}
-
 }
-
 
 /**
  * 日付とIDを分離

@@ -1,7 +1,7 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
 //(c)satopian 2023-2025 MIT License
-$sns_share_inc_ver = 20251031;
+$sns_share_inc_ver = 20260730;
 class sns_share{
 
 //シェアするserverの選択画面
@@ -42,6 +42,8 @@ class sns_share{
 	//SNSへ共有リンクを送信
 	public static function post_share_server(): void {
 		global $en;
+
+		check_same_origin();
 
 		$sns_server_radio=(string)filter_input_data('POST',"sns_server_radio",FILTER_VALIDATE_URL);
 		$sns_server_radio_for_cookie=(string)filter_input_data('POST',"sns_server_radio");//directを判定するためurlでバリデーションしていない
