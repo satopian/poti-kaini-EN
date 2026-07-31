@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.01.0';
-const POTI_LOT = 'lot.20260729';
+const POTI_VER = 'v7.02.0';
+const POTI_LOT = 'lot.20260731';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -308,6 +308,10 @@ switch($mode){
 		}
 		return regist();
 	case 'admin':
+		//不正なクエリパラメータの時は 403 Forbiddenを返す
+		$allowed_keys = array_fill_keys(['mode'], true);
+		validateQueryParameters($allowed_keys);
+
 		$dat['before_admin_in'] = true;
 		return htmloutput(OTHERFILE, $dat);
 
@@ -2209,6 +2213,10 @@ function paintcom(): void {
 // 動画表示
 function openpch(): void {
 
+	//不正なクエリパラメータの時は 403 Forbiddenを返す
+	$allowed_keys = array_fill_keys(['mode','pch','no','resno'], true);
+	validateQueryParameters($allowed_keys);
+
 	$dat['paint_mode'] = false;
 	$dat['continue_mode'] = false;
 	$dat['useneo'] = false;
@@ -2295,6 +2303,10 @@ function deltemp(): void {
 // コンティニュー前画面
 function incontinue(): void {
 	global $addinfo;
+
+	//不正なクエリパラメータの時は 403 Forbiddenを返す
+	$allowed_keys = array_fill_keys(['mode','no','resno'], true);
+	validateQueryParameters($allowed_keys);
 
 	check_badhost(MSG049);
 
