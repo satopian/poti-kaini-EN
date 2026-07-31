@@ -4,7 +4,7 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.02.0';
+const POTI_VER = 'v7.02.1';
 const POTI_LOT = 'lot.20260731';
 
 /*
@@ -1790,9 +1790,9 @@ function check_dir (?string $path): void {
 function paintform(): void {
 	global $qualitys,$usercode,$pallets_dat;
 
+	check_same_origin();
 	check_badhost();//ホストチェック
 	check_log_size_limit();//ログファイルのファイルサイズをチェック
-	check_same_origin();
 
 	$admin = (string)filter_input_data('POST', 'admin');
 	$type = (string)newstring(filter_input_data('POST', 'type'));
