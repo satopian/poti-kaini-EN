@@ -565,13 +565,13 @@ $servers =
 	["X","https://x.com"],
 	["Bluesky","https://bsky.app"],
 	["Threads","https://www.threads.net"],
-	["pawoo.net","https://pawoo.net"],
+	["Pawoo","https://pawoo.net"],
+	["Pommu", "https://ch.dlsite.com/pommu"],
 	["fedibird.com","https://fedibird.com"],
 	["misskey.io","https://misskey.io"],
 	["xissmie.xfolio.jp","https://xissmie.xfolio.jp"],
 	["misskey.design","https://misskey.design"],
 	["nijimiss.moe","https://nijimiss.moe"],
-	["sushi.ski","https://sushi.ski"],
 
 ];
 
