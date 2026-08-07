@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.02.1';
-const POTI_LOT = 'lot.20260731';
+const POTI_VER = 'v7.03.1';
+const POTI_LOT = 'lot.20260806';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -96,7 +96,7 @@ if(!isset($thumbnail_gd_ver)|| $thumbnail_gd_ver < 20260701){
 //SNS共有Class
 check_file(__DIR__.'/sns_share.inc.php');
 require_once(__DIR__.'/sns_share.inc.php');
-if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20260730){
+if(!isset($sns_share_inc_ver) || $sns_share_inc_ver < 20260806){
 	die($en ? "Please update sns_share.inc.php" : "sns_share.inc.phpを更新してください。");
 }
 	//検索Class

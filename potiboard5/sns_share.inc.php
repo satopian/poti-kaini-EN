@@ -1,7 +1,7 @@
 <?php
 // Mastodon、misskey等の分散型SNSへ記事を共有するクラス
 //(c)satopian 2023-2026 MIT License
-$sns_share_inc_ver = 20260805;
+$sns_share_inc_ver = 20260806;
 class sns_share
 {
 
@@ -65,7 +65,8 @@ class sns_share
 			} elseif ($sns_server_radio === "https://www.threads.net") {
 				$share_url = "https://www.threads.net/intent/post?text=";
 			} elseif ($sns_server_radio === "https://ch.dlsite.com/pommu") {
-				$share_url = "https://ch.dlsite.com/pommu/intent/posts/create?text=";
+				$pommu_nsfw_falgtext = "r18=0";
+				$share_url = "https://ch.dlsite.com/pommu/intent/posts/create?{$pommu_nsfw_falgtext}&text=";
 			} else {
 				$share_url = $sns_server_radio . "/share?text=";
 			}
