@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.03.1';
-const POTI_LOT = 'lot.20260806';
+const POTI_VER = 'v7.06.0';
+const POTI_LOT = 'lot.20260810';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -56,9 +56,9 @@ check_file(__DIR__.'/lib/'.JQUERY);
 check_file(__DIR__.'/lib/lightbox/js/lightbox.min.js');
 check_file(__DIR__.'/lib/lightbox/css/lightbox.min.css');
 
+require_once(__DIR__.'/config.php');
 defined('PERMISSION_FOR_CONFIG') or define('PERMISSION_FOR_CONFIG',0600); 
 check_file(__DIR__.'/config.php',false,PERMISSION_FOR_CONFIG);
-require_once(__DIR__.'/config.php');
 
 defined('USE_CHEERPJ_OLD_VERSION') or define('USE_CHEERPJ_OLD_VERSION',"0"); 
 
@@ -1119,7 +1119,7 @@ function regist(): void {
 		chmod($dest,PERMISSION_FOR_DEST);
 	}
 	//パスワードハッシュ
-	$pass = $pwd ? password_hash($pwd,PASSWORD_BCRYPT,['cost' => 5]) : "*";
+	$pass = $pwd ? password_hash($pwd,PASSWORD_BCRYPT,['cost' => 10]) : "*";
 
 	$date = now_date(time());//日付取得
 	if(DISP_ID){
