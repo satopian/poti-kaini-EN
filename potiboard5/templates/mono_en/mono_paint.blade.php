@@ -166,6 +166,7 @@
 				});
 				document.addEventListener('DOMContentLoaded',()=>{
 					document.addEventListener('dblclick', (e)=>{ e.preventDefault()}, { passive: false });
+					document.querySelector('.pickr').addEventListener('contextmenu', (e)=>{ e.preventDefault()}, { passive: false });	
 				});
 	</script>
 	@endif
