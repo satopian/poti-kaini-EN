@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.07.0';
-const POTI_LOT = 'lot.20260812';
+const POTI_VER = 'v7.08.0';
+const POTI_LOT = 'lot.20260814';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1928,8 +1928,8 @@ function paintform(): void {
 		}
 		[$picw,$pich]=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
 		
-		$_pch_ext = check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]);
-
+		$_pch_ext = basename(check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]));
+		$pch=basename($pch);
 		if($ctype=='pch'&& $_pch_ext){
 
 			if($_pch_ext==='.pch'){
@@ -2228,7 +2228,7 @@ function openpch(): void {
 
 	$dat['parameter_day']=date("Ymd");
 
-	$pch = (string)newstring(filter_input_data('GET', 'pch'));
+	$pch = (string)basename(newstring(filter_input_data('GET', 'pch')));
 	$_pch = pathinfo($pch, PATHINFO_FILENAME); //拡張子除去
 	$no = (string)filter_input_data('GET', 'no',FILTER_VALIDATE_INT);
 	$resno = (string)filter_input_data('GET', 'resno',FILTER_VALIDATE_INT);
