@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.17";
+Neo.version = "1.7.18";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -3664,7 +3664,10 @@ Neo.Painter = class {
     if (Neo.isAnimation) {
       // neo_save_layers
       var items = this._actionMgr._items;
-      if (items.length > 0 && items[items.length - 1][0] != "restore") {
+      if (
+        (items.length > 0 && items[items.length - 1][0] != "restore") ||
+        items.length < 1
+      ) {
         this._pushUndo();
         this._actionMgr.restore();
       }
@@ -3851,6 +3854,10 @@ Neo.Painter = class {
       var dataURL = image.toDataURL("image/" + type);
       return this.dataURLtoBlob(dataURL);
     } else {
+      //動画データの中身が空の時は動画ファイルを作成しない
+      if (this._actionMgr._items.length < 1) {
+        return null;
+      }
       const jsonString = JSON.stringify(this._actionMgr._items);
       const data = LZString.compressToUint8Array(jsonString);
 
