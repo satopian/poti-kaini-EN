@@ -665,13 +665,15 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 							PaintTime :
 							<input type="text" size="24" name="count" readonly>
 						</p>
-						<script>
-							timerID = 10;
-								stime = new Date();
+							<script>
+							"use strict";
+							let s,m,h,d;
+							let timerID = 10;
+								const stime = Date.now();
 								function SetTimeCount() {
-									now = new Date();
-									s = Math.floor((now.getTime() - stime.getTime())/1000);
-									disp = '';
+									const now = Date.now();
+									 s = Math.floor((now - stime)/1000);
+								let	disp = '';
 									if(s >= 86400){
 										d = Math.floor(s/86400);
 										disp += d+"day ";
