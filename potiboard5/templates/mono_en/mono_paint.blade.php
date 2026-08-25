@@ -665,8 +665,9 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 							PaintTime :
 							<input type="text" size="24" name="count" readonly>
 						</p>
-							<script>
-							"use strict";
+						<script>
+						"use strict";
+						document.addEventListener('DOMContentLoaded',()=>{
 							let s,m,h,d;
 							let timerID = 10;
 								const stime = Date.now();
@@ -693,8 +694,9 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 									clearTimeout(timerID);
 									timerID = setTimeout(function(){ SetTimeCount(); }, 250);
 								};
-								document.addEventListener('DOMContentLoaded',SetTimeCount,false);
-						</script>
+							SetTimeCount();
+					});
+					</script>
 					</form>
 					<hr>
 				</div>
