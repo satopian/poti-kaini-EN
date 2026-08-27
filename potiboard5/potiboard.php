@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.10.1';
-const POTI_LOT = 'lot.20260825';
+const POTI_VER = 'v7.11.2';
+const POTI_LOT = 'lot.20260827';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -301,11 +301,6 @@ $_SESSION['usercode']=$usercode;
 
 switch($mode){
 	case 'regist':
-		if(DIARY && !$resto){
-			if(!is_adminpass($admin)){
-				error(MSG029);
-			}
-		}
 		return regist();
 	case 'admin':
 		//不正なクエリパラメータの時は 403 Forbiddenを返す
@@ -1091,6 +1086,15 @@ function regist(): void {
 		$resto = $uresto ?: $resto;//変数上書き$userdataのレス先を優先する
 		$pictmp2 = true;
 	}
+
+	//日記モードの時は管理者パスワードが必要
+	if(DIARY && !$resto){
+		$admin_regist_pass = $admin ?: $pwd;
+		if(!is_adminpass($admin_regist_pass)){
+			error(MSG029);
+		}
+	}
+
 	$dest='';
 	$is_file_dest=false;
 	$is_upload=false;
@@ -1801,8 +1805,8 @@ function check_dir (?string $path): void {
 
 /**
  * PCHファイルアップロードペイント
- * @return array
  * paintform()内で使用
+ * @return array
  */
 function pch_file_upload_paint(): array {
 
@@ -1866,6 +1870,98 @@ function pch_file_upload_paint(): array {
 	return [$pchup_paint_mode,$shi,$picw,$pich,$dat];
 }
 
+/**
+ * 続きを書く
+ * paintform()内で使用
+ * @return array
+ */
+function continue_paint(): array {
+
+	$mode = (string)filter_input_data('POST', 'mode');
+	if ($mode !== "contpaint") {
+		return [];
+	}
+	$no = (int)filter_input_data('POST', 'no', FILTER_VALIDATE_INT);
+	$type = (string)newstring(filter_input_data('POST', 'type'));
+	$cont_paint_same_thread = (bool)filter_input_data('POST', 'cont_paint_same_thread', FILTER_VALIDATE_BOOLEAN);
+	$ctype = (string)newstring(filter_input_data('POST', 'ctype'));
+	$pch = basename((string)newstring(filter_input_data('POST', 'pch')));
+	$ext = basename((string)newstring(filter_input_data('POST', 'ext')));
+	$pwd = (string)newstring(filter_input_data('POST', 'pwd'));
+	$shi = (string)filter_input_data('POST', 'shi');
+
+	$oyano = '';
+	$tp = fopen(TREEFILE, "r");
+	while ($tree = fgets($tp)) {
+		if (!trim($tree)) {
+			continue;
+		}
+		if (strpos(',' . trim($tree) . ',', ',' . $no . ',') !== false) {
+			[$oyano,] = explode(',', trim($tree));
+			break;
+		}
+	}
+	closeFile($tp);
+	$dat['oyano'] = $oyano;
+	$resto = '';
+	if ($type !== 'rep') {
+		$resto = ($cont_paint_same_thread && $oyano) ? $oyano : '';
+	}
+	if (!is_file(IMG_DIR . $pch . $ext)) {
+		error(MSG001);
+	}
+	[$picw, $pich] = getimagesize(IMG_DIR . $pch . $ext); //キャンバスサイズ
+
+	$_pch_ext = basename(check_pch_ext(__DIR__ . '/' . PCH_DIR . $pch, ['upfile' => true]));
+	$pch = basename($pch);
+	if ($ctype == 'pch' && $_pch_ext) {
+
+		if ($_pch_ext === '.pch') {
+			$shi = is_neo(PCH_DIR . $pch . '.pch') ? 'neo' : 0;
+		}
+		$dat['pchfile'] = './' . PCH_DIR . $pch . $_pch_ext;
+	}
+	if ($ctype == 'img' && is_file(IMG_DIR . $pch . $ext)) { //画像
+
+		$dat['oekaki_id'] = $pch . $ext;
+
+		$dat['anime'] = false;
+		$dat['imgfile'] = './' . IMG_DIR . $pch . $ext;
+		if ($_pch_ext === '.chi') {
+			$dat['img_chi'] = './' . PCH_DIR . $pch . '.chi';
+		}
+		if (is_file(IMG_DIR . $pch . '.aco')) {
+			$dat['img_aco'] = IMG_DIR . $pch . '.aco';
+		}
+
+		if ($_pch_ext === '.psd') {
+			$dat['img_klecks'] = './' . PCH_DIR . $pch . '.psd';
+		}
+	}
+
+	$dat['newpaint'] = true;
+
+	//差し換え時の認識コード追加
+	$dat['rep'] = false; //klecks
+	$dat['repcode'] = '';
+	if ($type === 'rep') {
+		if ($pwd) {
+			$pwd = openssl_encrypt($pwd, CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV); //暗号化
+			$pwd = bin2hex($pwd); //16進数に
+		}
+		$userip = get_uip();
+		//画像差し換え時に使用する識別情報
+		//`|`で分割して、元の記事のNoとUNIXタイムを取り出せるようにしておく
+		$repcode = $no . '|' . $pch . '|' . substr(hash('sha256', $userip . random_bytes(16)), 0, 12);
+		$dat['rep'] = true;
+		$dat['no'] = $no;
+		$dat['pwd'] = $pwd;
+		$dat['repcode'] = $repcode;
+		$dat['mode'] = 'picrep';
+	}
+	return [$resto, $shi, $picw, $pich, $dat];
+}
+
 /** お絵かき画面 */
 function paintform(): void {
 	global $qualitys,$usercode,$pallets_dat;
@@ -1887,11 +1983,7 @@ function paintform(): void {
 	$pich = (int)filter_input_data('POST', 'pich',FILTER_VALIDATE_INT);
 	$anime = (bool)filter_input_data('POST', 'anime',FILTER_VALIDATE_BOOLEAN);
 	$shi = (string)filter_input_data('POST', 'shi');
-	$pch = basename((string)newstring(filter_input_data('POST', 'pch')));
-	$ext = basename((string)newstring(filter_input_data('POST', 'ext')));
-	$ctype = (string)newstring(filter_input_data('POST', 'ctype'));
 	$quality = (int)filter_input_data('POST', 'quality',FILTER_VALIDATE_INT);
-	$no = (int)filter_input_data('POST', 'no',FILTER_VALIDATE_INT);
 
 	
 	if(strlen($pwd) > 72) error(MSG015);
@@ -1907,7 +1999,6 @@ function paintform(): void {
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
 
 	$dat['klecksusercode']=$usercode;//klecks
-	$dat['resto']=$resto;//klecks
 	// 初期化
 	$dat['image_jpeg'] = 'false';
 	$dat['image_size'] = 0;
@@ -1936,66 +2027,18 @@ function paintform(): void {
 	$dat = array_merge($dat,form($resto));
 	$dat['anime'] = $anime ? true : false;
 
-	$oyano='';
+	$dat['rep']=false;//klecks
+	$dat['repcode']='';
+
 	if($mode==="contpaint"){
-
-		$cont_paint_same_thread=(bool)filter_input_data('POST', 'cont_paint_same_thread',FILTER_VALIDATE_BOOLEAN);
-
-		
-		$tp=fopen(TREEFILE,"r");
-		while($tree = fgets($tp)){
-			if(!trim($tree)){
-				continue;
-			}	
-			if (strpos(',' . trim($tree) . ',',',' . $no . ',') !== false) {
-				[$oyano,] = explode(',', trim($tree));
-				break;
-			}
+	$continue_paint = continue_paint();
+		if(!empty($continue_paint)){
+			[$resto, $shi, $picw, $pich, $continue_dat] = $continue_paint;
+			$dat = array_merge($dat,$continue_dat);
 		}
-		closeFile($tp);
-		$dat['oyano']=$oyano;
-		if($type!=='rep'){
-
-			$resto = ($cont_paint_same_thread && $oyano) ? $oyano : '';
-
-			// $resto= ($oyano&&((int)$oyano!==$no)) ? $oyano :'';
-			//お絵かきレスの新規投稿はスレッドへの返信の新規投稿に。
-			//親の番号ではない事を確認してレス先の番号をセット。
-		}
-		if(!is_file(IMG_DIR.$pch.$ext)){
-			error(MSG001);
-		}
-		[$picw,$pich]=getimagesize(IMG_DIR.$pch.$ext);//キャンバスサイズ
-		
-		$_pch_ext = basename(check_pch_ext(__DIR__.'/'.PCH_DIR.$pch,['upfile'=>true]));
-		$pch=basename($pch);
-		if($ctype=='pch'&& $_pch_ext){
-
-			if($_pch_ext==='.pch'){
-				$shi = is_neo(PCH_DIR.$pch.'.pch') ? 'neo':0;
-			}
-			$dat['pchfile'] = './'.PCH_DIR.$pch.$_pch_ext;
-		}
-		if($ctype=='img' && is_file(IMG_DIR.$pch.$ext)){//画像
-
-			$dat['oekaki_id']= $pch.$ext;
-
-			$dat['anime'] = false;
-			$dat['imgfile'] = './'.IMG_DIR.$pch.$ext;
-			if($_pch_ext==='.chi'){
-				$dat['img_chi'] = './'.PCH_DIR.$pch.'.chi';
-			}
-			if(is_file(IMG_DIR.$pch.'.aco')){
-				$dat['img_aco'] = IMG_DIR.$pch.'.aco';
-			}
-
-			if($_pch_ext==='.psd'){
-				$dat['img_klecks'] = './'.PCH_DIR.$pch.'.psd';
-			}
-		}
-	
-		$dat['newpaint'] = true;
 	}
+
+	$dat['resto']=$resto;//klecks
 
 	if($shi==1||$shi==2){
 	$w = $picw + 510;//しぃぺの時の幅
@@ -2054,33 +2097,16 @@ function paintform(): void {
 	$dat['picw'] = $picw;
 	$dat['pich'] = $pich;
 	$dat['stime'] = time();
-	if($pwd){
-		$pwd=openssl_encrypt ($pwd,CRYPT_METHOD, CRYPT_PASS, true, CRYPT_IV);//暗号化
-		$pwd=bin2hex($pwd);//16進数に
-	}
-	$resto = ($resto) ? '&resto='.$resto : '';
-	$dat['mode'] = 'piccom'.$resto;
+	$param_resto = ($resto) ? '&resto='.$resto : '';
+	$dat['mode'] = 'piccom'.$param_resto;
 
-	$usercode.='&stime='.time().$resto;
+	$usercode.='&stime='.time().$param_resto;
 	//差し換え時の認識コード追加
-	$dat['rep']=false;//klecks
-	$dat['repcode']='';
 	if($type==='rep'){
-		$time=time();
-		$userip = get_uip();
-		//画像差し換え時に使用する識別情報
-		//`|`で分割して、元の記事のNoとUNIXタイムを取り出せるようにしておく
-		$repcode = $no.'|'.$pch.'|'.substr(hash('sha256', $userip.random_bytes(16)),0,12);
-		$dat['rep']=true;
-		$dat['no']=$no;
-		$dat['pwd']=$pwd;
-		$dat['repcode']=$repcode;
-		$dat['mode'] = 'picrep';
-		$usercode.='&repcode='.$repcode;
+		$usercode.='&repcode='.$dat['repcode'];
 	}elseif($pchup_paint_mode){//PCHアップロードペイントの時は
 		//描画時間･工程数による拒絶を防ぐため
 		//ダミーの差し換え時の識別コードを追加
-		$dat['repcode']='1';
 		$usercode.='&repcode=1';
 	}
 
@@ -3855,7 +3881,7 @@ function app_to_use(): array {
 			$arr_apps[]='chicken';
 		}
 		if(USE_KLECKS){
-			 $arr_apps[]='klecks';
+			$arr_apps[]='klecks';
 		}
 		return $arr_apps;
 	}
