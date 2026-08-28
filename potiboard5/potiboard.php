@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.11.2';
-const POTI_LOT = 'lot.20260827';
+const POTI_VER = 'v7.12.1';
+const POTI_LOT = 'lot.20260828';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -2003,7 +2003,7 @@ function paintform(): void {
 	$dat['image_jpeg'] = 'false';
 	$dat['image_size'] = 0;
 	$dat['oekaki_id']='';
-	$keys=['type_neo','pinchin','pch_mode','continue_mode','imgfile','img_chi','img_klecks','paintbbs','quality','pro','normal','undo','undo_in_mg','pchfile','security','security_click','security_timer','security_url','speed','picfile','painttime','no','pch','ext','ctype_pch','newpost_nopassword'];
+	$keys=['type_neo','pinchin','pch_mode','continue_mode','imgfile','img_chi','img_klecks','paintbbs','quality','pro','normal','undo','undo_in_mg','pchfile','security','security_click','security_timer','security_url','speed','picfile','painttime','no','pch','ext','ctype_pch','newpost_nopassword','rep'];
 
 	foreach($keys as $key){
 		$dat[$key]=false;	
@@ -2023,11 +2023,9 @@ function paintform(): void {
 	$picw=$pchup_picw ?:$picw;
 	$pich=$pchup_pich ?:$pich;
 	$dat['paint_mode'] = true;
-	$dat['pinchin']=false;//NEOのピンチイン廃止
 	$dat = array_merge($dat,form($resto));
 	$dat['anime'] = $anime ? true : false;
 
-	$dat['rep']=false;//klecks
 	$dat['repcode']='';
 
 	if($mode==="contpaint"){

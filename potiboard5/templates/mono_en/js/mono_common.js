@@ -584,6 +584,36 @@ class petitNoteImagePreview {
         }
       });
     });
+    //クリップボードから画像をペースト
+    const textarea = document.querySelector("#comment_form textarea");
+    textarea?.addEventListener("paste", (e) => {
+      const fileInput = this.fileInput;
+      if (!(fileInput instanceof HTMLInputElement)) {
+        return;
+      }
+      /** @type {ClipboardEvent} */
+      if (!(e instanceof ClipboardEvent)) {
+        return;
+      }
+
+      const items = e.clipboardData?.items;
+      if (!items || items.length === 0) return;
+
+      const item = Array.from(items).find(
+        (i) => i.kind === "file" && i.type.indexOf("image") !== -1,
+      );
+      if (!item) return;
+
+      const file = item.getAsFile();
+      if (!file) return;
+
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      fileInput.files = dt.files;
+
+      fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+      e.preventDefault();
+    });
   }
 }
 document.addEventListener("DOMContentLoaded", () => {
