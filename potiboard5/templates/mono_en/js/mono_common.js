@@ -447,10 +447,16 @@ class petitNoteImagePreview {
     this.preview = document.getElementById("attach_preview");
     //添付ファイルを削除するボタン
     this.removeAttachmentBtn = document.getElementById("remove_attachment_btn");
+    this.removePchAttachmentBtn = document.getElementById(
+      "remove_pch_attachment_btn",
+    );
     if (this.removeAttachmentBtn) {
       this.removeAttachmentBtn.style.cursor = "pointer";
     }
     this.fileInput = document.querySelector('#comment_form input[type="file"]');
+    this.pchFileInput = document.querySelector(
+      '#paint_form input[type="file"]',
+    );
 
     this.setupFilePreviewAndSizeCheck("comment_form");
     this.setupFilePreviewAndSizeCheck("paint_form");
@@ -514,14 +520,18 @@ class petitNoteImagePreview {
         }
         // paint_formの時は画像プレビュー表示しない
         if (formId === "paint_form") {
+          //ペイントフォームの選択解除リンクを表示
+          if (this.removePchAttachmentBtn) {
+            this.removePchAttachmentBtn.style.display = "inline-block";
+          }
           return;
-        }
-        if (this.fileInput instanceof HTMLInputElement) {
-          this.fileInput.style.width = "inherit";
         }
         //選択解除リンクを表示
         if (this.removeAttachmentBtn) {
           this.removeAttachmentBtn.style.display = "inline-block";
+        }
+        if (this.fileInput instanceof HTMLInputElement) {
+          this.fileInput.style.width = "inherit";
         }
         //画像プレビュー表示
         const reader = new FileReader();
@@ -554,9 +564,6 @@ class petitNoteImagePreview {
         if (file instanceof Blob) {
           reader.readAsDataURL(file);
         }
-      } else {
-        //ファイル添付が解除された時
-        this.clear_css_preview();
       }
     });
   }
@@ -564,6 +571,17 @@ class petitNoteImagePreview {
     this.removeAttachmentBtn?.addEventListener("click", (e) => {
       e.preventDefault();
       this.clear_css_preview();
+    });
+    this.removePchAttachmentBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      //選択解除リンクを非表示
+      if (this.removePchAttachmentBtn) {
+        this.removePchAttachmentBtn.style.display = "none";
+      }
+      if (this.pchFileInput instanceof HTMLInputElement) {
+        this.pchFileInput.value = "";
+        this.pchFileInput.style.width = "";
+      }
     });
 
     /**
@@ -584,6 +602,7 @@ class petitNoteImagePreview {
         }
       });
     });
+
     //クリップボードから画像をペースト
     const textarea = document.querySelector("#comment_form textarea");
     textarea?.addEventListener("paste", (e) => {
