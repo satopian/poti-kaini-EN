@@ -3,7 +3,7 @@
 		@if($admin)
 		<input type="hidden" name="admin" value="{{$admin}}">
 		<input name="pch_upload" type="file" accept="image/*,.pch,.spch,.chi,.psd" class="pchup_button">
-		<div id="remove_pch_attachment_btn" style="display:none">[<a href="#">Remove</a>]</div>
+		<button id="remove_pch_attachment_btn" class="button" style="display:none">Remove</button>
 		<br>
 		@endif
 		Width : <input name="picw" type="number" title="Width" class="form" value="{{$pdefw}}" min="{{$pminw}}" max="{{$pmaxw}}">

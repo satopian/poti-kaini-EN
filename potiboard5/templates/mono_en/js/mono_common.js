@@ -523,6 +523,9 @@ class petitNoteImagePreview {
           //ペイントフォームの選択解除リンクを表示
           if (this.removePchAttachmentBtn) {
             this.removePchAttachmentBtn.style.display = "inline-block";
+            if (this.pchFileInput instanceof HTMLInputElement) {
+              this.pchFileInput.style.width = "inherit";
+            }
           }
           return;
         }
