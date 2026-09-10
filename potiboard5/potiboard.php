@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.12.2';
-const POTI_LOT = 'lot.20260829';
+const POTI_VER = 'v7.15.2';
+const POTI_LOT = 'lot.20260910';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1303,24 +1303,10 @@ function regist(): void {
 				if($i>=$chkline){break;}//チェックする最大行数
 			}
 		}
+
 		if($pictmp2){
-			//PCHファイルアップロード
-			// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-			if ($pchext = check_pch_ext($temppath.$picfile,['upfile'=>true])) {
-				$pch_src = $temppath.$picfile.$pchext;
-				$pch_dst = PCH_DIR.$time.$pchext;
-				if(copy($pch_src, $pch_dst)){
-					chmod($pch_dst,PERMISSION_FOR_DEST);
-				}
-			}
-			//litaChixのカラーセット
-			$aco_src = $temppath.$picfile.".aco";
-			$aco_dst = IMG_DIR.$time.".aco";
-			if(is_file($aco_src)){
-				if(copy($aco_src, $aco_dst)){
-					chmod($aco_dst,0606);
-				}
-			}
+		//PCHファイルアップロード
+		[$pchext, $pch_src, $aco_src] = copy_pch_file($temppath.$picfile, $time);
 		}
 
 		[$w, $h] = getimagesize($dest);
@@ -2963,22 +2949,7 @@ function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=f
 	$thumbnail = make_thumbnail($time.$imgext,$time,$max_w,$max_h);
 
 	//PCHファイルアップロード
-	// .pch, .spch,.chi,.psd ブランク どれかが返ってくる
-	if ($pchext = check_pch_ext($temppath . $file_name,['upfile'=>true])) {
-		$pch_src = $temppath.$file_name.$pchext;
-		$pch_dst = PCH_DIR . $time . $pchext;
-		if(copy($pch_src, $pch_dst)){
-			chmod($pch_dst, PERMISSION_FOR_DEST);
-		}
-	}
-	//litaChixのカラーセット
-	$aco_src = $temppath.$file_name.".aco";
-	$aco_dst = IMG_DIR.$time.".aco";
-	if(is_file($aco_src)){
-		if(copy($aco_src, $aco_dst)){
-			chmod($aco_dst,0606);
-		}
-	}
+	[$pchext, $pch_src, $aco_src] = copy_pch_file($temppath . $file_name, $time);
 
 	//ID付加
 	if(DISP_ID){
@@ -3346,6 +3317,33 @@ function check_pch_ext (?string $filepath,array $options = []): string {
 		}
 	}
 	return '';
+}
+
+/**
+ * pchファイルをコピー
+ * @param string $temp_basepath 一時ファイルのベースパス。
+ * @param string $time タイムスタンプ。
+ * @return array 
+ */
+function copy_pch_file(string $temp_basepath,string $time): array {
+	$pch_src='';
+		// .pch, .tgkr, .chi, .psd, ブランク どれかが返ってくる
+		if($pchext = check_pch_ext($temp_basepath,['upfile'=>true])){
+			$pch_src = $temp_basepath.$pchext;
+			$pch_dst = PCH_DIR.$time.$pchext;
+			if(copy($pch_src, $pch_dst)){
+				chmod($pch_dst,0606);
+			}
+		}
+		//litaChixのカラーセット
+		$aco_src = $temp_basepath.".aco";
+		$aco_dst = IMG_DIR.$time.".aco";
+		if(is_file($aco_src)){
+			if(copy($aco_src, $aco_dst)){
+				chmod($aco_dst,0606);
+			}
+		}
+		return [$pchext,$pch_src,$aco_src];
 }
 
 /**
