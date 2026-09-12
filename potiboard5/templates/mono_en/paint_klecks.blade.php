@@ -258,7 +258,7 @@ if (psdURL) {
 			mixModeStr: 'source-over',
 			image: backgroundCanvas
 			}, {
-				name: '{{$TranslatedLayerName}} 1',
+				name: '{{$TranslatedLayerName}} 0',
 				opacity: 1,
 				mixModeStr: 'source-over',
 				image: emptyCanvas

@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.15.2';
-const POTI_LOT = 'lot.20260910';
+const POTI_VER = 'v7.16.0';
+const POTI_LOT = 'lot.20260912';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -398,6 +398,11 @@ switch($mode){
 	case '':
 		if($res){
 			return res();
+		}
+		if(!empty(filter_input_array(INPUT_GET))){
+			//不正なクエリパラメータの時は 403 Forbiddenを返す
+			header("HTTP/1.1 403 Forbidden");
+			exit();
 		}
 		 redirect(h(PHP_SELF2));
 	default:
