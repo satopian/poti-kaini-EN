@@ -171,7 +171,7 @@
 							<td>File</td>
 							<td><input class="form" type="file" name="upfile" size="35" accept="image/*">
 								<button id="remove_attachment_btn" class="button" style="display:none">Remove</button>
-								<img id="attach_preview" style="max-width:200px;max-height:200px; display:block;">
+								<img id="attach_preview" style="max-width:200px;max-height:200px; display:block;" alt="preview" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
 							</td>
 						</tr>
 						@endif
