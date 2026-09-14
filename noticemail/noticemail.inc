@@ -1,12 +1,13 @@
 <?php
 /*
-** メール通知クラス(UTF-8) lot.20250314
+** メール通知クラス(UTF-8) lot.20260914
 **
 ** https://paintbbs.sakura.ne.jp/poti/
 ** by POTI改
 ** originalscript (C)SakaQ 2004-2007
 ** http://www.punyu.net/php/
 **
+** 2026/09/14 件名に半角カナが入っていた時は全角カナに変換。
 ** 2022/12/19 コード整理。
 ** 2022/09/18 多国語対応。mb_language( 'uni' )。
 ** 2020/06/20 多国語対応。メール送信をJISからutf-8へ。
@@ -143,6 +144,7 @@ class noticemail
 		$name = mb_convert_kana($name);
 		$name = str_replace('"', "", $name); //ダブルクオートを除去
 		$from = mb_convert_kana($from);
+		$subject = mb_convert_kana($subject);
 
 		// メールアドレスがなければ代替え
 		if (!$from) $from = 'nomail@' . $_SERVER["HTTP_HOST"];

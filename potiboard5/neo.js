@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.26";
+Neo.version = "1.7.27";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;

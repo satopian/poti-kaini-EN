@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.16.0';
-const POTI_LOT = 'lot.20260912';
+const POTI_VER = 'v7.16.1';
+const POTI_LOT = 'lot.20260914';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -1449,7 +1449,9 @@ function regist(): void {
 		$data['to'] = TO_MAIL;
 		$data['name'] = $name;
 		$data['email'] = $email;
-		$data['option'][] = 'URL,'.$url;
+		if(filter_var($url, FILTER_VALIDATE_URL)){
+			$data['option'][] = 'URL,'.$url;
+		}
 		$data['option'][] = NOTICE_MAIL_TITLE.','.$sub;
 		if($ext) $data['option'][] = NOTICE_MAIL_IMG.','.ROOT_URL.IMG_DIR.$time.$ext;//拡張子があったら
 		if(is_file(THUMB_DIR.$time.'s.jpg')) $data['option'][] = NOTICE_MAIL_THUMBNAIL.','.ROOT_URL.THUMB_DIR.$time.'s.jpg';
@@ -1750,6 +1752,7 @@ return $msg;
 }
 
 /**
+ * ファイルの存在をチェック
  * @param string $path
  * @param bool $check_writable
  * @param int $permission 
@@ -1767,7 +1770,6 @@ function check_file (string $path,bool $check_writable=false,int $permission=0):
 				chmod($path, $permission);
 		}
 	}
-
 
 	if (!is_readable($path)) die($path . $msg['042']);
 	if($check_writable){//書き込みが必要なファイルのチェック
@@ -2764,7 +2766,7 @@ function rewrite(): void {
 
 	redirect($destination . (URL_PARAMETER ? "?".time() : ''));
 }
-/** 画像差し換え*/
+/** 画像差し換え */
 function replace(?string $no="",?string $pwd="",?string $repcode="",bool $java=false): void {
 	
 	global $path,$temppath,$usercode,$en;
@@ -3927,7 +3929,7 @@ function get_pch_size(?string $src): ?array {
 }
 /** 
  * spchデータの幅と高さ
- * @param $src
+ * @param string $src
  * @return array|null
  */
 function get_spch_size(string $src): ?array {

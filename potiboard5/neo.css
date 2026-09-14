@@ -7,7 +7,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
 
-  touch-callout: none;
   -webkit-touch-callout: none;
   display: contents;
 }
@@ -76,8 +75,8 @@
 .NEO #neo-painter {
   position: relative;
   padding: 20px 20px 20px 20px;
-
   margin-top: 30px;
+  touch-action: none;
 }
 
 .NEO #neo-canvas {
@@ -228,7 +227,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0);
 
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
   margin: 1px;
 }
 
@@ -250,7 +248,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0);
 
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
   margin: 1px;
 }
 
@@ -613,7 +610,6 @@
   font-family: "Arial";
   letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
 }
 
 .NEO #neo-viewerButtons > div.buttonOff {
