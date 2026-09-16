@@ -741,7 +741,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 					<li>Undo with [Ctrl + Z] or [Ctrl + U], redo with [Ctrl + Alt + Z] or [Ctrl + Y].</li>
 					<li>Copy and Bezier operations can be reset with [Esc]. (Same for right-clicking)</li>
 					<li>Free scrolling by dragging the canvas while holding down the [Space] key.</li>
-					<li>Change the line width by [Ctrl + Alt + drag].</li>
+					<li>Change the line width by [left-bracket], [right-bracket], or [Ctrl + Alt + drag].</li>
 				</ul>
 				<h3>Special usage of copy tool</h3>
 				<p>

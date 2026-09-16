@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.27";
+Neo.version = "1.7.29";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -1398,14 +1398,13 @@ Neo.resizeCanvas = function () {
   var width = width0 < appletWidth - 100 ? width0 : appletWidth - 100;
   var height = height0 < appletHeight - 120 ? height0 : appletHeight - 120;
 
-  //width, heightは偶数でないと誤差が出るため
-  width = Math.floor(width / 2) * 2;
-  height = Math.floor(height / 2) * 2;
-
   if (Neo.viewer) {
     width = canvasWidth;
     height = canvasHeight;
   }
+  //width, heightは偶数でないと誤差が出るため
+  width = Math.floor(width / 2) * 2;
+  height = Math.floor(height / 2) * 2;
 
   Neo.painter.destWidth = width;
   Neo.painter.destHeight = height;
@@ -1426,9 +1425,9 @@ Neo.resizeCanvas = function () {
   if (Neo.painter.zoom < 1) {
     // 表示用アンチエイリアスを有効化
     ctx.imageSmoothingEnabled = true;
+    destCanvas.style.imageRendering = "smooth";
     // 品質を指定（対応ブラウザのみ有効）
     if (Neo.painter.zoom < 0.5 && "imageSmoothingQuality" in ctx) {
-      destCanvas.style.imageRendering = "smooth";
       ctx.imageSmoothingQuality = "high";
     }
   } else {
@@ -3600,8 +3599,8 @@ Neo.Painter = class {
 
     const container = document.getElementById("neo-container");
     if (!container) return;
-    var width = Math.round(this.canvasWidth * this.zoom);
-    var height = Math.round(this.canvasHeight * this.zoom);
+    var width = this.canvasWidth * this.zoom;
+    var height = this.canvasHeight * this.zoom;
 
     if (width > container.clientWidth - 100)
       width = container.clientWidth - 100;
@@ -6763,7 +6762,7 @@ Neo.DrawToolBase = class extends Neo.ToolBase {
   rollOutHandler(oe) {
     if (!oe.isMouseDown && !oe.isMouseDownRight) {
       oe.tempCanvasCtx.clearRect(0, 0, oe.canvasWidth, oe.canvasHeight);
-      oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
+      // oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
     }
   }
 
@@ -6819,11 +6818,10 @@ Neo.DrawToolBase = class extends Neo.ToolBase {
       oe.updateDestCanvas(rect[0], rect[1], rect[2], rect[3], true);
       oe.cursorRect = null;
     }
-    if (oe.zoom < 1) {
-      //縮小時はポインターアップで全体更新
-      oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
-    }
-    //  this.drawCursor(oe);
+    // if (oe.zoom < 1) {
+    //   //縮小時はポインターアップで全体更新
+    //   oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight, true);
+    // }
     oe.prevLine = null;
   }
 
@@ -8360,6 +8358,14 @@ Neo.CommandBase = class {
   constructor() {
     /** @type {any} */
     this.data = null;
+
+    // ズームの許容値を配列で定義
+    this.zoom_steps = Neo.config.neo_enable_zoom_out
+      ? [
+          0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0,
+          10.0, 11.0, 12.0,
+        ]
+      : [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 10.0, 11.0, 12.0];
   }
   execute() {}
 };
@@ -8381,16 +8387,34 @@ Neo.ZoomPlusCommand = class extends Neo.CommandBase {
   }
 
   execute() {
-    if (this.data.zoom >= 1 && this.data.zoom < 12) {
-      this.data.setZoom(this.data.zoom + 1);
-    } else if (this.data.zoom < 1) {
-      this.data.setZoom(this.data.zoom + 0.2);
+    const steps = this.zoom_steps;
+    // 現在のズームに最も近い（または一致する）インデックスを探す
+    let currentIndex = steps.findIndex((s) => s >= this.data.zoom);
+    if (currentIndex === -1) currentIndex = steps.length - 1;
+
+    // 完全に一致しない場合の調整（現在値より大きい最初のステップを採用、または次のインデックスへ）
+    if (
+      steps[currentIndex] === this.data.zoom &&
+      currentIndex < steps.length - 1
+    ) {
+      currentIndex++;
+    } else if (steps[currentIndex] > this.data.zoom) {
+      // そのまま現在のcurrentIndexのステップを採用
+    } else if (currentIndex < steps.length - 1) {
+      currentIndex++;
     }
+
+    if (currentIndex < steps.length) {
+      this.data.setZoom(steps[currentIndex]);
+    }
+
+    // console.log(this.data.zoom);
     Neo.resizeCanvas();
     // Neo.resizeCanvas()でupdateDestCanvas()を引数付きで呼び出しているためコメントアウト
     // Neo.painter.updateDestCanvas();
   }
 };
+
 /**
  * @property {number} zoom - 現在のズーム値
  * @property {(newZoom: number) => void} setZoom - ズーム値を設定するメソッド
@@ -8401,15 +8425,23 @@ Neo.ZoomMinusCommand = class extends Neo.CommandBase {
     super();
     this.data = data;
   }
+
   execute() {
-    if (this.data.zoom >= 2) {
-      this.data.setZoom(this.data.zoom - 1);
-    } else if (Neo.config.neo_enable_zoom_out && this.data.zoom >= 0.4) {
-      this.data.setZoom(this.data.zoom - 0.2);
+    const steps = this.zoom_steps;
+    let currentIndex = steps.findIndex((s) => s >= this.data.zoom);
+
+    if (currentIndex > 0) {
+      if (steps[currentIndex] === this.data.zoom) {
+        currentIndex--;
+      } else {
+        // 現在値がステップの間にいる場合は、下のステップに落とす
+        currentIndex = Math.max(0, currentIndex - 1);
+      }
+      this.data.setZoom(steps[currentIndex]);
     }
+
+    // console.log(this.data.zoom);
     Neo.resizeCanvas();
-    // Neo.resizeCanvas()でupdateDestCanvas()を引数付きで呼び出しているためコメントアウト
-    // Neo.painter.updateDestCanvas();
   }
 };
 
@@ -11482,6 +11514,18 @@ Neo.SizeSlider = class {
     this.label = null;
     /** @type {Element|null} */
     this.hit = null;
+    //ショートカットキー
+    //`]`でブラシサイズを1px上げる`[`でブラシサイズを1px下げる
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "]") {
+        this.value++;
+        this.setSize(this.value);
+      }
+      if (e.key === "[") {
+        this.value = Math.max(this.value - 1, 1);
+        this.setSize(this.value);
+      }
+    });
   }
 
   /**
