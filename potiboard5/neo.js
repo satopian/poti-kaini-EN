@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.29";
+Neo.version = "1.7.30";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -127,7 +127,9 @@ Neo.speed = 0;
 Neo.params = null;
 /**@type {object|null} */
 Neo.param = null;
-
+// @ts-ignore
+/**@type {Neo.SizeSlider|null} */
+Neo.sizeslider = null;
 Neo.SLIDERTYPE_RED = 0;
 Neo.SLIDERTYPE_GREEN = 1;
 Neo.SLIDERTYPE_BLUE = 2;
@@ -1185,12 +1187,10 @@ Neo.initButtons = function () {
   );
 
   // sizeSlider
-  Neo.sliders[Neo.SLIDERTYPE_SIZE] = new Neo.SizeSlider().init(
-    "neo-sliderSize",
-    {
-      type: Neo.SLIDERTYPE_SIZE,
-    },
-  );
+  Neo.sizeslider = new Neo.SizeSlider();
+  Neo.sliders[Neo.SLIDERTYPE_SIZE] = Neo.sizeslider.init("neo-sliderSize", {
+    type: Neo.SLIDERTYPE_SIZE,
+  });
 
   // reserveControl
   for (var i = 1; i <= 3; i++) {
@@ -3142,6 +3142,16 @@ Neo.Painter = class {
       ) {
         this._pushUndo();
         this._actionMgr.eraseAll();
+      }
+      //ショートカットキー
+      //`]`でブラシサイズを1px上げる`[`でブラシサイズを1px下げる
+      if (e.key === "]") {
+        Neo.sizeslider.value++;
+        Neo.sizeslider.setSize(Neo.sizeslider.value);
+      }
+      if (e.key === "[") {
+        Neo.sizeslider.value = Math.max(Neo.sizeslider.value - 1, 1);
+        Neo.sizeslider.setSize(Neo.sizeslider.value);
       }
     }
   }
@@ -11514,18 +11524,6 @@ Neo.SizeSlider = class {
     this.label = null;
     /** @type {Element|null} */
     this.hit = null;
-    //ショートカットキー
-    //`]`でブラシサイズを1px上げる`[`でブラシサイズを1px下げる
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "]") {
-        this.value++;
-        this.setSize(this.value);
-      }
-      if (e.key === "[") {
-        this.value = Math.max(this.value - 1, 1);
-        this.setSize(this.value);
-      }
-    });
   }
 
   /**
