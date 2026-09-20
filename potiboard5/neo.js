@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 var Neo = {};
 
-Neo.version = "1.7.30";
+Neo.version = "1.7.31";
 // @ts-ignore
 /** @type {Neo.Painter} */
 Neo.painter;
@@ -3975,23 +3975,82 @@ Neo.Painter = class {
     ctx.globalAlpha = 1.0;
 
     const zoom = this.zoom;
+    // 1.5倍2.5倍のときだけ「最近傍 → 2:1縮小」を使う
+    const is_useSuperSample = zoom === 1.5 || zoom === 2.5;
+
     // ---- 描画先座標（拡大／縮小後のキャンバス側） ----
     // scrollBarX/Y は 0～1 の比率
     this.scrollBarX = isNaN(this.scrollBarX) ? 0 : this.scrollBarX;
     this.scrollBarY = isNaN(this.scrollBarY) ? 0 : this.scrollBarY;
-    const offsetX =
+    let offsetX =
       this.scrollBarX * (this.canvasWidth * zoom - this.destCanvas.width);
-    const offsetY =
+    let offsetY =
       this.scrollBarY * (this.canvasHeight * zoom - this.destCanvas.height);
+
+    // 1.5倍・2.5倍表示のときは、最近傍でk倍(k = zoom * 2)に拡大してから
+    // 2:1(2x2平均)で縮小する。
+    // 非整数倍の最近傍で線の太さが1pxと2pxに偏るのを防ぐため。
+    // 更新矩形は元画像の2px単位(=表示側で整数px。1.5倍なら3px、2.5倍なら5px)に、
+    // オフセットは整数に揃え、部分更新と全面更新で補間結果が一致するようにする。
+    if (is_useSuperSample) {
+      // 部分更新と全面更新で補間の位相を揃えるため、オフセットを整数化
+      offsetX = Math.round(offsetX);
+      offsetY = Math.round(offsetY);
+
+      // 元画像2px = 表示側で整数px(1.5倍なら3px、2.5倍なら5px)になるので、
+      // 更新矩形を2px単位で外側に丸める
+      const x1 = Math.min(canvasWidth, Math.ceil((x + width) / 2) * 2);
+      const y1 = Math.min(canvasHeight, Math.ceil((y + height) / 2) * 2);
+      x = Math.floor(x / 2) * 2;
+      y = Math.floor(y / 2) * 2;
+      width = x1 - x;
+      height = y1 - y;
+
+      // 表示されている範囲（元画像座標）に絞り込む。これも2px単位で外側に丸める。
+      // 中間キャンバスが元キャンバスのサイズに依存して巨大化するのを防ぐ。
+      const vx0 = Math.max(0, Math.floor(offsetX / zoom / 2) * 2);
+      const vy0 = Math.max(0, Math.floor(offsetY / zoom / 2) * 2);
+      const vx1 = Math.min(
+        canvasWidth,
+        Math.ceil((offsetX + this.destCanvas.width) / zoom / 2) * 2,
+      );
+      const vy1 = Math.min(
+        canvasHeight,
+        Math.ceil((offsetY + this.destCanvas.height) / zoom / 2) * 2,
+      );
+      const nx = Math.max(x, vx0);
+      const ny = Math.max(y, vy0);
+      const nw = Math.min(x + width, vx1) - nx;
+      const nh = Math.min(y + height, vy1) - ny;
+      if (nw <= 0 || nh <= 0) {
+        // 更新範囲が画面外。save済みなので必ず戻す
+        ctx.restore();
+        return;
+      }
+      x = nx;
+      y = ny;
+      width = nw;
+      height = nh;
+    }
+
+    // 矩形の縁で補間が欠けないよう余白を持たせる
+    // 縮小率が強いほど広く取る（0.5倍なら3px）
+    const pad = zoom < 1 ? Math.ceil(1 / zoom) + 2 : 2;
+    {
+      const px0 = Math.max(0, x - pad);
+      const py0 = Math.max(0, y - pad);
+      const px1 = Math.min(canvasWidth, x + width + pad);
+      const py1 = Math.min(canvasHeight, y + height + pad);
+      x = px0;
+      y = py0;
+      width = px1 - px0;
+      height = py1 - py0;
+    }
 
     const zx = Math.round(x * zoom - offsetX);
     const zy = Math.round(y * zoom - offsetY);
-
-    const zx2 = Math.round((x + width) * zoom - offsetX);
-    const zy2 = Math.round((y + height) * zoom - offsetY);
-
-    const zw = zx2 - zx;
-    const zh = zy2 - zy;
+    const zw = Math.round((x + width) * zoom - offsetX) - zx;
+    const zh = Math.round((y + height) * zoom - offsetY) - zy;
 
     // ---- 背景クリア ----
     if (updateAll) {
@@ -4001,10 +4060,49 @@ Neo.Painter = class {
     }
 
     // ---- レイヤー描画 ----
-    if (this.visible[0])
-      ctx.drawImage(this.canvas[0], x, y, width, height, zx, zy, zw, zh);
-    if (this.visible[1])
-      ctx.drawImage(this.canvas[1], x, y, width, height, zx, zy, zw, zh);
+    let drawn = false;
+
+    if (is_useSuperSample) {
+      const k = zoom * 2;
+      const tw = width * k;
+      const th = height * k;
+
+      let tmp = this._upscaledCanvas;
+      if (!tmp) {
+        tmp = this._upscaledCanvas = document.createElement("canvas");
+        this._upscaledCtx = tmp.getContext("2d");
+      }
+      const tctx = this._upscaledCtx;
+
+      if (tctx) {
+        if (tmp.width !== tw || tmp.height !== th) {
+          // サイズ変更でクリアされる（コンテキスト状態もリセットされる）
+          tmp.width = tw;
+          tmp.height = th;
+        } else {
+          tctx.clearRect(0, 0, tw, th);
+        }
+        // リサイズ後に設定する
+        tctx.imageSmoothingEnabled = false;
+        for (let i = 0; i < 2; i++) {
+          if (this.visible[i])
+            tctx.drawImage(this.canvas[i], x, y, width, height, 0, 0, tw, th);
+        }
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "low"; // 2:1 = 2x2平均
+        ctx.drawImage(tmp, 0, 0, tw, th, zx, zy, zw, zh);
+        drawn = true;
+      }
+    }
+
+    if (!drawn) {
+      // 1.5倍2.5倍以外、またはコンテキスト取得失敗時は従来どおり
+      if (this.visible[0])
+        ctx.drawImage(this.canvas[0], x, y, width, height, zx, zy, zw, zh);
+      if (this.visible[1])
+        ctx.drawImage(this.canvas[1], x, y, width, height, zx, zy, zw, zh);
+    }
 
     // ---- テンポラリレイヤー ----
     if (useTemp) {
