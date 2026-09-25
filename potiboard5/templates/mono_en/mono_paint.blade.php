@@ -19,7 +19,7 @@
 	@if(!$chickenpaint)
 		{{-- 動的PaletteのColorPicker --}}
 	<style>
-		input.gradationColorInputText {width: 70px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
+		input.gradationColorInputText {width: 65px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
 	</style>
 
 	@include('parts.style-switcher')
@@ -337,8 +337,7 @@
 			}
 		</script>
 		@else
-		{{--
-		<!-- (========== PAINT MODE(お絵かきモード) start ==========) --> --}}
+		{{-- ========== PAINT MODE(お絵かきモード) start ========== --}}
 	<!--動的パレットスクリプト ここから-->
 		<script>
 			"use strict";
@@ -825,9 +824,8 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 		@if($pch_mode)
 
 		<!-- (========== 動画表示モード ==========) -->
-		<div id="appstage">
-			<div class="app">
-				<div style="width:{{$w}}px; height:{{$h}}px">
+		<div id="appstage" style="width:{{$w}}px; max-width:100%;display:block">
+			<div class="app" style="width:{{$w}}px; max-width:100%; aspect-ratio:{{$w}} / {{$h}};display:block;">
 	@if($type_neo)
 	<div class="neo-applet-pch" data-width="{{$w}}" data-height="{{$h}}"></div>
 	<script>
@@ -839,6 +837,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 		speed:{{$speed}},
 		neo_enable_zoom_out:true,
 		neo_viewer_buttonswrapper_top:true,
+		neo_viewer_max_width_100: true,
 		}		
 	}
 	</script>	
@@ -862,8 +861,6 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 				<param name="speed" value="{{$speed}}">
 				<param name="buffer_progress" value="false">
 				<param name="buffer_canvas" value="false">
-				<param name="neo_enable_zoom_out" value="true">
-				<param name="neo_viewer_buttonswrapper_top" value="true">
 			</applet>
 					@endif
 				</div>
@@ -874,7 +871,6 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 				<p>
 					<a href="javascript:close()">close</a>
 				</p>
-			</div>
 		</div>
 		<!-- (========== animation view mode end ==========) -->
 		@endif
