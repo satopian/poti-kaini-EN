@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.20.0';
-const POTI_LOT = 'lot.20261003';
+const POTI_VER = 'v7.21.1';
+const POTI_LOT = 'lot.20261009';
 
 /*
   (C) 2018-2025 POTI改 POTI-board redevelopment team
@@ -2190,10 +2190,16 @@ function ini_get_size_mb(string $key): float {
 					return ($num / 1024 / 1024); // 単位なし → バイトとして処理
 	}
 }
-/** 投稿可能な最大ファイルサイズを取得 単位MB*/
+
+/**
+ * サーバーに投稿可能な最大ファイルサイズを取得 単位MB 
+ */
 function get_upload_max_filesize(): float {
 	$upload_max = ini_get_size_mb('upload_max_filesize');
 	$post_max = ini_get_size_mb('post_max_size');
+	//0、-1は無制限
+	if ($upload_max <= 0) return max($post_max, 0.0);
+	if ($post_max <= 0) return $upload_max;
 	return min($upload_max, $post_max);
 }
 
