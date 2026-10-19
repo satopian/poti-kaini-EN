@@ -1,4 +1,4 @@
-/*! PaintBBS NEO v1.8.7 | https://github.com/funige/neo */
+/*! PaintBBS NEO v1.8.9 | https://github.com/funige/neo */
 /*! Includes this MIT-licensed library (the license below applies only to it):
  *
  *   lz-string (https://github.com/pieroxy/lz-string)
@@ -534,7 +534,7 @@
 
   // src/neo.js
   var Neo = {};
-  Neo.version = "1.8.7";
+  Neo.version = "1.8.9";
   Neo.painter;
   Neo.fullScreen = false;
   Neo.uploaded = false;
@@ -547,7 +547,6 @@
   Neo.toolSide = false;
   Neo.applet = null;
   Neo.isAnimation = false;
-  Neo.viewerWrapperOnTop = false;
   Neo.storage = localStorage;
   Neo.stabilize_level = 0;
   Neo.styleSheet = null;
@@ -607,6 +606,8 @@
   Neo.SLIDERTYPE_BLUE = 2;
   Neo.SLIDERTYPE_ALPHA = 3;
   Neo.SLIDERTYPE_SIZE = 4;
+  Neo.resizeCanvas = function(options = {}) {
+  };
   Neo.playPCH = function() {
   };
   Neo.suspendDraw = function() {
@@ -2636,19 +2637,19 @@
     }
     push() {
       if (!Neo.isAnimation) return;
-      var head = this._items[this._head - 1];
-      for (var i = 0; i < arguments.length; i++) {
+      const head = this._items[this._head - 1];
+      for (let i = 0; i < arguments.length; i++) {
         head.push(arguments[i]);
       }
     }
     pushCurrent() {
       if (!Neo.isAnimation) return;
       const oe = Neo.painter;
-      var head = this._items[this._head - 1];
-      var color = oe._currentColor;
-      var mask = oe._currentMask;
-      var width = oe._currentWidth;
-      var type = oe._currentMaskType;
+      const head = this._items[this._head - 1];
+      const color = oe._currentColor;
+      const mask = oe._currentMask;
+      const width = oe._currentWidth;
+      const type = oe._currentMaskType;
       head.push(color[0], color[1], color[2], color[3]);
       head.push(mask[0], mask[1], mask[2]);
       head.push(width);
@@ -2667,7 +2668,7 @@
       oe._currentMaskType = item[10];
     }
     skip() {
-      for (var i = 0; i < this._items.length; i++) {
+      for (let i = 0; i < this._items.length; i++) {
         if (this._items[i][0] == "restore") {
           this._head = i;
         }
@@ -2691,14 +2692,14 @@
         }
         return;
       }
-      var item = this._items[this._head];
+      const item = this._items[this._head];
       if (!Neo.viewer && !painter.busySkipped) {
         painter._pushUndo(0, 0, painter.canvasWidth, painter.canvasHeight, true);
       }
       if (Neo.viewer && Neo.viewerSpeed && this._index == 0) {
         Neo.viewerSpeed.update();
       }
-      var func;
+      let func;
       const hasRestore = this._items.some(
         (item2) => item2[0] === "restore"
       );
@@ -2710,7 +2711,7 @@
         this[item[0]] ? item[0] : "dummy";
       }
       const ref = this;
-      var wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
+      const wait = this._prevSpeed < 0 ? 0 : this._prevSpeed;
       this[func](item, function(result) {
         if (result) {
           if (painter.busySkipped && ref._head < ref._mark - 2 && ref._mark - 2 >= 0 && ref._items[ref._mark - 1][0] == "restore") {
@@ -2766,7 +2767,7 @@
       if (typeof layer != "object") {
         this.push("floodFill", layer, x, y, color);
       } else {
-        var item = layer;
+        const item = layer;
         layer = item[1];
         x = item[2];
         y = item[3];
@@ -3466,7 +3467,19 @@
     var dx = (pageWidth - Neo.config.width) / 2;
     var dy = (pageHeight - Neo.config.height - 26) / 2;
     var painter = document.getElementById("neo-painter");
-    Neo.viewerWrapperOnTop = Neo.config.neo_viewer_buttonswrapper_top && window.innerHeight < pageHeight + 100;
+    const BAR_HEIGHT = 26;
+    const MARGIN = 20;
+    const configWidth = Neo.config.width;
+    const configHeight = Neo.config.height;
+    let displayHeight = configHeight + BAR_HEIGHT;
+    if (Neo.config.neo_viewer_max_width_100) {
+      const availWidth = Math.min(
+        document.documentElement.clientWidth,
+        configWidth
+      );
+      displayHeight = configHeight * (availWidth / configWidth) + BAR_HEIGHT + MARGIN;
+    }
+    const viewerWrapperOnTop = Neo.config.neo_viewer_buttonswrapper_top && window.innerHeight < displayHeight;
     if (painter) {
       painter.style.marginTop = "0";
       painter.style.position = "absolute";
@@ -3475,15 +3488,15 @@
     }
     if (Neo.container) {
       Neo.container.style.boxSizing = "border-box";
-      Neo.container.style.paddingTop = Neo.viewerWrapperOnTop ? "26px" : "";
+      Neo.container.style.paddingTop = viewerWrapperOnTop ? "26px" : "";
     }
     var viewerButtonsWrapper = document.getElementById(
       "neo-viewerButtonsWrapper"
     );
     if (viewerButtonsWrapper) {
       viewerButtonsWrapper.style.width = pageWidth - 2 + "px";
-      viewerButtonsWrapper.style.position = Neo.viewerWrapperOnTop ? "absolute" : "";
-      viewerButtonsWrapper.style.top = Neo.viewerWrapperOnTop ? "0" : "";
+      viewerButtonsWrapper.style.position = viewerWrapperOnTop ? "absolute" : "";
+      viewerButtonsWrapper.style.top = viewerWrapperOnTop ? "0" : "";
     }
     const viewerBar = document.getElementById("neo-viewerBar");
     if (viewerBar) {
@@ -4545,11 +4558,15 @@
   var SliderTool = class extends ToolBase {
     constructor() {
       super();
-      this.target = /**@type {any} **/
-      null;
+      this.target = null;
       this.type = Painter.TOOLTYPE_SLIDER;
       this.isUpMove = false;
       this.isAlt = false;
+    }
+    /** @returns {number} */
+    getSliderType() {
+      var _a, _b;
+      return this.isAlt ? Neo.SLIDERTYPE_SIZE : (_b = (_a = this.target) == null ? void 0 : _a["data-slider"]) != null ? _b : Neo.SLIDERTYPE_SIZE;
     }
     /** @param {Painter} oe */
     downHandler(oe) {
@@ -4562,7 +4579,7 @@
         return;
       }
       const rect = this.target.getBoundingClientRect();
-      const sliderType = this.isAlt ? Neo.SLIDERTYPE_SIZE : this.target["data-slider"];
+      const sliderType = this.getSliderType();
       Neo.sliders[sliderType].downHandler(
         oe.rawMouseX - rect.left,
         oe.rawMouseY - rect.top
@@ -4577,7 +4594,7 @@
         return;
       }
       const rect = this.target.getBoundingClientRect();
-      const sliderType = this.isAlt ? Neo.SLIDERTYPE_SIZE : this.target["data-slider"];
+      const sliderType = this.getSliderType();
       Neo.sliders[sliderType].upHandler(
         oe.rawMouseX - rect.left,
         oe.rawMouseY - rect.top
@@ -4591,7 +4608,7 @@
           return;
         }
         const rect = this.target.getBoundingClientRect();
-        const sliderType = this.isAlt ? Neo.SLIDERTYPE_SIZE : this.target["data-slider"];
+        const sliderType = this.getSliderType();
         Neo.sliders[sliderType].moveHandler(
           oe.rawMouseX - rect.left,
           oe.rawMouseY - rect.top
@@ -8786,7 +8803,7 @@
           if (currentIndex < steps.length) {
             this.data.setZoom(steps[currentIndex]);
           }
-          resizeCanvas();
+          Neo.resizeCanvas();
         }
       };
       this.ZoomMinusCommand = class extends this.CommandBase {
@@ -8806,7 +8823,7 @@
             }
             this.data.setZoom(steps[currentIndex]);
           }
-          resizeCanvas();
+          Neo.resizeCanvas();
         }
       };
       this.UndoCommand = class extends this.CommandBase {
@@ -9706,7 +9723,7 @@
       var name = Neo.applet.getAttribute("name") || "paintbbs";
       Neo.applet.outerHTML = "";
       document[name] = Neo;
-      resizeCanvas();
+      Neo.resizeCanvas();
       if (!Neo.container) {
         console.error("start: Container element not found");
         return;
@@ -9757,12 +9774,9 @@
     }, 15e3);
   };
   var updateUI = function() {
-    var current = Neo.painter.tool.getToolButton();
+    const current = Neo.painter.tool.getToolButton();
     for (let i = 0; i < Neo.toolButtons.length; i++) {
-      const toolTip = (
-        /** @type {ToolTip} */
-        Neo.toolButtons[i]
-      );
+      const toolTip = Neo.toolButtons[i];
       if (current) {
         if (current == toolTip) {
           toolTip.setSelected(true);
@@ -9779,26 +9793,17 @@
   };
   var updateUIColor = function(updateSlider, updateColorTip) {
     for (let i = 0; i < Neo.toolButtons.length; i++) {
-      const toolTip = (
-        /** @type {ToolTip} */
-        Neo.toolButtons[i]
-      );
+      const toolTip = Neo.toolButtons[i];
       toolTip.update();
     }
     if (updateSlider) {
       for (let i = 0; i < Neo.sliders.length; i++) {
-        const slider = (
-          /** @type {Neo.ColorSlider|Neo.SizeSlider} */
-          Neo.sliders[i]
-        );
+        const slider = Neo.sliders[i];
         slider.update();
       }
     }
     if (updateColorTip) {
-      var colorTip = (
-        /** @type {ColorTip|null} **/
-        ColorTip.getCurrent()
-      );
+      const colorTip = ColorTip.getCurrent();
       if (colorTip) {
         colorTip.setColor(Neo.painter.foregroundColor);
       }
@@ -9823,14 +9828,16 @@
         pageView.appendChild(Neo.container);
       }
     }
-    resizeCanvas();
+    Neo.resizeCanvas();
     document.dispatchEvent(
       new CustomEvent("neo:fullscreenchange", {
         detail: { fullscreen: Neo.fullScreen }
       })
     );
   };
-  var resizeCanvas = function() {
+  Neo.resizeCanvas = function(options = {}) {
+    var _a;
+    const updateDestCanvas = (_a = options.updateDestCanvas) != null ? _a : true;
     if (!Neo.container) {
       console.error("resizeCanvas: Container element not found");
       return;
@@ -9898,7 +9905,9 @@
       }
     }
     Neo.painter.setZoom(Neo.painter.zoom);
-    Neo.painter.updateDestCanvas(0, 0, canvasWidth, canvasHeight, false);
+    if (updateDestCanvas) {
+      Neo.painter.updateDestCanvas(0, 0, canvasWidth, canvasHeight, false);
+    }
   };
   var clone = function(src) {
     const dst = {};

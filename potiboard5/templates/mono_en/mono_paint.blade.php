@@ -17,9 +17,21 @@
 		}
 	</style>
 	@if(!$chickenpaint)
-		{{-- 動的PaletteのColorPicker --}}
+	{{-- 動的PaletteのColorPicker --}}
 	<style>
-		input.gradationColorInputText {width: 65px;} input.gradationColorInputColorPicker {border: 0;width: 30px;height: 19px; padding: 0;background-color: transparent;cursor: pointer; vertical-align:middle;}
+		input.gradationColorInputText {
+			width: 65px;
+		}
+
+		input.gradationColorInputColorPicker {
+			border: 0;
+			width: 30px;
+			height: 19px;
+			padding: 0;
+			background-color: transparent;
+			cursor: pointer;
+			vertical-align: middle;
+		}
 	</style>
 
 	@include('parts.style-switcher')
@@ -61,7 +73,7 @@
 	</style>
 	@endif
 	@if($useneo)
-	<link rel="stylesheet" href="./lib/pickr/themes/monolith.min.css?{{$parameter_day}}&{{$ver}}"/>
+	<link rel="stylesheet" href="./lib/pickr/themes/monolith.min.css?{{$parameter_day}}&{{$ver}}" />
 	<script src="./lib/pickr/pickr.min.js?{{$parameter_day}}&{{$ver}}"></script>
 	<link rel="stylesheet" href="neo.css?{{$parameter_day}}&{{$ver}}">
 	<script src="neo.js?{{$parameter_day}}&{{$ver}}"></script>
@@ -112,45 +124,49 @@
 			}
 	</script>
 	<style>
-	select:focus {
-  outline: none;
-	}
+		select:focus {
+			outline: none;
+		}
 
-	.pickr {
+		.pickr {
 			display: inline-block;
-			margin-top:2px;
-	}
-	.pickr .pcr-button{
-	border: 1px solid #676669;
-	width: 48px;
-	height: 18px;
-	vertical-align: middle;
-	}
-	.pickr button:focus {
-		box-shadow: none;
-	}
-	/* セットした色を即座に反映 */
-	.pickr .pcr-button::after {
-		transition: none;
-	}
-	/* 色相スライダの操作でリロードのジェスチャになるのを防止 */
-	.pcr-app.visible{
-		touch-action: none;
-	}
-	/* grab */
-	.pcr-app .pcr-selection .pcr-color-palette,
-	.pcr-app .pcr-selection .pcr-color-chooser,
-	.pcr-app .pcr-selection .pcr-color-opacity {
-		cursor: default;
-	}
+			margin-top: 2px;
+		}
 
-	/* grabbing（ドラッグ中） */
-	.pcr-app .pcr-selection .pcr-color-palette:active,
-	.pcr-app .pcr-selection .pcr-color-chooser:active,
-	.pcr-app .pcr-selection .pcr-color-opacity:active {
-		cursor: default;
-	}
+		.pickr .pcr-button {
+			border: 1px solid #676669;
+			width: 48px;
+			height: 18px;
+			vertical-align: middle;
+		}
 
+		.pickr button:focus {
+			box-shadow: none;
+		}
+
+		/* セットした色を即座に反映 */
+		.pickr .pcr-button::after {
+			transition: none;
+		}
+
+		/* 色相スライダの操作でリロードのジェスチャになるのを防止 */
+		.pcr-app.visible {
+			touch-action: none;
+		}
+
+		/* grab */
+		.pcr-app .pcr-selection .pcr-color-palette,
+		.pcr-app .pcr-selection .pcr-color-chooser,
+		.pcr-app .pcr-selection .pcr-color-opacity {
+			cursor: default;
+		}
+
+		/* grabbing（ドラッグ中） */
+		.pcr-app .pcr-selection .pcr-color-palette:active,
+		.pcr-app .pcr-selection .pcr-color-chooser:active,
+		.pcr-app .pcr-selection .pcr-color-opacity:active {
+			cursor: default;
+		}
 	</style>
 	@endif
 	@if($paint_mode)
@@ -338,7 +354,7 @@
 		</script>
 		@else
 		{{-- ========== PAINT MODE(お絵かきモード) start ========== --}}
-	<!--動的パレットスクリプト ここから-->
+		<!--動的パレットスクリプト ここから-->
 		<script>
 			"use strict";
 				//	BBS Note 動的パレット＆マトリクス 2003/06/22
@@ -370,17 +386,17 @@ async function GetPalette(){var a=String(await document.paintbbs.getColors());if
 (f.value=a[e].substring(1,7));d=b.elements.namedItem("colorPickerPst");b=b.elements.namedItem("colorPickerPed");d instanceof HTMLInputElement&&b instanceof HTMLInputElement&&(d.value=a[c].substring(0,7),b.value=a[e].substring(0,7));GradSelC();PaletteListSetColor()}}}}
 async function GradSelC(){var a=String(await document.paintbbs.getColors());if(a!="null"&&a!=""){a=a.split("\n");var b=document.forms.namedItem("grad");if(b){var c,e=a.length,d="";for(c=0;e>c;c++){var f=255+parseInt("0x"+a[c].substring(1,3))*-1;let h=255+parseInt("0x"+a[c].substring(3,5))*-1,g=255+parseInt("0x"+a[c].substring(5,7))*-1;f>255?f=255:0>f&&(f=0);h>255?h=255:0>h&&(h=0);g>255?g=255:0>g&&(g=0);d+="#"+Hex(f)+Hex(h)+Hex(g)+"\n"}d=d.split("\n");f=b.elements.namedItem("p_st");b=b.elements.namedItem("p_ed");
 if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c++)f.options[c].style.background=a[c],f.options[c].style.color=d[c],b.options[c].style.background=a[c],b.options[c].style.color=d[c]}}}function showHideLayer(){}document.addEventListener("DOMContentLoaded",()=>GradSelC());
-</script>
+		</script>
 		<noscript>
 			<p>JavaScript isn't working</p>
 		</noscript>
 
 		<div id="appstage">
 			<div class="app" style="width:{{$w}}px; height:{{$h}}px">
-@if($useneo)
-<div class="neo-applet-paintbbs" data-width="{{$w}}" data-height="{{$h}}"></div>
-<script>
-Neo.params ={
+				@if($useneo)
+				<div class="neo-applet-paintbbs" data-width="{{$w}}" data-height="{{$h}}"></div>
+				<script>
+					Neo.params ={
 	paintbbs:{
 	neo_max_pch:{{$max_pch}},
 	neo_send_with_formdata:true,
@@ -417,79 +433,80 @@ Neo.params ={
 	send_header:"usercode={{$usercode}}&tool={{$tool}}&rep={{$rep}}&no={{$no}}",
 	}
 }
-</script>
-@endif
+				</script>
+				@endif
 
-@if(!$useneo)
-			@if($paintbbs)
+				@if(!$useneo)
+				@if($paintbbs)
 
-					<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}" mayscript>
+				<applet code="pbbs.PaintBBS.class" archive="./PaintBBS.jar" name="paintbbs" width="{{$w}}" height="{{$h}}"
+					mayscript>
+					@endif
+					<!--しぃペインター個別設定-->
+					@if($normal)
+					<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" WIDTH="{{$w}}" HEIGHT="{{$h}}"
+						mayscript>
+						<param name=dir_resource value="./">
+						<param name="tt.zip" value="tt_def.zip">
+						<param name="res.zip" value="res.zip">
+						{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
+						<param name=tools value="normal">
+						<param name=layer_count value="{{$layer_count}}">
+						@if($quality)
+						<param name=quality value="{{$quality}}">
 						@endif
-						<!--しぃペインター個別設定-->
-						@if($normal)
-						<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" WIDTH="{{$w}}" HEIGHT="{{$h}}"
+						@endif
+						<!--しぃペインターPro個別設定-->
+						@if($pro)
+						<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" width="{{$w}}" height="{{$h}}"
 							mayscript>
 							<param name=dir_resource value="./">
 							<param name="tt.zip" value="tt_def.zip">
 							<param name="res.zip" value="res.zip">
-							{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
-							<param name=tools value="normal">
+							<!--(しぃペインターv1.05_9以前を使うなら res_pro.	zip に変更)-->
+							<param name=tools value="pro">
 							<param name=layer_count value="{{$layer_count}}">
 							@if($quality)
 							<param name=quality value="{{$quality}}">
 							@endif
 							@endif
-							<!--しぃペインターPro個別設定-->
-							@if($pro)
-							<applet code="c.ShiPainter.class" archive="spainter_all.jar" name="paintbbs" width="{{$w}}"
-								height="{{$h}}" mayscript>
-								<param name=dir_resource value="./">
-								<param name="tt.zip" value="tt_def.zip">
-								<param name="res.zip" value="res.zip">
-								<!--(しぃペインターv1.05_9以前を使うなら res_pro.	zip に変更)-->
-								<param name=tools value="pro">
-								<param name=layer_count value="{{$layer_count}}">
-								@if($quality)
-								<param name=quality value="{{$quality}}">
-								@endif
-								@endif
-								<!--共通設定(変更不可)-->
-								<param name="send_header_count" value="true">
-								<param name="send_header_timer" value="true">
-								<param name="image_width" value="{{$picw}}">
-								<param name="image_height" value="{{$pich}}">
-								<param name="image_jpeg" value="{{$image_jpeg}}">
-								<param name="image_size" value="{{$image_size}}">
-								<param name="compress_level" value="{{$compress_level}}">
-								<param name="undo" value="{{$undo}}">
-								<param name="undo_in_mg" value="{{$undo_in_mg}}">
-								<param name="poo" value="false">
-								<param name="send_advance" value="true">
-								<param name="tool_advance" value="true">
-								<param name="thumbnail_width" value="100%">
-								<param name="thumbnail_height" value="100%">
+							<!--共通設定(変更不可)-->
+							<param name="send_header_count" value="true">
+							<param name="send_header_timer" value="true">
+							<param name="image_width" value="{{$picw}}">
+							<param name="image_height" value="{{$pich}}">
+							<param name="image_jpeg" value="{{$image_jpeg}}">
+							<param name="image_size" value="{{$image_size}}">
+							<param name="compress_level" value="{{$compress_level}}">
+							<param name="undo" value="{{$undo}}">
+							<param name="undo_in_mg" value="{{$undo_in_mg}}">
+							<param name="poo" value="false">
+							<param name="send_advance" value="true">
+							<param name="tool_advance" value="true">
+							<param name="thumbnail_width" value="100%">
+							<param name="thumbnail_height" value="100%">
 
-								{{-- しぃペインター --}}
-								<param name="url_save" value="{{$self}}?mode=picpost">
-								<param name="send_header"
-									value="usercode={{$usercode}}&amp;tool={{$tool}}&amp;rep={{$rep}}&amp;no={{$no}}&amp;pwd={{$pwd}}">
-								@if($rep)
-								<param name="url_exit" value="{{$self}}?res={{$oyano}}&amp;resid={{$no}}">
-								@else
-								<param name="url_exit" value="{{$self}}?mode=piccom&amp;stime={{$stime}}">
+							{{-- しぃペインター --}}
+							<param name="url_save" value="{{$self}}?mode=picpost">
+							<param name="send_header"
+								value="usercode={{$usercode}}&amp;tool={{$tool}}&amp;rep={{$rep}}&amp;no={{$no}}&amp;pwd={{$pwd}}">
+							@if($rep)
+							<param name="url_exit" value="{{$self}}?res={{$oyano}}&amp;resid={{$no}}">
+							@else
+							<param name="url_exit" value="{{$self}}?mode=piccom&amp;stime={{$stime}}">
 
-								@endif
-								@if($anime)
-								<param name="thumbnail_type" value="animation">
-								@endif
-								@if($pchfile)
-								<param name="pch_file" value="{{$pchfile}}">
-								@endif
-								@if($imgfile)
-								<param name="image_canvas" value="{{$imgfile}}">
-								@endif
-				</applet>
-				@endif
+							@endif
+							@if($anime)
+							<param name="thumbnail_type" value="animation">
+							@endif
+							@if($pchfile)
+							<param name="pch_file" value="{{$pchfile}}">
+							@endif
+							@if($imgfile)
+							<param name="image_canvas" value="{{$imgfile}}">
+							@endif
+						</applet>
+						@endif
 			</div>
 			<div class="palette_wrap">
 				<div class="palette">
@@ -503,7 +520,7 @@ Neo.params ={
 						<fieldset>
 							<legend>STABILIZER</legend>
 							<script>
-							document.addEventListener("DOMContentLoaded", (e) => {
+								document.addEventListener("DOMContentLoaded", (e) => {
 									Neo.setStabilizeLevel(1);//0-5の範囲で手ぶれ補正の初期値を設定する
 							});
 							</script>
@@ -535,10 +552,10 @@ Neo.params ={
 							<input class="button" type="button" value="Dark" onclick="P_Effect(-10)">
 							<input class="button" type="button" value="Invert" onclick="P_Effect(255)">
 							<br>
-@if($useneo)
-<div id="pickr-container"></div>
-<script>
-// Pickrの初期化
+							@if($useneo)
+							<div id="pickr-container"></div>
+							<script>
+								// Pickrの初期化
 const pickr = Pickr.create({
     el: "#pickr-container",
     theme: 'monolith', // or 'monolith', or 'nano'
@@ -587,9 +604,13 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 		}
 	}
 });
-</script>
-							@endif
+							</script>
 						</fieldset>
+						<fieldset>
+							<legend>FIT</legend>
+							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">Fit canvas</button>
+						</fieldset>
+						@endif
 						<fieldset>
 							<legend>MATRIX</legend>
 							<select class="form" name="m_m">
@@ -624,8 +645,10 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 								<option>13</option>
 								<option>14</option>
 							</select>
-							<input class="form gradationColorInputText" type="text" name="pst" size="8" onkeypress="Chenge_()" onchange="Chenge_()">
-							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPst" size="8"  onChange="colorPickerChange()" value="#ffffff"><br>
+							<input class="form gradationColorInputText" type="text" name="pst" size="8" onkeypress="Chenge_()"
+								onchange="Chenge_()">
+							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPst" size="8"
+								onChange="colorPickerChange()" value="#ffffff"><br>
 							<select class="form" name="p_ed" onchange="GetPalette()">
 								<option>1</option>
 								<option>2</option>
@@ -642,8 +665,10 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 								<option>13</option>
 								<option>14</option>
 							</select>
-							<input class="form gradationColorInputText" type="text" name="ped" size="8" onkeypress="Chenge_()" onchange="Chenge_()">
-							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPed" size="8"  onChange="colorPickerChange()" value="#ffffff">
+							<input class="form gradationColorInputText" type="text" name="ped" size="8" onkeypress="Chenge_()"
+								onchange="Chenge_()">
+							<input class="gradationColorInputColorPicker" type="color" name="colorPickerPed" size="8"
+								onChange="colorPickerChange()" value="#ffffff">
 							<div id="psft"></div>
 							<script>
 								if(DynamicColor) PaletteListSetColor();
@@ -665,7 +690,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 							<input type="text" size="24" name="count" readonly>
 						</p>
 						<script>
-						"use strict";
+							"use strict";
 						document.addEventListener('DOMContentLoaded',()=>{
 							let s,m,h,d;
 							let timerID = 10;
@@ -695,7 +720,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 								};
 							SetTimeCount();
 					});
-					</script>
+						</script>
 					</form>
 					<hr>
 				</div>
@@ -826,10 +851,10 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 		<!-- (========== 動画表示モード ==========) -->
 		<div id="appstage" style="width:{{$w}}px; max-width:100%;display:block">
 			<div class="app" style="width:{{$w}}px; max-width:100%; aspect-ratio:{{$w}} / {{$h}};display:block;">
-	@if($type_neo)
-	<div class="neo-applet-pch" data-width="{{$w}}" data-height="{{$h}}"></div>
-	<script>
-	Neo.params ={
+				@if($type_neo)
+				<div class="neo-applet-pch" data-width="{{$w}}" data-height="{{$h}}"></div>
+				<script>
+					Neo.params ={
 		pch:{
 		image_width:{{$picw}},
 		image_height:{{$pich}},
@@ -840,37 +865,37 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 		neo_viewer_max_width_100: true,
 		}		
 	}
-	</script>	
-	@endif
-	@if(!$type_neo)
-	@if($paintbbs)
-		<applet name="pch" code="pch.PCHViewer.class"
-			archive="PCHViewer.jar,PaintBBS.jar" width="{{$w}}" height="{{$h}}" MAYSCRIPT>
-		@endif
-		@if($normal)
-			<applet name="pch" code="pch2.PCHViewer.class" archive="PCHViewer.jar,spainter_all.jar" codebase="./"
-				width="{{$w}}" height="{{$h}}">
-				<param name="res.zip" value="res.zip">
-				{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
-				<param name="tt.zip" value="tt_def.zip">
-				<param name="tt_size" value="31">
-		@endif
-				<param name="image_width" value="{{$picw}}">
-				<param name="image_height" value="{{$pich}}">
-				<param name="pch_file" value="{{$pchfile}}">
-				<param name="speed" value="{{$speed}}">
-				<param name="buffer_progress" value="false">
-				<param name="buffer_canvas" value="false">
-			</applet>
+				</script>
+				@endif
+				@if(!$type_neo)
+				@if($paintbbs)
+				<applet name="pch" code="pch.PCHViewer.class" archive="PCHViewer.jar,PaintBBS.jar" width="{{$w}}"
+					height="{{$h}}" MAYSCRIPT>
 					@endif
-				</div>
-				<p>
-					<a href="{{$pchfile}}" target="_blank" rel="nofollow noopener noreferrer">Download</a> - Datasize :
-					{{$datasize}} KB
-				</p>
-				<p>
-					<a href="javascript:close()">close</a>
-				</p>
+					@if($normal)
+					<applet name="pch" code="pch2.PCHViewer.class" archive="PCHViewer.jar,spainter_all.jar" codebase="./"
+						width="{{$w}}" height="{{$h}}">
+						<param name="res.zip" value="res.zip">
+						{{-- しぃペインターv1.05_9以前を使うなら res_normal.zip に変更 --}}
+						<param name="tt.zip" value="tt_def.zip">
+						<param name="tt_size" value="31">
+						@endif
+						<param name="image_width" value="{{$picw}}">
+						<param name="image_height" value="{{$pich}}">
+						<param name="pch_file" value="{{$pchfile}}">
+						<param name="speed" value="{{$speed}}">
+						<param name="buffer_progress" value="false">
+						<param name="buffer_canvas" value="false">
+					</applet>
+					@endif
+			</div>
+			<p>
+				<a href="{{$pchfile}}" target="_blank" rel="nofollow noopener noreferrer">Download</a> - Datasize :
+				{{$datasize}} KB
+			</p>
+			<p>
+				<a href="javascript:close()">close</a>
+			</p>
 		</div>
 		<!-- (========== animation view mode end ==========) -->
 		@endif
@@ -1002,6 +1027,46 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 	<script src="lib/{{$jquery}}"></script>
 	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 	@endif
+	<script>
+		//Petit Note (c)さとぴあ @satopian 2021-2026 MIT License
+//https://paintbbs.sakura.ne.jp/
+	let isFit=false;
+const fitLabel = {
+	on:  "Unfit",       // フィット中の表示
+	off: "Fit canvas"  // 解除中の表示
+};
+const neo_origAppW = {{$w}};
+const neo_origAppH = {{$h}};
+const applyFit = () => {
+	const view = document.getElementById("neo-pageView");
+	if (isFit) {
+		// ウィンドウに合わせる
+		view.style.width = `${Math.max(window.innerWidth - 230,400)}px`;
+		view.style.height = `${Math.max(window.innerHeight - 130,400)}px`;
+	} else {
+		// 元のサイズに戻す(インラインstyleを初期値に戻す)
+		view.style.width = `${neo_origAppW}px`;
+		view.style.height = `${neo_origAppH}px`;
+	}
+	Neo.resizeCanvas({updateDestCanvas:false});
+}
+const appletFit = () => {
+	isFit = !isFit;
+	const btn = document.getElementById("neo-appletfit");
+	btn.textContent = isFit ? fitLabel.on : fitLabel.off;
+	applyFit();
+};
+// 画面サイズが変わったとき(フィット中だけ追従)
+let resizeTicking = false;
+window.addEventListener("resize", () => {
+	if (!isFit || resizeTicking) return;
+	resizeTicking = true;
+	requestAnimationFrame(() => {
+		applyFit();
+		resizeTicking = false;
+	});
+});
+	</script>
 </body>
 
 </html>
