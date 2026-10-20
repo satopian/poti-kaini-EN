@@ -182,7 +182,7 @@
 				});
 				document.addEventListener('DOMContentLoaded',()=>{
 					document.addEventListener('dblclick', (e)=>{ e.preventDefault()}, { passive: false });
-					document.querySelector('.pickr').addEventListener('contextmenu', (e)=>{ e.preventDefault()}, { passive: false });	
+					document.querySelector('.pickr')?.addEventListener('contextmenu', (e)=>{ e.preventDefault()}, { passive: false });	
 				});
 	</script>
 	@endif
@@ -254,10 +254,6 @@
 	@if(!$chickenpaint)
 	<header>
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
-		<div>
-			<a href="{{$home}}" target="_top">[Home]</a>
-			@if($use_admin_link)<a href="{{$self}}?mode=admin" class="js_admin_in_link">[Admin mode]</a>@endif
-		</div>
 		<hr>
 		<div>
 			<p class="menu">
@@ -385,7 +381,7 @@ function Hex_(a){isNaN(Number(a))?a="":a==10?a="A":a==11?a="B":a==12?a="C":a==13
 async function GetPalette(){var a=String(await document.paintbbs.getColors());if(a!="null"&&a!=""){a=a.split("\n");var b=document.forms.namedItem("grad");if(b){var c=b.elements.namedItem("p_st");c=c instanceof HTMLSelectElement?c.selectedIndex:null;var e=b.elements.namedItem("p_ed");e=e instanceof HTMLSelectElement?e.selectedIndex:null;if(c!==null&&e!==null){var d=b.elements.namedItem("pst"),f=b.elements.namedItem("ped");d instanceof HTMLInputElement&&(d.value=a[c].substring(1,7));f instanceof HTMLInputElement&&
 (f.value=a[e].substring(1,7));d=b.elements.namedItem("colorPickerPst");b=b.elements.namedItem("colorPickerPed");d instanceof HTMLInputElement&&b instanceof HTMLInputElement&&(d.value=a[c].substring(0,7),b.value=a[e].substring(0,7));GradSelC();PaletteListSetColor()}}}}
 async function GradSelC(){var a=String(await document.paintbbs.getColors());if(a!="null"&&a!=""){a=a.split("\n");var b=document.forms.namedItem("grad");if(b){var c,e=a.length,d="";for(c=0;e>c;c++){var f=255+parseInt("0x"+a[c].substring(1,3))*-1;let h=255+parseInt("0x"+a[c].substring(3,5))*-1,g=255+parseInt("0x"+a[c].substring(5,7))*-1;f>255?f=255:0>f&&(f=0);h>255?h=255:0>h&&(h=0);g>255?g=255:0>g&&(g=0);d+="#"+Hex(f)+Hex(h)+Hex(g)+"\n"}d=d.split("\n");f=b.elements.namedItem("p_st");b=b.elements.namedItem("p_ed");
-if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c++)f.options[c].style.background=a[c],f.options[c].style.color=d[c],b.options[c].style.background=a[c],b.options[c].style.color=d[c]}}}function showHideLayer(){}document.addEventListener("DOMContentLoaded",()=>GradSelC());
+if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c++)f.options[c].style.background=a[c],f.options[c].style.color=d[c],b.options[c].style.background=a[c],b.options[c].style.color=d[c]}}}function showHideLayer(){}document.addEventListener("DOMContentLoaded",()=>{typeof GradSelC==="function"&&document.paintbbs?.getColors&&GradSelC()});
 		</script>
 		<noscript>
 			<p>JavaScript isn't working</p>
@@ -608,7 +604,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 						</fieldset>
 						<fieldset>
 							<legend>FIT</legend>
-							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">Fit canvas</button>
+							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">App Fit</button>
 						</fieldset>
 						@endif
 						<fieldset>
@@ -1033,7 +1029,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 	let isFit=false;
 const fitLabel = {
 	on:  "Unfit",       // フィット中の表示
-	off: "Fit canvas"  // 解除中の表示
+	off: "App Fit"  // 解除中の表示
 };
 const neo_origAppW = {{$w}};
 const neo_origAppH = {{$h}};
@@ -1041,20 +1037,20 @@ const applyFit = () => {
 	const view = document.getElementById("neo-pageView");
 	if (isFit) {
 		// ウィンドウに合わせる
-		view.style.width = `${Math.max(window.innerWidth - 230,400)}px`;
-		view.style.height = `${Math.max(window.innerHeight - 130,400)}px`;
+		view.style.width = `${Math.max(window.innerWidth - 210,400)}px`;
+		view.style.height = `${Math.max(window.innerHeight - 80,400)}px`;
 	} else {
-		// 元のサイズに戻す(インラインstyleを初期値に戻す)
+		// 元のサイズに戻す(インラインstyleを初期値にもどす)
 		view.style.width = `${neo_origAppW}px`;
 		view.style.height = `${neo_origAppH}px`;
 	}
-	Neo.resizeCanvas({updateDestCanvas:false});
 }
 const appletFit = () => {
 	isFit = !isFit;
 	const btn = document.getElementById("neo-appletfit");
 	btn.textContent = isFit ? fitLabel.on : fitLabel.off;
 	applyFit();
+	Neo.resizeCanvas();
 };
 // 画面サイズが変わったとき(フィット中だけ追従)
 let resizeTicking = false;
@@ -1063,10 +1059,11 @@ window.addEventListener("resize", () => {
 	resizeTicking = true;
 	requestAnimationFrame(() => {
 		applyFit();
+		Neo.resizeCanvas({updateDestCanvas:false});
 		resizeTicking = false;
 	});
 });
-	</script>
+</script>
 </body>
 
 </html>
