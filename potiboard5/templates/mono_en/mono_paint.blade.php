@@ -252,7 +252,7 @@
 
 
 	@if(!$chickenpaint)
-	<header>
+	<header id="paintHeader">
 		<h1><a href="{{$self2}}">{{$title}}</a></h1>
 		<hr>
 		<div>
@@ -509,6 +509,10 @@ if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c+
 					<form name="Palette">
 						@if($useneo)
 						<fieldset>
+							<legend>FIT</legend>
+							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">App Fit</button>
+						</fieldset>
+						<fieldset>
 							<legend>TOOL</legend>
 							<input class="button" type="button" value="[L]" onclick="Neo.setToolSide(true)">
 							<input class="button" type="button" value="[R]" onclick="Neo.setToolSide(false)">
@@ -601,10 +605,6 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 	}
 });
 							</script>
-						</fieldset>
-						<fieldset>
-							<legend>FIT</legend>
-							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">App Fit</button>
 						</fieldset>
 						@endif
 						<fieldset>
@@ -1035,14 +1035,17 @@ const neo_origAppW = {{$w}};
 const neo_origAppH = {{$h}};
 const applyFit = () => {
 	const view = document.getElementById("neo-pageView");
+	const header = document.getElementById("paintHeader");
 	if (isFit) {
 		// ウィンドウに合わせる
-		view.style.width = `${Math.max(window.innerWidth - 210,400)}px`;
-		view.style.height = `${Math.max(window.innerHeight - 80,400)}px`;
+		view.style.width = `${Math.max(window.innerWidth - 220,400)}px`;
+		view.style.height = `${Math.max(window.innerHeight - 35,400)}px`;
+		header.style.display ="none";
 	} else {
 		// 元のサイズに戻す(インラインstyleを初期値にもどす)
 		view.style.width = `${neo_origAppW}px`;
 		view.style.height = `${neo_origAppH}px`;
+		header.style.display ="";
 	}
 }
 const appletFit = () => {
