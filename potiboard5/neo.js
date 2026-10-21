@@ -5557,7 +5557,7 @@
       this.destCanvasCtx = destCanvasCtx;
       this.destCanvas.width = destWidth;
       this.destCanvas.height = destHeight;
-      this.destCanvas.style.imageRendering = "pixelated";
+      this.destCanvas.style.imageRendering = Neo.viewer ? "auto" : "pixelated";
       this.destCanvasCtx.imageSmoothingEnabled = false;
       const ref = this;
       if (!Neo.viewer) {
@@ -9878,7 +9878,7 @@
       }
     } else {
       ctx.imageSmoothingEnabled = false;
-      destCanvas.style.imageRendering = "pixelated";
+      destCanvas.style.imageRendering = Neo.viewer ? "auto" : "pixelated";
     }
     destCanvas.style.touchAction = "none";
     destCanvas.style.pointerEvents = "auto";
