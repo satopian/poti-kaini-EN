@@ -388,7 +388,7 @@ if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c+
 		</noscript>
 
 		<div id="appstage">
-			<div class="app" style="width:{{$w}}px; height:{{$h}}px">
+			<div class="app" style="width:{{$w}}px; height:auto">
 				@if($useneo)
 				<div class="neo-applet-paintbbs" data-width="{{$w}}" data-height="{{$h}}"></div>
 				<script>
