@@ -1,4 +1,4 @@
-/*! PaintBBS NEO v1.8.9 | https://github.com/funige/neo */
+/*! PaintBBS NEO v1.8.10 | https://github.com/funige/neo */
 /*! Includes this MIT-licensed library (the license below applies only to it):
  *
  *   lz-string (https://github.com/pieroxy/lz-string)
@@ -534,7 +534,7 @@
 
   // src/neo.js
   var Neo = {};
-  Neo.version = "1.8.9";
+  Neo.version = "1.8.10";
   Neo.painter;
   Neo.fullScreen = false;
   Neo.uploaded = false;
@@ -549,6 +549,7 @@
   Neo.isAnimation = false;
   Neo.storage = localStorage;
   Neo.stabilize_level = 0;
+  Neo.disableGridTouchMove = false;
   Neo.styleSheet = null;
   Neo.rules = {};
   Neo.config = {
@@ -10234,7 +10235,7 @@ ${errorMessage}${translate("\u6295\u7A3F\u306B\u5931\u6557\u3002\u6642\u9593\u30
     const touch_move_grid_control = function(e) {
       if (Neo.config.neo_disable_grid_touch_move) {
         let screenwidth = Number(screen.width);
-        if (e.touches.length === 1 && (screenwidth - Neo.config.applet_width > 100 || Neo.fullScreen)) {
+        if (e.touches.length === 1 && (screenwidth - Neo.config.applet_width > 100 || Neo.fullScreen || Neo.disableGridTouchMove)) {
           if (typeof e.cancelable !== "boolean" || e.cancelable) {
             e.preventDefault();
             e.stopPropagation();

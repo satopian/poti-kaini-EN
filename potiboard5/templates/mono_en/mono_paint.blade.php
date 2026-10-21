@@ -1041,11 +1041,13 @@ const applyFit = () => {
 		view.style.width = `${Math.max(document.documentElement.clientWidth - 210,400)}px`;
 		view.style.height = `${Math.max(document.documentElement.clientHeight - 35,400)}px`;
 		header.style.display ="none";
+		Neo.disableGridTouchMove = screen.width>=600 ? true : false;
 	} else {
 		// 元のサイズに戻す(インラインstyleを初期値にもどす)
 		view.style.width = `${neo_origAppW}px`;
 		view.style.height = `${neo_origAppH}px`;
 		header.style.display ="";
+		Neo.disableGridTouchMove = false;
 	}
 }
 const appletFit = () => {
