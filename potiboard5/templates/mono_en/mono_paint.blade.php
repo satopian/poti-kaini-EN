@@ -1038,8 +1038,8 @@ const applyFit = () => {
 	const header = document.getElementById("paintHeader");
 	if (isFit) {
 		// ウィンドウに合わせる
-		view.style.width = `${Math.max(window.innerWidth - 220,400)}px`;
-		view.style.height = `${Math.max(window.innerHeight - 35,400)}px`;
+		view.style.width = `${Math.max(document.documentElement.clientWidth - 210,400)}px`;
+		view.style.height = `${Math.max(document.documentElement.clientHeight - 35,400)}px`;
 		header.style.display ="none";
 	} else {
 		// 元のサイズに戻す(インラインstyleを初期値にもどす)
