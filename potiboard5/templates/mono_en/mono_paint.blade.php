@@ -507,11 +507,11 @@ if(f instanceof HTMLSelectElement&&b instanceof HTMLSelectElement)for(c=0;e>c;c+
 			<div class="palette_wrap">
 				<div class="palette">
 					<form name="Palette">
-						@if($useneo)
 						<fieldset>
 							<legend>FIT</legend>
 							<button class="button" type="button" id="neo-appletfit" onclick="appletFit()">App Fit</button>
 						</fieldset>
+						@if($useneo)
 						<fieldset>
 							<legend>TOOL</legend>
 							<input class="button" type="button" value="[L]" onclick="Neo.setToolSide(true)">
@@ -1034,20 +1034,24 @@ const fitLabel = {
 const neo_origAppW = {{$w}};
 const neo_origAppH = {{$h}};
 const applyFit = () => {
-	const view = document.getElementById("neo-pageView");
+	const view = @if($useneo) document.getElementById("neo-pageView"); @else document.paintbbs; @endif 
 	const header = document.getElementById("paintHeader");
 	if (isFit) {
 		// ウィンドウに合わせる
 		view.style.width = `${Math.max(document.documentElement.clientWidth - 210,400)}px`;
 		view.style.height = `${Math.max(document.documentElement.clientHeight - 35,400)}px`;
 		header.style.display ="none";
+	@if($useneo)
 		Neo.disableGridTouchMove = screen.width>=600 ? true : false;
+	@endif
 	} else {
 		// 元のサイズに戻す(インラインstyleを初期値にもどす)
 		view.style.width = `${neo_origAppW}px`;
 		view.style.height = `${neo_origAppH}px`;
 		header.style.display ="";
-		Neo.disableGridTouchMove = false;
+	@if($useneo)
+		Neo.disableGridTouchMove = screen.width>=600 ? true : false;
+	@endif
 	}
 }
 const appletFit = () => {
@@ -1055,7 +1059,9 @@ const appletFit = () => {
 	const btn = document.getElementById("neo-appletfit");
 	btn.textContent = isFit ? fitLabel.on : fitLabel.off;
 	applyFit();
+	@if($useneo)
 	Neo.resizeCanvas();
+	@endif
 };
 // 画面サイズが変わったとき(フィット中だけ追従)
 let resizeTicking = false;
@@ -1064,7 +1070,9 @@ window.addEventListener("resize", () => {
 	resizeTicking = true;
 	requestAnimationFrame(() => {
 		applyFit();
+		@if($useneo)
 		Neo.resizeCanvas({updateDestCanvas:false});
+		@endif
 		resizeTicking = false;
 	});
 });
