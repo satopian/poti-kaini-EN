@@ -12,9 +12,9 @@ You may lose all log files.
 Please update to v5.x or higher.
 
 ## PHP Vulnerability
-- In October 2026, critical vulnerabilities (CVE-2026-109618, CVE-2026-109619) were disclosed in PHP that can allow unauthenticated remote code execution.
-  The fixed versions are PHP 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35. PHP 7.4 through 8.1 no longer receive updates from the PHP project.
-  If you use a rental (shared) hosting service, the fix is applied by your hosting provider. Please check your PHP version in your server control panel.
+- In October 2026, critical vulnerabilities (CVE-2026-109618, CVE-2026-109619) were disclosed in PHP that can allow unauthenticated remote code execution.   
+  The fixed versions are PHP 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35. PHP 7.4 through 8.1 no longer receive updates from the PHP project.   
+  If you use a rental (shared) hosting service, the fix is applied by your hosting provider. Please check your PHP version in your server control panel.  
   Details: https://www.php.net/index.php#2026-10-21-5
 
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO ,tegaki.js , Axnos Paint , ChickenPaint , and klecks.
