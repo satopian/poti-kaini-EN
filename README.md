@@ -11,6 +11,13 @@ You may lose all log files.
 
 Please update to v5.x or higher.
 
+## System Requirements
+- Works with PHP 7.4 or later.
+- In October 2026, critical vulnerabilities (CVE-2026-109618, CVE-2026-109619) were disclosed in PHP that can allow unauthenticated remote code execution.
+  We strongly recommend updating to a fixed PHP release (8.5.12 / 8.4.27 / 8.3.36 / 8.2.35 or later).
+  PHP 7.4 through 8.1 no longer receive updates from the PHP project. Check whether your hosting provider has applied the fix, and if not, switch to one of the versions above.
+  Details: https://www.php.net/index.php#2026-10-21-5
+
 ## A POTI-board that can use HTML5 versions of PaintBBS NEO ,tegaki.js , Axnos Paint , ChickenPaint , and klecks.
 
 ![PaintBBS NEO](https://user-images.githubusercontent.com/44894014/130362908-27922b42-6a4c-4c73-8ab6-a1f678014eed.png)
@@ -26,9 +33,6 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 [POTI-board Kai official website](https://paintbbs.sakura.ne.jp/poti/?en=on) English.
 
-## Required php version
-
-Required PHP version.PHP7.4 to PHP8.6
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
