@@ -26,6 +26,9 @@ This is a project to translate [POTI-board EVO](https://github.com/satopian/poti
 
 [POTI-board Kai official website](https://paintbbs.sakura.ne.jp/poti/?en=on) English.
 
+## Required php version
+
+Required PHP version.PHP7.4 to PHP8.5
 
 ### To change the color scheme of the Default theme MONO
 MONO's HTML and CSS have been significantly updated in v3.07.5.  
