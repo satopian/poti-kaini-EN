@@ -1036,6 +1036,9 @@ const neo_origAppH = {{$h}};
 const applyFit = () => {
 	const view = @if($useneo) document.getElementById("neo-pageView"); @else document.paintbbs; @endif 
 	const header = document.getElementById("paintHeader");
+	if(!view){
+		return;
+	} 
 	if (isFit) {
 		// ウィンドウに合わせる
 		view.style.width = `${Math.max(document.documentElement.clientWidth - 210,400)}px`;
