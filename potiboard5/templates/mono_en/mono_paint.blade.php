@@ -1023,6 +1023,7 @@ document.addEventListener("neo:fullscreenchange", (e) => {
 	<script src="lib/{{$jquery}}"></script>
 	<script src="{{$skindir}}js/mono_common.js?{{$ver}}"></script>
 	@endif
+@if(!$chickenpaint)
 <script>
 "use strict";
 //Petit Note (c)さとぴあ @satopian 2021-2026 MIT License
@@ -1120,5 +1121,6 @@ class appletFit{
 }
 const appFit=new appletFit();
 </script>
+@endif
 </body>
 </html>
