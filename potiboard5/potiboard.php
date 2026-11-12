@@ -4,11 +4,11 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.23.5';
-const POTI_LOT = 'lot.20261025';
+const POTI_VER = 'v7.25.0';
+const POTI_LOT = 'lot.20261112';
 
 /*
-  (C) 2018-2025 POTI改 POTI-board redevelopment team
+  (C) 2018-2026 POTI改 POTI-board redevelopment team
   >> https://paintbbs.sakura.ne.jp/poti/
   *----------------------------------------------------------------------------------
   * ORIGINAL SCRIPT
@@ -35,7 +35,7 @@ const POTI_LOT = 'lot.20261025';
 「ふたば★ちゃんねる」<http://www.2chan.net/>のfutaba.phpを
 さらにお絵かきもできるようにして、HTMLテンプレートでデザイン変更できるように改造した
 「ぷにゅねっと」<http://www.punyu.net/php/>のPOTI-boardを、
-さらにphp7で動くように改造したものです。
+さらにphp8で動くように改造したものです。
 
 配布条件はレッツPHP!に準じます。改造、再配布は自由にどうぞ。
 

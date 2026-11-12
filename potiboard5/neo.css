@@ -15,7 +15,9 @@
 .NEO *:hover {
   cursor: default;
 }
-
+.NEO div {
+  margin: 0;
+}
 .NEO #neo-container {
   width: 100%;
   height: 100%;
@@ -182,12 +184,14 @@
   position: absolute;
   width: 50px;
   height: 16px;
+  box-sizing: content-box;
 }
 
 .NEO #neo-scrollV div {
   position: absolute;
   width: 16px;
   height: 50px;
+  box-sizing: content-box;
 }
 
 /* .NEO #neo-scrollH div:hover {} */
@@ -228,6 +232,7 @@
 
   -webkit-font-smoothing: antialiased;
   margin: 1px;
+  box-sizing:content-box;
 }
 
 /* .NEO .buttonOff:hover {} */
@@ -249,6 +254,7 @@
 
   -webkit-font-smoothing: antialiased;
   margin: 1px;
+  box-sizing:content-box;
 }
 
 .NEO #neo-right {

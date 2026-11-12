@@ -1,4 +1,4 @@
-/*! PaintBBS NEO v1.8.10 | https://github.com/funige/neo */
+/*! PaintBBS NEO v1.8.18 | https://github.com/funige/neo */
 /*! Includes this MIT-licensed library (the license below applies only to it):
  *
  *   lz-string (https://github.com/pieroxy/lz-string)
@@ -24,6 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+"use strict";
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
@@ -534,7 +535,7 @@
 
   // src/neo.js
   var Neo = {};
-  Neo.version = "1.8.10";
+  Neo.version = "1.8.18";
   Neo.painter;
   Neo.fullScreen = false;
   Neo.uploaded = false;
@@ -2620,6 +2621,8 @@
       if (this._items.length > this._head) {
         this._items.length = this._head;
       }
+      const prev = this._items[this._head - 1];
+      if (this._head > 1 && prev && prev[0] === "restore") prev.length = 0;
       this._items.push([]);
       this._head++;
       this._index = 0;
@@ -2759,10 +2762,10 @@
     }
     /**
      * 画面を指定色で塗りつぶす（バケツツール）。
-     * @param {*} layer - レイヤー番号、または録画データ配列
-     * @param {*} [x] - X座標、または再生用コールバック
-     * @param {*} [y] - Y座標
-     * @param {*} [color] - 塗りつぶし色
+     * @param {number | Array<*>} layer - レイヤー番号、または録画データ配列
+     * @param {number | Function} [x] - X座標、または再生用コールバック
+     * @param {number} [y] - Y座標
+     * @param {number} [color] - 塗りつぶし色（32bit整数）
      */
     floodFill(layer, x, y, color) {
       if (typeof layer != "object") {
@@ -2775,7 +2778,16 @@
         color = item[4];
       }
       const painter = Neo.painter;
-      painter.doFloodFill(layer, x, y, color);
+      painter.doFloodFill(
+        /** @type {number} */
+        layer,
+        /** @type {number} */
+        x,
+        /** @type {number} */
+        y,
+        /** @type {number} */
+        color
+      );
       painter.updateDestCanvas(0, 0, painter.canvasWidth, painter.canvasHeight);
       var callback = arguments[1];
       if (callback && typeof callback == "function") callback(true);
@@ -3328,8 +3340,9 @@
         y = Number(y);
         width = Number(width);
         height = Number(height);
-        this.push("turn", layer, x, y, width, height);
-        oe.turn(layer, x, y, width, height);
+        const noGlitch = Neo.config.neo_disable_turn_original_glitch === "true" ? 1 : 0;
+        this.push("turn", layer, x, y, width, height, noGlitch);
+        oe.turn(layer, x, y, width, height, noGlitch === 1);
       } else {
         const item = arguments[0];
         const layer2 = item[1];
@@ -3337,7 +3350,8 @@
         const y2 = item[3];
         const width2 = item[4];
         const height2 = item[5];
-        oe.turn(layer2, x2, y2, width2, height2);
+        const noGlitch = item[6] === void 0 ? void 0 : item[6] == 1;
+        oe.turn(layer2, x2, y2, width2, height2, noGlitch);
       }
       oe.updateDestCanvas(0, 0, oe.canvasWidth, oe.canvasHeight);
       var callback = arguments[1];
@@ -3473,14 +3487,14 @@
     const configWidth = Neo.config.width;
     const configHeight = Neo.config.height;
     let displayHeight = configHeight + BAR_HEIGHT;
-    if (Neo.config.neo_viewer_max_width_100) {
+    if (Neo.config.neo_viewer_max_width_100 === "true") {
       const availWidth = Math.min(
         document.documentElement.clientWidth,
         configWidth
       );
       displayHeight = configHeight * (availWidth / configWidth) + BAR_HEIGHT + MARGIN;
     }
-    const viewerWrapperOnTop = Neo.config.neo_viewer_buttonswrapper_top && window.innerHeight < displayHeight;
+    const viewerWrapperOnTop = Neo.config.neo_viewer_buttonswrapper_top === "true" && window.innerHeight < displayHeight;
     if (painter) {
       painter.style.marginTop = "0";
       painter.style.position = "absolute";
@@ -3504,7 +3518,7 @@
       viewerBar.style.position = "absolute";
       viewerBar.style.right = "2px";
       viewerBar.style.top = "1px";
-      if (Neo.config.neo_viewer_max_width_100) {
+      if (Neo.config.neo_viewer_max_width_100 === "true") {
         viewerBar.style.left = 24 * 6 - 2 + "px";
         viewerBar.style.width = "auto";
       } else {
@@ -3640,7 +3654,7 @@
       "background-color",
       Neo.config.color_text + " !important"
     );
-    if (Neo.config.neo_viewer_max_width_100) {
+    if (Neo.config.neo_viewer_max_width_100 === "true") {
       addRule(".NEO #neo-pageView", "max-width", "100%");
       addRule(".NEO #neo-painter", "max-width", "100%");
       addRule(".NEO #neo-canvas", "max-width", "100%");
@@ -3704,7 +3718,7 @@
       Neo.viewerBar = new ViewerBar().init("neo-viewerBar", {
         length
       });
-      if (Neo.config.neo_viewer_max_width_100 && Neo.viewerBar) {
+      if (Neo.config.neo_viewer_max_width_100 === "true" && Neo.viewerBar) {
         const viewerBar = document.getElementById("neo-viewerBar");
         if (viewerBar) {
           new ResizeObserver(() => {
@@ -5308,6 +5322,9 @@
       this.ellipseFillTool;
       this.blurRectTool;
       this.turnTool;
+      const commands = new Commands();
+      this.zoomPlusCommand = new commands.ZoomPlusCommand(this);
+      this.zoomMinusCommand = new commands.ZoomMinusCommand(this);
     }
     /**
      * ペインターの描画コンポーネントを初期化して、描画可能な状態にする。
@@ -5572,8 +5589,12 @@
         });
         container.addEventListener(
           "mousedown",
-          //pointerdownに変更するとここが先にトリガーされ、線幅を保存できなくなる
           function(e) {
+            if (!(e.target instanceof Element)) return;
+            const inSlider = e.target.closest(".colorSlider, .sizeSlider");
+            if (ref.isWidget(e.target) && !inSlider) {
+              return;
+            }
             ref._mouseDownHandler(e);
           },
           { passive: false, capture: false }
@@ -5842,9 +5863,12 @@
       if (this.tool.keyDownHandler) {
         this.tool.keyDownHandler(e);
       }
-      if (target === this.inputText) {
-        preventCtrlKeyDefaults(e);
-        return;
+      if (this.tool === this.textTool) {
+        if (this.inputText instanceof HTMLElement && this.inputText.style.display === "block") {
+          this.inputText.focus();
+          preventCtrlKeyDefaults(e);
+          return;
+        }
       }
       e.preventDefault();
       if (!this.isShiftDown && this.isCtrlDown) {
@@ -5859,12 +5883,12 @@
         }
       }
       if (!this.isShiftDown && !this.isCtrlDown && !this.isAltDown) {
-        const commands = new Commands();
-        if (key == "+") new commands.ZoomPlusCommand(this).execute();
-        if (key == "-") new commands.ZoomMinusCommand(this).execute();
-        if (key == "b") this.setToolByType(_Painter.TOOLTYPE_PEN);
-        if (key == "w") this.setToolByType(_Painter.TOOLTYPE_BRUSH);
-        if (key == "e") this.setToolByType(_Painter.TOOLTYPE_ERASER);
+        if (key === "+" || key === "=" || key === ";")
+          this.zoomPlusCommand.execute();
+        if (key === "-") this.zoomMinusCommand.execute();
+        if (key === "b") this.setToolByType(_Painter.TOOLTYPE_PEN);
+        if (key === "w") this.setToolByType(_Painter.TOOLTYPE_BRUSH);
+        if (key === "e") this.setToolByType(_Painter.TOOLTYPE_ERASER);
         if (document.activeElement != this.inputText && key && ["delete", "backspace"].includes(key)) {
           this._pushUndo();
           this._actionMgr.eraseAll();
@@ -6170,7 +6194,7 @@
       y = y === void 0 ? 0 : y;
       w = w === void 0 ? this.canvasWidth : w;
       h = h === void 0 ? this.canvasHeight : h;
-      var undoItem = new UndoItem();
+      const undoItem = new UndoItem();
       undoItem.x = 0;
       undoItem.y = 0;
       undoItem.width = w;
@@ -6200,7 +6224,7 @@
       y = y === void 0 ? 0 : y;
       w = w === void 0 ? this.canvasWidth : w;
       h = h === void 0 ? this.canvasHeight : h;
-      var undoItem = new UndoItem();
+      const undoItem = new UndoItem();
       undoItem.x = 0;
       undoItem.y = 0;
       undoItem.width = w;
@@ -6637,7 +6661,7 @@
         );
       }
       ctx.restore();
-      if (Neo.viewer && Neo.config.neo_viewer_max_width_100) {
+      if (Neo.viewer && Neo.config.neo_viewer_max_width_100 === "true") {
         this.clearCanvasHeight();
       }
     }
@@ -8083,20 +8107,22 @@
      * @param {number} y - 開始座標。
      * @param {number} width, height - サイズ。
      * @param {number} height - サイズ。
+     * @param {boolean|undefined} disableGlitch - バグストライプ無効化。
      * @note
      * 「バグストライプ」の再現処理を含む。
      * オリジナルのPaintBBS等の仕様に準じ、回転処理時の境界データ参照に由来するグリッジを
      * 意図的に発生させる。この挙動は Neo.config.neo_disable_turn_original_glitch
      * により無効化できる。
      */
-    turn(layer, x, y, width, height) {
+    turn(layer, x, y, width, height, disableGlitch) {
       var ctx = this.canvasCtx[layer];
       var imageData = ctx.getImageData(x, y, width, height);
       var buf32 = new Uint32Array(imageData.data.buffer);
       var buf8 = new Uint8ClampedArray(imageData.data.buffer);
       var temp = new Uint32Array(buf32.length);
       let fillPixel;
-      if (Neo.config.neo_disable_turn_original_glitch) {
+      const noGlitch = disableGlitch != null ? disableGlitch : Neo.config.neo_disable_turn_original_glitch === "true";
+      if (noGlitch) {
         fillPixel = function(index2) {
           return 0;
         };
@@ -8346,6 +8372,12 @@
       img.onload = function() {
         ref.canvasCtx[0].drawImage(img, 0, 0);
         ref.updateDestCanvas(0, 0, ref.canvasWidth, ref.canvasHeight);
+        if (Neo.isAnimation && ref._actionMgr._items.length === 0) {
+          ref._pushUndo();
+          ref._actionMgr.restore();
+          ref._undoMgr.popUndo();
+          ref.dirty = false;
+        }
       };
       img.src = filename;
     }
@@ -8762,7 +8794,7 @@
       this.CommandBase = class {
         constructor() {
           this.data = null;
-          this.zoom_steps = Neo.config.neo_enable_zoom_out ? [
+          this.zoom_steps = Neo.config.neo_enable_zoom_out === "true" ? [
             0.2,
             0.4,
             0.6,
@@ -9018,6 +9050,9 @@
         Neo.painter.loadSession(function() {
           Neo.painter._pushUndo();
           Neo.painter._actionMgr.restore();
+          if (Neo.isAnimation) {
+            Neo.painter._undoMgr.popUndo();
+          }
           Neo.painter.dirty = false;
         });
       }, 1);
@@ -10126,7 +10161,7 @@ ${errorMessage}${translate("\u6295\u7A3F\u306B\u5931\u6557\u3002\u6642\u9593\u30
         );
       });
     };
-    if (Neo.config.neo_confirm_layer_info_notsaved && !thumbnail2) {
+    if (Neo.config.neo_confirm_layer_info_notsaved === "true" && !thumbnail2) {
       const isConfirmed = window.confirm(
         translate("\u30EC\u30A4\u30E4\u30FC\u60C5\u5831\u306F\u4FDD\u5B58\u3055\u308C\u307E\u305B\u3093\u3002\n\u7D9A\u884C\u3057\u3066\u3088\u308D\u3057\u3044\u3067\u3059\u304B?")
       );
@@ -10233,7 +10268,7 @@ ${errorMessage}${translate("\u6295\u7A3F\u306B\u5931\u6557\u3002\u6642\u9593\u30
       }
     };
     const touch_move_grid_control = function(e) {
-      if (Neo.config.neo_disable_grid_touch_move) {
+      if (Neo.config.neo_disable_grid_touch_move === "true") {
         let screenwidth = Number(screen.width);
         if (e.touches.length === 1 && (screenwidth - Neo.config.applet_width > 100 || Neo.fullScreen || Neo.disableGridTouchMove)) {
           if (typeof e.cancelable !== "boolean" || e.cancelable) {
@@ -10275,7 +10310,5 @@ ${errorMessage}${translate("\u6295\u7A3F\u306B\u5931\u6557\u3002\u6642\u9593\u30
     Neo.stabilize_level = level;
   };
   Neo.setStabilizLevel = Neo.setStabilizeLevel;
-
-  // src/main.js
   window.Neo = Neo;
 })();
