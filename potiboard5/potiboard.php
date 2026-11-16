@@ -4,8 +4,8 @@
 // POTI-board EVO
 // バージョン :
 
-const POTI_VER = 'v7.26.5';
-const POTI_LOT = 'lot.20261114';
+const POTI_VER = 'v7.26.6';
+const POTI_LOT = 'lot.20261116';
 
 /*
   (C) 2018-2026 POTI改 POTI-board redevelopment team
@@ -3841,7 +3841,8 @@ function file_lock($fp, int $lock, array $options=[]): void {
 	global $en;
 	$flock=flock($fp, $lock);
 	if (!$flock) {
-			if($lock !== LOCK_UN){
+			if($lock === LOCK_EX){
+				closeFile($fp);
 				if(isset($options['paintcom'])){
 					location_paintcom();//未投稿画像の投稿フォームへ
 				}
