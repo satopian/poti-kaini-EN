@@ -2,8 +2,8 @@
 $search_inc_ver = 20261114;
 //POTI-board plugin search(C)2020-2026 さとぴあ(@satopian)
 //MIT License
-	//v6.173.0 lot.20260502
-	//POTI-board EVO v6.0 対応版
+//v7.26.5 lot.20261114
+//POTI-board EVO v7.26.5 対応版
 //https://paintbbs.sakura.ne.jp/
 
 //サポート
@@ -112,7 +112,7 @@ class processsearch {
 			$oya[$tree_no] = $tree_nos[0]; //キーにres no、値にoya no
 		}
 	}
-	closeFile($tp);
+	fclose($tp);
 
 	$fp = openFile(LOGFILE, "r");
 	
@@ -165,7 +165,7 @@ class processsearch {
 		++$j;
 		if($j>=10000){break;}//1掲示板あたりの最大行数
 	}
-		closeFile($fp);
+	fclose($fp);
 	//検索結果の出力
 	$j=0;
 	$dat['comments']=[];
@@ -310,6 +310,7 @@ class processsearch {
 	unset($arr);
 
 	$dat['self2']=PHP_SELF2;
+
 	//HTML出力
 	htmloutput('search',$dat);
 
